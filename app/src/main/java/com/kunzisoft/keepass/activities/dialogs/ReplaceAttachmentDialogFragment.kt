@@ -27,7 +27,7 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 
 /**
  * Custom Dialog to confirm big file to upload
@@ -71,7 +71,7 @@ class ReplaceFileDialogFragment : DialogFragment() {
     }
 
     interface ActionChooseListener {
-        fun onValidateReplaceFile(attachmentToUploadUri: Uri?, entryAttachment: EntryAttachment?)
+        fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?)
     }
 
     companion object {
@@ -79,11 +79,11 @@ class ReplaceFileDialogFragment : DialogFragment() {
         private const val KEY_ENTRY_ATTACHMENT = "KEY_ENTRY_ATTACHMENT"
 
         fun build(attachmentToUploadUri: Uri,
-                  entryAttachment: EntryAttachment): ReplaceFileDialogFragment {
+                  attachment: Attachment): ReplaceFileDialogFragment {
             val fragment = ReplaceFileDialogFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(KEY_FILE_URI, attachmentToUploadUri)
-                putParcelable(KEY_ENTRY_ATTACHMENT, entryAttachment)
+                putParcelable(KEY_ENTRY_ATTACHMENT, attachment)
             }
             return fragment
         }

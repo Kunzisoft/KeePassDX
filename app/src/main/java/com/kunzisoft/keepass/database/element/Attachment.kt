@@ -23,8 +23,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 
-data class EntryAttachment(var name: String,
-                           var binaryAttachment: BinaryAttachment) : Parcelable {
+data class Attachment(var name: String,
+                      var binaryAttachment: BinaryAttachment) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
@@ -46,7 +46,7 @@ data class EntryAttachment(var name: String,
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is EntryAttachment) return false
+        if (other !is Attachment) return false
 
         if (name != other.name) return false
 
@@ -57,12 +57,12 @@ data class EntryAttachment(var name: String,
         return name.hashCode()
     }
 
-    companion object CREATOR : Parcelable.Creator<EntryAttachment> {
-        override fun createFromParcel(parcel: Parcel): EntryAttachment {
-            return EntryAttachment(parcel)
+    companion object CREATOR : Parcelable.Creator<Attachment> {
+        override fun createFromParcel(parcel: Parcel): Attachment {
+            return Attachment(parcel)
         }
 
-        override fun newArray(size: Int): Array<EntryAttachment?> {
+        override fun newArray(size: Int): Array<Attachment?> {
             return arrayOfNulls(size)
         }
     }

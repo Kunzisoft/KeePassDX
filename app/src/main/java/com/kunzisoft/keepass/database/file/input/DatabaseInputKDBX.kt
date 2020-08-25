@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -758,7 +758,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryBinary && name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
             if (ctxBinaryName != null && ctxBinaryValue != null)
-                ctxEntry?.putAttachment(EntryAttachment(ctxBinaryName!!, ctxBinaryValue!!))
+                ctxEntry?.putAttachment(Attachment(ctxBinaryName!!, ctxBinaryValue!!))
             ctxBinaryName = null
             ctxBinaryValue = null
 

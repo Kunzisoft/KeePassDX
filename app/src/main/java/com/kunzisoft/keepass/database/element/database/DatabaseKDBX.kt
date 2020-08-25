@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -554,7 +554,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return binaryAttachment
     }
 
-    fun removeAttachmentIfNotUsed(attachment: EntryAttachment) {
+    fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // Remove attachment from pool
         removeUnlinkedAttachment(attachment.binaryAttachment)
     }

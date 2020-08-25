@@ -33,7 +33,7 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
@@ -287,15 +287,15 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         fields[label] = value
     }
 
-    override fun getAttachments(): ArrayList<EntryAttachment> {
-        val entryAttachmentList = ArrayList<EntryAttachment>()
+    override fun getAttachments(): ArrayList<Attachment> {
+        val entryAttachmentList = ArrayList<Attachment>()
         for ((key, value) in binaries) {
-            entryAttachmentList.add(EntryAttachment(key, value))
+            entryAttachmentList.add(Attachment(key, value))
         }
         return entryAttachmentList
     }
 
-    override fun containsAttachment(attachment: EntryAttachment): Boolean {
+    override fun containsAttachment(attachment: Attachment): Boolean {
         for ((_, binary) in binaries) {
             if (binary == attachment.binaryAttachment)
                 return true
@@ -303,11 +303,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return false
     }
 
-    override fun putAttachment(attachment: EntryAttachment) {
+    override fun putAttachment(attachment: Attachment) {
         binaries[attachment.name] = attachment.binaryAttachment
     }
 
-    override fun removeAttachment(attachment: EntryAttachment) {
+    override fun removeAttachment(attachment: Attachment) {
         binaries.remove(attachment.name)
     }
 

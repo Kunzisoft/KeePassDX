@@ -319,7 +319,7 @@ class EntryEditActivity : LockingActivity(),
                             mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                         }
                         AttachmentState.ERROR -> {
-                            mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.entryAttachment)
+                            mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.attachment)
                             mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                             entryEditContentsView?.removeAttachment(entryAttachmentState)
                         }
@@ -435,15 +435,15 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, entryAttachment: EntryAttachment?) {
-        if (attachmentToUploadUri != null && entryAttachment != null) {
-            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+    override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
+        if (attachmentToUploadUri != null && attachment != null) {
+            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
         }
     }
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         mDatabase?.buildNewBinary(applicationContext.filesDir)?.let { binaryAttachment ->
-            val entryAttachment = EntryAttachment(fileName, binaryAttachment)
+            val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditContentsView?.containsAttachment() == true) ||
                     entryEditContentsView?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {

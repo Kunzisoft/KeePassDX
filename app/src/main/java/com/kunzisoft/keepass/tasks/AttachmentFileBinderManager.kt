@@ -28,7 +28,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
@@ -101,18 +101,18 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     fun startUploadAttachment(uploadFileUri: Uri,
-                              entryAttachment: EntryAttachment) {
+                              attachment: Attachment) {
         start(Bundle().apply {
             putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
-            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, entryAttachment)
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
         }, ACTION_ATTACHMENT_FILE_START_UPLOAD)
     }
 
     fun startDownloadAttachment(downloadFileUri: Uri,
-                                entryAttachment: EntryAttachment) {
+                                attachment: Attachment) {
         start(Bundle().apply {
             putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
-            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, entryAttachment)
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
         }, ACTION_ATTACHMENT_FILE_START_DOWNLOAD)
     }
 }

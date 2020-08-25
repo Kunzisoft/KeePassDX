@@ -30,7 +30,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.stream.readBytes
@@ -253,7 +253,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         if (downloadFileUri != null
                 && intent.hasExtra(ATTACHMENT_KEY)) {
             try {
-                intent.getParcelableExtra<EntryAttachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
 
                     val nextNotificationId = (attachmentNotificationList.maxByOrNull { it.notificationId }
                             ?.notificationId ?: notificationId) + 1
@@ -309,7 +309,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                 StreamDirection.UPLOAD -> {
                                     uploadToDatabase(
                                             attachmentNotification.uri,
-                                            entryAttachment.binaryAttachment,
+                                            attachment.binaryAttachment,
                                             contentResolver, 1024) { percent ->
                                         publishProgress(percent)
                                     }
@@ -317,7 +317,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                 StreamDirection.DOWNLOAD -> {
                                     downloadFromDatabase(
                                             attachmentNotification.uri,
-                                            entryAttachment.binaryAttachment,
+                                            attachment.binaryAttachment,
                                             contentResolver, 1024) { percent ->
                                         publishProgress(percent)
                                     }

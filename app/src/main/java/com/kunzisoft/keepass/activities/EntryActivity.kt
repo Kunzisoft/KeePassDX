@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
@@ -87,7 +87,7 @@ class EntryActivity : LockingActivity() {
     private var mShowPassword: Boolean = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mAttachmentsToDownload: HashMap<Int, EntryAttachment> = HashMap()
+    private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
     private var mFirstLaunchOfActivity: Boolean = false

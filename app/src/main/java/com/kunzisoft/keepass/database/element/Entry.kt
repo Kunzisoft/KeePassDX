@@ -324,8 +324,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    override fun getAttachments(): ArrayList<EntryAttachment> {
-        val attachments = ArrayList<EntryAttachment>()
+    override fun getAttachments(): ArrayList<Attachment> {
+        val attachments = ArrayList<Attachment>()
         entryKDB?.getAttachments()?.let {
             attachments.addAll(it)
         }
@@ -335,17 +335,17 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return attachments
     }
 
-    override fun containsAttachment(attachment: EntryAttachment): Boolean {
+    override fun containsAttachment(attachment: Attachment): Boolean {
         return entryKDB?.containsAttachment(attachment) == true
                 || entryKDBX?.containsAttachment(attachment) == true
     }
 
-    override fun putAttachment(attachment: EntryAttachment) {
+    override fun putAttachment(attachment: Attachment) {
         entryKDB?.putAttachment(attachment)
         entryKDBX?.putAttachment(attachment)
     }
 
-    override fun removeAttachment(attachment: EntryAttachment) {
+    override fun removeAttachment(attachment: Attachment) {
         entryKDB?.removeAttachment(attachment)
         entryKDBX?.removeAttachment(attachment)
     }

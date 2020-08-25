@@ -444,7 +444,7 @@ class Database {
                 ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory)
     }
 
-    fun removeAttachmentIfNotUsed(attachment: EntryAttachment) {
+    fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // No need in KDB database because unique attachment by entry
         mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
     }

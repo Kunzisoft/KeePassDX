@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.element.entry
 
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 
 interface EntryVersionedInterface<ParentGroup> : NodeVersionedInterface<ParentGroup> {
 
@@ -32,11 +32,11 @@ interface EntryVersionedInterface<ParentGroup> : NodeVersionedInterface<ParentGr
 
     var notes: String
 
-    fun getAttachments(): ArrayList<EntryAttachment>
+    fun getAttachments(): ArrayList<Attachment>
 
-    fun containsAttachment(attachment: EntryAttachment): Boolean
+    fun containsAttachment(attachment: Attachment): Boolean
 
-    fun putAttachment(attachment: EntryAttachment)
+    fun putAttachment(attachment: Attachment)
 
-    fun removeAttachment(attachment: EntryAttachment)
+    fun removeAttachment(attachment: Attachment)
 }

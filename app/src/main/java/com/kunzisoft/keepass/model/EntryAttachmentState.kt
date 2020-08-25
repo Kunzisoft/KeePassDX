@@ -21,24 +21,24 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
-data class EntryAttachmentState(var entryAttachment: EntryAttachment,
+data class EntryAttachmentState(var attachment: Attachment,
                                 var streamDirection: StreamDirection,
                                 var downloadState: AttachmentState = AttachmentState.NULL,
                                 var downloadProgression: Int = 0) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readParcelable(EntryAttachment::class.java.classLoader) ?: EntryAttachment("", BinaryAttachment()),
+            parcel.readParcelable(Attachment::class.java.classLoader) ?: Attachment("", BinaryAttachment()),
             parcel.readEnum<StreamDirection>() ?: StreamDirection.DOWNLOAD,
             parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
             parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(entryAttachment, flags)
+        parcel.writeParcelable(attachment, flags)
         parcel.writeEnum(streamDirection)
         parcel.writeEnum(downloadState)
         parcel.writeInt(downloadProgression)
@@ -52,13 +52,13 @@ data class EntryAttachmentState(var entryAttachment: EntryAttachment,
         if (this === other) return true
         if (other !is EntryAttachmentState) return false
 
-        if (entryAttachment != other.entryAttachment) return false
+        if (attachment != other.attachment) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return entryAttachment.hashCode()
+        return attachment.hashCode()
     }
 
     companion object CREATOR : Parcelable.Creator<EntryAttachmentState> {

@@ -49,13 +49,13 @@ class EntryAttachmentsItemsAdapter(context: Context)
         val entryAttachmentState = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
-        holder.binaryFileTitle.text = entryAttachmentState.entryAttachment.name
-        holder.binaryFilePath.text = entryAttachmentState.entryAttachment.binaryAttachment.toString()
+        holder.binaryFileTitle.text = entryAttachmentState.attachment.name
+        holder.binaryFilePath.text = entryAttachmentState.attachment.binaryAttachment.toString()
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
-                entryAttachmentState.entryAttachment.binaryAttachment.length())
+                entryAttachmentState.attachment.binaryAttachment.length())
         holder.binaryFileCompression.apply {
             if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                    || entryAttachmentState.entryAttachment.binaryAttachment.isCompressed == true) {
+                    || entryAttachmentState.attachment.binaryAttachment.isCompressed == true) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)
                 visibility = View.VISIBLE
             } else {

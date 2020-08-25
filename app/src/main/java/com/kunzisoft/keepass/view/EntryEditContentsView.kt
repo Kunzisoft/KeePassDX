@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
@@ -280,17 +280,17 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun getAttachments(): List<EntryAttachment> {
-        return attachmentsAdapter.itemsList.map { it.entryAttachment }
+    fun getAttachments(): List<Attachment> {
+        return attachmentsAdapter.itemsList.map { it.attachment }
     }
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
+    fun assignAttachments(attachments: ArrayList<Attachment>,
                           streamDirection: StreamDirection,
-                          onDeleteItem: (attachment: EntryAttachment)->Unit) {
+                          onDeleteItem: (attachment: Attachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
         attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
-            onDeleteItem.invoke(item.entryAttachment)
+            onDeleteItem.invoke(item.attachment)
         }
     }
 

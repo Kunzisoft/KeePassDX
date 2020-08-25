@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -317,13 +317,13 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
+    fun assignAttachments(attachments: ArrayList<Attachment>,
                           streamDirection: StreamDirection,
-                          onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
+                          onAttachmentClicked: (attachment: Attachment)->Unit) {
         showAttachments(attachments.isNotEmpty())
         attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onItemClickListener = { item ->
-            onAttachmentClicked.invoke(item.entryAttachment)
+            onAttachmentClicked.invoke(item.attachment)
         }
     }
 
