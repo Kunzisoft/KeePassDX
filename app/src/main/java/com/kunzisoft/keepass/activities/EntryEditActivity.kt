@@ -41,10 +41,7 @@ import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -76,7 +73,8 @@ class EntryEditActivity : LockingActivity(),
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
-        FileTooBigDialogFragment.ActionChooseListener {
+        FileTooBigDialogFragment.ActionChooseListener,
+        ReplaceFileDialogFragment.ActionChooseListener {
 
     private var mDatabase: Database? = null
 
@@ -437,9 +435,22 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
+    override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, entryAttachment: EntryAttachment?) {
+        if (attachmentToUploadUri != null && entryAttachment != null) {
+            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+        }
+    }
+
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         mDatabase?.buildNewAttachment(applicationContext.filesDir, fileName)?.let { entryAttachment ->
-            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+            // Ask to replace the current attachment
+            if ((mDatabase?.allowMultipleAttachments != true && entryEditContentsView?.containsAttachment() == true) ||
+                    entryEditContentsView?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
+                ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
+                        .show(supportFragmentManager, "replacementFileFragment")
+            } else {
+                mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+            }
         }
     }
 

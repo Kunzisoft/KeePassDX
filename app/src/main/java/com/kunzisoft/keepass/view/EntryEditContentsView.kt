@@ -294,6 +294,14 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
+    fun containsAttachment(): Boolean {
+        return !attachmentsAdapter.isEmpty()
+    }
+
+    fun containsAttachment(attachment: EntryAttachmentState): Boolean {
+        return attachmentsAdapter.contains(attachment)
+    }
+
     fun putAttachment(attachment: EntryAttachmentState) {
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter.putItem(attachment)

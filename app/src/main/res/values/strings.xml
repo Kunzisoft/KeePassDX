@@ -258,6 +258,7 @@
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
     <string name="warning_file_too_big">A KeePass database is supposed to contain only small utility files (such as PGP key files).\n\nYour database may get very large and reduce performance with this upload.</string>
+    <string name="warning_replace_file">Uploading this file will replace the existing one.</string>
     <string name="warning_sure_add_file">Add the file anyway?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
