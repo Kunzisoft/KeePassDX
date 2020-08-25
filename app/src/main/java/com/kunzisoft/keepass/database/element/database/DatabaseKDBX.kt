@@ -547,8 +547,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Unused cache key if needed
         val binaryId = cacheId ?: binaryPool.findUnusedKey().toString()
         val fileInCache = File(cacheDirectory, binaryId)
-        val compressionBinary = compression ?: (compressionAlgorithm == CompressionAlgorithm.GZip)
-        val binaryAttachment = BinaryAttachment(fileInCache, protection, compressionBinary)
+        val binaryAttachment = BinaryAttachment(fileInCache, protection, compression)
         // add attachment to pool
         binaryPool.put(binaryId.toInt(), binaryAttachment)
         return binaryAttachment

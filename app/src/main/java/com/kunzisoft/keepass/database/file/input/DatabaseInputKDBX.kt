@@ -978,13 +978,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return null
         val data = Base64.decode(base64, BASE_64_FLAG)
 
+        // Force compression in this specific case
         val effectivelyCompressed = if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                && !compressed) {
-            true
-        } else {
-            compressed
-        }
-
+                && !compressed) true else compressed
         val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, effectivelyCompressed, binaryId)
         binaryAttachment.getOutputDataStream().use { outputStream ->
             // Force compression in this specific case
