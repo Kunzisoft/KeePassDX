@@ -303,6 +303,10 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         attachmentsAdapter.removeItem(attachment)
     }
 
+    fun clearAttachments() {
+        attachmentsAdapter.clear()
+    }
+
     /**
      * Validate or not the entry form
      *

@@ -98,6 +98,7 @@ class EntryEditActivity : LockingActivity(),
     // To manage attachments
     private var mSelectFileHelper: SelectFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
+    private var mAllowMultipleAttachments: Boolean = false
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -297,12 +298,19 @@ class EntryEditActivity : LockingActivity(),
         // Padding if lock button visible
         entryEditAddToolBar?.updateLockPaddingLeft()
 
+        mAllowMultipleAttachments = mDatabase?.allowMultipleAttachments == true
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     when (entryAttachmentState.downloadState) {
-                        AttachmentState.START,
+                        AttachmentState.START -> {
+                            // When only one attachment is allowed
+                            if (!mAllowMultipleAttachments) {
+                                entryEditContentsView?.clearAttachments()
+                            }
+                            entryEditContentsView?.putAttachment(entryAttachmentState)
+                        }
                         AttachmentState.IN_PROGRESS -> {
                             entryEditContentsView?.putAttachment(entryAttachmentState)
                         }

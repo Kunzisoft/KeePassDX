@@ -429,6 +429,15 @@ class Database {
         }, omitBackup, max)
     }
 
+    val allowMultipleAttachments: Boolean
+        get() {
+            if (mDatabaseKDB != null)
+                return false
+            if (mDatabaseKDBX != null)
+                return true
+            return false
+        }
+
     fun buildNewAttachment(cacheDirectory: File, fileName: String): EntryAttachment? {
         return mDatabaseKDB?.buildNewAttachment(cacheDirectory, fileName)
                 ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, fileName)
