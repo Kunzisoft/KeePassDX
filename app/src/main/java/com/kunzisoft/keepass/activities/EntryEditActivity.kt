@@ -38,6 +38,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -74,7 +75,8 @@ class EntryEditActivity : LockingActivity(),
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener,
+        FileTooBigDialogFragment.ActionChooseListener {
 
     private var mDatabase: Database? = null
 
@@ -429,15 +431,32 @@ class EntryEditActivity : LockingActivity(),
         mSelectFileHelper?.selectFileOnClickViewListener?.onMenuItemClick(item)
     }
 
+    override fun onValidateUploadFileTooBig(attachmentToUploadUri: Uri?, fileName: String?) {
+        if (attachmentToUploadUri != null && fileName != null) {
+            buildNewAttachment(attachmentToUploadUri, fileName)
+        }
+    }
+
+    private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
+        mDatabase?.buildNewAttachment(applicationContext.filesDir, fileName)?.let { entryAttachment ->
+            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { attachmentToUploadUri ->
                 // TODO Async to get the name
-                UriUtil.getFileData(this, attachmentToUploadUri)?.name?.let { fileName ->
-                    mDatabase?.buildNewAttachment(applicationContext.filesDir, fileName)?.let { entryAttachment ->
-                        mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                    documentFile.name?.let { fileName ->
+                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
+                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
+                                    .show(supportFragmentManager, "fileTooBigFragment")
+                        } else {
+                            buildNewAttachment(attachmentToUploadUri, fileName)
+                        }
                     }
                 }
             }
