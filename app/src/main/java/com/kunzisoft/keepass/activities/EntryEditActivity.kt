@@ -442,7 +442,8 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
-        mDatabase?.buildNewAttachment(applicationContext.filesDir, fileName)?.let { entryAttachment ->
+        mDatabase?.buildNewBinary(applicationContext.filesDir)?.let { binaryAttachment ->
+            val entryAttachment = EntryAttachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditContentsView?.containsAttachment() == true) ||
                     entryEditContentsView?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {

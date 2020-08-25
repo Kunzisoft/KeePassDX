@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -41,7 +42,6 @@ import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
-import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -50,7 +50,10 @@ import org.bouncycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.*
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.text.ParseException
 import java.util.*
@@ -247,18 +250,15 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 header.innerRandomStreamKey = data
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
-                val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
                 val byteLength = size - 1
                 // Read in a file
-                val cacheId = mDatabase.getUnusedCacheFileName()
-                val fileInCache = File(cacheDirectory, cacheId)
-                FileOutputStream(fileInCache).use { outputStream ->
+                val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
+                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag)
+                protectedBinary.getOutputDataStream().use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
                     }
                 }
-                val protectedBinary = BinaryAttachment(fileInCache, protectedFlag)
-                mDatabase.binaryPool.put(cacheId.toInt(), protectedBinary)
             }
         }
 
@@ -946,28 +946,18 @@ class DatabaseInputKDBX(cacheDirectory: File,
         }
 
         val key = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrId)
-        if (key != null) {
-            val binaryId = Integer.parseInt(key)
-            createBinary(binaryId.toString(), xpp)?.let {
-                mDatabase.binaryPool.put(binaryId, it)
-                return it
-            }
+        return if (key != null) {
+            createBinary(key, xpp)
         }
 
         // New binary to retrieve
         else {
-            val binaryId = mDatabase.getUnusedCacheFileName()
-            createBinary(binaryId, xpp)?.let {
-                mDatabase.binaryPool.put(binaryId.toInt(), it)
-                return it
-            }
+            createBinary(null, xpp)
         }
-
-        return null
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun createBinary(binaryId: String, xpp: XmlPullParser): BinaryAttachment? {
+    private fun createBinary(binaryId: String?, xpp: XmlPullParser): BinaryAttachment? {
         var compressed = false
         var protected = false
 
@@ -988,18 +978,23 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return null
         val data = Base64.decode(base64, BASE_64_FLAG)
 
-        val file = File(cacheDirectory, binaryId)
-        return FileOutputStream(file).use { outputStream ->
+        val effectivelyCompressed = if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
+                && !compressed) {
+            true
+        } else {
+            compressed
+        }
+
+        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, effectivelyCompressed, binaryId)
+        binaryAttachment.getOutputDataStream().use { outputStream ->
             // Force compression in this specific case
-            if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                    && !compressed) {
+            if (effectivelyCompressed) {
                 GZIPOutputStream(outputStream).write(data)
-                BinaryAttachment(file, protected, true)
             } else {
                 outputStream.write(data)
-                BinaryAttachment(file, protected, compressed)
             }
         }
+        return binaryAttachment
     }
 
     @Throws(IOException::class, XmlPullParserException::class)

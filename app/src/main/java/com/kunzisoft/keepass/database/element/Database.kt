@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -438,9 +439,9 @@ class Database {
             return false
         }
 
-    fun buildNewAttachment(cacheDirectory: File, fileName: String): EntryAttachment? {
-        return mDatabaseKDB?.buildNewAttachment(cacheDirectory, fileName)
-                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, fileName)
+    fun buildNewBinary(cacheDirectory: File): BinaryAttachment? {
+        return mDatabaseKDB?.buildNewBinary(cacheDirectory)
+                ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory)
     }
 
     fun removeAttachmentIfNotUsed(attachment: EntryAttachment) {

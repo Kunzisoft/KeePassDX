@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -44,7 +45,6 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
-import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
@@ -540,20 +540,18 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
-    // TODO encapsulate
-    fun getUnusedCacheFileName(): String {
-        return binaryPool.findUnusedKey().toString()
-    }
-
-    fun buildNewAttachment(cacheDirectory: File, fileName: String): EntryAttachment {
-        val cacheId = getUnusedCacheFileName()
-        val fileInCache = File(cacheDirectory, cacheId)
-        // TODO protection?
-        val compression = compressionAlgorithm == CompressionAlgorithm.GZip
-        val binaryAttachment = BinaryAttachment(fileInCache, false, compression)
+    fun buildNewBinary(cacheDirectory: File,
+                       protection: Boolean = false,
+                       compression: Boolean? = null,
+                       cacheId: String? = null): BinaryAttachment {
+        // Unused cache key if needed
+        val binaryId = cacheId ?: binaryPool.findUnusedKey().toString()
+        val fileInCache = File(cacheDirectory, binaryId)
+        val compressionBinary = compression ?: (compressionAlgorithm == CompressionAlgorithm.GZip)
+        val binaryAttachment = BinaryAttachment(fileInCache, protection, compressionBinary)
         // add attachment to pool
-        binaryPool.put(cacheId.toInt(), binaryAttachment)
-        return EntryAttachment(fileName, binaryAttachment)
+        binaryPool.put(binaryId.toInt(), binaryAttachment)
+        return binaryAttachment
     }
 
     fun removeAttachmentIfNotUsed(attachment: EntryAttachment) {

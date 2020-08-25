@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
@@ -281,10 +280,9 @@ class DatabaseInputKDB(cacheDirectory: File,
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryFile = File(cacheDirectory,
-                                        mDatabaseToOpen.getUnusedCacheFileName())
-                                entry.binaryData = BinaryAttachment(binaryFile)
-                                BufferedOutputStream(FileOutputStream(binaryFile)).use { outputStream ->
+                                val binaryAttachment = mDatabaseToOpen.buildNewBinary(cacheDirectory)
+                                entry.binaryData = binaryAttachment
+                                BufferedOutputStream(binaryAttachment.getOutputDataStream()).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize,
                                             DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
                                         outputStream.write(buffer)
