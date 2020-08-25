@@ -325,6 +325,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                             }
                         }
                     } catch (e: Exception) {
+                        Log.e(TAG, "Unable to upload or download file", e)
                         progressResult = false
                     }
                     progressResult

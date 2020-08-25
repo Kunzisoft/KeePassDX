@@ -584,7 +584,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         binariesToRemove.forEach {
             try {
                 binaryPool.remove(it)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Log.w(TAG, "Unable to clean binaries", e)
             }
         }

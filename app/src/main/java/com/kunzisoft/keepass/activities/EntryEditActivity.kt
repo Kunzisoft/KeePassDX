@@ -23,6 +23,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -229,10 +230,16 @@ class EntryEditActivity : LockingActivity(),
                 isVisible = allowCustomField
             }
 
+            // Attachment not compatible below KitKat
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                menu.findItem(R.id.menu_add_attachment).isVisible = false
+            }
+
             menu.findItem(R.id.menu_add_otp).apply {
                 val allowOTP = mDatabase?.allowOTP == true
                 isEnabled = allowOTP
-                isVisible = allowOTP
+                // OTP not compatible below KitKat
+                isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             }
 
             setOnMenuItemClickListener { item ->
