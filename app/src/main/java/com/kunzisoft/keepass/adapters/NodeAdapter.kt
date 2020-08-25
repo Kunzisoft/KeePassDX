@@ -337,6 +337,8 @@ class NodeAdapter (private val context: Context)
                     setTextSize(textSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
                 }
             }
+            holder.attachmentIcon?.visibility =
+                    if (entry.getAttachments().isNotEmpty()) View.VISIBLE else View.GONE
 
             mDatabase.stopManageEntry(entry)
         }
@@ -391,6 +393,7 @@ class NodeAdapter (private val context: Context)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
+        var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
     }
 
     companion object {
