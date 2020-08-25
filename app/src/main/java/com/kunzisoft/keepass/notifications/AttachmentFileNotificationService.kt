@@ -39,15 +39,15 @@ import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
 import java.io.BufferedInputStream
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
-import kotlin.collections.ArrayList
 
 
 class AttachmentFileNotificationService: LockNotificationService() {
 
     override val notificationId: Int = 10000
-    private val attachmentNotificationList = ArrayList<AttachmentNotification>()
+    private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
