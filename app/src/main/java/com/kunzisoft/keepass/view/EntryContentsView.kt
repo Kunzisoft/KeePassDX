@@ -327,8 +327,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachmentState) {
-        attachmentsAdapter.updateProgress(attachmentToDownload)
+    fun putAttachment(attachmentToDownload: EntryAttachmentState) {
+        attachmentsAdapter.putItem(attachmentToDownload)
     }
 
     /* -------------

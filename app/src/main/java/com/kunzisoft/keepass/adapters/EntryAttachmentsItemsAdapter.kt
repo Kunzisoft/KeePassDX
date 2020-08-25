@@ -110,16 +110,6 @@ class EntryAttachmentsItemsAdapter(context: Context)
         }
     }
 
-    fun updateProgress(entryAttachment: EntryAttachmentState) {
-        val indexEntryAttachment = itemsList.indexOfLast { current ->
-            current.entryAttachment == entryAttachment.entryAttachment
-        }
-        if (indexEntryAttachment != -1) {
-            itemsList[indexEntryAttachment] = entryAttachment
-            notifyItemChanged(indexEntryAttachment)
-        }
-    }
-
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)

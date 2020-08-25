@@ -311,14 +311,11 @@ class EntryEditActivity : LockingActivity(),
                             mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                         }
                         AttachmentState.ERROR -> {
-                            // TODO error
                             mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.entryAttachment)
                             mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                             entryEditContentsView?.removeAttachment(entryAttachmentState)
                         }
-                        else -> {
-                            // TODO progress
-                        }
+                        else -> {}
                     }
                 }
             }
