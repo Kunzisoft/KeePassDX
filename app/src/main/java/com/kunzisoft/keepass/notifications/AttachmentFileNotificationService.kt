@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.stream.readBytes
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
@@ -101,12 +102,12 @@ class AttachmentFileNotificationService: LockNotificationService() {
             ACTION_ATTACHMENT_FILE_START_UPLOAD -> {
                 actionUploadOrDownload(downloadFileUri,
                         intent,
-                        AttachmentFileAction.StreamDirection.UPLOAD)
+                        StreamDirection.UPLOAD)
             }
             ACTION_ATTACHMENT_FILE_START_DOWNLOAD -> {
                 actionUploadOrDownload(downloadFileUri,
                         intent,
-                        AttachmentFileAction.StreamDirection.DOWNLOAD)
+                        StreamDirection.DOWNLOAD)
             }
             else -> {
                 if (downloadFileUri != null) {
@@ -166,12 +167,12 @@ class AttachmentFileNotificationService: LockNotificationService() {
         val fileName = DocumentFile.fromSingleUri(this, attachmentNotification.uri)?.name ?: ""
 
         val builder = buildNewNotification().apply {
-            when (attachmentNotification.streamDirection) {
-                AttachmentFileAction.StreamDirection.UPLOAD -> {
+            when (attachmentNotification.entryAttachmentState.streamDirection) {
+                StreamDirection.UPLOAD -> {
                     setSmallIcon(R.drawable.ic_file_upload_white_24dp)
                     setContentTitle(getString(R.string.upload_attachment, fileName))
                 }
-                AttachmentFileAction.StreamDirection.DOWNLOAD -> {
+                StreamDirection.DOWNLOAD -> {
                     setSmallIcon(R.drawable.ic_file_download_white_24dp)
                     setContentTitle(getString(R.string.download_attachment, fileName))
                 }
@@ -196,11 +197,11 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 }
                 AttachmentState.COMPLETE -> {
                     setContentText(getString(R.string.download_complete))
-                    when (attachmentNotification.streamDirection) {
-                        AttachmentFileAction.StreamDirection.UPLOAD -> {
+                    when (attachmentNotification.entryAttachmentState.streamDirection) {
+                        StreamDirection.UPLOAD -> {
 
                         }
-                        AttachmentFileAction.StreamDirection.DOWNLOAD -> {
+                        StreamDirection.DOWNLOAD -> {
                             setContentIntent(pendingContentIntent)
                         }
                     }
@@ -228,7 +229,6 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private data class AttachmentNotification(var uri: Uri,
                                               var notificationId: Int,
-                                              var streamDirection: AttachmentFileAction.StreamDirection,
                                               var entryAttachmentState: EntryAttachmentState,
                                               var attachmentFileAction: AttachmentFileAction? = null) {
         override fun equals(other: Any?): Boolean {
@@ -249,7 +249,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private fun actionUploadOrDownload(downloadFileUri: Uri?,
                                        intent: Intent,
-                                       streamDirection: AttachmentFileAction.StreamDirection) {
+                                       streamDirection: StreamDirection) {
         if (downloadFileUri != null
                 && intent.hasExtra(ATTACHMENT_KEY)) {
             try {
@@ -257,14 +257,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
                     val nextNotificationId = (attachmentNotificationList.maxByOrNull { it.notificationId }
                             ?.notificationId ?: notificationId) + 1
-                    val entryAttachmentState = EntryAttachmentState(entryAttachment)
-                    val attachmentNotification = AttachmentNotification(downloadFileUri, nextNotificationId, streamDirection, entryAttachmentState)
+                    val entryAttachmentState = EntryAttachmentState(entryAttachment, streamDirection)
+                    val attachmentNotification = AttachmentNotification(downloadFileUri, nextNotificationId, entryAttachmentState)
                     attachmentNotificationList.add(attachmentNotification)
 
                     mainScope.launch {
                         AttachmentFileAction(attachmentNotification,
-                                contentResolver,
-                                streamDirection).apply {
+                                contentResolver).apply {
                             listener = attachmentFileActionListener
                         }.executeAction()
                     }
@@ -277,16 +276,11 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private class AttachmentFileAction(
             private val attachmentNotification: AttachmentNotification,
-            private val contentResolver: ContentResolver,
-            private val streamDirection: StreamDirection) {
+            private val contentResolver: ContentResolver) {
 
         private val updateMinFrequency = 1000
         private var previousSaveTime = System.currentTimeMillis()
         var listener: AttachmentFileActionListener? = null
-
-        enum class StreamDirection {
-            UPLOAD, DOWNLOAD
-        }
 
         interface AttachmentFileActionListener {
             fun onUpdate(attachmentNotification: AttachmentNotification)

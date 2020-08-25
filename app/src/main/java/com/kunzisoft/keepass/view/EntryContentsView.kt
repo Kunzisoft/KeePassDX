@@ -35,10 +35,11 @@ import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
-import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
@@ -70,7 +71,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
-    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, false)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
 
     private val historyContainerView: View
     private val historyListView: RecyclerView
@@ -317,9 +318,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun assignAttachments(attachments: ArrayList<EntryAttachment>,
+                          streamDirection: StreamDirection,
                           onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
         showAttachments(attachments.isNotEmpty())
-        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it) })
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onItemClickListener = { item ->
             onAttachmentClicked.invoke(item.entryAttachment)
         }

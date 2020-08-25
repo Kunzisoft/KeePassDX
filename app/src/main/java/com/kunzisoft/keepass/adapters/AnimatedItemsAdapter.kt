@@ -46,6 +46,13 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
+    open fun removeItem(item: Item) {
+        if (itemsList.contains(item)) {
+            mItemToRemove = item
+            notifyItemChanged(itemsList.indexOf(item))
+        }
+    }
+
     fun onBindDeleteButton(holder: T, deleteButton: View, item: Item, position: Int) {
         deleteButton.apply {
             visibility = View.VISIBLE

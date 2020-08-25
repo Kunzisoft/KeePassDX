@@ -295,6 +295,10 @@ class EntryEditActivity : LockingActivity(),
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     when (entryAttachmentState.downloadState) {
+                        AttachmentState.START,
+                        AttachmentState.IN_PROGRESS -> {
+                            entryEditContentsView?.putAttachment(entryAttachmentState)
+                        }
                         AttachmentState.COMPLETE -> {
                             entryEditContentsView?.putAttachment(entryAttachmentState)
                             mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
@@ -303,6 +307,7 @@ class EntryEditActivity : LockingActivity(),
                             // TODO error
                             mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.entryAttachment)
                             mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
+                            entryEditContentsView?.removeAttachment(entryAttachmentState)
                         }
                         else -> {
                             // TODO progress
@@ -342,7 +347,7 @@ class EntryEditActivity : LockingActivity(),
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
             }, mFocusedEditExtraField)
-            assignAttachments(newEntry.getAttachments()) { attachment ->
+            assignAttachments(newEntry.getAttachments(), StreamDirection.UPLOAD) { attachment ->
                 newEntry.removeAttachment(attachment)
             }
         }

@@ -23,6 +23,7 @@ import android.content.Context
 import android.text.format.Formatter
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -31,8 +32,9 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 
-class EntryAttachmentsItemsAdapter(context: Context, private val editable: Boolean)
+class EntryAttachmentsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
@@ -61,24 +63,49 @@ class EntryAttachmentsItemsAdapter(context: Context, private val editable: Boole
                 visibility = View.GONE
             }
         }
-        if (editable) {
-            holder.binaryFileProgressContainer.visibility = View.GONE
-            holder.binaryFileDeleteButton.apply {
-                visibility = View.VISIBLE
-                onBindDeleteButton(holder, this, entryAttachmentState, position)
-            }
-        } else {
-            holder.binaryFileProgressContainer.visibility = View.VISIBLE
-            holder.binaryFileDeleteButton.visibility = View.GONE
-            holder.binaryFileProgress.apply {
-                visibility = when (entryAttachmentState.downloadState) {
-                    AttachmentState.NULL, AttachmentState.COMPLETE, AttachmentState.ERROR -> View.GONE
-                    AttachmentState.START, AttachmentState.IN_PROGRESS -> View.VISIBLE
+        when (entryAttachmentState.streamDirection) {
+            StreamDirection.UPLOAD -> {
+                holder.binaryFileProgressIcon.isActivated = true
+                when (entryAttachmentState.downloadState) {
+                    AttachmentState.START,
+                    AttachmentState.IN_PROGRESS -> {
+                        holder.binaryFileProgressContainer.visibility = View.VISIBLE
+                        holder.binaryFileProgress.apply {
+                            visibility = View.VISIBLE
+                            progress = entryAttachmentState.downloadProgression
+                        }
+                        holder.binaryFileDeleteButton.apply {
+                            visibility = View.GONE
+                            setOnClickListener(null)
+                        }
+                    }
+                    AttachmentState.NULL,
+                    AttachmentState.ERROR,
+                    AttachmentState.COMPLETE -> {
+                        holder.binaryFileProgressContainer.visibility = View.GONE
+                        holder.binaryFileProgress.visibility = View.GONE
+                        holder.binaryFileDeleteButton.apply {
+                            visibility = View.VISIBLE
+                            onBindDeleteButton(holder, this, entryAttachmentState, position)
+                        }
+                    }
                 }
-                progress = entryAttachmentState.downloadProgression
+                holder.itemView.setOnClickListener(null)
             }
-            holder.itemView.setOnClickListener {
-                onItemClickListener?.invoke(entryAttachmentState)
+            StreamDirection.DOWNLOAD -> {
+                holder.binaryFileProgressIcon.isActivated = false
+                holder.binaryFileProgressContainer.visibility = View.VISIBLE
+                holder.binaryFileDeleteButton.visibility = View.GONE
+                holder.binaryFileProgress.apply {
+                    visibility = when (entryAttachmentState.downloadState) {
+                        AttachmentState.NULL, AttachmentState.COMPLETE, AttachmentState.ERROR -> View.GONE
+                        AttachmentState.START, AttachmentState.IN_PROGRESS -> View.VISIBLE
+                    }
+                    progress = entryAttachmentState.downloadProgression
+                }
+                holder.itemView.setOnClickListener {
+                    onItemClickListener?.invoke(entryAttachmentState)
+                }
             }
         }
     }
@@ -100,6 +127,7 @@ class EntryAttachmentsItemsAdapter(context: Context, private val editable: Boole
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)
         var binaryFileCompression: TextView = itemView.findViewById(R.id.item_attachment_compression)
         var binaryFileProgressContainer: View = itemView.findViewById(R.id.item_attachment_progress_container)
+        var binaryFileProgressIcon: ImageView = itemView.findViewById(R.id.item_attachment_icon)
         var binaryFileProgress: ProgressBar = itemView.findViewById(R.id.item_attachment_progress)
         var binaryFileDeleteButton: View = itemView.findViewById(R.id.item_attachment_delete_button)
     }

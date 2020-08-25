@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
@@ -332,7 +333,7 @@ class EntryActivity : LockingActivity() {
         entryContentsView?.setHiddenProtectedValue(!mShowPassword)
 
         // Manage attachments
-        entryContentsView?.assignAttachments(entry.getAttachments()) { attachmentItem ->
+        entryContentsView?.assignAttachments(entry.getAttachments(), StreamDirection.DOWNLOAD) { attachmentItem ->
             createDocument(this, attachmentItem.name)?.let { requestCode ->
                 mAttachmentsToDownload[requestCode] = attachmentItem
             }
