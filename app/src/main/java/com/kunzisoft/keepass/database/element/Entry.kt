@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -316,38 +317,38 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
     }
 
-    fun startToManageFieldReferences(db: DatabaseKDBX) {
-        entryKDBX?.startToManageFieldReferences(db)
+    fun startToManageFieldReferences(database: DatabaseKDBX) {
+        entryKDBX?.startToManageFieldReferences(database)
     }
 
     fun stopToManageFieldReferences() {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    override fun getAttachments(): ArrayList<Attachment> {
+    fun getAttachments(binaryPool: BinaryPool): ArrayList<Attachment> {
         val attachments = ArrayList<Attachment>()
         entryKDB?.getAttachments()?.let {
             attachments.addAll(it)
         }
-        entryKDBX?.getAttachments()?.let {
+        entryKDBX?.getAttachments(binaryPool)?.let {
             attachments.addAll(it)
         }
         return attachments
     }
 
-    override fun containsAttachment(attachment: Attachment): Boolean {
+    fun containsAttachment(attachment: Attachment, binaryPool: BinaryPool): Boolean {
         return entryKDB?.containsAttachment(attachment) == true
-                || entryKDBX?.containsAttachment(attachment) == true
+                || entryKDBX?.containsAttachment(attachment, binaryPool) == true
     }
 
-    override fun putAttachment(attachment: Attachment) {
+    fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {
         entryKDB?.putAttachment(attachment)
-        entryKDBX?.putAttachment(attachment)
+        entryKDBX?.putAttachment(attachment, binaryPool)
     }
 
-    override fun removeAttachment(attachment: Attachment) {
+    fun removeAttachment(attachment: Attachment, binaryPool: BinaryPool) {
         entryKDB?.removeAttachment(attachment)
-        entryKDBX?.removeAttachment(attachment)
+        entryKDBX?.removeAttachment(attachment, binaryPool)
     }
 
     fun getHistory(): ArrayList<Entry> {
@@ -377,8 +378,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.removeOldestEntryFromHistory()
     }
 
-    fun getSize(): Long {
-        return entryKDBX?.size ?: 0L
+    fun getSize(binaryPool: BinaryPool): Long {
+        return entryKDBX?.getSize(binaryPool) ?: 0L
     }
 
     fun containsCustomData(): Boolean {

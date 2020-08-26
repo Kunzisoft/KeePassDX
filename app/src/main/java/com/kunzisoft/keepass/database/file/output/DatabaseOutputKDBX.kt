@@ -46,7 +46,6 @@ import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.stream.*
 import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
@@ -360,7 +359,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeTimes(entry)
 
         writeFields(entry.fields)
-        writeEntryBinaries(entry.getAttachments())
+        writeEntryBinaries(entry.binaries)
         writeAutoType(entry.autoType)
 
         if (!isHistory) {
@@ -441,7 +440,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
                 // Force decompression in this specific case
                 val binaryInputStream = if (mDatabaseKDBX.compressionAlgorithm == CompressionAlgorithm.None
-                                && binary.isCompressed == true) {
+                        && binary.isCompressed) {
                     GZIPInputStream(binary.getInputDataStream())
                 } else {
                     binary.getInputDataStream()
@@ -460,7 +459,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeMetaBinaries() {
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
-        mDatabaseKDBX.binaryPool.doForEachBinary { key, binary ->
+        mDatabaseKDBX.binaryPool.doForEach { key, binary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, key.toString())
             writeBinary(binary)
@@ -560,20 +559,24 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeEntryBinaries(attachments: List<Attachment>) {
-        attachments.forEach {
+    private fun writeEntryBinaries(binaries: LinkedHashMap<String, Int>) {
+        binaries.forEach {
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.startTag(null, DatabaseKDBXXML.ElemKey)
-            xml.text(safeXmlString(it.name))
+            xml.text(safeXmlString(it.key))
             xml.endTag(null, DatabaseKDBXXML.ElemKey)
 
             xml.startTag(null, DatabaseKDBXXML.ElemValue)
+            xml.attribute(null, DatabaseKDBXXML.AttrRef, it.value.toString())
+            /*
+            // By default use only pool data in head to save binaries
             val ref = mDatabaseKDBX.binaryPool.findKey(it.binaryAttachment)
             if (ref != null) {
                 xml.attribute(null, DatabaseKDBXXML.AttrRef, ref.toString())
             } else {
                 writeBinary(it.binaryAttachment)
             }
+            */
             xml.endTag(null, DatabaseKDBXXML.ElemValue)
 
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)

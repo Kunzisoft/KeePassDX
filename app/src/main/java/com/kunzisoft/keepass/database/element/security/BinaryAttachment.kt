@@ -28,7 +28,7 @@ import java.util.zip.GZIPOutputStream
 
 class BinaryAttachment : Parcelable {
 
-    var isCompressed: Boolean? = null
+    var isCompressed: Boolean = false
         private set
     var isProtected: Boolean = false
         private set
@@ -44,20 +44,19 @@ class BinaryAttachment : Parcelable {
      * Empty protected binary
      */
     constructor() {
-        this.isCompressed = null
+        this.isCompressed = false
         this.isProtected = false
         this.dataFile = null
     }
 
-    constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean? = null) {
+    constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean = false) {
         this.isCompressed = compressed
         this.isProtected = enableProtection
         this.dataFile = dataFile
     }
 
     private constructor(parcel: Parcel) {
-        val compressedByte = parcel.readByte().toInt()
-        isCompressed = if (compressedByte == 2) null else compressedByte != 0
+        isCompressed = parcel.readByte().toInt() != 0
         isProtected = parcel.readByte().toInt() != 0
         parcel.readString()?.let {
             dataFile = File(it)
@@ -84,7 +83,7 @@ class BinaryAttachment : Parcelable {
     fun compress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
-            if (isCompressed != true) {
+            if (!isCompressed) {
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 GZIPOutputStream(FileOutputStream(fileBinaryCompress)).use { outputStream ->
                     getInputDataStream().use { inputStream ->
@@ -100,8 +99,6 @@ class BinaryAttachment : Parcelable {
                         isCompressed = true
                     }
                 }
-            } else {
-                isCompressed = true
             }
         }
     }
@@ -109,7 +106,7 @@ class BinaryAttachment : Parcelable {
     @Throws(IOException::class)
     fun decompress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
-            if (isCompressed != false) {
+            if (isCompressed) {
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 FileOutputStream(fileBinaryDecompress).use { outputStream ->
                     GZIPInputStream(getInputDataStream()).use { inputStream ->
@@ -125,8 +122,6 @@ class BinaryAttachment : Parcelable {
                         isCompressed = false
                     }
                 }
-            } else {
-                isCompressed = false
             }
         }
     }
@@ -157,7 +152,7 @@ class BinaryAttachment : Parcelable {
     override fun hashCode(): Int {
 
         var result = 0
-        result = 31 * result + if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0
+        result = 31 * result + if (isCompressed) 1 else 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
         return result
@@ -172,7 +167,7 @@ class BinaryAttachment : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0).toByte())
+        dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeString(dataFile?.absolutePath)
     }

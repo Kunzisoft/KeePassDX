@@ -358,8 +358,11 @@ class EntryEditActivity : LockingActivity(),
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
             }, mFocusedEditExtraField)
-            assignAttachments(newEntry.getAttachments(), StreamDirection.UPLOAD) { attachment ->
-                newEntry.removeAttachment(attachment)
+
+            mDatabase?.binaryPool?.let { binaryPool ->
+                assignAttachments(newEntry.getAttachments(binaryPool), StreamDirection.UPLOAD) { attachment ->
+                    newEntry.removeAttachment(attachment, binaryPool)
+                }
             }
         }
     }
@@ -384,8 +387,10 @@ class EntryEditActivity : LockingActivity(),
                 entryView.getExtraFields().forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
                 }
-                entryView.getAttachments().forEach {
-                    putAttachment(it)
+                mDatabase?.binaryPool?.let { binaryPool ->
+                    entryView.getAttachments().forEach {
+                        putAttachment(it, binaryPool)
+                    }
                 }
                 mFocusedEditExtraField = entryView.getExtraFieldFocused()
             }

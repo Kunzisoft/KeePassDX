@@ -333,9 +333,11 @@ class EntryActivity : LockingActivity() {
         entryContentsView?.setHiddenProtectedValue(!mShowPassword)
 
         // Manage attachments
-        entryContentsView?.assignAttachments(entry.getAttachments(), StreamDirection.DOWNLOAD) { attachmentItem ->
-            createDocument(this, attachmentItem.name)?.let { requestCode ->
-                mAttachmentsToDownload[requestCode] = attachmentItem
+        mDatabase?.binaryPool?.let { binaryPool ->
+            entryContentsView?.assignAttachments(entry.getAttachments(binaryPool), StreamDirection.DOWNLOAD) { attachmentItem ->
+                createDocument(this, attachmentItem.name)?.let { requestCode ->
+                    mAttachmentsToDownload[requestCode] = attachmentItem
+                }
             }
         }
 

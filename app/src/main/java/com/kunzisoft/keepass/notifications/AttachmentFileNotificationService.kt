@@ -47,7 +47,7 @@ import java.util.zip.GZIPOutputStream
 class AttachmentFileNotificationService: LockNotificationService() {
 
     override val notificationId: Int = 10000
-    private val attachmentNotificationList = ArrayList<AttachmentNotification>()
+    private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()

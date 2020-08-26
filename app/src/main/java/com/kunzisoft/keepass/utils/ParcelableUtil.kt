@@ -60,6 +60,15 @@ object ParcelableUtil {
         }
     }
 
+    // For writing map with string key and Int value to a Parcel
+    fun writeStringIntMap(parcel: Parcel, map: LinkedHashMap<String, Int>) {
+        parcel.writeInt(map.size)
+        for ((key, value) in map) {
+            parcel.writeString(key)
+            parcel.writeInt(value)
+        }
+    }
+
     // For reading map with string key from a Parcel
     fun <V : Parcelable> readStringParcelableMap(
             parcel: Parcel, vClass: Class<V>): LinkedHashMap<String, V> {
@@ -68,6 +77,19 @@ object ParcelableUtil {
         for (i in 0 until size) {
             val key: String? = parcel.readString()
             val value: V? = vClass.cast(parcel.readParcelable(vClass.classLoader))
+            if (key != null && value != null)
+                map[key] = value
+        }
+        return map
+    }
+
+    // For reading map with string key and Int value from a Parcel
+    fun readStringIntMap(parcel: Parcel): LinkedHashMap<String, Int> {
+        val size = parcel.readInt()
+        val map = LinkedHashMap<String, Int>(size)
+        for (i in 0 until size) {
+            val key: String? = parcel.readString()
+            val value: Int? = parcel.readInt()
             if (key != null && value != null)
                 map[key] = value
         }

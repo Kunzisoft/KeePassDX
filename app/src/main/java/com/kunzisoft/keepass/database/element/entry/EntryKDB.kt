@@ -137,7 +137,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     override val type: Type
         get() = Type.ENTRY
 
-    override fun getAttachments(): ArrayList<Attachment> {
+    fun getAttachments(): ArrayList<Attachment> {
         return ArrayList<Attachment>().apply {
             val binary = binaryData
             if (binary != null)
@@ -145,16 +145,16 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         }
     }
 
-    override fun containsAttachment(attachment: Attachment): Boolean {
+    fun containsAttachment(attachment: Attachment): Boolean {
         return binaryData != null
     }
 
-    override fun putAttachment(attachment: Attachment) {
+    fun putAttachment(attachment: Attachment) {
         this.binaryDescription = attachment.name
         this.binaryData = attachment.binaryAttachment
     }
 
-    override fun removeAttachment(attachment: Attachment) {
+    fun removeAttachment(attachment: Attachment) {
         if (this.binaryDescription == attachment.name) {
             this.binaryDescription = ""
             this.binaryData = null

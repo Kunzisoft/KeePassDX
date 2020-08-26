@@ -31,9 +31,9 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
@@ -64,7 +64,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     private var customData = LinkedHashMap<String, String>()
     // TODO Private
     var fields = LinkedHashMap<String, ProtectedString>()
-    private var binaries = LinkedHashMap<String, BinaryAttachment>()
+    var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -73,35 +73,31 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var additional = ""
     var tags = ""
 
-    val size: Long
-        get() {
-            var size = FIXED_LENGTH_SIZE
+    fun getSize(binaryPool: BinaryPool): Long {
+        var size = FIXED_LENGTH_SIZE
 
-            for (entry in fields.entries) {
-                size += entry.key.length.toLong()
-                size += entry.value.length().toLong()
-            }
-
-            for ((key, value) in binaries) {
-                size += key.length.toLong()
-                size += value.length()
-            }
-
-            size += autoType.defaultSequence.length.toLong()
-            for ((key, value) in autoType.entrySet()) {
-                size += key.length.toLong()
-                size += value.length.toLong()
-            }
-
-            for (entry in history) {
-                size += entry.size
-            }
-
-            size += overrideURL.length.toLong()
-            size += tags.length.toLong()
-
-            return size
+        for (entry in fields.entries) {
+            size += entry.key.length.toLong()
+            size += entry.value.length().toLong()
         }
+
+        size += getAttachmentsSize(binaryPool)
+
+        size += autoType.defaultSequence.length.toLong()
+        for ((key, value) in autoType.entrySet()) {
+            size += key.length.toLong()
+            size += value.length.toLong()
+        }
+
+        for (entry in history) {
+            size += entry.getSize(binaryPool)
+        }
+
+        size += overrideURL.length.toLong()
+        size += tags.length.toLong()
+
+        return size
+    }
 
     override var expires: Boolean = false
 
@@ -113,7 +109,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
         customData = ParcelableUtil.readStringParcelableMap(parcel)
         fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
-        binaries = ParcelableUtil.readStringParcelableMap(parcel, BinaryAttachment::class.java)
+        binaries = ParcelableUtil.readStringIntMap(parcel)
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
@@ -131,7 +127,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(locationChanged, flags)
         ParcelableUtil.writeStringParcelableMap(dest, customData)
         ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
-        ParcelableUtil.writeStringParcelableMap(dest, flags, binaries)
+        ParcelableUtil.writeStringIntMap(dest, binaries)
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)
@@ -170,8 +166,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         tags = source.tags
     }
 
-    fun startToManageFieldReferences(db: DatabaseKDBX) {
-        this.mDatabase = db
+    fun startToManageFieldReferences(database: DatabaseKDBX) {
+        this.mDatabase = database
         this.mDecodeRef = true
     }
 
@@ -287,28 +283,40 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         fields[label] = value
     }
 
-    override fun getAttachments(): ArrayList<Attachment> {
+    fun getAttachments(binaryPool: BinaryPool): ArrayList<Attachment> {
         val entryAttachmentList = ArrayList<Attachment>()
-        for ((key, value) in binaries) {
-            entryAttachmentList.add(Attachment(key, value))
+        for ((label, poolId) in binaries) {
+            binaryPool[poolId]?.let { binary ->
+                entryAttachmentList.add(Attachment(label, binary))
+            }
         }
         return entryAttachmentList
     }
 
-    override fun containsAttachment(attachment: Attachment): Boolean {
-        for ((_, binary) in binaries) {
-            if (binary == attachment.binaryAttachment)
-                return true
+    fun containsAttachment(attachment: Attachment, binaryPool: BinaryPool): Boolean {
+        for ((_, poolId) in binaries) {
+            if (binaryPool[poolId] == attachment.binaryAttachment)
+            return true
         }
         return false
     }
 
-    override fun putAttachment(attachment: Attachment) {
-        binaries[attachment.name] = attachment.binaryAttachment
+    fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {
+        binaries[attachment.name] = binaryPool.put(attachment.binaryAttachment)
     }
 
-    override fun removeAttachment(attachment: Attachment) {
+    fun removeAttachment(attachment: Attachment, binaryPool: BinaryPool) {
         binaries.remove(attachment.name)
+        binaryPool.remove(attachment.binaryAttachment)
+    }
+
+    private fun getAttachmentsSize(binaryPool: BinaryPool): Long {
+        var size = 0L
+        for ((label, poolId) in binaries) {
+            size += label.length.toLong()
+            size += binaryPool[poolId]?.length() ?: 0
+        }
+        return size
     }
 
     // TODO Remove ?

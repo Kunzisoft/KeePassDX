@@ -177,8 +177,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun changeBinaryCompression(oldCompression: CompressionAlgorithm,
                                 newCompression: CompressionAlgorithm) {
-        binaryPool.doForEachBinary { key, binary ->
-
+        binaryPool.doForEachBinary { binary ->
             try {
                 when (oldCompression) {
                     CompressionAlgorithm.None -> {
@@ -203,7 +202,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to change compression for $key", e)
+                Log.e(TAG, "Unable to change compression for $binary", e)
             }
         }
     }
@@ -542,7 +541,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun buildNewBinary(cacheDirectory: File,
                        protection: Boolean,
-                       compression: Boolean?,
+                       compression: Boolean,
                        cacheId: String? = null): BinaryAttachment {
         // Unused cache key if needed
         val binaryId = cacheId ?: binaryPool.findUnusedKey().toString()
@@ -558,12 +557,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         removeUnlinkedAttachment(attachment.binaryAttachment)
     }
 
-    // TODO buf unlink right element
     fun removeUnlinkedAttachment(vararg binaries: BinaryAttachment) {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryAttachment>()
         if (binaries.isEmpty()) {
-            binaryPool.doForEachBinary { _, binary ->
+            binaryPool.doForEachBinary { binary ->
                 binariesToRemove.add(binary)
             }
         } else {
@@ -572,7 +570,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Remove binaries from the list
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
-                node.getAttachments().forEach {
+                node.getAttachments(binaryPool).forEach {
                     binariesToRemove.remove(it.binaryAttachment)
                 }
                 return binariesToRemove.isNotEmpty()

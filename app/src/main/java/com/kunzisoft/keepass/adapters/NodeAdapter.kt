@@ -337,8 +337,10 @@ class NodeAdapter (private val context: Context)
                     setTextSize(textSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
                 }
             }
+
             holder.attachmentIcon?.visibility =
-                    if (entry.getAttachments().isNotEmpty()) View.VISIBLE else View.GONE
+                    if (entry.getAttachments(mDatabase.binaryPool).isNotEmpty())
+                        View.VISIBLE else View.GONE
 
             mDatabase.stopManageEntry(entry)
         }

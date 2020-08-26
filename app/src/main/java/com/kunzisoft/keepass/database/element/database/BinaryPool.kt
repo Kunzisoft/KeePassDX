@@ -19,26 +19,32 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import android.util.SparseArray
-import androidx.core.util.forEach
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import java.io.IOException
 
 class BinaryPool {
-    private val pool = SparseArray<BinaryAttachment>()
+    private val pool = LinkedHashMap<Int, BinaryAttachment>()
 
     operator fun get(key: Int): BinaryAttachment? {
         return pool[key]
     }
 
     fun put(key: Int, value: BinaryAttachment) {
-        pool.put(key, value)
+        pool[key] = value
     }
 
-    fun add(binaryAttachment: BinaryAttachment) {
-        if (findKey(binaryAttachment) == null) {
-            pool.put(findUnusedKey(), binaryAttachment)
+    /**
+     * To put a [binaryAttachment] in the pool,
+     * if already exists, replace the current one,
+     * else add it with a new key
+     */
+    fun put(binaryAttachment: BinaryAttachment): Int {
+        var key = findKey(binaryAttachment)
+        if (key == null) {
+            key = findUnusedKey()
         }
+        pool[key] = binaryAttachment
+        return key
     }
 
     @Throws(IOException::class)
@@ -57,26 +63,39 @@ class BinaryPool {
     }
 
     /**
-     * Return position of [binaryAttachmentToRetrieve] or null if not found
+     * Return key of [binaryAttachmentToRetrieve] or null if not found
      */
-    fun findKey(binaryAttachmentToRetrieve: BinaryAttachment): Int? {
-        val index = pool.indexOfValue(binaryAttachmentToRetrieve)
-        return if (index < 0)
+    private fun findKey(binaryAttachmentToRetrieve: BinaryAttachment): Int? {
+        val contains = pool.containsValue(binaryAttachmentToRetrieve)
+        return if (!contains)
             null
-        else
-            pool.keyAt(index)
+        else {
+            for ((key, binary) in pool) {
+                if (binary == binaryAttachmentToRetrieve) {
+                    return key
+                }
+            }
+            return null
+        }
     }
 
-    fun doForEachBinary(action: (key: Int, binary: BinaryAttachment) -> Unit) {
-        pool.forEach { key, binaryAttachment ->
-            action.invoke(key, binaryAttachment)
+    /**
+     * Warning 2 keys can point the same binary
+     */
+    fun doForEach(action: (key: Int, binary: BinaryAttachment) -> Unit) {
+        for ((key, binary) in pool) {
+            action.invoke(key, binary)
         }
+    }
+
+    fun doForEachBinary(action: (binary: BinaryAttachment) -> Unit) {
+        pool.values.toSet().forEach { action.invoke(it) }
     }
 
     @Throws(IOException::class)
     fun clear() {
-        pool.forEach { _, binary ->
-            binary.clear()
+        doForEachBinary {
+            it.clear()
         }
         pool.clear()
     }

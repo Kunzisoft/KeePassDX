@@ -25,9 +25,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.DatabaseKDB
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
@@ -430,6 +428,11 @@ class Database {
         }, omitBackup, max)
     }
 
+    val binaryPool: BinaryPool
+        get() {
+            return mDatabaseKDBX?.binaryPool ?: BinaryPool()
+        }
+
     val allowMultipleAttachments: Boolean
         get() {
             if (mDatabaseKDB != null)
@@ -441,7 +444,7 @@ class Database {
 
     fun buildNewBinary(cacheDirectory: File,
                        enableProtection: Boolean = false,
-                       compressed: Boolean? = null): BinaryAttachment? {
+                       compressed: Boolean = false): BinaryAttachment? {
         return mDatabaseKDB?.buildNewBinary(cacheDirectory)
                 ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory, enableProtection, compressed)
     }
@@ -828,7 +831,7 @@ class Database {
         rootGroup?.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
-                        removeOldestEntryHistory(node)
+                        removeOldestEntryHistory(node, binaryPool)
                         return true
                     }
                 },
@@ -836,7 +839,8 @@ class Database {
                     override fun operate(node: Group): Boolean {
                         return true
                     }
-                })
+                }
+        )
     }
 
     fun removeEachEntryHistory() {
@@ -857,9 +861,8 @@ class Database {
     /**
      * Remove oldest history if more than max items or max memory
      */
-    fun removeOldestEntryHistory(entry: Entry) {
+    fun removeOldestEntryHistory(entry: Entry, binaryPool: BinaryPool) {
         mDatabaseKDBX?.let {
-
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (entry.getHistory().size > maxItems) {
@@ -872,7 +875,7 @@ class Database {
                 while (true) {
                     var historySize: Long = 0
                     for (entryHistory in entry.getHistory()) {
-                        historySize += entryHistory.getSize()
+                        historySize += entryHistory.getSize(binaryPool)
                     }
 
                     if (historySize > maxSize) {

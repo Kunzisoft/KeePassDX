@@ -757,8 +757,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryBinary && name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
-            if (ctxBinaryName != null && ctxBinaryValue != null)
-                ctxEntry?.putAttachment(Attachment(ctxBinaryName!!, ctxBinaryValue!!))
+            if (ctxBinaryName != null && ctxBinaryValue != null) {
+                ctxEntry?.putAttachment(Attachment(ctxBinaryName!!, ctxBinaryValue!!), mDatabase.binaryPool)
+            }
             ctxBinaryName = null
             ctxBinaryValue = null
 
