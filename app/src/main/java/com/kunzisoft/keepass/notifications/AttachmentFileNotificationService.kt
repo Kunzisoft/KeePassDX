@@ -353,23 +353,20 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                  update: ((percent: Int)->Unit)? = null) {
             var dataDownloaded = 0L
             val fileSize = binaryAttachment.length()
-            val attachmentOutputStream = UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)
-            attachmentOutputStream.use { outputStream ->
-                outputStream?.let { fileOutputStream ->
-                    if (binaryAttachment.isCompressed == true) {
-                        GZIPInputStream(binaryAttachment.getInputDataStream())
-                    } else {
-                        binaryAttachment.getInputDataStream()
-                    }.use { inputStream ->
-                        inputStream.readBytes(bufferSize) { buffer ->
-                            fileOutputStream.write(buffer)
-                            dataDownloaded += buffer.size
-                            try {
-                                val percentDownload = (100 * dataDownloaded / fileSize).toInt()
-                                update?.invoke(percentDownload)
-                            } catch (e: Exception) {
-                                Log.e(TAG, "", e)
-                            }
+            UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
+                if (binaryAttachment.isCompressed) {
+                    GZIPInputStream(binaryAttachment.getInputDataStream())
+                } else {
+                    binaryAttachment.getInputDataStream()
+                }.use { inputStream ->
+                    inputStream.readBytes(bufferSize) { buffer ->
+                        outputStream.write(buffer)
+                        dataDownloaded += buffer.size
+                        try {
+                            val percentDownload = (100 * dataDownloaded / fileSize).toInt()
+                            update?.invoke(percentDownload)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "", e)
                         }
                     }
                 }
@@ -383,15 +380,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
                              update: ((percent: Int)->Unit)? = null) {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
-            val attachmentInputStream = UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)
-            attachmentInputStream.use { inputStream ->
-                inputStream?.let { fileInputStream ->
-                    if (binaryAttachment.isCompressed == true) {
-                        GZIPOutputStream(binaryAttachment.getOutputDataStream())
-                    } else {
-                        binaryAttachment.getOutputDataStream()
-                    }.use { outputStream ->
-                        val attachmentBufferedInputStream = BufferedInputStream(fileInputStream)
+            UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
+                if (binaryAttachment.isCompressed) {
+                    GZIPOutputStream(binaryAttachment.getOutputDataStream())
+                } else {
+                    binaryAttachment.getOutputDataStream()
+                }.use { outputStream ->
+                    BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
                         attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                             dataUploaded += buffer.size

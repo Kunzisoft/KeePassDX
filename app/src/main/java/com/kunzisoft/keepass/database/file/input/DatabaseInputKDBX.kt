@@ -58,7 +58,6 @@ import java.nio.charset.Charset
 import java.text.ParseException
 import java.util.*
 import java.util.zip.GZIPInputStream
-import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import kotlin.math.min
@@ -254,7 +253,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 // Read in a file
                 val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
                 // Unknown compression at this level
-                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag, null)
+                val compression = mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
+                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag, compression)
                 protectedBinary.getOutputDataStream().use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
@@ -960,7 +960,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryAttachment? {
-        var compressed = false
+        var compressed: Boolean = mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
         var protected = false
 
         if (xpp.attributeCount > 0) {
@@ -981,16 +981,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
         val data = Base64.decode(base64, BASE_64_FLAG)
 
         // Force compression in this specific case
-        val effectivelyCompressed = if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                && !compressed) true else compressed
-        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, effectivelyCompressed, binaryId)
+        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, compressed, binaryId)
         binaryAttachment.getOutputDataStream().use { outputStream ->
-            // Force compression in this specific case
-            if (effectivelyCompressed) {
-                GZIPOutputStream(outputStream).write(data)
-            } else {
                 outputStream.write(data)
-            }
         }
         return binaryAttachment
     }
