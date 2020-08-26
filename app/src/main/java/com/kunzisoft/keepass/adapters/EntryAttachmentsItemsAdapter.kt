@@ -50,7 +50,6 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileTitle.text = entryAttachmentState.attachment.name
-        holder.binaryFilePath.text = entryAttachmentState.attachment.binaryAttachment.toString()
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
                 entryAttachmentState.attachment.binaryAttachment.length())
         holder.binaryFileCompression.apply {
@@ -113,7 +112,6 @@ class EntryAttachmentsItemsAdapter(context: Context)
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)
-        var binaryFilePath: TextView = itemView.findViewById(R.id.item_attachment_path)
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)
         var binaryFileCompression: TextView = itemView.findViewById(R.id.item_attachment_compression)
         var binaryFileProgressContainer: View = itemView.findViewById(R.id.item_attachment_progress_container)
