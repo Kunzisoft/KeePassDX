@@ -948,7 +948,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
         val key = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrId)
         return if (key != null) {
-            createBinary(key, xpp)
+            createBinary(key.toIntOrNull(), xpp)
         }
 
         // New binary to retrieve
@@ -958,7 +958,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun createBinary(binaryId: String?, xpp: XmlPullParser): BinaryAttachment? {
+    private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryAttachment? {
         var compressed = false
         var protected = false
 

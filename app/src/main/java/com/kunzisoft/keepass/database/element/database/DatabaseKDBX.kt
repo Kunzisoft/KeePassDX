@@ -542,13 +542,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     fun buildNewBinary(cacheDirectory: File,
                        protection: Boolean,
                        compression: Boolean,
-                       cacheId: String? = null): BinaryAttachment {
-        // Unused cache key if needed
-        val binaryId = cacheId ?: binaryPool.findUnusedKey().toString()
-        val fileInCache = File(cacheDirectory, binaryId)
+                       binaryPoolId: Int? = null): BinaryAttachment {
+        // New file with current time
+        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
         val binaryAttachment = BinaryAttachment(fileInCache, protection, compression)
         // add attachment to pool
-        binaryPool.put(binaryId.toInt(), binaryAttachment)
+        binaryPool.put(binaryPoolId, binaryAttachment)
         return binaryAttachment
     }
 

@@ -29,8 +29,11 @@ class BinaryPool {
         return pool[key]
     }
 
-    fun put(key: Int, value: BinaryAttachment) {
-        pool[key] = value
+    fun put(key: Int?, value: BinaryAttachment) {
+        if (key == null)
+            put(value)
+        else
+            pool[key] = value
     }
 
     /**
