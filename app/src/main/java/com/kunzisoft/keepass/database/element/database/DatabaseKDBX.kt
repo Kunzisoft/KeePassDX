@@ -553,10 +553,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // Remove attachment from pool
-        removeUnlinkedAttachment(attachment.binaryAttachment)
+        removeUnlinkedAttachments(attachment.binaryAttachment)
     }
 
-    fun removeUnlinkedAttachment(vararg binaries: BinaryAttachment) {
+    fun removeUnlinkedAttachments(vararg binaries: BinaryAttachment) {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryAttachment>()
         if (binaries.isEmpty()) {

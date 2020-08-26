@@ -454,9 +454,9 @@ class Database {
         mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
     }
 
-    fun removeUnlinkedAttachment() {
+    fun removeUnlinkedAttachments() {
         // No check in database KDB because unique attachment by entry
-        mDatabaseKDBX?.removeUnlinkedAttachment()
+        mDatabaseKDBX?.removeUnlinkedAttachments()
     }
 
     @Throws(DatabaseOutputException::class)

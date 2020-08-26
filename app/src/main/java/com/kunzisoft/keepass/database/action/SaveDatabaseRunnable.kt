@@ -34,7 +34,7 @@ open class SaveDatabaseRunnable(protected var context: Context,
     override fun onStartRun() {}
 
     override fun onActionRun() {
-        database.removeUnlinkedAttachment()
+        // TODO as setting database.removeUnlinkedAttachments()
         if (saveDatabase && result.isSuccess) {
             try {
                 database.saveData(context.contentResolver)
