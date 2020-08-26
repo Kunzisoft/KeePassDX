@@ -317,11 +317,9 @@ class EntryEditActivity : LockingActivity(),
                         }
                         AttachmentState.COMPLETE -> {
                             entryEditContentsView?.putAttachment(entryAttachmentState)
-                            mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                         }
                         AttachmentState.ERROR -> {
                             mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.attachment)
-                            mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                             entryEditContentsView?.removeAttachment(entryAttachmentState)
                         }
                         else -> {}

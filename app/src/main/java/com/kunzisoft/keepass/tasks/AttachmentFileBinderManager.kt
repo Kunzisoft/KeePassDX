@@ -29,6 +29,7 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
@@ -46,7 +47,17 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
 
     private val mActionTaskListener = object: AttachmentFileNotificationService.ActionTaskListener {
         override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-            onActionTaskListener?.onAttachmentAction(fileUri, entryAttachmentState)
+            onActionTaskListener?.let {
+                it.onAttachmentAction(fileUri, entryAttachmentState)
+                when (entryAttachmentState.downloadState) {
+                    AttachmentState.COMPLETE,
+                    AttachmentState.ERROR -> {
+                        // Finish the action when capture by activity
+                        consummeAttachmentAction(entryAttachmentState)
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 
@@ -88,7 +99,7 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
-    fun removeAttachmentAction(attachment: EntryAttachmentState) {
+    fun consummeAttachmentAction(attachment: EntryAttachmentState) {
         mBinder?.getService()?.removeAttachmentAction(attachment)
     }
 

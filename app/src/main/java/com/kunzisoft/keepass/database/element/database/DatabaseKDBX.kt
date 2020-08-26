@@ -558,6 +558,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         removeUnlinkedAttachment(attachment.binaryAttachment)
     }
 
+    // TODO buf unlink right element
     fun removeUnlinkedAttachment(vararg binaries: BinaryAttachment) {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryAttachment>()
