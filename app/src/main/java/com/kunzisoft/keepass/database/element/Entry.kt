@@ -336,9 +336,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return attachments
     }
 
-    fun containsAttachment(attachment: Attachment, binaryPool: BinaryPool): Boolean {
-        return entryKDB?.containsAttachment(attachment) == true
-                || entryKDBX?.containsAttachment(attachment, binaryPool) == true
+    fun containsAttachment(): Boolean {
+        return entryKDB?.containsAttachment() == true
+                || entryKDBX?.containsAttachment() == true
     }
 
     fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {

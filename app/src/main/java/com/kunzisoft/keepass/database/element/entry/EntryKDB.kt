@@ -145,7 +145,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         }
     }
 
-    fun containsAttachment(attachment: Attachment): Boolean {
+    fun containsAttachment(): Boolean {
         return binaryData != null
     }
 

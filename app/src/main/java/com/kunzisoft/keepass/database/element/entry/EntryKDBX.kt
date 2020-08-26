@@ -293,12 +293,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return entryAttachmentList
     }
 
-    fun containsAttachment(attachment: Attachment, binaryPool: BinaryPool): Boolean {
-        for ((_, poolId) in binaries) {
-            if (binaryPool[poolId] == attachment.binaryAttachment)
-            return true
-        }
-        return false
+    fun containsAttachment(): Boolean {
+        return binaries.isNotEmpty()
     }
 
     fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {

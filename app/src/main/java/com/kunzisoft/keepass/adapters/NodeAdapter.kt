@@ -339,8 +339,7 @@ class NodeAdapter (private val context: Context)
             }
 
             holder.attachmentIcon?.visibility =
-                    if (entry.getAttachments(mDatabase.binaryPool).isNotEmpty())
-                        View.VISIBLE else View.GONE
+                    if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             mDatabase.stopManageEntry(entry)
         }
