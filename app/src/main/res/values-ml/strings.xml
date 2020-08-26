@@ -159,7 +159,7 @@
     <string name="autofill_auto_search_title">സ്വയം തിരയൽ</string>
     <string name="keyboard_change">കീബോർഡ് മാറ്റുക</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="database_version_title">"ഡാറ്റാബ്‌സിൻ്റെ  പതിപ്പ്"</string>
     <string name="max_history_items_title">പരമാവധി നമ്പർ</string>
     <string name="recycle_bin_title">റീസൈക്കിൾ ബിനിൻ്റെ ഉപയോഗം</string>

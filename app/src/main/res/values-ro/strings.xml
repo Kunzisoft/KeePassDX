@@ -323,7 +323,7 @@
     <string name="other">Alta</string>
     <string name="compression">Compresie</string>
     <string name="compression_none">Nimic</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Cos de reciclare</string>
     <string name="keyboard">Tastatura</string>
     <string name="magic_keyboard_title">TastaturaMagica</string>

@@ -425,7 +425,7 @@
     <string name="database_custom_color_title">Aangepaste databasekleur</string>
     <string name="compression">Compressie</string>
     <string name="compression_none">Geen</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Toetsenbordinstellingen</string>
     <string name="enable_auto_save_database_summary">Sla de database op na elke belangrijke actie (in \"Schrijf\" modus)</string>
     <string name="education_setup_OTP_title">Instellingen OTP</string>

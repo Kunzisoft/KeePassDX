@@ -461,7 +461,7 @@
     <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto \"Campo\" invia il tasto \"Vai\"</string>
     <string name="keyboard_auto_go_action_title">Azione auto key</string>
     <string name="device_keyboard_setting_title">Impostazioni tastiera dispositivo</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nessuna</string>
     <string name="compression">Compressione</string>
     <string name="database_custom_color_title">Colore del database customizzato</string>

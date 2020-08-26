@@ -405,7 +405,7 @@
     <string name="menu_save_database">Adatbázis mentése</string>
     <string name="error_save_database">Az adatbázis mentése sikertelen.</string>
     <string name="device_keyboard_setting_title">Eszköz billentyűzetének beállításai</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nincs</string>
     <string name="compression">Tömörítés</string>
     <string name="database_custom_color_title">Egyéni adatbázisszín</string>

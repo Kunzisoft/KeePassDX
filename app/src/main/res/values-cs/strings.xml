@@ -419,7 +419,7 @@
     <string name="database_custom_color_title">Vlastní barva databáze</string>
     <string name="compression">Komprese</string>
     <string name="compression_none">Žádná</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Nastavení klávesnice zařízení</string>
     <string name="error_save_database">Nebylo možno uložit databázi.</string>
     <string name="menu_save_database">Uložit databázi</string>

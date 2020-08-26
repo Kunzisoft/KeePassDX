@@ -423,7 +423,7 @@
     <string name="database_custom_color_title">Cor personalizada do banco de dados</string>
     <string name="compression">Compressão</string>
     <string name="compression_none">Nada</string>
-    <string name="compression_gzip">GZip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
     <string name="error_save_database">Não foi possível salvar no banco de dados.</string>
     <string name="menu_save_database">Salvar banco de dados</string>

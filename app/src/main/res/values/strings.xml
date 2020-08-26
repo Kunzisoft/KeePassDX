@@ -354,7 +354,7 @@
     <string name="other">Other</string>
     <string name="compression">Compression</string>
     <string name="compression_none">None</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>

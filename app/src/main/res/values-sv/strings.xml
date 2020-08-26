@@ -418,7 +418,7 @@
     <string name="database_custom_color_title">Anpassad databasfärg</string>
     <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
-    <string name="compression_gzip">GZip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="magic_keyboard_explanation_summary">Aktivera ett anpassat tangentbord som innehåller dina lösenord och alla identitetsfält</string>
     <string name="device_keyboard_setting_title">Enhetens tangentbordsinställningar</string>
     <string name="education_biometric_title">Lås upp databasen med biometrik</string>

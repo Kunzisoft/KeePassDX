@@ -233,7 +233,7 @@
     <string name="other">Ostalo</string>
     <string name="compression">Komprimiranje</string>
     <string name="compression_none">Bez</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Koš za smeće</string>
     <string name="content_description_node_children">Pod-čvor</string>
     <string name="entry_accessed">Pristupljeno</string>

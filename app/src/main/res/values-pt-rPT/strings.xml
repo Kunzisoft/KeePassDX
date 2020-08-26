@@ -420,7 +420,7 @@
     <string name="html_about_contribution">Para &lt;strong&gt;manter a liberdade&lt;/strong&gt;, &lt;strong&gt;solucionar bugs&lt;/strong&gt;, &lt;strong&gt;adicionar funções&lt;/strong&gt; e &lt;strong&gt;para sermos sempre ativoa&lt;/strong&gt;, contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
     <string name="biometric_unlock_enable_title">Desbloqueio por biométrico</string>
     <string name="entry_attachments">Anexos</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="discard">Descartar</string>
     <string name="remember_database_locations_summary">Lembrar o local das bases de dados</string>
     <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>

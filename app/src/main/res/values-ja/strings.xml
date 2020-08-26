@@ -422,7 +422,7 @@
     <string name="allow_no_password_title">空のマスターキーを許可</string>
     <string name="autofill_auto_search_title">自動検索</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">なし</string>
     <string name="compression">圧縮</string>
     <string name="other">その他</string>

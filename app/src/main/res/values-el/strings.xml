@@ -418,7 +418,7 @@
     <string name="database_custom_color_title">Προσαρμοσμένο χρώμα βάσης δεδομένων</string>
     <string name="compression">Συμπίεση</string>
     <string name="compression_none">Καμιά</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="magic_keyboard_explanation_summary">Ενεργοποιώντας ένα προσαρμοσμένο πληκτρολόγιο συγκεντρώνει τους κωδικούς πρόσβασής σας και όλα τα πεδία ταυτότητας</string>
     <string name="device_keyboard_setting_title">Ρυθμίσεις πληκτρολογίου συσκευής</string>
     <string name="education_biometric_title">Ξεκλείδωμα Βάσης Δεδομένων με βιομετρικά στοιχεία</string>

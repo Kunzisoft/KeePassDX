@@ -421,7 +421,7 @@
     <string name="database_custom_color_title">Произвольный цвет базы</string>
     <string name="compression">Сжатие</string>
     <string name="compression_none">Нет</string>
-    <string name="compression_gzip">GZip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Настройки клавиатур устройства</string>
     <string name="error_save_database">Невозможно сохранить базу.</string>
     <string name="menu_save_database">Сохранить базу</string>

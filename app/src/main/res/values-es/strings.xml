@@ -407,7 +407,7 @@
     <string name="autofill_block">Bloquear autocompletado</string>
     <string name="keyboard_change">Cambiar teclado</string>
     <string name="keyboard_auto_go_action_summary">Acción de la tecla \"Ir\" al presionar una tecla \"Campo\"</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Ninguna</string>
     <string name="compression">Compresión</string>
     <string name="database_default_username_title">Nombre de usuario predeterminado</string>

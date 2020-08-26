@@ -387,7 +387,7 @@
     <string name="database_data_compression_summary">Datakomprimering reduserer databasens størrelse.</string>
     <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
-    <string name="compression_gzip">GZip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="error_save_database">Kunne ikke lagre database.</string>
     <string name="menu_empty_recycle_bin">Tøm papirkurven</string>
     <string name="command_execution">Kjører kommandoen…</string>

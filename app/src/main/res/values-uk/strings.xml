@@ -152,7 +152,7 @@
     <string name="content_description_add_group">Додати групу</string>
     <string name="content_description_update_from_list">Оновити</string>
     <string name="keyboard">Клавіатура</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression">Стиснення</string>
     <string name="other">Інше</string>
     <string name="application_appearance">Застосунок</string>
