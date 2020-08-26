@@ -86,26 +86,22 @@ class BinaryAttachment : Parcelable {
             // To compress, create a new binary with file
             if (isCompressed != true) {
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                var outputStream: GZIPOutputStream? = null
-                var inputStream: InputStream? = null
-                try {
-                    outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
-                    inputStream = getInputDataStream()
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        outputStream.write(buffer)
-                    }
-                } finally {
-                    inputStream?.close()
-                    outputStream?.close()
-
-                    // Remove unGzip file
-                    if (concreteDataFile.delete()) {
-                        if (fileBinaryCompress.renameTo(concreteDataFile)) {
-                            // Harmonize with database compression
-                            isCompressed = true
+                GZIPOutputStream(FileOutputStream(fileBinaryCompress)).use { outputStream ->
+                    getInputDataStream().use { inputStream ->
+                        inputStream.readBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
                         }
                     }
                 }
+                // Remove unGzip file
+                if (concreteDataFile.delete()) {
+                    if (fileBinaryCompress.renameTo(concreteDataFile)) {
+                        // Harmonize with database compression
+                        isCompressed = true
+                    }
+                }
+            } else {
+                isCompressed = true
             }
         }
     }
@@ -115,26 +111,22 @@ class BinaryAttachment : Parcelable {
         dataFile?.let { concreteDataFile ->
             if (isCompressed != false) {
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                var outputStream: FileOutputStream? = null
-                var inputStream: GZIPInputStream? = null
-                try {
-                    outputStream = FileOutputStream(fileBinaryDecompress)
-                    inputStream = GZIPInputStream(getInputDataStream())
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        outputStream.write(buffer)
-                    }
-                } finally {
-                    inputStream?.close()
-                    outputStream?.close()
-
-                    // Remove gzip file
-                    if (concreteDataFile.delete()) {
-                        if (fileBinaryDecompress.renameTo(concreteDataFile)) {
-                            // Harmonize with database compression
-                            isCompressed = false
+                FileOutputStream(fileBinaryDecompress).use { outputStream ->
+                    GZIPInputStream(getInputDataStream()).use { inputStream ->
+                        inputStream.readBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
                         }
                     }
                 }
+                // Remove gzip file
+                if (concreteDataFile.delete()) {
+                    if (fileBinaryDecompress.renameTo(concreteDataFile)) {
+                        // Harmonize with database compression
+                        isCompressed = false
+                    }
+                }
+            } else {
+                isCompressed = false
             }
         }
     }
