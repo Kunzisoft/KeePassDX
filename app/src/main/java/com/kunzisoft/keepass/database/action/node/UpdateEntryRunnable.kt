@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
@@ -40,6 +41,12 @@ class UpdateEntryRunnable constructor(
         // WARNING : Re attribute parent removed in entry edit activity to save memory
         mNewEntry.addParentFrom(mOldEntry)
 
+        // Build oldest attachments
+        val oldEntryAttachments = mOldEntry.getAttachments(database.binaryPool)
+        val newEntryAttachments = mNewEntry.getAttachments(database.binaryPool)
+        val differenceAttachments = ArrayList<Attachment>(oldEntryAttachments)
+        differenceAttachments.removeAll(newEntryAttachments)
+
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
         mNewEntry.touch(modified = true, touchParents = true)
@@ -50,6 +57,11 @@ class UpdateEntryRunnable constructor(
 
         // Only change data in index
         database.updateEntry(mOldEntry)
+
+        // Remove oldest attachments
+        differenceAttachments.forEach {
+            database.removeAttachmentIfNotUsed(it)
+        }
     }
 
     override fun nodeFinish(): ActionNodesValues {

@@ -361,7 +361,7 @@ class EntryEditActivity : LockingActivity(),
 
             mDatabase?.binaryPool?.let { binaryPool ->
                 assignAttachments(newEntry.getAttachments(binaryPool), StreamDirection.UPLOAD) { attachment ->
-                    newEntry.removeAttachment(attachment, binaryPool)
+                    newEntry.removeAttachment(attachment)
                 }
             }
         }

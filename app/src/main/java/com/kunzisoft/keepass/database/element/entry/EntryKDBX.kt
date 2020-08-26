@@ -305,9 +305,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         binaries[attachment.name] = binaryPool.put(attachment.binaryAttachment)
     }
 
-    fun removeAttachment(attachment: Attachment, binaryPool: BinaryPool) {
+    fun removeAttachment(attachment: Attachment) {
         binaries.remove(attachment.name)
-        binaryPool.remove(attachment.binaryAttachment)
     }
 
     private fun getAttachmentsSize(binaryPool: BinaryPool): Long {

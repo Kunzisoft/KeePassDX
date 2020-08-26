@@ -346,9 +346,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.putAttachment(attachment, binaryPool)
     }
 
-    fun removeAttachment(attachment: Attachment, binaryPool: BinaryPool) {
+    fun removeAttachment(attachment: Attachment) {
         entryKDB?.removeAttachment(attachment)
-        entryKDBX?.removeAttachment(attachment, binaryPool)
+        entryKDBX?.removeAttachment(attachment)
     }
 
     fun getHistory(): ArrayList<Entry> {
