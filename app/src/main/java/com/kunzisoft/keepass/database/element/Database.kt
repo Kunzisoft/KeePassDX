@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException

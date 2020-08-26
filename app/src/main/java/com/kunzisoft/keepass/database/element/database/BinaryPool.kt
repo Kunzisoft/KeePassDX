@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import java.io.IOException
 
 class BinaryPool {

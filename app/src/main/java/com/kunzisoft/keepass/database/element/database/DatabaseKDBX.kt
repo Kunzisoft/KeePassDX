@@ -39,7 +39,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF

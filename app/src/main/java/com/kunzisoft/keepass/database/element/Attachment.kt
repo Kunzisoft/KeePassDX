@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 
 data class Attachment(var name: String,
                       var binaryAttachment: BinaryAttachment) : Parcelable {

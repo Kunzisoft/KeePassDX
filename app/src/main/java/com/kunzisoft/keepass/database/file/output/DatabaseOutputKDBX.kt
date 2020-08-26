@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException

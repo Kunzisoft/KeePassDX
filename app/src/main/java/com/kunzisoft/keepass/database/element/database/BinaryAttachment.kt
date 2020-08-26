@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.security
+package com.kunzisoft.keepass.database.element.database
 
 import android.os.Parcel
 import android.os.Parcelable

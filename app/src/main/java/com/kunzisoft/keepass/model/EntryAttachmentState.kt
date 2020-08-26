@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 

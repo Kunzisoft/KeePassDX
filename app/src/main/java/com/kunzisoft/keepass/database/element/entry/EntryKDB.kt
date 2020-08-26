@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.Attachment
 import java.util.*
 import kotlin.collections.ArrayList

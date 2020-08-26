@@ -28,7 +28,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
