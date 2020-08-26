@@ -203,7 +203,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to change compression for $key")
+                Log.e(TAG, "Unable to change compression for $key", e)
             }
         }
     }
@@ -541,8 +541,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun buildNewBinary(cacheDirectory: File,
-                       protection: Boolean = false,
-                       compression: Boolean? = null,
+                       protection: Boolean,
+                       compression: Boolean?,
                        cacheId: String? = null): BinaryAttachment {
         // Unused cache key if needed
         val binaryId = cacheId ?: binaryPool.findUnusedKey().toString()

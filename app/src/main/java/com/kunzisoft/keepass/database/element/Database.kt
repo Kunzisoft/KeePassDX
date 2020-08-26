@@ -439,9 +439,11 @@ class Database {
             return false
         }
 
-    fun buildNewBinary(cacheDirectory: File): BinaryAttachment? {
+    fun buildNewBinary(cacheDirectory: File,
+                       enableProtection: Boolean = false,
+                       compressed: Boolean? = null): BinaryAttachment? {
         return mDatabaseKDB?.buildNewBinary(cacheDirectory)
-                ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory)
+                ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory, enableProtection, compressed)
     }
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {

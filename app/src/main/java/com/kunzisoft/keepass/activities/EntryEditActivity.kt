@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -442,7 +443,8 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
-        mDatabase?.buildNewBinary(applicationContext.filesDir)?.let { binaryAttachment ->
+        val compression: Boolean = mDatabase?.compressionAlgorithm == CompressionAlgorithm.GZip
+        mDatabase?.buildNewBinary(applicationContext.filesDir, false, compression)?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditContentsView?.containsAttachment() == true) ||

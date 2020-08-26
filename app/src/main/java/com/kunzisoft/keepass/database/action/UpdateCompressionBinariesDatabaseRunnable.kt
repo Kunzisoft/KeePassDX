@@ -31,6 +31,11 @@ class UpdateCompressionBinariesDatabaseRunnable (
         saveDatabase: Boolean)
     : SaveDatabaseRunnable(context, database, saveDatabase) {
 
+    init {
+        // To prevent attachment corruption during compression
+        mAllowRemoveUnlinkedAttachments = false
+    }
+
     override fun onStartRun() {
         // Set new compression
         if (database.allowDataCompression) {
