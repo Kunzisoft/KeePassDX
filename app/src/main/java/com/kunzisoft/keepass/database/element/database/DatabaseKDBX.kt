@@ -540,7 +540,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun buildNewBinary(cacheDirectory: File,
                        protection: Boolean,
-                       compression: Boolean,
+                       compression: Boolean?,
                        binaryPoolId: Int? = null): BinaryAttachment {
         // New file with current time
         val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())

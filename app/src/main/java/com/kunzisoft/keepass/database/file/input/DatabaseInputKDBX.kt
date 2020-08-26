@@ -253,7 +253,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val byteLength = size - 1
                 // Read in a file
                 val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
-                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag, false)
+                // Unknown compression at this level
+                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag, null)
                 protectedBinary.getOutputDataStream().use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
