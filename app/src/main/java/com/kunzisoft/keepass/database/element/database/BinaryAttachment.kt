@@ -100,8 +100,6 @@ class BinaryAttachment : Parcelable {
                         isCompressed = true
                     }
                 }
-            } else {
-                isCompressed = true
             }
         }
     }
@@ -125,8 +123,6 @@ class BinaryAttachment : Parcelable {
                         isCompressed = false
                     }
                 }
-            } else {
-                isCompressed = false
             }
         }
     }

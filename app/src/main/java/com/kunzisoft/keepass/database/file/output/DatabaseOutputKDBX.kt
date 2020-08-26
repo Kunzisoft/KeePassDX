@@ -440,7 +440,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
                 // Force decompression in this specific case
                 val binaryInputStream = if (mDatabaseKDBX.compressionAlgorithm == CompressionAlgorithm.None
-                                && binary.isCompressed == true) {
+                                && binary.isCompressed) {
                     GZIPInputStream(binary.getInputDataStream())
                 } else {
                     binary.getInputDataStream()
