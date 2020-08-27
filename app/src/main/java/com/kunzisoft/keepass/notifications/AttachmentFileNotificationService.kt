@@ -28,9 +28,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.stream.readBytes
@@ -40,8 +40,6 @@ import kotlinx.coroutines.*
 import java.io.BufferedInputStream
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
-import java.util.zip.GZIPInputStream
-import java.util.zip.GZIPOutputStream
 
 
 class AttachmentFileNotificationService: LockNotificationService() {
@@ -385,11 +383,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
             UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
-                if (binaryAttachment.isCompressed) {
-                    GZIPOutputStream(binaryAttachment.getOutputDataStream())
-                } else {
-                    binaryAttachment.getOutputDataStream()
-                }.use { outputStream ->
+                binaryAttachment.getGzipOutputDataStream().use { outputStream ->
                     BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
                         attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)

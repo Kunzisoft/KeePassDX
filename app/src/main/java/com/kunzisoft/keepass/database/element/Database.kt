@@ -157,6 +157,17 @@ class Database {
             }
         }
 
+    fun compressionForNewEntry(): Boolean {
+        if (mDatabaseKDB != null)
+            return false
+        // Default compression not necessary if stored in header
+        mDatabaseKDBX?.let {
+            return it.compressionAlgorithm == CompressionAlgorithm.GZip
+                    && it.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()
+        }
+        return false
+    }
+
     fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
                                     newCompression: CompressionAlgorithm) {
         mDatabaseKDBX?.changeBinaryCompression(oldCompression, newCompression)

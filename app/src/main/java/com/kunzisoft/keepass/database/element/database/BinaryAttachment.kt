@@ -89,6 +89,15 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
+    fun getGzipOutputDataStream(): OutputStream {
+        return if (isCompressed) {
+            GZIPOutputStream(getOutputDataStream())
+        } else {
+            getOutputDataStream()
+        }
+    }
+
+    @Throws(IOException::class)
     fun compress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
