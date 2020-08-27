@@ -28,9 +28,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
 
 class AttachmentFileBinderManager(private val activity: FragmentActivity) {
 
@@ -43,8 +46,18 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     private var mServiceConnection: ServiceConnection? = null
 
     private val mActionTaskListener = object: AttachmentFileNotificationService.ActionTaskListener {
-        override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
-            onActionTaskListener?.onAttachmentProgress(fileUri, attachment)
+        override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
+            onActionTaskListener?.let {
+                it.onAttachmentAction(fileUri, entryAttachmentState)
+                when (entryAttachmentState.downloadState) {
+                    AttachmentState.COMPLETE,
+                    AttachmentState.ERROR -> {
+                        // Finish the action when capture by activity
+                        consummeAttachmentAction(entryAttachmentState)
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 
@@ -86,21 +99,31 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
+    fun consummeAttachmentAction(attachment: EntryAttachmentState) {
+        mBinder?.getService()?.removeAttachmentAction(attachment)
+    }
+
+    @Synchronized
     private fun start(bundle: Bundle? = null, actionTask: String) {
-        activity.stopService(mIntentTask)
         if (bundle != null)
             mIntentTask.putExtras(bundle)
-        activity.runOnUiThread {
-            mIntentTask.action = actionTask
-            activity.startService(mIntentTask)
-        }
+        mIntentTask.action = actionTask
+        activity.startService(mIntentTask)
+    }
+
+    fun startUploadAttachment(uploadFileUri: Uri,
+                              attachment: Attachment) {
+        start(Bundle().apply {
+            putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
+        }, ACTION_ATTACHMENT_FILE_START_UPLOAD)
     }
 
     fun startDownloadAttachment(downloadFileUri: Uri,
-                                entryAttachment: EntryAttachment) {
+                                attachment: Attachment) {
         start(Bundle().apply {
-            putParcelable(AttachmentFileNotificationService.DOWNLOAD_FILE_URI_KEY, downloadFileUri)
-            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, entryAttachment)
+            putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
         }, ACTION_ATTACHMENT_FILE_START_DOWNLOAD)
     }
 }

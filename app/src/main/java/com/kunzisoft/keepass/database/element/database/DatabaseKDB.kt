@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.stream.NullOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestOutputStream
@@ -247,6 +248,12 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     fun undoRecycle(entry: EntryKDB, origParent: GroupKDB) {
         removeEntryFrom(entry, backupGroup)
         addEntryTo(entry, origParent)
+    }
+
+    fun buildNewBinary(cacheDirectory: File): BinaryAttachment {
+        // Generate an unique new file with timestamp
+        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
+        return BinaryAttachment(fileInCache)
     }
 
     companion object {

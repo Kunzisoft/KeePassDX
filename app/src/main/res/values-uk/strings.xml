@@ -57,7 +57,7 @@
     <string name="entry_user_name">Ім’я користувача</string>
     <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
     <string name="error_can_not_handle_uri">Не вдалось обробити цей URI в KeePassDX.</string>
-    <string name="error_file_not_create">Не вдалося створити нотатку:</string>
+    <string name="error_file_not_create">Не вдалося створити нотатку</string>
     <string name="error_invalid_db">Неможливо прочитати базу даних.</string>
     <string name="error_invalid_path">Переконайтеся у правильності шляху.</string>
     <string name="error_no_name">Введіть назву.</string>
@@ -152,7 +152,7 @@
     <string name="content_description_add_group">Додати групу</string>
     <string name="content_description_update_from_list">Оновити</string>
     <string name="keyboard">Клавіатура</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression">Стиснення</string>
     <string name="other">Інше</string>
     <string name="application_appearance">Застосунок</string>
@@ -279,7 +279,7 @@
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="download_complete">Готово! Торкніться, щоб відкрити файл.</string>
+    <string name="download_complete">Готово!</string>
     <string name="download_finalization">Завершення…</string>
     <string name="download_progression">Виконується: %1$d%%</string>
     <string name="download_initialization">Ініціалізація…</string>

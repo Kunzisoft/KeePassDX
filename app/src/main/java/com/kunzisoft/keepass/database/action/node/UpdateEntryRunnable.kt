@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
@@ -40,16 +41,34 @@ class UpdateEntryRunnable constructor(
         // WARNING : Re attribute parent removed in entry edit activity to save memory
         mNewEntry.addParentFrom(mOldEntry)
 
+        // Build oldest attachments
+        val oldEntryAttachments = mOldEntry.getAttachments(database.binaryPool)
+        val newEntryAttachments = mNewEntry.getAttachments(database.binaryPool)
+        val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
+        // Not use equals because only check name
+        newEntryAttachments.forEach { newAttachment ->
+            oldEntryAttachments.forEach { oldAttachment ->
+                if (oldAttachment.name == newAttachment.name
+                        && oldAttachment.binaryAttachment == newAttachment.binaryAttachment)
+                    attachmentsToRemove.remove(oldAttachment)
+            }
+        }
+
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
         mNewEntry.touch(modified = true, touchParents = true)
 
         // Create an entry history (an entry history don't have history)
         mOldEntry.addEntryToHistory(Entry(mBackupEntryHistory, copyHistory = false))
-        database.removeOldestEntryHistory(mOldEntry)
+        database.removeOldestEntryHistory(mOldEntry, database.binaryPool)
 
         // Only change data in index
         database.updateEntry(mOldEntry)
+
+        // Remove oldest attachments
+        attachmentsToRemove.forEach {
+            database.removeAttachmentIfNotUsed(it)
+        }
     }
 
     override fun nodeFinish(): ActionNodesValues {

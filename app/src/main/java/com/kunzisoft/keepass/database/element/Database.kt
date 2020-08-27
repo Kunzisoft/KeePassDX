@@ -25,13 +25,12 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.DatabaseKDB
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -52,6 +51,7 @@ import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Database {
@@ -156,6 +156,17 @@ class Database {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
         }
+
+    fun compressionForNewEntry(): Boolean {
+        if (mDatabaseKDB != null)
+            return false
+        // Default compression not necessary if stored in header
+        mDatabaseKDBX?.let {
+            return it.compressionAlgorithm == CompressionAlgorithm.GZip
+                    && it.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()
+        }
+        return false
+    }
 
     fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
                                     newCompression: CompressionAlgorithm) {
@@ -426,6 +437,37 @@ class Database {
             searchInTags = false
             ignoreCase = true
         }, omitBackup, max)
+    }
+
+    val binaryPool: BinaryPool
+        get() {
+            return mDatabaseKDBX?.binaryPool ?: BinaryPool()
+        }
+
+    val allowMultipleAttachments: Boolean
+        get() {
+            if (mDatabaseKDB != null)
+                return false
+            if (mDatabaseKDBX != null)
+                return true
+            return false
+        }
+
+    fun buildNewBinary(cacheDirectory: File,
+                       enableProtection: Boolean = false,
+                       compressed: Boolean = false): BinaryAttachment? {
+        return mDatabaseKDB?.buildNewBinary(cacheDirectory)
+                ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory, enableProtection, compressed)
+    }
+
+    fun removeAttachmentIfNotUsed(attachment: Attachment) {
+        // No need in KDB database because unique attachment by entry
+        mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
+    }
+
+    fun removeUnlinkedAttachments() {
+        // No check in database KDB because unique attachment by entry
+        mDatabaseKDBX?.removeUnlinkedAttachments()
     }
 
     @Throws(DatabaseOutputException::class)
@@ -800,7 +842,7 @@ class Database {
         rootGroup?.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
-                        removeOldestEntryHistory(node)
+                        removeOldestEntryHistory(node, binaryPool)
                         return true
                     }
                 },
@@ -808,7 +850,8 @@ class Database {
                     override fun operate(node: Group): Boolean {
                         return true
                     }
-                })
+                }
+        )
     }
 
     fun removeEachEntryHistory() {
@@ -829,9 +872,8 @@ class Database {
     /**
      * Remove oldest history if more than max items or max memory
      */
-    fun removeOldestEntryHistory(entry: Entry) {
+    fun removeOldestEntryHistory(entry: Entry, binaryPool: BinaryPool) {
         mDatabaseKDBX?.let {
-
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (entry.getHistory().size > maxItems) {
@@ -844,7 +886,7 @@ class Database {
                 while (true) {
                     var historySize: Long = 0
                     for (entryHistory in entry.getHistory()) {
-                        historySize += entryHistory.getSize()
+                        historySize += entryHistory.getSize(binaryPool)
                     }
 
                     if (historySize > maxSize) {

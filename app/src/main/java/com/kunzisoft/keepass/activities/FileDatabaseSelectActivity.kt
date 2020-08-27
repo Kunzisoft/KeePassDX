@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
-import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
+import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -82,7 +82,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private var mDatabaseFileUri: Uri? = null
 
-    private var mOpenFileHelper: OpenFileHelper? = null
+    private var mSelectFileHelper: SelectFileHelper? = null
 
     private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
@@ -108,10 +108,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         createDatabaseButtonView?.setOnClickListener { createNewFile() }
 
         // Open database button
-        mOpenFileHelper = OpenFileHelper(this)
+        mSelectFileHelper = SelectFileHelper(this)
         openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
         openDatabaseButtonView?.apply {
-            mOpenFileHelper?.openFileOnClickViewListener?.let {
+            mSelectFileHelper?.selectFileOnClickViewListener?.let {
                 setOnClickListener(it)
                 setOnLongClickListener(it)
             }
@@ -389,7 +389,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             if (uri != null) {
                 launchPasswordActivityWithPath(uri)
             }
@@ -445,7 +445,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     openDatabaseButtonView!!,
                     {tapTargetView ->
                         tapTargetView?.let {
-                            mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
+                            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
                         }
                     },
                     {}

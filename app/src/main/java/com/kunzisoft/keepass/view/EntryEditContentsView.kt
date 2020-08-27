@@ -38,9 +38,11 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
+import com.kunzisoft.keepass.model.StreamDirection
 import org.joda.time.Duration
 import org.joda.time.Instant
 
@@ -68,7 +70,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val attachmentsListView: RecyclerView
 
     private val extraFieldsAdapter = EntryExtraFieldsItemsAdapter(context)
-    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, true)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
 
     private var iconColor: Int = 0
     private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
@@ -124,7 +126,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             }
         }
         attachmentsListView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
@@ -242,7 +244,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun getExtraField(): MutableList<Field> {
+    fun getExtraFields(): List<Field> {
         return extraFieldsAdapter.itemsList
     }
 
@@ -278,13 +280,39 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
-                          onDeleteItem: (attachment: EntryAttachment)->Unit) {
+    fun getAttachments(): List<Attachment> {
+        return attachmentsAdapter.itemsList.map { it.attachment }
+    }
+
+    fun assignAttachments(attachments: ArrayList<Attachment>,
+                          streamDirection: StreamDirection,
+                          onDeleteItem: (attachment: Attachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
-            onDeleteItem.invoke(item)
+            onDeleteItem.invoke(item.attachment)
         }
+    }
+
+    fun containsAttachment(): Boolean {
+        return !attachmentsAdapter.isEmpty()
+    }
+
+    fun containsAttachment(attachment: EntryAttachmentState): Boolean {
+        return attachmentsAdapter.contains(attachment)
+    }
+
+    fun putAttachment(attachment: EntryAttachmentState) {
+        attachmentsContainerView.visibility = View.VISIBLE
+        attachmentsAdapter.putItem(attachment)
+    }
+
+    fun removeAttachment(attachment: EntryAttachmentState) {
+        attachmentsAdapter.removeItem(attachment)
+    }
+
+    fun clearAttachments() {
+        attachmentsAdapter.clear()
     }
 
     /**

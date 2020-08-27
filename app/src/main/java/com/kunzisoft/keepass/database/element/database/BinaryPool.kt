@@ -19,52 +19,126 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import android.util.SparseArray
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import java.io.IOException
 
 class BinaryPool {
-    private val pool = SparseArray<BinaryAttachment>()
+    private val pool = LinkedHashMap<Int, BinaryAttachment>()
 
+    /**
+     * To get a binary by the pool key (ref attribute in entry)
+     */
     operator fun get(key: Int): BinaryAttachment? {
         return pool[key]
     }
 
-    fun put(key: Int, value: BinaryAttachment) {
-        pool.put(key, value)
+    /**
+     * To linked a binary with a pool key, if the pool key doesn't exists, create an unused one
+     */
+    fun put(key: Int?, value: BinaryAttachment) {
+        if (key == null)
+            put(value)
+        else
+            pool[key] = value
     }
 
-    fun doForEachBinary(action: (key: Int, binary: BinaryAttachment) -> Unit) {
-        for (i in 0 until pool.size()) {
-            action.invoke(i, pool.get(pool.keyAt(i)))
+    /**
+     * To put a [binaryAttachment] in the pool,
+     * if already exists, replace the current one,
+     * else add it with a new key
+     */
+    fun put(binaryAttachment: BinaryAttachment): Int {
+        var key = findKey(binaryAttachment)
+        if (key == null) {
+            key = findUnusedKey()
         }
+        pool[key] = binaryAttachment
+        return key
     }
 
+    /**
+     * Remove a binary from the pool, the file is not deleted
+     */
     @Throws(IOException::class)
-    fun clear() {
-        doForEachBinary { _, binary ->
-            binary.clear()
+    fun remove(binaryAttachment: BinaryAttachment) {
+        findKey(binaryAttachment)?.let {
+            pool.remove(it)
         }
-        pool.clear()
+        // Don't clear attachment here because a file can be used in many BinaryAttachment
     }
 
-    fun add(fileBinary: BinaryAttachment) {
-        if (findKey(fileBinary) == null) {
-            pool.put(findUnusedKey(), fileBinary)
-        }
-    }
-
-    fun findUnusedKey(): Int {
-        var unusedKey = pool.size()
-        while (get(unusedKey) != null)
+    /**
+     * Utility method to find an unused key in the pool
+     */
+    private fun findUnusedKey(): Int {
+        var unusedKey = 0
+        while (pool[unusedKey] != null)
             unusedKey++
         return unusedKey
     }
 
-    fun findKey(pb: BinaryAttachment): Int? {
-        for (i in 0 until pool.size()) {
-            if (pool.get(pool.keyAt(i)) == pb) return i
+    /**
+     * Return key of [binaryAttachmentToRetrieve] or null if not found
+     */
+    private fun findKey(binaryAttachmentToRetrieve: BinaryAttachment): Int? {
+        val contains = pool.containsValue(binaryAttachmentToRetrieve)
+        return if (!contains)
+            null
+        else {
+            for ((key, binary) in pool) {
+                if (binary == binaryAttachmentToRetrieve) {
+                    return key
+                }
+            }
+            return null
         }
-        return null
     }
+
+    /**
+     * Utility method to order binaries and solve index problem in database v4
+     */
+    private fun orderedBinaries(): List<KeyBinary> {
+        val keyBinaryList = ArrayList<KeyBinary>()
+        for ((key, binary) in pool) {
+            keyBinaryList.add(KeyBinary(key, binary))
+        }
+        return keyBinaryList
+    }
+
+    /**
+     * To register a binary with a ref corresponding to an ordered index
+     */
+    fun getBinaryIndexFromKey(key: Int): Int? {
+        val index = orderedBinaries().indexOfFirst { it.key == key }
+        return if (index < 0)
+            null
+        else
+            index
+    }
+
+    /**
+     * Different from doForEach, provide an ordered index to each binary
+     */
+    fun doForEachOrderedBinary(action: (index: Int, keyBinary: KeyBinary) -> Unit) {
+        orderedBinaries().forEachIndexed(action)
+    }
+
+    /**
+     * To do an action on each binary in the pool
+     */
+    fun doForEachBinary(action: (binary: BinaryAttachment) -> Unit) {
+        pool.values.forEach { action.invoke(it) }
+    }
+
+    @Throws(IOException::class)
+    fun clear() {
+        doForEachBinary {
+            it.clear()
+        }
+        pool.clear()
+    }
+
+    /**
+     * Utility data class to order binaries
+     */
+    data class KeyBinary(val key: Int, val binary: BinaryAttachment)
 }

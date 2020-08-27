@@ -64,6 +64,10 @@ class DeleteNodesRunnable(context: Context,
                     } else {
                         database.deleteEntry(currentNode)
                     }
+                    // Remove the oldest attachments
+                    currentNode.getAttachments(database.binaryPool).forEach {
+                        database.removeAttachmentIfNotUsed(it)
+                    }
                 }
             }
         }

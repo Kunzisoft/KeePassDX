@@ -65,7 +65,7 @@
     <string name="entry_user_name">Nom d’utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux Arcfour n’est pas pris en charge.</string>
     <string name="error_can_not_handle_uri">Impossible de gérer cette URI dans KeePassDX.</string>
-    <string name="error_file_not_create">Impossible de créer le fichier :</string>
+    <string name="error_file_not_create">Impossible de créer le fichier</string>
     <string name="error_invalid_db">Impossible de lire la base de données.</string>
     <string name="error_invalid_path">Vérifier la validité du chemin d’accès.</string>
     <string name="error_no_name">Saisir un nom.</string>
@@ -435,7 +435,7 @@
     <string name="database_custom_color_title">Couleur de la base de données</string>
     <string name="compression">Compression</string>
     <string name="compression_none">Aucune</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Paramètres du clavier de l’appareil</string>
     <string name="error_save_database">Impossible d’enregistrer la base de données.</string>
     <string name="menu_save_database">Enregistrer la base de données</string>
@@ -456,7 +456,7 @@
     <string name="download_initialization">Initialisation…</string>
     <string name="download_progression">En cours : %1$d%%</string>
     <string name="download_finalization">Finalisation…</string>
-    <string name="download_complete">Terminé ! Appuyer pour ouvrir le fichier.</string>
+    <string name="download_complete">Terminé !</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
     <string name="hide_expired_entries_summary">Les entrées expirées sont cachées</string>
     <string name="contact">Contact</string>

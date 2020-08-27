@@ -31,7 +31,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/item_attachment_size_container"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
@@ -95,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_file_download_white_24dp"
+                android:src="@drawable/ic_file_stream_white_24dp"
                 android:contentDescription="@string/download"
                 style="@style/KeepassDXStyle.ImageButton.Simple" />
             <ProgressBar

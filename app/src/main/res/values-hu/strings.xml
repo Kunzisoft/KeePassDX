@@ -60,7 +60,7 @@
     <string name="entry_user_name">Felhasználónév</string>
     <string name="error_arc4">Az Arcfour adatfolyam-titkosítás nem támogatott.</string>
     <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePassDX-ben.</string>
-    <string name="error_file_not_create">Nem sikerült létrehozni a fájlt:</string>
+    <string name="error_file_not_create">Nem sikerült létrehozni a fájlt</string>
     <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
     <string name="error_invalid_path">Győződjön meg róla, hogy az útvonal helyes.</string>
     <string name="error_no_name">Adjon meg egy nevet.</string>
@@ -384,7 +384,7 @@
     <string name="contact">Kapcsolat</string>
     <string name="hide_expired_entries_summary">A lejárt bejegyzések rejtettek</string>
     <string name="hide_expired_entries_title">Lejárt bejegyzések elrejtése</string>
-    <string name="download_complete">Kész! Koppintson a fájl megnyitásához.</string>
+    <string name="download_complete">Kész!</string>
     <string name="download_finalization">Befejezés…</string>
     <string name="download_progression">Folyamatban: %1$d%%</string>
     <string name="download_initialization">Előkészítés…</string>
@@ -405,7 +405,7 @@
     <string name="menu_save_database">Adatbázis mentése</string>
     <string name="error_save_database">Az adatbázis mentése sikertelen.</string>
     <string name="device_keyboard_setting_title">Eszköz billentyűzetének beállításai</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nincs</string>
     <string name="compression">Tömörítés</string>
     <string name="database_custom_color_title">Egyéni adatbázisszín</string>

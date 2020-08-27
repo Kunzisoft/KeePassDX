@@ -67,7 +67,7 @@
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/Arcfour-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
-    <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
+    <string name="error_file_not_create">Konnte Datei nicht erstellen</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
@@ -435,7 +435,7 @@
     <string name="database_custom_color_title">Benutzerdefinierte Datenbankfarbe</string>
     <string name="compression">Kompression</string>
     <string name="compression_none">Keine</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Gerätetastatur-Einstellungen</string>
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
     <string name="menu_save_database">Datenbank speichern</string>
@@ -456,7 +456,7 @@
     <string name="download_initialization">Initialisieren…</string>
     <string name="download_progression">Fortschritt: %1$d%%</string>
     <string name="download_finalization">Fertigstellen…</string>
-    <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
+    <string name="download_complete">Vollständig!</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden ausgeblendet</string>
     <string name="style_choose_title">App-Design</string>

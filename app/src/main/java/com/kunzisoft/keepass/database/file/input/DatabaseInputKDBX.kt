@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -35,7 +36,7 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -49,12 +50,14 @@ import org.bouncycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.*
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.text.ParseException
 import java.util.*
 import java.util.zip.GZIPInputStream
-import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import kotlin.math.min
@@ -67,9 +70,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private lateinit var mDatabase: DatabaseKDBX
 
     private var hashOfHeader: ByteArray? = null
-
-    private val unusedCacheFileName: String
-        get() = mDatabase.binaryPool.findUnusedKey().toString()
 
     private var readNextNode = true
     private val ctxGroups = Stack<GroupKDBX>()
@@ -233,8 +233,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
         var data = ByteArray(0)
         if (size > 0) {
-            if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
+            if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
+                // TODO OOM here
                 data = dataInputStream.readBytes(size)
+            }
         }
 
         var result = true
@@ -249,18 +251,16 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 header.innerRandomStreamKey = data
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
-                val flag = dataInputStream.readBytes(1)[0].toInt() != 0
-                val protectedFlag = flag && DatabaseHeaderKDBX.KdbxBinaryFlags.Protected.toInt() != DatabaseHeaderKDBX.KdbxBinaryFlags.None.toInt()
-                val byteLength = size - 1
                 // Read in a file
-                val file = File(cacheDirectory, unusedCacheFileName)
-                FileOutputStream(file).use { outputStream ->
+                val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
+                val byteLength = size - 1
+                // No compression at this level
+                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag, false)
+                protectedBinary.getOutputDataStream().use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
                     }
                 }
-                val protectedBinary = BinaryAttachment(file, protectedFlag)
-                mDatabase.binaryPool.add(protectedBinary)
             }
         }
 
@@ -443,14 +443,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             KdbContext.Binaries -> if (name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
-                val key = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrId)
-                if (key != null) {
-                    val pbData = readBinary(xpp)
-                    val id = Integer.parseInt(key)
-                    mDatabase.binaryPool.put(id, pbData!!)
-                } else {
-                    readUnknown(xpp)
-                }
+                readBinary(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -766,8 +759,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryBinary && name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
-            if (ctxBinaryName != null && ctxBinaryValue != null)
-                ctxEntry?.putProtectedBinary(ctxBinaryName!!, ctxBinaryValue!!)
+            if (ctxBinaryName != null && ctxBinaryValue != null) {
+                ctxEntry?.putAttachment(Attachment(ctxBinaryName!!, ctxBinaryValue!!), mDatabase.binaryPool)
+            }
             ctxBinaryName = null
             ctxBinaryValue = null
 
@@ -947,48 +941,54 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
         // Reference Id to a binary already present in binary pool
         val ref = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrRef)
-        if (ref != null) {
-            xpp.next() // Consume end tag
+        // New id to a binary
+        val key = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrId)
 
-            val id = Integer.parseInt(ref)
-            return mDatabase.binaryPool[id]
-        }
-
-        // New binary to retrieve
-        else {
-            var compressed = false
-            var protected = false
-
-            if (xpp.attributeCount > 0) {
-                val compress = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrCompressed)
-                if (compress != null) {
-                    compressed = compress.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
-                }
-
-                val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
-                if (protect != null) {
-                    protected = protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
-                }
+        return when {
+            ref != null -> {
+                xpp.next() // Consume end tag
+                val id = Integer.parseInt(ref)
+                // A ref is not necessarily an index in Database V3.1
+                mDatabase.binaryPool[id]
             }
-
-            val base64 = readString(xpp)
-            if (base64.isEmpty())
-                return BinaryAttachment()
-            val data = Base64.decode(base64, BASE_64_FLAG)
-
-            val file = File(cacheDirectory, unusedCacheFileName)
-            return FileOutputStream(file).use { outputStream ->
-                // Force compression in this specific case
-                if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                        && !compressed) {
-                    GZIPOutputStream(outputStream).write(data)
-                    BinaryAttachment(file, protected, true)
-                } else {
-                    outputStream.write(data)
-                    BinaryAttachment(file, protected, compressed)
-                }
+            key != null -> {
+                createBinary(key.toIntOrNull(), xpp)
+            }
+            else -> {
+                // New binary to retrieve
+                createBinary(null, xpp)
             }
         }
+    }
+
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryAttachment? {
+        var compressed = false
+        var protected = false
+
+        if (xpp.attributeCount > 0) {
+            val compress = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrCompressed)
+            if (compress != null) {
+                compressed = compress.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
+            }
+
+            val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
+            if (protect != null) {
+                protected = protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
+            }
+        }
+
+        val base64 = readString(xpp)
+        if (base64.isEmpty())
+            return null
+        val data = Base64.decode(base64, BASE_64_FLAG)
+
+        // Build the new binary and compress
+        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, compressed, binaryId)
+        binaryAttachment.getOutputDataStream().use { outputStream ->
+            outputStream.write(data)
+        }
+        return binaryAttachment
     }
 
     @Throws(IOException::class, XmlPullParserException::class)

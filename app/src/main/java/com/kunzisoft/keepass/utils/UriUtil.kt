@@ -27,10 +27,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.InputStream
+import java.io.*
 import java.util.*
 
 
@@ -48,6 +45,17 @@ object UriUtil {
                 }
             }
             isContentScheme(fileUri) -> DocumentFile.fromSingleUri(context, fileUri)
+            else -> null
+        }
+    }
+
+    @Throws(FileNotFoundException::class)
+    fun getUriOutputStream(contentResolver: ContentResolver, fileUri: Uri?): OutputStream? {
+        if (fileUri == null)
+            return null
+        return when {
+            isFileScheme(fileUri) -> fileUri.path?.let { FileOutputStream(it) }
+            isContentScheme(fileUri) -> contentResolver.openOutputStream(fileUri)
             else -> null
         }
     }

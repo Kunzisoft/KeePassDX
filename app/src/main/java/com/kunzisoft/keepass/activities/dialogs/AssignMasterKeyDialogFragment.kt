@@ -25,16 +25,16 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
+import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
@@ -56,7 +56,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private var mListener: AssignPasswordDialogListener? = null
 
-    private var mOpenFileHelper: OpenFileHelper? = null
+    private var mSelectFileHelper: SelectFileHelper? = null
 
     private val passwordTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -113,10 +113,10 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
 
-            mOpenFileHelper = OpenFileHelper(this)
+            mSelectFileHelper = SelectFileHelper(this)
             keyFileSelectionView?.apply {
-                setOnClickListener(mOpenFileHelper?.openFileOnClickViewListener)
-                setOnLongClickListener(mOpenFileHelper?.openFileOnClickViewListener)
+                setOnClickListener(mSelectFileHelper?.selectFileOnClickViewListener)
+                setOnLongClickListener(mSelectFileHelper?.selectFileOnClickViewListener)
             }
 
             val dialog = builder.create()
@@ -249,8 +249,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data
-        ) { uri ->
+        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { pathUri ->
                 keyFileCheckBox?.isChecked = true
                 keyFileSelectionView?.uri = pathUri

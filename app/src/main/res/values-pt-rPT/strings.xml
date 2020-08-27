@@ -61,7 +61,7 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
-    <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
+    <string name="error_file_not_create">Não foi possível criar o ficheiro</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
     <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>
     <string name="error_no_name">Introduza um nome.</string>
@@ -420,7 +420,7 @@
     <string name="html_about_contribution">Para &lt;strong&gt;manter a liberdade&lt;/strong&gt;, &lt;strong&gt;solucionar bugs&lt;/strong&gt;, &lt;strong&gt;adicionar funções&lt;/strong&gt; e &lt;strong&gt;para sermos sempre ativoa&lt;/strong&gt;, contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
     <string name="biometric_unlock_enable_title">Desbloqueio por biométrico</string>
     <string name="entry_attachments">Anexos</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="discard">Descartar</string>
     <string name="remember_database_locations_summary">Lembrar o local das bases de dados</string>
     <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>
@@ -428,7 +428,7 @@
     <string name="download_finalization">A finalizar…</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>
     <string name="max_history_items_summary">Limitar a quantidade de itens do histórico por entrada</string>
-    <string name="download_complete">Completo! Toque para abrir o ficheiro.</string>
+    <string name="download_complete">Completo!</string>
     <string name="content_description_update_from_list">Atualizar</string>
     <string name="contribution">Contribuição</string>
     <string name="hide_broken_locations_summary">Esconder ligações quebradas na lista de bases de dados recentes</string>

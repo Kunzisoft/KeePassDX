@@ -32,6 +32,14 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
+    open fun isEmpty(): Boolean {
+        return itemsList.isEmpty()
+    }
+
+    open fun contains(item: Item): Boolean {
+        return itemsList.contains(item)
+    }
+
     open fun putItem(item: Item) {
         val previousSize = itemsList.size
         if (itemsList.contains(item)) {
@@ -44,6 +52,13 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
             notifyItemInserted(itemsList.indexOf(item))
         }
         onListSizeChangedListener?.invoke(previousSize, itemsList.size)
+    }
+
+    open fun removeItem(item: Item) {
+        if (itemsList.contains(item)) {
+            mItemToRemove = item
+            notifyItemChanged(itemsList.indexOf(item))
+        }
     }
 
     fun onBindDeleteButton(holder: T, deleteButton: View, item: Item, position: Int) {

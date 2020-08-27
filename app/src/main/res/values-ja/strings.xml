@@ -57,7 +57,7 @@
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">Arcfour ストリーム暗号には対応していません。</string>
     <string name="error_can_not_handle_uri">KeePassDX ではこの URI を処理できませんでした。</string>
-    <string name="error_file_not_create">ファイルを作成できませんでした：</string>
+    <string name="error_file_not_create">ファイルを作成できませんでした</string>
     <string name="error_invalid_db">データベースを読み取れませんでした。</string>
     <string name="error_invalid_path">パスが正しいことを確認してください。</string>
     <string name="error_no_name">名前を入力してください。</string>
@@ -407,7 +407,7 @@
     <string name="clipboard_explanation_summary">デバイスのクリップボードを使用して、エントリーのフィールドをコピーします</string>
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
     <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
-    <string name="download_complete">完了しました！タップするとファイルが開きます。</string>
+    <string name="download_complete">完了しました！</string>
     <string name="download_progression">進行中：%1$d%%</string>
     <string name="download_attachment">%1$s をダウンロード</string>
     <string name="contribute">貢献</string>
@@ -422,7 +422,7 @@
     <string name="allow_no_password_title">空のマスターキーを許可</string>
     <string name="autofill_auto_search_title">自動検索</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">なし</string>
     <string name="compression">圧縮</string>
     <string name="other">その他</string>

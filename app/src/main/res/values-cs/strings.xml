@@ -59,7 +59,7 @@
     <string name="entry_user_name">Uživatelské jméno</string>
     <string name="error_arc4">Arcfour proudová šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePassDX nemůže zpracovat toto URI.</string>
-    <string name="error_file_not_create">Soubor se nedaří vytvořit:</string>
+    <string name="error_file_not_create">Soubor se nedaří vytvořit</string>
     <string name="error_invalid_db">Nelze přečíst databázi.</string>
     <string name="error_invalid_path">Neplatná cesta.</string>
     <string name="error_no_name">Vložte jméno.</string>
@@ -419,7 +419,7 @@
     <string name="database_custom_color_title">Vlastní barva databáze</string>
     <string name="compression">Komprese</string>
     <string name="compression_none">Žádná</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Nastavení klávesnice zařízení</string>
     <string name="error_save_database">Nebylo možno uložit databázi.</string>
     <string name="menu_save_database">Uložit databázi</string>
@@ -440,7 +440,7 @@
     <string name="download_initialization">Zahajuji…</string>
     <string name="download_progression">Probíhá: %1$d%%</string>
     <string name="download_finalization">Dokončuji…</string>
-    <string name="download_complete">Ukončeno! Klepnout pro otevření souboru.</string>
+    <string name="download_complete">Klepnout pro otevření souboru</string>
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>
     <string name="hide_expired_entries_summary">Propadlé záznamy jsou skryty</string>
     <string name="contact">Kontakt</string>

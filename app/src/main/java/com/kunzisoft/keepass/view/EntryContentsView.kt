@@ -35,9 +35,11 @@ import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
@@ -69,7 +71,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
-    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, false)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
 
     private val historyContainerView: View
     private val historyListView: RecyclerView
@@ -105,7 +107,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
         attachmentsListView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
@@ -315,17 +317,18 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
-                          onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
+    fun assignAttachments(attachments: ArrayList<Attachment>,
+                          streamDirection: StreamDirection,
+                          onAttachmentClicked: (attachment: Attachment)->Unit) {
         showAttachments(attachments.isNotEmpty())
-        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onItemClickListener = { item ->
-            onAttachmentClicked.invoke(item)
+            onAttachmentClicked.invoke(item.attachment)
         }
     }
 
-    fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachment) {
-        attachmentsAdapter.updateProgress(attachmentToDownload)
+    fun putAttachment(attachmentToDownload: EntryAttachmentState) {
+        attachmentsAdapter.putItem(attachmentToDownload)
     }
 
     /* -------------

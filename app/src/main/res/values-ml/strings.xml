@@ -76,7 +76,7 @@
     <string name="error_save_database">ഡാറ്റാബേസ് സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.</string>
     <string name="error_pass_match">പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല.</string>
     <string name="error_no_name">ഒരു പേര് നൽകുക.</string>
-    <string name="error_file_not_create">ഫയൽ സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല:</string>
+    <string name="error_file_not_create">ഫയൽ സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല</string>
     <string name="error_invalid_db">ഡാറ്റാബേസ് വായിക്കാൻ സാധിച്ചില്ല.</string>
     <string name="entry_user_name">ഉപയോക്തൃനാമം</string>
     <string name="entry_url">URL</string>
@@ -154,12 +154,12 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
-    <string name="download_complete">പൂർത്തിയാക്കി! ഫയൽ തുറക്കാൻ സ്പർശിക്കുക</string>
+    <string name="download_complete">പൂർത്തിയാക്കി!</string>
     <string name="education_create_database_title">നിങ്ങളുടെ ഡാറ്റാബേസ് ഫയൽ സൃഷ്ടിക്കുക</string>
     <string name="autofill_auto_search_title">സ്വയം തിരയൽ</string>
     <string name="keyboard_change">കീബോർഡ് മാറ്റുക</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="database_version_title">"ഡാറ്റാബ്‌സിൻ്റെ  പതിപ്പ്"</string>
     <string name="max_history_items_title">പരമാവധി നമ്പർ</string>
     <string name="recycle_bin_title">റീസൈക്കിൾ ബിനിൻ്റെ ഉപയോഗം</string>

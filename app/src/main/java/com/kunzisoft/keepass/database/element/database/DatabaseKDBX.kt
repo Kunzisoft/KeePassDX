@@ -29,8 +29,10 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -40,12 +42,14 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
 import org.w3c.dom.Text
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
@@ -173,33 +177,51 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun changeBinaryCompression(oldCompression: CompressionAlgorithm,
                                 newCompression: CompressionAlgorithm) {
-        binaryPool.doForEachBinary { key, binary ->
-
-            try {
-                when (oldCompression) {
-                    CompressionAlgorithm.None -> {
-                        when (newCompression) {
-                            CompressionAlgorithm.None -> {
-                            }
-                            CompressionAlgorithm.GZip -> {
-                                // To compress, create a new binary with file
-                                binary.compress(BUFFER_SIZE_BYTES)
-                            }
-                        }
-                    }
+        when (oldCompression) {
+            CompressionAlgorithm.None -> {
+                when (newCompression) {
+                    CompressionAlgorithm.None -> {}
                     CompressionAlgorithm.GZip -> {
-                        when (newCompression) {
-                            CompressionAlgorithm.None -> {
-                                // To decompress, create a new binary with file
-                                binary.decompress(BUFFER_SIZE_BYTES)
-                            }
-                            CompressionAlgorithm.GZip -> {
-                            }
+                        // Only in databaseV3.1, in databaseV4 the header is zipped during the save
+                        if (kdbxVersion.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
+                            compressAllBinaries()
                         }
                     }
                 }
+            }
+            CompressionAlgorithm.GZip -> {
+                // In databaseV4 the header is zipped during the save, so not necessary here
+                if (kdbxVersion.toKotlinLong() >= FILE_VERSION_32_4.toKotlinLong()) {
+                    decompressAllBinaries()
+                } else {
+                    when (newCompression) {
+                        CompressionAlgorithm.None -> {
+                            decompressAllBinaries()
+                        }
+                        CompressionAlgorithm.GZip -> {}
+                    }
+                }
+            }
+        }
+    }
+
+    private fun compressAllBinaries() {
+        binaryPool.doForEachBinary { binary ->
+            try {
+                // To compress, create a new binary with file
+                binary.compress(BUFFER_SIZE_BYTES)
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to change compression for $key")
+                Log.e(TAG, "Unable to compress $binary", e)
+            }
+        }
+    }
+
+    private fun decompressAllBinaries() {
+        binaryPool.doForEachBinary { binary ->
+            try {
+                binary.decompress(BUFFER_SIZE_BYTES)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to decompress $binary", e)
             }
         }
     }
@@ -534,6 +556,52 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun containsPublicCustomData(): Boolean {
         return publicCustomData.size() > 0
+    }
+
+    fun buildNewBinary(cacheDirectory: File,
+                       protection: Boolean,
+                       compression: Boolean,
+                       binaryPoolId: Int? = null): BinaryAttachment {
+        // New file with current time
+        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
+        val binaryAttachment = BinaryAttachment(fileInCache, protection, compression)
+        // add attachment to pool
+        binaryPool.put(binaryPoolId, binaryAttachment)
+        return binaryAttachment
+    }
+
+    fun removeAttachmentIfNotUsed(attachment: Attachment) {
+        // Remove attachment from pool
+        removeUnlinkedAttachments(attachment.binaryAttachment)
+    }
+
+    fun removeUnlinkedAttachments(vararg binaries: BinaryAttachment) {
+        // Build binaries to remove with all binaries known
+        val binariesToRemove = ArrayList<BinaryAttachment>()
+        if (binaries.isEmpty()) {
+            binaryPool.doForEachBinary { binary ->
+                binariesToRemove.add(binary)
+            }
+        } else {
+            binariesToRemove.addAll(binaries)
+        }
+        // Remove binaries from the list
+        rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
+            override fun operate(node: EntryKDBX): Boolean {
+                node.getAttachments(binaryPool).forEach {
+                    binariesToRemove.remove(it.binaryAttachment)
+                }
+                return binariesToRemove.isNotEmpty()
+            }
+        }, null)
+        // Effective removing
+        binariesToRemove.forEach {
+            try {
+                binaryPool.remove(it)
+            } catch (e: Exception) {
+                Log.w(TAG, "Unable to clean binaries", e)
+            }
+        }
     }
 
     override fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {

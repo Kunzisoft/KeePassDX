@@ -62,7 +62,7 @@
     <string name="entry_url">यू.आर.एल</string>
     <string name="entry_user_name">उपयोगकर्ता का नाम</string>
     <string name="error_can_not_handle_uri">KeePassDX में इस URI को संभाल नहीं सका।</string>
-    <string name="error_file_not_create">फाइल नहीं बना सका:</string>
+    <string name="error_file_not_create">फाइल नहीं बना सका</string>
     <string name="error_invalid_db">डाटाबेस नहीं पढ़ सका।</string>
     <string name="error_invalid_path">सुनिश्चित करें कि रास्ता सही है।</string>
     <string name="error_no_name">एक नाम दर्ज करें।</string>

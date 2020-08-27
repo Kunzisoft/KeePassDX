@@ -63,7 +63,7 @@
     <string name="entry_user_name">Nome utente</string>
     <string name="error_arc4">La codifica a flusso Arcfour non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePassDX non può gestire questo URI.</string>
-    <string name="error_file_not_create">Impossibile creare il file:</string>
+    <string name="error_file_not_create">Impossibile creare il file</string>
     <string name="error_invalid_db">Lettura del database fallita.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
     <string name="error_no_name">Inserisci un nome.</string>
@@ -448,7 +448,7 @@
     <string name="hide_expired_entries_summary">I record scaduti sono nascosti</string>
     <string name="hide_expired_entries_title">Nascondi i record scaduti</string>
     <string name="education_setup_OTP_summary">Imposta la gestione delle OTP (HOTP / TOTP) per generare un token richiesto per la 2FA.</string>
-    <string name="download_complete">Completo! Tocca per aprire il file.</string>
+    <string name="download_complete">Completo!</string>
     <string name="download_finalization">Finalizzazione…</string>
     <string name="download_progression">Avanzamento %1$d%%</string>
     <string name="download_initialization">Inizializzazione…</string>
@@ -461,7 +461,7 @@
     <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto \"Campo\" invia il tasto \"Vai\"</string>
     <string name="keyboard_auto_go_action_title">Azione auto key</string>
     <string name="device_keyboard_setting_title">Impostazioni tastiera dispositivo</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nessuna</string>
     <string name="compression">Compressione</string>
     <string name="database_custom_color_title">Colore del database customizzato</string>

@@ -56,7 +56,7 @@
     <string name="entry_user_name">用戶名</string>
     <string name="error_arc4">Arcfour流密碼不被支援。</string>
     <string name="error_can_not_handle_uri">KeePassDX無法處理此URI。</string>
-    <string name="error_file_not_create">不能創建檔案：</string>
+    <string name="error_file_not_create">不能創建檔案</string>
     <string name="error_invalid_db">無法閱讀資料庫。</string>
     <string name="error_invalid_path">請確保路徑正確。</string>
     <string name="error_no_name">請輸入用戶名。</string>

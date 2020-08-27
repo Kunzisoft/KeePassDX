@@ -27,14 +27,12 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import org.joda.time.Instant
 import java.io.*
 import java.security.*
 import java.util.*
@@ -282,11 +280,9 @@ class DatabaseInputKDB(cacheDirectory: File,
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                // Generate an unique new file with timestamp
-                                val binaryFile = File(cacheDirectory,
-                                        Instant.now().millis.toString())
-                                entry.binaryData = BinaryAttachment(binaryFile)
-                                BufferedOutputStream(FileOutputStream(binaryFile)).use { outputStream ->
+                                val binaryAttachment = mDatabaseToOpen.buildNewBinary(cacheDirectory)
+                                entry.binaryData = binaryAttachment
+                                BufferedOutputStream(binaryAttachment.getOutputDataStream()).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize,
                                             DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
                                         outputStream.write(buffer)

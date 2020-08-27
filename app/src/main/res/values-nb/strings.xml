@@ -64,7 +64,7 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">Arcfour-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan ikke håntere denne URI-en.</string>
-    <string name="error_file_not_create">Kunne ikke opprette fil:</string>
+    <string name="error_file_not_create">Kunne ikke opprette fil</string>
     <string name="error_invalid_db">Ugyldig database eller fremmed hovednøkkel.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
     <string name="error_no_name">Et navn er påkrevd.</string>
@@ -387,7 +387,7 @@
     <string name="database_data_compression_summary">Datakomprimering reduserer databasens størrelse.</string>
     <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
-    <string name="compression_gzip">GZip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="error_save_database">Kunne ikke lagre database.</string>
     <string name="menu_empty_recycle_bin">Tøm papirkurven</string>
     <string name="command_execution">Kjører kommandoen…</string>
@@ -401,7 +401,7 @@
     <string name="download_attachment">Last ned %1$s</string>
     <string name="download_progression">Underveis: %1$d%%</string>
     <string name="download_finalization">Fullfører…</string>
-    <string name="download_complete">Fullført. Trykk for å åpne filen.</string>
+    <string name="download_complete">Fullført!</string>
     <string name="hide_expired_entries_title">Skjul utløpte oppføringer</string>
     <string name="auto_focus_search_title">Hurtigsøk</string>
     <string name="entry_add_attachment">Legg til vedlegg</string>
