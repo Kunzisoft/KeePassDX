@@ -30,7 +30,6 @@
         <item name="android:windowBackground">@color/background_night</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red</item>
     </style>
     <!-- Toolbar Style Red -->

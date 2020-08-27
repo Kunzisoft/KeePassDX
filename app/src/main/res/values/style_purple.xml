@@ -31,7 +31,6 @@
         <item name="android:windowBackground">@color/background_purple</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
