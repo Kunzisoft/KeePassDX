@@ -214,7 +214,15 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 }
             }
         }
-        startForeground(attachmentNotification.notificationId, builder.build())
+        when (attachmentNotification.entryAttachmentState.downloadState) {
+            AttachmentState.ERROR,
+            AttachmentState.COMPLETE -> {
+                stopForeground(false)
+                notificationManager?.notify(attachmentNotification.notificationId, builder.build())
+            } else -> {
+                startForeground(attachmentNotification.notificationId, builder.build())
+            }
+        }
     }
 
     override fun onDestroy() {
