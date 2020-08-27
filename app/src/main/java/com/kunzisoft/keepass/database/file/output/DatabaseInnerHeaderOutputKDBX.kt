@@ -53,12 +53,15 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
                 flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
             }
 
+            // Force decompression to add binary in header
+            protectedBinary.decompress()
+
             dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary.toInt())
             dataOutputStream.writeInt(protectedBinary.length().toInt() + 1)
             dataOutputStream.write(flag.toInt())
 
             // if was compressed in cache, uncompress it
-            protectedBinary.getUnGzipInputDataStream().use { inputStream ->
+            protectedBinary.getInputDataStream().use { inputStream ->
                 inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
                     dataOutputStream.write(buffer)
                 }
