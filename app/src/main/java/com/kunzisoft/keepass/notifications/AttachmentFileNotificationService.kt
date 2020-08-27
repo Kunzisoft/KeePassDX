@@ -362,11 +362,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataDownloaded = 0L
             val fileSize = binaryAttachment.length()
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
-                if (binaryAttachment.isCompressed) {
-                    GZIPInputStream(binaryAttachment.getInputDataStream())
-                } else {
-                    binaryAttachment.getInputDataStream()
-                }.use { inputStream ->
+                binaryAttachment.getUnGzipInputDataStream().use { inputStream ->
                     inputStream.readBytes(bufferSize) { buffer ->
                         outputStream.write(buffer)
                         dataDownloaded += buffer.size

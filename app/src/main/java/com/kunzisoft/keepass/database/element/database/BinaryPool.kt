@@ -57,7 +57,7 @@ class BinaryPool {
         binaryAttachment.clear()
     }
 
-    fun findUnusedKey(): Int {
+    private fun findUnusedKey(): Int {
         var unusedKey = 0
         while (pool[unusedKey] != null)
             unusedKey++

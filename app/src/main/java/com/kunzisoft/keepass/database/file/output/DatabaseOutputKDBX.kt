@@ -55,7 +55,6 @@ import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
-import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
@@ -422,7 +421,6 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeBinary(binary : BinaryAttachment) {
         val binaryLength = binary.length()
         if (binaryLength > 0) {
-
             if (binary.isProtected) {
                 xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
 
@@ -433,21 +431,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     xml.text(charArray, 0, charArray.size)
                 }
             } else {
-                // Force binary compression from database (compression was harmonized during import)
-                if (mDatabaseKDBX.compressionAlgorithm === CompressionAlgorithm.GZip) {
+                if (binary.isCompressed) {
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }
-
-                // Force decompression in this specific case
-                val binaryInputStream = if (mDatabaseKDBX.compressionAlgorithm == CompressionAlgorithm.None
-                                && binary.isCompressed) {
-                    GZIPInputStream(binary.getInputDataStream())
-                } else {
-                    binary.getInputDataStream()
-                }
-
                 // Write the XML
-                binaryInputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
                     val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
                     xml.text(charArray, 0, charArray.size)
                 }
@@ -560,23 +548,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeEntryBinaries(binaries: LinkedHashMap<String, Int>) {
-        binaries.forEach {
+        for ((label, poolId) in binaries) {
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.startTag(null, DatabaseKDBXXML.ElemKey)
-            xml.text(safeXmlString(it.key))
+            xml.text(safeXmlString(label))
             xml.endTag(null, DatabaseKDBXXML.ElemKey)
 
             xml.startTag(null, DatabaseKDBXXML.ElemValue)
-            xml.attribute(null, DatabaseKDBXXML.AttrRef, it.value.toString())
-            /*
-            // By default use only pool data in head to save binaries
-            val ref = mDatabaseKDBX.binaryPool.findKey(it.binaryAttachment)
-            if (ref != null) {
-                xml.attribute(null, DatabaseKDBXXML.AttrRef, ref.toString())
-            } else {
-                writeBinary(it.binaryAttachment)
-            }
-            */
+            // Use only pool data in Meta to save binaries
+            xml.attribute(null, DatabaseKDBXXML.AttrRef, poolId.toString())
             xml.endTag(null, DatabaseKDBXXML.ElemValue)
 
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)

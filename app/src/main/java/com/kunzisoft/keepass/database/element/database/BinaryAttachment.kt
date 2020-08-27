@@ -73,6 +73,14 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
+    fun getUnGzipInputDataStream(): InputStream {
+        return if (isCompressed)
+            GZIPInputStream(getInputDataStream())
+        else
+            getInputDataStream()
+    }
+
+    @Throws(IOException::class)
     fun getOutputDataStream(): OutputStream {
         return when {
             dataFile != null -> FileOutputStream(dataFile!!)
@@ -110,7 +118,7 @@ class BinaryAttachment : Parcelable {
             if (isCompressed) {
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 FileOutputStream(fileBinaryDecompress).use { outputStream ->
-                    GZIPInputStream(getInputDataStream()).use { inputStream ->
+                    getUnGzipInputDataStream().use { inputStream ->
                         inputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                         }
