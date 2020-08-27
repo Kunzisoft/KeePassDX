@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -176,32 +177,51 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun changeBinaryCompression(oldCompression: CompressionAlgorithm,
                                 newCompression: CompressionAlgorithm) {
-        binaryPool.doForEachBinary { binary ->
-            try {
-                when (oldCompression) {
-                    CompressionAlgorithm.None -> {
-                        when (newCompression) {
-                            CompressionAlgorithm.None -> {
-                            }
-                            CompressionAlgorithm.GZip -> {
-                                // To compress, create a new binary with file
-                                binary.compress(BUFFER_SIZE_BYTES)
-                            }
-                        }
-                    }
+        when (oldCompression) {
+            CompressionAlgorithm.None -> {
+                when (newCompression) {
+                    CompressionAlgorithm.None -> {}
                     CompressionAlgorithm.GZip -> {
-                        when (newCompression) {
-                            CompressionAlgorithm.None -> {
-                                // To decompress, create a new binary with file
-                                binary.decompress(BUFFER_SIZE_BYTES)
-                            }
-                            CompressionAlgorithm.GZip -> {
-                            }
+                        // Only in databaseV3.1, in databaseV4 the header is zipped during the save
+                        if (kdbxVersion.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
+                            compressAllBinaries()
                         }
                     }
                 }
+            }
+            CompressionAlgorithm.GZip -> {
+                // In databaseV4 the header is zipped during the save, so not necessary here
+                if (kdbxVersion.toKotlinLong() >= FILE_VERSION_32_4.toKotlinLong()) {
+                    decompressAllBinaries()
+                } else {
+                    when (newCompression) {
+                        CompressionAlgorithm.None -> {
+                            decompressAllBinaries()
+                        }
+                        CompressionAlgorithm.GZip -> {}
+                    }
+                }
+            }
+        }
+    }
+
+    private fun compressAllBinaries() {
+        binaryPool.doForEachBinary { binary ->
+            try {
+                // To compress, create a new binary with file
+                binary.compress(BUFFER_SIZE_BYTES)
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to change compression for $binary", e)
+                Log.e(TAG, "Unable to compress $binary", e)
+            }
+        }
+    }
+
+    private fun decompressAllBinaries() {
+        binaryPool.doForEachBinary { binary ->
+            try {
+                binary.decompress(BUFFER_SIZE_BYTES)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to decompress $binary", e)
             }
         }
     }
