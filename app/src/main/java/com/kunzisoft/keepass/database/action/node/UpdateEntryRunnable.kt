@@ -44,8 +44,15 @@ class UpdateEntryRunnable constructor(
         // Build oldest attachments
         val oldEntryAttachments = mOldEntry.getAttachments(database.binaryPool)
         val newEntryAttachments = mNewEntry.getAttachments(database.binaryPool)
-        val differenceAttachments = ArrayList<Attachment>(oldEntryAttachments)
-        differenceAttachments.removeAll(newEntryAttachments)
+        val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
+        // Not use equals because only check name
+        newEntryAttachments.forEach { newAttachment ->
+            oldEntryAttachments.forEach { oldAttachment ->
+                if (oldAttachment.name == newAttachment.name
+                        && oldAttachment.binaryAttachment == newAttachment.binaryAttachment)
+                    attachmentsToRemove.remove(oldAttachment)
+            }
+        }
 
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
@@ -59,7 +66,7 @@ class UpdateEntryRunnable constructor(
         database.updateEntry(mOldEntry)
 
         // Remove oldest attachments
-        differenceAttachments.forEach {
+        attachmentsToRemove.forEach {
             database.removeAttachmentIfNotUsed(it)
         }
     }
