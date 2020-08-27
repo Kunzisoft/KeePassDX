@@ -25,7 +25,7 @@
     <string name="add_group">グループを追加</string>
     <string name="encryption_algorithm">暗号化アルゴリズム</string>
     <string name="app_timeout">アプリのタイムアウト</string>
-    <string name="app_timeout_summary">アプリがアイドル状態になってからデータベースをロックするまでの時間</string>
+    <string name="app_timeout_summary">この期間アプリの操作がなかった場合、データベースをロックします</string>
     <string name="application">アプリ</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">かっこ</string>
@@ -168,7 +168,7 @@
     <string name="menu_move">移動</string>
     <string name="menu_paste">貼り付け</string>
     <string name="menu_cancel">キャンセル</string>
-    <string name="menu_biometric_remove_key">保存済み生体認証キーを削除</string>
+    <string name="menu_biometric_remove_key">保存済み生体鍵を削除</string>
     <string name="menu_file_selection_read_only">書き込み禁止</string>
     <string name="menu_open_file_read_and_write">変更可能</string>
     <string name="create_keepass_file">新しいデータベースを作成</string>
@@ -199,7 +199,7 @@
     <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
-    <string name="otp_type">OTP タイプ</string>
+    <string name="otp_type">OTP の種類</string>
     <string name="otp_period">周期（秒）</string>
     <string name="otp_algorithm">アルゴリズム</string>
     <string name="entry_otp">OTP</string>
@@ -244,7 +244,7 @@
     <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開き認証情報を保存します</string>
     <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開きロックを解除します</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
-    <string name="warning_no_encryption_key">暗号化キーなしで続行しますか？</string>
+    <string name="warning_no_encryption_key">暗号鍵なしで続行しますか？</string>
     <string name="warning_empty_password">パスワードによるロック解除の保護なしで続行しますか？</string>
     <string name="warning_database_read_only">データベースの変更を保存するために、ファイル書き込みアクセスを許可します</string>
     <string name="search_results">検索結果</string>
@@ -292,10 +292,10 @@
     <string name="path">パス</string>
     <string name="education_generate_password_title">強力なパスワードを作成</string>
     <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に求めます</string>
-    <string name="biometric_delete_all_key_title">暗号化キーを削除</string>
+    <string name="biometric_delete_all_key_title">暗号鍵を削除</string>
     <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動で開く</string>
-    <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号化キーを削除しますか？</string>
-    <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号化キーを削除します</string>
+    <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号鍵を削除しますか？</string>
+    <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号鍵を削除します</string>
     <string name="advanced_unlock_explanation_summary">高度なロック解除を使用すると、データベースがより簡単に開きます</string>
     <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったときロックするよう、アプリを設定することもできます。</string>
     <string name="education_lock_title">データベースをロック</string>
@@ -363,7 +363,7 @@
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
     <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
-    <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証の手順を繰り返してください。</string>
+    <string name="biometric_invalid_key">生体鍵が読み取れません。削除して生体認証の手順を繰り返してください。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を取り出します</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
@@ -380,7 +380,7 @@
     <string name="education_biometric_summary">スキャンした生体情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
-    <string name="keyboard_previous_database_credentials_summary">データベースの認証画面で、切り替え前のキーボードへ自動的に戻します</string>
+    <string name="keyboard_previous_database_credentials_summary">データベース認証情報の画面で、切り替え前のキーボードへ自動的に戻します</string>
     <string name="autofill_auto_search_summary">ウェブドメインまたはアプリケーション ID から検索結果を自動的に提案します</string>
     <string name="keyboard_previous_fill_in_summary">自動キーアクションの実行後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
@@ -457,7 +457,7 @@
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字種を設定します</string>
-    <string name="keyboard_previous_database_credentials_title">データベースの認証画面</string>
+    <string name="keyboard_previous_database_credentials_title">データベース認証情報の画面</string>
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
     <string name="keyboard_theme_title">キーボードのテーマ</string>
