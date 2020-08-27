@@ -447,10 +447,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeMetaBinaries() {
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
-        mDatabaseKDBX.binaryPool.doForEach { key, binary ->
+        // Use indexes because necessarily in DatabaseV4 (binary header ref is the order)
+        mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, keyBinary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
-            xml.attribute(null, DatabaseKDBXXML.AttrId, key.toString())
-            writeBinary(binary)
+            xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
+            writeBinary(keyBinary.binary)
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)
         }
 
@@ -549,17 +550,20 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeEntryBinaries(binaries: LinkedHashMap<String, Int>) {
         for ((label, poolId) in binaries) {
-            xml.startTag(null, DatabaseKDBXXML.ElemBinary)
-            xml.startTag(null, DatabaseKDBXXML.ElemKey)
-            xml.text(safeXmlString(label))
-            xml.endTag(null, DatabaseKDBXXML.ElemKey)
+            // Retrieve the right index with the poolId, don't use ref because of header in DatabaseV4
+            mDatabaseKDBX.binaryPool.getBinaryIndexFromKey(poolId)?.toString()?.let { indexString ->
+                xml.startTag(null, DatabaseKDBXXML.ElemBinary)
+                xml.startTag(null, DatabaseKDBXXML.ElemKey)
+                xml.text(safeXmlString(label))
+                xml.endTag(null, DatabaseKDBXXML.ElemKey)
 
-            xml.startTag(null, DatabaseKDBXXML.ElemValue)
-            // Use only pool data in Meta to save binaries
-            xml.attribute(null, DatabaseKDBXXML.AttrRef, poolId.toString())
-            xml.endTag(null, DatabaseKDBXXML.ElemValue)
+                xml.startTag(null, DatabaseKDBXXML.ElemValue)
+                // Use only pool data in Meta to save binaries
+                xml.attribute(null, DatabaseKDBXXML.AttrRef, indexString)
+                xml.endTag(null, DatabaseKDBXXML.ElemValue)
 
-            xml.endTag(null, DatabaseKDBXXML.ElemBinary)
+                xml.endTag(null, DatabaseKDBXXML.ElemBinary)
+            }
         }
     }
 

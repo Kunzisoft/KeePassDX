@@ -47,7 +47,8 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binaryPool.doForEachBinary { protectedBinary ->
+        database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
+            val protectedBinary = keyBinary.binary
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected

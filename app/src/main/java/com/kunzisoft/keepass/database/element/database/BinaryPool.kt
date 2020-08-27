@@ -24,10 +24,16 @@ import java.io.IOException
 class BinaryPool {
     private val pool = LinkedHashMap<Int, BinaryAttachment>()
 
+    /**
+     * To get a binary by the pool key (ref attribute in entry)
+     */
     operator fun get(key: Int): BinaryAttachment? {
         return pool[key]
     }
 
+    /**
+     * To linked a binary with a pool key, if the pool key doesn't exists, create an unused one
+     */
     fun put(key: Int?, value: BinaryAttachment) {
         if (key == null)
             put(value)
@@ -49,14 +55,20 @@ class BinaryPool {
         return key
     }
 
+    /**
+     * Remove a binary from the pool, the file is not deleted
+     */
     @Throws(IOException::class)
     fun remove(binaryAttachment: BinaryAttachment) {
         findKey(binaryAttachment)?.let {
             pool.remove(it)
         }
-        binaryAttachment.clear()
+        // Don't clear attachment here because a file can be used in many BinaryAttachment
     }
 
+    /**
+     * Utility method to find an unused key in the pool
+     */
     private fun findUnusedKey(): Int {
         var unusedKey = 0
         while (pool[unusedKey] != null)
@@ -82,16 +94,39 @@ class BinaryPool {
     }
 
     /**
-     * Warning 2 keys can point the same binary
+     * Utility method to order binaries and solve index problem in database v4
      */
-    fun doForEach(action: (key: Int, binary: BinaryAttachment) -> Unit) {
+    private fun orderedBinaries(): List<KeyBinary> {
+        val keyBinaryList = ArrayList<KeyBinary>()
         for ((key, binary) in pool) {
-            action.invoke(key, binary)
+            keyBinaryList.add(KeyBinary(key, binary))
         }
+        return keyBinaryList
     }
 
+    /**
+     * To register a binary with a ref corresponding to an ordered index
+     */
+    fun getBinaryIndexFromKey(key: Int): Int? {
+        val index = orderedBinaries().indexOfFirst { it.key == key }
+        return if (index < 0)
+            null
+        else
+            index
+    }
+
+    /**
+     * Different from doForEach, provide an ordered index to each binary
+     */
+    fun doForEachOrderedBinary(action: (index: Int, keyBinary: KeyBinary) -> Unit) {
+        orderedBinaries().forEachIndexed(action)
+    }
+
+    /**
+     * To do an action on each binary in the pool
+     */
     fun doForEachBinary(action: (binary: BinaryAttachment) -> Unit) {
-        pool.values.toSet().forEach { action.invoke(it) }
+        pool.values.forEach { action.invoke(it) }
     }
 
     @Throws(IOException::class)
@@ -101,4 +136,9 @@ class BinaryPool {
         }
         pool.clear()
     }
+
+    /**
+     * Utility data class to order binaries
+     */
+    data class KeyBinary(val key: Int, val binary: BinaryAttachment)
 }

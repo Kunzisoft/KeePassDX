@@ -948,6 +948,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             ref != null -> {
                 xpp.next() // Consume end tag
                 val id = Integer.parseInt(ref)
+                // A ref is not necessarily an index in Database V3.1
                 mDatabase.binaryPool[id]
             }
             key != null -> {
