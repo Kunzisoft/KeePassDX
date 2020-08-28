@@ -234,7 +234,7 @@ class FileDatabaseHistoryAdapter(context: Context)
         this.saveAliasListener = listener
     }
 
-    inner class FileDatabaseHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FileDatabaseHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var fileContainer: ViewGroup = itemView.findViewById(R.id.file_container_basic_info)
 

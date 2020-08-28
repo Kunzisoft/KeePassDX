@@ -119,14 +119,18 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         IOActionTask(
                 {
                     databaseFileToAddOrUpdate.databaseUri?.let { databaseUri ->
+                        // Try to get info in database first
+                        val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
+
+                        // Complete alias if not exists
                         val fileDatabaseHistory = FileDatabaseHistoryEntity(
                                 databaseUri.toString(),
-                                databaseFileToAddOrUpdate.databaseAlias ?: "",
+                                databaseFileToAddOrUpdate.databaseAlias
+                                        ?: fileDatabaseHistoryRetrieve?.databaseAlias
+                                        ?: "",
                                 databaseFileToAddOrUpdate.keyFileUri?.toString(),
                                 System.currentTimeMillis()
                         )
-
-                        val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(fileDatabaseHistory.databaseUri)
 
                         // Update values if history element not yet in the database
                         if (fileDatabaseHistoryRetrieve == null) {
