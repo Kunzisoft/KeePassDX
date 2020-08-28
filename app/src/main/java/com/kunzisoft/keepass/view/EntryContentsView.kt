@@ -317,7 +317,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    fun assignAttachments(attachments: ArrayList<Attachment>,
+    fun assignAttachments(attachments: Set<Attachment>,
                           streamDirection: StreamDirection,
                           onAttachmentClicked: (attachment: Attachment)->Unit) {
         showAttachments(attachments.isNotEmpty())

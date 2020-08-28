@@ -284,7 +284,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         return attachmentsAdapter.itemsList.map { it.attachment }
     }
 
-    fun assignAttachments(attachments: ArrayList<Attachment>,
+    fun assignAttachments(attachments: Set<Attachment>,
                           streamDirection: StreamDirection,
                           onDeleteItem: (attachment: Attachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE

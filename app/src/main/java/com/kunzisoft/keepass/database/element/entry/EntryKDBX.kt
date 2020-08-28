@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -283,11 +284,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         fields[label] = value
     }
 
-    fun getAttachments(binaryPool: BinaryPool): ArrayList<Attachment> {
-        val entryAttachmentList = ArrayList<Attachment>()
+    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): Set<Attachment> {
+        val entryAttachmentList = HashSet<Attachment>()
         for ((label, poolId) in binaries) {
             binaryPool[poolId]?.let { binary ->
                 entryAttachmentList.add(Attachment(label, binary))
+            }
+        }
+        if (inHistory) {
+            history.forEach {
+                entryAttachmentList.addAll(it.getAttachments(binaryPool, false))
             }
         }
         return entryAttachmentList

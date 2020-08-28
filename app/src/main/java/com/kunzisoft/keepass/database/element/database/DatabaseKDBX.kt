@@ -588,7 +588,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Remove binaries from the list
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
-                node.getAttachments(binaryPool).forEach {
+                node.getAttachments(binaryPool, true).forEach {
                     binariesToRemove.remove(it.binaryAttachment)
                 }
                 return binariesToRemove.isNotEmpty()
