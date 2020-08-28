@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -854,21 +853,6 @@ class Database {
         )
     }
 
-    fun removeEachEntryHistory() {
-        rootGroup?.doForEachChildAndForIt(
-                object : NodeHandler<Entry>() {
-                    override fun operate(node: Entry): Boolean {
-                        node.removeAllHistory()
-                        return true
-                    }
-                },
-                object : NodeHandler<Group>() {
-                    override fun operate(node: Group): Boolean {
-                        return true
-                    }
-                })
-    }
-
     /**
      * Remove oldest history if more than max items or max memory
      */
@@ -877,7 +861,7 @@ class Database {
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (entry.getHistory().size > maxItems) {
-                    entry.removeOldestEntryFromHistory()
+                    removeOldestEntryHistory(entry)
                 }
             }
 
@@ -888,13 +872,28 @@ class Database {
                     for (entryHistory in entry.getHistory()) {
                         historySize += entryHistory.getSize(binaryPool)
                     }
-
                     if (historySize > maxSize) {
-                        entry.removeOldestEntryFromHistory()
+                        removeOldestEntryHistory(entry)
                     } else {
                         break
                     }
                 }
+            }
+        }
+    }
+
+    private fun removeOldestEntryHistory(entry: Entry) {
+        entry.removeOldestEntryFromHistory()?.let {
+            it.getAttachments(binaryPool, false).forEach { attachmentToRemove ->
+                removeAttachmentIfNotUsed(attachmentToRemove)
+            }
+        }
+    }
+
+    fun removeEntryHistory(entry: Entry, entryHistoryPosition: Int) {
+        entry.removeEntryFromHistory(entryHistoryPosition)?.let {
+            it.getAttachments(binaryPool, false).forEach { attachmentToRemove ->
+                removeAttachmentIfNotUsed(attachmentToRemove)
             }
         }
     }

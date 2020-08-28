@@ -21,7 +21,9 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -32,8 +34,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
@@ -337,15 +337,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.add(entry)
     }
 
-    fun removeEntryFromHistory(position: Int) {
-        history.removeAt(position)
+    fun removeEntryFromHistory(position: Int): EntryKDBX? {
+        return history.removeAt(position)
     }
 
-    fun removeAllHistory() {
-        history.clear()
-    }
-
-    fun removeOldestEntryFromHistory() {
+    fun removeOldestEntryFromHistory(): EntryKDBX? {
         var min: Date? = null
         var index = -1
 
@@ -358,9 +354,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             }
         }
 
-        if (index != -1) {
+        return if (index != -1) {
             history.removeAt(index)
-        }
+        } else null
     }
 
     override fun touch(modified: Boolean, touchParents: Boolean) {

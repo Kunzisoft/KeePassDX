@@ -325,12 +325,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    fun getAttachments(binaryPool: BinaryPool): Set<Attachment> {
+    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): Set<Attachment> {
         val attachments = HashSet<Attachment>()
         entryKDB?.getAttachments()?.let {
             attachments.addAll(it)
         }
-        entryKDBX?.getAttachments(binaryPool)?.let {
+        entryKDBX?.getAttachments(binaryPool, inHistory)?.let {
             attachments.addAll(it)
         }
         return attachments
@@ -366,16 +366,18 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
     }
 
-    fun removeEntryFromHistory(position: Int) {
-        entryKDBX?.removeEntryFromHistory(position)
+    fun removeEntryFromHistory(position: Int): Entry? {
+        entryKDBX?.removeEntryFromHistory(position)?.let {
+            return Entry(it)
+        }
+        return null
     }
 
-    fun removeAllHistory() {
-        entryKDBX?.removeAllHistory()
-    }
-
-    fun removeOldestEntryFromHistory() {
-        entryKDBX?.removeOldestEntryFromHistory()
+    fun removeOldestEntryFromHistory(): Entry? {
+         entryKDBX?.removeOldestEntryFromHistory()?.let {
+            return Entry(it)
+        }
+        return null
     }
 
     fun getSize(binaryPool: BinaryPool): Long {

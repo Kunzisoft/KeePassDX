@@ -42,8 +42,8 @@ class UpdateEntryRunnable constructor(
         mNewEntry.addParentFrom(mOldEntry)
 
         // Build oldest attachments
-        val oldEntryAttachments = mOldEntry.getAttachments(database.binaryPool)
-        val newEntryAttachments = mNewEntry.getAttachments(database.binaryPool)
+        val oldEntryAttachments = mOldEntry.getAttachments(database.binaryPool, true)
+        val newEntryAttachments = mNewEntry.getAttachments(database.binaryPool, true)
         val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
         // Not use equals because only check name
         newEntryAttachments.forEach { newAttachment ->
