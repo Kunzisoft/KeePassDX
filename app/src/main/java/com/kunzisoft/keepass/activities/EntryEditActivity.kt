@@ -42,7 +42,6 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
