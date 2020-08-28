@@ -1,1 +1,4 @@
- * Add attachments
+ * Upload attachments
+ * Visibility button for each hidden field
+ * Fix read header file
+ * Fix minor issues

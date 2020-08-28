@@ -1,5 +1,8 @@
 KeePassDX(2.8.3)
- * Add attachments
+ * Upload attachments
+ * Visibility button for each hidden field
+ * Fix read header file
+ * Fix minor issues
 
 KeePassDX(2.8.2)
  * Fix themes / new UI

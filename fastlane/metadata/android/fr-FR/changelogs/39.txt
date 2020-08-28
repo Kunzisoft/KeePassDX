@@ -1,1 +1,4 @@
- * Ajout des fichiers joints
+ * Upload des pièces jointes
+ * Bouton de visibilité pour chaque champ caché
+ * Correction du fichier d'en-tête de lecture
+ * Correction de problèmes mineurs
