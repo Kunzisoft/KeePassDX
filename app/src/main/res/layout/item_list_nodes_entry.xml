@@ -93,6 +93,7 @@
             android:layout_marginRight="@dimen/image_list_margin"
             android:layout_marginEnd="@dimen/image_list_margin"
             android:src="@drawable/ic_attach_file_white_24dp"
+            style="@style/KeepassDXStyle.TextAppearance.Entry.SubTitle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
