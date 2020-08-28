@@ -137,12 +137,11 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     override val type: Type
         get() = Type.ENTRY
 
-    fun getAttachments(): ArrayList<Attachment> {
-        return ArrayList<Attachment>().apply {
-            val binary = binaryData
-            if (binary != null)
-                add(Attachment(binaryDescription, binary))
-        }
+    fun getAttachment(): Attachment? {
+        val binary = binaryData
+        return if (binary != null)
+            Attachment(binaryDescription, binary)
+        else null
     }
 
     fun containsAttachment(): Boolean {

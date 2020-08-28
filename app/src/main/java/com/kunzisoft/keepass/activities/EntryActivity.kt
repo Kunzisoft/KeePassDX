@@ -334,7 +334,7 @@ class EntryActivity : LockingActivity() {
 
         // Manage attachments
         mDatabase?.binaryPool?.let { binaryPool ->
-            entryContentsView?.assignAttachments(entry.getAttachments(binaryPool), StreamDirection.DOWNLOAD) { attachmentItem ->
+            entryContentsView?.assignAttachments(entry.getAttachments(binaryPool).toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->
                 createDocument(this, attachmentItem.name)?.let { requestCode ->
                     mAttachmentsToDownload[requestCode] = attachmentItem
                 }

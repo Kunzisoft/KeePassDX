@@ -284,8 +284,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         fields[label] = value
     }
 
-    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): Set<Attachment> {
-        val entryAttachmentList = HashSet<Attachment>()
+    /**
+     * It's a list because history labels can be defined multiple times
+     */
+    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): List<Attachment> {
+        val entryAttachmentList = ArrayList<Attachment>()
         for ((label, poolId) in binaries) {
             binaryPool[poolId]?.let { binary ->
                 entryAttachmentList.add(Attachment(label, binary))

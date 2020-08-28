@@ -360,7 +360,7 @@ class EntryEditActivity : LockingActivity(),
             }, mFocusedEditExtraField)
 
             mDatabase?.binaryPool?.let { binaryPool ->
-                assignAttachments(newEntry.getAttachments(binaryPool), StreamDirection.UPLOAD) { attachment ->
+                assignAttachments(newEntry.getAttachments(binaryPool).toSet(), StreamDirection.UPLOAD) { attachment ->
                     newEntry.removeAttachment(attachment)
                 }
             }

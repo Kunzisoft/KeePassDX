@@ -325,10 +325,10 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): Set<Attachment> {
-        val attachments = HashSet<Attachment>()
-        entryKDB?.getAttachments()?.let {
-            attachments.addAll(it)
+    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): List<Attachment> {
+        val attachments = ArrayList<Attachment>()
+        entryKDB?.getAttachment()?.let {
+            attachments.add(it)
         }
         entryKDBX?.getAttachments(binaryPool, inHistory)?.let {
             attachments.addAll(it)
