@@ -22,16 +22,14 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
 import com.kunzisoft.keepass.view.EditTextSelectable
-import com.kunzisoft.keepass.view.applyFontVisibility
+import com.kunzisoft.keepass.view.EditTextVisibility
 
 class EntryExtraFieldsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<Field, EntryExtraFieldsItemsAdapter.EntryExtraFieldViewHolder>(context) {
@@ -41,40 +39,32 @@ class EntryExtraFieldsItemsAdapter(context: Context)
             field = value
             notifyDataSetChanged()
         }
-    private var mValueViewInputType: Int = 0
     private var mLastFocusedEditField = FocusedEditField()
     private var mLastFocusedTimestamp: Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryExtraFieldViewHolder {
-        val view = EntryExtraFieldViewHolder(
+        return EntryExtraFieldViewHolder(
                 inflater.inflate(R.layout.item_entry_edit_extra_field, parent, false)
         )
-        mValueViewInputType = view.extraFieldValue.inputType
-        return view
     }
 
     override fun onBindViewHolder(holder: EntryExtraFieldViewHolder, position: Int) {
         val extraField = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
-        if (extraField.protectedValue.isProtected) {
-            holder.extraFieldValueContainer.isPasswordVisibilityToggleEnabled = true
-            holder.extraFieldValue.inputType = EditorInfo.TYPE_TEXT_VARIATION_PASSWORD or mValueViewInputType
-        } else {
-            holder.extraFieldValueContainer.isPasswordVisibilityToggleEnabled = false
-            holder.extraFieldValue.inputType = mValueViewInputType
-        }
-        holder.extraFieldValueContainer.hint = extraField.name
-        holder.extraFieldValue.apply {
-            setText(extraField.protectedValue.toString())
+        val isProtected = extraField.protectedValue.isProtected
+        holder.extraFieldText.apply {
+            setLabel(extraField.name)
+            // TODO hiddenProtectedValue = isProtected
+            setValue(extraField.protectedValue.toString(), isProtected)
             // To Fix focus in RecyclerView
-            setOnFocusChangeListener { _, hasFocus ->
+            valueView.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusField(extraField, selectionStart, selectionEnd)
+                    setFocusField(extraField, valueView.selectionStart, valueView.selectionEnd)
                 } else {
                     // request focus on last text focused
                     if (focusedTimestampNotExpired()) {
-                        requestFocusField(this, extraField, false)
+                        requestFocusField(valueView, extraField, false)
                     } else {
                         removeFocusField(extraField)
                     }
@@ -88,12 +78,11 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                     }
                 }
             })
-            requestFocusField(this, extraField, true)
-            doOnTextChanged { text, _, _, _ ->
+            requestFocusField(valueView, extraField, true)
+            valueView.doOnTextChanged { text, _, _, _ ->
                 extraField.protectedValue.stringValue = text.toString()
             }
-            if (applyFontVisibility)
-                applyFontVisibility()
+            applyFontVisibility(applyFontVisibility)
         }
         holder.extraFieldDeleteButton.apply {
             onBindDeleteButton(holder, this, extraField, position)
@@ -105,15 +94,6 @@ class EntryExtraFieldsItemsAdapter(context: Context)
             setFocusField(it, true)
         }
         super.assignItems(items)
-    }
-
-    override fun putItem(item: Field) {
-        setFocusField(mLastFocusedEditField.apply {
-            field = item
-            cursorSelectionStart = -1
-            cursorSelectionEnd = -1
-        }, true)
-        super.putItem(item)
     }
 
     private fun setFocusField(field: Field,
@@ -174,8 +154,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
     }
 
     class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var extraFieldValueContainer: TextInputLayout = itemView.findViewById(R.id.entry_extra_field_value_container)
-        var extraFieldValue: EditTextSelectable = itemView.findViewById(R.id.entry_extra_field_value)
+        var extraFieldText: EditTextVisibility = itemView.findViewById(R.id.entry_extra_field_text)
         var extraFieldDeleteButton: View = itemView.findViewById(R.id.entry_extra_field_delete)
     }
 

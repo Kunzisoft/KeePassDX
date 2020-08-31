@@ -40,6 +40,10 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         return itemsList.contains(item)
     }
 
+    open fun indexOf(item: Item): Int {
+        return itemsList.indexOf(item)
+    }
+
     open fun putItem(item: Item) {
         val previousSize = itemsList.size
         if (itemsList.contains(item)) {

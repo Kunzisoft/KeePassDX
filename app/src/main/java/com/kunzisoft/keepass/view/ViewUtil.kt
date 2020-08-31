@@ -44,13 +44,15 @@ fun TextView.applyFontVisibility() {
     typeface = typeFace
 }
 
-fun TextView.applyHiddenStyle(hide: Boolean) {
+fun TextView.applyHiddenStyle(hide: Boolean, changeMaxLines: Boolean = true) {
     if (hide) {
         transformationMethod = PasswordTransformationMethod.getInstance()
-        maxLines = 1
+        if (changeMaxLines)
+            maxLines = 1
     } else {
         transformationMethod = null
-        maxLines = 800
+        if (changeMaxLines)
+            maxLines = 800
     }
 }
 

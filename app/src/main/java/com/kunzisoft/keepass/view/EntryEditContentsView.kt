@@ -33,12 +33,12 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryExtraFieldsItemsAdapter
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
@@ -275,6 +275,15 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         extraFieldsAdapter.putItem(extraField)
     }
 
+    fun getExtraFieldViewPosition(field: Field, position: (Float) -> Unit) {
+        extraFieldsListView.post {
+            position.invoke(extraFieldsListView.y
+                    + (extraFieldsListView.getChildAt(extraFieldsAdapter.indexOf(field))?.y
+                    ?: 0F)
+            )
+        }
+    }
+
     /* -------------
      * Attachments
      * -------------
@@ -313,6 +322,16 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
 
     fun clearAttachments() {
         attachmentsAdapter.clear()
+    }
+
+    fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
+        attachmentsListView.postDelayed({
+            position.invoke(attachmentsContainerView.y
+                    + attachmentsListView.y
+                    + (attachmentsListView.getChildAt(attachmentsAdapter.indexOf(attachment))?.y
+                    ?: 0F)
+            )
+        }, 250)
     }
 
     /**

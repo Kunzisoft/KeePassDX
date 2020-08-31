@@ -305,17 +305,30 @@ class EntryEditActivity : LockingActivity(),
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     when (entryAttachmentState.downloadState) {
                         AttachmentState.START -> {
-                            // When only one attachment is allowed
-                            if (!mAllowMultipleAttachments) {
-                                entryEditContentsView?.clearAttachments()
+                            entryEditContentsView?.apply {
+                                // When only one attachment is allowed
+                                if (!mAllowMultipleAttachments) {
+                                    clearAttachments()
+                                }
+                                putAttachment(entryAttachmentState)
+                                requestLayout()
+                                // Scroll to the attachment position
+                                getAttachmentViewPosition(entryAttachmentState) {
+                                    scrollView?.smoothScrollTo(0, it.toInt())
+                                }
                             }
-                            entryEditContentsView?.putAttachment(entryAttachmentState)
                         }
                         AttachmentState.IN_PROGRESS -> {
                             entryEditContentsView?.putAttachment(entryAttachmentState)
                         }
                         AttachmentState.COMPLETE -> {
-                            entryEditContentsView?.putAttachment(entryAttachmentState)
+                            entryEditContentsView?.apply {
+                                putAttachment(entryAttachmentState)
+                                // Scroll to the attachment position
+                                getAttachmentViewPosition(entryAttachmentState) {
+                                    scrollView?.smoothScrollTo(0, it.toInt())
+                                }
+                            }
                         }
                         AttachmentState.ERROR -> {
                             mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.attachment)
@@ -420,7 +433,13 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
-        entryEditContentsView?.putExtraField(Field(label, ProtectedString(protection)))
+        val extraField = Field(label, ProtectedString(protection))
+        entryEditContentsView?.apply {
+            putExtraField(extraField)
+            getExtraFieldViewPosition(extraField) { position ->
+                scrollView?.smoothScrollTo(0, position.toInt())
+            }
+        }
     }
 
     override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
@@ -603,8 +622,12 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        entryEditContentsView?.putExtraField(otpField)
-        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
+        entryEditContentsView?.apply {
+            putExtraField(otpField)
+            getExtraFieldViewPosition(otpField) { position ->
+                scrollView?.smoothScrollTo(0, position.toInt())
+            }
+        }
     }
 
     override fun iconPicked(bundle: Bundle) {
