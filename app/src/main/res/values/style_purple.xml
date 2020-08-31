@@ -69,6 +69,6 @@
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Purple" parent="CardView">
-        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardBackgroundColor">@color/background_purple_light</item>
     </style>
 </resources>
