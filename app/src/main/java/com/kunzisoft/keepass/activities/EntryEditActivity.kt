@@ -622,6 +622,7 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
+        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
         entryEditContentsView?.apply {
             putExtraField(otpField)
             getExtraFieldViewPosition(otpField) { position ->
