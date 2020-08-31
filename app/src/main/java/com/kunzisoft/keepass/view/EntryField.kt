@@ -97,7 +97,7 @@ class EntryField @JvmOverloads constructor(context: Context,
             if (isProtected) {
                 isFocusable = false
             } else {
-                valueView.setTextIsSelectable(true)
+                setTextIsSelectable(true)
             }
             applyHiddenStyle(isProtected && !showButtonView.isSelected)
             if (valueView.autoLinkMask == Linkify.ALL) {
