@@ -40,7 +40,7 @@ import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
-    var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
+    private var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
 
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
@@ -59,7 +59,14 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     // Retrieve backup group in index
     val backupGroup: GroupKDB?
-        get() = if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID) null else getGroupById(backupGroupId)
+        get() {
+            if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
+                ensureRecycleBinExists()
+            return if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
+                null
+            else
+                getGroupById(backupGroupId)
+        }
 
     override val kdfEngine: KdfEngine?
         get() = kdfListV3[0]
@@ -222,6 +229,8 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * @return true if node can be recycle, false elsewhere
      */
     fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
+        if (node == backupGroup)
+            return false
         backupGroup?.let {
             if (node.isContainedIn(it))
                 return false
