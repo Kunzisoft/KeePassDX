@@ -514,7 +514,7 @@ class Database {
         } else {
             var outputStream: OutputStream? = null
             try {
-                outputStream = contentResolver.openOutputStream(uri)
+                outputStream = contentResolver.openOutputStream(uri, "rwt")
                 outputStream?.let { definedOutputStream ->
                     val databaseOutput = mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
                                     ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, definedOutputStream) }
@@ -759,7 +759,7 @@ class Database {
     fun canRecycle(entry: Entry): Boolean {
         var canRecycle: Boolean? = null
         entry.entryKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle()
+            canRecycle = mDatabaseKDB?.canRecycle(it)
         }
         entry.entryKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)
@@ -770,7 +770,7 @@ class Database {
     fun canRecycle(group: Group): Boolean {
         var canRecycle: Boolean? = null
         group.groupKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle()
+            canRecycle = mDatabaseKDB?.canRecycle(it)
         }
         group.groupKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)

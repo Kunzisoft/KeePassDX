@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.stream.NullOutputStream
 import java.io.File
@@ -220,9 +221,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * @param node Node to remove
      * @return true if node can be recycle, false elsewhere
      */
-    //  TODO #394 Backup KDB
-    //  fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
-    fun canRecycle(): Boolean {
+    fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
+        backupGroup?.let {
+            if (node.isContainedIn(it))
+                return false
+        }
         return true
     }
 
