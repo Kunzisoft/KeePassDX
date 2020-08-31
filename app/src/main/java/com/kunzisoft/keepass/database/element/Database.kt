@@ -278,14 +278,14 @@ class Database {
         }
 
     /**
-     * Determine if RecycleBin is available or not for this version of database
-     * @return true if RecycleBin available
+     * Determine if a configurable RecycleBin is available or not for this version of database
+     * @return true if a configurable RecycleBin available
      */
-    val allowRecycleBin: Boolean
+    val allowConfigurableRecycleBin: Boolean
         get() = mDatabaseKDBX != null
 
     var isRecycleBinEnabled: Boolean
-        // TODO #394 isRecycleBinEnabled mDatabaseKDB
+        // Backup is always enabled in KDB database
         get() = mDatabaseKDB != null || mDatabaseKDBX?.isRecycleBinEnabled ?: false
         set(value) {
             mDatabaseKDBX?.isRecycleBinEnabled = value
@@ -303,12 +303,12 @@ class Database {
         }
 
     fun ensureRecycleBinExists(resources: Resources) {
-        mDatabaseKDB?.ensureRecycleBinExists()
+        mDatabaseKDB?.ensureBackupExists()
         mDatabaseKDBX?.ensureRecycleBinExists(resources)
     }
 
     fun removeRecycleBin() {
-        // TODO #394 delete backup mDatabaseKDB?.removeRecycleBin()
+        // Don't allow remove backup in KDB
         mDatabaseKDBX?.removeRecycleBin()
     }
 

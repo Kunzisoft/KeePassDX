@@ -61,7 +61,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     val backupGroup: GroupKDB?
         get() {
             if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
-                ensureRecycleBinExists()
+                ensureBackupExists()
             return if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
                 null
             else
@@ -201,10 +201,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     /**
-     * Ensure that the recycle bin tree exists, if enabled and create it
+     * Ensure that the backup tree exists if enabled, and create it
      * if it doesn't exist
      */
-    fun ensureRecycleBinExists() {
+    fun ensureBackupExists() {
         rootGroups.forEach { currentGroup ->
             if (currentGroup.level == 0
                     && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
@@ -239,14 +239,14 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     fun recycle(group: GroupKDB) {
-        ensureRecycleBinExists()
+        ensureBackupExists()
         removeGroupFrom(group, group.parent)
         addGroupTo(group, backupGroup)
         group.afterAssignNewParent()
     }
 
     fun recycle(entry: EntryKDB) {
-        ensureRecycleBinExists()
+        ensureBackupExists()
         removeEntryFrom(entry, entry.parent)
         addEntryTo(entry, backupGroup)
         entry.afterAssignNewParent()
