@@ -22,14 +22,16 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
 import com.kunzisoft.keepass.view.EditTextSelectable
-import com.kunzisoft.keepass.view.EditTextVisibility
+import com.kunzisoft.keepass.view.applyFontVisibility
 
 class EntryExtraFieldsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<Field, EntryExtraFieldsItemsAdapter.EntryExtraFieldViewHolder>(context) {
@@ -39,32 +41,40 @@ class EntryExtraFieldsItemsAdapter(context: Context)
             field = value
             notifyDataSetChanged()
         }
+    private var mValueViewInputType: Int = 0
     private var mLastFocusedEditField = FocusedEditField()
     private var mLastFocusedTimestamp: Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryExtraFieldViewHolder {
-        return EntryExtraFieldViewHolder(
+        val view = EntryExtraFieldViewHolder(
                 inflater.inflate(R.layout.item_entry_edit_extra_field, parent, false)
         )
+        mValueViewInputType = view.extraFieldValue.inputType
+        return view
     }
 
     override fun onBindViewHolder(holder: EntryExtraFieldViewHolder, position: Int) {
         val extraField = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
-        val isProtected = extraField.protectedValue.isProtected
-        holder.extraFieldText.apply {
-            setLabel(extraField.name)
-            // TODO hiddenProtectedValue = isProtected
-            setValue(extraField.protectedValue.toString(), isProtected)
+        if (extraField.protectedValue.isProtected) {
+            holder.extraFieldValueContainer.isPasswordVisibilityToggleEnabled = true
+            holder.extraFieldValue.inputType = EditorInfo.TYPE_TEXT_VARIATION_PASSWORD or mValueViewInputType
+        } else {
+            holder.extraFieldValueContainer.isPasswordVisibilityToggleEnabled = false
+            holder.extraFieldValue.inputType = mValueViewInputType
+        }
+        holder.extraFieldValueContainer.hint = extraField.name
+        holder.extraFieldValue.apply {
+            setText(extraField.protectedValue.toString())
             // To Fix focus in RecyclerView
-            valueView.setOnFocusChangeListener { _, hasFocus ->
+            setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusField(extraField, valueView.selectionStart, valueView.selectionEnd)
+                    setFocusField(extraField, selectionStart, selectionEnd)
                 } else {
                     // request focus on last text focused
                     if (focusedTimestampNotExpired()) {
-                        requestFocusField(valueView, extraField, false)
+                        requestFocusField(this, extraField, false)
                     } else {
                         removeFocusField(extraField)
                     }
@@ -78,11 +88,12 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                     }
                 }
             })
-            requestFocusField(valueView, extraField, true)
-            valueView.doOnTextChanged { text, _, _, _ ->
+            requestFocusField(this, extraField, true)
+            doOnTextChanged { text, _, _, _ ->
                 extraField.protectedValue.stringValue = text.toString()
             }
-            applyFontVisibility(applyFontVisibility)
+            if (applyFontVisibility)
+                applyFontVisibility()
         }
         holder.extraFieldDeleteButton.apply {
             onBindDeleteButton(holder, this, extraField, position)
@@ -154,7 +165,8 @@ class EntryExtraFieldsItemsAdapter(context: Context)
     }
 
     class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var extraFieldText: EditTextVisibility = itemView.findViewById(R.id.entry_extra_field_text)
+        var extraFieldValueContainer: TextInputLayout = itemView.findViewById(R.id.entry_extra_field_value_container)
+        var extraFieldValue: EditTextSelectable = itemView.findViewById(R.id.entry_extra_field_value)
         var extraFieldDeleteButton: View = itemView.findViewById(R.id.entry_extra_field_delete)
     }
 
