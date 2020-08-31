@@ -39,7 +39,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>で<strong>広告がありません</strong>。
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>／<strong>広告なし</strong>です。
 \nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
