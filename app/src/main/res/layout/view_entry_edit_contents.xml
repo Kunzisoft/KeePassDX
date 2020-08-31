@@ -190,7 +190,6 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:gravity="start"
-					android:maxLines="20"
 					android:importantForAccessibility="no"
 					android:importantForAutofill="no"
 					android:inputType="textMultiLine"

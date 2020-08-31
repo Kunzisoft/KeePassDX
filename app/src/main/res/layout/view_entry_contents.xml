@@ -68,7 +68,7 @@
 				android:orientation="vertical"
 				android:visibility="gone" />
 
-			<!-- Comment -->
+			<!-- Notes -->
 			<com.kunzisoft.keepass.view.EntryField
 				android:id="@+id/entry_notes_field"
 				android:layout_width="match_parent"
