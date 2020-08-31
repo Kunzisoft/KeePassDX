@@ -73,11 +73,10 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                     setFocusField(extraField, selectionStart, selectionEnd)
                 } else {
                     // request focus on last text focused
-                    if (focusedTimestampNotExpired()) {
+                    if (focusedTimestampNotExpired())
                         requestFocusField(this, extraField, false)
-                    } else {
+                    else
                         removeFocusField(extraField)
-                    }
                 }
             }
             addOnSelectionChangedListener(object: EditTextSelectable.OnSelectionChangedListener {
@@ -138,6 +137,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                         setEditTextSelection(editText)
                     }
                     requestFocus()
+                    removeFocusField(field)
                 }
             }
         }
