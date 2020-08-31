@@ -39,8 +39,8 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;で&lt;strong&gt;広告はありません&lt;/strong&gt;。
-\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>で<strong>広告がありません</strong>。
+\nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
     <string name="entry_cancel">キャンセル</string>
@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_pass_gen_type">少なくとも 1 つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
-    <string name="error_rounds_too_large">「変換ラウンド」が多過ぎます。2147483648 に設定します。</string>
+    <string name="error_rounds_too_large">「変換ラウンド」が多すぎます。2147483648 に設定します。</string>
     <string name="error_wrong_length">「長さ」フィールドには正の整数を入力してください。</string>
     <string name="file_browser">ファイル マネージャー</string>
     <string name="generate_password">パスワードを生成</string>
@@ -190,7 +190,7 @@
     <string name="content_description_add_group">グループを追加</string>
     <string name="content_description_file_information">ファイル情報</string>
     <string name="content_description_entry_icon">エントリーのアイコン</string>
-    <string name="entry_password_generator">パスワード ジェネレータ</string>
+    <string name="entry_password_generator">パスワード生成機能</string>
     <string name="content_description_password_length">パスワードの長さ</string>
     <string name="entry_add_field">フィールドを追加</string>
     <string name="content_description_remove_field">フィールドを削除</string>
@@ -313,7 +313,7 @@
     <string name="education_select_database_title">既存のデータペースを開く</string>
     <string name="list_password_generator_options_title">パスワードの文字種</string>
     <string name="build_label">Build %1$s</string>
-    <string name="warning_password_encoding">データベース ファイル内のテキスト エンコーディング形式以外の文字を、パスワードに用いることは避けてください（認識されない文字は同じ文字に変換されます）。</string>
+    <string name="warning_password_encoding">データベース ファイル内のテキスト エンコーディング形式以外の文字を、パスワードに使うことは避けてください（認識されない文字は同じ文字に変換されます）。</string>
     <string name="sort_groups_before">グループを先に並べる</string>
     <string name="enable_auto_save_database_title">データベースを自動保存</string>
     <string name="enable_read_only_summary">デフォルトではデータベースを読み取り専用で開きます</string>
@@ -365,7 +365,7 @@
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
     <string name="biometric_invalid_key">生体鍵が読み取れません。削除して生体認証の手順を繰り返してください。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
-    <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を取り出します</string>
+    <string name="biometric_prompt_extract_credential_message">生体情報を使ってデータベースの認証情報を取り出します</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
     <string name="subdomain_search_summary">サブドメインの制約つきでウェブドメインを検索します</string>
     <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをタップしたとき、データベースをロックします</string>
@@ -442,7 +442,7 @@
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
     <string name="education_entry_new_field_title">カスタム フィールドを追加</string>
-    <string name="education_entry_edit_summary">カスタム フィールドを用いてエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
+    <string name="education_entry_edit_summary">カスタム フィールドを使ってエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_biometric_title">生体認証によるロック解除</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
@@ -456,7 +456,7 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
-    <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字種を設定します</string>
+    <string name="list_password_generator_options_summary">パスワード生成に使う文字種を設定します</string>
     <string name="keyboard_previous_database_credentials_title">データベース認証情報の画面</string>
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
