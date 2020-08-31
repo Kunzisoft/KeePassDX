@@ -456,7 +456,7 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
-    <string name="list_password_generator_options_summary">パスワード生成に使う文字種を設定します</string>
+    <string name="list_password_generator_options_summary">パスワードの生成に使う文字種を設定します</string>
     <string name="keyboard_previous_database_credentials_title">データベース認証情報の画面</string>
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
