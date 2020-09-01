@@ -256,10 +256,13 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     /**
      * Remove all children and add new views for each field
      */
-    fun assignExtraFields(fields: List<Field>, focusedExtraField: FocusedEditField? = null) {
+    fun assignExtraFields(fields: List<Field>,
+                          onEditButtonClickListener: ((item: Field)->Unit)?,
+                          focusedExtraField: FocusedEditField? = null) {
         extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
         // Reinit focused field
         extraFieldsAdapter.assignItems(fields, focusedExtraField)
+        extraFieldsAdapter.onEditButtonClickListener = onEditButtonClickListener
     }
 
     /**
@@ -273,6 +276,15 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 extraField.protectedValue.stringValue = it.protectedValue.stringValue
         }
         extraFieldsAdapter.putItem(extraField)
+    }
+
+    fun replaceExtraField(oldExtraField: Field, newExtraField: Field) {
+        extraFieldsContainerView.visibility = View.VISIBLE
+        extraFieldsAdapter.replaceItem(oldExtraField, newExtraField)
+    }
+
+    fun removeExtraField(oldExtraField: Field) {
+        extraFieldsAdapter.removeItem(oldExtraField)
     }
 
     fun getExtraFieldViewPosition(field: Field, position: (Float) -> Unit) {

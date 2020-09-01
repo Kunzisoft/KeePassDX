@@ -369,6 +369,8 @@ class EntryEditActivity : LockingActivity(),
             notes = newEntry.notes
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
+            }, {
+                editCustomField(it)
             }, mFocusedEditExtraField)
 
             mDatabase?.binaryPool?.let { binaryPool ->
@@ -432,17 +434,26 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
-    override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
-        val extraField = Field(label, ProtectedString(protection))
+    private fun editCustomField(field: Field) {
+        EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
+    }
+
+    override fun onNewCustomFieldApproved(newField: Field) {
         entryEditContentsView?.apply {
-            putExtraField(extraField)
-            getExtraFieldViewPosition(extraField) { position ->
+            putExtraField(newField)
+            getExtraFieldViewPosition(newField) { position ->
                 scrollView?.smoothScrollTo(0, position.toInt())
             }
         }
     }
 
-    override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
+    override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
+        entryEditContentsView?.replaceExtraField(oldField, newField)
+    }
+
+    override fun onDeleteCustomFieldApproved(oldField: Field) {
+        entryEditContentsView?.removeExtraField(oldField)
+    }
 
     /**
      * Add a new attachment

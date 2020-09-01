@@ -45,6 +45,8 @@ class EntryExtraFieldsItemsAdapter(context: Context)
     private var mLastFocusedEditField = FocusedEditField()
     private var mLastFocusedTimestamp: Long = 0L
 
+    var onEditButtonClickListener: ((item: Field)->Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryExtraFieldViewHolder {
         val view = EntryExtraFieldViewHolder(
                 inflater.inflate(R.layout.item_entry_edit_extra_field, parent, false)
@@ -94,9 +96,10 @@ class EntryExtraFieldsItemsAdapter(context: Context)
             if (applyFontVisibility)
                 applyFontVisibility()
         }
-        holder.extraFieldDeleteButton.apply {
-            onBindDeleteButton(holder, this, extraField, position)
+        holder.extraFieldEditButton.setOnClickListener {
+            onEditButtonClickListener?.invoke(extraField)
         }
+        performDeletion(holder, extraField)
     }
 
     fun assignItems(items: List<Field>, focusedEditField: FocusedEditField?) {
@@ -167,7 +170,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
     class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var extraFieldValueContainer: TextInputLayout = itemView.findViewById(R.id.entry_extra_field_value_container)
         var extraFieldValue: EditTextSelectable = itemView.findViewById(R.id.entry_extra_field_value)
-        var extraFieldDeleteButton: View = itemView.findViewById(R.id.entry_extra_field_delete)
+        var extraFieldEditButton: View = itemView.findViewById(R.id.entry_extra_field_edit)
     }
 
     companion object {
