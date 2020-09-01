@@ -216,7 +216,7 @@
     <string name="list_password_generator_options_summary">Настройка набора разрешённых символов для создания пароля</string>
     <string name="clipboard">Буфер обмена</string>
     <string name="clipboard_notifications_title">Уведомления буфера обмена</string>
-    <string name="clipboard_notifications_summary">Включить уведомления буфера обмена для копирования полей при просмотре записи</string>
+    <string name="clipboard_notifications_summary">Показывать уведомления буфера обмена для копирования полей при просмотре записи</string>
     <string name="clipboard_warning">Если автоматическая очистка буфера обмена недоступна, очистите историю буфера обмена вручную.</string>
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
@@ -228,7 +228,7 @@
     <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием биометрического ключа</string>
     <string name="biometric_delete_all_key_warning">Удалить все ключи шифрования, связанные с биометрическим распознаванием\?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
-    <string name="unavailable_feature_version">Ваша версия Android %1$s ниже минимально необходимой %2$s.</string>
+    <string name="unavailable_feature_version">Ваша версия Android %1$s, но требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
@@ -251,7 +251,7 @@
     <string name="magic_keyboard_title">Настройки Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Активируйте пользовательскую клавиатуру для простого заполнения паролей и любых идентификаторов</string>
     <string name="allow_no_password_title">Разрешить без главного пароля</string>
-    <string name="allow_no_password_summary">Включить кнопку \"Открыть\", если главный пароль не указан</string>
+    <string name="allow_no_password_summary">Разрешить нажимать кнопку \"Открыть\", если главный пароль не указан</string>
     <string name="enable_read_only_title">Только чтение</string>
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Обучающие подсказки</string>
@@ -268,7 +268,7 @@
 \n
 \nДобавляйте группы (аналог папок) для организации записей и баз.</string>
     <string name="education_search_title">Легко находите ваши записи</string>
-    <string name="education_biometric_title">Разблокируйте базу с помощью биометрического ключа</string>
+    <string name="education_biometric_title">Биометрическая разблокировка базы</string>
     <string name="education_biometric_summary">Установите взаимосвязь между паролем и биометрическим ключом для быстрой разблокировки базы.</string>
     <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
@@ -442,16 +442,16 @@
     <string name="download_finalization">Завершение…</string>
     <string name="download_complete">Готово!</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
-    <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
+    <string name="hide_expired_entries_summary">Не показывать записи с истёкшим сроком</string>
     <string name="contact">Контактная информация</string>
     <string name="contribution">Помощь проекту</string>
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Хранить расположение баз</string>
-    <string name="remember_database_locations_summary">Запоминать расположение баз</string>
-    <string name="remember_keyfile_locations_title">Хранить расположение файлов ключей</string>
-    <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей баз</string>
+    <string name="remember_database_locations_title">Помнить расположение баз</string>
+    <string name="remember_database_locations_summary">Отслеживать расположение баз</string>
+    <string name="remember_keyfile_locations_title">Помнить расположение файлов ключей</string>
+    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
@@ -462,7 +462,7 @@
     <string name="discard">Забыть</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
-    <string name="education_setup_OTP_title">Настройте OTP</string>
+    <string name="education_setup_OTP_title">Настройка OTP</string>
     <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
     <string name="autofill_auto_search_summary">Автоматически предлагать результаты поиска для домена или идентификатора приложения</string>
     <string name="lock_database_show_button_summary">Использовать кнопку блокировки в интерфейсе</string>

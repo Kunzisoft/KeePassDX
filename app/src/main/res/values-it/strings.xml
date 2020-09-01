@@ -37,7 +37,7 @@
     <string name="clipboard_error">Alcuni dispositivi non permettono alle app di usare gli appunti.</string>
     <string name="clipboard_error_clear">Eliminazione degli appunti fallita</string>
     <string name="clipboard_timeout">Scadenza appunti</string>
-    <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti</string>
+    <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti (se supportato dal dispositivo)</string>
     <string name="select_to_copy">Copia %1$s negli appunti</string>
     <string name="retrieving_db_key">Creazione file chiave database…</string>
     <string name="database">Banca dati</string>
@@ -341,7 +341,7 @@
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Bloccare il database quando l\'utente preme il pulsante Indietro nella schermata principale</string>
     <string name="clear_clipboard_notification_title">Pulisci alla chiusura</string>
-    <string name="clear_clipboard_notification_summary">Blocca il database alla chiusura della notifica</string>
+    <string name="clear_clipboard_notification_summary">Blocca il database quando scade la durata degli appunti o la notifica viene chiusa dopo che inizi ad usarlo</string>
     <string name="recycle_bin">Cestino</string>
     <string name="keyboard_selection_entry_title">Selezione elemento</string>
     <string name="keyboard_selection_entry_summary">Mostra i campi di input nella Magitastiera durante la visualizzazione di un elemento</string>
@@ -454,7 +454,7 @@
     <string name="education_setup_OTP_title">Imposta OTP</string>
     <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità \"Modificabile\")</string>
     <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
-    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o l\'ID dell\'applicazione</string>
+    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o ID dell\'applicazione</string>
     <string name="autofill_auto_search_title">Ricerca automatica</string>
     <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto \"Campo\" invia il tasto \"Vai\"</string>
     <string name="keyboard_auto_go_action_title">Azione auto key</string>
@@ -488,4 +488,9 @@
     <string name="subdomain_search_summary">Cerca nei domini web includendo i sotto-domini</string>
     <string name="subdomain_search_title">Ricerca per sotto-dominio</string>
     <string name="content_description_add_item">Aggiungi elemento</string>
+    <string name="keyboard_previous_fill_in_summary">Torna automaticamente alla tastiera precedente quando si esegue l\'azione del tasto automatico</string>
+    <string name="keyboard_previous_fill_in_title">Azione tasto automatico</string>
+    <string name="keyboard_previous_database_credentials_summary">Torna automaticamente alla tastiera precedente nella schermata delle credenziali del database</string>
+    <string name="keyboard_previous_database_credentials_title">Schermata credenziali database</string>
+    <string name="keyboard_change">Cambia tastiera</string>
 </resources>
