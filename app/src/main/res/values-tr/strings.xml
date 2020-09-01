@@ -54,7 +54,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
     <string name="error_file_not_create">Dosya oluşturulamadı</string>
-    <string name="error_invalid_db">Veritabanı okunamadı.</string>
+    <string name="error_invalid_db">Veri tabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
     <string name="error_no_name">Bir isim girin.</string>
     <string name="select_to_copy">%1$s dosyasını panoya kopyalamak için seçin</string>
@@ -197,7 +197,7 @@
     <string name="list_password_generator_options_summary">İzin verilen parola üreticisi karakterlerini ayarla</string>
     <string name="clipboard">Pano</string>
     <string name="clipboard_notifications_title">Pano bildirimleri</string>
-    <string name="clipboard_notifications_summary">Bir girişi görüntülerken alanları kopyalamak için pano bildirimlerini etkinleştirin</string>
+    <string name="clipboard_notifications_summary">Bir girişi görüntülerken alanları kopyalamak için pano bildirimlerini göster</string>
     <string name="clipboard_warning">Panodaki otomatik silme başarısız olursa, geçmişini elle silin.</string>
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
@@ -209,7 +209,7 @@
     <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
     <string name="biometric_delete_all_key_warning">Biyometrik tanıma ile ilgili tüm şifreleme anahtarları silinsin mi\?</string>
     <string name="unavailable_feature_text">Bu özellik başlatılamadı.</string>
-    <string name="unavailable_feature_version">Android sürümünüz %1$s, gerekli minimum %2$s sürümünü karşılamıyor.</string>
+    <string name="unavailable_feature_version">Cihazda Android %1$s çalışıyor, ancak %2$s veya sonraki bir sürüm gerekli.</string>
     <string name="unavailable_feature_hardware">İlgili donanım bulunamadı.</string>
     <string name="file_name">Dosya adı</string>
     <string name="path">Yol</string>
@@ -249,7 +249,7 @@
     <string name="keyboard_key_vibrate_title">Tuşa basıldığında titret</string>
     <string name="keyboard_key_sound_title">Tuşa basıldığında ses çıkar</string>
     <string name="allow_no_password_title">Ana anahtar olmamasına izin ver</string>
-    <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesini etkinleştirin</string>
+    <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesine dokunmaya izin verir</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
     <string name="enable_read_only_summary">Veri tabanını öntanımlı olarak salt okunur aç</string>
     <string name="enable_education_screens_title">Eğitim ipuçları</string>
@@ -267,7 +267,7 @@
 \nGruplar (~klasörler) veritabanınızdaki girdileri düzenler.</string>
     <string name="education_search_title">Girişlerde ara</string>
     <string name="education_search_summary">Parolanızı kurtarmak için başlık, kullanıcı adı veya diğer alanların içeriğini girin.</string>
-    <string name="education_biometric_title">Parmak iziyle veritabanı kilidini açma</string>
+    <string name="education_biometric_title">Parmak iziyle veri tabanı kilidi açma</string>
     <string name="education_biometric_summary">Veritabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
@@ -426,21 +426,21 @@
     <string name="download_finalization">Sonlandırılıyor…</string>
     <string name="download_complete">Tamamlandı!</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
-    <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gizlenecek</string>
+    <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gösterilmez</string>
     <string name="warning_database_read_only">Veri tabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
     <string name="hide_broken_locations_summary">Son veritabanları listesindeki bozuk bağlantıları gizle</string>
     <string name="hide_broken_locations_title">Bozuk veritabanı bağlantılarını gizle</string>
     <string name="show_recent_files_summary">Son veritabanlarının konumlarını göster</string>
     <string name="show_recent_files_title">Son dosyaları göster</string>
-    <string name="remember_keyfile_locations_summary">Veri tabanını anahtar dosyalarının konumunu hatırla</string>
-    <string name="remember_keyfile_locations_title">Anahtar dosyalarının konumlarını kaydet</string>
-    <string name="remember_database_locations_summary">Veri tabanlarının konumlarını hatırla</string>
-    <string name="remember_database_locations_title">Veri tabanlarının konumlarını kaydet</string>
+    <string name="remember_keyfile_locations_summary">Anahtar dosyalarının nerede saklandığını takip eder</string>
+    <string name="remember_keyfile_locations_title">Anahtar dosyası konumlarını hatırla</string>
+    <string name="remember_database_locations_summary">Veri tabanlarının nerede saklandığını takip eder</string>
+    <string name="remember_database_locations_title">Veri tabanları konumlarını hatırla</string>
     <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
     <string name="auto_focus_search_title">Hızlı arama</string>
     <string name="contribution">Katkı</string>
     <string name="contact">İletişim</string>
-    <string name="education_setup_OTP_summary">İki öğeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için Bir Kerelik Parola yönetimini (HOTP / TOTP) ayarlayın.</string>
+    <string name="education_setup_OTP_summary">İki ögeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için bir kerelik parola yönetimini (HOTP / TOTP) ayarlayın.</string>
     <string name="education_setup_OTP_title">OTP ayarla</string>
     <string name="error_create_database">Veritabanı dosyası oluşturulamıyor.</string>
     <string name="html_about_contribution">&lt;strong&gt;Özgürlüğümüzü korumak&lt;/strong&gt;, &lt;strong&gt;hataları düzeltmek&lt;/strong&gt;, &lt;strong&gt;özellikler eklemek&lt;/strong&gt; ve &lt;strong&gt;her zaman etkin olmak&lt;/strong&gt; için, &lt;strong&gt;desteğinize&lt;/strong&gt; güveniyoruz.</string>

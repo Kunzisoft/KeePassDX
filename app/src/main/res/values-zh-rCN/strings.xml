@@ -230,7 +230,7 @@
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_biometric">此设备支持生物识别，但现未启用。</string>
+    <string name="configure_biometric">此设备支持生物特征提示，但不尚未设置。</string>
     <string name="open_biometric_prompt_unlock_database">打开生物识别提示以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>
@@ -243,7 +243,7 @@
     <string name="password_size_summary">设置生成密码的默认长度</string>
     <string name="list_password_generator_options_title">密码字符集</string>
     <string name="list_password_generator_options_summary">设置密码生成时所允许的字符集</string>
-    <string name="clipboard_notifications_summary">在查看条目时启用剪切板通知以复制字段</string>
+    <string name="clipboard_notifications_summary">显示剪贴板通知，以便在查看条目时复制字段</string>
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
     <string name="lock_database_screen_off_summary">锁屏时锁定数据库</string>
@@ -253,7 +253,7 @@
     <string name="biometric_delete_all_key_summary">删除所有与生物识别相关的密钥</string>
     <string name="biometric_delete_all_key_warning">要删除所有与生物识别相关的密钥吗？</string>
     <string name="unavailable_feature_text">无法启动此功能。</string>
-    <string name="unavailable_feature_version">你的Android版本%1$s无法满足程序对系统版本%2$s的要求。</string>
+    <string name="unavailable_feature_version">此设备运行 Android %1$s ，但应用需要 %2$s 或更高版本。</string>
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>
     <string name="assign_master_key">分配主密钥</string>
     <string name="recycle_bin_title">回收站使用情况</string>
@@ -283,7 +283,7 @@
     <string name="keyboard_key_vibrate_title">按键震动</string>
     <string name="keyboard_key_sound_title">按键声音</string>
     <string name="allow_no_password_title">允许主密钥为空</string>
-    <string name="allow_no_password_summary">未选择验证方式也启用“打开”按钮</string>
+    <string name="allow_no_password_summary">如果没有凭证被选中，允许点击“打开”按钮</string>
     <string name="enable_education_screens_title">新手引导</string>
     <string name="enable_education_screens_summary">高亮界面元素来学习本应用工作方式</string>
     <string name="reset_education_screens_title">重置新手引导</string>
@@ -299,7 +299,7 @@
 \n还可以使用群组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
-    <string name="education_biometric_title">通过生物识别解锁数据库</string>
+    <string name="education_biometric_title">正在解锁生物识别数据库</string>
     <string name="education_biometric_summary">将主密钥与生物识别信息关联，以快速解锁数据库。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
@@ -450,14 +450,14 @@
     <string name="html_about_contribution">为了&lt;strong&gt;维持我们的自由&lt;/strong&gt;、&lt;strong&gt;修复 bugs&lt;/strong&gt;、&lt;strong&gt;添加更多功能&lt;/strong&gt;以及&lt;strong&gt;始终保持项目活跃&lt;/strong&gt;，我们期待您的&lt;strong&gt;贡献&lt;/strong&gt;。</string>
     <string name="auto_focus_search_title">快速搜索</string>
     <string name="auto_focus_search_summary">打开数据库时询问是否进行搜索</string>
-    <string name="remember_database_locations_title">数据库保存的路径</string>
-    <string name="remember_database_locations_summary">记住数据库的路径</string>
-    <string name="remember_keyfile_locations_title">密钥文件保存的路径</string>
-    <string name="remember_keyfile_locations_summary">记住密钥文件的路径</string>
+    <string name="remember_database_locations_title">记住数据库位置</string>
+    <string name="remember_database_locations_summary">跟踪数据库存储的位置</string>
+    <string name="remember_keyfile_locations_title">记住密钥文件位置</string>
+    <string name="remember_keyfile_locations_summary">保留密钥文件存储的踪迹</string>
     <string name="hide_broken_locations_title">隐藏已损坏的数据库路径</string>
     <string name="hide_broken_locations_summary">在最近的数据库列表中隐藏已损坏的数据库的链接</string>
     <string name="warning_database_read_only">授予软件文件读写访问权限以保存数据库更改</string>
-    <string name="education_setup_OTP_summary">设置一次性密码管理（HOTP / TOTP）以生成请求的用于双重身份验证（2FA）的令牌。</string>
+    <string name="education_setup_OTP_summary">设置一次性密码管理（HOTP / TOTP）以生成请求的用于双因素身份验证（2FA）的令牌。</string>
     <string name="education_setup_OTP_title">设置一次性密码</string>
     <string name="discard">丢弃</string>
     <string name="error_create_database">无法创建数据库文件。</string>
