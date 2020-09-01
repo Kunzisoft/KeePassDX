@@ -250,6 +250,8 @@
     <bool name="education_password_generator_default" translatable="false">false</bool>
     <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
+    <string name="education_add_attachment_key" translatable="false">education_add_attachment_key</string>
+    <bool name="education_add_attachment_default" translatable="false">false</bool>
     <string name="education_setup_OTP_key" translatable="false">education_setup_OTP_key</string>
     <bool name="education_setup_OTP_default" translatable="false">false</bool>
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>

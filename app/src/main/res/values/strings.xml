@@ -426,6 +426,8 @@
     <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
     <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
+    <string name="education_add_attachment_title">Add attachment</string>
+    <string name="education_add_attachment_summary">Upload an attachment to your entry to save important external data.</string>
     <string name="education_setup_OTP_title">Set up OTP</string>
     <string name="education_setup_OTP_summary">Set up one-time password management (HOTP / TOTP) to generate a token requested for two-factor authentication (2FA).</string>
     <string name="education_unlock_title">Unlock your database</string>

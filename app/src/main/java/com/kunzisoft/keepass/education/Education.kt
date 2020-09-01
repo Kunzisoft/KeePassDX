@@ -95,8 +95,8 @@ open class Education(val activity: Activity) {
                 R.string.education_entry_edit_key,
                 R.string.education_password_generator_key,
                 R.string.education_entry_new_field_key,
+                R.string.education_add_attachment_key,
                 R.string.education_setup_OTP_key)
-
 
         /**
          * Get preferences bundle for education
@@ -270,6 +270,18 @@ open class Education(val activity: Activity) {
             val prefs = getEducationSharedPreferences(context)
             return prefs.getBoolean(context.getString(R.string.education_entry_new_field_key),
                     context.resources.getBoolean(R.bool.education_entry_new_field_default))
+        }
+
+        /**
+         * Determines whether the explanatory view of the new attachment button in an entry has already been displayed.
+         *
+         * @param context The context to open the SharedPreferences
+         * @return boolean value of education_add_attachment_key key
+         */
+        fun isEducationAddAttachmentPerformed(context: Context): Boolean {
+            val prefs = getEducationSharedPreferences(context)
+            return prefs.getBoolean(context.getString(R.string.education_add_attachment_key),
+                    context.resources.getBoolean(R.bool.education_add_attachment_default))
         }
 
         /**

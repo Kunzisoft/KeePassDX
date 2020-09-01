@@ -589,8 +589,8 @@ class EntryEditActivity : LockingActivity(),
         if (!generatePasswordEducationPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
             val addNewFieldEducationPerformed = mNewEntry != null
-                    && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
-                    && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
+                    && mNewEntry!!.allowCustomFields() && addNewFieldView != null
+                    && addNewFieldView.visibility == View.VISIBLE
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
                     {
@@ -601,13 +601,27 @@ class EntryEditActivity : LockingActivity(),
                     }
             )
             if (!addNewFieldEducationPerformed) {
-                val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
-                setupOtpView != null && setupOtpView.visibility == View.VISIBLE
-                        && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
-                        setupOtpView,
+                val attachmentView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_attachment)
+                val addAttachmentEducationPerformed = attachmentView != null && attachmentView.visibility == View.VISIBLE
+                        && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
+                        attachmentView,
                         {
-                            setupOTP()
-                        })
+                            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(attachmentView)
+                        },
+                        {
+                            performedNextEducation(entryEditActivityEducation)
+                        }
+                )
+                if (!addAttachmentEducationPerformed) {
+                    val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
+                    setupOtpView != null && setupOtpView.visibility == View.VISIBLE
+                            && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
+                            setupOtpView,
+                            {
+                                setupOTP()
+                            }
+                    )
+                }
             }
         }
     }
