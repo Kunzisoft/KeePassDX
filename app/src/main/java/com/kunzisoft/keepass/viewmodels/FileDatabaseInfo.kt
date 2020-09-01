@@ -60,8 +60,12 @@ class FileDatabaseInfo : Serializable {
 
     fun getModificationString(): String? {
         return documentFile?.lastModified()?.let {
-            DateFormat.getDateTimeInstance()
-                    .format(Date(it))
+            if (it != 0L) {
+                DateFormat.getDateTimeInstance()
+                        .format(Date(it))
+            } else {
+                null
+            }
         }
     }
 
