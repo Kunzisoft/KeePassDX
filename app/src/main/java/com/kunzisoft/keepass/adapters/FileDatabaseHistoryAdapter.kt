@@ -101,9 +101,9 @@ class FileDatabaseHistoryAdapter(context: Context)
         // Modification
         databaseFile.databaseLastModified?.let {
             holder.fileModification.text = it
-            holder.fileModification.visibility = View.VISIBLE
+            holder.fileModificationContainer.visibility = View.VISIBLE
         } ?: run {
-            holder.fileModification.visibility = View.GONE
+            holder.fileModificationContainer.visibility = View.GONE
         }
 
         // Size
@@ -250,6 +250,7 @@ class FileDatabaseHistoryAdapter(context: Context)
         var fileModifyButton: ImageView = itemView.findViewById(R.id.file_modify_button)
         var fileDeleteButton: ImageView = itemView.findViewById(R.id.file_delete_button)
         var filePath: TextView = itemView.findViewById(R.id.file_path)
+        var fileModificationContainer: ViewGroup = itemView.findViewById(R.id.file_modification_container)
         var fileModification: TextView = itemView.findViewById(R.id.file_modification)
         var fileSize: TextView = itemView.findViewById(R.id.file_size)
     }

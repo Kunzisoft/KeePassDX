@@ -176,36 +176,49 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/file_precise_info_container"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/file_delete_button">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/file_modification"
+
+                <LinearLayout
+                    android:id="@+id/file_modification_container"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    tools:text="Aug 21, 2020 3:40:14 PM"
-                    android:textColor="?android:attr/textColorHintInverse"
+                    android:layout_height="wrap_content"
                     android:paddingStart="@dimen/default_margin"
                     android:paddingLeft="@dimen/default_margin"
                     android:paddingEnd="@dimen/default_margin"
                     android:paddingRight="@dimen/default_margin"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/file_size"
-                    android:gravity="start|center_vertical"/>
+                    android:orientation="vertical"
+                    android:gravity="start|center_vertical" >
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/file_modification_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/entry_modified"
+                        android:textColor="?android:attr/textColorHintInverse"
+                        android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/file_modification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Aug 21, 2020 3:40:14 PM"
+                        android:textColor="?android:attr/textColorHintInverse"/>
+                </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/file_size"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
                     android:textColor="?android:attr/textColorHintInverse"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/file_modification"
+                    app:layout_constraintStart_toEndOf="@+id/file_modification_container"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
