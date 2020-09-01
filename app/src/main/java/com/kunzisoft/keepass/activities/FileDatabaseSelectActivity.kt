@@ -69,7 +69,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
-    private var fileManagerExplanationButton: View? = null
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -97,11 +96,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
-
-        fileManagerExplanationButton = findViewById(R.id.file_manager_explanation_button)
-        fileManagerExplanationButton?.setOnClickListener {
-            UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
-        }
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
@@ -454,6 +448,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
+        }
+
         return MenuUtil.onDefaultMenuOptionsItemSelected(this, item) && super.onOptionsItemSelected(item)
     }
 
