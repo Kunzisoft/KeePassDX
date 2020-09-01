@@ -234,8 +234,6 @@
     <string name="path">Ścieżka</string>
     <string name="assign_master_key">Przypisz klucz główny</string>
     <string name="create_keepass_file">Utwórz nową bazę danych</string>
-    <string name="full_file_path_enable_title">Ścieżka dostępu do plików</string>
-    <string name="full_file_path_enable_summary">Wyświetl pełną ścieżkę do pliku</string>
     <string name="recycle_bin_title">Wykorzystaj kosz</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Pole czcionka</string>

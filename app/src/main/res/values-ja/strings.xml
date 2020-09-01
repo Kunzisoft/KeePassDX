@@ -287,8 +287,6 @@
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して、文字を見やすくします</string>
     <string name="monospace_font_fields_enable_title">フィールド フォント</string>
-    <string name="full_file_path_enable_summary">ファイルのフルパスを表示します</string>
-    <string name="full_file_path_enable_title">ファイルパス</string>
     <string name="path">パス</string>
     <string name="education_generate_password_title">強力なパスワードを作成</string>
     <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に求めます</string>

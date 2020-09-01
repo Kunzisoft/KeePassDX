@@ -201,8 +201,6 @@
     <string name="path">Chemin d’accès</string>
     <string name="assign_master_key">Affecter une clé principale</string>
     <string name="create_keepass_file">Créer une nouvelle base de données</string>
-    <string name="full_file_path_enable_title">Chemin d’accès du fichier</string>
-    <string name="full_file_path_enable_summary">Affiche le chemin d’accès complet du fichier</string>
     <string name="recycle_bin_title">Utilisation de la corbeille</string>
     <string name="recycle_bin_summary">Déplace les groupes et les entrées dans le groupe « Corbeille » avant leur suppression</string>
     <string name="monospace_font_fields_enable_title">Fonte de caractères des champs</string>

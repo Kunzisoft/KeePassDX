@@ -22,7 +22,6 @@
     <string name="clear_clipboard_notification_title">ਬੰਦ ਕਰਨ ਉੱਤੇ ਸਾਫ਼ ਕਰੋ</string>
     <string name="disable">ਅਸਮਰੱਥ</string>
     <string name="enable">ਸਮਰੱਥ</string>
-    <string name="full_file_path_enable_title">ਫ਼ਾਇਲ ਦਾ ਮਾਰਗ</string>
     <string name="assign_master_key">ਮਾਸਟਰ ਕੁੰਜੀ ਦਿਓ</string>
     <string name="path">ਮਾਰਗ</string>
     <string name="file_name">ਫ਼ਾਇਲ ਦਾ ਨਾਂ</string>

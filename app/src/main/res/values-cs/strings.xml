@@ -232,8 +232,6 @@
     <string name="path">Cesta</string>
     <string name="assign_master_key">Přiřadit hlavní klíč</string>
     <string name="create_keepass_file">Vytvořit novou databázi</string>
-    <string name="full_file_path_enable_title">Cesta k souboru</string>
-    <string name="full_file_path_enable_summary">Zobrazit úplnou cestu k souboru</string>
     <string name="recycle_bin_title">Využití koše</string>
     <string name="recycle_bin_summary">Před smazáním přesune skupiny a položky do skupiny „Koš“</string>
     <string name="monospace_font_fields_enable_title">Písmo položek</string>

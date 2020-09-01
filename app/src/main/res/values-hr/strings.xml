@@ -205,8 +205,6 @@
     <string name="file_name">Ime datoteke</string>
     <string name="path">Putanja</string>
     <string name="assign_master_key">Zadaj glavni ključ</string>
-    <string name="full_file_path_enable_title">Putanja datoteke</string>
-    <string name="full_file_path_enable_summary">Prikaži punu putanju do datoteke</string>
     <string name="database_data_compression_title">Komprimiranje podataka</string>
     <string name="database_data_compression_summary">Komprimiranje podataka smanjuje veličinu baze podataka.</string>
     <string name="max_history_items_title">Maksimalni broj</string>

@@ -287,8 +287,6 @@
     <string name="file_name">Nume fișier</string>
     <string name="path">Cale</string>
     <string name="assign_master_key">Atribuie o cheie master</string>
-    <string name="full_file_path_enable_title">Calea fișierului</string>
-    <string name="full_file_path_enable_summary">Vizualizați calea completă a fișierului</string>
     <string name="database_data_compression_title">Compresia datelor</string>
     <string name="database_data_compression_summary">Compresia datelor reduce dimensiunea bazei de date.</string>
     <string name="recycle_bin_title">Utilizarea cosului de gunoi</string>

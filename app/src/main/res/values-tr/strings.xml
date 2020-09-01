@@ -214,8 +214,6 @@
     <string name="file_name">Dosya adı</string>
     <string name="path">Yol</string>
     <string name="assign_master_key">Ana anahtar atayın</string>
-    <string name="full_file_path_enable_title">Dosya yolu</string>
-    <string name="full_file_path_enable_summary">Tam dosya yolunu görüntüle</string>
     <string name="recycle_bin_title">Geri dönüşüm kutusu kullanımı</string>
     <string name="recycle_bin_summary">Silmeden önce grupları ve girdileri \"Geri Dönüşüm Kutusu\"na taşır</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>

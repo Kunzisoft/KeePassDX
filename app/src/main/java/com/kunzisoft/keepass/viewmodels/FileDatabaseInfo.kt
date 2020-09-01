@@ -78,7 +78,6 @@ class FileDatabaseInfo : Serializable {
     fun retrieveDatabaseAlias(alias: String): String? {
         return when {
             alias.isNotEmpty() -> alias
-            PreferencesUtil.isFullFilePathEnable(context) -> fileUri?.path
             else -> if (exists) documentFile?.name else fileUri?.path
         }
     }

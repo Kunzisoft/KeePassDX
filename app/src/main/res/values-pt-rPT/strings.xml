@@ -224,8 +224,6 @@
     <string name="file_name">Nome do ficheiro</string>
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave mestre</string>
-    <string name="full_file_path_enable_title">Caminho do ficheiro</string>
-    <string name="full_file_path_enable_summary">Veja o caminho inteiro do ficheiro</string>
     <string name="recycle_bin_title">Usar cesto da reciclagem</string>
     <string name="recycle_bin_summary">Move grupos e entradas para o \"Cesto da reciclagem\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>

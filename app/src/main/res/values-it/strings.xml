@@ -228,8 +228,6 @@
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
     <string name="create_keepass_file">Crea un nuovo database</string>
-    <string name="full_file_path_enable_title">Percorso file</string>
-    <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Uso del Cestino</string>
     <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo \"Cestino\" prima di eliminarlo</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>

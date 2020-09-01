@@ -234,8 +234,6 @@
     <string name="path">Путь</string>
     <string name="assign_master_key">Установить главный пароль</string>
     <string name="create_keepass_file">Создать новую базу</string>
-    <string name="full_file_path_enable_title">Путь к файлу</string>
-    <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
     <string name="recycle_bin_title">Использовать \"корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
     <string name="monospace_font_fields_enable_title">Особый шрифт</string>

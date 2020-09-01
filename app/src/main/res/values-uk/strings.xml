@@ -394,8 +394,6 @@
     <string name="recycle_bin_title">Використання кошика</string>
     <string name="database_data_compression_summary">Стиснення даних зменшує розмір бази даних.</string>
     <string name="database_data_compression_title">Стиснення даних</string>
-    <string name="full_file_path_enable_summary">Показувати повний шлях до файлу</string>
-    <string name="full_file_path_enable_title">Шлях до файлу</string>
     <string name="assign_master_key">Призначити головний ключ</string>
     <string name="path">Шлях</string>
     <string name="file_name">Назва файлу</string>

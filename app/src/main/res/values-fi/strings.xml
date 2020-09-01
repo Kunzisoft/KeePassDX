@@ -245,8 +245,6 @@
     <string name="monospace_font_fields_enable_title">Kenttäfontti</string>
     <string name="recycle_bin_summary">Siirrä ryhmät ja tietueet \"Roskakori\" ryhmään ennen poistamista</string>
     <string name="recycle_bin_title">Roskakorin käyttö</string>
-    <string name="full_file_path_enable_summary">Katso koko tiedostopolku</string>
-    <string name="full_file_path_enable_title">Tiedostopolku</string>
     <string name="assign_master_key">Aseta pääavain</string>
     <string name="path">Polku</string>
     <string name="file_name">Tiedostonimi</string>

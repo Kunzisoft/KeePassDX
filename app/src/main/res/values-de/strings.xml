@@ -229,8 +229,6 @@
     <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle mit der biometrischen Erkennung verknüpften Schlüssel löschen möchten\?</string>
     <string name="unavailable_feature_version">Die Android-Version, %1$s, erfüllt nicht die Mindestanforderung für Version %2$s.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
-    <string name="full_file_path_enable_title">Dateipfad</string>
-    <string name="full_file_path_enable_summary">Vollständigen Dateipfad anzeigen</string>
     <string name="recycle_bin_title">Papierkorb-Nutzung</string>
     <string name="recycle_bin_summary">Verschiebt Gruppen oder Einträge in den Papierkorb, bevor sie gelöscht werden.</string>
     <string name="monospace_font_fields_enable_title">Feldschriftart</string>

@@ -206,8 +206,6 @@
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
     <string name="create_keepass_file">新建数据库</string>
-    <string name="full_file_path_enable_title">文件路径</string>
-    <string name="full_file_path_enable_summary">查看完整的文件路径</string>
     <string name="database_name_title">数据库名称</string>
     <string name="database_description_title">数据库描述</string>
     <string name="database_version_title">数据库版本</string>

@@ -318,8 +318,6 @@
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
-    <string name="full_file_path_enable_title">Filepath</string>
-    <string name="full_file_path_enable_summary">View the full filepath</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Recycle bin usage</string>

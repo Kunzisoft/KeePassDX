@@ -222,8 +222,6 @@
     <string name="path">Sökväg</string>
     <string name="assign_master_key">Tilldela en huvudnyckel</string>
     <string name="create_keepass_file">Skapa ny databas</string>
-    <string name="full_file_path_enable_title">Filsökväg</string>
-    <string name="full_file_path_enable_summary">Visa hela filsökvägen</string>
     <string name="recycle_bin_title">Använd papperskorg</string>
     <string name="recycle_bin_summary">Flyttar grupper och poster till gruppen \"Papperskorg\" innan de raderas</string>
     <string name="monospace_font_fields_enable_title">Fält-typsnitt</string>
