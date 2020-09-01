@@ -39,8 +39,8 @@
     <string name="decrypting_db">解密資料庫內容中…</string>
     <string name="default_checkbox">以此作為預設資料庫</string>
     <string name="digits">數字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；這是<strong>無推廣</strong>的<strong>開源</strong>軟體。
-\n您可在遵循<strong>GPL 3</strong>或者更高版本的情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；這是&lt;strong&gt;無推廣&lt;/strong&gt;的&lt;strong&gt;開源&lt;/strong&gt;軟體。
+\n您可在遵循&lt;strong&gt;GPL 3&lt;/strong&gt;或者更高版本的情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
     <string name="select_database_file">選擇一個已存在之資料庫</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_cancel">取消</string>
@@ -292,7 +292,7 @@
     <string name="warning_no_encryption_key">確定不使用加密金鑰？</string>
     <string name="warning_empty_password">確定不使用密碼？</string>
     <string name="error_otp_digits">權杖需含有%1$d至%2$d位數字。</string>
-    <string name="html_about_contribution">為程式能夠<strong>保持自主</strong>、<strong>修復漏洞</strong>、<strong>新增功能</strong>和<strong>保持持續開發</strong>，有賴您的<strong>貢獻</strong>。</string>
+    <string name="html_about_contribution">為程式能夠&lt;strong&gt;保持自主&lt;/strong&gt;、&lt;strong&gt;修復漏洞&lt;/strong&gt;、&lt;strong&gt;新增功能&lt;/strong&gt;和&lt;strong&gt;保持持續開發&lt;/strong&gt;，有賴您的&lt;strong&gt;貢獻&lt;/strong&gt;。</string>
     <string name="device_keyboard_setting_title">裝置鍵盤設定</string>
     <string name="magic_keyboard_explanation_summary">啟用用作輸入密碼和其他欄位的自訂鍵盤</string>
     <string name="keyboard">鍵盤</string>
