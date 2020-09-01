@@ -125,10 +125,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:navigationIcon="@drawable/ic_info_hint_color_24dp"
+                    app:navigationIcon="@drawable/ic_info_white_24dp"
                     app:navigationContentDescription="@string/about"
                     android:elevation="4dp"
                     app:layout_collapseMode="pin"
+                    android:theme="?attr/toolbarHomeAppearance"
                     android:popupTheme="?attr/toolbarPopupAppearance" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
