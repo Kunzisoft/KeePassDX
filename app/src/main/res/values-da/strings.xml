@@ -58,7 +58,7 @@
     <string name="entry_user_name">Brugernavn</string>
     <string name="error_arc4">Arcfour stream cipher er ikke understøttet.</string>
     <string name="error_can_not_handle_uri">Kunne ikke håndtere URI i KeePassDX.</string>
-    <string name="error_file_not_create">Kunne ikke oprette fil:</string>
+    <string name="error_file_not_create">Kunne ikke oprette fil</string>
     <string name="error_invalid_db">Kunne ikke læse databasen.</string>
     <string name="error_invalid_path">Sørg for, at stien er korrekt.</string>
     <string name="error_no_name">Indtast et navn.</string>
@@ -231,8 +231,6 @@
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøgle</string>
     <string name="create_keepass_file">Opret en ny database</string>
-    <string name="full_file_path_enable_title">Filsti</string>
-    <string name="full_file_path_enable_summary">Se den fulde filsti</string>
     <string name="recycle_bin_title">Brug af papirkurven</string>
     <string name="recycle_bin_summary">Flyt grupper og poster til gruppen \"Papirkurven\" før den slettes</string>
     <string name="monospace_font_fields_enable_title">Feltskrifttype</string>
@@ -268,7 +266,7 @@
 \nGrupper (~mapper) organiserer poster i databasen.</string>
     <string name="education_search_title">Søg i poster</string>
     <string name="education_search_summary">Indtast titel, brugernavn eller indhold af andre felter for at hente adgangskoder.</string>
-    <string name="education_biometric_title">Oplåsning af database ved hjælp af biometrisk</string>
+    <string name="education_biometric_title">Biometrisk oplåsning af databasen</string>
     <string name="education_biometric_summary">Knyt adgangskoden til det scannede biometri for hurtigt at låse databasen op.</string>
     <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter. Pool data kan refereres mellem forskellige indtastningsfelter.</string>
@@ -419,7 +417,7 @@
     <string name="database_custom_color_title">Brugerdefineret databasefarve</string>
     <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Indstillinger for enhedens tastatur</string>
     <string name="error_save_database">Databasen kunne ikke gemmes.</string>
     <string name="menu_save_database">Gem database</string>
@@ -440,9 +438,9 @@
     <string name="download_initialization">Initialiserer…</string>
     <string name="download_progression">I gang: %1$d%%</string>
     <string name="download_finalization">Færdiggørelse…</string>
-    <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
+    <string name="download_complete">Komplet!</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
-    <string name="hide_expired_entries_summary">Udløbne poster er skjult</string>
+    <string name="hide_expired_entries_summary">Udløbne poster vises ikke</string>
     <string name="contact">Kontakt</string>
     <string name="contribution">Bidrag</string>
     <string name="feedback">Tilbagemelding</string>

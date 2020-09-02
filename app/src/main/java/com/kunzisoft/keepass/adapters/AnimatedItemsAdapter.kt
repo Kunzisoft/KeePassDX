@@ -32,6 +32,18 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
+    open fun isEmpty(): Boolean {
+        return itemsList.isEmpty()
+    }
+
+    open fun contains(item: Item): Boolean {
+        return itemsList.contains(item)
+    }
+
+    open fun indexOf(item: Item): Int {
+        return itemsList.indexOf(item)
+    }
+
     open fun putItem(item: Item) {
         val previousSize = itemsList.size
         if (itemsList.contains(item)) {
@@ -46,13 +58,42 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
-    fun onBindDeleteButton(holder: T, deleteButton: View, item: Item, position: Int) {
+    /**
+     * Only replace [oldItem] by [newItem] if [oldItem] exists
+     */
+    open fun replaceItem(oldItem: Item, newItem: Item) {
+        if (itemsList.contains(oldItem)) {
+            val index = itemsList.indexOf(oldItem)
+            itemsList.removeAt(index)
+            itemsList.add(index, newItem)
+            notifyItemChanged(index)
+        }
+    }
+
+    /**
+     * Only remove [item] if doesn't exists
+     */
+    open fun removeItem(item: Item) {
+        if (itemsList.contains(item)) {
+            mItemToRemove = item
+            notifyItemChanged(itemsList.indexOf(item))
+        }
+    }
+
+    protected fun performDeletion(holder: T, item: Item): Boolean {
+        val effectivelyDeletionPerformed = mItemToRemove == item
+        if (effectivelyDeletionPerformed) {
+            holder.itemView.collapse(true) {
+                deleteItem(item)
+            }
+        }
+        return effectivelyDeletionPerformed
+    }
+
+    protected fun onBindDeleteButton(holder: T, deleteButton: View, item: Item, position: Int) {
         deleteButton.apply {
             visibility = View.VISIBLE
-            if (mItemToRemove == item) {
-                holder.itemView.collapse(true) {
-                    deleteItem(item)
-                }
+            if (performDeletion(holder, item)) {
                 setOnClickListener(null)
             } else {
                 setOnClickListener {

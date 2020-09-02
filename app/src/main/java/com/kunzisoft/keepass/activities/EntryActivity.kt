@@ -45,8 +45,9 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
@@ -86,7 +87,7 @@ class EntryActivity : LockingActivity() {
     private var mShowPassword: Boolean = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mAttachmentsToDownload: HashMap<Int, EntryAttachment> = HashMap()
+    private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
     private var mFirstLaunchOfActivity: Boolean = false
@@ -212,8 +213,8 @@ class EntryActivity : LockingActivity() {
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
-                override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
-                    entryContentsView?.updateAttachmentDownloadProgress(attachment)
+                override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
+                    entryContentsView?.putAttachment(entryAttachmentState)
                 }
             }
         }
@@ -240,14 +241,13 @@ class EntryActivity : LockingActivity() {
         toolbar?.title = entryTitle
 
         // Assign basic fields
-        entryContentsView?.assignUserName(entry.username)
-        entryContentsView?.assignUserNameCopyListener(View.OnClickListener {
+        entryContentsView?.assignUserName(entry.username) {
             database.startManageEntry(entry)
             clipboardHelper?.timeoutCopyToClipboard(entry.username,
-                            getString(R.string.copy_field,
+                    getString(R.string.copy_field,
                             getString(R.string.entry_user_name)))
             database.stopManageEntry(entry)
-        })
+        }
 
         val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
                 PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)
@@ -274,23 +274,25 @@ class EntryActivity : LockingActivity() {
                     }
         }
 
-        entryContentsView?.assignPassword(entry.password, allowCopyPasswordAndProtectedFields)
-        if (allowCopyPasswordAndProtectedFields) {
-            entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
+        val onPasswordCopyClickListener: View.OnClickListener? = if (allowCopyPasswordAndProtectedFields) {
+            View.OnClickListener {
                 database.startManageEntry(entry)
                 clipboardHelper?.timeoutCopyToClipboard(entry.password,
-                                getString(R.string.copy_field,
+                        getString(R.string.copy_field,
                                 getString(R.string.entry_password)))
                 database.stopManageEntry(entry)
-            })
+            }
         } else {
             // If dialog not already shown
             if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
-                entryContentsView?.assignPasswordCopyListener(showWarningClipboardDialogOnClickListener)
+                showWarningClipboardDialogOnClickListener
             } else {
-                entryContentsView?.assignPasswordCopyListener(null)
+                null
             }
         }
+        entryContentsView?.assignPassword(entry.password,
+                allowCopyPasswordAndProtectedFields,
+                onPasswordCopyClickListener)
 
         //Assign OTP field
         entryContentsView?.assignOtp(entry.getOtpElement(), entryProgress,
@@ -304,7 +306,7 @@ class EntryActivity : LockingActivity() {
         })
 
         entryContentsView?.assignURL(entry.url)
-        entryContentsView?.assignComment(entry.notes)
+        entryContentsView?.assignNotes(entry.notes)
 
         // Assign custom fields
         if (entry.allowCustomFields()) {
@@ -312,12 +314,12 @@ class EntryActivity : LockingActivity() {
             for ((label, value) in entry.customFields) {
                 val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                 if (allowCopyProtectedField) {
-                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField, View.OnClickListener {
+                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
                         clipboardHelper?.timeoutCopyToClipboard(
                                 value.toString(),
                                 getString(R.string.copy_field, label)
                         )
-                    })
+                    }
                 } else {
                     // If dialog not already shown
                     if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
@@ -328,18 +330,13 @@ class EntryActivity : LockingActivity() {
                 }
             }
         }
-        entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
+        entryContentsView?.setHiddenProtectedValue(!mShowPassword)
 
         // Manage attachments
-        entryContentsView?.assignAttachments(entry.getAttachments()) { attachmentItem ->
-            when (attachmentItem.downloadState) {
-                AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
-                    createDocument(this, attachmentItem.name)?.let { requestCode ->
-                        mAttachmentsToDownload[requestCode] = attachmentItem
-                    }
-                }
-                else -> {
-                    // TODO Stop download
+        mDatabase?.binaryPool?.let { binaryPool ->
+            entryContentsView?.assignAttachments(entry.getAttachments(binaryPool).toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->
+                createDocument(this, attachmentItem.name)?.let { requestCode ->
+                    mAttachmentsToDownload[requestCode] = attachmentItem
                 }
             }
         }
@@ -393,16 +390,6 @@ class EntryActivity : LockingActivity() {
         }
     }
 
-    private fun changeShowPasswordIcon(togglePassword: MenuItem?) {
-        if (mShowPassword) {
-            togglePassword?.setTitle(R.string.menu_hide_password)
-            togglePassword?.setIcon(R.drawable.ic_visibility_off_white_24dp)
-        } else {
-            togglePassword?.setTitle(R.string.menu_showpass)
-            togglePassword?.setIcon(R.drawable.ic_visibility_white_24dp)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
@@ -416,15 +403,6 @@ class EntryActivity : LockingActivity() {
         if (mIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
-        }
-
-        val togglePassword = menu.findItem(R.id.menu_toggle_pass)
-        entryContentsView?.let {
-            if (it.isPasswordPresent || it.atLeastOneFieldProtectedPresent()) {
-                changeShowPasswordIcon(togglePassword)
-            } else {
-                togglePassword?.isVisible = false
-            }
         }
 
         val gotoUrl = menu.findItem(R.id.menu_goto_url)
@@ -449,28 +427,31 @@ class EntryActivity : LockingActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
-        val entryCopyEducationPerformed = entryContentsView?.isUserNamePresent == true
+        val entryFieldCopyView = findViewById<View>(R.id.entry_field_copy)
+        val entryCopyEducationPerformed = entryFieldCopyView != null
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
-                        findViewById(R.id.entry_user_name_action_image),
+                        entryFieldCopyView,
                         {
-                            clipboardHelper?.timeoutCopyToClipboard(mEntry!!.username,
-                                    getString(R.string.copy_field,
-                                            getString(R.string.entry_user_name)))
+                            val appNameString = getString(R.string.app_name)
+                            clipboardHelper?.timeoutCopyToClipboard(appNameString,
+                                    getString(R.string.copy_field, appNameString))
                         },
                         {
                             performedNextEducation(entryActivityEducation, menu)
                         })
 
         if (!entryCopyEducationPerformed) {
+            val menuEditView = toolbar?.findViewById<View>(R.id.menu_edit)
             // entryEditEducationPerformed
-            toolbar?.findViewById<View>(R.id.menu_edit) != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
-                            toolbar!!.findViewById(R.id.menu_edit),
-                            {
-                                onOptionsItemSelected(menu.findItem(R.id.menu_edit))
-                            },
-                            {
-                                performedNextEducation(entryActivityEducation, menu)
-                            })
+            menuEditView != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
+                    menuEditView,
+                    {
+                        onOptionsItemSelected(menu.findItem(R.id.menu_edit))
+                    },
+                    {
+                        performedNextEducation(entryActivityEducation, menu)
+                    }
+            )
         }
     }
 
@@ -478,12 +459,6 @@ class EntryActivity : LockingActivity() {
         when (item.itemId) {
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
-                return true
-            }
-            R.id.menu_toggle_pass -> {
-                mShowPassword = !mShowPassword
-                changeShowPasswordIcon(item)
-                entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
                 return true
             }
             R.id.menu_edit -> {

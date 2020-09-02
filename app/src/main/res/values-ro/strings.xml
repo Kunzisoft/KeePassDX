@@ -95,7 +95,7 @@
     <string name="entry_user_name">Nume utilizator</string>
     <string name="error_arc4">Cifrarea fluxului Arcfour nu este acceptată.</string>
     <string name="error_can_not_handle_uri">Nu s-a putut gestiona acest URI în KeePassDX.</string>
-    <string name="error_file_not_create">Nu s-a putut creea fisierul:</string>
+    <string name="error_file_not_create">Nu s-a putut creea fisierul</string>
     <string name="error_invalid_db">Nu s-a putut citi baza de date.</string>
     <string name="error_invalid_path">Asigurați-vă că calea este corectă.</string>
     <string name="error_invalid_OTP">Secret OTP nevalid.</string>
@@ -287,8 +287,6 @@
     <string name="file_name">Nume fișier</string>
     <string name="path">Cale</string>
     <string name="assign_master_key">Atribuie o cheie master</string>
-    <string name="full_file_path_enable_title">Calea fișierului</string>
-    <string name="full_file_path_enable_summary">Vizualizați calea completă a fișierului</string>
     <string name="database_data_compression_title">Compresia datelor</string>
     <string name="database_data_compression_summary">Compresia datelor reduce dimensiunea bazei de date.</string>
     <string name="recycle_bin_title">Utilizarea cosului de gunoi</string>
@@ -323,7 +321,7 @@
     <string name="other">Alta</string>
     <string name="compression">Compresie</string>
     <string name="compression_none">Nimic</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Cos de reciclare</string>
     <string name="keyboard">Tastatura</string>
     <string name="magic_keyboard_title">TastaturaMagica</string>
@@ -418,7 +416,7 @@
     <string name="download_initialization">Inițializare …</string>
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizare …</string>
-    <string name="download_complete">Complet! Atingeți pentru a deschide fișierul.</string>
+    <string name="download_complete">Complet!</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>

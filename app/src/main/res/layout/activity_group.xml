@@ -156,8 +156,7 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:theme="?attr/actionToolbarAppearance"
-        android:background="?attr/colorAccent" />
+        style="?attr/actionToolbarAppearance" />
 
     <include
         layout="@layout/view_button_lock"

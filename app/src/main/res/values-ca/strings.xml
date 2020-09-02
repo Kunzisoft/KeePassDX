@@ -57,7 +57,7 @@
     <string name="entry_user_name">Usuari</string>
     <string name="error_arc4">L\'encriptació Arcfour no està suportada.</string>
     <string name="error_can_not_handle_uri">KeePassDX no pot manejar aquesta URI.</string>
-    <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu:</string>
+    <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu</string>
     <string name="error_invalid_db">No s\'ha pogut llegir la base de dades.</string>
     <string name="error_invalid_path">Assegureu-vos que el camí eś correcte.</string>
     <string name="error_no_name">Introduïu-hi un nom.</string>
@@ -166,7 +166,6 @@
     <string name="recycle_bin_title">Ús de la paperera</string>
     <string name="database_data_compression_summary">La compressió de les dades redueix la mida de la base de dades.</string>
     <string name="database_data_compression_title">Compressió de les dades</string>
-    <string name="full_file_path_enable_title">Ruta del fitxer</string>
     <string name="assign_master_key">Assigna una contrasenya mestra</string>
     <string name="path">Camí</string>
     <string name="file_name">Nom de fitxer</string>

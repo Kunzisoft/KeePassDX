@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -55,7 +55,6 @@ import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
-import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
@@ -422,7 +421,6 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeBinary(binary : BinaryAttachment) {
         val binaryLength = binary.length()
         if (binaryLength > 0) {
-
             if (binary.isProtected) {
                 xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
 
@@ -433,21 +431,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     xml.text(charArray, 0, charArray.size)
                 }
             } else {
-                // Force binary compression from database (compression was harmonized during import)
-                if (mDatabaseKDBX.compressionAlgorithm === CompressionAlgorithm.GZip) {
+                if (binary.isCompressed) {
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }
-
-                // Force decompression in this specific case
-                val binaryInputStream = if (mDatabaseKDBX.compressionAlgorithm == CompressionAlgorithm.None
-                                && binary.isCompressed == true) {
-                    GZIPInputStream(binary.getInputDataStream())
-                } else {
-                    binary.getInputDataStream()
-                }
-
                 // Write the XML
-                binaryInputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
                     val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
                     xml.text(charArray, 0, charArray.size)
                 }
@@ -459,10 +447,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeMetaBinaries() {
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
-        mDatabaseKDBX.binaryPool.doForEachBinary { key, binary ->
+        // Use indexes because necessarily in DatabaseV4 (binary header ref is the order)
+        mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, keyBinary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
-            xml.attribute(null, DatabaseKDBXXML.AttrId, key.toString())
-            writeBinary(binary)
+            xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
+            writeBinary(keyBinary.binary)
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)
         }
 
@@ -559,23 +548,22 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeEntryBinaries(binaries: Map<String, BinaryAttachment>) {
-        for ((key, binary) in binaries) {
-            xml.startTag(null, DatabaseKDBXXML.ElemBinary)
-            xml.startTag(null, DatabaseKDBXXML.ElemKey)
-            xml.text(safeXmlString(key))
-            xml.endTag(null, DatabaseKDBXXML.ElemKey)
+    private fun writeEntryBinaries(binaries: LinkedHashMap<String, Int>) {
+        for ((label, poolId) in binaries) {
+            // Retrieve the right index with the poolId, don't use ref because of header in DatabaseV4
+            mDatabaseKDBX.binaryPool.getBinaryIndexFromKey(poolId)?.toString()?.let { indexString ->
+                xml.startTag(null, DatabaseKDBXXML.ElemBinary)
+                xml.startTag(null, DatabaseKDBXXML.ElemKey)
+                xml.text(safeXmlString(label))
+                xml.endTag(null, DatabaseKDBXXML.ElemKey)
 
-            xml.startTag(null, DatabaseKDBXXML.ElemValue)
-            val ref = mDatabaseKDBX.binaryPool.findKey(binary)
-            if (ref != null) {
-                xml.attribute(null, DatabaseKDBXXML.AttrRef, ref.toString())
-            } else {
-                writeBinary(binary)
+                xml.startTag(null, DatabaseKDBXXML.ElemValue)
+                // Use only pool data in Meta to save binaries
+                xml.attribute(null, DatabaseKDBXXML.AttrRef, indexString)
+                xml.endTag(null, DatabaseKDBXXML.ElemValue)
+
+                xml.endTag(null, DatabaseKDBXXML.ElemBinary)
             }
-            xml.endTag(null, DatabaseKDBXXML.ElemValue)
-
-            xml.endTag(null, DatabaseKDBXXML.ElemBinary)
         }
     }
 

@@ -205,8 +205,6 @@
     <string name="file_name">Ime datoteke</string>
     <string name="path">Putanja</string>
     <string name="assign_master_key">Zadaj glavni ključ</string>
-    <string name="full_file_path_enable_title">Putanja datoteke</string>
-    <string name="full_file_path_enable_summary">Prikaži punu putanju do datoteke</string>
     <string name="database_data_compression_title">Komprimiranje podataka</string>
     <string name="database_data_compression_summary">Komprimiranje podataka smanjuje veličinu baze podataka.</string>
     <string name="max_history_items_title">Maksimalni broj</string>
@@ -233,12 +231,12 @@
     <string name="other">Ostalo</string>
     <string name="compression">Komprimiranje</string>
     <string name="compression_none">Bez</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Koš za smeće</string>
     <string name="content_description_node_children">Pod-čvor</string>
     <string name="entry_accessed">Pristupljeno</string>
     <string name="error_arc4">Arcfour šifriranje nije podržano.</string>
-    <string name="error_file_not_create">Nije moguće stvoriti datoteku:</string>
+    <string name="error_file_not_create">Nije moguće stvoriti datoteku</string>
     <string name="error_invalid_db">Nije moguće čitati bazu podataka.</string>
     <string name="error_invalid_path">Provjeri putanju do datoteke.</string>
     <string name="error_invalid_OTP">Neispravan OTP tajni ključ.</string>
@@ -290,7 +288,7 @@
     <string name="password_size_title">Duljina generirane lozinke</string>
     <string name="password_size_summary">Postavlja standardnu duljinu generiranih lozinki</string>
     <string name="clipboard_explanation_summary">Kopiraj polja unosa koristeći međuspremnik tvog uređaja</string>
-    <string name="clipboard_notifications_summary">Aktiviraj obavijesti međuspremnika za kopiranje polja prilikom prikaza unosa</string>
+    <string name="clipboard_notifications_summary">Pokaži obavijesti međuspremnika za kopiranje polja prilikom prikaza unosa</string>
     <string name="lock">Zaključavanje</string>
     <string name="lock_database_screen_off_title">Zaključavanje ekrana</string>
     <string name="recycle_bin_title">Koristi koš za smeće</string>
@@ -323,7 +321,7 @@
     <string name="keyboard_key_vibrate_title">Vibracija tipki</string>
     <string name="keyboard_key_sound_title">Zvuk tipki</string>
     <string name="allow_no_password_title">Dozvoli bez lozinke</string>
-    <string name="allow_no_password_summary">Aktiviraj gumb „Otvori”, ako nijedna akreditacija nije odabrana</string>
+    <string name="allow_no_password_summary">Dozvoljava dodir gumba „Otvori”, ako nijedna akreditacija nije odabrana</string>
     <string name="delete_entered_password_title">Izbriši lozinku</string>
     <string name="delete_entered_password_summary">Briše upisanu lozinku nakon pokušaja povezivanja s bazom podataka</string>
     <string name="enable_read_only_title">Zaštićeno od pisanja</string>
@@ -339,7 +337,7 @@
     <string name="education_create_database_summary">Stvori svoju prvu datoteku za upravljanje lozinkama.</string>
     <string name="education_select_database_title">Otvori jednu postojeću bazu podataka</string>
     <string name="education_select_database_summary">Za daljnju upotrebu prijašnje datoteke baze podataka, otvori je iz upravitelja datoteka.</string>
-    <string name="remember_database_locations_title">Spremi mjesto baze podataka</string>
+    <string name="remember_database_locations_title">Zapamti mjesto baze podataka</string>
     <string name="auto_focus_search_title">Brza pretraga</string>
     <string name="error_create_database">Nije moguće stvoriti datoteku baze podataka.</string>
     <string name="error_rounds_too_large">Previše „transformacijskih prolaza”. Postavlja se na 2147483648.</string>
@@ -350,8 +348,8 @@
     <string name="discard_changes">Odbaciti promjene\?</string>
     <string name="contact">Kontakt</string>
     <string name="homepage">Početna stranica</string>
-    <string name="remember_keyfile_locations_title">Spremi mjesto datoteke ključa</string>
-    <string name="unavailable_feature_version">Tvoja Android verzija %1$s ne odgovara minimalno potrebnoj verziji %2$s.</string>
+    <string name="remember_keyfile_locations_title">Zapamti mjesto datoteke ključa</string>
+    <string name="unavailable_feature_version">Uređaj koristi Android verziju %1$s, ali potrebna je verzija %2$s ili novija.</string>
     <string name="autofill_auto_search_summary">Automatski predloži rezultate pretrage od web domene ili ID-a aplikacije</string>
     <string name="hide_broken_locations_summary">Sakrij pokvarene poveznice u popisu nedavnih baza podataka</string>
     <string name="html_text_dev_feature">Ova se funkcija nalazi &lt;strong&gt;u razvoju&lt;/strong&gt; i treba tvoj &lt;strong&gt;doprinos&lt;/strong&gt; kako bi uskoro bila dostupna.</string>
@@ -377,7 +375,7 @@
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="education_read_only_title">Zaštiti bazu podataka od pisanja</string>
     <string name="autofill_web_domain_blocklist_title">Popis blokiranja web domena</string>
-    <string name="education_biometric_title">Otključaj bazu podataka pomoću biometrije</string>
+    <string name="education_biometric_title">Biometrijsko otključavanje baze podataka</string>
     <string name="kdf_AES">AES</string>
     <string name="contribution">Doprinos</string>
     <string name="open_biometric_prompt_store_credential">Za spremanje akreditacija, otvori biometrijsku prijavu</string>
@@ -397,7 +395,7 @@
     <string name="keyboard_entry_timeout_title">Istek vremena</string>
     <string name="auto_focus_search_summary">Pokreni pretragu prilikom otvaranja baze podataka</string>
     <string name="education_entry_edit_summary">Uredi svoj unos pomoću prilagođenih polja. Moguće je unakrsno pozivanje podataka između različitih polja unosa.</string>
-    <string name="remember_database_locations_summary">Zapamti mjesto baza podataka</string>
+    <string name="remember_database_locations_summary">Pamti mjesto spremanja baza podataka</string>
     <string name="education_field_copy_summary">Kopirana polja mogu se umetnuti bilo gdje.
 \n
 \nKoristi preferirani način ispunjavanja obrazaca.</string>
@@ -418,7 +416,7 @@
     <string name="autofill_block">Blokiranje automatskog ispunjavanja</string>
     <string name="keystore_not_accessible">Baza ključeva nije ispravno inicijalizirana.</string>
     <string name="icon_pack_choose_summary">Paket ikona, koji se koristi u aplikaciji</string>
-    <string name="hide_expired_entries_summary">Istekli unosi su skrivaju</string>
+    <string name="hide_expired_entries_summary">Istekli unosi se ne pokazuju</string>
     <string name="education_lock_title">Zaključaj bazu podataka</string>
     <string name="open_biometric_prompt_unlock_database">Za otključavanje baze podataka, otvori biometrijsku prijavu</string>
     <string name="education_unlock_title">Otključaj bazu podataka</string>
@@ -454,12 +452,12 @@
 \nSpremi sigurnosnu kopiju datoteke baze podataka na sigurno mjesto nakon svake promjene.</string>
     <string name="configure_biometric">Biometrijska prijava je podržana, ali nije postavljena.</string>
     <string name="subdomain_search_title">Pretraživanje poddomenom</string>
-    <string name="education_setup_OTP_summary">Postavi upravljanje jednokratnih lozinki (HOTP / TOTP) za generiranje tokena koji je potreban za dvofaktorsku autentifikaciju (2FA).</string>
+    <string name="education_setup_OTP_summary">Postavi upravljanje jednokratnim lozinkama (HOTP / TOTP) za generiranje tokena koji je potreban za dvofaktorsku autentifikaciju (2FA).</string>
     <string name="hide_expired_entries_title">Sakrij istekle unose</string>
     <string name="download_finalization">Završavanje …</string>
     <string name="download">Preuzimanje</string>
     <string name="lock_database_show_button_summary">Prikazuje gumb za zaključavanje u korisničkom sučelju</string>
-    <string name="remember_keyfile_locations_summary">Zapamti mjesto datoteka ključeva baze podataka</string>
+    <string name="remember_keyfile_locations_summary">Pamti mjesto spremanja datoteka ključeva</string>
     <string name="html_text_ad_free">Za razliku od mnogih aplikacija za upravljanje lozinkama, ova je &lt;strong&gt;bez oglasa&lt;/strong&gt;, &lt;strong&gt;copylefted slobodan softver&lt;/strong&gt; i ne prikuplja osobne podatke na svojim poslužiteljima, bez obzira na korištenu verziju.</string>
     <string name="rounds">Transformacijski prolazi</string>
     <string name="download_initialization">Inicijaliziranje …</string>
@@ -469,7 +467,7 @@
 \n
 \nGrupe (~mape) organiziraju unose u bazi podataka.</string>
     <string name="download_progression">U tijeku: %1$d%%</string>
-    <string name="download_complete">Gotovo! Dodirni, za otvaranje datoteke.</string>
+    <string name="download_complete">Gotovo!</string>
     <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja automatske radnje tipke</string>
     <string name="keyboard_previous_fill_in_title">Automatska radnja tipke</string>
     <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu u bazu podataka</string>

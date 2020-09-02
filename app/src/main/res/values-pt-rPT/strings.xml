@@ -61,7 +61,7 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
-    <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
+    <string name="error_file_not_create">Não foi possível criar o ficheiro</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
     <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>
     <string name="error_no_name">Introduza um nome.</string>
@@ -94,7 +94,7 @@
     <string name="loading_database">A carregar base de dados…</string>
     <string name="lowercase">Minúsculas</string>
     <string name="hide_password_title">Esconder palavras-passe</string>
-    <string name="hide_password_summary">Mascarar palavras-passe (***) por padrão</string>
+    <string name="hide_password_summary">Mascarar palavras-passe (***) por predefinição</string>
     <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Alterar chave mestre</string>
     <string name="settings">Configurações</string>
@@ -123,7 +123,7 @@
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
-    <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
+    <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e gravar mais lentos.</string>
     <string name="saving_database">A gravar a base de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Pesquisar</string>
@@ -160,7 +160,7 @@
     <string name="extended_ASCII">ASCII Estendido</string>
     <string name="allow">Permitir</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
-    <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente baixar o \"Uso de Memória\" do KDF.</string>
+    <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente descarregar o \"Uso de Memória\" do KDF.</string>
     <string name="error_move_folder_in_itself">Não pode mover um grupo para si mesmo.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de utilizador</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -202,17 +202,17 @@
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_service_name">Serviço de Preenchimento Automático do KeePassDX</string>
     <string name="autofill_sign_in_prompt">Entrar com KeePassDX</string>
-    <string name="set_autofill_service_title">Definir como serviço de preenchimento automático padrão</string>
+    <string name="set_autofill_service_title">Definir como serviço de preenchimento automático predefinido</string>
     <string name="autofill_explanation_summary">Ativar o serviço para preencher formulários em outras aplicações</string>
     <string name="password_size_title">Tamanho da palavra-chave gerada</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="encryption">Encriptação</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
-    <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
+    <string name="error_autofill_enable_service">Não pôde ser ativado o serviço de preenchimento automático.</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
-    <string name="password_size_summary">Define o tamanho padrão para palavras-passe geradas</string>
+    <string name="password_size_summary">Define o tamanho predefinido para palavras-passe geradas</string>
     <string name="list_password_generator_options_title">Caracteres da palavra-passe</string>
-    <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de palavra-passe</string>
+    <string name="list_password_generator_options_summary">Definir os caracteres permitodos para o gerador de palavra-passe</string>
     <string name="clipboard_notifications_title">Notificações da área de transferência</string>
     <string name="clipboard_notifications_summary">Ative notificações da área de transferência para campos copiáveis quando estiver a visualizar uma entrada</string>
     <string name="lock">Bloquear</string>
@@ -224,8 +224,6 @@
     <string name="file_name">Nome do ficheiro</string>
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave mestre</string>
-    <string name="full_file_path_enable_title">Caminho do ficheiro</string>
-    <string name="full_file_path_enable_summary">Veja o caminho inteiro do ficheiro</string>
     <string name="recycle_bin_title">Usar cesto da reciclagem</string>
     <string name="recycle_bin_summary">Move grupos e entradas para o \"Cesto da reciclagem\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
@@ -245,7 +243,7 @@
     <string name="reset_education_screens_summary">Exibir todas as informações educacionais novamente</string>
     <string name="reset_education_screens_text">Dicas educacionais redefinidas</string>
     <string name="education_create_database_title">Crie um ficheiro de base de dados</string>
-    <string name="education_create_database_summary">Crie seu primeiro ficheiro de gerenciamento de palavras-passe.</string>
+    <string name="education_create_database_summary">Crie o seu primeiro ficheiro de gestão de palavras-passe.</string>
     <string name="education_select_database_title">Abra uma base de dados existente</string>
     <string name="education_select_database_summary">Abra a sua base de dados de mais cedo pelo seu navegador de ficheiros.</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
@@ -286,7 +284,7 @@
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter o sua app atualizada, instalando novas versões.</string>
-    <string name="download">Baixar</string>
+    <string name="download">Descarregar</string>
     <string name="contribute">Contribuir</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
@@ -307,7 +305,7 @@
     <string name="education_read_only_summary">Altere o modo de abertura para a sessão. 
 \n 
 \n\"Somente leitura\" evita que faça alterações não intencionais na base de dados. 
-\n\"Gravação\" permite-o adicionar, excluir ou modificar todos os elementos.</string>
+\n\"Gravação\" permite-o adicionar, apagar ou modificar todos os elementos.</string>
     <string name="list_entries_show_username_summary">Mostrar nomes de utilizador em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
@@ -354,7 +352,7 @@
     <string name="entry_add_field">Adicionar campo</string>
     <string name="content_description_remove_field">Remover campo</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
+    <string name="error_move_entry_here">Não pode mover uma entrada para cá.</string>
     <string name="error_copy_entry_here">Não pode copiar uma entrada aqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
@@ -420,7 +418,7 @@
     <string name="html_about_contribution">Para &lt;strong&gt;manter a liberdade&lt;/strong&gt;, &lt;strong&gt;solucionar bugs&lt;/strong&gt;, &lt;strong&gt;adicionar funções&lt;/strong&gt; e &lt;strong&gt;para sermos sempre ativoa&lt;/strong&gt;, contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
     <string name="biometric_unlock_enable_title">Desbloqueio por biométrico</string>
     <string name="entry_attachments">Anexos</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="discard">Descartar</string>
     <string name="remember_database_locations_summary">Lembrar o local das bases de dados</string>
     <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>
@@ -428,7 +426,7 @@
     <string name="download_finalization">A finalizar…</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>
     <string name="max_history_items_summary">Limitar a quantidade de itens do histórico por entrada</string>
-    <string name="download_complete">Completo! Toque para abrir o ficheiro.</string>
+    <string name="download_complete">Completo!</string>
     <string name="content_description_update_from_list">Atualizar</string>
     <string name="contribution">Contribuição</string>
     <string name="hide_broken_locations_summary">Esconder ligações quebradas na lista de bases de dados recentes</string>
@@ -450,7 +448,7 @@
     <string name="content_description_background">Plano de fundo</string>
     <string name="lock_database_show_button_title">Mostrar botão de bloqueio</string>
     <string name="security">Segurança</string>
-    <string name="hide_broken_locations_title">Esconder links quebrados de bases de dados</string>
+    <string name="hide_broken_locations_title">Esconder ligações quebradas de bases de dados</string>
     <string name="open_biometric_prompt_unlock_database">Escaneamento do biométrico para abrir a base de dados</string>
     <string name="content_description_keyboard_close_fields">Fechar campos</string>
     <string name="biometric">Biométrico</string>

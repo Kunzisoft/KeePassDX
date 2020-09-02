@@ -60,7 +60,7 @@
     <string name="entry_user_name">שם משתמש</string>
     <string name="error_arc4">צופן זרם Arcfour אינו נתמך.</string>
     <string name="error_can_not_handle_uri">KeePassDX לא יכול לטפל ב-URI הזה.</string>
-    <string name="error_file_not_create">לא הצליח ליצור קובץ:</string>
+    <string name="error_file_not_create">לא הצליח ליצור קובץ</string>
     <string name="error_invalid_db">מסד נתונים לא חוקי.</string>
     <string name="error_invalid_path">נתיב לא חוקי.</string>
     <string name="error_no_name">שם נדרש.</string>

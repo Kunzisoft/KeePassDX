@@ -17,10 +17,8 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.security
+package com.kunzisoft.keepass.database.element.database
 
-import android.content.ContentResolver
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.stream.readBytes
@@ -30,7 +28,7 @@ import java.util.zip.GZIPOutputStream
 
 class BinaryAttachment : Parcelable {
 
-    var isCompressed: Boolean? = null
+    var isCompressed: Boolean = false
         private set
     var isProtected: Boolean = false
         private set
@@ -46,12 +44,12 @@ class BinaryAttachment : Parcelable {
      * Empty protected binary
      */
     constructor() {
-        this.isCompressed = null
+        this.isCompressed = false
         this.isProtected = false
         this.dataFile = null
     }
 
-    constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean? = null) {
+    constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean = false) {
         this.isCompressed = compressed
         this.isProtected = enableProtection
         this.dataFile = dataFile
@@ -59,7 +57,7 @@ class BinaryAttachment : Parcelable {
 
     private constructor(parcel: Parcel) {
         val compressedByte = parcel.readByte().toInt()
-        isCompressed = if (compressedByte == 2) null else compressedByte != 0
+        isCompressed = compressedByte != 0
         isProtected = parcel.readByte().toInt() != 0
         parcel.readString()?.let {
             dataFile = File(it)
@@ -75,29 +73,48 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
+    fun getUnGzipInputDataStream(): InputStream {
+        return if (isCompressed)
+            GZIPInputStream(getInputDataStream())
+        else
+            getInputDataStream()
+    }
+
+    @Throws(IOException::class)
+    fun getOutputDataStream(): OutputStream {
+        return when {
+            dataFile != null -> FileOutputStream(dataFile!!)
+            else -> throw IOException("Unable to write in an unknown file")
+        }
+    }
+
+    @Throws(IOException::class)
+    fun getGzipOutputDataStream(): OutputStream {
+        return if (isCompressed) {
+            GZIPOutputStream(getOutputDataStream())
+        } else {
+            getOutputDataStream()
+        }
+    }
+
+    @Throws(IOException::class)
     fun compress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
-            if (isCompressed != true) {
+            if (!isCompressed) {
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                var outputStream: GZIPOutputStream? = null
-                var inputStream: InputStream? = null
-                try {
-                    outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
-                    inputStream = getInputDataStream()
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        outputStream.write(buffer)
-                    }
-                } finally {
-                    inputStream?.close()
-                    outputStream?.close()
-
-                    // Remove unGzip file
-                    if (concreteDataFile.delete()) {
-                        if (fileBinaryCompress.renameTo(concreteDataFile)) {
-                            // Harmonize with database compression
-                            isCompressed = true
+                GZIPOutputStream(FileOutputStream(fileBinaryCompress)).use { outputStream ->
+                    getInputDataStream().use { inputStream ->
+                        inputStream.readBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
                         }
+                    }
+                }
+                // Remove unGzip file
+                if (concreteDataFile.delete()) {
+                    if (fileBinaryCompress.renameTo(concreteDataFile)) {
+                        // Harmonize with database compression
+                        isCompressed = true
                     }
                 }
             }
@@ -107,52 +124,20 @@ class BinaryAttachment : Parcelable {
     @Throws(IOException::class)
     fun decompress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
-            if (isCompressed != false) {
+            if (isCompressed) {
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                var outputStream: FileOutputStream? = null
-                var inputStream: GZIPInputStream? = null
-                try {
-                    outputStream = FileOutputStream(fileBinaryDecompress)
-                    inputStream = GZIPInputStream(getInputDataStream())
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        outputStream.write(buffer)
-                    }
-                } finally {
-                    inputStream?.close()
-                    outputStream?.close()
-
-                    // Remove gzip file
-                    if (concreteDataFile.delete()) {
-                        if (fileBinaryDecompress.renameTo(concreteDataFile)) {
-                            // Harmonize with database compression
-                            isCompressed = false
+                FileOutputStream(fileBinaryDecompress).use { outputStream ->
+                    getUnGzipInputDataStream().use { inputStream ->
+                        inputStream.readBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
                         }
                     }
                 }
-            }
-        }
-    }
-
-    fun download(createdFileUri: Uri,
-                 contentResolver: ContentResolver,
-                 bufferSize: Int = DEFAULT_BUFFER_SIZE,
-                 update: ((percent: Int)->Unit)? = null) {
-
-        var dataDownloaded = 0
-        contentResolver.openOutputStream(createdFileUri).use { outputStream ->
-            outputStream?.let { fileOutputStream ->
-                if (isCompressed == true) {
-                    GZIPInputStream(getInputDataStream())
-                } else {
-                    getInputDataStream()
-                }.use { inputStream ->
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        fileOutputStream.write(buffer)
-                        dataDownloaded += buffer.size
-                        try {
-                            val percentDownload = (100 * dataDownloaded / length()).toInt()
-                            update?.invoke(percentDownload)
-                        } catch (e: Exception) {}
+                // Remove gzip file
+                if (concreteDataFile.delete()) {
+                    if (fileBinaryDecompress.renameTo(concreteDataFile)) {
+                        // Harmonize with database compression
+                        isCompressed = false
                     }
                 }
             }
@@ -185,10 +170,14 @@ class BinaryAttachment : Parcelable {
     override fun hashCode(): Int {
 
         var result = 0
-        result = 31 * result + if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0
+        result = 31 * result + if (isCompressed) 1 else 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return dataFile.toString()
     }
 
     override fun describeContents(): Int {
@@ -196,7 +185,7 @@ class BinaryAttachment : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0).toByte())
+        dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeString(dataFile?.absolutePath)
     }

@@ -33,14 +33,16 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryExtraFieldsItemsAdapter
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
+import com.kunzisoft.keepass.model.StreamDirection
 import org.joda.time.Duration
 import org.joda.time.Instant
 
@@ -68,7 +70,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val attachmentsListView: RecyclerView
 
     private val extraFieldsAdapter = EntryExtraFieldsItemsAdapter(context)
-    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, true)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
 
     private var iconColor: Int = 0
     private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
@@ -124,7 +126,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             }
         }
         attachmentsListView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
@@ -242,7 +244,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun getExtraField(): MutableList<Field> {
+    fun getExtraFields(): List<Field> {
         return extraFieldsAdapter.itemsList
     }
 
@@ -254,10 +256,13 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     /**
      * Remove all children and add new views for each field
      */
-    fun assignExtraFields(fields: List<Field>, focusedExtraField: FocusedEditField? = null) {
+    fun assignExtraFields(fields: List<Field>,
+                          onEditButtonClickListener: ((item: Field)->Unit)?,
+                          focusedExtraField: FocusedEditField? = null) {
         extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
         // Reinit focused field
         extraFieldsAdapter.assignItems(fields, focusedExtraField)
+        extraFieldsAdapter.onEditButtonClickListener = onEditButtonClickListener
     }
 
     /**
@@ -273,18 +278,72 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         extraFieldsAdapter.putItem(extraField)
     }
 
+    fun replaceExtraField(oldExtraField: Field, newExtraField: Field) {
+        extraFieldsContainerView.visibility = View.VISIBLE
+        extraFieldsAdapter.replaceItem(oldExtraField, newExtraField)
+    }
+
+    fun removeExtraField(oldExtraField: Field) {
+        extraFieldsAdapter.removeItem(oldExtraField)
+    }
+
+    fun getExtraFieldViewPosition(field: Field, position: (Float) -> Unit) {
+        extraFieldsListView.post {
+            position.invoke(extraFieldsListView.y
+                    + (extraFieldsListView.getChildAt(extraFieldsAdapter.indexOf(field))?.y
+                    ?: 0F)
+            )
+        }
+    }
+
     /* -------------
      * Attachments
      * -------------
      */
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
-                          onDeleteItem: (attachment: EntryAttachment)->Unit) {
+    fun getAttachments(): List<Attachment> {
+        return attachmentsAdapter.itemsList.map { it.attachment }
+    }
+
+    fun assignAttachments(attachments: Set<Attachment>,
+                          streamDirection: StreamDirection,
+                          onDeleteItem: (attachment: Attachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
-            onDeleteItem.invoke(item)
+            onDeleteItem.invoke(item.attachment)
         }
+    }
+
+    fun containsAttachment(): Boolean {
+        return !attachmentsAdapter.isEmpty()
+    }
+
+    fun containsAttachment(attachment: EntryAttachmentState): Boolean {
+        return attachmentsAdapter.contains(attachment)
+    }
+
+    fun putAttachment(attachment: EntryAttachmentState) {
+        attachmentsContainerView.visibility = View.VISIBLE
+        attachmentsAdapter.putItem(attachment)
+    }
+
+    fun removeAttachment(attachment: EntryAttachmentState) {
+        attachmentsAdapter.removeItem(attachment)
+    }
+
+    fun clearAttachments() {
+        attachmentsAdapter.clear()
+    }
+
+    fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
+        attachmentsListView.postDelayed({
+            position.invoke(attachmentsContainerView.y
+                    + attachmentsListView.y
+                    + (attachmentsListView.getChildAt(attachmentsAdapter.indexOf(attachment))?.y
+                    ?: 0F)
+            )
+        }, 250)
     }
 
     /**

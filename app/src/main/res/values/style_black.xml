@@ -30,8 +30,8 @@
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Black</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Black</item>
@@ -45,6 +45,10 @@
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
+    </style>
+    <!-- Toolbar Home Black -->
+    <style name="KeepassDXStyle.Toolbar.Home.Black" parent="KeepassDXStyle.Black">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Special Toolbar Black -->
     <style name="KeepassDXStyle.Toolbar.Special.Black" parent="KeepassDXStyle.Toolbar.Black">

@@ -19,7 +19,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +27,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -37,9 +35,11 @@ import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
@@ -52,26 +52,13 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private var fontInVisibility: Boolean = false
 
-    private val userNameContainerView: View
-    private val userNameView: TextView
-    private val userNameActionView: ImageView
-
-    private val passwordContainerView: View
-    private val passwordView: TextView
-    private val passwordActionView: ImageView
-
-    private val otpContainerView: View
-    private val otpLabelView: TextView
-    private val otpView: TextView
-    private val otpActionView: ImageView
+    private val userNameFieldView: EntryField
+    private val passwordFieldView: EntryField
+    private val otpFieldView: EntryField
+    private val urlFieldView: EntryField
+    private val notesFieldView: EntryField
 
     private var otpRunnable: Runnable? = null
-
-    private val urlContainerView: View
-    private val urlView: TextView
-
-    private val notesContainerView: View
-    private val notesView: TextView
 
     private val extraFieldsContainerView: View
     private val extraFieldsListView: ViewGroup
@@ -84,7 +71,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
-    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, false)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
 
     private val historyContainerView: View
     private val historyListView: RecyclerView
@@ -93,34 +80,26 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val uuidView: TextView
     private val uuidReferenceView: TextView
 
-    val isUserNamePresent: Boolean
-        get() = userNameContainerView.visibility == View.VISIBLE
-
-    val isPasswordPresent: Boolean
-        get() = passwordContainerView.visibility == View.VISIBLE
-
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_entry_contents, this)
 
-        userNameContainerView = findViewById(R.id.entry_user_name_container)
-        userNameView = findViewById(R.id.entry_user_name)
-        userNameActionView = findViewById(R.id.entry_user_name_action_image)
+        userNameFieldView = findViewById(R.id.entry_user_name_field)
+        userNameFieldView.setLabel(R.string.entry_user_name)
 
-        passwordContainerView = findViewById(R.id.entry_password_container)
-        passwordView = findViewById(R.id.entry_password)
-        passwordActionView = findViewById(R.id.entry_password_action_image)
+        passwordFieldView = findViewById(R.id.entry_password_field)
+        passwordFieldView.setLabel(R.string.entry_password)
 
-        otpContainerView = findViewById(R.id.entry_otp_container)
-        otpLabelView = findViewById(R.id.entry_otp_label)
-        otpView = findViewById(R.id.entry_otp)
-        otpActionView = findViewById(R.id.entry_otp_action_image)
+        otpFieldView = findViewById(R.id.entry_otp_field)
+        otpFieldView.setLabel(R.string.entry_otp)
 
-        urlContainerView = findViewById(R.id.entry_url_container)
-        urlView = findViewById(R.id.entry_url)
+        urlFieldView = findViewById(R.id.entry_url_field)
+        urlFieldView.setLabel(R.string.entry_url)
+        urlFieldView.setValueAutoLink(true)
 
-        notesContainerView = findViewById(R.id.entry_notes_container)
-        notesView = findViewById(R.id.entry_notes)
+        notesFieldView = findViewById(R.id.entry_notes_field)
+        notesFieldView.setLabel(R.string.entry_notes)
+        notesFieldView.setValueAutoLink(true)
 
         extraFieldsContainerView = findViewById(R.id.extra_fields_container)
         extraFieldsListView = findViewById(R.id.extra_fields_list)
@@ -128,7 +107,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
         attachmentsListView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
@@ -154,86 +133,52 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         this.fontInVisibility = fontInVisibility
     }
 
-    fun assignUserName(userName: String?) {
-        if (userName != null && userName.isNotEmpty()) {
-            userNameContainerView.visibility = View.VISIBLE
-            userNameView.apply {
-                text = userName
-                if (fontInVisibility)
-                    applyFontVisibility()
-            }
-        } else {
-            userNameContainerView.visibility = View.GONE
-        }
-    }
-
-    fun assignUserNameCopyListener(onClickListener: OnClickListener) {
-        userNameActionView.setOnClickListener(onClickListener)
-    }
-
-    fun assignPassword(password: String?, allowCopyPassword: Boolean) {
-        if (password != null && password.isNotEmpty()) {
-            passwordContainerView.visibility = View.VISIBLE
-            passwordView.apply {
-                text = password
-                if (fontInVisibility)
-                    applyFontVisibility()
-            }
-            passwordActionView.isActivated = !allowCopyPassword
-        } else {
-            passwordContainerView.visibility = View.GONE
-        }
-    }
-
-    fun assignPasswordCopyListener(onClickListener: OnClickListener?) {
-        passwordActionView.apply {
-            setOnClickListener(onClickListener)
-            if (onClickListener == null) {
+    fun assignUserName(userName: String?,
+                       onClickListener: OnClickListener?) {
+        userNameFieldView.apply {
+            if (userName != null && userName.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setValue(userName)
+                applyFontVisibility(fontInVisibility)
+            } else {
                 visibility = View.GONE
             }
+            assignCopyButtonClickListener(onClickListener)
         }
     }
 
-    fun atLeastOneFieldProtectedPresent(): Boolean {
-        extraFieldsListView.let {
-            for (i in 0 until it.childCount) {
-                val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryExtraField)
-                    if (childCustomView.isProtected)
-                        return true
+    fun assignPassword(password: String?,
+                       allowCopyPassword: Boolean,
+                       onClickListener: OnClickListener?) {
+        passwordFieldView.apply {
+            if (password != null && password.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setValue(password, true)
+                applyFontVisibility(fontInVisibility)
+                activateCopyButton(allowCopyPassword)
+            }else {
+                visibility = View.GONE
             }
-        }
-        return false
-    }
-
-    fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
-        passwordView.applyHiddenStyle(hiddenStyle)
-        // Hidden style for custom fields
-        extraFieldsListView.let {
-            for (i in 0 until it.childCount) {
-                val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryExtraField)
-                    childCustomView.setHiddenPasswordStyle(hiddenStyle)
-            }
+            assignCopyButtonClickListener(onClickListener)
         }
     }
 
     fun assignOtp(otpElement: OtpElement?,
                   otpProgressView: ProgressBar?,
                   onClickListener: OnClickListener) {
-        otpContainerView.removeCallbacks(otpRunnable)
+        otpFieldView.removeCallbacks(otpRunnable)
 
         if (otpElement != null) {
-            otpContainerView.visibility = View.VISIBLE
+            otpFieldView.visibility = View.VISIBLE
 
             if (otpElement.token.isEmpty()) {
-                otpView.text = context.getString(R.string.error_invalid_OTP)
-                otpActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
-                assignOtpCopyListener(null)
+                otpFieldView.setValue(R.string.error_invalid_OTP)
+                otpFieldView.activateCopyButton(false)
+                otpFieldView.assignCopyButtonClickListener(null)
             } else {
-                assignOtpCopyListener(onClickListener)
-                otpView.text = otpElement.token
-                otpLabelView.text = otpElement.type.name
+                otpFieldView.setLabel(otpElement.type.name)
+                otpFieldView.setValue(otpElement.token)
+                otpFieldView.assignCopyButtonClickListener(onClickListener)
 
                 when (otpElement.type) {
                     // Only add token if HOTP
@@ -249,47 +194,41 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                         }
                         otpRunnable = Runnable {
                             if (otpElement.shouldRefreshToken()) {
-                                otpView.text = otpElement.token
+                                otpFieldView.setValue(otpElement.token)
                             }
                             otpProgressView?.progress = otpElement.secondsRemaining
-                            otpContainerView.postDelayed(otpRunnable, 1000)
+                            otpFieldView.postDelayed(otpRunnable, 1000)
                         }
-                        otpContainerView.post(otpRunnable)
+                        otpFieldView.post(otpRunnable)
                     }
                 }
             }
         } else {
-            otpContainerView.visibility = View.GONE
+            otpFieldView.visibility = View.GONE
             otpProgressView?.visibility = View.GONE
         }
     }
 
-    fun assignOtpCopyListener(onClickListener: OnClickListener?) {
-        otpActionView.setOnClickListener(onClickListener)
-    }
-
     fun assignURL(url: String?) {
-        if (url != null && url.isNotEmpty()) {
-            urlContainerView.visibility = View.VISIBLE
-            urlView.text = url
-        } else {
-            urlContainerView.visibility = View.GONE
+        urlFieldView.apply {
+            if (url != null && url.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setValue(url)
+            } else {
+                visibility = View.GONE
+            }
         }
     }
 
-    fun assignComment(comment: String?) {
-        if (comment != null && comment.isNotEmpty()) {
-            notesContainerView.visibility = View.VISIBLE
-            notesView.apply {
-                text = comment
-                if (fontInVisibility)
-                    applyFontVisibility()
+    fun assignNotes(notes: String?) {
+        notesFieldView.apply {
+            if (notes != null && notes.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setValue(notes)
+                applyFontVisibility(fontInVisibility)
+            } else {
+                visibility = View.GONE
             }
-            try {
-                Linkify.addLinks(notesView, Linkify.ALL)
-            } catch (e: Exception) {}
-        } else {
-            notesContainerView.visibility = View.GONE
         }
     }
 
@@ -322,6 +261,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         uuidReferenceView.text = UuidUtil.toHexString(uuid)
     }
 
+
+    fun setHiddenProtectedValue(hiddenProtectedValue: Boolean) {
+        passwordFieldView.hiddenProtectedValue = hiddenProtectedValue
+        // Hidden style for custom fields
+        extraFieldsListView.let {
+            for (i in 0 until it.childCount) {
+                val childCustomView = it.getChildAt(i)
+                if (childCustomView is EntryField)
+                    childCustomView.hiddenProtectedValue = hiddenProtectedValue
+            }
+        }
+    }
+
     /* -------------
      * Extra Fields
      * -------------
@@ -334,14 +286,15 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun addExtraField(title: String,
                       value: ProtectedString,
                       allowCopy: Boolean,
-                      onActionClickListener: OnClickListener?) {
+                      onCopyButtonClickListener: OnClickListener?) {
 
-        val entryCustomField: EntryExtraField? = EntryExtraField(context, attrs, defStyle)
+        val entryCustomField: EntryField? = EntryField(context, attrs, defStyle)
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)
-            activateActionButton(allowCopy)
-            assignActionButtonClickListener(onActionClickListener)
+            setValueAutoLink(true)
+            activateCopyButton(allowCopy)
+            assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)
         }
         entryCustomField?.let {
@@ -364,17 +317,18 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
-                          onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
+    fun assignAttachments(attachments: Set<Attachment>,
+                          streamDirection: StreamDirection,
+                          onAttachmentClicked: (attachment: Attachment)->Unit) {
         showAttachments(attachments.isNotEmpty())
-        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onItemClickListener = { item ->
-            onAttachmentClicked.invoke(item)
+            onAttachmentClicked.invoke(item.attachment)
         }
     }
 
-    fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachment) {
-        attachmentsAdapter.updateProgress(attachmentToDownload)
+    fun putAttachment(attachmentToDownload: EntryAttachmentState) {
+        attachmentsAdapter.putItem(attachmentToDownload)
     }
 
     /* -------------

@@ -61,7 +61,7 @@
     <string name="entry_user_name">Käyttäjänimi</string>
     <string name="error_arc4">Arcfour stream cipher ei ole tuettu.</string>
     <string name="error_can_not_handle_uri">KeePassDX ei osaa käsitellä tätä osoitetta.</string>
-    <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
+    <string name="error_file_not_create">Tiedoston luonti epäonnistui</string>
     <string name="error_invalid_db">Tietokantaa ei pystytty lukemaan.</string>
     <string name="error_invalid_path">Varmista että polku on oikein.</string>
     <string name="error_no_name">Anna nimi.</string>
@@ -245,8 +245,6 @@
     <string name="monospace_font_fields_enable_title">Kenttäfontti</string>
     <string name="recycle_bin_summary">Siirrä ryhmät ja tietueet \"Roskakori\" ryhmään ennen poistamista</string>
     <string name="recycle_bin_title">Roskakorin käyttö</string>
-    <string name="full_file_path_enable_summary">Katso koko tiedostopolku</string>
-    <string name="full_file_path_enable_title">Tiedostopolku</string>
     <string name="assign_master_key">Aseta pääavain</string>
     <string name="path">Polku</string>
     <string name="file_name">Tiedostonimi</string>

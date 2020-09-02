@@ -43,7 +43,7 @@
     <string name="entry_title">العنوان</string>
     <string name="entry_url">رابط</string>
     <string name="entry_user_name">اسم المستخدم</string>
-    <string name="error_file_not_create">تعذر إنشاء الملف :</string>
+    <string name="error_file_not_create">تعذر إنشاء الملف</string>
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
     <string name="error_pass_match">كلمتا السر غير متطابقتين.</string>
@@ -189,8 +189,6 @@
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
     <string name="path">مسار</string>
-    <string name="full_file_path_enable_title">مسار الملف</string>
-    <string name="full_file_path_enable_summary">عرض المسار الكامل للملف</string>
     <string name="configure_biometric">فحص البصمة مدعوم لكنه ليس معد.</string>
     <string name="open_biometric_prompt_unlock_database">فحص البصمة</string>
     <string name="biometric_invalid_key">لا يمكن قراءة مفتاح البصمة.

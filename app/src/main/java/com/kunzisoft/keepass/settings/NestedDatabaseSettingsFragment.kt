@@ -150,7 +150,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             recycleBinGroupPref = findPreference(getString(R.string.recycle_bin_group_key))
 
             // Recycle bin
-            if (mDatabase.allowRecycleBin) {
+            if (mDatabase.allowConfigurableRecycleBin) {
                 val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
                 recycleBinEnablePref?.apply {
                     isChecked = mDatabase.isRecycleBinEnabled

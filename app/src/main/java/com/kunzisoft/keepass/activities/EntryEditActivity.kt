@@ -22,6 +22,8 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -36,18 +38,17 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.model.FocusedEditField
+import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -55,8 +56,10 @@ import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.showActionError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
@@ -69,7 +72,9 @@ class EntryEditActivity : LockingActivity(),
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener,
+        FileTooBigDialogFragment.ActionChooseListener,
+        ReplaceFileDialogFragment.ActionChooseListener {
 
     private var mDatabase: Database? = null
 
@@ -89,6 +94,11 @@ class EntryEditActivity : LockingActivity(),
     private var lockView: View? = null
 
     private var mFocusedEditExtraField: FocusedEditField? = null
+
+    // To manage attachments
+    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
+    private var mAllowMultipleAttachments: Boolean = false
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -216,27 +226,31 @@ class EntryEditActivity : LockingActivity(),
             menuInflater.inflate(R.menu.entry_edit, menu)
 
             menu.findItem(R.id.menu_add_field).apply {
-                val allowLock = PreferencesUtil.showLockDatabaseButton(context)
-                isEnabled = allowLock
-                isVisible = allowLock
-            }
-
-            menu.findItem(R.id.menu_add_field).apply {
                 val allowCustomField = mNewEntry?.allowCustomFields() == true
                 isEnabled = allowCustomField
                 isVisible = allowCustomField
             }
 
+            // Attachment not compatible below KitKat
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                menu.findItem(R.id.menu_add_attachment).isVisible = false
+            }
+
             menu.findItem(R.id.menu_add_otp).apply {
                 val allowOTP = mDatabase?.allowOTP == true
                 isEnabled = allowOTP
-                isVisible = allowOTP
+                // OTP not compatible below KitKat
+                isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             }
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_add_field -> {
                         addNewCustomField()
+                        true
+                    }
+                    R.id.menu_add_attachment -> {
+                        addNewAttachment(item)
                         true
                     }
                     R.id.menu_add_otp -> {
@@ -247,6 +261,10 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
         }
+
+        // To retrieve attachment
+        mSelectFileHelper = SelectFileHelper(this)
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
         // Save button
         validateButton = findViewById(R.id.entry_edit_validate)
@@ -279,6 +297,54 @@ class EntryEditActivity : LockingActivity(),
 
         // Padding if lock button visible
         entryEditAddToolBar?.updateLockPaddingLeft()
+
+        mAllowMultipleAttachments = mDatabase?.allowMultipleAttachments == true
+        mAttachmentFileBinderManager?.apply {
+            registerProgressTask()
+            onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
+                override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
+                    when (entryAttachmentState.downloadState) {
+                        AttachmentState.START -> {
+                            entryEditContentsView?.apply {
+                                // When only one attachment is allowed
+                                if (!mAllowMultipleAttachments) {
+                                    clearAttachments()
+                                }
+                                putAttachment(entryAttachmentState)
+                                requestLayout()
+                                // Scroll to the attachment position
+                                getAttachmentViewPosition(entryAttachmentState) {
+                                    scrollView?.smoothScrollTo(0, it.toInt())
+                                }
+                            }
+                        }
+                        AttachmentState.IN_PROGRESS -> {
+                            entryEditContentsView?.putAttachment(entryAttachmentState)
+                        }
+                        AttachmentState.COMPLETE -> {
+                            entryEditContentsView?.apply {
+                                putAttachment(entryAttachmentState)
+                                // Scroll to the attachment position
+                                getAttachmentViewPosition(entryAttachmentState) {
+                                    scrollView?.smoothScrollTo(0, it.toInt())
+                                }
+                            }
+                        }
+                        AttachmentState.ERROR -> {
+                            mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.attachment)
+                            entryEditContentsView?.removeAttachment(entryAttachmentState)
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        mAttachmentFileBinderManager?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     private fun populateViewsWithEntry(newEntry: Entry) {
@@ -303,9 +369,14 @@ class EntryEditActivity : LockingActivity(),
             notes = newEntry.notes
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
+            }, {
+                editCustomField(it)
             }, mFocusedEditExtraField)
-            assignAttachments(newEntry.getAttachments()) { attachment ->
-                newEntry.removeAttachment(attachment)
+
+            mDatabase?.binaryPool?.let { binaryPool ->
+                assignAttachments(newEntry.getAttachments(binaryPool).toSet(), StreamDirection.UPLOAD) { attachment ->
+                    newEntry.removeAttachment(attachment)
+                }
             }
         }
     }
@@ -327,8 +398,13 @@ class EntryEditActivity : LockingActivity(),
                     expiryTime = entryView.expiresDate
                 }
                 notes = entryView.notes
-                entryView.getExtraField().forEach { customField ->
+                entryView.getExtraFields().forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
+                }
+                mDatabase?.binaryPool?.let { binaryPool ->
+                    entryView.getAttachments().forEach {
+                        putAttachment(it, binaryPool)
+                    }
                 }
                 mFocusedEditExtraField = entryView.getExtraFieldFocused()
             }
@@ -358,12 +434,84 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
-    override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
-        entryEditContentsView?.putExtraField(Field(label, ProtectedString(protection)))
+    private fun editCustomField(field: Field) {
+        EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
     }
 
-    override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
+    override fun onNewCustomFieldApproved(newField: Field) {
+        entryEditContentsView?.apply {
+            putExtraField(newField)
+            getExtraFieldViewPosition(newField) { position ->
+                scrollView?.smoothScrollTo(0, position.toInt())
+            }
+        }
+    }
 
+    override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
+        entryEditContentsView?.replaceExtraField(oldField, newField)
+    }
+
+    override fun onDeleteCustomFieldApproved(oldField: Field) {
+        entryEditContentsView?.removeExtraField(oldField)
+    }
+
+    /**
+     * Add a new attachment
+     */
+    private fun addNewAttachment(item: MenuItem) {
+        mSelectFileHelper?.selectFileOnClickViewListener?.onMenuItemClick(item)
+    }
+
+    override fun onValidateUploadFileTooBig(attachmentToUploadUri: Uri?, fileName: String?) {
+        if (attachmentToUploadUri != null && fileName != null) {
+            buildNewAttachment(attachmentToUploadUri, fileName)
+        }
+    }
+
+    override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
+        if (attachmentToUploadUri != null && attachment != null) {
+            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
+        }
+    }
+
+    private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
+        val compression = mDatabase?.compressionForNewEntry() ?: false
+        mDatabase?.buildNewBinary(applicationContext.filesDir, false, compression)?.let { binaryAttachment ->
+            val entryAttachment = Attachment(fileName, binaryAttachment)
+            // Ask to replace the current attachment
+            if ((mDatabase?.allowMultipleAttachments != true && entryEditContentsView?.containsAttachment() == true) ||
+                    entryEditContentsView?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
+                ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
+                        .show(supportFragmentManager, "replacementFileFragment")
+            } else {
+                mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+            uri?.let { attachmentToUploadUri ->
+                // TODO Async to get the name
+                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                    documentFile.name?.let { fileName ->
+                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
+                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
+                                    .show(supportFragmentManager, "fileTooBigFragment")
+                        } else {
+                            buildNewAttachment(attachmentToUploadUri, fileName)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Set up OTP (HOTP or TOTP) and add it as extra field
+     */
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
         // and open the dialog to set up the OTP
@@ -441,8 +589,8 @@ class EntryEditActivity : LockingActivity(),
         if (!generatePasswordEducationPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
             val addNewFieldEducationPerformed = mNewEntry != null
-                    && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
-                    && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
+                    && mNewEntry!!.allowCustomFields() && addNewFieldView != null
+                    && addNewFieldView.visibility == View.VISIBLE
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
                     {
@@ -453,13 +601,27 @@ class EntryEditActivity : LockingActivity(),
                     }
             )
             if (!addNewFieldEducationPerformed) {
-                val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
-                setupOtpView != null && setupOtpView.visibility == View.VISIBLE
-                        && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
-                        setupOtpView,
+                val attachmentView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_attachment)
+                val addAttachmentEducationPerformed = attachmentView != null && attachmentView.visibility == View.VISIBLE
+                        && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
+                        attachmentView,
                         {
-                            setupOTP()
-                        })
+                            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(attachmentView)
+                        },
+                        {
+                            performedNextEducation(entryEditActivityEducation)
+                        }
+                )
+                if (!addAttachmentEducationPerformed) {
+                    val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
+                    setupOtpView != null && setupOtpView.visibility == View.VISIBLE
+                            && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
+                            setupOtpView,
+                            {
+                                setupOTP()
+                            }
+                    )
+                }
             }
         }
     }
@@ -485,8 +647,13 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        entryEditContentsView?.putExtraField(otpField)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
+        entryEditContentsView?.apply {
+            putExtraField(otpField)
+            getExtraFieldViewPosition(otpField) { position ->
+                scrollView?.smoothScrollTo(0, position.toInt())
+            }
+        }
     }
 
     override fun iconPicked(bundle: Bundle) {

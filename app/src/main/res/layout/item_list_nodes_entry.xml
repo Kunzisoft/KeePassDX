@@ -25,7 +25,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/KeepassDXStyle.Selectable.Item">
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -46,20 +46,26 @@
             android:layout_marginEnd="@dimen/image_list_margin"
             android:scaleType="fitXY"
             android:src="@drawable/ic_blank_32dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="2dp"
             android:paddingBottom="4dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/node_icon"
-            android:layout_toEndOf="@+id/node_icon">
+            android:layout_marginLeft="@dimen/image_list_margin"
+            android:layout_marginStart="@dimen/image_list_margin"
+            android:layout_marginRight="@dimen/image_list_margin"
+            android:layout_marginEnd="@dimen/image_list_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/node_icon"
+            app:layout_constraintLeft_toRightOf="@+id/node_icon"
+            app:layout_constraintEnd_toStartOf="@+id/node_attachment_icon"
+            app:layout_constraintRight_toLeftOf="@+id/node_attachment_icon">
             <TextView
                 android:id="@+id/node_text"
                 android:layout_height="wrap_content"
@@ -78,5 +84,19 @@
                 android:singleLine="true"
                 style="@style/KeepassDXStyle.TextAppearance.Entry.SubTitle" />
         </LinearLayout>
-    </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/node_attachment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/image_list_margin"
+            android:layout_marginStart="@dimen/image_list_margin"
+            android:layout_marginRight="@dimen/image_list_margin"
+            android:layout_marginEnd="@dimen/image_list_margin"
+            android:src="@drawable/ic_attach_file_white_24dp"
+            style="@style/KeepassDXStyle.TextAppearance.Entry.Icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

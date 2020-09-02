@@ -44,8 +44,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
-import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -64,7 +64,9 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -92,7 +94,7 @@ open class PasswordActivity : SpecialModeActivity() {
     private var mDatabaseKeyFileUri: Uri? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mOpenFileHelper: OpenFileHelper? = null
+    private var mSelectFileHelper: SelectFileHelper? = null
 
     private var mPermissionAsked = false
     private var readOnly: Boolean = false
@@ -136,9 +138,9 @@ open class PasswordActivity : SpecialModeActivity() {
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
-        mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
+        mSelectFileHelper = SelectFileHelper(this@PasswordActivity)
         keyFileSelectionView?.apply {
-            mOpenFileHelper?.openFileOnClickViewListener?.let {
+            mSelectFileHelper?.selectFileOnClickViewListener?.let {
                 setOnClickListener(it)
                 setOnLongClickListener(it)
             }
@@ -747,7 +749,7 @@ open class PasswordActivity : SpecialModeActivity() {
         }
 
         var keyFileResult = false
-        mOpenFileHelper?.let {
+        mSelectFileHelper?.let {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {

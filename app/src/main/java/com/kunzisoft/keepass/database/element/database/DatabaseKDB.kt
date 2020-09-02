@@ -26,8 +26,10 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.stream.NullOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestOutputStream
@@ -38,7 +40,7 @@ import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
-    var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
+    private var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
 
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
@@ -57,7 +59,14 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     // Retrieve backup group in index
     val backupGroup: GroupKDB?
-        get() = if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID) null else getGroupById(backupGroupId)
+        get() {
+            if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
+                ensureBackupExists()
+            return if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
+                null
+            else
+                getGroupById(backupGroupId)
+        }
 
     override val kdfEngine: KdfEngine?
         get() = kdfListV3[0]
@@ -192,10 +201,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     /**
-     * Ensure that the recycle bin tree exists, if enabled and create it
+     * Ensure that the backup tree exists if enabled, and create it
      * if it doesn't exist
      */
-    fun ensureRecycleBinExists() {
+    fun ensureBackupExists() {
         rootGroups.forEach { currentGroup ->
             if (currentGroup.level == 0
                     && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
@@ -219,21 +228,25 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * @param node Node to remove
      * @return true if node can be recycle, false elsewhere
      */
-    //  TODO #394 Backup KDB
-    //  fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
-    fun canRecycle(): Boolean {
+    fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
+        if (node == backupGroup)
+            return false
+        backupGroup?.let {
+            if (node.isContainedIn(it))
+                return false
+        }
         return true
     }
 
     fun recycle(group: GroupKDB) {
-        ensureRecycleBinExists()
+        ensureBackupExists()
         removeGroupFrom(group, group.parent)
         addGroupTo(group, backupGroup)
         group.afterAssignNewParent()
     }
 
     fun recycle(entry: EntryKDB) {
-        ensureRecycleBinExists()
+        ensureBackupExists()
         removeEntryFrom(entry, entry.parent)
         addEntryTo(entry, backupGroup)
         entry.afterAssignNewParent()
@@ -247,6 +260,12 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     fun undoRecycle(entry: EntryKDB, origParent: GroupKDB) {
         removeEntryFrom(entry, backupGroup)
         addEntryTo(entry, origParent)
+    }
+
+    fun buildNewBinary(cacheDirectory: File): BinaryAttachment {
+        // Generate an unique new file with timestamp
+        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
+        return BinaryAttachment(fileInCache)
     }
 
     companion object {

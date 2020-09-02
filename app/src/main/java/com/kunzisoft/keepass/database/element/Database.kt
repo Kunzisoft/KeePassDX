@@ -25,9 +25,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.DatabaseKDB
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
@@ -52,6 +50,7 @@ import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Database {
@@ -156,6 +155,17 @@ class Database {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
         }
+
+    fun compressionForNewEntry(): Boolean {
+        if (mDatabaseKDB != null)
+            return false
+        // Default compression not necessary if stored in header
+        mDatabaseKDBX?.let {
+            return it.compressionAlgorithm == CompressionAlgorithm.GZip
+                    && it.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()
+        }
+        return false
+    }
 
     fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
                                     newCompression: CompressionAlgorithm) {
@@ -268,14 +278,14 @@ class Database {
         }
 
     /**
-     * Determine if RecycleBin is available or not for this version of database
-     * @return true if RecycleBin available
+     * Determine if a configurable RecycleBin is available or not for this version of database
+     * @return true if a configurable RecycleBin available
      */
-    val allowRecycleBin: Boolean
+    val allowConfigurableRecycleBin: Boolean
         get() = mDatabaseKDBX != null
 
     var isRecycleBinEnabled: Boolean
-        // TODO #394 isRecycleBinEnabled mDatabaseKDB
+        // Backup is always enabled in KDB database
         get() = mDatabaseKDB != null || mDatabaseKDBX?.isRecycleBinEnabled ?: false
         set(value) {
             mDatabaseKDBX?.isRecycleBinEnabled = value
@@ -293,12 +303,12 @@ class Database {
         }
 
     fun ensureRecycleBinExists(resources: Resources) {
-        mDatabaseKDB?.ensureRecycleBinExists()
+        mDatabaseKDB?.ensureBackupExists()
         mDatabaseKDBX?.ensureRecycleBinExists(resources)
     }
 
     fun removeRecycleBin() {
-        // TODO #394 delete backup mDatabaseKDB?.removeRecycleBin()
+        // Don't allow remove backup in KDB
         mDatabaseKDBX?.removeRecycleBin()
     }
 
@@ -428,6 +438,37 @@ class Database {
         }, omitBackup, max)
     }
 
+    val binaryPool: BinaryPool
+        get() {
+            return mDatabaseKDBX?.binaryPool ?: BinaryPool()
+        }
+
+    val allowMultipleAttachments: Boolean
+        get() {
+            if (mDatabaseKDB != null)
+                return false
+            if (mDatabaseKDBX != null)
+                return true
+            return false
+        }
+
+    fun buildNewBinary(cacheDirectory: File,
+                       enableProtection: Boolean = false,
+                       compressed: Boolean = false): BinaryAttachment? {
+        return mDatabaseKDB?.buildNewBinary(cacheDirectory)
+                ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory, enableProtection, compressed)
+    }
+
+    fun removeAttachmentIfNotUsed(attachment: Attachment) {
+        // No need in KDB database because unique attachment by entry
+        mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
+    }
+
+    fun removeUnlinkedAttachments() {
+        // No check in database KDB because unique attachment by entry
+        mDatabaseKDBX?.removeUnlinkedAttachments()
+    }
+
     @Throws(DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver) {
         try {
@@ -473,7 +514,7 @@ class Database {
         } else {
             var outputStream: OutputStream? = null
             try {
-                outputStream = contentResolver.openOutputStream(uri)
+                outputStream = contentResolver.openOutputStream(uri, "rwt")
                 outputStream?.let { definedOutputStream ->
                     val databaseOutput = mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
                                     ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, definedOutputStream) }
@@ -718,7 +759,7 @@ class Database {
     fun canRecycle(entry: Entry): Boolean {
         var canRecycle: Boolean? = null
         entry.entryKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle()
+            canRecycle = mDatabaseKDB?.canRecycle(it)
         }
         entry.entryKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)
@@ -729,7 +770,7 @@ class Database {
     fun canRecycle(group: Group): Boolean {
         var canRecycle: Boolean? = null
         group.groupKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle()
+            canRecycle = mDatabaseKDB?.canRecycle(it)
         }
         group.groupKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)
@@ -800,7 +841,7 @@ class Database {
         rootGroup?.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
-                        removeOldestEntryHistory(node)
+                        removeOldestEntryHistory(node, binaryPool)
                         return true
                     }
                 },
@@ -808,34 +849,19 @@ class Database {
                     override fun operate(node: Group): Boolean {
                         return true
                     }
-                })
-    }
-
-    fun removeEachEntryHistory() {
-        rootGroup?.doForEachChildAndForIt(
-                object : NodeHandler<Entry>() {
-                    override fun operate(node: Entry): Boolean {
-                        node.removeAllHistory()
-                        return true
-                    }
-                },
-                object : NodeHandler<Group>() {
-                    override fun operate(node: Group): Boolean {
-                        return true
-                    }
-                })
+                }
+        )
     }
 
     /**
      * Remove oldest history if more than max items or max memory
      */
-    fun removeOldestEntryHistory(entry: Entry) {
+    fun removeOldestEntryHistory(entry: Entry, binaryPool: BinaryPool) {
         mDatabaseKDBX?.let {
-
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (entry.getHistory().size > maxItems) {
-                    entry.removeOldestEntryFromHistory()
+                    removeOldestEntryHistory(entry)
                 }
             }
 
@@ -844,15 +870,30 @@ class Database {
                 while (true) {
                     var historySize: Long = 0
                     for (entryHistory in entry.getHistory()) {
-                        historySize += entryHistory.getSize()
+                        historySize += entryHistory.getSize(binaryPool)
                     }
-
                     if (historySize > maxSize) {
-                        entry.removeOldestEntryFromHistory()
+                        removeOldestEntryHistory(entry)
                     } else {
                         break
                     }
                 }
+            }
+        }
+    }
+
+    private fun removeOldestEntryHistory(entry: Entry) {
+        entry.removeOldestEntryFromHistory()?.let {
+            it.getAttachments(binaryPool, false).forEach { attachmentToRemove ->
+                removeAttachmentIfNotUsed(attachmentToRemove)
+            }
+        }
+    }
+
+    fun removeEntryHistory(entry: Entry, entryHistoryPosition: Int) {
+        entry.removeEntryFromHistory(entryHistoryPosition)?.let {
+            it.getAttachments(binaryPool, false).forEach { attachmentToRemove ->
+                removeAttachmentIfNotUsed(attachmentToRemove)
             }
         }
     }

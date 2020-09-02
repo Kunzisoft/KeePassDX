@@ -19,11 +19,6 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_toggle_pass"
-        android:icon="@drawable/ic_visibility_white_24dp"
-        android:title="@string/menu_showpass"
-        android:orderInCategory="21"
-        app:showAsAction="always" />
     <item android:id="@+id/menu_edit"
         android:icon="@drawable/ic_mode_edit_white_24dp"
         android:title="@string/menu_edit"

@@ -75,9 +75,13 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action</item>
+        <item name="bottomAppBarStyle">@style/KeepassDXStyle.Toolbar.Bottom</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
+        <item name="android:actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
+        <item name="actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
@@ -128,9 +132,13 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action</item>
+        <item name="bottomAppBarStyle">@style/KeepassDXStyle.Toolbar.Bottom</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
+        <item name="android:actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
+        <item name="actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
@@ -158,7 +166,7 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
-    <!-- Toolbar Style Light Green -->
+    <!-- Toolbar Style Light -->
     <style name="KeepassDXStyle.Toolbar.Light" parent="KeepassDXStyle.Light.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
@@ -168,7 +176,7 @@
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
-    <!-- Toolbar Style Night Green -->
+    <!-- Toolbar Style Night -->
     <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
@@ -176,6 +184,46 @@
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
+    </style>
+
+    <!-- Toolbar Home -->
+    <style name="KeepassDXStyle.Toolbar.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">?android:attr/textColorHintInverse</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Home.Light" parent="KeepassDXStyle.Light.v21">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Home.Night" parent="KeepassDXStyle.Night.v21">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+
+
+    <style name="KeepassDXStyle.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/colorTextInverse</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textColor">@color/colorTextInverse</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Overflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">@color/colorTextInverse</item>
+        <item name="tint">@color/colorTextInverse</item>
+    </style>
+
+    <!-- Action Style -->
+    <style name="KeepassDXStyle.Toolbar.Action" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/KeepassDXStyle.Toolbar.Title</item>
+        <item name="subtitleTextAppearance">@style/KeepassDXStyle.Toolbar.Subtitle</item>
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Bottom Toolbar Style -->
+    <style name="KeepassDXStyle.Toolbar.Bottom" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="titleTextAppearance">@style/KeepassDXStyle.Toolbar.Title</item>
+        <item name="subtitleTextAppearance">@style/KeepassDXStyle.Toolbar.Subtitle</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="background">?attr/colorPrimary</item>
     </style>
 
     <!-- Special Toolbar Light Style -->
@@ -298,6 +346,9 @@
     <style name="KeepassDXStyle.TextAppearance.Entry.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
         <item name="android:textColor">@color/entry_subtitle_color</item>
         <item name="android:tint">@color/entry_subtitle_color</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Entry.Icon" parent="KeepassDXStyle.TextAppearance.Small">
+        <item name="tint">@color/entry_subtitle_color</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Group.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">@color/group_title_color</item>

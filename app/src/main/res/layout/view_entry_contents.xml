@@ -40,153 +40,41 @@
 			android:orientation="vertical">
 
 			<!-- Username -->
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:id="@+id/entry_user_name_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_user_name_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_user_name_label"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_user_name_action_image"
-					android:text="@string/entry_user_name"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_user_name"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toBottomOf="@+id/entry_user_name_label"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_user_name_action_image"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-				<androidx.appcompat.widget.AppCompatImageButton
-					android:id="@+id/entry_user_name_action_image"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:src="@drawable/ic_content_copy_white_24dp"
-					android:contentDescription="@string/menu_copy"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
-			</androidx.constraintlayout.widget.ConstraintLayout>
+				android:visibility="gone" />
 
 			<!-- Password -->
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:id="@+id/entry_password_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_password_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_password_label"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_password_action_image"
-					android:text="@string/entry_password"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_password"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toBottomOf="@+id/entry_password_label"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_password_action_image"
-					android:focusable="false"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-				<androidx.appcompat.widget.AppCompatImageView
-					android:id="@+id/entry_password_action_image"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:src="@drawable/ic_content_copy_white_24dp"
-					android:contentDescription="@string/menu_copy"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
-			</androidx.constraintlayout.widget.ConstraintLayout>
+				android:visibility="gone" />
 
 			<!-- OTP -->
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:id="@+id/entry_otp_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_otp_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_otp_label"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_otp_action_image"
-					android:text="@string/entry_otp"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_otp"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toBottomOf="@+id/entry_otp_label"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_otp_action_image"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-				<androidx.appcompat.widget.AppCompatImageView
-					android:id="@+id/entry_otp_action_image"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:src="@drawable/ic_content_copy_white_24dp"
-					android:contentDescription="@string/menu_copy"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
-			</androidx.constraintlayout.widget.ConstraintLayout>
+				android:visibility="gone" />
 
 			<!--  URL -->
-			<LinearLayout
-				android:id="@+id/entry_url_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_url_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_url_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_url"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_url"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:autoLink="all"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-			</LinearLayout>
+				android:visibility="gone" />
 
-			<!-- Comment -->
-			<LinearLayout
-				android:id="@+id/entry_notes_container"
+			<!-- Notes -->
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_notes_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_notes_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_notes"
-					android:autoLink="all"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_notes"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-			</LinearLayout>
+				android:visibility="gone" />
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 

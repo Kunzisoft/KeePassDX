@@ -56,7 +56,7 @@
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
-    <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
+    <string name="error_file_not_create">Não foi possível criar o arquivo</string>
     <string name="error_invalid_db">Falha ao ler o banco.</string>
     <string name="error_invalid_path">Certifique-se de que o caminho está correto.</string>
     <string name="error_no_name">Digite um nome.</string>
@@ -229,8 +229,6 @@
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave mestre</string>
     <string name="create_keepass_file">Criar novo banco</string>
-    <string name="full_file_path_enable_title">Caminho do arquivo</string>
-    <string name="full_file_path_enable_summary">Veja o caminho inteiro do arquivo</string>
     <string name="recycle_bin_title">Usar lixeira</string>
     <string name="recycle_bin_summary">Mover grupos e entradas para o grupo \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
@@ -423,7 +421,7 @@
     <string name="database_custom_color_title">Cor personalizada do banco de dados</string>
     <string name="compression">Compressão</string>
     <string name="compression_none">Nada</string>
-    <string name="compression_gzip">GZip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
     <string name="error_save_database">Não foi possível salvar no banco de dados.</string>
     <string name="menu_save_database">Salvar banco de dados</string>
@@ -443,7 +441,7 @@
     <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa de domínios da internet ou de aplicações automaticamente</string>
     <string name="hide_expired_entries_summary">Entradas expeiradas foram escondidas</string>
     <string name="hide_expired_entries_title">Esconder entradas expiradas</string>
-    <string name="download_complete">Completo! Toque para abrir o aquivo.</string>
+    <string name="download_complete">Completo!</string>
     <string name="download_finalization">Finalizando…</string>
     <string name="download_progression">Em progresso: %1$d%%</string>
     <string name="download_initialization">Inicializando…</string>

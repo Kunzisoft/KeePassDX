@@ -47,18 +47,25 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binaryPool.doForEachBinary { _, protectedBinary ->
+        database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
+            val protectedBinary = keyBinary.binary
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
             }
 
+            // Force decompression to add binary in header
+            protectedBinary.decompress()
+
             dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary.toInt())
-            dataOutputStream.writeInt(protectedBinary.length().toInt() + 1) // TODO verify
+            dataOutputStream.writeInt(protectedBinary.length().toInt() + 1)
             dataOutputStream.write(flag.toInt())
 
-            protectedBinary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                dataOutputStream.write(buffer)
+            // if was compressed in cache, uncompress it
+            protectedBinary.getInputDataStream().use { inputStream ->
+                inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    dataOutputStream.write(buffer)
+                }
             }
         }
 

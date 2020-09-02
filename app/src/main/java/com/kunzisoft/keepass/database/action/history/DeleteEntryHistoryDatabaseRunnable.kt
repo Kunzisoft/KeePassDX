@@ -34,7 +34,7 @@ class DeleteEntryHistoryDatabaseRunnable (
 
     override fun onStartRun() {
         try {
-            mainEntry.removeEntryFromHistory(entryHistoryPosition)
+            database.removeEntryHistory(mainEntry, entryHistoryPosition)
         } catch (e: Exception) {
             setError(e)
         }

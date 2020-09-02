@@ -22,24 +22,31 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.CompoundButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.Field
 
 
 class EntryCustomFieldDialogFragment: DialogFragment() {
+
+    private var oldField: Field? = null
 
     private var entryCustomFieldListener: EntryCustomFieldListener? = null
 
     private var customFieldLabelContainer: TextInputLayout? = null
     private var customFieldLabel: TextView? = null
+    private var customFieldDeleteButton: ImageView? = null
     private var customFieldProtectionButton: CompoundButton? = null
 
     override fun onAttach(context: Context) {
@@ -58,17 +65,27 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
             val root = activity.layoutInflater.inflate(R.layout.fragment_entry_new_field, null)
             customFieldLabelContainer = root?.findViewById(R.id.entry_custom_field_label_container)
             customFieldLabel = root?.findViewById(R.id.entry_custom_field_label)
+            customFieldDeleteButton = root?.findViewById(R.id.entry_custom_field_delete)
             customFieldProtectionButton = root?.findViewById(R.id.entry_custom_field_protection)
+
+            oldField = arguments?.getParcelable(KEY_FIELD)
+            oldField?.let { oldCustomField ->
+                customFieldLabel?.text = oldCustomField.name
+                customFieldProtectionButton?.isChecked = oldCustomField.protectedValue.isProtected
+
+                customFieldDeleteButton?.visibility = View.VISIBLE
+                customFieldDeleteButton?.setOnClickListener {
+                    entryCustomFieldListener?.onDeleteCustomFieldApproved(oldCustomField)
+                    (dialog as AlertDialog?)?.dismiss()
+                }
+            } ?: run {
+                customFieldDeleteButton?.visibility = View.GONE
+            }
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok, null)
-                    .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        entryCustomFieldListener?.onNewCustomFieldCanceled(
-                                customFieldLabel?.text.toString(),
-                                customFieldProtectionButton?.isChecked == true
-                        )
-                    }
+                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
             val dialogCreated = builder.create()
 
             customFieldLabel?.requestFocus()
@@ -102,10 +119,19 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
 
     private fun approveIfValid() {
         if (isValid()) {
-            entryCustomFieldListener?.onNewCustomFieldApproved(
-                    customFieldLabel?.text.toString(),
-                    customFieldProtectionButton?.isChecked == true
-            )
+            oldField?.let {
+                // New property with old value
+                entryCustomFieldListener?.onEditCustomFieldApproved(it,
+                        Field(customFieldLabel?.text?.toString() ?: "",
+                                ProtectedString(customFieldProtectionButton?.isChecked == true,
+                                        it.protectedValue.stringValue))
+                )
+            } ?: run {
+                entryCustomFieldListener?.onNewCustomFieldApproved(
+                        Field(customFieldLabel?.text?.toString() ?: "",
+                                ProtectedString(customFieldProtectionButton?.isChecked == true))
+                )
+            }
             (dialog as AlertDialog?)?.dismiss()
         }
     }
@@ -127,13 +153,25 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
     }
 
     interface EntryCustomFieldListener {
-        fun onNewCustomFieldApproved(label: String, protection: Boolean)
-        fun onNewCustomFieldCanceled(label: String, protection: Boolean)
+        fun onNewCustomFieldApproved(newField: Field)
+        fun onEditCustomFieldApproved(oldField: Field, newField: Field)
+        fun onDeleteCustomFieldApproved(oldField: Field)
     }
 
     companion object {
+
+        private const val KEY_FIELD = "KEY_FIELD"
+
         fun getInstance(): EntryCustomFieldDialogFragment {
             return EntryCustomFieldDialogFragment()
+        }
+
+        fun getInstance(field: Field): EntryCustomFieldDialogFragment {
+            return EntryCustomFieldDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_FIELD, field)
+                }
+            }
         }
     }
 }

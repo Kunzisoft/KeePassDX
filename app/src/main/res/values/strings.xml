@@ -103,7 +103,7 @@
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The Arcfour stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">Could not handle this URI in KeePassDX.</string>
-    <string name="error_file_not_create">Could not create file:</string>
+    <string name="error_file_not_create">Could not create file</string>
     <string name="error_invalid_db">Could not read the database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
     <string name="error_invalid_OTP">Invalid OTP secret.</string>
@@ -257,6 +257,9 @@
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
+    <string name="warning_file_too_big">A KeePass database is supposed to contain only small utility files (such as PGP key files).\n\nYour database may get very large and reduce performance with this upload.</string>
+    <string name="warning_replace_file">Uploading this file will replace the existing one.</string>
+    <string name="warning_sure_add_file">Add the file anyway?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported, but not set up.</string>
@@ -315,8 +318,6 @@
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
-    <string name="full_file_path_enable_title">Filepath</string>
-    <string name="full_file_path_enable_summary">View the full filepath</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Recycle bin usage</string>
@@ -351,7 +352,7 @@
     <string name="other">Other</string>
     <string name="compression">Compression</string>
     <string name="compression_none">None</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -423,6 +424,8 @@
     <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
     <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
+    <string name="education_add_attachment_title">Add attachment</string>
+    <string name="education_add_attachment_summary">Upload an attachment to your entry to save important external data.</string>
     <string name="education_setup_OTP_title">Set up OTP</string>
     <string name="education_setup_OTP_summary">Set up one-time password management (HOTP / TOTP) to generate a token requested for two-factor authentication (2FA).</string>
     <string name="education_unlock_title">Unlock your database</string>
@@ -451,10 +454,11 @@
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
     <string name="download_attachment">Download %1$s</string>
+    <string name="upload_attachment">Upload %1$s</string>
     <string name="download_initialization">Initializing…</string>
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizing…</string>
-    <string name="download_complete">Tap to open the file.</string>
+    <string name="download_complete">Complete!</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>

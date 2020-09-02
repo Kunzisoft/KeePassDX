@@ -1,0 +1,5 @@
+ * Upload attachments
+ * Visibility button for each hidden field
+ * Fix read header file
+ * Fix deletion in KDB database
+ * Fix minor issues

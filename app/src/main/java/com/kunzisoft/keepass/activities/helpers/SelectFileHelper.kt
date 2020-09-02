@@ -28,19 +28,20 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 
-class OpenFileHelper {
+class SelectFileHelper {
 
     private var activity: Activity? = null
     private var fragment: Fragment? = null
 
-    val openFileOnClickViewListener: OpenFileOnClickViewListener
-        get() = OpenFileOnClickViewListener()
+    val selectFileOnClickViewListener: SelectFileOnClickViewListener
+        get() = SelectFileOnClickViewListener()
 
     constructor(context: Activity) {
         this.activity = context
@@ -52,7 +53,10 @@ class OpenFileHelper {
         this.fragment = context
     }
 
-    inner class OpenFileOnClickViewListener : View.OnClickListener, View.OnLongClickListener {
+    inner class SelectFileOnClickViewListener :
+            View.OnClickListener,
+            View.OnLongClickListener,
+            MenuItem.OnMenuItemClickListener {
 
         private fun onAbstractClick(longClick: Boolean = false) {
             try {
@@ -83,6 +87,11 @@ class OpenFileHelper {
 
         override fun onLongClick(v: View?): Boolean {
             onAbstractClick(true)
+            return true
+        }
+
+        override fun onMenuItemClick(item: MenuItem?): Boolean {
+            onAbstractClick()
             return true
         }
     }

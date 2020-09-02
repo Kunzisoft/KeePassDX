@@ -29,8 +29,8 @@
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Blue</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Blue</item>
     </style>
     <!-- Toolbar Style Blue -->
@@ -42,6 +42,10 @@
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/blue_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
+    </style>
+    <!-- Toolbar Home Blue -->
+    <style name="KeepassDXStyle.Toolbar.Home.Blue" parent="KeepassDXStyle.Blue">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Special Toolbar Blue -->
     <style name="KeepassDXStyle.Toolbar.Special.Blue" parent="KeepassDXStyle.Toolbar.Blue">

@@ -1,0 +1,5 @@
+ * Upload des pièces jointes
+ * Bouton de visibilité pour chaque champ caché
+ * Correction du fichier d'en-tête de lecture
+ * Correction de suppression dans la base de données KDB
+ * Correction de problèmes mineurs

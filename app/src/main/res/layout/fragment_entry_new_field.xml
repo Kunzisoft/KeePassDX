@@ -34,9 +34,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/entry_custom_field_label_container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/entry_custom_field_delete">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/entry_custom_field_label"
@@ -48,6 +50,16 @@
             android:inputType="text"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/entry_custom_field_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_content_delete_white_24dp"
+        android:contentDescription="@string/menu_delete"
+        style="@style/KeepassDXStyle.ImageButton.Simple" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/entry_custom_field_protection"

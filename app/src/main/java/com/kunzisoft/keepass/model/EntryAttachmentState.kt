@@ -21,24 +21,25 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
-data class EntryAttachment(var name: String,
-                           var binaryAttachment: BinaryAttachment,
-                           var downloadState: AttachmentState = AttachmentState.NULL,
-                           var downloadProgression: Int = 0) : Parcelable {
+data class EntryAttachmentState(var attachment: Attachment,
+                                var streamDirection: StreamDirection,
+                                var downloadState: AttachmentState = AttachmentState.NULL,
+                                var downloadProgression: Int = 0) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readString() ?: "",
-            parcel.readParcelable(BinaryAttachment::class.java.classLoader) ?: BinaryAttachment(),
+            parcel.readParcelable(Attachment::class.java.classLoader) ?: Attachment("", BinaryAttachment()),
+            parcel.readEnum<StreamDirection>() ?: StreamDirection.DOWNLOAD,
             parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
             parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeParcelable(binaryAttachment, flags)
+        parcel.writeParcelable(attachment, flags)
+        parcel.writeEnum(streamDirection)
         parcel.writeEnum(downloadState)
         parcel.writeInt(downloadProgression)
     }
@@ -49,26 +50,23 @@ data class EntryAttachment(var name: String,
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is EntryAttachment) return false
+        if (other !is EntryAttachmentState) return false
 
-        if (name != other.name) return false
-        if (binaryAttachment != other.binaryAttachment) return false
+        if (attachment != other.attachment) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + binaryAttachment.hashCode()
-        return result
+        return attachment.hashCode()
     }
 
-    companion object CREATOR : Parcelable.Creator<EntryAttachment> {
-        override fun createFromParcel(parcel: Parcel): EntryAttachment {
-            return EntryAttachment(parcel)
+    companion object CREATOR : Parcelable.Creator<EntryAttachmentState> {
+        override fun createFromParcel(parcel: Parcel): EntryAttachmentState {
+            return EntryAttachmentState(parcel)
         }
 
-        override fun newArray(size: Int): Array<EntryAttachment?> {
+        override fun newArray(size: Int): Array<EntryAttachmentState?> {
             return arrayOfNulls(size)
         }
     }

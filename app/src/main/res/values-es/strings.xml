@@ -58,7 +58,7 @@
     <string name="entry_user_name">Nombre de usuario</string>
     <string name="error_arc4">No se admite el cifrador de flujo Arcfour.</string>
     <string name="error_can_not_handle_uri">KeePassDX no puede manejar este URI.</string>
-    <string name="error_file_not_create">No se pudo crear el archivo:</string>
+    <string name="error_file_not_create">No se pudo crear el archivo</string>
     <string name="error_invalid_db">No se pudo leer la base de datos.</string>
     <string name="error_invalid_path">Asegúrese de que la ruta sea correcta.</string>
     <string name="error_no_name">Proporcione un nombre.</string>
@@ -220,8 +220,6 @@
     <string name="path">Ruta</string>
     <string name="assign_master_key">Asignar una clave maestra</string>
     <string name="create_keepass_file">Crear base de datos nueva</string>
-    <string name="full_file_path_enable_title">Ruta de archivo</string>
-    <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
     <string name="recycle_bin_title">Usar la papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueva un grupo o una entrada a la papelera de reciclaje antes de eliminar</string>
     <string name="monospace_font_fields_enable_title">Fuente de los campos</string>
@@ -397,7 +395,7 @@
     <string name="error_create_database">No fue posible crear el archivo de base de datos.</string>
     <string name="html_about_contribution">Parar lograr &lt;strong&gt;mantener nuestra libertad&lt;/strong&gt;, &lt;strong&gt;corregir errores&lt;/strong&gt;, &lt;strong&gt;agregar características&lt;/strong&gt; y &lt;strong&gt;siempre estar activos&lt;/strong&gt;, contamos con tu &lt;strong&gt;contribución&lt;/strong&gt;.</string>
     <string name="content_description_add_item">Añadir elemento</string>
-    <string name="download_complete">Descarga completa! Toca para abrir el archivo.</string>
+    <string name="download_complete">Descarga completa!</string>
     <string name="download_finalization">Finalizando…</string>
     <string name="download_progression">En progreso: %1$d%%</string>
     <string name="download_initialization">Inicializando…</string>
@@ -407,7 +405,7 @@
     <string name="autofill_block">Bloquear autocompletado</string>
     <string name="keyboard_change">Cambiar teclado</string>
     <string name="keyboard_auto_go_action_summary">Acción de la tecla \"Ir\" al presionar una tecla \"Campo\"</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Ninguna</string>
     <string name="compression">Compresión</string>
     <string name="database_default_username_title">Nombre de usuario predeterminado</string>

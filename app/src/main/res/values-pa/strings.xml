@@ -6,7 +6,7 @@
     <string name="icon_pack_choose_title">ਆਈਕਾਨ ਪੈਕ</string>
     <string name="style_choose_summary">ਐਪ ਵਿੱਚ ਵਰਤਿਆ ਥੀਮ</string>
     <string name="style_choose_title">ਐਪ ਦਾ ਥੀਮ</string>
-    <string name="download_complete">ਪੂਰਾ ਹੋਇਆ! ਫ਼ਾਇਲ ਖੋਲ੍ਹਣ ਲਈ ਛੂਹੋ।</string>
+    <string name="download_complete">ਪੂਰਾ ਹੋਇਆ!</string>
     <string name="download_finalization">…ਪੂਰਾ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="download_progression">ਜਾਰੀ ਹੈ: %1$d%%</string>
     <string name="download_initialization">…ਸ਼ੁਰੂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
@@ -22,7 +22,6 @@
     <string name="clear_clipboard_notification_title">ਬੰਦ ਕਰਨ ਉੱਤੇ ਸਾਫ਼ ਕਰੋ</string>
     <string name="disable">ਅਸਮਰੱਥ</string>
     <string name="enable">ਸਮਰੱਥ</string>
-    <string name="full_file_path_enable_title">ਫ਼ਾਇਲ ਦਾ ਮਾਰਗ</string>
     <string name="assign_master_key">ਮਾਸਟਰ ਕੁੰਜੀ ਦਿਓ</string>
     <string name="path">ਮਾਰਗ</string>
     <string name="file_name">ਫ਼ਾਇਲ ਦਾ ਨਾਂ</string>
@@ -156,7 +155,7 @@
     <string name="error_invalid_OTP">ਗ਼ਲਤ OTP ਭੇਤ ਹੈ।</string>
     <string name="error_invalid_path">ਪਾਥ ਦੇ ਠੀਕ ਹੋਣ ਨੂੰ ਯਕੀਨੀ ਬਣਾਓ।</string>
     <string name="error_invalid_db">ਡਾਟਾਬੇਸ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।</string>
-    <string name="error_file_not_create">ਫ਼ਾਇਲ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ:</string>
+    <string name="error_file_not_create">ਫ਼ਾਇਲ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ</string>
     <string name="error_can_not_handle_uri">ਇਹ URI KeePassDX ਵਿੱਚ ਹੈਂਡਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।</string>
     <string name="error_arc4">Arcfour ਸਟਰੀਮ ਸੀਫ਼ਰ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।</string>
     <string name="entry_user_name">ਵਰਤੋਂਕਾਰ-ਨਾਂ</string>

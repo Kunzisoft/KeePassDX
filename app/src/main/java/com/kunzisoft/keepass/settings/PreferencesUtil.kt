@@ -231,12 +231,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))
     }
 
-    fun isFullFilePathEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.full_file_path_enable_key),
-                context.resources.getBoolean(R.bool.full_file_path_enable_default))
-    }
-
     fun getListSort(context: Context): SortNodeEnum {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs.getString(context.getString(R.string.sort_node_key),

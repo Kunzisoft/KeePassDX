@@ -160,8 +160,6 @@
     <string name="list_size_key" translatable="false">list_size_key</string>
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
-    <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
-    <bool name="full_file_path_enable_default" translatable="false">false</bool>
     <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
     <bool name="hide_expired_entries_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
@@ -250,6 +248,8 @@
     <bool name="education_password_generator_default" translatable="false">false</bool>
     <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
+    <string name="education_add_attachment_key" translatable="false">education_add_attachment_key</string>
+    <bool name="education_add_attachment_default" translatable="false">false</bool>
     <string name="education_setup_OTP_key" translatable="false">education_setup_OTP_key</string>
     <bool name="education_setup_OTP_default" translatable="false">false</bool>
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>

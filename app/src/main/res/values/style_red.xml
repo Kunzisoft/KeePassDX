@@ -29,8 +29,8 @@
         <item name="android:textColorHintInverse">@color/red_lighter</item>
         <item name="android:windowBackground">@color/background_night</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red</item>
     </style>
     <!-- Toolbar Style Red -->
@@ -42,6 +42,10 @@
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/red_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
+    </style>
+    <!-- Toolbar Home Red -->
+    <style name="KeepassDXStyle.Toolbar.Home.Red" parent="KeepassDXStyle.Red">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Special Toolbar Red -->
     <style name="KeepassDXStyle.Toolbar.Special.Red" parent="KeepassDXStyle.Toolbar.Red">

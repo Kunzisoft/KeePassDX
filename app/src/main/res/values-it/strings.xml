@@ -37,7 +37,7 @@
     <string name="clipboard_error">Alcuni dispositivi non permettono alle app di usare gli appunti.</string>
     <string name="clipboard_error_clear">Eliminazione degli appunti fallita</string>
     <string name="clipboard_timeout">Scadenza appunti</string>
-    <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti</string>
+    <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti (se supportato dal dispositivo)</string>
     <string name="select_to_copy">Copia %1$s negli appunti</string>
     <string name="retrieving_db_key">Creazione file chiave database…</string>
     <string name="database">Banca dati</string>
@@ -63,7 +63,7 @@
     <string name="entry_user_name">Nome utente</string>
     <string name="error_arc4">La codifica a flusso Arcfour non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePassDX non può gestire questo URI.</string>
-    <string name="error_file_not_create">Impossibile creare il file:</string>
+    <string name="error_file_not_create">Impossibile creare il file</string>
     <string name="error_invalid_db">Lettura del database fallita.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
     <string name="error_no_name">Inserisci un nome.</string>
@@ -228,8 +228,6 @@
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
     <string name="create_keepass_file">Crea un nuovo database</string>
-    <string name="full_file_path_enable_title">Percorso file</string>
-    <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Uso del Cestino</string>
     <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo \"Cestino\" prima di eliminarlo</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
@@ -343,7 +341,7 @@
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Bloccare il database quando l\'utente preme il pulsante Indietro nella schermata principale</string>
     <string name="clear_clipboard_notification_title">Pulisci alla chiusura</string>
-    <string name="clear_clipboard_notification_summary">Blocca il database alla chiusura della notifica</string>
+    <string name="clear_clipboard_notification_summary">Blocca il database quando scade la durata degli appunti o la notifica viene chiusa dopo che inizi ad usarlo</string>
     <string name="recycle_bin">Cestino</string>
     <string name="keyboard_selection_entry_title">Selezione elemento</string>
     <string name="keyboard_selection_entry_summary">Mostra i campi di input nella Magitastiera durante la visualizzazione di un elemento</string>
@@ -448,7 +446,7 @@
     <string name="hide_expired_entries_summary">I record scaduti sono nascosti</string>
     <string name="hide_expired_entries_title">Nascondi i record scaduti</string>
     <string name="education_setup_OTP_summary">Imposta la gestione delle OTP (HOTP / TOTP) per generare un token richiesto per la 2FA.</string>
-    <string name="download_complete">Completo! Tocca per aprire il file.</string>
+    <string name="download_complete">Completo!</string>
     <string name="download_finalization">Finalizzazione…</string>
     <string name="download_progression">Avanzamento %1$d%%</string>
     <string name="download_initialization">Inizializzazione…</string>
@@ -456,12 +454,12 @@
     <string name="education_setup_OTP_title">Imposta OTP</string>
     <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità \"Modificabile\")</string>
     <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
-    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o l\'ID dell\'applicazione</string>
+    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o ID dell\'applicazione</string>
     <string name="autofill_auto_search_title">Ricerca automatica</string>
     <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto \"Campo\" invia il tasto \"Vai\"</string>
     <string name="keyboard_auto_go_action_title">Azione auto key</string>
     <string name="device_keyboard_setting_title">Impostazioni tastiera dispositivo</string>
-    <string name="compression_gzip">gzip</string>
+    <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nessuna</string>
     <string name="compression">Compressione</string>
     <string name="database_custom_color_title">Colore del database customizzato</string>
@@ -490,4 +488,9 @@
     <string name="subdomain_search_summary">Cerca nei domini web includendo i sotto-domini</string>
     <string name="subdomain_search_title">Ricerca per sotto-dominio</string>
     <string name="content_description_add_item">Aggiungi elemento</string>
+    <string name="keyboard_previous_fill_in_summary">Torna automaticamente alla tastiera precedente quando si esegue l\'azione del tasto automatico</string>
+    <string name="keyboard_previous_fill_in_title">Azione tasto automatico</string>
+    <string name="keyboard_previous_database_credentials_summary">Torna automaticamente alla tastiera precedente nella schermata delle credenziali del database</string>
+    <string name="keyboard_previous_database_credentials_title">Schermata credenziali database</string>
+    <string name="keyboard_change">Cambia tastiera</string>
 </resources>
