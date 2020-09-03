@@ -489,4 +489,12 @@
     <string name="keyboard_previous_fill_in_title">Самочинне введення</string>
     <string name="keyboard_previous_database_credentials_summary">Автоматичне перемикання до попередньої клавіатури, на екрані входу до бази даних</string>
     <string name="keyboard_previous_database_credentials_title">Екран входу до бази даних</string>
+    <string name="warning_file_too_big">База даних KeePass має містити лише невеликі файли утиліт (наприклад, файли ключів PGP).
+\n
+\nЧерез це завантаження, база даних може стати завеликою, що уповільнить роботу.</string>
+    <string name="education_add_attachment_summary">Завантажте вкладення до запису, щоб зберегти важливі зовнішні дані.</string>
+    <string name="upload_attachment">Завантажити %1$s</string>
+    <string name="education_add_attachment_title">Додати вкладення</string>
+    <string name="warning_sure_add_file">Все одно додати файл\?</string>
+    <string name="warning_replace_file">Завантаження цього файлу замінить наявний.</string>
 </resources>
