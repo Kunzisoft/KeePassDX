@@ -39,8 +39,8 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;／&lt;strong&gt;広告なし&lt;/strong&gt;です。
-\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>かつ<strong>広告なし</strong>です。
+\nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
     <string name="entry_cancel">キャンセル</string>
@@ -255,7 +255,7 @@
     <string name="parallelism">並列処理</string>
     <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）です。</string>
     <string name="memory_usage">メモリ使用量</string>
-    <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムにソルト化された鍵導出関数を使用して変換されます。</string>
+    <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムなソルトを加える鍵導出関数を使用して変換されます。</string>
     <string name="hide_broken_locations_summary">最近使ったデータベースの一覧で、壊れたリンクを非表示にします</string>
     <string name="hide_broken_locations_title">データベースへの壊れたリンクを非表示にする</string>
     <string name="show_recent_files_summary">最近使ったデータベースの場所を表示します</string>
@@ -294,7 +294,7 @@
     <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動で開く</string>
     <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号鍵を削除しますか？</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号鍵を削除します</string>
-    <string name="advanced_unlock_explanation_summary">高度なロック解除を使用すると、データベースがより簡単に開きます</string>
+    <string name="advanced_unlock_explanation_summary">高度なロック解除を使用して、データベースをより簡単に開きます</string>
     <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったときロックするよう、アプリを設定することもできます。</string>
     <string name="education_lock_title">データベースをロック</string>
     <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
@@ -307,7 +307,7 @@
     <string name="education_sort_title">項目の並び替え</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="assign_master_key">マスターキーを設定</string>
-    <string name="education_select_database_summary">ファイル ブラウザからこれまで使ってきたデータベース ファイルを開いて、引き続き使用します。</string>
+    <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_select_database_title">既存のデータペースを開く</string>
     <string name="list_password_generator_options_title">パスワードの文字種</string>
     <string name="build_label">Build %1$s</string>
@@ -440,7 +440,7 @@
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
     <string name="education_entry_new_field_title">カスタム フィールドを追加</string>
-    <string name="education_entry_edit_summary">カスタム フィールドを使ってエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
+    <string name="education_entry_edit_summary">エントリーをカスタム フィールドとともに編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_biometric_title">生体認証によるロック解除</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
@@ -489,4 +489,12 @@
     <string name="recycle_bin">ごみ箱</string>
     <string name="recycle_bin_group_title">ごみ箱グループ</string>
     <string name="recycle_bin_title">ごみ箱の使用</string>
+    <string name="warning_file_too_big">KeePass データベースに含まれると想定されるのは、小さなユーティリティ ファイル（PGP 鍵ファイルなど）のみです。
+\n
+\nこのアップロードにより、データベースが非常に大きくなりパフォーマンスが低下する可能性があります。</string>
+    <string name="warning_replace_file">このファイルをアップロードすると、既存のファイルが置き換えられます。</string>
+    <string name="upload_attachment">%1$s をアップロード</string>
+    <string name="education_add_attachment_summary">エントリーに添付ファイルをアップロードして、重要な外部データを保存します。</string>
+    <string name="education_add_attachment_title">添付ファイルを追加</string>
+    <string name="warning_sure_add_file">それでもファイルを追加しますか？</string>
 </resources>
