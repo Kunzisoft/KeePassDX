@@ -489,4 +489,12 @@
     <string name="keyboard_previous_fill_in_title">Автоматическое действие кнопки</string>
     <string name="keyboard_previous_database_credentials_summary">Автоматически переключаться на предыдущую клавиатуру на экране входа в базу</string>
     <string name="keyboard_change">Переключение клавиатуры</string>
+    <string name="upload_attachment">Добавить %1$s</string>
+    <string name="education_add_attachment_summary">В запись можно добавить файл как вложение, чтобы сохранить важные внешние данные.</string>
+    <string name="education_add_attachment_title">Добавление вложения</string>
+    <string name="warning_file_too_big">Предполагается, что база KeePass содержит только небольшие служебные файлы (например, файлы ключей PGP).
+\n
+\nЕсли добавить этот файл, база станет очень большой и снизится производительность.</string>
+    <string name="warning_replace_file">Добавление этого файла заменит существующий.</string>
+    <string name="warning_sure_add_file">Добавить файл в любом случае\?</string>
 </resources>
