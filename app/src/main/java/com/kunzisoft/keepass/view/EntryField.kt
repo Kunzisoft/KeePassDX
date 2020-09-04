@@ -39,7 +39,7 @@ class EntryField @JvmOverloads constructor(context: Context,
     private val labelView: TextView
     private val valueView: TextView
     private val showButtonView: ImageView
-    private val copyButtonView: ImageView
+    val copyButtonView: ImageView
     private var isProtected = false
 
     var hiddenProtectedValue: Boolean
