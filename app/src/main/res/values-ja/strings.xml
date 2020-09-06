@@ -259,9 +259,9 @@
     <string name="hide_broken_locations_summary">最近使ったデータベースの一覧で、壊れたリンクを非表示にします</string>
     <string name="hide_broken_locations_title">データベースへの壊れたリンクを非表示にする</string>
     <string name="show_recent_files_summary">最近使ったデータベースの場所を表示します</string>
-    <string name="remember_keyfile_locations_summary">キーファイルの保存先を追跡します</string>
+    <string name="remember_keyfile_locations_summary">キーファイルの保存先を保持します</string>
     <string name="remember_keyfile_locations_title">キーファイルの場所を記憶</string>
-    <string name="remember_database_locations_summary">データベースの保存先を追跡します</string>
+    <string name="remember_database_locations_summary">データベースの保存先を保持します</string>
     <string name="remember_database_locations_title">データベースの場所を記憶</string>
     <string name="selection_mode">選択モード</string>
     <string name="contains_duplicate_uuid_procedure">重複したエントリーに対する新しい UUID を生成して、問題を解決し続行しますか？</string>
@@ -401,7 +401,7 @@
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。
 \n
 \nお好みのフォーム入力方法を使用してください。</string>
-    <string name="warning_database_link_revoked">ファイル マネージャーによって取り消されたファイルにアクセスします</string>
+    <string name="warning_database_link_revoked">ファイルへのアクセス権がファイル マネージャーによって取り消されました</string>
     <string name="clipboard_explanation_summary">デバイスのクリップボードを使用して、エントリーのフィールドをコピーします</string>
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
     <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
