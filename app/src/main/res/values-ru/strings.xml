@@ -425,7 +425,7 @@
     <string name="menu_save_database">Сохранить базу</string>
     <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
     <string name="command_execution">Выполнение команды…</string>
-    <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные узлы\?</string>
+    <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные элементы\?</string>
     <string name="keystore_not_accessible">Хранилище ключей не инициализировано должным образом.</string>
     <string name="credential_before_click_biometric_button">Введите пароль, затем нажмите кнопку биометрии.</string>
     <string name="recycle_bin_group_title">Группа \"корзины\"</string>
