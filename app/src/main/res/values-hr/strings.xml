@@ -473,4 +473,12 @@
     <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu u bazu podataka</string>
     <string name="keyboard_previous_database_credentials_title">Ekran za unos podataka za prijavu u bazu podataka</string>
     <string name="keyboard_change">Promijeni tipkovnicu</string>
+    <string name="warning_file_too_big">Baza podataka za KeePass trebala bi sadržavati samo male datoteke uslužnih programa (poput PGP datoteke ključeva).
+\n
+\nOvaj prijenos će možda neizmjerno povećati tvoju baza podataka i smanjiti performansu.</string>
+    <string name="upload_attachment">Prenesi %1$s</string>
+    <string name="education_add_attachment_summary">Za spremanje važnih vanjskih podataka, prenesi privitak u tvoj unos.</string>
+    <string name="education_add_attachment_title">Dodaj privitak</string>
+    <string name="warning_sure_add_file">Svejedno dodati datoteku\?</string>
+    <string name="warning_replace_file">Prijenosom ove datoteke zamijenit će se postojeća.</string>
 </resources>
