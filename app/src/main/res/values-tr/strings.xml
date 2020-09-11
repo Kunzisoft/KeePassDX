@@ -473,4 +473,12 @@
     <string name="keyboard_previous_database_credentials_summary">Veri tabanı kimlik bilgileri ekranında otomatik olarak önceki klavyeye dön</string>
     <string name="keyboard_previous_database_credentials_title">Veri tabanı kimlik bilgileri ekranı</string>
     <string name="keyboard_change">Klavye değiştir</string>
+    <string name="upload_attachment">%1$s yükle</string>
+    <string name="education_add_attachment_summary">Önemli harici verileri kaydetmek için girdinize bir ek yükleyin.</string>
+    <string name="education_add_attachment_title">Ek ekle</string>
+    <string name="warning_sure_add_file">Dosya yine de eklensin mi\?</string>
+    <string name="warning_replace_file">Bu dosyanın yüklenmesi mevcut dosyanın yerini alacaktır.</string>
+    <string name="warning_file_too_big">Bir KeePass veri tabanının sadece küçük yardımcı dosyaları (PGP anahtar dosyaları gibi) içermesi beklenmektedir.
+\n
+\nVeri tabanınız bu yüklemeyle çok büyük hale gelebilir ve performansı düşürebilir.</string>
 </resources>
