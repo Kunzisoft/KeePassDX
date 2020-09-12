@@ -350,12 +350,12 @@
     <string name="autofill_preference_title">自動入力の設定</string>
     <string name="set_autofill_service_title">デフォルトの自動入力サービスに設定</string>
     <string name="autofill_explanation_summary">自動入力を有効にして、他のアプリ内のフォームにすばやく入力します</string>
-    <string name="autofill_sign_in_prompt">KeePassDX でサインイン</string>
+    <string name="autofill_sign_in_prompt">KeePassDX でログイン</string>
     <string name="autofill_service_name">KeePassDX フォーム自動入力</string>
     <string name="autofill">自動入力</string>
     <string name="general">全般</string>
     <string name="biometric">生体認証</string>
-    <string name="menu_appearance_settings">外観</string>
+    <string name="menu_appearance_settings">デザイン</string>
     <string name="database_history">履歴</string>
     <string name="credential_before_click_biometric_button">パスワードを入力し、[生体認証] ボタンをタップします。</string>
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
@@ -459,7 +459,7 @@
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
     <string name="keyboard_theme_title">キーボードのテーマ</string>
-    <string name="keyboard_appearance_category">外観</string>
+    <string name="keyboard_appearance_category">デザイン</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title_text">エントリー</string>
     <string name="keyboard_entry_timeout_title">タイムアウト</string>
