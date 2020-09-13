@@ -53,7 +53,7 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
                     AttachmentState.COMPLETE,
                     AttachmentState.ERROR -> {
                         // Finish the action when capture by activity
-                        consummeAttachmentAction(entryAttachmentState)
+                        consumeAttachmentAction(entryAttachmentState)
                     }
                     else -> {}
                 }
@@ -99,7 +99,7 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
-    fun consummeAttachmentAction(attachment: EntryAttachmentState) {
+    fun consumeAttachmentAction(attachment: EntryAttachmentState) {
         mBinder?.getService()?.removeAttachmentAction(attachment)
     }
 
