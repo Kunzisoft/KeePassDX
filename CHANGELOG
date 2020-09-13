@@ -1,5 +1,5 @@
-KeePassDX(2.9)
- *
+KeePassDX(2.8.4)
+ * Fix incomplete attachment deletion #684
 
 KeePassDX(2.8.3)
  * Upload attachments

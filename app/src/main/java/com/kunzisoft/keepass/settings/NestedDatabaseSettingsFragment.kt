@@ -30,6 +30,7 @@ import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.RemoveUnlinkedAttachmentsDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
@@ -135,7 +136,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.database_version_key))
                     ?.summary = mDatabase.version
 
-            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_compression_key))
+            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_data_key))
 
             // Database compression
             dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
@@ -148,6 +149,12 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
             val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
             recycleBinGroupPref = findPreference(getString(R.string.recycle_bin_group_key))
+
+            val removeUnlinkedAttachments: Preference? = findPreference(getString(R.string.database_data_remove_unlinked_attachments_key))
+            removeUnlinkedAttachments?.setOnPreferenceClickListener {
+                RemoveUnlinkedAttachmentsDialogFragment.build().show(parentFragmentManager, "remove_unlinked_dialog")
+                true
+            }
 
             // Recycle bin
             if (mDatabase.allowConfigurableRecycleBin) {

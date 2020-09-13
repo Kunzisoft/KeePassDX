@@ -598,6 +598,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         binariesToRemove.forEach {
             try {
                 binaryPool.remove(it)
+                // bug with big attachment, not needed to be delete here
+                // it.clear()
             } catch (e: Exception) {
                 Log.w(TAG, "Unable to clean binaries", e)
             }

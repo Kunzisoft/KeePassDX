@@ -178,8 +178,9 @@
     <string name="database_custom_color_key" translatable="false">database_custom_color_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
 
-    <string name="database_category_compression_key" translatable="false">database_category_compression_key</string>
+    <string name="database_category_data_key" translatable="false">database_category_data_key</string>
     <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
+    <string name="database_data_remove_unlinked_attachments_key" translatable="false">database_data_remove_unlinked_attachments_key</string>
 
     <string name="database_category_recycle_bin_key" translatable="false">database_category_recycle_bin_key</string>
     <string name="recycle_bin_enable_key" translatable="false">recycle_bin_enable_key</string>

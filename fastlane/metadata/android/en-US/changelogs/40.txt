@@ -1,1 +1,1 @@
- *
+ * Fix incomplete attachment deletion #684

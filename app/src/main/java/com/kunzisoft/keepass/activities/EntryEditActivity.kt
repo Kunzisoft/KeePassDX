@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
@@ -65,6 +64,7 @@ import com.kunzisoft.keepass.view.showActionError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
@@ -99,6 +99,7 @@ class EntryEditActivity : LockingActivity(),
     private var mSelectFileHelper: SelectFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAllowMultipleAttachments: Boolean = false
+    private var mTempAttachments = ArrayList<Attachment>()
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -204,6 +205,10 @@ class EntryEditActivity : LockingActivity(),
 
         if (savedInstanceState?.containsKey(EXTRA_FIELD_FOCUSED_ENTRY) == true) {
             mFocusedEditExtraField = savedInstanceState.getParcelable(EXTRA_FIELD_FOCUSED_ENTRY)
+        }
+
+        if (savedInstanceState?.containsKey(TEMP_ATTACHMENTS) == true) {
+            mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -317,6 +322,7 @@ class EntryEditActivity : LockingActivity(),
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
                             }
+                            mTempAttachments.add(entryAttachmentState.attachment)
                         }
                         AttachmentState.IN_PROGRESS -> {
                             entryEditContentsView?.putAttachment(entryAttachmentState)
@@ -536,6 +542,15 @@ class EntryEditActivity : LockingActivity(),
 
                 populateEntryWithViews(newEntry)
 
+                // Delete temp attachment if not used
+                mTempAttachments.forEach {
+                    mDatabase?.binaryPool?.let { binaryPool ->
+                        if (!newEntry.getAttachments(binaryPool).contains(it)) {
+                            mDatabase?.removeAttachmentIfNotUsed(it)
+                        }
+                    }
+                }
+
                 // Open a progress dialog and save entry
                 if (mIsNew) {
                     mParent?.let { parent ->
@@ -705,6 +720,8 @@ class EntryEditActivity : LockingActivity(),
             outState.putParcelable(EXTRA_FIELD_FOCUSED_ENTRY, it)
         }
 
+        outState.putParcelableArrayList(TEMP_ATTACHMENTS, mTempAttachments)
+
         super.onSaveInstanceState(outState)
     }
 
@@ -763,6 +780,7 @@ class EntryEditActivity : LockingActivity(),
         // SaveInstanceState
         const val KEY_NEW_ENTRY = "new_entry"
         const val EXTRA_FIELD_FOCUSED_ENTRY = "EXTRA_FIELD_FOCUSED_ENTRY"
+        const val TEMP_ATTACHMENTS = "TEMP_ATTACHMENTS"
 
         // Keys for callback
         const val ADD_ENTRY_RESULT_CODE = 31
