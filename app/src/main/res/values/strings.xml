@@ -323,7 +323,7 @@
     <string name="data">Data</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database</string>
-    <string name="database_data_remove_unlinked_attachments_title">Remove unlinked attachments</string>
+    <string name="database_data_remove_unlinked_attachments_title">Remove unlinked data</string>
     <string name="database_data_remove_unlinked_attachments_summary">Removes attachments contained in the database but not linked to an entry</string>
     <string name="recycle_bin_title">Recycle bin usage</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" group before deleting</string>
