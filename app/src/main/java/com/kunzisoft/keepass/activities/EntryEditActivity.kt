@@ -310,6 +310,7 @@ class EntryEditActivity : LockingActivity(),
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     when (entryAttachmentState.downloadState) {
                         AttachmentState.START -> {
+                            mTempAttachments.add(entryAttachmentState.attachment)
                             entryEditContentsView?.apply {
                                 // When only one attachment is allowed
                                 if (!mAllowMultipleAttachments) {
@@ -322,7 +323,6 @@ class EntryEditActivity : LockingActivity(),
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
                             }
-                            mTempAttachments.add(entryAttachmentState.attachment)
                         }
                         AttachmentState.IN_PROGRESS -> {
                             entryEditContentsView?.putAttachment(entryAttachmentState)
