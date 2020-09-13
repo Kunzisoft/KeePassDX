@@ -310,7 +310,6 @@ class EntryEditActivity : LockingActivity(),
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     when (entryAttachmentState.downloadState) {
                         AttachmentState.START -> {
-                            mTempAttachments.add(entryAttachmentState.attachment)
                             entryEditContentsView?.apply {
                                 // When only one attachment is allowed
                                 if (!mAllowMultipleAttachments) {
@@ -381,7 +380,9 @@ class EntryEditActivity : LockingActivity(),
 
             mDatabase?.binaryPool?.let { binaryPool ->
                 assignAttachments(newEntry.getAttachments(binaryPool).toSet(), StreamDirection.UPLOAD) { attachment ->
+                    // Remove entry by clicking trash button
                     newEntry.removeAttachment(attachment)
+                    mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
                 }
             }
         }
@@ -475,8 +476,15 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
+        startUploadAttachment(attachmentToUploadUri, attachment)
+    }
+
+    private fun startUploadAttachment(attachmentToUploadUri: Uri?, attachment: Attachment?) {
         if (attachmentToUploadUri != null && attachment != null) {
+            // Start uploading in service
             mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
+            // Add in temp list
+            mTempAttachments.add(attachment)
         }
     }
 
@@ -490,7 +498,7 @@ class EntryEditActivity : LockingActivity(),
                 ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
                         .show(supportFragmentManager, "replacementFileFragment")
             } else {
-                mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+                startUploadAttachment(attachmentToUploadUri, entryAttachment)
             }
         }
     }

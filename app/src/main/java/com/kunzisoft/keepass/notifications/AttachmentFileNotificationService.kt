@@ -107,6 +107,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         intent,
                         StreamDirection.DOWNLOAD)
             }
+            ACTION_ATTACHMENT_REMOVE -> {
+                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                    attachmentNotificationList.firstOrNull { it.entryAttachmentState.attachment == entryAttachment }?.let { elementToRemove ->
+                        attachmentNotificationList.remove(elementToRemove)
+                    }
+                }
+            }
             else -> {
                 if (downloadFileUri != null) {
                     attachmentNotificationList.firstOrNull { it.uri == downloadFileUri }?.let { elementToRemove ->
@@ -265,13 +272,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
                             ?.notificationId ?: notificationId) + 1
                     val entryAttachmentState = EntryAttachmentState(entryAttachment, streamDirection)
                     val attachmentNotification = AttachmentNotification(downloadFileUri, nextNotificationId, entryAttachmentState)
+
+                    // Add action to the list on start
                     attachmentNotificationList.add(attachmentNotification)
 
                     mainScope.launch {
                         AttachmentFileAction(attachmentNotification,
-                                contentResolver).apply {
-                            listener = attachmentFileActionListener
-                        }.executeAction()
+                                contentResolver).executeAction()
                     }
                 }
             } catch (e: Exception) {
@@ -426,6 +433,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         const val ACTION_ATTACHMENT_FILE_START_UPLOAD = "ACTION_ATTACHMENT_FILE_START_UPLOAD"
         const val ACTION_ATTACHMENT_FILE_START_DOWNLOAD = "ACTION_ATTACHMENT_FILE_START_DOWNLOAD"
+        const val ACTION_ATTACHMENT_REMOVE = "ACTION_ATTACHMENT_REMOVE"
 
         const val FILE_URI_KEY = "FILE_URI_KEY"
         const val ATTACHMENT_KEY = "ATTACHMENT_KEY"
