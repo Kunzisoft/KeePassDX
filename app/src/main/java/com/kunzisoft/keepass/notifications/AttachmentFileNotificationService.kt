@@ -58,15 +58,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
-            attachmentNotificationList.forEach {
-                it.attachmentFileAction?.listener = attachmentFileActionListener
-            }
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
-            attachmentNotificationList.forEach {
-                it.attachmentFileAction?.listener = null
-            }
             mActionTaskListeners.remove(actionTaskListener)
         }
     }
@@ -278,7 +272,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
                     mainScope.launch {
                         AttachmentFileAction(attachmentNotification,
-                                contentResolver).executeAction()
+                                contentResolver).apply {
+                            listener = attachmentFileActionListener
+                        }.executeAction()
                     }
                 }
             } catch (e: Exception) {
@@ -300,15 +296,18 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
 
         suspend fun executeAction() {
-            TimeoutHelper.temporarilyDisableTimeout()
 
             // on pre execute
-            attachmentNotification.attachmentFileAction = this
-            attachmentNotification.entryAttachmentState.apply {
-                downloadState = AttachmentState.START
-                downloadProgression = 0
+            CoroutineScope(Dispatchers.Main).launch {
+                TimeoutHelper.temporarilyDisableTimeout()
+
+                attachmentNotification.attachmentFileAction = this@AttachmentFileAction
+                attachmentNotification.entryAttachmentState.apply {
+                    downloadState = AttachmentState.START
+                    downloadProgression = 0
+                }
+                listener?.onUpdate(attachmentNotification)
             }
-            listener?.onUpdate(attachmentNotification)
 
             withContext(Dispatchers.IO) {
                 // on Progress with thread
