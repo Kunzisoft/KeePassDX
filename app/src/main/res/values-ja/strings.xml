@@ -196,7 +196,7 @@
     <string name="content_description_remove_field">フィールドを削除</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
     <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
-    <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
+    <string name="configure_biometric">生体認証プロンプト対応ですが、未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
     <string name="otp_type">OTP の種類</string>
@@ -388,8 +388,8 @@
     <string name="keyboard_auto_go_action_title">自動キーアクション</string>
     <string name="keyboard_notification_entry_content_title">%1$s が Magikeyboard で利用可能</string>
     <string name="keyboard_entry_timeout_summary">キーボードのエントリーを消去するまでの時間</string>
-    <string name="keyboard_search_share_title">共有から送られた情報の検索</string>
-    <string name="keyboard_search_share_summary">共有から送られた情報を自動的に検索して、結果をキーボードに格納します</string>
+    <string name="keyboard_search_share_title">共有情報の検索</string>
+    <string name="keyboard_search_share_summary">共有情報を自動的に検索して、結果をキーボードに格納します</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
