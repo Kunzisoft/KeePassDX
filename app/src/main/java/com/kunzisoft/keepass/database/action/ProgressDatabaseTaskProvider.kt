@@ -23,7 +23,6 @@ import android.content.*
 import android.content.Context.BIND_ABOVE_CLIENT
 import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
@@ -46,6 +45,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
@@ -461,6 +461,13 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_UPDATE_COMPRESSION_TASK)
+    }
+
+    fun startDatabaseRemoveUnlinkedData(save: Boolean) {
+        start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+                , ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK)
     }
 
     fun startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems: Int,

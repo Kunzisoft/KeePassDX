@@ -67,7 +67,7 @@
             android:persistent="false"
             android:title="@string/database_data_compression_title"/>
 
-        <Preference
+        <com.kunzisoft.keepass.settings.preference.TextPreference
             android:key="@string/database_data_remove_unlinked_attachments_key"
             android:persistent="false"
             android:title="@string/database_data_remove_unlinked_attachments_title"
