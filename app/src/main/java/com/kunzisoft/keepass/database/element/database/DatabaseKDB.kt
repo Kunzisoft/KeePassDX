@@ -60,8 +60,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     // Retrieve backup group in index
     val backupGroup: GroupKDB?
         get() {
-            if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
-                ensureBackupExists()
             return if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
                 null
             else
@@ -186,6 +184,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     override fun isInRecycleBin(group: GroupKDB): Boolean {
         var currentGroup: GroupKDB? = group
 
+        if (backupGroup == null)
+            return false
+
         if (currentGroup == backupGroup)
             return true
 
@@ -229,6 +230,8 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * @return true if node can be recycle, false elsewhere
      */
     fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
+        if (backupGroup == null)
+            ensureBackupExists()
         if (node == backupGroup)
             return false
         backupGroup?.let {
@@ -239,14 +242,12 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     fun recycle(group: GroupKDB) {
-        ensureBackupExists()
         removeGroupFrom(group, group.parent)
         addGroupTo(group, backupGroup)
         group.afterAssignNewParent()
     }
 
     fun recycle(entry: EntryKDB) {
-        ensureBackupExists()
         removeEntryFrom(entry, entry.parent)
         addEntryTo(entry, backupGroup)
         entry.afterAssignNewParent()

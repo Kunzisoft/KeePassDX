@@ -1,1 +1,2 @@
  * Correction de la suppression incomplète des fichiers joints #684
+ * Correction de l'ouverture de base de données v1 sans dossier backup #692

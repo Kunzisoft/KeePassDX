@@ -1,5 +1,6 @@
 KeePassDX(2.8.4)
  * Fix incomplete attachment deletion #684
+ * Fix opening database v1 without backup folder #692
 
 KeePassDX(2.8.3)
  * Upload attachments
