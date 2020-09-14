@@ -36,6 +36,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
@@ -60,6 +61,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
+import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
@@ -336,8 +338,10 @@ class EntryEditActivity : LockingActivity(),
                             }
                         }
                         AttachmentState.ERROR -> {
-                            mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.attachment)
                             entryEditContentsView?.removeAttachment(entryAttachmentState)
+                            coordinatorLayout?.let {
+                                Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
+                            }
                         }
                         else -> {}
                     }
