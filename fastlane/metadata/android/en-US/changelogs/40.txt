@@ -1,2 +1,3 @@
  * Fix incomplete attachment deletion #684
  * Fix opening database v1 without backup folder #692
+ * Fix ANR during first entry education #685

@@ -1,6 +1,7 @@
 KeePassDX(2.8.4)
  * Fix incomplete attachment deletion #684
  * Fix opening database v1 without backup folder #692
+ * Fix ANR during first entry education #685
 
 KeePassDX(2.8.3)
  * Upload attachments

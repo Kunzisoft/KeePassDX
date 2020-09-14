@@ -1,2 +1,3 @@
  * Correction de la suppression incomplète des fichiers joints #684
  * Correction de l'ouverture de base de données v1 sans dossier backup #692
+ * Correction de l'ANR lors de la formation de première entrée #685
