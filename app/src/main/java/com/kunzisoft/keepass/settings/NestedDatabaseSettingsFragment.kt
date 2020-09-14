@@ -42,7 +42,8 @@ import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 
-class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
+class NestedDatabaseSettingsFragment : NestedSettingsFragment(),
+    RemoveUnlinkedAttachmentsDialogFragment.ActionChooseListener {
 
     private var mDatabase: Database = Database.getInstance()
     private var mDatabaseReadOnly: Boolean = false
@@ -152,7 +153,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
             val removeUnlinkedAttachments: Preference? = findPreference(getString(R.string.database_data_remove_unlinked_attachments_key))
             removeUnlinkedAttachments?.setOnPreferenceClickListener {
-                RemoveUnlinkedAttachmentsDialogFragment.build().show(parentFragmentManager, "remove_unlinked_dialog")
+                RemoveUnlinkedAttachmentsDialogFragment.build().apply {
+                    setTargetFragment(this@NestedDatabaseSettingsFragment, 0)
+                }.show(parentFragmentManager, "remove_unlinked_dialog")
                 true
             }
 
@@ -204,6 +207,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
         } else {
             Log.e(javaClass.name, "Database isn't ready")
         }
+    }
+
+    override fun onValidateRemoveUnlinkedAttachments() {
+        mDatabase.removeUnlinkedAttachments()
     }
 
     private fun refreshRecycleBinGroup() {

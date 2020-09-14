@@ -37,12 +37,21 @@ class RemoveUnlinkedAttachmentsDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // Verify that the host activity implements the callback interface
-        try {
-            mActionChooseListener = context as ActionChooseListener
+        mActionChooseListener = try {
+            context as ActionChooseListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString()
-                    + " must implement " + ActionChooseListener::class.java.name)
+            try {
+                targetFragment as ActionChooseListener
+            } catch (e: ClassCastException) {
+                throw ClassCastException(context.toString()
+                        + " must implement " + ActionChooseListener::class.java.name)
+            }
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mActionChooseListener = null
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -33,7 +33,6 @@ import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.RemoveUnlinkedAttachmentsDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -43,8 +42,7 @@ import com.kunzisoft.keepass.view.showActionError
 open class SettingsActivity
     : LockingActivity(),
         MainPreferenceFragment.Callback,
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-        RemoveUnlinkedAttachmentsDialogFragment.ActionChooseListener {
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     private var backupManager: BackupManager? = null
 
@@ -167,10 +165,6 @@ open class SettingsActivity
                                                 masterPassword: String?,
                                                 keyFileChecked: Boolean,
                                                 keyFile: Uri?) {}
-
-    override fun onValidateRemoveUnlinkedAttachments() {
-        Database.getInstance().removeUnlinkedAttachments()
-    }
 
     private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
         if (PreferencesUtil.showLockDatabaseButton(this)) {
