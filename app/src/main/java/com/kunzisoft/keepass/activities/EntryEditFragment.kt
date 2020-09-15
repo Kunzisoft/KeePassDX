@@ -419,12 +419,15 @@ class EntryEditFragment: StylishFragment() {
             mExtraFieldsList.removeAt(index)
             mExtraFieldsList.add(index, extraField)
             extraFieldsListView.removeViewAt(index)
+            val newView = buildViewFromField(extraField)
+            extraFieldsListView.addView(newView, index)
+            newView?.requestFocus()
         } ?: kotlin.run {
             mExtraFieldsList.add(extraField)
+            val newView = buildViewFromField(extraField)
+            extraFieldsListView.addView(newView)
+            newView?.requestFocus()
         }
-        val newView = buildViewFromField(extraField)
-        extraFieldsListView.addView(newView)
-        newView?.requestFocus()
     }
 
     fun replaceExtraField(oldExtraField: Field, newExtraField: Field) {
