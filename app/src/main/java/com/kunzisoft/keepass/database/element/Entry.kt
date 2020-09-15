@@ -290,14 +290,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
     val customFields: HashMap<String, ProtectedString>
         get() = entryKDBX?.customFields ?: HashMap()
 
-    /**
-     * To redefine if version of entry allow custom field,
-     * @return true if entry allows custom field
-     */
-    fun allowCustomFields(): Boolean {
-        return entryKDBX?.allowCustomFields() ?: false
-    }
-
     fun removeAllFields() {
         entryKDBX?.removeAllFields()
     }

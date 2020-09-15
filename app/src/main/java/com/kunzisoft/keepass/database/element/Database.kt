@@ -835,6 +835,13 @@ class Database {
     }
 
     /**
+     * @return true if database allows custom field
+     */
+    fun allowEntryCustomFields(): Boolean {
+        return mDatabaseKDBX != null
+    }
+
+    /**
      * Remove oldest history for each entry if more than max items or max memory
      */
     fun removeOldestHistoryForEachEntry() {

@@ -45,11 +45,13 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
@@ -82,8 +84,6 @@ class EntryEditActivity : LockingActivity(),
     // Refs of an entry and group in database, are not modifiable
     private var mEntry: Entry? = null
     private var mParent: Group? = null
-    // New or copy of mEntry in the database to be modifiable
-    private var mNewEntry: Entry? = null
     private var mIsNew: Boolean = false
 
     // Views
@@ -132,6 +132,8 @@ class EntryEditActivity : LockingActivity(),
         // Likely the app has been killed exit the activity
         mDatabase = Database.getInstance()
 
+        var tempEntry: Entry? = null
+
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let {
             mIsNew = false
@@ -148,14 +150,11 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
 
-            // Create the new entry from the current one
-            if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) != true) {
-                mEntry?.let { entry ->
-                    // Create a copy to modify
-                    mNewEntry = Entry(entry).also { newEntry ->
-                        // WARNING Remove the parent to keep memory with parcelable
-                        newEntry.removeParent()
-                    }
+            mEntry?.let { entry ->
+                // Create a copy to modify
+                tempEntry = Entry(entry).also { newEntry ->
+                    // WARNING Remove the parent to keep memory with parcelable
+                    newEntry.removeParent()
                 }
             }
         }
@@ -163,52 +162,32 @@ class EntryEditActivity : LockingActivity(),
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
-            // Create an empty new entry
-            if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) != true) {
-                mNewEntry = mDatabase?.createEntry()
-            }
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon from parent if not a folder
             val parentIcon = mParent?.icon
             if (parentIcon != null
                     && parentIcon.iconId != IconImage.UNKNOWN_ID
                     && parentIcon.iconId != IconImageStandard.FOLDER) {
-                temporarilySaveAndShowSelectedIcon(parentIcon)
-            } else {
-                mDatabase?.drawFactory?.let { iconFactory ->
-                    entryEditContentsFragment?.setDefaultIcon(iconFactory)
-                }
+                tempEntry?.icon = parentIcon
             }
+            tempEntry = mDatabase?.createEntry()
         }
 
-        // Retrieve the new entry after an orientation change
-        if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) == true) {
-            mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
-        }
-
-        if (savedInstanceState?.containsKey(TEMP_ATTACHMENTS) == true) {
-            mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
-        }
-
-        // Close the activity if entry or parent can't be retrieve
-        if (mNewEntry == null || mParent == null) {
-            finish()
-            return
-        }
-
+        // Build fragment to manage entry modification
         entryEditContentsFragment = supportFragmentManager.findFragmentByTag("entry_edit_contents") as? EntryEditContentsFragment?
         if (entryEditContentsFragment == null) {
             entryEditContentsFragment = EntryEditContentsFragment()
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.entry_edit_contents, entryEditContentsFragment!!, "entry_edit_contents")
-                    .commit()
+        }
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.entry_edit_contents, entryEditContentsFragment!!, "entry_edit_contents")
+                .commit()
+        mDatabase?.let { database ->
+            entryEditContentsFragment?.setDatabase(database)
+        }
+        tempEntry?.let {
+            entryEditContentsFragment?.setEntry(it, mIsNew)
         }
         entryEditContentsFragment?.apply {
-            mDatabase?.let { database ->
-                mNewEntry?.let { newEntry ->
-                    entryEditContentsFragment?.setEntry(database, newEntry, mIsNew)
-                }
-            }
             applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this@EntryEditActivity))
             setOnDateClickListener = View.OnClickListener {
                 expiresDate.date.let { expiresDate ->
@@ -235,6 +214,11 @@ class EntryEditActivity : LockingActivity(),
             }
         }
 
+        // Retrieve temp attachments in case of deletion
+        if (savedInstanceState?.containsKey(TEMP_ATTACHMENTS) == true) {
+            mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
+        }
+
         // Assign title
         title = if (mIsNew) getString(R.string.add_entry) else getString(R.string.edit_entry)
 
@@ -244,7 +228,7 @@ class EntryEditActivity : LockingActivity(),
             menuInflater.inflate(R.menu.entry_edit, menu)
 
             menu.findItem(R.id.menu_add_field).apply {
-                val allowCustomField = mNewEntry?.allowCustomFields() == true
+                val allowCustomField = mDatabase?.allowEntryCustomFields() == true
                 isEnabled = allowCustomField
                 isVisible = allowCustomField
             }
@@ -296,8 +280,22 @@ class EntryEditActivity : LockingActivity(),
             when (actionTask) {
                 ACTION_DATABASE_CREATE_ENTRY_TASK,
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                    if (result.isSuccess)
-                        finish()
+                    try {
+                        if (result.isSuccess) {
+                            var newNodes: List<Node> = ArrayList()
+                            result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
+                                mDatabase?.let { database ->
+                                    newNodes = DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
+                                }
+                            }
+                            if (newNodes.size == 1) {
+                                mEntry = newNodes[0] as Entry?
+                                finish()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve entry after database action", e)
+                    }
                 }
             }
             coordinatorLayout?.showActionError(result)
@@ -364,13 +362,6 @@ class EntryEditActivity : LockingActivity(),
         mAttachmentFileBinderManager?.unregisterProgressTask()
 
         super.onPause()
-    }
-
-    private fun temporarilySaveAndShowSelectedIcon(icon: IconImage) {
-        mNewEntry?.icon = icon
-        mDatabase?.drawFactory?.let { iconDrawFactory ->
-            entryEditContentsFragment?.setIcon(iconDrawFactory, icon)
-        }
     }
 
     /**
@@ -483,47 +474,40 @@ class EntryEditActivity : LockingActivity(),
      * Saves the new entry or update an existing entry in the database
      */
     private fun saveEntry() {
-        // Launch a validation and show the error if present
-        if (entryEditContentsFragment?.isValid() == true) {
-            // Clone the entry
-            mNewEntry?.let { newEntry ->
+        // Get the temp entry
+        entryEditContentsFragment?.getEntry()?.let { newEntry ->
 
-                // WARNING Add the parent previously deleted
-                newEntry.parent = mEntry?.parent
-                // Build info
-                newEntry.lastAccessTime = DateInstant()
-                newEntry.lastModificationTime = DateInstant()
+            // WARNING Add the parent previously deleted
+            newEntry.parent = mEntry?.parent
+            // Build info
+            newEntry.lastAccessTime = DateInstant()
+            newEntry.lastModificationTime = DateInstant()
 
-                mDatabase?.let { database ->
-                    entryEditContentsFragment?.populateEntryWithViews(database, newEntry)
-                }
-
-                // Delete temp attachment if not used
-                mTempAttachments.forEach {
-                    mDatabase?.binaryPool?.let { binaryPool ->
-                        if (!newEntry.getAttachments(binaryPool).contains(it)) {
-                            mDatabase?.removeAttachmentIfNotUsed(it)
-                        }
+            // Delete temp attachment if not used
+            mTempAttachments.forEach {
+                mDatabase?.binaryPool?.let { binaryPool ->
+                    if (!newEntry.getAttachments(binaryPool).contains(it)) {
+                        mDatabase?.removeAttachmentIfNotUsed(it)
                     }
                 }
+            }
 
-                // Open a progress dialog and save entry
-                if (mIsNew) {
-                    mParent?.let { parent ->
-                        mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                                newEntry,
-                                parent,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                } else {
-                    mEntry?.let { oldEntry ->
-                        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                                oldEntry,
-                                newEntry,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
+            // Open a progress dialog and save entry
+            if (mIsNew) {
+                mParent?.let { parent ->
+                    mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
+                            newEntry,
+                            parent,
+                            !mReadOnly && mAutoSaveEnable
+                    )
+                }
+            } else {
+                mEntry?.let { oldEntry ->
+                    mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
+                            oldEntry,
+                            newEntry,
+                            !mReadOnly && mAutoSaveEnable
+                    )
                 }
             }
         }
@@ -559,8 +543,9 @@ class EntryEditActivity : LockingActivity(),
         )
         if (!generatePasswordEducationPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
-            val addNewFieldEducationPerformed = mNewEntry != null
-                    && mNewEntry!!.allowCustomFields() && addNewFieldView != null
+            val addNewFieldEducationPerformed = // TODO mNewEntry != null
+                    // && mNewEntry!!.allowCustomFields()
+                    addNewFieldView != null
                     && addNewFieldView.visibility == View.VISIBLE
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
@@ -629,7 +614,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun iconPicked(bundle: Bundle) {
         IconPickerDialogFragment.getIconStandardFromBundle(bundle)?.let { icon ->
-            temporarilySaveAndShowSelectedIcon(icon)
+            entryEditContentsFragment?.icon = icon
         }
     }
 
@@ -667,12 +652,6 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mNewEntry?.let { newEntry ->
-            mDatabase?.let { database ->
-                entryEditContentsFragment?.populateEntryWithViews(database, newEntry)
-            }
-            outState.putParcelable(KEY_NEW_ENTRY, newEntry)
-        }
 
         outState.putParcelableArrayList(TEMP_ATTACHMENTS, mTempAttachments)
 
@@ -705,10 +684,10 @@ class EntryEditActivity : LockingActivity(),
     override fun finish() {
         // Assign entry callback as a result in all case
         try {
-            mNewEntry?.let {
+            mEntry?.let { entry ->
                 val bundle = Bundle()
                 val intentEntry = Intent()
-                bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, mNewEntry)
+                bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry)
                 intentEntry.putExtras(bundle)
                 if (mIsNew) {
                     setResult(ADD_ENTRY_RESULT_CODE, intentEntry)
@@ -732,7 +711,6 @@ class EntryEditActivity : LockingActivity(),
         const val KEY_PARENT = "parent"
 
         // SaveInstanceState
-        const val KEY_NEW_ENTRY = "new_entry"
         const val TEMP_ATTACHMENTS = "TEMP_ATTACHMENTS"
 
         // Keys for callback

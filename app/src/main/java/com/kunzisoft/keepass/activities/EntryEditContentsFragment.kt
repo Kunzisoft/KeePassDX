@@ -43,9 +43,8 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.StreamDirection
@@ -86,6 +85,7 @@ class EntryEditContentsFragment: StylishFragment() {
     var setOnEditCustomField: ((Field) -> Unit)? = null
     var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
 
+    // Elements to modify the current entry
     private var mDatabase: Database? = null
     private var mEntry: Entry? = null
     private var mIsNewEntry = true
@@ -148,6 +148,11 @@ class EntryEditContentsFragment: StylishFragment() {
         iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
         taIconColor?.recycle()
 
+        // Retrieve the new entry after an orientation change
+        if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY) == true) {
+            mEntry = savedInstanceState.getParcelable(KEY_TEMP_ENTRY)
+        }
+
         mDatabase?.let { database ->
             mEntry?.let { entry ->
                 populateViewsWithEntry(database, entry, mIsNewEntry)
@@ -157,8 +162,20 @@ class EntryEditContentsFragment: StylishFragment() {
         return rootView
     }
 
-    fun setEntry(database: Database, entry: Entry, isNewEntry: Boolean) {
+    fun setDatabase(database: Database) {
         mDatabase = database
+    }
+
+    fun getEntry(): Entry? {
+        mDatabase?.let { database ->
+            mEntry?.let { entry ->
+                populateEntryWithViews(database, entry)
+            }
+        }
+        return mEntry
+    }
+
+    fun setEntry(entry: Entry, isNewEntry: Boolean) {
         mEntry = entry
         mIsNewEntry = isNewEntry
     }
@@ -168,7 +185,7 @@ class EntryEditContentsFragment: StylishFragment() {
         database.stopManageEntry(entry)
 
         // Set info in view
-        setIcon(database.drawFactory, entry.icon)
+        icon = entry.icon
         title = entry.title
         username = if (isNewEntry && entry.username.isEmpty())
             database.defaultUsername
@@ -191,7 +208,7 @@ class EntryEditContentsFragment: StylishFragment() {
         }
     }
 
-    fun populateEntryWithViews(database: Database, newEntry: Entry) {
+    private fun populateEntryWithViews(database: Database, newEntry: Entry) {
 
         database.startManageEntry(newEntry)
 
@@ -236,13 +253,16 @@ class EntryEditContentsFragment: StylishFragment() {
                 entryTitleView.applyFontVisibility()
         }
 
-    fun setDefaultIcon(iconFactory: IconDrawableFactory) {
-        entryIconView.assignDefaultDatabaseIcon(iconFactory, iconColor)
-    }
-
-    fun setIcon(iconFactory: IconDrawableFactory, icon: IconImage) {
-        entryIconView.assignDatabaseIcon(iconFactory, icon, iconColor)
-    }
+    var icon: IconImage
+        get() {
+            return mEntry?.icon ?: IconImageStandard()
+        }
+        set(value) {
+            mEntry?.icon = value
+            mDatabase?.drawFactory?.let { drawFactory ->
+                entryIconView.assignDatabaseIcon(drawFactory, value, iconColor)
+            }
+        }
 
     var username: String
         get() {
@@ -492,14 +512,19 @@ class EntryEditContentsFragment: StylishFragment() {
         }, 250)
     }
 
-    /**
-     * Validate or not the entry form
-     *
-     * @return ErrorValidation An error with a message or a validation without message
-     */
-    fun isValid(): Boolean {
-        // TODO
-        return true
+    override fun onSaveInstanceState(outState: Bundle) {
+        mEntry?.let { entry ->
+            mDatabase?.let { database ->
+                populateEntryWithViews(database, entry)
+            }
+            outState.putParcelable(KEY_TEMP_ENTRY, entry)
+        }
+
+        super.onSaveInstanceState(outState)
+    }
+
+    companion object {
+        const val KEY_TEMP_ENTRY = "KEY_TEMP_ENTRY"
     }
 
 }

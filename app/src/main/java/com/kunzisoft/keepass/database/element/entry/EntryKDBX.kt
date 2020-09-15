@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -271,10 +270,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             }
             return field
         }
-
-    fun allowCustomFields(): Boolean {
-        return true
-    }
 
     fun removeAllFields() {
         fields.clear()
