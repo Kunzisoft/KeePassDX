@@ -426,6 +426,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryInfo.icon = icon
         entryInfo.username = username
         entryInfo.password = password
+        entryInfo.expires = expires
+        entryInfo.expiryTime = expiryTime
         entryInfo.url = url
         entryInfo.notes = notes
         entryInfo.customFields = getExtraFields()
@@ -448,7 +450,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
         database?.startManageEntry(this)
 
         removeAllFields()
-        removeAllAttachments()
         // NodeId stay as is
         title = newEntryInfo.title
         icon = newEntryInfo.icon
@@ -460,6 +461,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         notes = newEntryInfo.notes
         addExtraFields(newEntryInfo.customFields)
         database?.binaryPool?.let { binaryPool ->
+            // TODO Concurrent modification
+            // removeAllAttachments()
             addAttachments(binaryPool, newEntryInfo.attachments)
         }
 
