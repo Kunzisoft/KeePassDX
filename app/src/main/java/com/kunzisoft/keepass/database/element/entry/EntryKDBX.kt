@@ -310,9 +310,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     }
 
     fun removeAttachments() {
-        binaries.keys.forEach {
-            binaries.remove(it)
-        }
+        binaries.clear()
     }
 
     private fun getAttachmentsSize(binaryPool: BinaryPool): Long {
