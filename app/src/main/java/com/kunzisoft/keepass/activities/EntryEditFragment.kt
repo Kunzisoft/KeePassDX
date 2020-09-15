@@ -22,7 +22,9 @@ package com.kunzisoft.keepass.activities
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -48,11 +50,8 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
-import org.joda.time.Duration
-import org.joda.time.Instant
 
 class EntryEditFragment: StylishFragment() {
-
 
     private lateinit var entryTitleLayoutView: TextInputLayout
     private lateinit var entryTitleView: EditText
@@ -294,16 +293,23 @@ class EntryEditFragment: StylishFragment() {
             return entryExpiresCheckBox.isChecked
         }
         set(value) {
+            if (!value) {
+                expiresInstant = DateInstant.IN_ONE_MONTH
+            }
             entryExpiresCheckBox.isChecked = value
             assignExpiresDateText()
         }
 
     var expiryTime: DateInstant
         get() {
-            return expiresInstant
+            return if (expires)
+                expiresInstant
+            else
+                DateInstant.NEVER_EXPIRE
         }
         set(value) {
-            expiresInstant = value
+            if (expires)
+                expiresInstant = value
             assignExpiresDateText()
         }
 
