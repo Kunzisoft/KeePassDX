@@ -178,6 +178,7 @@ class EntryEditActivity : LockingActivity(),
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
         entryEditFragment?.drawFactory = mDatabase?.drawFactory
+        // TODO Fix leak
         tempEntryInfo?.let {
             entryEditFragment?.setEntryInfo(it)
         }
@@ -380,9 +381,6 @@ class EntryEditActivity : LockingActivity(),
     override fun onNewCustomFieldApproved(newField: Field) {
         entryEditFragment?.apply {
             putExtraField(newField)
-            getExtraFieldViewPosition(newField) { position ->
-                // TODO scrollView?.smoothScrollTo(0, position.toInt())
-            }
         }
     }
 
@@ -609,9 +607,6 @@ class EntryEditActivity : LockingActivity(),
         mEntry?.putExtraField(Field(otpField.name, otpField.protectedValue))
         entryEditFragment?.apply {
             putExtraField(otpField)
-            getExtraFieldViewPosition(otpField) { position ->
-                // TODO scrollView?.smoothScrollTo(0, position.toInt())
-            }
         }
     }
 

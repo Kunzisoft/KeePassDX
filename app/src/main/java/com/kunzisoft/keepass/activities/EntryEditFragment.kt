@@ -43,10 +43,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -86,6 +83,8 @@ class EntryEditFragment: StylishFragment() {
 
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
+    private var mLastFocusedEditField: FocusedEditField? = null
+    private var mExtraViewToRequestFocus: EditText? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -148,6 +147,10 @@ class EntryEditFragment: StylishFragment() {
         // Retrieve the new entry after an orientation change
         if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
             mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
+        }
+
+        if (savedInstanceState?.containsKey(KEY_LAST_FOCUSED_FIELD) == true) {
+            mLastFocusedEditField = savedInstanceState.getParcelable(KEY_LAST_FOCUSED_FIELD) ?: mLastFocusedEditField
         }
 
         populateViewsWithEntry()
@@ -327,6 +330,9 @@ class EntryEditFragment: StylishFragment() {
         }
         extraFieldValue?.id = View.NO_ID
         extraFieldValue?.tag = "FIELD_VALUE_TAG"
+        if (mLastFocusedEditField?.field == extraField) {
+            mExtraViewToRequestFocus = extraFieldValue
+        }
 
         val extraFieldEditButton: View? = itemView?.findViewById(R.id.entry_extra_field_edit)
         extraFieldEditButton?.setOnClickListener {
@@ -338,10 +344,19 @@ class EntryEditFragment: StylishFragment() {
     }
 
     fun getExtraFields(): List<Field> {
+        mLastFocusedEditField = null
         for (index in 0 until extraFieldsListView.childCount) {
             val extraFieldValue: EditText = extraFieldsListView.getChildAt(index)
                     .findViewWithTag("FIELD_VALUE_TAG")
-            mExtraFieldsList[index].protectedValue.stringValue = extraFieldValue.text?.toString() ?: ""
+            val extraField = mExtraFieldsList[index]
+            extraField.protectedValue.stringValue = extraFieldValue.text?.toString() ?: ""
+            if (extraFieldValue.isFocused) {
+                mLastFocusedEditField = FocusedEditField().apply {
+                    field = extraField
+                    cursorSelectionStart = extraFieldValue.selectionStart
+                    cursorSelectionEnd = extraFieldValue.selectionEnd
+                }
+            }
         }
         return mExtraFieldsList
     }
@@ -359,6 +374,15 @@ class EntryEditFragment: StylishFragment() {
         fields.forEach {
             extraFieldsListView.addView(buildViewFromField(it))
         }
+        // Request last focus
+        mLastFocusedEditField?.let { focusField ->
+            mExtraViewToRequestFocus?.apply {
+                requestFocus()
+                setSelection(focusField.cursorSelectionStart,
+                                focusField.cursorSelectionEnd)
+            }
+        }
+        mLastFocusedEditField = null
         mOnEditButtonClickListener = onEditButtonClickListener
 
         /*
@@ -381,13 +405,12 @@ class EntryEditFragment: StylishFragment() {
             mExtraFieldsList.removeAt(index)
             mExtraFieldsList.add(index, extraField)
             extraFieldsListView.removeViewAt(index)
-            val newView = buildViewFromField(extraField)
-            extraFieldsListView.addView(newView, index)
         } ?: kotlin.run {
             mExtraFieldsList.add(extraField)
-            val newView = buildViewFromField(extraField)
-            extraFieldsListView.addView(newView)
         }
+        val newView = buildViewFromField(extraField)
+        extraFieldsListView.addView(newView)
+        newView?.requestFocus()
     }
 
     fun replaceExtraField(oldExtraField: Field, newExtraField: Field) {
@@ -410,18 +433,6 @@ class EntryEditFragment: StylishFragment() {
             extraFieldsContainerView.collapse(true)
         } else if (previousSize == 0 && newSize == 1) {
             extraFieldsContainerView.expand(true)
-        }
-    }
-
-    fun getExtraFieldViewPosition(field: Field, position: (Float) -> Unit) {
-        extraFieldsListView.post {
-            val index = mExtraFieldsList.indexOf(field)
-            val child = extraFieldsListView.getChildAt(index)
-            child.requestFocus()
-            position.invoke(extraFieldsListView.y
-                    + (child?.y
-                    ?: 0F)
-            )
         }
     }
 
@@ -478,12 +489,14 @@ class EntryEditFragment: StylishFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
         outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
+        outState.putParcelable(KEY_LAST_FOCUSED_FIELD, mLastFocusedEditField)
 
         super.onSaveInstanceState(outState)
     }
 
     companion object {
         const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
+        const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
     }
 
 }
