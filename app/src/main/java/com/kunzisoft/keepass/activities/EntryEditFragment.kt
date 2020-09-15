@@ -53,7 +53,6 @@ import org.joda.time.Instant
 
 class EntryEditFragment: StylishFragment() {
 
-    private var fontInVisibility: Boolean = false
 
     private lateinit var entryTitleLayoutView: TextInputLayout
     private lateinit var entryTitleView: EditText
@@ -73,9 +72,11 @@ class EntryEditFragment: StylishFragment() {
 
     private lateinit var attachmentsAdapter: EntryAttachmentsItemsAdapter
 
+    private var fontInVisibility: Boolean = false
     private var iconColor: Int = 0
     private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
 
+    var drawFactory: IconDrawableFactory? = null
     var setOnDateClickListener: View.OnClickListener? = null
     var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
     var setOnIconViewClickListener: View.OnClickListener? = null
@@ -180,38 +181,34 @@ class EntryEditFragment: StylishFragment() {
     }
 
     private fun populateViewsWithEntry() {
-        try {
-            // Set info in view
-            icon = mEntryInfo.icon
-            title = mEntryInfo.title
-            username = mEntryInfo.username
-            url = mEntryInfo.url
-            password = mEntryInfo.password
-            expires = mEntryInfo.expires
-            expiryTime = mEntryInfo.expiryTime
-            notes = mEntryInfo.notes
-            assignExtraFields(mEntryInfo.customFields) { fields ->
-                setOnEditCustomField?.invoke(fields)
-            }
-            assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
-                setOnRemoveAttachment?.invoke(attachment)
-            }
-        } catch (e: Exception) {}
+        // Set info in view
+        icon = mEntryInfo.icon
+        title = mEntryInfo.title
+        username = mEntryInfo.username
+        url = mEntryInfo.url
+        password = mEntryInfo.password
+        expires = mEntryInfo.expires
+        expiryTime = mEntryInfo.expiryTime
+        notes = mEntryInfo.notes
+        assignExtraFields(mEntryInfo.customFields) { fields ->
+            setOnEditCustomField?.invoke(fields)
+        }
+        assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
+            setOnRemoveAttachment?.invoke(attachment)
+        }
     }
 
     private fun populateEntryWithViews() {
-        try {
-            // Icon already populate
-            mEntryInfo.title = title
-            mEntryInfo.username = username
-            mEntryInfo.url = url
-            mEntryInfo.password = password
-            mEntryInfo.expires = expires
-            mEntryInfo.expiryTime = expiryTime
-            mEntryInfo.notes = notes
-            mEntryInfo.customFields = getExtraFields()
-            mEntryInfo.attachments = getAttachments()
-        } catch (e: Exception) {}
+        // Icon already populate
+        mEntryInfo.title = title
+        mEntryInfo.username = username
+        mEntryInfo.url = url
+        mEntryInfo.password = password
+        mEntryInfo.expires = expires
+        mEntryInfo.expiryTime = expiryTime
+        mEntryInfo.notes = notes
+        mEntryInfo.customFields = getExtraFields()
+        mEntryInfo.attachments = getAttachments()
     }
 
     var title: String
@@ -223,8 +220,6 @@ class EntryEditFragment: StylishFragment() {
             if (fontInVisibility)
                 entryTitleView.applyFontVisibility()
         }
-
-    var drawFactory: IconDrawableFactory? = null
 
     var icon: IconImage
         get() {
