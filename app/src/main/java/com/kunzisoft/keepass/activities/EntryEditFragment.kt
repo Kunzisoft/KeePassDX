@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -91,6 +92,8 @@ class EntryEditFragment: StylishFragment() {
 
         val rootView = inflater.cloneInContext(contextThemed)
             .inflate(R.layout.fragment_entry_edit_contents, container, false)
+
+        fontInVisibility = PreferencesUtil.fieldFontIsInVisibility(requireContext())
 
         entryTitleLayoutView = rootView.findViewById(R.id.entry_edit_container_title)
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
@@ -145,7 +148,9 @@ class EntryEditFragment: StylishFragment() {
         taIconColor?.recycle()
 
         // Retrieve the new entry after an orientation change
-        if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
+        if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)
+            mEntryInfo = arguments?.getParcelable<EntryInfo>(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
+        else if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
             mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
         }
 
@@ -158,14 +163,20 @@ class EntryEditFragment: StylishFragment() {
         return rootView
     }
 
+    override fun onDetach() {
+        super.onDetach()
+
+        drawFactory = null
+        setOnDateClickListener = null
+        setOnPasswordGeneratorClickListener = null
+        setOnIconViewClickListener = null
+        setOnRemoveAttachment = null
+        setOnEditCustomField = null
+    }
+
     fun getEntryInfo(): EntryInfo? {
         populateEntryWithViews()
         return mEntryInfo
-    }
-
-    fun setEntryInfo(entryInfo: EntryInfo) {
-        populateViewsWithEntry()
-        mEntryInfo = entryInfo
     }
 
     private fun populateViewsWithEntry() {
@@ -201,10 +212,6 @@ class EntryEditFragment: StylishFragment() {
             mEntryInfo.customFields = getExtraFields()
             mEntryInfo.attachments = getAttachments()
         } catch (e: Exception) {}
-    }
-
-    fun applyFontVisibilityToFields(fontInVisibility: Boolean) {
-        this.fontInVisibility = fontInVisibility
     }
 
     var title: String
@@ -489,6 +496,14 @@ class EntryEditFragment: StylishFragment() {
     companion object {
         const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
         const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
+
+        fun getInstance(entryInfo: EntryInfo?): EntryEditFragment {
+            return EntryEditFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_TEMP_ENTRY_INFO, entryInfo)
+                }
+            }
+        }
     }
 
 }

@@ -172,18 +172,13 @@ class EntryEditActivity : LockingActivity(),
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment()
+            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo)
         }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
-        entryEditFragment?.drawFactory = mDatabase?.drawFactory
-        // TODO Fix leak
-        tempEntryInfo?.let {
-            entryEditFragment?.setEntryInfo(it)
-        }
         entryEditFragment?.apply {
-            applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this@EntryEditActivity))
+            drawFactory = mDatabase?.drawFactory
             setOnDateClickListener = View.OnClickListener {
                 expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
