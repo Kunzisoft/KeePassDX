@@ -347,7 +347,7 @@ object OtpEntryFields {
      * Build new generated fields in a new list from [fieldsToParse] in parameter,
      * Remove parameters fields use to generate auto fields
      */
-    fun generateAutoFields(fieldsToParse: MutableList<Field>): MutableList<Field> {
+    fun generateAutoFields(fieldsToParse: List<Field>): MutableList<Field> {
         val newCustomFields: MutableList<Field> = ArrayList(fieldsToParse)
         // Remove parameter fields
         val otpField = Field(OTP_FIELD)

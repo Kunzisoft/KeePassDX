@@ -132,7 +132,7 @@ class EntryEditActivity : LockingActivity(),
         // Likely the app has been killed exit the activity
         mDatabase = Database.getInstance()
 
-        var tempEntry: Entry? = null
+        var tempEntryInfo: EntryInfo? = null
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let {
@@ -149,14 +149,7 @@ class EntryEditActivity : LockingActivity(),
                     entry.parent = mParent
                 }
             }
-
-            mEntry?.let { entry ->
-                // Create a copy to modify
-                tempEntry = Entry(entry).also { newEntry ->
-                    // WARNING Remove the parent to keep memory with parcelable
-                    newEntry.removeParent()
-                }
-            }
+            tempEntryInfo = mEntry?.getEntryInfo(mDatabase, true)
         }
 
         // Parent is retrieve, it's a new entry to create
@@ -165,12 +158,15 @@ class EntryEditActivity : LockingActivity(),
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon from parent if not a folder
             val parentIcon = mParent?.icon
+            tempEntryInfo = mDatabase?.createEntry()?.getEntryInfo(mDatabase, true)
+            // Set default icon
             if (parentIcon != null
                     && parentIcon.iconId != IconImage.UNKNOWN_ID
                     && parentIcon.iconId != IconImageStandard.FOLDER) {
-                tempEntry?.icon = parentIcon
+                tempEntryInfo?.icon = parentIcon
             }
-            tempEntry = mDatabase?.createEntry()
+            // Set default username
+            tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
         }
 
         // Build fragment to manage entry modification
@@ -181,16 +177,14 @@ class EntryEditActivity : LockingActivity(),
         supportFragmentManager.beginTransaction()
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
-        mDatabase?.let { database ->
-            entryEditFragment?.setDatabase(database)
-        }
-        tempEntry?.let {
-            entryEditFragment?.setEntry(it, mIsNew)
+        entryEditFragment?.drawFactory = mDatabase?.drawFactory
+        tempEntryInfo?.let {
+            entryEditFragment?.setEntryInfo(it)
         }
         entryEditFragment?.apply {
             applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this@EntryEditActivity))
             setOnDateClickListener = View.OnClickListener {
-                expiresDate.date.let { expiresDate ->
+                expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
                     val defaultYear = dateTime.year
                     val defaultMonth = dateTime.monthOfYear-1
@@ -208,6 +202,7 @@ class EntryEditActivity : LockingActivity(),
             }
             setOnRemoveAttachment = { attachment ->
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
+                removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
             }
             setOnEditCustomField = { field ->
                 editCustomField(field)
@@ -475,39 +470,47 @@ class EntryEditActivity : LockingActivity(),
      */
     private fun saveEntry() {
         // Get the temp entry
-        entryEditFragment?.getEntry()?.let { newEntry ->
+        entryEditFragment?.getEntryInfo()?.let { newEntryInfo ->
 
-            // WARNING Add the parent previously deleted
-            newEntry.parent = mEntry?.parent
-            // Build info
-            newEntry.lastAccessTime = DateInstant()
-            newEntry.lastModificationTime = DateInstant()
+            if (mIsNew) {
+                // Create new one
+                mDatabase?.createEntry()
+            } else {
+                // Create a clone
+                Entry(mEntry!!)
+            }?.let { newEntry ->
 
-            // Delete temp attachment if not used
-            mTempAttachments.forEach {
-                mDatabase?.binaryPool?.let { binaryPool ->
-                    if (!newEntry.getAttachments(binaryPool).contains(it)) {
-                        mDatabase?.removeAttachmentIfNotUsed(it)
+                newEntry.setEntryInfo(mDatabase, newEntryInfo)
+                // Build info
+                newEntry.lastAccessTime = DateInstant()
+                newEntry.lastModificationTime = DateInstant()
+
+                // Delete temp attachment if not used
+                mTempAttachments.forEach {
+                    mDatabase?.binaryPool?.let { binaryPool ->
+                        if (!newEntry.getAttachments(binaryPool).contains(it)) {
+                            mDatabase?.removeAttachmentIfNotUsed(it)
+                        }
                     }
                 }
-            }
 
-            // Open a progress dialog and save entry
-            if (mIsNew) {
-                mParent?.let { parent ->
-                    mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                            newEntry,
-                            parent,
-                            !mReadOnly && mAutoSaveEnable
-                    )
-                }
-            } else {
-                mEntry?.let { oldEntry ->
-                    mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                            oldEntry,
-                            newEntry,
-                            !mReadOnly && mAutoSaveEnable
-                    )
+                // Open a progress dialog and save entry
+                if (mIsNew) {
+                    mParent?.let { parent ->
+                        mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
+                                newEntry,
+                                parent,
+                                !mReadOnly && mAutoSaveEnable
+                        )
+                    }
+                } else {
+                    mEntry?.let { oldEntry ->
+                        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
+                                oldEntry,
+                                newEntry,
+                                !mReadOnly && mAutoSaveEnable
+                        )
+                    }
                 }
             }
         }
@@ -603,7 +606,7 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
+        mEntry?.putExtraField(Field(otpField.name, otpField.protectedValue))
         entryEditFragment?.apply {
             putExtraField(otpField)
             getExtraFieldViewPosition(otpField) { position ->
@@ -622,9 +625,9 @@ class EntryEditActivity : LockingActivity(),
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            entryEditFragment?.expiresDate?.date?.let { expiresDate ->
+            entryEditFragment?.expiryTime?.date?.let { expiresDate ->
                 // Save the date
-                entryEditFragment?.expiresDate =
+                entryEditFragment?.expiryTime =
                         DateInstant(DateTime(expiresDate)
                                 .withYear(year)
                                 .withMonthOfYear(month + 1)
@@ -641,9 +644,9 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        entryEditFragment?.expiresDate?.date?.let { expiresDate ->
+        entryEditFragment?.expiryTime?.date?.let { expiresDate ->
             // Save the date
-            entryEditFragment?.expiresDate =
+            entryEditFragment?.expiryTime =
                     DateInstant(DateTime(expiresDate)
                             .withHourOfDay(hours)
                             .withMinuteOfHour(minutes)

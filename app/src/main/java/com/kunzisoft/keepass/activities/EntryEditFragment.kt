@@ -39,13 +39,12 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.view.applyFontVisibility
@@ -86,9 +85,7 @@ class EntryEditFragment: StylishFragment() {
     var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
 
     // Elements to modify the current entry
-    private var mDatabase: Database? = null
-    private var mEntry: Entry? = null
-    private var mIsNewEntry = true
+    private var mEntryInfo = EntryInfo()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -149,94 +146,58 @@ class EntryEditFragment: StylishFragment() {
         taIconColor?.recycle()
 
         // Retrieve the new entry after an orientation change
-        if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY) == true) {
-            mEntry = savedInstanceState.getParcelable(KEY_TEMP_ENTRY)
+        if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
+            mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
         }
 
-        mDatabase?.let { database ->
-            mEntry?.let { entry ->
-                populateViewsWithEntry(database, entry, mIsNewEntry)
-            }
-        }
+        populateViewsWithEntry()
 
         return rootView
     }
 
-    fun setDatabase(database: Database) {
-        mDatabase = database
+    fun getEntryInfo(): EntryInfo? {
+        populateEntryWithViews()
+        return mEntryInfo
     }
 
-    fun getEntry(): Entry? {
-        mDatabase?.let { database ->
-            mEntry?.let { entry ->
-                populateEntryWithViews(database, entry)
+    fun setEntryInfo(entryInfo: EntryInfo) {
+        populateViewsWithEntry()
+        mEntryInfo = entryInfo
+    }
+
+    private fun populateViewsWithEntry() {
+        try {
+            // Set info in view
+            icon = mEntryInfo.icon
+            title = mEntryInfo.title
+            username = mEntryInfo.username
+            url = mEntryInfo.url
+            password = mEntryInfo.password
+            expires = mEntryInfo.expires
+            expiryTime = mEntryInfo.expiryTime
+            notes = mEntryInfo.notes
+            assignExtraFields(mEntryInfo.customFields) { fields ->
+                setOnEditCustomField?.invoke(fields)
             }
-        }
-        return mEntry
-    }
-
-    fun setEntry(entry: Entry, isNewEntry: Boolean) {
-        mEntry = entry
-        mIsNewEntry = isNewEntry
-    }
-
-    private fun populateViewsWithEntry(database: Database, entry: Entry, isNewEntry: Boolean) {
-        // Don't start the field reference manager, we want to see the raw ref
-        database.stopManageEntry(entry)
-
-        // Set info in view
-        icon = entry.icon
-        title = entry.title
-        username = if (isNewEntry && entry.username.isEmpty())
-            database.defaultUsername
-        else
-            entry.username
-        url = entry.url
-        password = entry.password
-        expires = entry.expires
-        if (expires)
-            expiresDate = entry.expiryTime
-        notes = entry.notes
-        assignExtraFields(entry.customFields.mapTo(ArrayList()) {
-            Field(it.key, it.value)
-        }) {
-            setOnEditCustomField?.invoke(it)
-        }
-        assignAttachments(entry.getAttachments(database.binaryPool).toSet(), StreamDirection.UPLOAD) { attachment ->
-            // Remove entry by clicking trash button
-            entry.removeAttachment(attachment)
-        }
-    }
-
-    private fun populateEntryWithViews(database: Database, newEntry: Entry) {
-
-        database.startManageEntry(newEntry)
-
-        newEntry.apply {
-            // Build info from view
-            this@EntryEditFragment.let { entryView ->
-                removeAllFields()
-                title = entryView.title
-                username = entryView.username
-                url = entryView.url
-                password = entryView.password
-                expires = entryView.expires
-                if (entryView.expires) {
-                    expiryTime = entryView.expiresDate
-                }
-                notes = entryView.notes
-                entryView.getExtraFields().forEach { customField ->
-                    putExtraField(customField.name, customField.protectedValue)
-                }
-                database.binaryPool.let { binaryPool ->
-                    entryView.getAttachments().forEach {
-                        putAttachment(it, binaryPool)
-                    }
-                }
+            assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
+                setOnRemoveAttachment?.invoke(attachment)
             }
-        }
+        } catch (e: Exception) {}
+    }
 
-        database.stopManageEntry(newEntry)
+    private fun populateEntryWithViews() {
+        try {
+            // Icon already populate
+            mEntryInfo.title = title
+            mEntryInfo.username = username
+            mEntryInfo.url = url
+            mEntryInfo.password = password
+            mEntryInfo.expires = expires
+            mEntryInfo.expiryTime = expiryTime
+            mEntryInfo.notes = notes
+            mEntryInfo.customFields = getExtraFields()
+            mEntryInfo.attachments = getAttachments()
+        } catch (e: Exception) {}
     }
 
     fun applyFontVisibilityToFields(fontInVisibility: Boolean) {
@@ -253,13 +214,15 @@ class EntryEditFragment: StylishFragment() {
                 entryTitleView.applyFontVisibility()
         }
 
+    var drawFactory: IconDrawableFactory? = null
+
     var icon: IconImage
         get() {
-            return mEntry?.icon ?: IconImageStandard()
+            return mEntryInfo.icon
         }
         set(value) {
-            mEntry?.icon = value
-            mDatabase?.drawFactory?.let { drawFactory ->
+            mEntryInfo.icon = value
+            drawFactory?.let { drawFactory ->
                 entryIconView.assignDatabaseIcon(drawFactory, value, iconColor)
             }
         }
@@ -316,7 +279,7 @@ class EntryEditFragment: StylishFragment() {
             assignExpiresDateText()
         }
 
-    var expiresDate: DateInstant
+    var expiryTime: DateInstant
         get() {
             return expiresInstant
         }
@@ -471,7 +434,7 @@ class EntryEditFragment: StylishFragment() {
         return attachmentsAdapter.itemsList.map { it.attachment }
     }
 
-    fun assignAttachments(attachments: Set<Attachment>,
+    fun assignAttachments(attachments: List<Attachment>,
                           streamDirection: StreamDirection,
                           onDeleteItem: (attachment: Attachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
@@ -513,18 +476,14 @@ class EntryEditFragment: StylishFragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mEntry?.let { entry ->
-            mDatabase?.let { database ->
-                populateEntryWithViews(database, entry)
-            }
-            outState.putParcelable(KEY_TEMP_ENTRY, entry)
-        }
+        populateEntryWithViews()
+        outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
 
         super.onSaveInstanceState(outState)
     }
 
     companion object {
-        const val KEY_TEMP_ENTRY = "KEY_TEMP_ENTRY"
+        const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
     }
 
 }

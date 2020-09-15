@@ -311,7 +311,9 @@ class EntryActivity : LockingActivity() {
         // Assign custom fields
         if (mDatabase?.allowEntryCustomFields() == true) {
             entryContentsView?.clearExtraFields()
-            for ((label, value) in entry.customFields) {
+            entry.getExtraFields().forEach { field ->
+                val label = field.name
+                val value = field.protectedValue
                 val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                 if (allowCopyProtectedField) {
                     entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
