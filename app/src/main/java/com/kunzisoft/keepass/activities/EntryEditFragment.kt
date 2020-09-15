@@ -74,7 +74,7 @@ class EntryEditFragment: StylishFragment() {
 
     private var fontInVisibility: Boolean = false
     private var iconColor: Int = 0
-    private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
+    private var expiresInstant: DateInstant = DateInstant.IN_ONE_MONTH
 
     var drawFactory: IconDrawableFactory? = null
     var setOnDateClickListener: View.OnClickListener? = null

@@ -23,6 +23,8 @@ import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
+import org.joda.time.Duration
+import org.joda.time.Instant
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -95,6 +97,7 @@ class DateInstant : Parcelable {
     companion object {
 
         val NEVER_EXPIRE = neverExpire
+        val IN_ONE_MONTH = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
         private val dateFormat = SimpleDateFormat.getDateTimeInstance()
 
         private val neverExpire: DateInstant

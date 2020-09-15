@@ -37,7 +37,7 @@ class EntryInfo : Parcelable {
     var username: String = ""
     var password: String = ""
     var expires: Boolean = false
-    var expiryTime: DateInstant = DateInstant.NEVER_EXPIRE
+    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH
     var url: String = ""
     var notes: String = ""
     var customFields: List<Field> = ArrayList()
