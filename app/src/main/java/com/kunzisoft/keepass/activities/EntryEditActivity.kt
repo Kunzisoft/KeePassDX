@@ -89,7 +89,7 @@ class EntryEditActivity : LockingActivity(),
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
-    private var entryEditContentsFragment: EntryEditContentsFragment? = null
+    private var entryEditFragment: EntryEditFragment? = null
     private var entryEditAddToolBar: Toolbar? = null
     private var validateButton: View? = null
     private var lockView: View? = null
@@ -174,20 +174,20 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Build fragment to manage entry modification
-        entryEditContentsFragment = supportFragmentManager.findFragmentByTag("entry_edit_contents") as? EntryEditContentsFragment?
-        if (entryEditContentsFragment == null) {
-            entryEditContentsFragment = EntryEditContentsFragment()
+        entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
+        if (entryEditFragment == null) {
+            entryEditFragment = EntryEditFragment()
         }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.entry_edit_contents, entryEditContentsFragment!!, "entry_edit_contents")
+                .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
         mDatabase?.let { database ->
-            entryEditContentsFragment?.setDatabase(database)
+            entryEditFragment?.setDatabase(database)
         }
         tempEntry?.let {
-            entryEditContentsFragment?.setEntry(it, mIsNew)
+            entryEditFragment?.setEntry(it, mIsNew)
         }
-        entryEditContentsFragment?.apply {
+        entryEditFragment?.apply {
             applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this@EntryEditActivity))
             setOnDateClickListener = View.OnClickListener {
                 expiresDate.date.let { expiresDate ->
@@ -321,7 +321,7 @@ class EntryEditActivity : LockingActivity(),
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     when (entryAttachmentState.downloadState) {
                         AttachmentState.START -> {
-                            entryEditContentsFragment?.apply {
+                            entryEditFragment?.apply {
                                 // When only one attachment is allowed
                                 if (!mAllowMultipleAttachments) {
                                     clearAttachments()
@@ -334,10 +334,10 @@ class EntryEditActivity : LockingActivity(),
                             }
                         }
                         AttachmentState.IN_PROGRESS -> {
-                            entryEditContentsFragment?.putAttachment(entryAttachmentState)
+                            entryEditFragment?.putAttachment(entryAttachmentState)
                         }
                         AttachmentState.COMPLETE -> {
-                            entryEditContentsFragment?.apply {
+                            entryEditFragment?.apply {
                                 putAttachment(entryAttachmentState)
                                 // Scroll to the attachment position
                                 getAttachmentViewPosition(entryAttachmentState) {
@@ -346,7 +346,7 @@ class EntryEditActivity : LockingActivity(),
                             }
                         }
                         AttachmentState.ERROR -> {
-                            entryEditContentsFragment?.removeAttachment(entryAttachmentState)
+                            entryEditFragment?.removeAttachment(entryAttachmentState)
                             coordinatorLayout?.let {
                                 Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
                             }
@@ -383,7 +383,7 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onNewCustomFieldApproved(newField: Field) {
-        entryEditContentsFragment?.apply {
+        entryEditFragment?.apply {
             putExtraField(newField)
             getExtraFieldViewPosition(newField) { position ->
                 // TODO scrollView?.smoothScrollTo(0, position.toInt())
@@ -392,11 +392,11 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        entryEditContentsFragment?.replaceExtraField(oldField, newField)
+        entryEditFragment?.replaceExtraField(oldField, newField)
     }
 
     override fun onDeleteCustomFieldApproved(oldField: Field) {
-        entryEditContentsFragment?.removeExtraField(oldField)
+        entryEditFragment?.removeExtraField(oldField)
     }
 
     /**
@@ -430,8 +430,8 @@ class EntryEditActivity : LockingActivity(),
         mDatabase?.buildNewBinary(applicationContext.filesDir, false, compression)?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
-            if ((mDatabase?.allowMultipleAttachments != true && entryEditContentsFragment?.containsAttachment() == true) ||
-                    entryEditContentsFragment?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
+            if ((mDatabase?.allowMultipleAttachments != true && entryEditFragment?.containsAttachment() == true) ||
+                    entryEditFragment?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
                 ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
                         .show(supportFragmentManager, "replacementFileFragment")
             } else {
@@ -475,7 +475,7 @@ class EntryEditActivity : LockingActivity(),
      */
     private fun saveEntry() {
         // Get the temp entry
-        entryEditContentsFragment?.getEntry()?.let { newEntry ->
+        entryEditFragment?.getEntry()?.let { newEntry ->
 
             // WARNING Add the parent previously deleted
             newEntry.parent = mEntry?.parent
@@ -604,7 +604,7 @@ class EntryEditActivity : LockingActivity(),
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
-        entryEditContentsFragment?.apply {
+        entryEditFragment?.apply {
             putExtraField(otpField)
             getExtraFieldViewPosition(otpField) { position ->
                 // TODO scrollView?.smoothScrollTo(0, position.toInt())
@@ -614,7 +614,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun iconPicked(bundle: Bundle) {
         IconPickerDialogFragment.getIconStandardFromBundle(bundle)?.let { icon ->
-            entryEditContentsFragment?.icon = icon
+            entryEditFragment?.icon = icon
         }
     }
 
@@ -622,9 +622,9 @@ class EntryEditActivity : LockingActivity(),
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            entryEditContentsFragment?.expiresDate?.date?.let { expiresDate ->
+            entryEditFragment?.expiresDate?.date?.let { expiresDate ->
                 // Save the date
-                entryEditContentsFragment?.expiresDate =
+                entryEditFragment?.expiresDate =
                         DateInstant(DateTime(expiresDate)
                                 .withYear(year)
                                 .withMonthOfYear(month + 1)
@@ -641,9 +641,9 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        entryEditContentsFragment?.expiresDate?.date?.let { expiresDate ->
+        entryEditFragment?.expiresDate?.date?.let { expiresDate ->
             // Save the date
-            entryEditContentsFragment?.expiresDate =
+            entryEditFragment?.expiresDate =
                     DateInstant(DateTime(expiresDate)
                             .withHourOfDay(hours)
                             .withMinuteOfHour(minutes)
@@ -660,7 +660,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun acceptPassword(bundle: Bundle) {
         bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID)?.let {
-            entryEditContentsFragment?.password = it
+            entryEditFragment?.password = it
         }
 
         entryEditActivityEducation?.let {
@@ -718,6 +718,8 @@ class EntryEditActivity : LockingActivity(),
         const val UPDATE_ENTRY_RESULT_CODE = 32
         const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
+
+        const val ENTRY_EDIT_FRAGMENT_TAG = "ENTRY_EDIT_FRAGMENT_TAG"
 
         /**
          * Launch EntryEditActivity to update an existing entry

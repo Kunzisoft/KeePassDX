@@ -54,7 +54,7 @@ import com.kunzisoft.keepass.view.expand
 import org.joda.time.Duration
 import org.joda.time.Instant
 
-class EntryEditContentsFragment: StylishFragment() {
+class EntryEditFragment: StylishFragment() {
 
     private var fontInVisibility: Boolean = false
 
@@ -214,7 +214,7 @@ class EntryEditContentsFragment: StylishFragment() {
 
         newEntry.apply {
             // Build info from view
-            this@EntryEditContentsFragment.let { entryView ->
+            this@EntryEditFragment.let { entryView ->
                 removeAllFields()
                 title = entryView.title
                 username = entryView.username
