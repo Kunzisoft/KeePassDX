@@ -322,11 +322,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return size
     }
 
-    // TODO Remove ?
-    fun sizeOfHistory(): Int {
-        return history.size
-    }
-
     override fun putCustomData(key: String, value: String) {
         customData[key] = value
     }
