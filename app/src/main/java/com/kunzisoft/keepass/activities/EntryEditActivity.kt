@@ -455,7 +455,7 @@ class EntryEditActivity : LockingActivity(),
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
         // and open the dialog to set up the OTP
-        SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
+        SetOTPDialogFragment.build(entryEditFragment?.getEntryInfo()?.otpModel)
                 .show(supportFragmentManager, "addOTPDialog")
     }
 

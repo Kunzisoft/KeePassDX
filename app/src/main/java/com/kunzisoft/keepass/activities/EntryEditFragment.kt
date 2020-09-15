@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
@@ -221,6 +222,9 @@ class EntryEditFragment: StylishFragment() {
         mEntryInfo.expiryTime = expiryTime
         mEntryInfo.notes = notes
         mEntryInfo.customFields = getExtraFields()
+        mEntryInfo.otpModel = OtpEntryFields.parseFields { key ->
+            getExtraFields().firstOrNull { it.name == key }?.protectedValue?.toString()
+        }?.otpModel
         mEntryInfo.attachments = getAttachments()
     }
 
