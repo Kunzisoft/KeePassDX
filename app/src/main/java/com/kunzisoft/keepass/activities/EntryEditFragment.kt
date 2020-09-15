@@ -384,14 +384,6 @@ class EntryEditFragment: StylishFragment() {
         }
         mLastFocusedEditField = null
         mOnEditButtonClickListener = onEditButtonClickListener
-
-        /*
-        if (mExtraFieldsList.size > 0) {
-            extraFieldsContainerView.expand(false)
-        } else {
-            extraFieldsContainerView.collapse(false)
-        }
-         */
     }
 
     /**
