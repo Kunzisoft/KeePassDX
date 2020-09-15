@@ -22,9 +22,7 @@ package com.kunzisoft.keepass.activities
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -36,11 +34,13 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.*
@@ -150,7 +150,7 @@ class EntryEditFragment: StylishFragment() {
 
         // Retrieve the new entry after an orientation change
         if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)
-            mEntryInfo = arguments?.getParcelable<EntryInfo>(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
+            mEntryInfo = arguments?.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
         else if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
             mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
         }
@@ -178,6 +178,20 @@ class EntryEditFragment: StylishFragment() {
     fun getEntryInfo(): EntryInfo? {
         populateEntryWithViews()
         return mEntryInfo
+    }
+
+    fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
+        return entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+                entryPasswordGeneratorView,
+                {
+                    GeneratePasswordDialogFragment().show(parentFragmentManager, "PasswordGeneratorFragment")
+                },
+                {
+                    try {
+                        (activity as? EntryEditActivity?)?.performedNextEducation(entryEditActivityEducation)
+                    } catch (ignore: Exception) {}
+                }
+        )
     }
 
     private fun populateViewsWithEntry() {

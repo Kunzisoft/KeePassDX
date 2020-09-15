@@ -35,6 +35,7 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -518,31 +519,23 @@ class EntryEditActivity : LockingActivity(),
         menu.findItem(R.id.menu_save_database)?.isVisible = false
         MenuUtil.contributionMenuInflater(inflater, menu)
 
-        entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
-        }
-
         return true
     }
 
-    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordGeneratorView: View? = null //TODO entryEditContentsFragment?.entryPasswordGeneratorView
-        val generatePasswordEducationPerformed = passwordGeneratorView != null
-                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                passwordGeneratorView,
-                {
-                    openPasswordGenerator()
-                },
-                {
-                    performedNextEducation(entryEditActivityEducation)
-                }
-        )
-        if (!generatePasswordEducationPerformed) {
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        entryEditActivityEducation?.let {
+            Handler().post { performedNextEducation(it) }
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+        if (entryEditFragment?.generatePasswordEducationPerformed(entryEditActivityEducation) != true) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
-            val addNewFieldEducationPerformed = // TODO mNewEntry != null
-                    // && mNewEntry!!.allowCustomFields()
-                    addNewFieldView != null
-                    && addNewFieldView.visibility == View.VISIBLE
+            val addNewFieldEducationPerformed = mDatabase?.allowEntryCustomFields() == true
+                    && addNewFieldView != null
+                    && addNewFieldView.isVisible
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
                     {
@@ -554,7 +547,8 @@ class EntryEditActivity : LockingActivity(),
             )
             if (!addNewFieldEducationPerformed) {
                 val attachmentView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_attachment)
-                val addAttachmentEducationPerformed = attachmentView != null && attachmentView.visibility == View.VISIBLE
+                val addAttachmentEducationPerformed = attachmentView != null
+                        && attachmentView.isVisible
                         && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
                         attachmentView,
                         {
@@ -566,7 +560,8 @@ class EntryEditActivity : LockingActivity(),
                 )
                 if (!addAttachmentEducationPerformed) {
                     val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
-                    setupOtpView != null && setupOtpView.visibility == View.VISIBLE
+                    setupOtpView != null
+                            && setupOtpView.isVisible
                             && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
                             setupOtpView,
                             {
