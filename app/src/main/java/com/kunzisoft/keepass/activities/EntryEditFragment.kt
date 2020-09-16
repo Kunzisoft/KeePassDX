@@ -446,14 +446,18 @@ class EntryEditFragment: StylishFragment() {
     fun removeExtraField(oldExtraField: Field) {
         val previousSize = mExtraFieldsList.size
         val index = mExtraFieldsList.indexOf(oldExtraField)
-        mExtraFieldsList.removeAt(index)
-        extraFieldsListView.removeViewAt(index)
-        val newSize = mExtraFieldsList.size
+        extraFieldsListView.getChildAt(index)?.let {
+            it.collapse(true) {
+                mExtraFieldsList.removeAt(index)
+                extraFieldsListView.removeViewAt(index)
+                val newSize = mExtraFieldsList.size
 
-        if (previousSize > 0 && newSize == 0) {
-            extraFieldsContainerView.collapse(true)
-        } else if (previousSize == 0 && newSize == 1) {
-            extraFieldsContainerView.expand(true)
+                if (previousSize > 0 && newSize == 0) {
+                    extraFieldsContainerView.collapse(true)
+                } else if (previousSize == 0 && newSize == 1) {
+                    extraFieldsContainerView.expand(true)
+                }
+            }
         }
     }
 
