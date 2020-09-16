@@ -209,14 +209,12 @@
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container"
 		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container">
-		<androidx.recyclerview.widget.RecyclerView
+		<LinearLayout
 			android:id="@+id/extra_fields_list"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:descendantFocusability="afterDescendants"
 			android:layout_margin="@dimen/card_view_padding"
-			android:orientation="vertical">
-		</androidx.recyclerview.widget.RecyclerView>
+			android:orientation="vertical" />
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView

@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -272,10 +271,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             return field
         }
 
-    fun allowCustomFields(): Boolean {
-        return true
-    }
-
     fun removeAllFields() {
         fields.clear()
     }
@@ -314,6 +309,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         binaries.remove(attachment.name)
     }
 
+    fun removeAttachments() {
+        binaries.clear()
+    }
+
     private fun getAttachmentsSize(binaryPool: BinaryPool): Long {
         var size = 0L
         for ((label, poolId) in binaries) {
@@ -321,11 +320,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             size += binaryPool[poolId]?.length() ?: 0
         }
         return size
-    }
-
-    // TODO Remove ?
-    fun sizeOfHistory(): Int {
-        return history.size
     }
 
     override fun putCustomData(key: String, value: String) {
