@@ -30,7 +30,7 @@
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">かっこ</string>
     <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテント アクションを受け入れるファイル マネージャーが、データベース ファイルの作成、オープン、保存に必要です。</string>
-    <string name="clipboard_cleared">クリップボードが消去されました</string>
+    <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボードのタイムアウト</string>
     <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスが対応している場合）</string>
     <string name="select_to_copy">%1$s を選択してコピー</string>
@@ -376,7 +376,7 @@
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
     <string name="html_text_buy_pro">pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
     <string name="education_biometric_summary">スキャンした生体情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
-    <string name="reset_education_screens_text">教育的なヒントがリセットされました</string>
+    <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
     <string name="keyboard_previous_database_credentials_summary">データベース認証情報の画面で、切り替え前のキーボードへ自動的に戻します</string>
     <string name="autofill_auto_search_summary">ウェブドメインまたはアプリケーション ID から検索結果を自動的に提案します</string>
