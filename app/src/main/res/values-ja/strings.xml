@@ -42,14 +42,14 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>かつ<strong>広告なし</strong>です。
 \nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
-    <string name="entry_accessed">アクセス日時</string>
+    <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
     <string name="entry_notes">備考</string>
     <string name="entry_confpassword">パスワードを確認</string>
-    <string name="entry_created">作成日時</string>
+    <string name="entry_created">作成日</string>
     <string name="entry_expires">有効期限</string>
     <string name="entry_keyfile">キーファイル</string>
-    <string name="entry_modified">変更日時</string>
+    <string name="entry_modified">変更日</string>
     <string name="entry_password">パスワード</string>
     <string name="entry_save">保存</string>
     <string name="entry_title">タイトル</string>
@@ -103,7 +103,7 @@
     <string name="no_results">検索結果なし</string>
     <string name="no_url_handler">この URL を開くにはウェブブラウザをインストールしてください。</string>
     <string name="omit_backup_search_title">バックアップ エントリーを検索しない</string>
-    <string name="omit_backup_search_summary">検索結果から [バックアップ] と [ごみ箱] のグループを省きます</string>
+    <string name="omit_backup_search_summary">検索結果から [バックアップ] と [ゴミ箱] のグループを省きます</string>
     <string name="progress_create">新しいデータベースを作成しています…</string>
     <string name="progress_title">実行しています…</string>
     <string name="content_description_remove_from_list">削除</string>
@@ -177,13 +177,13 @@
     <string name="read_only_warning">ファイル マネージャーによっては、KeePassDX によるストレージへの書き込みを許可していない場合があります。</string>
     <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズムです。</string>
     <string name="sort_menu">並び替え</string>
-    <string name="sort_ascending">低い順 ↓</string>
-    <string name="sort_recycle_bin_bottom">ごみ箱を一番下にする</string>
+    <string name="sort_ascending">昇順 ↓</string>
+    <string name="sort_recycle_bin_bottom">ゴミ箱を一番下にする</string>
     <string name="sort_title">タイトル</string>
     <string name="sort_username">ユーザー名</string>
     <string name="sort_creation_time">作成日</string>
     <string name="sort_last_modify_time">変更日</string>
-    <string name="sort_last_access_time">アクセス日</string>
+    <string name="sort_last_access_time">最終アクセス</string>
     <string name="warning">警告</string>
     <string name="content_description_open_file">ファイルを開く</string>
     <string name="content_description_add_entry">エントリーを追加</string>
@@ -211,7 +211,7 @@
     <string name="menu_master_key_settings">マスターキーの設定</string>
     <string name="error_save_database">データベースを保存できませんでした。</string>
     <string name="menu_save_database">データベースを保存</string>
-    <string name="menu_empty_recycle_bin">ごみ箱を空にする</string>
+    <string name="menu_empty_recycle_bin">ゴミ箱を空にする</string>
     <string name="command_execution">コマンドを実行しています…</string>
     <string name="warning_permanently_delete_nodes">選択したノードを完全に削除しますか？</string>
     <string name="auto_focus_search_summary">データベースを開いたとき、検索を促します</string>
@@ -393,7 +393,7 @@
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
-    <string name="recycle_bin_summary">グループとエントリーを削除する前に [ごみ箱] グループに移動します</string>
+    <string name="recycle_bin_summary">グループとエントリーを削除する前に [ゴミ箱] グループに移動します</string>
     <string name="keyboard_selection_entry_summary">エントリーを開いているとき、Magikeyboard に入力フィールドを表示します</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
     <string name="download_finalization">終了しています…</string>
@@ -486,9 +486,9 @@
     <string name="database_default_username_title">デフォルトのユーザー名</string>
     <string name="style_choose_title">アプリのテーマ</string>
     <string name="reset_education_screens_title">教育的なヒントをリセット</string>
-    <string name="recycle_bin">ごみ箱</string>
-    <string name="recycle_bin_group_title">ごみ箱グループ</string>
-    <string name="recycle_bin_title">ごみ箱の使用</string>
+    <string name="recycle_bin">ゴミ箱</string>
+    <string name="recycle_bin_group_title">ゴミ箱グループ</string>
+    <string name="recycle_bin_title">ゴミ箱の使用</string>
     <string name="warning_file_too_big">KeePass データベースに含まれると想定されるのは、小さなユーティリティ ファイル（PGP 鍵ファイルなど）のみです。
 \n
 \nこのアップロードによりデータベースが非常に大きくなり、パフォーマンスが低下する可能性があります。</string>
