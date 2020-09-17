@@ -32,6 +32,7 @@ class BinaryAttachment : Parcelable {
         private set
     var isProtected: Boolean = false
         private set
+    var isCorrupted: Boolean = false
     private var dataFile: File? = null
 
     fun length(): Long {
@@ -43,11 +44,7 @@ class BinaryAttachment : Parcelable {
     /**
      * Empty protected binary
      */
-    constructor() {
-        this.isCompressed = false
-        this.isProtected = false
-        this.dataFile = null
-    }
+    constructor()
 
     constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean = false) {
         this.isCompressed = compressed
@@ -59,6 +56,7 @@ class BinaryAttachment : Parcelable {
         val compressedByte = parcel.readByte().toInt()
         isCompressed = compressedByte != 0
         isProtected = parcel.readByte().toInt() != 0
+        isCorrupted = parcel.readByte().toInt() != 0
         parcel.readString()?.let {
             dataFile = File(it)
         }
@@ -164,6 +162,7 @@ class BinaryAttachment : Parcelable {
 
         return isCompressed == other.isCompressed
                 && isProtected == other.isProtected
+                && isCorrupted == other.isCorrupted
                 && sameData
     }
 
@@ -172,6 +171,7 @@ class BinaryAttachment : Parcelable {
         var result = 0
         result = 31 * result + if (isCompressed) 1 else 0
         result = 31 * result + if (isProtected) 1 else 0
+        result = 31 * result + if (isCorrupted) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
         return result
     }
@@ -187,6 +187,7 @@ class BinaryAttachment : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
+        dest.writeByte((if (isCorrupted) 1 else 0).toByte())
         dest.writeString(dataFile?.absolutePath)
     }
 

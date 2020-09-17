@@ -27,11 +27,21 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_attachment_broken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_attach_file_broken_white_24dp"
+        android:contentDescription="@string/entry_attachments" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item_attachment_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_attachment_broken"
         app:layout_constraintEnd_toStartOf="@+id/item_attachment_size_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

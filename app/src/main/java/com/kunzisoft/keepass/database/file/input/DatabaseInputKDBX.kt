@@ -995,6 +995,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to read base 64 attachment", e)
+            binaryAttachment.isCorrupted = true
             binaryAttachment.getOutputDataStream().use { outputStream ->
                 outputStream.write(base64.toByteArray())
             }
