@@ -50,8 +50,8 @@ class RemoveUnlinkedAttachmentsDialogFragment : DialogFragment() {
     }
 
     override fun onDetach() {
-        super.onDetach()
         mActionChooseListener = null
+        super.onDetach()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

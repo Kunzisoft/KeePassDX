@@ -107,6 +107,11 @@ class SetOTPDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        mCreateOTPElementListener = null
+        super.onDetach()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 

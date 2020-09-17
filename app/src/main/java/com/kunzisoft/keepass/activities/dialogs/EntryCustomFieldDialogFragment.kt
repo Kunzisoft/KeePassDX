@@ -60,6 +60,11 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        entryCustomFieldListener = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_entry_new_field, null)

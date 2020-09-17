@@ -97,6 +97,12 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
+    override fun onDetach() {
+        nodeClickListener = null
+        onScrollListener = null
+        super.onDetach()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

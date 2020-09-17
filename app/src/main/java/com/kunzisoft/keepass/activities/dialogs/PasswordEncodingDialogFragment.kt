@@ -42,5 +42,4 @@ class PasswordEncodingDialogFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
-
 }

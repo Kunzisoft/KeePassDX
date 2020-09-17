@@ -25,6 +25,11 @@ class TimePickerFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        mListener = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Create a new instance of DatePickerDialog and return it
         return context?.let {

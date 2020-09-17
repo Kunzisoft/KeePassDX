@@ -46,6 +46,11 @@ class DeleteNodesDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        mListener = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         arguments?.apply {

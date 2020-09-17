@@ -73,7 +73,11 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             throw ClassCastException(context.toString()
                     + " must implement " + GroupEditDialogFragment::class.java.name)
         }
+    }
 
+    override fun onDetach() {
+        editGroupListener = null
+        super.onDetach()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

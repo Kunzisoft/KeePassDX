@@ -57,6 +57,11 @@ class IconPickerDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        iconPickerListener = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
