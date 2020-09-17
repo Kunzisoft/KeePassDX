@@ -823,15 +823,15 @@ class Database {
         }
     }
 
-    fun startManageEntry(entry: Entry) {
+    fun startManageEntry(entry: Entry?) {
         mDatabaseKDBX?.let {
-            entry.startToManageFieldReferences(it)
+            entry?.startToManageFieldReferences(it)
         }
     }
 
-    fun stopManageEntry(entry: Entry) {
+    fun stopManageEntry(entry: Entry?) {
         mDatabaseKDBX?.let {
-            entry.stopToManageFieldReferences()
+            entry?.stopToManageFieldReferences()
         }
     }
 

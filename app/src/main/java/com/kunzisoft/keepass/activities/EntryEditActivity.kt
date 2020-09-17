@@ -591,9 +591,19 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onOtpCreated(otpElement: OtpElement) {
+        var titleOTP: String? = null
+        var usernameOTP: String? = null
+        // Build a temp entry to get title and username (by ref)
+        entryEditFragment?.getEntryInfo()?.let { entryInfo ->
+            val entryTemp = mDatabase?.createEntry()
+            entryTemp?.setEntryInfo(mDatabase, entryInfo)
+            mDatabase?.startManageEntry(entryTemp)
+            titleOTP = entryTemp?.title
+            usernameOTP = entryTemp?.username
+            mDatabase?.stopManageEntry(mEntry)
+        }
         // Update the otp field with otpauth:// url
-        val otpField = OtpEntryFields.buildOtpField(otpElement,
-                mEntry?.title, mEntry?.username)
+        val otpField = OtpEntryFields.buildOtpField(otpElement, titleOTP, usernameOTP)
         mEntry?.putExtraField(Field(otpField.name, otpField.protectedValue))
         entryEditFragment?.apply {
             putExtraField(otpField)
