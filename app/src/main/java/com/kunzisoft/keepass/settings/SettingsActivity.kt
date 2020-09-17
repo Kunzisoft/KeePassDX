@@ -50,23 +50,6 @@ open class SettingsActivity
     private var toolbar: Toolbar? = null
     private var lockView: View? = null
 
-    companion object {
-
-        private const val SHOW_LOCK = "SHOW_LOCK"
-        private const val TAG_NESTED = "TAG_NESTED"
-
-        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
-            val intent = Intent(activity, SettingsActivity::class.java)
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-            intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
-            if (!timeoutEnable) {
-                activity.startActivity(intent)
-            } else if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                activity.startActivity(intent)
-            }
-        }
-    }
-
     /**
      * Retrieve the main fragment to show in first
      * @return The main fragment
@@ -83,7 +66,11 @@ open class SettingsActivity
 
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
-        toolbar?.setTitle(R.string.settings)
+
+        if (savedInstanceState?.getString(TITLE_KEY).isNullOrEmpty())
+            toolbar?.setTitle(R.string.settings)
+        else
+            toolbar?.title = savedInstanceState?.getString(TITLE_KEY)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -219,5 +206,24 @@ open class SettingsActivity
         super.onSaveInstanceState(outState)
 
         outState.putBoolean(SHOW_LOCK, lockView?.visibility == View.VISIBLE)
+        outState.putString(TITLE_KEY, toolbar?.title?.toString())
+    }
+
+    companion object {
+
+        private const val SHOW_LOCK = "SHOW_LOCK"
+        private const val TITLE_KEY = "TITLE_KEY"
+        private const val TAG_NESTED = "TAG_NESTED"
+
+        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
+            intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
+            if (!timeoutEnable) {
+                activity.startActivity(intent)
+            } else if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                activity.startActivity(intent)
+            }
+        }
     }
 }
