@@ -569,12 +569,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return binaryAttachment
     }
 
-    fun removeAttachmentIfNotUsed(attachment: Attachment) {
-        // Remove attachment from pool
-        removeUnlinkedAttachments(attachment.binaryAttachment)
+    fun removeUnlinkedAttachment(binary: BinaryAttachment, clear: Boolean) {
+        val listBinaries = ArrayList<BinaryAttachment>()
+        listBinaries.add(binary)
+        removeUnlinkedAttachments(listBinaries, clear)
     }
 
-    fun removeUnlinkedAttachments(vararg binaries: BinaryAttachment) {
+    fun removeUnlinkedAttachments(clear: Boolean) {
+        removeUnlinkedAttachments(emptyList(), clear)
+    }
+
+    private fun removeUnlinkedAttachments(binaries: List<BinaryAttachment>, clear: Boolean) {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryAttachment>()
         if (binaries.isEmpty()) {
@@ -597,7 +602,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         binariesToRemove.forEach {
             try {
                 binaryPool.remove(it)
-                it.clear()
+                if (clear)
+                    it.clear()
             } catch (e: Exception) {
                 Log.w(TAG, "Unable to clean binaries", e)
             }

@@ -461,12 +461,13 @@ class Database {
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // No need in KDB database because unique attachment by entry
-        mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
+        // Don't clear to fix upload multiple times
+        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryAttachment, false)
     }
 
     fun removeUnlinkedAttachments() {
         // No check in database KDB because unique attachment by entry
-        mDatabaseKDBX?.removeUnlinkedAttachments()
+        mDatabaseKDBX?.removeUnlinkedAttachments(true)
     }
 
     @Throws(DatabaseOutputException::class)
