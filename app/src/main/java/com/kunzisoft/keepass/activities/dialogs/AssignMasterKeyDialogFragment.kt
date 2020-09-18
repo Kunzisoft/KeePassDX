@@ -60,6 +60,10 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private var mSelectFileHelper: SelectFileHelper? = null
 
+    private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
+    private var mNoKeyConfirmationDialog: AlertDialog? = null
+    private var mEmptyKeyFileConfirmationDialog: AlertDialog? = null
+
     private val passwordTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
@@ -89,6 +93,12 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     override fun onDetach() {
         mListener = null
+        mEmptyPasswordConfirmationDialog?.dismiss()
+        mEmptyPasswordConfirmationDialog = null
+        mNoKeyConfirmationDialog?.dismiss()
+        mNoKeyConfirmationDialog = null
+        mEmptyKeyFileConfirmationDialog?.dismiss()
+        mEmptyKeyFileConfirmationDialog = null
         super.onDetach()
     }
 
@@ -234,7 +244,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         }
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            builder.create().show()
+            mEmptyPasswordConfirmationDialog = builder.create()
+            mEmptyPasswordConfirmationDialog?.show()
         }
     }
 
@@ -249,7 +260,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         this@AssignMasterKeyDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            builder.create().show()
+            mNoKeyConfirmationDialog = builder.create()
+            mNoKeyConfirmationDialog?.show()
         }
     }
 
@@ -268,7 +280,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         keyFileCheckBox?.isChecked = false
                         keyFileSelectionView?.uri = null
                     }
-            builder.create().show()
+            mEmptyKeyFileConfirmationDialog = builder.create()
+            mEmptyKeyFileConfirmationDialog?.show()
         }
     }
 
