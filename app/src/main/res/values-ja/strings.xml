@@ -473,7 +473,7 @@
     <string name="max_history_size_title">最大サイズ</string>
     <string name="max_history_items_summary">エントリーあたりの履歴項目の数を制限します</string>
     <string name="max_history_items_title">最大値</string>
-    <string name="database_data_compression_summary">データ圧縮によりデータベースのサイズが縮小されます。</string>
+    <string name="database_data_compression_summary">データ圧縮によりデータベースのサイズが縮小されます</string>
     <string name="database_data_compression_title">データ圧縮</string>
     <string name="file_name">ファイル名</string>
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>
@@ -497,4 +497,12 @@
     <string name="education_add_attachment_summary">エントリーに添付ファイルをアップロードして、重要な外部データを保存します。</string>
     <string name="education_add_attachment_title">添付ファイルを追加</string>
     <string name="warning_sure_add_file">それでもファイルを追加しますか？</string>
+    <string name="warning_empty_keyfile_explanation">キーファイルの内容は決して変更してはいけません。また万全を期すにはランダムに生成されたデータを含んでいるべきです。</string>
+    <string name="data">データ</string>
+    <string name="warning_empty_keyfile">空のキーファイルを追加することは推奨されません。</string>
+    <string name="warning_remove_unlinked_attachment">リンクされていないデータを削除すると、データベースのサイズが小さくなるかもしれませんが、KeePass プラグインで使用されているデータも削除されるかもしれません。</string>
+    <string name="content_description_credentials_information">認証情報について</string>
+    <string name="database_data_remove_unlinked_attachments_summary">データベースに含まれているがエントリーにリンクされていない添付ファイルを削除します</string>
+    <string name="database_data_remove_unlinked_attachments_title">リンクされていないデータを削除</string>
+    <string name="warning_sure_remove_data">それでもこのデータを削除しますか？</string>
 </resources>
