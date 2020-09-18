@@ -176,4 +176,11 @@
     <string name="feedback">Umpan Balik</string>
     <string name="contribution">Kontribusi</string>
     <string name="contact">Kontak</string>
+    <string name="auto_focus_search_summary">Minta pencarian saat membuka database</string>
+    <string name="auto_focus_search_title">Pencarian cepat</string>
+    <string name="omit_backup_search_summary">Menghilangkan grup \"Cadangan\" dan \"Tempat sampah\" dari hasil penelusuran</string>
+    <string name="omit_backup_search_title">Jangan mencari melalui entri cadangan</string>
+    <string name="create_keepass_file">Buat basisdata baru</string>
+    <string name="select_database_file">Buka basisdata yang sudah ada</string>
+    <string name="no_url_handler">Pasang browser web untuk membuka URL ini.</string>
 </resources>

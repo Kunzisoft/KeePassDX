@@ -489,4 +489,12 @@
     <string name="keyboard_previous_fill_in_title">自动键动作</string>
     <string name="keyboard_previous_database_credentials_summary">如果显示数据库凭据屏幕，则自动返回到上一个键盘</string>
     <string name="keyboard_change">切换键盘</string>
+    <string name="upload_attachment">上传 %1$s</string>
+    <string name="education_add_attachment_summary">将附件上传到您的条目以保存重要的外部数据。</string>
+    <string name="education_add_attachment_title">添加附件</string>
+    <string name="warning_sure_add_file">不论如何都要添加这个文件吗？</string>
+    <string name="warning_replace_file">上载此文件将替换现有文件。</string>
+    <string name="warning_file_too_big">KeePass数据库应该只包含小的实用程序文件(例如PGP密钥文件)。
+\n
+\n上传大文件会使增大数据库体积并降低性能。</string>
 </resources>

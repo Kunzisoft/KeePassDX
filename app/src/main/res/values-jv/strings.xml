@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="clipboard_timeout_summary">Durasi panyimpenan ing clipboard (yen didhukung dening piranti)</string>
+    <string name="clipboard_timeout">Wektune papan klip resik</string>
+    <string name="clipboard_error_clear">Papan klip ora iso diresiki</string>
+    <string name="clipboard_error">Ono aplikasi liyo seng ora ngijini gunakne pspan klip</string>
+    <string name="clipboard_cleared">Papan klip di resiki</string>
+    <string name="clipboard_error_title">Papan klipe ora beres</string>
+    <string name="allow">Sumonggo</string>
+    <string name="file_manager_install_description">Pangurus file sing nompo tumindak Intent ACTION_CREATE_DOCUMENT lan ACTION_OPEN_DOCUMENT dibutuhake kanggo nggawe, mbukak lan nyimpen file database.</string>
+    <string name="extended_ASCII">ASCII lengkap</string>
+    <string name="brackets">Kurung</string>
+    <string name="application">Aplikasi</string>
+    <string name="app_timeout_summary">Wektu kosong sadurunge ngunci basis data</string>
+    <string name="app_timeout">Wektu entek applikasine</string>
+    <string name="key_derivation_function">Fungsi derivasi utama</string>
+    <string name="encryption_algorithm">Algoritma enkripsi</string>
+    <string name="encryption">Enkripsi</string>
+    <string name="security">Keamanan</string>
+    <string name="master_key">Kunci utama</string>
+    <string name="add_group">Tambah grupe</string>
+    <string name="add_entry">Tambah entrine</string>
+    <string name="edit_entry">Owah entrine</string>
+    <string name="accept">Mantep</string>
+    <string name="about_description">Implementasine Android seko pengolah kata sandi KeePass</string>
+    <string name="feedback">Aturi Wejangan</string>
+    <string name="homepage">Ngarep</string>
+    <string name="contribution">Urun Rembuk</string>
+    <string name="contact">Nomer Hape</string>
+</resources>
