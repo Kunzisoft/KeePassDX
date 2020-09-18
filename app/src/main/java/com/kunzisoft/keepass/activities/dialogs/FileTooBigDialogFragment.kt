@@ -46,6 +46,11 @@ class FileTooBigDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        mActionChooseListener = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction

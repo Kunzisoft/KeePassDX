@@ -26,15 +26,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
@@ -57,6 +60,10 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     private var mListener: AssignPasswordDialogListener? = null
 
     private var mSelectFileHelper: SelectFileHelper? = null
+
+    private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
+    private var mNoKeyConfirmationDialog: AlertDialog? = null
+    private var mEmptyKeyFileConfirmationDialog: AlertDialog? = null
 
     private val passwordTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -85,6 +92,17 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        mListener = null
+        mEmptyPasswordConfirmationDialog?.dismiss()
+        mEmptyPasswordConfirmationDialog = null
+        mNoKeyConfirmationDialog?.dismiss()
+        mNoKeyConfirmationDialog = null
+        mEmptyKeyFileConfirmationDialog?.dismiss()
+        mEmptyKeyFileConfirmationDialog = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
 
@@ -99,10 +117,14 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
             rootView = inflater.inflate(R.layout.fragment_set_password, null)
             builder.setView(rootView)
-                    .setTitle(R.string.assign_master_key)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
+
+            val credentialsInfo: ImageView? = rootView?.findViewById(R.id.credentials_information)
+            credentialsInfo?.setOnClickListener {
+                UriUtil.gotoUrl(activity, R.string.credentials_explanation_url)
+            }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
             passwordTextInputLayout = rootView?.findViewById(R.id.password_input_layout)
@@ -129,7 +151,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         mMasterPassword = ""
                         mKeyFile = null
 
-                        var error = verifyPassword() || verifyFile()
+                        var error = verifyPassword() || verifyKeyFile()
                         if (!passwordCheckBox!!.isChecked && !keyFileCheckBox!!.isChecked) {
                             error = true
                             if (allowNoMasterKey)
@@ -199,7 +221,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         return error
     }
 
-    private fun verifyFile(): Boolean {
+    private fun verifyKeyFile(): Boolean {
         var error = false
         if (keyFileCheckBox != null
                 && keyFileCheckBox!!.isChecked) {
@@ -219,7 +241,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        if (!verifyFile()) {
+                        if (!verifyKeyFile()) {
                             mListener?.onAssignKeyDialogPositiveClick(
                                     passwordCheckBox!!.isChecked, mMasterPassword,
                                     keyFileCheckBox!!.isChecked, mKeyFile)
@@ -227,7 +249,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         }
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            builder.create().show()
+            mEmptyPasswordConfirmationDialog = builder.create()
+            mEmptyPasswordConfirmationDialog?.show()
         }
     }
 
@@ -242,7 +265,28 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         this@AssignMasterKeyDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            builder.create().show()
+            mNoKeyConfirmationDialog = builder.create()
+            mNoKeyConfirmationDialog?.show()
+        }
+    }
+
+    private fun showEmptyKeyFileConfirmationDialog() {
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.setMessage(SpannableStringBuilder().apply {
+                append(getString(R.string.warning_empty_keyfile))
+                append("\n\n")
+                append(getString(R.string.warning_empty_keyfile_explanation))
+                append("\n\n")
+                append(getString(R.string.warning_sure_add_file))
+                })
+                    .setPositiveButton(android.R.string.ok) { _, _ -> }
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
+                        keyFileCheckBox?.isChecked = false
+                        keyFileSelectionView?.uri = null
+                    }
+            mEmptyKeyFileConfirmationDialog = builder.create()
+            mEmptyKeyFileConfirmationDialog?.show()
         }
     }
 
@@ -251,8 +295,14 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { pathUri ->
-                keyFileCheckBox?.isChecked = true
-                keyFileSelectionView?.uri = pathUri
+                UriUtil.getFileData(requireContext(), uri)?.length()?.let { lengthFile ->
+                    keyFileSelectionView?.error = null
+                    keyFileCheckBox?.isChecked = true
+                    keyFileSelectionView?.uri = pathUri
+                    if (lengthFile <= 0L) {
+                        showEmptyKeyFileConfirmationDialog()
+                    }
+                }
             }
         }
     }

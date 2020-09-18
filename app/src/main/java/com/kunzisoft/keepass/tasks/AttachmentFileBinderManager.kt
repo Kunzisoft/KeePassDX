@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_REMOVE
 
 class AttachmentFileBinderManager(private val activity: FragmentActivity) {
 
@@ -53,7 +54,7 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
                     AttachmentState.COMPLETE,
                     AttachmentState.ERROR -> {
                         // Finish the action when capture by activity
-                        consummeAttachmentAction(entryAttachmentState)
+                        consumeAttachmentAction(entryAttachmentState)
                     }
                     else -> {}
                 }
@@ -99,7 +100,7 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
-    fun consummeAttachmentAction(attachment: EntryAttachmentState) {
+    fun consumeAttachmentAction(attachment: EntryAttachmentState) {
         mBinder?.getService()?.removeAttachmentAction(attachment)
     }
 
@@ -125,5 +126,11 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
             putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
             putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
         }, ACTION_ATTACHMENT_FILE_START_DOWNLOAD)
+    }
+
+    fun removeBinaryAttachment(attachment: Attachment) {
+        start(Bundle().apply {
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
+        }, ACTION_ATTACHMENT_REMOVE)
     }
 }

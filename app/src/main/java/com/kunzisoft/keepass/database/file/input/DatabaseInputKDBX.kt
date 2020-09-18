@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
+import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
@@ -742,8 +743,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             if (entryInHistory) {
                 ctxEntry = ctxHistoryBase
                 return KdbContext.EntryHistory
-            }
-            else if (ctxEntry != null) {
+            } else if (ctxEntry != null) {
                 // Add entry to the index only when close the XML element
                 mDatabase.addEntryIndex(ctxEntry!!)
             }
@@ -879,9 +879,14 @@ class DatabaseInputKDBX(cacheDirectory: File,
         if (encoded.isEmpty()) {
             return DatabaseVersioned.UUID_ZERO
         }
-        val buf = Base64.decode(encoded, BASE_64_FLAG)
 
-        return bytes16ToUuid(buf)
+        return try {
+            val buf = Base64.decode(encoded, BASE_64_FLAG)
+            bytes16ToUuid(buf)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to read base 64 UUID, create a random one", e)
+            UUID.randomUUID()
+        }
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -981,12 +986,19 @@ class DatabaseInputKDBX(cacheDirectory: File,
         val base64 = readString(xpp)
         if (base64.isEmpty())
             return null
-        val data = Base64.decode(base64, BASE_64_FLAG)
 
         // Build the new binary and compress
         val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, compressed, binaryId)
-        binaryAttachment.getOutputDataStream().use { outputStream ->
-            outputStream.write(data)
+        try {
+            binaryAttachment.getOutputDataStream().use { outputStream ->
+                outputStream.write(Base64.decode(base64, BASE_64_FLAG))
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to read base 64 attachment", e)
+            binaryAttachment.isCorrupted = true
+            binaryAttachment.getOutputDataStream().use { outputStream ->
+                outputStream.write(base64.toByteArray())
+            }
         }
         return binaryAttachment
     }
@@ -1044,6 +1056,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
     }
 
     companion object {
+
+        private val TAG = DatabaseInputKDBX::class.java.name
 
         private val DEFAULT_HISTORY_DAYS = UnsignedInt(365)
 

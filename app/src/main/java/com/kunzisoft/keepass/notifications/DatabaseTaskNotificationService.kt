@@ -141,6 +141,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_RESTORE_ENTRY_HISTORY -> buildDatabaseRestoreEntryHistoryActionTask(intent)
             ACTION_DATABASE_DELETE_ENTRY_HISTORY -> buildDatabaseDeleteEntryHistoryActionTask(intent)
             ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent)
+            ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK -> buildDatabaseRemoveUnlinkedDataActionTask(intent)
             ACTION_DATABASE_UPDATE_NAME_TASK,
             ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
             ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK,
@@ -711,6 +712,22 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
+    private fun buildDatabaseRemoveUnlinkedDataActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+
+            return RemoveUnlinkedDataDatabaseRunnable(this,
+                    mDatabase,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+            ).apply {
+                mAfterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
+            }
+        } else {
+            null
+        }
+    }
+
     private fun buildDatabaseUpdateElementActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
@@ -760,6 +777,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"
         const val ACTION_DATABASE_UPDATE_COLOR_TASK = "ACTION_DATABASE_UPDATE_COLOR_TASK"
         const val ACTION_DATABASE_UPDATE_COMPRESSION_TASK = "ACTION_DATABASE_UPDATE_COMPRESSION_TASK"
+        const val ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK = "ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK"
         const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
         const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
         const val ACTION_DATABASE_UPDATE_ENCRYPTION_TASK = "ACTION_DATABASE_UPDATE_ENCRYPTION_TASK"

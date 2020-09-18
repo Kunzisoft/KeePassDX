@@ -93,8 +93,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/card_view_padding"
-			android:orientation="vertical">
-		</LinearLayout>
+			android:orientation="vertical" />
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView

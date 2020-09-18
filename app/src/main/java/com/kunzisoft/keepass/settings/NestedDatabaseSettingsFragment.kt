@@ -135,7 +135,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.database_version_key))
                     ?.summary = mDatabase.version
 
-            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_compression_key))
+            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_data_key))
 
             // Database compression
             dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
@@ -481,6 +481,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             }
             getString(R.string.database_data_compression_key) -> {
                 dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.database_data_remove_unlinked_attachments_key) -> {
+                dialogFragment = DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
             getString(R.string.max_history_items_key) -> {
                 dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)

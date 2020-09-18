@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement
@@ -284,37 +283,43 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
 
     /**
-     * Retrieve custom fields to show, key is the label, value is the value of field (protected or not)
+     * Retrieve extra fields to show, key is the label, value is the value of field (protected or not)
      * @return Map of label/value
      */
-    val customFields: HashMap<String, ProtectedString>
-        get() = entryKDBX?.customFields ?: HashMap()
-
-    /**
-     * To redefine if version of entry allow custom field,
-     * @return true if entry allows custom field
-     */
-    fun allowCustomFields(): Boolean {
-        return entryKDBX?.allowCustomFields() ?: false
-    }
-
-    fun removeAllFields() {
-        entryKDBX?.removeAllFields()
+    fun getExtraFields(): List<Field> {
+        val extraFields = ArrayList<Field>()
+        entryKDBX?.let {
+            for (field in it.customFields) {
+                extraFields.add(Field(field.key, field.value))
+            }
+        }
+        return extraFields
     }
 
     /**
      * Update or add an extra field to the list (standard or custom)
-     * @param label Label of field, must be unique
-     * @param value Value of field
      */
-    fun putExtraField(label: String, value: ProtectedString) {
-        entryKDBX?.putExtraField(label, value)
+    fun putExtraField(field: Field) {
+        entryKDBX?.putExtraField(field.name, field.protectedValue)
+    }
+
+    private fun addExtraFields(fields: List<Field>) {
+        fields.forEach {
+            putExtraField(it)
+        }
+    }
+
+    private fun removeAllFields() {
+        entryKDBX?.removeAllFields()
     }
 
     fun getOtpElement(): OtpElement? {
-        return OtpEntryFields.parseFields { key ->
-            customFields[key]?.toString()
+        entryKDBX?.let {
+            return OtpEntryFields.parseFields { key ->
+                it.customFields[key]?.toString()
+            }
         }
+        return null
     }
 
     fun startToManageFieldReferences(database: DatabaseKDBX) {
@@ -341,14 +346,25 @@ class Entry : Node, EntryVersionedInterface<Group> {
                 || entryKDBX?.containsAttachment() == true
     }
 
-    fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {
-        entryKDB?.putAttachment(attachment)
-        entryKDBX?.putAttachment(attachment, binaryPool)
+    private fun addAttachments(binaryPool: BinaryPool, attachments: List<Attachment>) {
+        attachments.forEach {
+            putAttachment(it, binaryPool)
+        }
     }
 
-    fun removeAttachment(attachment: Attachment) {
+    private fun removeAttachment(attachment: Attachment) {
         entryKDB?.removeAttachment(attachment)
         entryKDBX?.removeAttachment(attachment)
+    }
+
+    private fun removeAllAttachments() {
+        entryKDB?.removeAttachment()
+        entryKDBX?.removeAttachments()
+    }
+
+    private fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {
+        entryKDB?.putAttachment(attachment)
+        entryKDBX?.putAttachment(attachment, binaryPool)
     }
 
     fun getHistory(): ArrayList<Entry> {
@@ -404,24 +420,52 @@ class Entry : Node, EntryVersionedInterface<Group> {
             database?.stopManageEntry(this)
         else
             database?.startManageEntry(this)
+
         entryInfo.id = nodeId.toString()
         entryInfo.title = title
         entryInfo.icon = icon
         entryInfo.username = username
         entryInfo.password = password
+        entryInfo.expires = expires
+        entryInfo.expiryTime = expiryTime
         entryInfo.url = url
         entryInfo.notes = notes
-        for (entry in customFields.entries) {
-            entryInfo.customFields.add(
-                    Field(entry.key, entry.value))
-        }
+        entryInfo.customFields = getExtraFields()
         // Add otpElement to generate token
         entryInfo.otpModel = getOtpElement()?.otpModel
-        // Replace parameter fields by generated OTP fields
-        entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
+        if (!raw) {
+            // Replace parameter fields by generated OTP fields
+            entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
+        }
+        database?.binaryPool?.let { binaryPool ->
+            entryInfo.attachments = getAttachments(binaryPool)
+        }
+
         if (!raw)
             database?.stopManageEntry(this)
         return entryInfo
+    }
+
+    fun setEntryInfo(database: Database?, newEntryInfo: EntryInfo) {
+        database?.startManageEntry(this)
+
+        removeAllFields()
+        removeAllAttachments()
+        // NodeId stay as is
+        title = newEntryInfo.title
+        icon = newEntryInfo.icon
+        username = newEntryInfo.username
+        password = newEntryInfo.password
+        expires = newEntryInfo.expires
+        expiryTime = newEntryInfo.expiryTime
+        url = newEntryInfo.url
+        notes = newEntryInfo.notes
+        addExtraFields(newEntryInfo.customFields)
+        database?.binaryPool?.let { binaryPool ->
+            addAttachments(binaryPool, newEntryInfo.attachments)
+        }
+
+        database?.stopManageEntry(this)
     }
 
     override fun equals(other: Any?): Boolean {

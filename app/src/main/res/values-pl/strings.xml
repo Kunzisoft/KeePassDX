@@ -489,4 +489,12 @@
     <string name="keyboard_previous_database_credentials_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury na ekranie poświadczeń bazy danych</string>
     <string name="keyboard_previous_database_credentials_title">Ekran poświadczeń bazy danych</string>
     <string name="keyboard_change">Przełącz klawiaturę</string>
+    <string name="upload_attachment">Prześlij %1$s</string>
+    <string name="education_add_attachment_summary">Prześlij załącznik do wpisu, aby zapisać ważne dane zewnętrzne.</string>
+    <string name="education_add_attachment_title">Dodawanie załącznika</string>
+    <string name="warning_sure_add_file">Czy mimo to dodać plik\?</string>
+    <string name="warning_replace_file">Przesłanie tego pliku spowoduje zastąpienie istniejącego.</string>
+    <string name="warning_file_too_big">Baza danych KeePass powinna zawierać tylko małe pliki narzędziowe (takie jak pliki kluczy PGP).
+\n
+\nTwoja baza danych może stać się bardzo duża i zmniejszyć wydajność dzięki temu wgrywaniu danych.</string>
 </resources>

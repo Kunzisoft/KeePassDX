@@ -1,0 +1,6 @@
+ * Fix incomplete attachment deletion #684
+ * Fix opening database v1 without backup folder #692
+ * Fix ANR during first entry education #685
+ * Entry edition as fragment and manual views to fix focus #686
+ * Fix opening database with corrupted attachment #691
+ * Manage empty keyfile #679

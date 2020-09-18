@@ -40,6 +40,11 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onDetach() {
+        mCallback = null
+        super.onDetach()
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 

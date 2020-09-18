@@ -54,6 +54,11 @@ class SortDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDetach() {
+        mListener = null
+        super.onDetach()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)

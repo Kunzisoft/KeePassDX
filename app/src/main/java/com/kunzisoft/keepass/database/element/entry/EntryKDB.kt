@@ -153,8 +153,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         this.binaryData = attachment.binaryAttachment
     }
 
-    fun removeAttachment(attachment: Attachment) {
-        if (this.binaryDescription == attachment.name) {
+    fun removeAttachment(attachment: Attachment? = null) {
+        if (attachment == null || this.binaryDescription == attachment.name) {
             this.binaryDescription = ""
             this.binaryData = null
         }

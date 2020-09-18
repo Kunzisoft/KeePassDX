@@ -1,0 +1,6 @@
+ * Correction de la suppression incomplète des fichiers joints #684
+ * Correction de l'ouverture de base de données v1 sans dossier backup #692
+ * Correction de l'ANR lors de la formation de première entrée #685
+ * Édition d'entrée en tant que fragment et vues manuelles pour corriger le focus #686
+ * Correction de l'ouverture d'une base de données avec un fichier joint corrompu #691
+ * Gestion de fichier clé vide #679

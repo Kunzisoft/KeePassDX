@@ -461,12 +461,13 @@ class Database {
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // No need in KDB database because unique attachment by entry
-        mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
+        // Don't clear to fix upload multiple times
+        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryAttachment, false)
     }
 
     fun removeUnlinkedAttachments() {
         // No check in database KDB because unique attachment by entry
-        mDatabaseKDBX?.removeUnlinkedAttachments()
+        mDatabaseKDBX?.removeUnlinkedAttachments(true)
     }
 
     @Throws(DatabaseOutputException::class)
@@ -822,16 +823,23 @@ class Database {
         }
     }
 
-    fun startManageEntry(entry: Entry) {
+    fun startManageEntry(entry: Entry?) {
         mDatabaseKDBX?.let {
-            entry.startToManageFieldReferences(it)
+            entry?.startToManageFieldReferences(it)
         }
     }
 
-    fun stopManageEntry(entry: Entry) {
+    fun stopManageEntry(entry: Entry?) {
         mDatabaseKDBX?.let {
-            entry.stopToManageFieldReferences()
+            entry?.stopToManageFieldReferences()
         }
+    }
+
+    /**
+     * @return true if database allows custom field
+     */
+    fun allowEntryCustomFields(): Boolean {
+        return mDatabaseKDBX != null
     }
 
     /**

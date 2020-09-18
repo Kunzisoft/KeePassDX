@@ -30,9 +30,9 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -42,7 +42,6 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -570,12 +569,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return binaryAttachment
     }
 
-    fun removeAttachmentIfNotUsed(attachment: Attachment) {
-        // Remove attachment from pool
-        removeUnlinkedAttachments(attachment.binaryAttachment)
+    fun removeUnlinkedAttachment(binary: BinaryAttachment, clear: Boolean) {
+        val listBinaries = ArrayList<BinaryAttachment>()
+        listBinaries.add(binary)
+        removeUnlinkedAttachments(listBinaries, clear)
     }
 
-    fun removeUnlinkedAttachments(vararg binaries: BinaryAttachment) {
+    fun removeUnlinkedAttachments(clear: Boolean) {
+        removeUnlinkedAttachments(emptyList(), clear)
+    }
+
+    private fun removeUnlinkedAttachments(binaries: List<BinaryAttachment>, clear: Boolean) {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryAttachment>()
         if (binaries.isEmpty()) {
@@ -598,6 +602,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         binariesToRemove.forEach {
             try {
                 binaryPool.remove(it)
+                if (clear)
+                    it.clear()
             } catch (e: Exception) {
                 Log.w(TAG, "Unable to clean binaries", e)
             }
@@ -632,7 +638,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val KeyElementName = "Key"
         private const val KeyDataElementName = "Data"
 
-        const val BASE_64_FLAG = Base64.NO_WRAP
+        const val BASE_64_FLAG = Base64.NO_PADDING or Base64.NO_WRAP
 
         const val BUFFER_SIZE_BYTES = 3 * 128
     }

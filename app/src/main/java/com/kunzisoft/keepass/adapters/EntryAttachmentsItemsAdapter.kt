@@ -20,7 +20,10 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.res.TypedArray
+import android.graphics.Color
 import android.text.format.Formatter
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -33,10 +36,23 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 
+
 class EntryAttachmentsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
+
+    private var mTitleColor: Int
+
+    init {
+        // Get the primary text color of the theme
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true)
+        val typedArray: TypedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(
+                android.R.attr.textColor))
+        mTitleColor = typedArray.getColor(0, -1)
+        typedArray.recycle()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryBinariesViewHolder {
         return EntryBinariesViewHolder(inflater.inflate(R.layout.item_attachment, parent, false))
@@ -46,7 +62,20 @@ class EntryAttachmentsItemsAdapter(context: Context)
         val entryAttachmentState = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
+        holder.binaryFileBroken.apply {
+            setColorFilter(Color.RED)
+            visibility = if (entryAttachmentState.attachment.binaryAttachment.isCorrupted) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
         holder.binaryFileTitle.text = entryAttachmentState.attachment.name
+        if (entryAttachmentState.attachment.binaryAttachment.isCorrupted) {
+            holder.binaryFileTitle.setTextColor(Color.RED)
+        } else {
+            holder.binaryFileTitle.setTextColor(mTitleColor)
+        }
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
                 entryAttachmentState.attachment.binaryAttachment.length())
         holder.binaryFileCompression.apply {
@@ -107,6 +136,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        var binaryFileBroken: ImageView = itemView.findViewById(R.id.item_attachment_broken)
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)
         var binaryFileCompression: TextView = itemView.findViewById(R.id.item_attachment_compression)

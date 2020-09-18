@@ -21,20 +21,51 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 
 class PasswordEncodingDialogFragment : DialogFragment() {
 
-    var positiveButtonClickListener: DialogInterface.OnClickListener? = null
+    private var mListener: Listener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            mListener = context as Listener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(context.toString()
+                    + " must implement " + Listener::class.java.name)
+        }
+    }
+
+    override fun onDetach() {
+        mListener = null
+        super.onDetach()
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        val databaseUri: Uri? = savedInstanceState?.getParcelable(DATABASE_URI_KEY)
+        val masterPasswordChecked: Boolean = savedInstanceState?.getBoolean(MASTER_PASSWORD_CHECKED_KEY) ?: false
+        val masterPassword: String? = savedInstanceState?.getString(MASTER_PASSWORD_KEY)
+        val keyFileChecked: Boolean = savedInstanceState?.getBoolean(KEY_FILE_CHECKED_KEY) ?: false
+        val keyFile: Uri? = savedInstanceState?.getParcelable(KEY_FILE_URI_KEY)
+
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
             builder.setMessage(activity.getString(R.string.warning_password_encoding)).setTitle(R.string.warning)
-            builder.setPositiveButton(android.R.string.ok, positiveButtonClickListener)
+            builder.setPositiveButton(android.R.string.ok) { _, _ ->
+                mListener?.onPasswordEncodingValidateListener(
+                        databaseUri,
+                        masterPasswordChecked,
+                        masterPassword,
+                        keyFileChecked,
+                        keyFile
+                )
+            }
             builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
 
             return builder.create()
@@ -42,5 +73,36 @@ class PasswordEncodingDialogFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
+    interface Listener {
+        fun onPasswordEncodingValidateListener(databaseUri: Uri?,
+                                               masterPasswordChecked: Boolean,
+                                               masterPassword: String?,
+                                               keyFileChecked: Boolean,
+                                               keyFile: Uri?)
+    }
 
+    companion object {
+
+        private const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
+        private const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
+        private const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
+        private const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
+        private const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
+
+        fun getInstance(databaseUri: Uri,
+                        masterPasswordChecked: Boolean,
+                        masterPassword: String?,
+                        keyFileChecked: Boolean,
+                        keyFile: Uri?): SortDialogFragment {
+            val fragment = SortDialogFragment()
+            fragment.arguments = Bundle().apply {
+                putParcelable(DATABASE_URI_KEY, databaseUri)
+                putBoolean(MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
+                putString(MASTER_PASSWORD_KEY, masterPassword)
+                putBoolean(KEY_FILE_CHECKED_KEY, keyFileChecked)
+                putParcelable(KEY_FILE_URI_KEY, keyFile)
+            }
+            return fragment
+        }
+    }
 }

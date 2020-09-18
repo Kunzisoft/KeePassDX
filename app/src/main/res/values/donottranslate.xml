@@ -34,6 +34,7 @@
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
     <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
     <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
+    <string name="credentials_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Credentials</string>
     <string name="advanced_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Advanced-Unlocking</string>
     <string name="magic_keyboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Magikeyboard</string>
     <string name="clipboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Clipboard</string>
@@ -178,8 +179,9 @@
     <string name="database_custom_color_key" translatable="false">database_custom_color_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
 
-    <string name="database_category_compression_key" translatable="false">database_category_compression_key</string>
+    <string name="database_category_data_key" translatable="false">database_category_data_key</string>
     <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
+    <string name="database_data_remove_unlinked_attachments_key" translatable="false">database_data_remove_unlinked_attachments_key</string>
 
     <string name="database_category_recycle_bin_key" translatable="false">database_category_recycle_bin_key</string>
     <string name="recycle_bin_enable_key" translatable="false">recycle_bin_enable_key</string>

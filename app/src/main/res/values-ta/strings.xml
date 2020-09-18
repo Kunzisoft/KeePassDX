@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contribution">பங்களிப்பு</string>
+    <string name="encryption_algorithm">குறியாக்க வழிமுறை</string>
+    <string name="encryption">மறையாக்கம்</string>
+    <string name="security">பாதுகாப்பு</string>
+    <string name="master_key">தலைச்சாவி</string>
+    <string name="add_group">தொகுதி சேர்க்கவும்</string>
+    <string name="edit_entry">பதிவைத் திருத்து</string>
+    <string name="add_entry">பதிவைச் சேர்க்கவும்</string>
+    <string name="accept">ஏற்றுக்கொள்</string>
+    <string name="about_description">KeePass கடவுச்சொல் நிர்வாகியின் Android செயல்படுத்தல்</string>
+    <string name="homepage">வலைமனை</string>
+    <string name="contact">தொடர்பு கொள்ளுங்கள்</string>
+    <string name="feedback">பின்னூட்டம்</string>
+</resources>

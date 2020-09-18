@@ -34,6 +34,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.IconPack
@@ -54,6 +55,11 @@ class IconPickerDialogFragment : DialogFragment() {
             throw ClassCastException(context.toString()
                     + " must implement " + IconPickerListener::class.java.name)
         }
+    }
+
+    override fun onDetach() {
+        iconPickerListener = null
+        super.onDetach()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -132,7 +138,7 @@ class IconPickerDialogFragment : DialogFragment() {
             return bundle.getParcelable(KEY_ICON_STANDARD)
         }
 
-        fun launch(activity: AppCompatActivity) {
+        fun launch(activity: FragmentActivity) {
             // Create an instance of the dialog fragment and show it
             val dialog = IconPickerDialogFragment()
             dialog.show(activity.supportFragmentManager, "IconPickerDialogFragment")

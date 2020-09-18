@@ -42,30 +42,14 @@ import com.kunzisoft.keepass.view.showActionError
 open class SettingsActivity
     : LockingActivity(),
         MainPreferenceFragment.Callback,
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
+        PasswordEncodingDialogFragment.Listener {
 
     private var backupManager: BackupManager? = null
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var lockView: View? = null
-
-    companion object {
-
-        private const val SHOW_LOCK = "SHOW_LOCK"
-        private const val TAG_NESTED = "TAG_NESTED"
-
-        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
-            val intent = Intent(activity, SettingsActivity::class.java)
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-            intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
-            if (!timeoutEnable) {
-                activity.startActivity(intent)
-            } else if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                activity.startActivity(intent)
-            }
-        }
-    }
 
     /**
      * Retrieve the main fragment to show in first
@@ -83,7 +67,11 @@ open class SettingsActivity
 
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
-        toolbar?.setTitle(R.string.settings)
+
+        if (savedInstanceState?.getString(TITLE_KEY).isNullOrEmpty())
+            toolbar?.setTitle(R.string.settings)
+        else
+            toolbar?.title = savedInstanceState?.getString(TITLE_KEY)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -128,6 +116,22 @@ open class SettingsActivity
         super.onStop()
     }
 
+    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
+                                                    masterPasswordChecked: Boolean,
+                                                    masterPassword: String?,
+                                                    keyFileChecked: Boolean,
+                                                    keyFile: Uri?) {
+        databaseUri?.let {
+            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
+                    databaseUri,
+                    masterPasswordChecked,
+                    masterPassword,
+                    keyFileChecked,
+                    keyFile
+            )
+        }
+    }
+
     override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean,
                                                 masterPassword: String?,
                                                 keyFileChecked: Boolean,
@@ -144,18 +148,12 @@ open class SettingsActivity
                             keyFile
                     )
                 } else {
-                    PasswordEncodingDialogFragment().apply {
-                        positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
-                                    databaseUri,
-                                    masterPasswordChecked,
-                                    masterPassword,
-                                    keyFileChecked,
-                                    keyFile
-                            )
-                        }
-                        show(supportFragmentManager, "passwordEncodingTag")
-                    }
+                    PasswordEncodingDialogFragment.getInstance(databaseUri,
+                            masterPasswordChecked,
+                            masterPassword,
+                            keyFileChecked,
+                            keyFile
+                    ).show(supportFragmentManager, "passwordEncodingTag")
                 }
             }
         }
@@ -164,8 +162,7 @@ open class SettingsActivity
     override fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean,
                                                 masterPassword: String?,
                                                 keyFileChecked: Boolean,
-                                                keyFile: Uri?) {
-    }
+                                                keyFile: Uri?) {}
 
     private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
         if (PreferencesUtil.showLockDatabaseButton(this)) {
@@ -220,5 +217,24 @@ open class SettingsActivity
         super.onSaveInstanceState(outState)
 
         outState.putBoolean(SHOW_LOCK, lockView?.visibility == View.VISIBLE)
+        outState.putString(TITLE_KEY, toolbar?.title?.toString())
+    }
+
+    companion object {
+
+        private const val SHOW_LOCK = "SHOW_LOCK"
+        private const val TITLE_KEY = "TITLE_KEY"
+        private const val TAG_NESTED = "TAG_NESTED"
+
+        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
+            intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
+            if (!timeoutEnable) {
+                activity.startActivity(intent)
+            } else if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                activity.startActivity(intent)
+            }
+        }
     }
 }

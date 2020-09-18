@@ -48,6 +48,11 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
         this.mDatabaseAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(context)
     }
 
+    override fun onDetach() {
+        mProgressDatabaseTaskProvider = null
+        super.onDetach()
+    }
+
     companion object {
         private const val TAG = "DbSavePrefDialog"
     }

@@ -39,17 +39,17 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;／&lt;strong&gt;広告なし&lt;/strong&gt;です。
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;かつ&lt;strong&gt;広告なし&lt;/strong&gt;です。
 \nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
-    <string name="entry_accessed">アクセス日時</string>
+    <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
     <string name="entry_notes">備考</string>
     <string name="entry_confpassword">パスワードを確認</string>
-    <string name="entry_created">作成日時</string>
+    <string name="entry_created">作成日</string>
     <string name="entry_expires">有効期限</string>
     <string name="entry_keyfile">キーファイル</string>
-    <string name="entry_modified">変更日時</string>
+    <string name="entry_modified">変更日</string>
     <string name="entry_password">パスワード</string>
     <string name="entry_save">保存</string>
     <string name="entry_title">タイトル</string>
@@ -65,8 +65,8 @@
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_pass_gen_type">少なくとも 1 つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
-    <string name="error_rounds_too_large">「変換ラウンド」が多すぎます。2147483648 に設定します。</string>
-    <string name="error_wrong_length">「長さ」フィールドには正の整数を入力してください。</string>
+    <string name="error_rounds_too_large">[変換ラウンド] が多すぎます。2147483648 に設定します。</string>
+    <string name="error_wrong_length">[長さ] フィールドには正の整数を入力してください。</string>
     <string name="file_browser">ファイル マネージャー</string>
     <string name="generate_password">パスワードを生成</string>
     <string name="hint_conf_pass">パスワードを確認</string>
@@ -103,7 +103,7 @@
     <string name="no_results">検索結果なし</string>
     <string name="no_url_handler">この URL を開くにはウェブブラウザをインストールしてください。</string>
     <string name="omit_backup_search_title">バックアップ エントリーを検索しない</string>
-    <string name="omit_backup_search_summary">検索結果から「バックアップ」と「ごみ箱」のグループを省きます</string>
+    <string name="omit_backup_search_summary">検索結果から [バックアップ] と [ゴミ箱] のグループを省きます</string>
     <string name="progress_create">新しいデータベースを作成しています…</string>
     <string name="progress_title">実行しています…</string>
     <string name="content_description_remove_from_list">削除</string>
@@ -151,7 +151,7 @@
     <string name="clipboard_error_clear">クリップボードを消去できませんでした</string>
     <string name="entry_not_found">エントリーのデータが見つかりませんでした。</string>
     <string name="error_load_database">データベースを読み込めませんでした。</string>
-    <string name="error_load_database_KDF_memory">鍵を読み込めませんでした。鍵導出関数の「メモリ使用量」を下げてみてください。</string>
+    <string name="error_load_database_KDF_memory">鍵を読み込めませんでした。鍵導出関数の [メモリ使用量] を下げてみてください。</string>
     <string name="error_string_key">各文字列にはフィールド名が必要です。</string>
     <string name="error_autofill_enable_service">自動入力サービスを有効にできませんでした。</string>
     <string name="error_move_folder_in_itself">グループを自分自身の中に移動することはできません。</string>
@@ -177,13 +177,13 @@
     <string name="read_only_warning">ファイル マネージャーによっては、KeePassDX によるストレージへの書き込みを許可していない場合があります。</string>
     <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズムです。</string>
     <string name="sort_menu">並び替え</string>
-    <string name="sort_ascending">低い順 ↓</string>
-    <string name="sort_recycle_bin_bottom">ごみ箱を一番下にする</string>
+    <string name="sort_ascending">昇順 ↓</string>
+    <string name="sort_recycle_bin_bottom">ゴミ箱を一番下にする</string>
     <string name="sort_title">タイトル</string>
     <string name="sort_username">ユーザー名</string>
     <string name="sort_creation_time">作成日</string>
     <string name="sort_last_modify_time">変更日</string>
-    <string name="sort_last_access_time">アクセス日</string>
+    <string name="sort_last_access_time">最終アクセス</string>
     <string name="warning">警告</string>
     <string name="content_description_open_file">ファイルを開く</string>
     <string name="content_description_add_entry">エントリーを追加</string>
@@ -196,7 +196,7 @@
     <string name="content_description_remove_field">フィールドを削除</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
     <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
-    <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
+    <string name="configure_biometric">生体認証プロンプト対応ですが、未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
     <string name="otp_type">OTP の種類</string>
@@ -211,7 +211,7 @@
     <string name="menu_master_key_settings">マスターキーの設定</string>
     <string name="error_save_database">データベースを保存できませんでした。</string>
     <string name="menu_save_database">データベースを保存</string>
-    <string name="menu_empty_recycle_bin">ごみ箱を空にする</string>
+    <string name="menu_empty_recycle_bin">ゴミ箱を空にする</string>
     <string name="command_execution">コマンドを実行しています…</string>
     <string name="warning_permanently_delete_nodes">選択したノードを完全に削除しますか？</string>
     <string name="auto_focus_search_summary">データベースを開いたとき、検索を促します</string>
@@ -255,20 +255,20 @@
     <string name="parallelism">並列処理</string>
     <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）です。</string>
     <string name="memory_usage">メモリ使用量</string>
-    <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムにソルト化された鍵導出関数を使用して変換されます。</string>
+    <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムなソルトを加える鍵導出関数を使用して変換されます。</string>
     <string name="hide_broken_locations_summary">最近使ったデータベースの一覧で、壊れたリンクを非表示にします</string>
     <string name="hide_broken_locations_title">データベースへの壊れたリンクを非表示にする</string>
     <string name="show_recent_files_summary">最近使ったデータベースの場所を表示します</string>
-    <string name="remember_keyfile_locations_summary">キーファイルの保存先を追跡します</string>
+    <string name="remember_keyfile_locations_summary">キーファイルの保存先を保持します</string>
     <string name="remember_keyfile_locations_title">キーファイルの場所を記憶</string>
-    <string name="remember_database_locations_summary">データベースの保存先を追跡します</string>
+    <string name="remember_database_locations_summary">データベースの保存先を保持します</string>
     <string name="remember_database_locations_title">データベースの場所を記憶</string>
     <string name="selection_mode">選択モード</string>
     <string name="contains_duplicate_uuid_procedure">重複したエントリーに対する新しい UUID を生成して、問題を解決し続行しますか？</string>
     <string name="contains_duplicate_uuid">データベースには重複する UUID が含まれています。</string>
     <string name="subdomain_search_title">サブドメイン検索</string>
     <string name="menu_advanced_unlock_settings">高度なロック解除</string>
-    <string name="invalid_db_same_uuid">同じ UUID %2$s を持つ %1$s が既に存在します。</string>
+    <string name="invalid_db_same_uuid">同じ UUID %2$s を持つ %1$s がすでに存在します。</string>
     <string name="error_string_type">このテキストは指定された項目と整合しません。</string>
     <string name="error_otp_counter">カウンターは %1$d から %2$d の間でなければなりません。</string>
     <string name="otp_counter">カウンター</string>
@@ -294,7 +294,7 @@
     <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動で開く</string>
     <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号鍵を削除しますか？</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号鍵を削除します</string>
-    <string name="advanced_unlock_explanation_summary">高度なロック解除を使用すると、データベースがより簡単に開きます</string>
+    <string name="advanced_unlock_explanation_summary">高度なロック解除を使用して、データベースをより簡単に開きます</string>
     <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったときロックするよう、アプリを設定することもできます。</string>
     <string name="education_lock_title">データベースをロック</string>
     <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
@@ -307,7 +307,7 @@
     <string name="education_sort_title">項目の並び替え</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="assign_master_key">マスターキーを設定</string>
-    <string name="education_select_database_summary">ファイル ブラウザからこれまで使ってきたデータベース ファイルを開いて、引き続き使用します。</string>
+    <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_select_database_title">既存のデータペースを開く</string>
     <string name="list_password_generator_options_title">パスワードの文字種</string>
     <string name="build_label">Build %1$s</string>
@@ -318,7 +318,7 @@
     <string name="enable_read_only_title">書き込み禁止</string>
     <string name="delete_entered_password_summary">入力されたパスワードをデータベースへの接続試行後に削除します</string>
     <string name="delete_entered_password_title">パスワードを削除</string>
-    <string name="allow_no_password_summary">認証情報が選択されていない場合でも、「開く」ボタンのタップを許可します</string>
+    <string name="allow_no_password_summary">認証情報が選択されていない場合でも、[開く] ボタンのタップを許可します</string>
     <string name="autofill_block_restart">ブロッキングを有効にするには、そのフォームを含むアプリを再起動します。</string>
     <string name="autofill_block">自動入力をブロック</string>
     <string name="autofill_web_domain_blocklist_title">ウェブドメインのブロックリスト</string>
@@ -336,7 +336,7 @@
     <string name="settings_database_recommend_changing_master_key_summary">マスターキーの変更を推奨します（日数）</string>
     <string name="settings_database_recommend_changing_master_key_title">更新を推奨</string>
     <string name="max_history_size_summary">エントリーあたりの履歴のサイズ（バイト単位）を制限します</string>
-    <string name="lock_database_back_root_title">「戻る」を押してロック</string>
+    <string name="lock_database_back_root_title">[戻る] を押してロック</string>
     <string name="lock_database_screen_off_summary">画面がオフのとき、データベースをロックします</string>
     <string name="lock_database_screen_off_title">画面ロック</string>
     <string name="lock">ロック</string>
@@ -350,14 +350,14 @@
     <string name="autofill_preference_title">自動入力の設定</string>
     <string name="set_autofill_service_title">デフォルトの自動入力サービスに設定</string>
     <string name="autofill_explanation_summary">自動入力を有効にして、他のアプリ内のフォームにすばやく入力します</string>
-    <string name="autofill_sign_in_prompt">KeePassDX でサインイン</string>
+    <string name="autofill_sign_in_prompt">KeePassDX でログイン</string>
     <string name="autofill_service_name">KeePassDX フォーム自動入力</string>
     <string name="autofill">自動入力</string>
     <string name="general">全般</string>
     <string name="biometric">生体認証</string>
-    <string name="menu_appearance_settings">外観</string>
+    <string name="menu_appearance_settings">デザイン</string>
     <string name="database_history">履歴</string>
-    <string name="credential_before_click_biometric_button">パスワードを入力し、「生体認証」ボタンをタップします。</string>
+    <string name="credential_before_click_biometric_button">パスワードを入力し、[生体認証] ボタンをタップします。</string>
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
     <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
@@ -370,7 +370,7 @@
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
     <string name="clear_clipboard_notification_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるとき、データベースも閉じます</string>
-    <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終了したとき、またはこの機能の使用中に通知が閉じられたとき、データベースをロックします</string>
+    <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終了したとき、または使用開始後に通知が閉じられたとき、データベースをロックします</string>
     <string name="html_text_dev_feature_encourage">あなたの意見によって、デベロッパーは&lt;strong&gt;新機能&lt;/strong&gt;の開発や&lt;strong&gt;バグの修正&lt;/strong&gt;を速く進めることができます。</string>
     <string name="reset_education_screens_summary">すべての教育的な情報をもう一度表示します</string>
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
@@ -384,16 +384,16 @@
     <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
     <string name="keyboard_key_sound_title">キー操作音</string>
     <string name="keyboard_key_vibrate_title">キー操作バイブレーション</string>
-    <string name="keyboard_auto_go_action_summary">「フィールド」 キーを押した後に「移動」キーアクションを行います</string>
+    <string name="keyboard_auto_go_action_summary">[フィールド] キーを押した後に [移動] キーアクションを行います</string>
     <string name="keyboard_auto_go_action_title">自動キーアクション</string>
     <string name="keyboard_notification_entry_content_title">%1$s が Magikeyboard で利用可能</string>
     <string name="keyboard_entry_timeout_summary">キーボードのエントリーを消去するまでの時間</string>
-    <string name="keyboard_search_share_title">共有から送られた情報の検索</string>
-    <string name="keyboard_search_share_summary">共有から送られた情報を自動的に検索して、結果をキーボードに格納します</string>
+    <string name="keyboard_search_share_title">共有情報の検索</string>
+    <string name="keyboard_search_share_summary">共有情報を自動的に検索して、結果をキーボードに格納します</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
-    <string name="recycle_bin_summary">グループとエントリーを削除する前に「ごみ箱」グループに移動します</string>
+    <string name="recycle_bin_summary">グループとエントリーを削除する前に [ゴミ箱] グループに移動します</string>
     <string name="keyboard_selection_entry_summary">エントリーを開いているとき、Magikeyboard に入力フィールドを表示します</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
     <string name="download_finalization">終了しています…</string>
@@ -401,7 +401,7 @@
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。
 \n
 \nお好みのフォーム入力方法を使用してください。</string>
-    <string name="warning_database_link_revoked">ファイル マネージャーによって取り消されたファイルにアクセスします</string>
+    <string name="warning_database_link_revoked">ファイルへのアクセス権がファイル マネージャーによって取り消されました</string>
     <string name="clipboard_explanation_summary">デバイスのクリップボードを使用して、エントリーのフィールドをコピーします</string>
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
     <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
@@ -416,7 +416,7 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;貢献&lt;/strong&gt;による、</string>
     <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
-    <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（「変更可能」モードのとき）</string>
+    <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（ [変更可能] モードのとき）</string>
     <string name="allow_no_password_title">空のマスターキーを許可</string>
     <string name="autofill_auto_search_title">自動検索</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -440,7 +440,7 @@
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
     <string name="education_entry_new_field_title">カスタム フィールドを追加</string>
-    <string name="education_entry_edit_summary">カスタム フィールドを使ってエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
+    <string name="education_entry_edit_summary">エントリーをカスタム フィールドとともに編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_biometric_title">生体認証によるロック解除</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
@@ -448,8 +448,8 @@
     <string name="enable_education_screens_summary">要素をハイライトしてアプリの動作を学びます</string>
     <string name="education_read_only_summary">セッションのロック解除モードを変更します。
 \n
-\n「書き込み禁止」では、データベースに対する意図しない変更を防ぐことができます。
-\n「変更可能」では、すべての要素を追加、削除、変更できます。</string>
+\n[書き込み禁止] では、データベースに対する意図しない変更を防ぐことができます。
+\n[変更可能] では、すべての要素を追加、削除、変更できます。</string>
     <string name="allow_copy_password_title">クリップボードの信頼</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
@@ -459,7 +459,7 @@
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
     <string name="keyboard_theme_title">キーボードのテーマ</string>
-    <string name="keyboard_appearance_category">外観</string>
+    <string name="keyboard_appearance_category">デザイン</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title_text">エントリー</string>
     <string name="keyboard_entry_timeout_title">タイムアウト</string>
@@ -486,7 +486,15 @@
     <string name="database_default_username_title">デフォルトのユーザー名</string>
     <string name="style_choose_title">アプリのテーマ</string>
     <string name="reset_education_screens_title">教育的なヒントをリセット</string>
-    <string name="recycle_bin">ごみ箱</string>
-    <string name="recycle_bin_group_title">ごみ箱グループ</string>
-    <string name="recycle_bin_title">ごみ箱の使用</string>
+    <string name="recycle_bin">ゴミ箱</string>
+    <string name="recycle_bin_group_title">ゴミ箱グループ</string>
+    <string name="recycle_bin_title">ゴミ箱の使用</string>
+    <string name="warning_file_too_big">KeePass データベースに含まれると想定されるのは、小さなユーティリティ ファイル（PGP 鍵ファイルなど）のみです。
+\n
+\nこのアップロードによりデータベースが非常に大きくなり、パフォーマンスが低下する可能性があります。</string>
+    <string name="warning_replace_file">このファイルをアップロードすると、既存のファイルが置き換えられます。</string>
+    <string name="upload_attachment">%1$s をアップロード</string>
+    <string name="education_add_attachment_summary">エントリーに添付ファイルをアップロードして、重要な外部データを保存します。</string>
+    <string name="education_add_attachment_title">添付ファイルを追加</string>
+    <string name="warning_sure_add_file">それでもファイルを追加しますか？</string>
 </resources>

@@ -58,15 +58,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
-            attachmentNotificationList.forEach {
-                it.attachmentFileAction?.listener = attachmentFileActionListener
-            }
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
-            attachmentNotificationList.forEach {
-                it.attachmentFileAction?.listener = null
-            }
             mActionTaskListeners.remove(actionTaskListener)
         }
     }
@@ -106,6 +100,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 actionUploadOrDownload(downloadFileUri,
                         intent,
                         StreamDirection.DOWNLOAD)
+            }
+            ACTION_ATTACHMENT_REMOVE -> {
+                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                    attachmentNotificationList.firstOrNull { it.entryAttachmentState.attachment == entryAttachment }?.let { elementToRemove ->
+                        attachmentNotificationList.remove(elementToRemove)
+                    }
+                }
             }
             else -> {
                 if (downloadFileUri != null) {
@@ -265,6 +266,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
                             ?.notificationId ?: notificationId) + 1
                     val entryAttachmentState = EntryAttachmentState(entryAttachment, streamDirection)
                     val attachmentNotification = AttachmentNotification(downloadFileUri, nextNotificationId, entryAttachmentState)
+
+                    // Add action to the list on start
                     attachmentNotificationList.add(attachmentNotification)
 
                     mainScope.launch {
@@ -293,15 +296,18 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
 
         suspend fun executeAction() {
-            TimeoutHelper.temporarilyDisableTimeout()
 
             // on pre execute
-            attachmentNotification.attachmentFileAction = this
-            attachmentNotification.entryAttachmentState.apply {
-                downloadState = AttachmentState.START
-                downloadProgression = 0
+            CoroutineScope(Dispatchers.Main).launch {
+                TimeoutHelper.temporarilyDisableTimeout()
+
+                attachmentNotification.attachmentFileAction = this@AttachmentFileAction
+                attachmentNotification.entryAttachmentState.apply {
+                    downloadState = AttachmentState.START
+                    downloadProgression = 0
+                }
+                listener?.onUpdate(attachmentNotification)
             }
-            listener?.onUpdate(attachmentNotification)
 
             withContext(Dispatchers.IO) {
                 // on Progress with thread
@@ -426,6 +432,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         const val ACTION_ATTACHMENT_FILE_START_UPLOAD = "ACTION_ATTACHMENT_FILE_START_UPLOAD"
         const val ACTION_ATTACHMENT_FILE_START_DOWNLOAD = "ACTION_ATTACHMENT_FILE_START_DOWNLOAD"
+        const val ACTION_ATTACHMENT_REMOVE = "ACTION_ATTACHMENT_REMOVE"
 
         const val FILE_URI_KEY = "FILE_URI_KEY"
         const val ATTACHMENT_KEY = "ATTACHMENT_KEY"

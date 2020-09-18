@@ -27,15 +27,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -131,6 +132,17 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun applyFontVisibilityToFields(fontInVisibility: Boolean) {
         this.fontInVisibility = fontInVisibility
+    }
+
+    fun firstEntryFieldCopyView(): View? {
+        return when {
+            userNameFieldView.isVisible && userNameFieldView.copyButtonView.isVisible -> userNameFieldView.copyButtonView
+            passwordFieldView.isVisible && passwordFieldView.copyButtonView.isVisible -> passwordFieldView.copyButtonView
+            otpFieldView.isVisible && otpFieldView.copyButtonView.isVisible -> otpFieldView.copyButtonView
+            urlFieldView.isVisible && urlFieldView.copyButtonView.isVisible -> urlFieldView.copyButtonView
+            notesFieldView.isVisible && notesFieldView.copyButtonView.isVisible -> notesFieldView.copyButtonView
+            else -> null
+        }
     }
 
     fun assignUserName(userName: String?,

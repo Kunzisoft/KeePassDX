@@ -183,7 +183,7 @@
     <string name="list_password_generator_options_summary">Défini les caractères autorisés du générateur de mot de passe</string>
     <string name="clipboard">Presse-papier</string>
     <string name="clipboard_notifications_title">Notifications du presse-papier</string>
-    <string name="clipboard_notifications_summary">Active les notifications du presse-papier pour copier les champs lors de l’affichage d’une entrée</string>
+    <string name="clipboard_notifications_summary">Affiche les notifications du presse-papier pour copier les champs lors de l’affichage d’une entrée</string>
     <string name="clipboard_warning">Si la suppression automatique du presse-papier échoue, supprimer son historique manuellement.</string>
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
@@ -195,7 +195,7 @@
     <string name="biometric_delete_all_key_summary">Supprime toutes les clés de chiffrement liées à la reconnaissance biométrique</string>
     <string name="biometric_delete_all_key_warning">Supprimer toutes les clés de chiffrement liées à la reconnaissance biométrique \?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
-    <string name="unavailable_feature_version">Votre version d’Android %1$s est inférieure à la version minimale %2$s requise.</string>
+    <string name="unavailable_feature_version">L’appareil tourne sous Android %1$s, mais la version %2$s ou supérieure est requise.</string>
     <string name="unavailable_feature_hardware">Impossible de trouver le matériel correspondant.</string>
     <string name="file_name">Nom de fichier</string>
     <string name="path">Chemin d’accès</string>
@@ -232,7 +232,7 @@
 \nLes groupes (≈dossiers) organisent les entrées dans votre base de données.</string>
     <string name="education_search_title">Rechercher dans les entrées</string>
     <string name="education_search_summary">Saisir le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
-    <string name="education_biometric_title">Déverrouillage de la base de données par la biométrie</string>
+    <string name="education_biometric_title">Déverrouillage biométrique de la base de données</string>
     <string name="education_biometric_summary">Associe votre mot de passe à votre empreinte biométrique numérisée pour déverrouiller rapidement votre base de données.</string>
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifie votre entrée avec des champs personnalisés. La collection des données peut être référencée entre différents champs de l’entrée.</string>
@@ -307,7 +307,7 @@
     <string name="menu_paste">Coller</string>
     <string name="menu_cancel">Annuler</string>
     <string name="allow_no_password_title">Autoriser l\'absence de clé principale</string>
-    <string name="allow_no_password_summary">Active le bouton « Ouvrir » si aucun identifiant n’est sélectionné</string>
+    <string name="allow_no_password_summary">Autorise l’appui du bouton « Ouvrir » si aucun identifiant n’est sélectionné</string>
     <string name="menu_file_selection_read_only">Protéger en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protégé en écriture</string>
@@ -454,24 +454,24 @@
     <string name="download_initialization">Initialisation…</string>
     <string name="download_progression">En cours : %1$d%%</string>
     <string name="download_finalization">Finalisation…</string>
-    <string name="download_complete">Terminé !</string>
+    <string name="download_complete">Terminé !</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
-    <string name="hide_expired_entries_summary">Les entrées expirées sont cachées</string>
+    <string name="hide_expired_entries_summary">Les entrées expirées ne sont pas affichées</string>
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
     <string name="html_about_contribution">Afin de &lt;strong&gt;garder notre liberté&lt;/strong&gt;, &lt;strong&gt;corriger les bugs&lt;/strong&gt;, &lt;strong&gt;ajouter des fonctionnalités&lt;/strong&gt; et &lt;strong&gt;être toujours actif&lt;/strong&gt;, nous comptons sur votre &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Recherche rapide</string>
     <string name="auto_focus_search_summary">Demander une recherche lors de l\'ouverture d\'une base de données</string>
-    <string name="remember_database_locations_title">Enregistrer l\'emplacement des bases de données</string>
-    <string name="remember_database_locations_summary">Se souvenir de l\'emplacement des bases de données</string>
-    <string name="remember_keyfile_locations_title">Enregistrer l\'emplacement des fichiers clés</string>
-    <string name="remember_keyfile_locations_summary">Se souvenir de l\'emplacement des fichiers de clés des bases de données</string>
+    <string name="remember_database_locations_title">Mémoriser l’emplacement des bases de données</string>
+    <string name="remember_database_locations_summary">Garde en mémoire l’emplacement où les bases de données sont stockées</string>
+    <string name="remember_keyfile_locations_title">Mémoriser les emplacements des fichiers clé</string>
+    <string name="remember_keyfile_locations_summary">Garde en mémoire l’emplacement où les fichiers clé sont stockés</string>
     <string name="show_recent_files_title">Afficher les fichiers récents</string>
     <string name="show_recent_files_summary">Afficher les emplacements des bases de données récentes</string>
     <string name="hide_broken_locations_title">Masquer les liens rompus de base de données</string>
     <string name="hide_broken_locations_summary">Masquer les liens rompus dans la liste des bases de données récentes</string>
     <string name="warning_database_read_only">Accorder un accès en écriture au fichier pour enregistrer les modifications de la base de données</string>
-    <string name="education_setup_OTP_summary">Définir le mot de passe à usage unique (temporel ou évènementiel) pour générer un jeton demandé par l’authentification à deux facteurs (A2F).</string>
+    <string name="education_setup_OTP_summary">Définit le mot de passe à usage unique (temporel ou évènementiel) pour générer un jeton demandé par l’authentification à deux facteurs (A2F).</string>
     <string name="education_setup_OTP_title">Définir l’OTP</string>
     <string name="error_create_database">Impossible de créer le fichier de base de données.</string>
     <string name="entry_add_attachment">Ajouter une pièce jointe</string>
@@ -498,4 +498,12 @@
     <string name="subdomain_search_title">Recherche de sous-domaine</string>
     <string name="error_string_type">Ce texte ne correspond pas à l\'élément demandé.</string>
     <string name="content_description_add_item">Ajouter un élément</string>
+    <string name="upload_attachment">Téléverser %1$s</string>
+    <string name="education_add_attachment_summary">Téléverse une pièce-jointe à votre entrée pour enregistrer d’importantes données externes.</string>
+    <string name="education_add_attachment_title">Ajouter une pièce-jointe</string>
+    <string name="warning_sure_add_file">Ajouter quand même le fichier \?</string>
+    <string name="warning_replace_file">Téléverser ce fichier va remplacer celui en place.</string>
+    <string name="warning_file_too_big">Une base de données KeePass est seulement censée contenir de petits fichiers utilitaires (tels que les fichiers clé PGP).
+\n
+\nVotre base de données peut vraiment devenir grosse et réduire les performances avec ce téléversement.</string>
 </resources>
