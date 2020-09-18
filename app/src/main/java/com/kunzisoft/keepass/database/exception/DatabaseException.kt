@@ -116,13 +116,6 @@ class InvalidCredentialsDatabaseException : LoadDatabaseException {
     constructor(exception: Throwable) : super(exception)
 }
 
-class KeyFileEmptyDatabaseException : LoadDatabaseException {
-    @StringRes
-    override var errorId: Int = R.string.keyfile_is_empty
-    constructor() : super()
-    constructor(exception: Throwable) : super(exception)
-}
-
 class NoMemoryDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_out_of_memory

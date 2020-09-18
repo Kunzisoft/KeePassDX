@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import com.kunzisoft.keepass.database.exception.KeyFileEmptyDatabaseException
 import java.io.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -136,7 +135,6 @@ abstract class DatabaseVersioned<
         }
 
         when (keyData.size.toLong()) {
-            0L -> throw KeyFileEmptyDatabaseException()
             32L -> return keyData
             64L -> try {
                 return hexStringToByteArray(String(keyData))
