@@ -30,6 +30,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -116,10 +117,14 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
             rootView = inflater.inflate(R.layout.fragment_set_password, null)
             builder.setView(rootView)
-                    .setTitle(R.string.assign_master_key)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
+
+            val credentialsInfo: ImageView? = rootView?.findViewById(R.id.credentials_information)
+            credentialsInfo?.setOnClickListener {
+                UriUtil.gotoUrl(activity, R.string.credentials_explanation_url)
+            }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
             passwordTextInputLayout = rootView?.findViewById(R.id.password_input_layout)
@@ -291,6 +296,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { pathUri ->
                 UriUtil.getFileData(requireContext(), uri)?.length()?.let { lengthFile ->
+                    keyFileSelectionView?.error = null
                     keyFileCheckBox?.isChecked = true
                     keyFileSelectionView?.uri = pathUri
                     if (lengthFile <= 0L) {
