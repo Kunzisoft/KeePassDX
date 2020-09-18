@@ -262,6 +262,8 @@
     <string name="warning_sure_add_file">Add the file anyway?</string>
     <string name="warning_remove_unlinked_attachment">Removing unlinked data may decrease the size of your database but may also delete data used for KeePass plugins.</string>
     <string name="warning_sure_remove_data">Remove this data anyway?</string>
+    <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
+    <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported, but not set up.</string>
