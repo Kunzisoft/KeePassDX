@@ -502,7 +502,7 @@
     <string name="data">Данные</string>
     <string name="warning_empty_keyfile_explanation">Содержимое ключевого файла никогда не должно изменяться и в лучшем случае должно содержать случайно сгенерированные данные.</string>
     <string name="warning_empty_keyfile">Не рекомендуется добавлять пустой ключевой файл.</string>
-    <string name="warning_sure_remove_data">Все равно удалить эти данные\?</string>
+    <string name="warning_sure_remove_data">Всё равно удалить эти данные\?</string>
     <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер вашей базы данных, но также может удалить данные, используемые для плагинов KeePass.</string>
     <string name="content_description_credentials_information">Информация об учётных данных</string>
 </resources>
