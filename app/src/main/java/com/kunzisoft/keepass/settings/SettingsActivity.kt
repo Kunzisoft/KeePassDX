@@ -42,7 +42,8 @@ import com.kunzisoft.keepass.view.showActionError
 open class SettingsActivity
     : LockingActivity(),
         MainPreferenceFragment.Callback,
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
+        PasswordEncodingDialogFragment.Listener {
 
     private var backupManager: BackupManager? = null
 
@@ -115,6 +116,22 @@ open class SettingsActivity
         super.onStop()
     }
 
+    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
+                                                    masterPasswordChecked: Boolean,
+                                                    masterPassword: String?,
+                                                    keyFileChecked: Boolean,
+                                                    keyFile: Uri?) {
+        databaseUri?.let {
+            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
+                    databaseUri,
+                    masterPasswordChecked,
+                    masterPassword,
+                    keyFileChecked,
+                    keyFile
+            )
+        }
+    }
+
     override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean,
                                                 masterPassword: String?,
                                                 keyFileChecked: Boolean,
@@ -131,18 +148,12 @@ open class SettingsActivity
                             keyFile
                     )
                 } else {
-                    PasswordEncodingDialogFragment().apply {
-                        positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
-                                    databaseUri,
-                                    masterPasswordChecked,
-                                    masterPassword,
-                                    keyFileChecked,
-                                    keyFile
-                            )
-                        }
-                        show(supportFragmentManager, "passwordEncodingTag")
-                    }
+                    PasswordEncodingDialogFragment.getInstance(databaseUri,
+                            masterPasswordChecked,
+                            masterPassword,
+                            keyFileChecked,
+                            keyFile
+                    ).show(supportFragmentManager, "passwordEncodingTag")
                 }
             }
         }
