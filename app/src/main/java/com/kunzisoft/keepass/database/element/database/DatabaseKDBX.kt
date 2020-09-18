@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
@@ -638,7 +637,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val KeyElementName = "Key"
         private const val KeyDataElementName = "Data"
 
-        const val BASE_64_FLAG = Base64.NO_PADDING or Base64.NO_WRAP
+        const val BASE_64_FLAG = Base64.NO_WRAP
 
         const val BUFFER_SIZE_BYTES = 3 * 128
     }
