@@ -336,10 +336,10 @@
     <string name="autofill_application_id_blocklist_title">അപ്ലിക്കേഷൻ ബ്ലോക്ക്ലിസ്റ്റ്</string>
     <string name="autofill_web_domain_blocklist_title">വെബ് ഡൊമെയ്ൻ ബ്ലോക്ക്ലിസ്റ്റ്</string>
     <string name="education_donation_summary">സ്ഥിരത, സുരക്ഷ എന്നിവ വർദ്ധിപ്പിക്കുന്നതിനും കൂടുതൽ സവിശേഷതകൾ ചേർക്കുന്നതിനും സഹായിക്കുക.</string>
-    <string name="html_text_feature_generosity">ഞങ്ങളുടെ സ്വാതന്ത്ര്യം നിലനിർത്തുന്നതിനും എല്ലായ്പ്പോഴും സജീവമായിരിക്കുന്നതിനും, നിങ്ങളുടെ<strong>സംഭാവനയെ ഞങ്ങൾ ആശ്രയിക്കുന്നു</strong>.</string>
-    <string name="html_text_dev_feature">ഈ സവിശേഷത<strong>വികസിച്ചുകൊണ്ടിരിക്കുന്നു</strong>കൂടാതെ നിങ്ങളുടെ<strong>സംഭാവന</strong>ഉടൻ ലഭ്യമാകേണ്ടതുണ്ട്.</string>
-    <string name="html_text_dev_feature_buy_pro"><strong>പ്രോ</strong>വേർഷൻ വാങ്ങുന്നതിലൂടെ,</string>
-    <string name="html_text_dev_feature_contibute"><strong>സംഭാവന ചെയ്യുന്നതിലൂടെ</strong>,</string>
+    <string name="html_text_feature_generosity">ഞങ്ങളുടെ സ്വാതന്ത്ര്യം നിലനിർത്തുന്നതിനും എല്ലായ്പ്പോഴും സജീവമായിരിക്കുന്നതിനും, നിങ്ങളുടെ&lt;strong&gt;സംഭാവനയെ ഞങ്ങൾ ആശ്രയിക്കുന്നു&lt;/strong&gt;.</string>
+    <string name="html_text_dev_feature">ഈ സവിശേഷത&lt;strong&gt;വികസിച്ചുകൊണ്ടിരിക്കുന്നു&lt;/strong&gt;കൂടാതെ നിങ്ങളുടെ&lt;strong&gt;സംഭാവന&lt;/strong&gt;ഉടൻ ലഭ്യമാകേണ്ടതുണ്ട്.</string>
+    <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;പ്രോ&lt;/strong&gt;വേർഷൻ വാങ്ങുന്നതിലൂടെ,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;സംഭാവന ചെയ്യുന്നതിലൂടെ&lt;/strong&gt;,</string>
     <string name="upload_attachment">%1$s അപ്‌ലോഡുചെയ്യുക</string>
     <string name="hide_expired_entries_title">കാലഹരണപ്പെട്ട എൻ‌ട്രികൾ‌ മറയ്‌ക്കുക</string>
     <string name="contribute">സംഭാവന ചെയ്യുക</string>
