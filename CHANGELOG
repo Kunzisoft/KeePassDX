@@ -1,3 +1,6 @@
+KeePassDX(2.8.5)
+ * Fix Base 64 #708
+
 KeePassDX(2.8.4)
  * Fix incomplete attachment deletion #684
  * Fix opening database v1 without backup folder #692
