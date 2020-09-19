@@ -114,7 +114,7 @@
     <string name="saving_database">データベースを保存しています…</string>
     <string name="space">スペース</string>
     <string name="search_label">検索</string>
-    <string name="sort_db">自然順</string>
+    <string name="sort_db">並べ替えなし</string>
     <string name="special">特殊文字</string>
     <string name="search">検索</string>
     <string name="encryption_twofish">Twofish</string>
@@ -176,7 +176,7 @@
     <string name="read_only">書き込み禁止</string>
     <string name="read_only_warning">ファイル マネージャーによっては、KeePassDX によるストレージへの書き込みを許可していない場合があります。</string>
     <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズムです。</string>
-    <string name="sort_menu">並び替え</string>
+    <string name="sort_menu">並べ替え</string>
     <string name="sort_ascending">昇順 ↓</string>
     <string name="sort_recycle_bin_bottom">ゴミ箱を一番下にする</string>
     <string name="sort_title">タイトル</string>
@@ -304,7 +304,7 @@
 \nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
     <string name="education_search_title">エントリーを検索</string>
     <string name="education_unlock_title">データベースのロックを解除</string>
-    <string name="education_sort_title">項目の並び替え</string>
+    <string name="education_sort_title">項目の並べ替え</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="assign_master_key">マスターキーを設定</string>
     <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
