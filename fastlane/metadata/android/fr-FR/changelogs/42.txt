@@ -1,0 +1,1 @@
+ * Correction de la reconnaissance de remplissage automatique #709

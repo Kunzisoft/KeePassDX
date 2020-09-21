@@ -1,3 +1,6 @@
+KeePassDX(2.9)
+ * Fix Autofill recognition
+
 KeePassDX(2.8.5)
  * Fix Base 64 #708
 
