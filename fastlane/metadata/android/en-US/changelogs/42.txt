@@ -1,1 +1,2 @@
- * Fix Autofill recognition #709
+ * Fix Autofill recognition #712
+ * Keep value after renaming custom field #709

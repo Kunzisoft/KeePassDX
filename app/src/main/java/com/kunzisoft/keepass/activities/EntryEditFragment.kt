@@ -413,7 +413,7 @@ class EntryEditFragment: StylishFragment() {
     }
 
     /**
-     * Update an extra field or create a new one if doesn't exists
+     * Update an extra field or create a new one if doesn't exists, the old value is lost
      */
     fun putExtraField(extraField: Field) {
         extraFieldsContainerView.visibility = View.VISIBLE
@@ -434,13 +434,24 @@ class EntryEditFragment: StylishFragment() {
         }
     }
 
+    /**
+     * Update an extra field and keep the old value
+     */
     fun replaceExtraField(oldExtraField: Field, newExtraField: Field) {
         extraFieldsContainerView.visibility = View.VISIBLE
         val index = mExtraFieldsList.indexOf(oldExtraField)
+        val oldValueEditText: EditText = extraFieldsListView.getChildAt(index)
+                .findViewWithTag("FIELD_VALUE_TAG")
+        val oldValue = oldValueEditText.text.toString()
+        val newExtraFieldWithOldValue = Field(newExtraField).apply {
+            this.protectedValue.stringValue = oldValue
+        }
         mExtraFieldsList.removeAt(index)
-        mExtraFieldsList.add(index, newExtraField)
+        mExtraFieldsList.add(index, newExtraFieldWithOldValue)
         extraFieldsListView.removeViewAt(index)
-        extraFieldsListView.addView(buildViewFromField(newExtraField), index)
+        val newView = buildViewFromField(newExtraFieldWithOldValue)
+        extraFieldsListView.addView(newView, index)
+        newView?.requestFocus()
     }
 
     fun removeExtraField(oldExtraField: Field) {

@@ -1,1 +1,2 @@
- * Correction de la reconnaissance de remplissage automatique #709
+ * Correction de la reconnaissance de remplissage automatique #712
+ * La valeur du champ customisé est gardée après son renommage #709
