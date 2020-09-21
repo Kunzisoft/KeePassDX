@@ -145,7 +145,7 @@
     <string name="discard_changes">Batalkan perubahan\?</string>
     <string name="validate">Mengesahkan</string>
     <string name="content_description_entry_icon">Ikon Entri</string>
-    <string name="content_description_keyfile_checkbox">Kotak Centang Berkas Kunci</string>
+    <string name="content_description_keyfile_checkbox">Kotak Centang File Kunci</string>
     <string name="content_description_password_checkbox">Kotak Centang Kata Sandi</string>
     <string name="content_description_file_information">Info File</string>
     <string name="content_description_add_item">Tambahkan Item</string>
@@ -158,7 +158,7 @@
     <string name="clipboard_error">Beberapa perangkat tidak mengizinkan aplikasi menggunakan papan klip.</string>
     <string name="clipboard_error_title">Kesalahan Papan Klip</string>
     <string name="allow">Ijinkan</string>
-    <string name="extended_ASCII">ASCII Diperpanjang</string>
+    <string name="extended_ASCII">ASCII Diperluas</string>
     <string name="brackets">Tanda Kurung</string>
     <string name="application">Aplikasi</string>
     <string name="app_timeout">Batas Waktu Aplikasi</string>
@@ -183,4 +183,26 @@
     <string name="create_keepass_file">Buat basisdata baru</string>
     <string name="select_database_file">Buka basisdata yang sudah ada</string>
     <string name="no_url_handler">Pasang browser web untuk membuka URL ini.</string>
+    <string name="memory_usage">Penggunaan memori</string>
+    <string name="rounds">Putaran transformasi</string>
+    <string name="encryption_explanation">Algoritma enkripsi basisdata digunakan untuk semua data.</string>
+    <string name="root">Root</string>
+    <string name="hide_broken_locations_summary">Sembunyikan tautan yang rusak dalam daftar basisdata terbaru</string>
+    <string name="hide_broken_locations_title">Sembunyikan tautan basisdata yang rusak</string>
+    <string name="show_recent_files_summary">Tampilkan lokasi dari basisdata terbaru</string>
+    <string name="show_recent_files_title">Tampilkan file sebelumnya</string>
+    <string name="remember_keyfile_locations_summary">Melacak di mana file kunci disimpan</string>
+    <string name="remember_keyfile_locations_title">Ingat lokasi file kunci</string>
+    <string name="remember_database_locations_summary">Melacak di mana database disimpan</string>
+    <string name="remember_database_locations_title">Ingat lokasi basisdata</string>
+    <string name="selection_mode">Mode seleksi</string>
+    <string name="contains_duplicate_uuid_procedure">Selesaikan masalah dengan menghasilkan UUID baru, lanjutkan\?</string>
+    <string name="contains_duplicate_uuid">Basisdata berisi UUIDs duplikat.</string>
+    <string name="read_only_warning">Tergantung pada manajer file Anda, KeePassDX mungkin tidak diizinkan untuk menulis di penyimpanan Anda.</string>
+    <string name="read_only">Terlindung dari penulisan</string>
+    <string name="protection">Perlindungan</string>
+    <string name="progress_title">Sedang bekerja…</string>
+    <string name="progress_create">Membuat basisdata baru…</string>
+    <string name="subdomain_search_summary">Cari Domain Web dengan Kendala Subdomain</string>
+    <string name="subdomain_search_title">Pencarian Subdomain</string>
 </resources>
