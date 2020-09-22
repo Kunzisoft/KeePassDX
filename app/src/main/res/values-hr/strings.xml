@@ -49,7 +49,7 @@
     <string name="content_description_password_length">Duljina lozinke</string>
     <string name="entry_add_field">Dodaj polje</string>
     <string name="content_description_remove_field">Ukloni polje</string>
-    <string name="content_description_update_from_list">Ažuriraj</string>
+    <string name="content_description_update_from_list">Aktualiziraj</string>
     <string name="content_description_remove_from_list">Ukloni</string>
     <string name="content_description_keyboard_close_fields">Zatvori polja</string>
     <string name="select_to_copy">Kopiraj %1$s u međuspremnik</string>
@@ -206,7 +206,7 @@
     <string name="path">Putanja</string>
     <string name="assign_master_key">Zadaj glavni ključ</string>
     <string name="database_data_compression_title">Komprimiranje podataka</string>
-    <string name="database_data_compression_summary">Komprimiranje podataka smanjuje veličinu baze podataka.</string>
+    <string name="database_data_compression_summary">Komprimiranje podataka smanjuje veličinu baze podataka</string>
     <string name="max_history_items_title">Maksimalni broj</string>
     <string name="max_history_size_title">Maksimalna veličina</string>
     <string name="settings_database_recommend_changing_master_key_title">Preporuči obnavljanje</string>
@@ -481,4 +481,12 @@
     <string name="education_add_attachment_title">Dodaj privitak</string>
     <string name="warning_sure_add_file">Svejedno dodati datoteku\?</string>
     <string name="warning_replace_file">Prijenosom ove datoteke zamijenit će se postojeća.</string>
+    <string name="warning_empty_keyfile_explanation">Sadržaj datoteke ključeva nikada se ne bi trebao mijenjati, a u najboljem slučaju, trebao bi sadržavati nasumice generirane podatke.</string>
+    <string name="warning_empty_keyfile">Ne preporučuje se dodavanje prazne datoteke ključeva.</string>
+    <string name="warning_remove_unlinked_attachment">Uklanjanje nepovezanih podataka može smanjiti veličinu baze podataka, ali može i izbrisati podatke koji se koriste za KeePass dodatke.</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Uklanja priložene datoteke u bazi podataka, koje nisu povezane s nekim unosom</string>
+    <string name="database_data_remove_unlinked_attachments_title">Ukloni nepovezane podatke</string>
+    <string name="data">Podaci</string>
+    <string name="warning_sure_remove_data">Svejedno ukloniti ove podatke\?</string>
+    <string name="content_description_credentials_information">Podaci podataka prijave</string>
 </resources>
