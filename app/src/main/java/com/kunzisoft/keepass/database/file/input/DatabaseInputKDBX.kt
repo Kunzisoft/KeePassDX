@@ -954,7 +954,13 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 xpp.next() // Consume end tag
                 val id = Integer.parseInt(ref)
                 // A ref is not necessarily an index in Database V3.1
-                mDatabase.binaryPool[id]
+                var binaryRetrieve = mDatabase.binaryPool[id]
+                // Create empty binary if not retrieved in pool
+                if (binaryRetrieve == null) {
+                    binaryRetrieve = mDatabase.buildNewBinary(cacheDirectory,
+                            protection = false, compression = false, binaryPoolId = id)
+                }
+                return binaryRetrieve
             }
             key != null -> {
                 createBinary(key.toIntOrNull(), xpp)
