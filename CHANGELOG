@@ -1,6 +1,7 @@
 KeePassDX(2.9)
  * Fix Autofill recognition #712
  * Keep value after renaming custom field #709
+ * Prevent random binary bug #713
 
 KeePassDX(2.8.5)
  * Fix Base 64 #708
