@@ -36,9 +36,7 @@ class BinaryAttachment : Parcelable {
     private var dataFile: File? = null
 
     fun length(): Long {
-        if (dataFile != null)
-            return dataFile!!.length()
-        return 0
+        return dataFile?.length() ?: 0
     }
 
     /**
@@ -65,7 +63,7 @@ class BinaryAttachment : Parcelable {
     @Throws(IOException::class)
     fun getInputDataStream(): InputStream {
         return when {
-            dataFile != null -> FileInputStream(dataFile!!)
+            length() > 0 -> FileInputStream(dataFile!!)
             else -> ByteArrayInputStream(ByteArray(0))
         }
     }
