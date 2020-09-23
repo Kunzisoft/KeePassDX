@@ -192,11 +192,10 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             }
         }
 
-        if (fieldID == PwDbHeaderV4Fields.EndOfHeader)
-            return true
-
         if (fieldData != null)
         when (fieldID) {
+            PwDbHeaderV4Fields.EndOfHeader -> return true
+
             PwDbHeaderV4Fields.CipherID -> setCipher(fieldData)
 
             PwDbHeaderV4Fields.CompressionFlags -> setCompressionFlags(fieldData)
