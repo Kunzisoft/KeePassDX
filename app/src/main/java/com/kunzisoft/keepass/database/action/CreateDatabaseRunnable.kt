@@ -25,6 +25,8 @@ import android.util.Log
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.closeDatabase
 
 class CreateDatabaseRunnable(context: Context,
                              private val mDatabase: Database,
@@ -45,7 +47,7 @@ class CreateDatabaseRunnable(context: Context,
                 createData(mDatabaseUri, databaseName, rootName)
             }
         } catch (e: Exception) {
-            mDatabase.closeAndClear(context.applicationContext.filesDir)
+            mDatabase.closeAndClear(UriUtil.getBinaryDir(context))
             setError(e)
         }
 
