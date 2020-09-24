@@ -4,7 +4,7 @@
     <string name="database_history">تاریخچه</string>
     <string name="credential_before_click_biometric_button">رمز ورود را وارد کنید و سپس روی دکمه \"بیومتریک\" کلیک کنید.</string>
     <string name="no_credentials_stored">این پایگاه داده هنوز اطلاعات کاربری ذخیره نشده است.</string>
-    <string name="biometric_scanning_error">خطای بیومتریک:٪ 1 $ s</string>
+    <string name="biometric_scanning_error">خطای بیومتریک:%1$s</string>
     <string name="biometric_not_recognized">بایومتریک قابل تشخیص نیست</string>
     <string name="biometric_invalid_key">"کلید بیومتریک را نمی توان خواند.  لطفاً آن را حذف کرده و روش شناخت بیومتریک را تکرار کنید."</string>
     <string name="encrypted_value_stored">رمز رمزگذاری شده ذخیره شده است</string>
