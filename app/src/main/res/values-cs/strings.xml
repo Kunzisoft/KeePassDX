@@ -39,7 +39,7 @@
     <string name="select_to_copy">Vyberte zkopírovat %1$s do schránky</string>
     <string name="retrieving_db_key">Načítání klíče databáze…</string>
     <string name="database">Databáze</string>
-    <string name="decrypting_db">Dešifruji obsah databáze…</string>
+    <string name="decrypting_db">Dešifrování obsahu databáze…</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Číslice</string>
     <string name="select_database_file">Otevřít existující databázi</string>
@@ -61,7 +61,7 @@
     <string name="error_can_not_handle_uri">KeePassDX nemůže zpracovat toto URI.</string>
     <string name="error_file_not_create">Soubor se nedaří vytvořit</string>
     <string name="error_invalid_db">Databázi nelze číst.</string>
-    <string name="error_invalid_path">Neplatná cesta.</string>
+    <string name="error_invalid_path">Ujistěte se, že cesta je správná.</string>
     <string name="error_no_name">Zadejte jméno.</string>
     <string name="error_nokeyfile">Vyberte soubor s klíčem.</string>
     <string name="error_out_of_memory">Nedostatek paměti k načtení celé databáze.</string>
