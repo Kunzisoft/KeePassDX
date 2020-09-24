@@ -49,16 +49,17 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
 
         database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
             val protectedBinary = keyBinary.binary
+            // Force decompression to add binary in header
+            protectedBinary.decompress()
+            // Write type binary
+            dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary.toInt())
+            // Write size
+            dataOutputStream.writeInt(protectedBinary.length().toInt() + 1)
+            // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
             }
-
-            // Force decompression to add binary in header
-            protectedBinary.decompress()
-
-            dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary.toInt())
-            dataOutputStream.writeInt(protectedBinary.length().toInt() + 1)
             dataOutputStream.write(flag.toInt())
 
             protectedBinary.getInputDataStream().use { inputStream ->
