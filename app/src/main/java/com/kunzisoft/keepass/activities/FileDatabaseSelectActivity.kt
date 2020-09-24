@@ -28,6 +28,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -412,7 +413,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             MenuUtil.defaultMenuInflater(menuInflater, menu)
         }
 
-        Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
+        Handler(Looper.getMainLooper()).post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
 
         return true
     }

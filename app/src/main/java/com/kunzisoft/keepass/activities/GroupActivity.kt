@@ -28,6 +28,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -776,7 +777,7 @@ class GroupActivity : LockingActivity(),
         super.onCreateOptionsMenu(menu)
 
         // Launch education screen
-        Handler().post { performedNextEducation(GroupActivityEducation(this), menu) }
+        Handler(Looper.getMainLooper()).post { performedNextEducation(GroupActivityEducation(this), menu) }
 
         return true
     }

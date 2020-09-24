@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -526,7 +527,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
+            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -663,7 +664,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
+            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
     }
 
