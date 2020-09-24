@@ -68,9 +68,11 @@ internal class StructureParser(private val structure: AssistStructure) {
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
         // Get the domain of a web app
-        node.webDomain?.let {
-            result?.domain = it
-            Log.d(TAG, "Autofill domain: $it")
+        node.webDomain?.let { webDomain ->
+            if (webDomain.isNotEmpty()) {
+                result?.domain = webDomain
+                Log.d(TAG, "Autofill domain: $webDomain")
+            }
         }
 
         // Only parse visible nodes
