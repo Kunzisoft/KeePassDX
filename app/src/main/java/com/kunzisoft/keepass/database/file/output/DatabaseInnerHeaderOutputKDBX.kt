@@ -61,7 +61,6 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
             dataOutputStream.writeInt(protectedBinary.length().toInt() + 1)
             dataOutputStream.write(flag.toInt())
 
-            // if was compressed in cache, uncompress it
             protectedBinary.getInputDataStream().use { inputStream ->
                 inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
                     dataOutputStream.write(buffer)

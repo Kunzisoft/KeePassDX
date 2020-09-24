@@ -253,7 +253,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
                 // Read in a file
-                val protectedFlag = dataInputStream.readBytes(1)[0] == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
+                val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                 val byteLength = size - 1
                 // No compression at this level
                 val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, false, protectedFlag)
