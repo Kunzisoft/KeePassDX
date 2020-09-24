@@ -39,7 +39,7 @@
     <string name="select_to_copy">Vyberte zkopírovat %1$s do schránky</string>
     <string name="retrieving_db_key">Načítám klíč databáze…</string>
     <string name="database">Databáze</string>
-    <string name="decrypting_db">Rozšifrovávání obsahu databáze…</string>
+    <string name="decrypting_db">Dešifruji obsah databáze…</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Číslice</string>
     <string name="select_database_file">Otevřít existující databázi</string>
