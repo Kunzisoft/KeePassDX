@@ -210,7 +210,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     /**
      * Create a new file by calling the content provider
      */
-    @SuppressLint("InlinedApi")
     private fun createNewFile() {
         createDocument(this, getString(R.string.database_file_name_default) +
                 getString(R.string.database_file_extension_default), "application/x-keepass")
