@@ -341,11 +341,11 @@
     <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukázat na Magikeyboard pole položek</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení k databázi</string>
-    <string name="content_description_open_file">Otevři soubor</string>
+    <string name="content_description_open_file">Otevřít soubor</string>
     <string name="content_description_node_children">Potomci uzlu</string>
     <string name="content_description_add_node">Přidej uzel</string>
     <string name="content_description_add_entry">Přidej záznam</string>
-    <string name="content_description_add_group">Přidej skupinu</string>
+    <string name="content_description_add_group">Přidat skupinu</string>
     <string name="content_description_file_information">Informace o souboru</string>
     <string name="content_description_password_checkbox">Checkbox hesla</string>
     <string name="content_description_keyfile_checkbox">Checkbox souboru s klíčem</string>
