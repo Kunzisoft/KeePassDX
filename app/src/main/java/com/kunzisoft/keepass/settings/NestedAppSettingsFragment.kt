@@ -237,7 +237,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         AlertDialog.Builder(context)
                                 .setMessage(resources.getString(R.string.biometric_delete_all_key_warning))
                                 .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setPositiveButton(resources.getString(android.R.string.yes)
+                                .setPositiveButton(resources.getString(android.R.string.ok)
                                 ) { _, _ ->
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                         BiometricUnlockDatabaseHelper.deleteEntryKeyInKeystoreForBiometric(
@@ -260,7 +260,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                     }
                                     CipherDatabaseAction.getInstance(context.applicationContext).deleteAll()
                                 }
-                                .setNegativeButton(resources.getString(android.R.string.no))
+                                .setNegativeButton(resources.getString(android.R.string.cancel))
                                 { _, _ -> }.show()
                     }
                     false
