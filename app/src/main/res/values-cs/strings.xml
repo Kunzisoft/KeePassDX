@@ -62,11 +62,11 @@
     <string name="error_file_not_create">Soubor se nedaří vytvořit</string>
     <string name="error_invalid_db">Databázi nelze číst.</string>
     <string name="error_invalid_path">Neplatná cesta.</string>
-    <string name="error_no_name">Vložte jméno.</string>
+    <string name="error_no_name">Zadejte jméno.</string>
     <string name="error_nokeyfile">Vyberte soubor s klíčem.</string>
-    <string name="error_out_of_memory">Nedostatek paměti k otevření databáze.</string>
+    <string name="error_out_of_memory">Nedostatek paměti k načtení celé databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
-    <string name="error_pass_match">Zadání hesla se neshodují.</string>
+    <string name="error_pass_match">Zadaná hesla se neshodují.</string>
     <string name="error_rounds_too_large">Příliš vysoký „Počet průchodů“. Nastavuji na 2147483648.</string>
     <string name="error_string_key">Je třeba, aby každý řetězec měl název kolonky.</string>
     <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
