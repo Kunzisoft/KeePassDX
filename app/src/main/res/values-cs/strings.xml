@@ -25,7 +25,7 @@
     <string name="add_group">Přidat skupinu</string>
     <string name="encryption_algorithm">Šifrovací algoritmus</string>
     <string name="app_timeout">Časový limit aplikace</string>
-    <string name="app_timeout_summary">Doba nečinnosti než se aplikace zamkne</string>
+    <string name="app_timeout_summary">Doba nečinnosti, po které se aplikace zamkne</string>
     <string name="application">Aplikace</string>
     <string name="menu_app_settings">Nastavení aplikace</string>
     <string name="brackets">Závorky</string>
@@ -37,7 +37,7 @@
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Doba uchování ve schránce</string>
     <string name="select_to_copy">Vyberte zkopírovat %1$s do schránky</string>
-    <string name="retrieving_db_key">Vytváření klíče databáze…</string>
+    <string name="retrieving_db_key">Načítám klíč databáze…</string>
     <string name="database">Databáze</string>
     <string name="decrypting_db">Rozšifrovávání obsahu databáze…</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
@@ -354,7 +354,7 @@
     <string name="entry_password_generator">Generátor hesel</string>
     <string name="content_description_password_length">Délka hesla</string>
     <string name="entry_add_field">Přidej pole</string>
-    <string name="content_description_remove_field">Odebrat pole</string>
+    <string name="content_description_remove_field">Odeber pole</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Sem záznam přesunout nelze.</string>
     <string name="error_copy_entry_here">Sem záznam zkopírovat nelze.</string>
