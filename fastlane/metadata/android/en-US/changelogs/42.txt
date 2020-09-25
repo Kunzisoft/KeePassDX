@@ -2,3 +2,4 @@
  * Keep value after renaming custom field #709
  * Prevent random binary bug #713
  * Fix dialog background #717
+ * Better domain recognition for autofill #702

@@ -2,3 +2,4 @@
  * La valeur du champ customisé est gardée après son renommage #709
  * Prévention du bug des binaires aléatoires #713
  * Correction du fond des dialogues #717
+ * Meilleure reconnaissance du domaine pour l'autofill #702
