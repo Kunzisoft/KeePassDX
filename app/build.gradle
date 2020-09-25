@@ -98,13 +98,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    // WARNING: Bug with extra field
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.0.1'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:1.3.1"
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
-    // To upgrade with style
+    // WARNING: To upgrade with style, bug in edit text
     implementation 'com.google.android.material:material:1.0.0'
     // Database
     implementation "androidx.room:room-runtime:$room_version"
