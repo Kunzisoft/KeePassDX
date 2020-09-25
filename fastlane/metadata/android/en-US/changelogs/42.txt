@@ -1,2 +1,4 @@
  * Fix Autofill recognition #712
  * Keep value after renaming custom field #709
+ * Prevent random binary bug #713
+ * Fix dialog background #717

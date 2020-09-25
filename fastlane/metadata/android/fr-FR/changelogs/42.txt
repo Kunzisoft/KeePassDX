@@ -1,2 +1,4 @@
  * Correction de la reconnaissance de remplissage automatique #712
  * La valeur du champ customisé est gardée après son renommage #709
+ * Prévention du bug des binaires aléatoires #713
+ * Correction du fond des dialogues #717
