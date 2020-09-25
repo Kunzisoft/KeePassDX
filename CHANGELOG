@@ -5,6 +5,7 @@ KeePassDX(2.8.6)
  * Fix dialog background #717
  * Better domain recognition for autofill #702
  * Write custom data #651
+ * Fix autolink #720
 
 KeePassDX(2.8.5)
  * Fix Base 64 #708

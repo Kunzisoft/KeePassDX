@@ -30,6 +30,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
 import com.kunzisoft.keepass.R
+import java.util.regex.Pattern
 
 class EntryField @JvmOverloads constructor(context: Context,
                                            attrs: AttributeSet? = null,
@@ -100,17 +101,25 @@ class EntryField @JvmOverloads constructor(context: Context,
                 setTextIsSelectable(true)
             }
             applyHiddenStyle(isProtected && !showButtonView.isSelected)
-            if (valueView.autoLinkMask == Linkify.ALL) {
-                try {
-                    LinkifyCompat.addLinks(this, Linkify.ALL)
-                } catch (e: Exception) {}
+            if (valueView.autoLinkMask == LINKIFY_MASKS) {
+                linkify()
             }
         }
     }
 
-    fun setValueAutoLink(autoLink: Boolean) {
-        valueView.autoLinkMask = if (autoLink && !isProtected) Linkify.ALL else 0
+    fun setAutoLink() {
+        if (!isProtected) linkify()
         changeProtectedValueParameters()
+    }
+
+    private fun linkify() {
+        valueView.autoLinkMask = LINKIFY_MASKS
+        LinkifyCompat.addLinks(valueView, LINKIFY_MASKS)
+    }
+
+    fun setLinkAll() {
+        valueView.autoLinkMask = LINKIFY_ALL
+        LinkifyCompat.addLinks(valueView, LINKIFY_ALL)
     }
 
     fun activateCopyButton(enable: Boolean) {
@@ -121,5 +130,9 @@ class EntryField @JvmOverloads constructor(context: Context,
     fun assignCopyButtonClickListener(onClickActionListener: OnClickListener?) {
         copyButtonView.setOnClickListener(onClickActionListener)
         copyButtonView.visibility = if (onClickActionListener == null) GONE else VISIBLE
+    }
+    companion object {
+        private const val LINKIFY_MASKS = Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES
+        private const val LINKIFY_ALL = Linkify.ALL
     }
 }

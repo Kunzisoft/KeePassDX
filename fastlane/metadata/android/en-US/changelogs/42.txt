@@ -4,3 +4,4 @@
  * Fix dialog background #717
  * Better domain recognition for autofill #702
  * Write custom data #651
+ * Fix autolink #720

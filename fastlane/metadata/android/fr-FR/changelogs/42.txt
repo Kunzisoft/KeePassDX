@@ -4,3 +4,4 @@
  * Correction du fond des dialogues #717
  * Meilleure reconnaissance du domaine pour l'autofill #702
  * Ecriture des données customisées #651
+ * Correction de l'autolink #720

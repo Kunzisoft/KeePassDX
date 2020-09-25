@@ -96,11 +96,11 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
         urlFieldView = findViewById(R.id.entry_url_field)
         urlFieldView.setLabel(R.string.entry_url)
-        urlFieldView.setValueAutoLink(true)
+        urlFieldView.setLinkAll()
 
         notesFieldView = findViewById(R.id.entry_notes_field)
         notesFieldView.setLabel(R.string.entry_notes)
-        notesFieldView.setValueAutoLink(true)
+        notesFieldView.setAutoLink()
 
         extraFieldsContainerView = findViewById(R.id.extra_fields_container)
         extraFieldsListView = findViewById(R.id.extra_fields_list)
@@ -304,7 +304,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)
-            setValueAutoLink(true)
+            setAutoLink()
             activateCopyButton(allowCopy)
             assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)
