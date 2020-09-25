@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.VariantDictionary
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -221,10 +222,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
 
-            PwDbHeaderV4Fields.PublicCustomData -> {
-                databaseV4.publicCustomData = KdfParameters.deserialize(fieldData)!! // TODO verify
-                throw IOException("Invalid header type: $fieldID")
-            }
+            PwDbHeaderV4Fields.PublicCustomData -> databaseV4.publicCustomData = VariantDictionary.deserialize(fieldData)
+
             else -> throw IOException("Invalid header type: $fieldID")
         }
 

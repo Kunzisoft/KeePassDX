@@ -19,17 +19,23 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation
 
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.stream.bytes16ToUuid
 import com.kunzisoft.keepass.stream.uuidTo16Bytes
 import com.kunzisoft.keepass.utils.VariantDictionary
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
 
-class KdfParameters(val uuid: UUID) : VariantDictionary() {
+class KdfParameters: VariantDictionary {
+
+    val uuid: UUID
+
+    constructor(uuid: UUID): super() {
+        this.uuid = uuid
+    }
+
+    constructor(uuid: UUID, d: VariantDictionary): super(d) {
+        this.uuid = uuid
+    }
 
     fun setParamUUID() {
         setByteArray(PARAM_UUID, uuidTo16Bytes(uuid))
@@ -41,25 +47,17 @@ class KdfParameters(val uuid: UUID) : VariantDictionary() {
 
         @Throws(IOException::class)
         fun deserialize(data: ByteArray): KdfParameters? {
-            val inputStream = LittleEndianDataInputStream(ByteArrayInputStream(data))
-            val dictionary = deserialize(inputStream)
+            val dictionary = VariantDictionary.deserialize(data)
 
             val uuidBytes = dictionary.getByteArray(PARAM_UUID) ?: return null
             val uuid = bytes16ToUuid(uuidBytes)
 
-            val kdfParameters = KdfParameters(uuid)
-            kdfParameters.copyTo(dictionary)
-            return kdfParameters
+            return KdfParameters(uuid, dictionary)
         }
 
         @Throws(IOException::class)
         fun serialize(kdfParameters: KdfParameters): ByteArray {
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            val outputStream = LittleEndianDataOutputStream(byteArrayOutputStream)
-
-            serialize(kdfParameters, outputStream)
-
-            return byteArrayOutputStream.toByteArray()
+            return VariantDictionary.serialize(kdfParameters)
         }
     }
 
