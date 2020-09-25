@@ -24,6 +24,8 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BU
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.stream.readBytes
+import com.kunzisoft.keepass.stream.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import kotlin.experimental.or
@@ -54,7 +56,7 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
             // Write type binary
             dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary.toInt())
             // Write size
-            dataOutputStream.writeInt(protectedBinary.length().toInt() + 1)
+            dataOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(protectedBinary.length() + 1)))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
