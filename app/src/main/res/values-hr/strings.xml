@@ -341,7 +341,7 @@
     <string name="auto_focus_search_title">Brza pretraga</string>
     <string name="error_create_database">Nije moguće stvoriti datoteku baze podataka.</string>
     <string name="error_rounds_too_large">Previše „transformacijskih prolaza”. Postavlja se na 2147483648.</string>
-    <string name="html_about_licence">KeePassDX © %1$d. Kunzisoft je softver &lt;strong&gt;otvorenog koda&lt;/strong&gt; i &lt;strong&gt;ne sadrži oglase&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je softver &lt;strong&gt;otvorenog koda&lt;/strong&gt; i &lt;strong&gt;ne sadrži oglase&lt;/strong&gt;.
 \nNudi se kakav je, pod &lt;strong&gt;GPLv3&lt;/strong&gt; licencom, bez jamstva.</string>
     <string name="entry_add_attachment">Dodaj privitak</string>
     <string name="discard">Odbaci</string>
