@@ -146,4 +146,12 @@ object UriUtil {
         gotoUrl(context, context.getString(resId))
     }
 
+    fun getBinaryDir(context: Context): File {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.applicationContext.noBackupFilesDir
+        } else {
+            context.applicationContext.filesDir
+        }
+    }
+
 }

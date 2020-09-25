@@ -25,7 +25,7 @@
     <string name="add_group">Přidat skupinu</string>
     <string name="encryption_algorithm">Šifrovací algoritmus</string>
     <string name="app_timeout">Časový limit aplikace</string>
-    <string name="app_timeout_summary">Doba nečinnosti než se aplikace zamkne</string>
+    <string name="app_timeout_summary">Doba nečinnosti, po které se aplikace zamkne</string>
     <string name="application">Aplikace</string>
     <string name="menu_app_settings">Nastavení aplikace</string>
     <string name="brackets">Závorky</string>
@@ -37,9 +37,9 @@
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Doba uchování ve schránce</string>
     <string name="select_to_copy">Vyberte zkopírovat %1$s do schránky</string>
-    <string name="retrieving_db_key">Vytváření klíče databáze…</string>
+    <string name="retrieving_db_key">Načítání klíče databáze…</string>
     <string name="database">Databáze</string>
-    <string name="decrypting_db">Rozšifrovávání obsahu databáze…</string>
+    <string name="decrypting_db">Dešifrování obsahu databáze…</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Číslice</string>
     <string name="select_database_file">Otevřít existující databázi</string>
@@ -61,12 +61,12 @@
     <string name="error_can_not_handle_uri">KeePassDX nemůže zpracovat toto URI.</string>
     <string name="error_file_not_create">Soubor se nedaří vytvořit</string>
     <string name="error_invalid_db">Databázi nelze číst.</string>
-    <string name="error_invalid_path">Neplatná cesta.</string>
-    <string name="error_no_name">Vložte jméno.</string>
+    <string name="error_invalid_path">Ujistěte se, že cesta je správná.</string>
+    <string name="error_no_name">Zadejte jméno.</string>
     <string name="error_nokeyfile">Vyberte soubor s klíčem.</string>
-    <string name="error_out_of_memory">Nedostatek paměti k otevření databáze.</string>
+    <string name="error_out_of_memory">Nedostatek paměti k načtení celé databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
-    <string name="error_pass_match">Zadání hesla se neshodují.</string>
+    <string name="error_pass_match">Zadaná hesla se neshodují.</string>
     <string name="error_rounds_too_large">Příliš vysoký „Počet průchodů“. Nastavuji na 2147483648.</string>
     <string name="error_string_key">Je třeba, aby každý řetězec měl název kolonky.</string>
     <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
@@ -341,11 +341,11 @@
     <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukázat na Magikeyboard pole položek</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení k databázi</string>
-    <string name="content_description_open_file">Otevři soubor</string>
+    <string name="content_description_open_file">Otevřít soubor</string>
     <string name="content_description_node_children">Potomci uzlu</string>
     <string name="content_description_add_node">Přidej uzel</string>
     <string name="content_description_add_entry">Přidej záznam</string>
-    <string name="content_description_add_group">Přidej skupinu</string>
+    <string name="content_description_add_group">Přidat skupinu</string>
     <string name="content_description_file_information">Informace o souboru</string>
     <string name="content_description_password_checkbox">Checkbox hesla</string>
     <string name="content_description_keyfile_checkbox">Checkbox souboru s klíčem</string>
@@ -354,7 +354,7 @@
     <string name="entry_password_generator">Generátor hesel</string>
     <string name="content_description_password_length">Délka hesla</string>
     <string name="entry_add_field">Přidej pole</string>
-    <string name="content_description_remove_field">Odebrat pole</string>
+    <string name="content_description_remove_field">Odeber pole</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Sem záznam přesunout nelze.</string>
     <string name="error_copy_entry_here">Sem záznam zkopírovat nelze.</string>
@@ -402,7 +402,7 @@
     <string name="clipboard_explanation_summary">Kopírujte pole záznamů pomocí schránky Vašeho zařízení</string>
     <string name="advanced_unlock_explanation_summary">K snadnějšímu otevření databáze použijte pokročilé odemknutí</string>
     <string name="database_data_compression_title">Komprese dat</string>
-    <string name="database_data_compression_summary">Komprese dat snižuje velikost databáze.</string>
+    <string name="database_data_compression_summary">Komprese dat snižuje velikost databáze</string>
     <string name="max_history_items_title">Maximální počet</string>
     <string name="max_history_items_summary">Omezit počet položek v historii záznamu</string>
     <string name="max_history_size_title">Maximální velikost</string>
@@ -453,7 +453,7 @@
     <string name="show_recent_files_title">Ukázat nedávné soubory</string>
     <string name="show_recent_files_summary">Ukázat umístění nedávných databází</string>
     <string name="hide_broken_locations_title">Skrýt špatné odkazy na databáze</string>
-    <string name="hide_broken_locations_summary">Skrýt špatné odkazy v seznamu nedávných databází</string>
+    <string name="hide_broken_locations_summary">Skrýt nesprávné odkazy v seznamu nedávných databází</string>
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
 \nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
@@ -490,4 +490,20 @@
     <string name="keyboard_previous_database_credentials_summary">Automaticky přepnout zpět na předchozí klávesnici na obrazovce ověřovacích údajů databáze</string>
     <string name="keyboard_previous_database_credentials_title">Obrazovka ověřovacích údajů databáze</string>
     <string name="keyboard_change">Přepnout klávesnici</string>
+    <string name="upload_attachment">Nahrát %1$s</string>
+    <string name="content_description_credentials_information">Info o údajích</string>
+    <string name="warning_file_too_big">Databáze KeePassu předpokládá uchovávat jen malé pomocné sobory (např. PGP soubory).
+\n
+\nVaše databáze by se mohla značně zvětšit a tímto nahráním tak ztratit na výkonnosti.</string>
+    <string name="warning_replace_file">Nahráním tohoto souboru nahradíte existující soubor.</string>
+    <string name="warning_sure_add_file">I přesto přidat soubor\?</string>
+    <string name="warning_remove_unlinked_attachment">Odstranění dat bez propojení patrně sníží velikost Vaší databáze, ale může též dojít k smazání dat používaných pluginy KeePassu.</string>
+    <string name="warning_sure_remove_data">I přesto odstranit tato data\?</string>
+    <string name="warning_empty_keyfile">Nedoporučuje se přidat prázdný soubor klíčů.</string>
+    <string name="warning_empty_keyfile_explanation">Obsah souboru klíčů by se neměl nikdy změnit, v nejlepším případě by měl obsahovat náhodně generovaná data.</string>
+    <string name="data">Data</string>
+    <string name="database_data_remove_unlinked_attachments_title">Odstranit data bez propojení</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Odstraní přílohy obsažené v databázi, ale nikoli přílohy propojené se záznamem</string>
+    <string name="education_add_attachment_title">Přidat přílohu</string>
+    <string name="education_add_attachment_summary">Nahrát přílohu k záznamu pro uložení důležitých externích dat.</string>
 </resources>

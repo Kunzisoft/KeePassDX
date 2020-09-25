@@ -27,6 +27,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -67,6 +68,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -662,7 +664,7 @@ open class PasswordActivity : SpecialModeActivity() {
         if (!performedEductionInProgress) {
             performedEductionInProgress = true
             // Show education views
-            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
+            Handler(Looper.getMainLooper()).post { performedNextEducation(PasswordActivityEducation(this), menu) }
         }
     }
 
@@ -763,7 +765,7 @@ open class PasswordActivity : SpecialModeActivity() {
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    Database.getInstance().closeAndClear(applicationContext.filesDir)
+                    Database.getInstance().closeAndClear(UriUtil.getBinaryDir(this))
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()

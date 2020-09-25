@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -37,12 +38,18 @@ fun getUnusedCreateFileRequestCode(): Int {
     return newCreateFileRequestCode
 }
 
+@SuppressLint("InlinedApi")
 fun allowCreateDocumentByStorageAccessFramework(packageManager: PackageManager): Boolean {
-
-    return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-        addCategory(Intent.CATEGORY_OPENABLE)
-        type = "application/x-keepass"
-    }.resolveActivity(packageManager) != null
+    return when {
+        // To check if a custom file manager can manage the ACTION_CREATE_DOCUMENT
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT -> {
+            packageManager.queryIntentActivities(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "application/x-keepass"
+            }, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
+        }
+        else -> true
+    }
 }
 
 fun createDocument(activity: FragmentActivity,

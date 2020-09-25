@@ -19,15 +19,23 @@
  */
 package com.kunzisoft.keepass.utils
 
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
-import com.kunzisoft.keepass.stream.bytes4ToUInt
-import com.kunzisoft.keepass.stream.bytes64ToLong
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.keepass.stream.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
 
 open class VariantDictionary {
+
+    constructor()
+
+    constructor(d: VariantDictionary) {
+        for ((key, value) in d.dict) {
+            dict[key] = value
+        }
+    }
 
     private val dict: MutableMap<String, VdType> = HashMap()
 
@@ -95,12 +103,6 @@ open class VariantDictionary {
         return getValue(name) as ByteArray?
     }
 
-    fun copyTo(d: VariantDictionary) {
-        for ((key, value) in d.dict) {
-            dict[key] = value
-        }
-    }
-
     fun size(): Int {
         return dict.size
     }
@@ -110,6 +112,20 @@ open class VariantDictionary {
         private const val VdmCritical = 0xFF00
         private const val VdmInfo = 0x00FF
         private val UTF8Charset = Charset.forName("UTF-8")
+
+        @Throws(IOException::class)
+        fun deserialize(data: ByteArray): VariantDictionary {
+            val inputStream = LittleEndianDataInputStream(ByteArrayInputStream(data))
+            return deserialize(inputStream)
+        }
+
+        @Throws(IOException::class)
+        fun serialize(kdfParameters: KdfParameters): ByteArray {
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val outputStream = LittleEndianDataOutputStream(byteArrayOutputStream)
+            serialize(kdfParameters, outputStream)
+            return byteArrayOutputStream.toByteArray()
+        }
 
         @Throws(IOException::class)
         fun deserialize(inputStream: LittleEndianDataInputStream): VariantDictionary {

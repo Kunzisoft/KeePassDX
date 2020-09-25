@@ -69,7 +69,6 @@
     <style name="KeepassDXStyle.Purple.Dialog" parent="KeepassDXStyle.Light.Dialog">
         <item name="colorAccent">@color/red</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
-        <item name="android:background">@color/background_purple</item>
         <item name="background">@color/background_purple</item>
     </style>
     <!-- CardView -->

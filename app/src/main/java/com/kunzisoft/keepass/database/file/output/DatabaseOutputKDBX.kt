@@ -359,6 +359,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         writeFields(entry.fields)
         writeEntryBinaries(entry.binaries)
+        if (entry.containsCustomData()) {
+            writeCustomData(entry.customData)
+        }
         writeAutoType(entry.autoType)
 
         if (!isHistory) {

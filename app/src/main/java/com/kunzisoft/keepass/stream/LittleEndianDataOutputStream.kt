@@ -61,6 +61,11 @@ class LittleEndianDataOutputStream(private val baseStream: OutputStream) : Outpu
     }
 
     @Throws(IOException::class)
+    fun writeByte(byte: Byte) {
+        baseStream.write(byte.toInt())
+    }
+
+    @Throws(IOException::class)
     fun writeLong(value: Long) {
         baseStream.write(longTo8Bytes(value))
     }

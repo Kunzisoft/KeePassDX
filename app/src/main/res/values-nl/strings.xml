@@ -315,8 +315,8 @@
     <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">App-thema</string>
     <string name="style_choose_summary">Thema gebruikt in de app</string>
-    <string name="icon_pack_choose_title">Icoonverzameling</string>
-    <string name="icon_pack_choose_summary">Iconenverzameling gebruikt in de app</string>
+    <string name="icon_pack_choose_title">Pictogrammenverzameling</string>
+    <string name="icon_pack_choose_summary">Pictogrammenverzameling in gebruik</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -353,10 +353,10 @@
     <string name="content_description_add_entry">Item toevoegen</string>
     <string name="content_description_add_group">Groep toevoegen</string>
     <string name="content_description_file_information">Bestandsinformatie</string>
-    <string name="content_description_password_checkbox">Wachtwoordcheckbox</string>
-    <string name="content_description_keyfile_checkbox">Sleutelbestandcheckbox</string>
+    <string name="content_description_password_checkbox">Wachtwoord-selectie</string>
+    <string name="content_description_keyfile_checkbox">Sleutelbestand-selectie</string>
     <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
-    <string name="content_description_entry_icon">Item-icoon</string>
+    <string name="content_description_entry_icon">Item-pictogram</string>
     <string name="entry_password_generator">Wachtwoordgenerator</string>
     <string name="content_description_password_length">Wachtwoordlengte</string>
     <string name="entry_add_field">Veld toevoegen</string>
@@ -408,7 +408,7 @@
     <string name="clipboard_explanation_summary">Kopieer invoervelden met behulp van het klembord van uw apparaat</string>
     <string name="advanced_unlock_explanation_summary">Geavanceerde ontgrendeling gebruiken om een database gemakkelijker te openen</string>
     <string name="database_data_compression_title">Gegevenscompressie</string>
-    <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database.</string>
+    <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database</string>
     <string name="max_history_items_title">Maximum aantal</string>
     <string name="max_history_items_summary">Beperk het aantal geschiedenisitems per item</string>
     <string name="max_history_size_title">Maximum</string>
@@ -499,4 +499,12 @@
 \n
 \nDe database kan erg groot worden en de prestaties kunnen verminderen bij deze upload.</string>
     <string name="warning_replace_file">Als je dit bestand uploadt, wordt het bestaande vervangen.</string>
+    <string name="content_description_credentials_information">Inloggegevens</string>
+    <string name="warning_remove_unlinked_attachment">Het verwijderen van niet-gekoppelde gegevens kan de omvang van uw database verkleinen, maar kan ook gegevens verwijderen die voor KeePass-plug-ins worden gebruikt.</string>
+    <string name="warning_sure_remove_data">Deze gegevens toch verwijderen\?</string>
+    <string name="warning_empty_keyfile">Het is niet raadzaam om een leeg sleutelbestand toe te voegen.</string>
+    <string name="warning_empty_keyfile_explanation">De inhoud van het sleutelbestand mag nooit worden gewijzigd en moet in het beste geval willekeurig gegenereerde gegevens bevatten.</string>
+    <string name="data">Gegevens</string>
+    <string name="database_data_remove_unlinked_attachments_title">Niet-gekoppelde gegevens verwijderen</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Verwijdert bijlagen die in de database staan, maar niet aan een item zijn gekoppeld</string>
 </resources>

@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -63,6 +64,7 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
@@ -416,7 +418,7 @@ class EntryEditActivity : LockingActivity(),
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         val compression = mDatabase?.compressionForNewEntry() ?: false
-        mDatabase?.buildNewBinary(applicationContext.filesDir, false, compression)?.let { binaryAttachment ->
+        mDatabase?.buildNewBinary(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditFragment?.containsAttachment() == true) ||
@@ -525,7 +527,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
+            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -662,7 +664,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
+            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
     }
 

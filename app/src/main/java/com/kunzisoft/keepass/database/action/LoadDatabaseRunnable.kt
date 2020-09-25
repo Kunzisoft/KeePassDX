@@ -30,6 +30,8 @@ import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.closeDatabase
 
 class LoadDatabaseRunnable(private val context: Context,
                            private val mDatabase: Database,
@@ -45,7 +47,7 @@ class LoadDatabaseRunnable(private val context: Context,
 
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.closeAndClear(context.applicationContext.filesDir)
+        mDatabase.closeAndClear(UriUtil.getBinaryDir(context))
     }
 
     override fun onActionRun() {
@@ -53,7 +55,7 @@ class LoadDatabaseRunnable(private val context: Context,
             mDatabase.loadData(mUri, mPass, mKey,
                     mReadonly,
                     context.contentResolver,
-                    context.applicationContext.filesDir,
+                    UriUtil.getBinaryDir(context),
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }
@@ -81,7 +83,7 @@ class LoadDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.closeAndClear(context.applicationContext.filesDir)
+            mDatabase.closeAndClear(UriUtil.getBinaryDir(context))
         }
     }
 

@@ -69,10 +69,10 @@ class DeleteNodesDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(activity)
 
             builder.setMessage(getString(R.string.warning_permanently_delete_nodes))
-            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+            builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mListener?.permanentlyDeleteNodes(mNodesToDelete)
             }
-            builder.setNegativeButton(android.R.string.no) { _, _ -> dismiss() }
+            builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             // Create the AlertDialog object and return it
             return builder.create()
         }

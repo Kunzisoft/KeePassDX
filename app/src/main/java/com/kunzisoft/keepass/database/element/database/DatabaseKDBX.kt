@@ -107,6 +107,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     val customData = HashMap<String, String>()
 
     var binaryPool = BinaryPool()
+    private var binaryIncrement = 0 // Unique id (don't use current time because CPU too fast)
 
     var localizedAppName = "KeePassDX"
 
@@ -557,12 +558,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun buildNewBinary(cacheDirectory: File,
-                       protection: Boolean,
                        compression: Boolean,
+                       protection: Boolean,
                        binaryPoolId: Int? = null): BinaryAttachment {
         // New file with current time
-        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
-        val binaryAttachment = BinaryAttachment(fileInCache, protection, compression)
+        val fileInCache = File(cacheDirectory, binaryIncrement.toString())
+        binaryIncrement++
+        val binaryAttachment = BinaryAttachment(fileInCache, compression, protection)
         // add attachment to pool
         binaryPool.put(binaryPoolId, binaryAttachment)
         return binaryAttachment

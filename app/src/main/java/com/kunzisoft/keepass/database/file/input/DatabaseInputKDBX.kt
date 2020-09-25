@@ -253,10 +253,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
                 // Read in a file
-                val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
+                val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                 val byteLength = size - 1
                 // No compression at this level
-                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, protectedFlag, false)
+                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, false, protectedFlag)
                 protectedBinary.getOutputDataStream().use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
@@ -954,7 +954,13 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 xpp.next() // Consume end tag
                 val id = Integer.parseInt(ref)
                 // A ref is not necessarily an index in Database V3.1
-                mDatabase.binaryPool[id]
+                var binaryRetrieve = mDatabase.binaryPool[id]
+                // Create empty binary if not retrieved in pool
+                if (binaryRetrieve == null) {
+                    binaryRetrieve = mDatabase.buildNewBinary(cacheDirectory,
+                            compression = false, protection = true, binaryPoolId = id)
+                }
+                return binaryRetrieve
             }
             key != null -> {
                 createBinary(key.toIntOrNull(), xpp)
@@ -969,7 +975,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
     @Throws(IOException::class, XmlPullParserException::class)
     private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryAttachment? {
         var compressed = false
-        var protected = false
+        var protected = true
 
         if (xpp.attributeCount > 0) {
             val compress = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrCompressed)
@@ -988,7 +994,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, protected, compressed, binaryId)
+        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, compressed, protected, binaryId)
         try {
             binaryAttachment.getOutputDataStream().use { outputStream ->
                 outputStream.write(Base64.decode(base64, BASE_64_FLAG))

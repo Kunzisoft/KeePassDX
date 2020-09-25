@@ -27,7 +27,7 @@
     <string name="app_timeout">Час очікування застосунку</string>
     <string name="app_timeout_summary">Час очікування до блокування бази даних</string>
     <string name="application">Застосунок</string>
-    <string name="menu_app_settings">Налаштування застосунку</string>
+    <string name="menu_app_settings">Параметри застосунку</string>
     <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">Бракує пам\'яті для завантаження всієї вашої бази даних.</string>
     <string name="error_pass_gen_type">Необхідно вибрати принаймні один тип створення пароля.</string>
     <string name="error_pass_match">Паролі не збігаються.</string>
-    <string name="error_rounds_too_large">Забагато циклів. Установлено 2147483648.</string>
+    <string name="error_rounds_too_large">Забагато циклів. Встановлено 2147483648.</string>
     <string name="error_wrong_length">Введіть додатне ціле число до поля \"Довжина\".</string>
     <string name="file_browser">Файловий менеджер</string>
     <string name="generate_password">Згенерувати пароль</string>
@@ -87,8 +87,8 @@
     <string name="hide_password_summary">Типово приховувати паролі за (***)</string>
     <string name="about">Про KeePassDX</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
-    <string name="settings">Налаштування</string>
-    <string name="menu_database_settings">Налаштування бази даних</string>
+    <string name="settings">Параметри</string>
+    <string name="menu_database_settings">Параметри бази даних</string>
     <string name="menu_delete">Видалити</string>
     <string name="menu_donate">Допомогти</string>
     <string name="menu_edit">Змінити</string>
@@ -166,7 +166,7 @@
     <string name="enable">Увімкнути</string>
     <string name="clear_clipboard_notification_title">Очищати під час закриття</string>
     <string name="allow_copy_password_summary">Дозволити копіювання пароля та захищених полів до буфера обміну</string>
-    <string name="content_description_file_information">Інформація про файл</string>
+    <string name="content_description_file_information">Відомості про файл</string>
     <string name="content_description_add_entry">Додати запис</string>
     <string name="content_description_background">Тло</string>
     <string name="clipboard_error_clear">Не вдалося очистити буфер обміну</string>
@@ -207,7 +207,7 @@
     <string name="menu_biometric_remove_key">Видалити збережений біометричний ключ</string>
     <string name="content_description_keyfile_checkbox">Поле файла ключа</string>
     <string name="menu_master_key_settings">Налаштування головного ключа</string>
-    <string name="menu_security_settings">Налаштування безпеки</string>
+    <string name="menu_security_settings">Параметри безпеки</string>
     <string name="menu_advanced_unlock_settings">Розширені параметри розблокування</string>
     <string name="menu_form_filling_settings">Заповнення форм</string>
     <string name="copy_field">Скопійовано %1$s</string>
@@ -329,14 +329,14 @@
     <string name="education_new_node_summary">Створюйте записи для керування вашими обліковими записами.
 \n
 \nСтворюйте групи (~теки) для впорядкування записів у вашій базі даних.</string>
-    <string name="device_keyboard_setting_title">Налаштування клавіатури пристрою</string>
+    <string name="device_keyboard_setting_title">Параметри клавіатури пристрою</string>
     <string name="education_new_node_title">Додавайте елементи до вашої бази даних</string>
     <string name="education_select_database_title">Відкрийте наявну базу даних</string>
     <string name="education_select_database_summary">Відкрийте файл раніше створеної бази даних з файлового менеджера, щоб продовжити користуватися ним.</string>
     <string name="education_create_database_summary">Створіть ваш перший файл керування паролями.</string>
     <string name="education_create_database_title">Створити файл бази даних</string>
     <string name="reset_education_screens_text">Скинути навчальні підказки</string>
-    <string name="reset_education_screens_summary">Показати всю навчальну інформацію знову</string>
+    <string name="reset_education_screens_summary">Показати всі навчальні підказки знову</string>
     <string name="reset_education_screens_title">Скидання навчальних підказок</string>
     <string name="enable_education_screens_summary">Виділяти елементи, щоб дізнатися, як працює застосунок</string>
     <string name="enable_education_screens_title">Навчальні підказки</string>
@@ -392,7 +392,7 @@
     <string name="recycle_bin_group_title">Група кошик</string>
     <string name="recycle_bin_summary">Переміщати групи та записи до групи \"Кошик\" перед видаленням</string>
     <string name="recycle_bin_title">Використання кошика</string>
-    <string name="database_data_compression_summary">Стиснення даних зменшує розмір бази даних.</string>
+    <string name="database_data_compression_summary">Стиснення даних зменшує розмір бази даних</string>
     <string name="database_data_compression_title">Стиснення даних</string>
     <string name="assign_master_key">Призначити головний ключ</string>
     <string name="path">Шлях</string>
@@ -471,8 +471,8 @@
     <string name="parallelism">Паралельність</string>
     <string name="memory_usage">Використання пам\'яті</string>
     <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних.</string>
-    <string name="keyboard_search_share_summary">Автоматичний пошук загальнодоступної інформації для заповнення клавіатури</string>
-    <string name="keyboard_search_share_title">Пошук доступної інформації</string>
+    <string name="keyboard_search_share_summary">Автоматично шукати загальнодоступні дані для заповнення клавіатури</string>
+    <string name="keyboard_search_share_title">Пошук доступних даних</string>
     <string name="autofill_block_restart">Перезапустіть застосунок, який містить форму, для застосування блокування.</string>
     <string name="autofill_block">Блокування автозаповнення</string>
     <string name="autofill_web_domain_blocklist_summary">Вебдомени для яких вимкнено автозаповнення</string>
@@ -497,4 +497,12 @@
     <string name="education_add_attachment_title">Додати вкладення</string>
     <string name="warning_sure_add_file">Все одно додати файл\?</string>
     <string name="warning_replace_file">Завантаження цього файлу замінить наявний.</string>
+    <string name="content_description_credentials_information">Відомості про облікові дані</string>
+    <string name="warning_remove_unlinked_attachment">Вилучення непов’язаних даних може зменшити розмір вашої бази даних, але може також видалити дані, що використовуються для плагінів KeePass.</string>
+    <string name="warning_sure_remove_data">Все одно вилучити ці дані\?</string>
+    <string name="warning_empty_keyfile">Не рекомендовано додавати порожній файл ключа.</string>
+    <string name="warning_empty_keyfile_explanation">Вміст файлу ключів ніколи не слід змінювати, а в кращому випадку повинен містити випадково згенеровані дані.</string>
+    <string name="data">Дані</string>
+    <string name="database_data_remove_unlinked_attachments_title">Вилучити незв\'язані дані</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані із записом</string>
 </resources>

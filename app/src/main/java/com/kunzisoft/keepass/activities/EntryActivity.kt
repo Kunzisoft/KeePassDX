@@ -25,6 +25,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -422,7 +423,7 @@ class EntryActivity : LockingActivity() {
         }
 
         // Show education views
-        Handler().post { performedNextEducation(EntryActivityEducation(this), menu) }
+        Handler(Looper.getMainLooper()).post { performedNextEducation(EntryActivityEducation(this), menu) }
 
         return true
     }

@@ -61,8 +61,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             super.icon = value
         }
     var iconCustom = IconImageCustom.UNKNOWN_ICON
-    private var customData = LinkedHashMap<String, String>()
-    // TODO Private
+    var customData = LinkedHashMap<String, String>()
     var fields = LinkedHashMap<String, ProtectedString>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""

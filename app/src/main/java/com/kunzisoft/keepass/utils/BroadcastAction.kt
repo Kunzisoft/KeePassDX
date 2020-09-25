@@ -133,5 +133,5 @@ fun Context.closeDatabase() {
         cancelAll()
     }
     // Clear data
-    Database.getInstance().closeAndClear(applicationContext.filesDir)
+    Database.getInstance().closeAndClear(UriUtil.getBinaryDir(this))
 }

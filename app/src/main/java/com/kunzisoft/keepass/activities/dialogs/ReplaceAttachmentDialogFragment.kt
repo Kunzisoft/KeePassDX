@@ -61,12 +61,12 @@ class ReplaceFileDialogFragment : DialogFragment() {
                 append("\n\n")
                 append(getString(R.string.warning_sure_add_file))
             })
-            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+            builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mActionChooseListener?.onValidateReplaceFile(
                         arguments?.getParcelable(KEY_FILE_URI),
                         arguments?.getParcelable(KEY_ENTRY_ATTACHMENT))
             }
-            builder.setNegativeButton(android.R.string.no) { _, _ ->
+            builder.setNegativeButton(android.R.string.cancel) { _, _ ->
                 dismiss()
             }
             // Create the AlertDialog object and return it

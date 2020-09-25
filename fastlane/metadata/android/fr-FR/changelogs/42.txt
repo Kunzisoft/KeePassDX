@@ -1,0 +1,7 @@
+ * Correction de la reconnaissance de remplissage automatique #712
+ * La valeur du champ customisé est gardée après son renommage #709
+ * Prévention du bug des binaires aléatoires #713
+ * Correction du fond des dialogues #717
+ * Meilleure reconnaissance du domaine pour l'autofill #702
+ * Ecriture des données customisées #651
+ * Correction de l'autolink #720

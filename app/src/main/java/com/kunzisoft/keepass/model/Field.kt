@@ -33,6 +33,11 @@ class Field : Parcelable {
         this.protectedValue = value
     }
 
+    constructor(fieldToCopy: Field) {
+        this.name = fieldToCopy.name
+        this.protectedValue = fieldToCopy.protectedValue
+    }
+
     constructor(parcel: Parcel) {
         this.name = parcel.readString() ?: name
         this.protectedValue = parcel.readParcelable(ProtectedString::class.java.classLoader) ?: protectedValue

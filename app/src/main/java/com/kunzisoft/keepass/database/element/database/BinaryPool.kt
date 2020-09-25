@@ -137,6 +137,17 @@ class BinaryPool {
         pool.clear()
     }
 
+    override fun toString(): String {
+        val stringBuffer = StringBuffer()
+        for ((key, value) in pool) {
+            if (stringBuffer.isNotEmpty())
+                stringBuffer.append(", {$key:$value}")
+            else
+                stringBuffer.append("{$key:$value}")
+        }
+        return stringBuffer.toString()
+    }
+
     /**
      * Utility data class to order binaries
      */

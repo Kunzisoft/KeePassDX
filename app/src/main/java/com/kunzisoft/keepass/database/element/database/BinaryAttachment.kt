@@ -28,17 +28,15 @@ import java.util.zip.GZIPOutputStream
 
 class BinaryAttachment : Parcelable {
 
+    private var dataFile: File? = null
     var isCompressed: Boolean = false
         private set
     var isProtected: Boolean = false
         private set
     var isCorrupted: Boolean = false
-    private var dataFile: File? = null
 
     fun length(): Long {
-        if (dataFile != null)
-            return dataFile!!.length()
-        return 0
+        return dataFile?.length() ?: 0
     }
 
     /**
@@ -46,26 +44,25 @@ class BinaryAttachment : Parcelable {
      */
     constructor()
 
-    constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean = false) {
-        this.isCompressed = compressed
-        this.isProtected = enableProtection
+    constructor(dataFile: File, compressed: Boolean = false, protected: Boolean = false) {
         this.dataFile = dataFile
+        this.isCompressed = compressed
+        this.isProtected = protected
     }
 
     private constructor(parcel: Parcel) {
-        val compressedByte = parcel.readByte().toInt()
-        isCompressed = compressedByte != 0
-        isProtected = parcel.readByte().toInt() != 0
-        isCorrupted = parcel.readByte().toInt() != 0
         parcel.readString()?.let {
             dataFile = File(it)
         }
+        isCompressed = parcel.readByte().toInt() != 0
+        isProtected = parcel.readByte().toInt() != 0
+        isCorrupted = parcel.readByte().toInt() != 0
     }
 
     @Throws(IOException::class)
     fun getInputDataStream(): InputStream {
         return when {
-            dataFile != null -> FileInputStream(dataFile!!)
+            length() > 0 -> FileInputStream(dataFile!!)
             else -> ByteArrayInputStream(ByteArray(0))
         }
     }
@@ -185,10 +182,10 @@ class BinaryAttachment : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(dataFile?.absolutePath)
         dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeByte((if (isCorrupted) 1 else 0).toByte())
-        dest.writeString(dataFile?.absolutePath)
     }
 
     companion object {

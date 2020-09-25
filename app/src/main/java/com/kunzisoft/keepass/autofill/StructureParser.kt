@@ -68,9 +68,11 @@ internal class StructureParser(private val structure: AssistStructure) {
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
         // Get the domain of a web app
-        node.webDomain?.let {
-            result?.domain = it
-            Log.d(TAG, "Autofill domain: $it")
+        node.webDomain?.let { webDomain ->
+            if (webDomain.isNotEmpty()) {
+                result?.domain = webDomain
+                Log.d(TAG, "Autofill domain: $webDomain")
+            }
         }
 
         // Only parse visible nodes
@@ -100,19 +102,14 @@ internal class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
-                it.equals(View.AUTOFILL_HINT_USERNAME, true)
-                        || it.equals(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
-                        || it.equals("email", true)
-                        || it.equals(View.AUTOFILL_HINT_PHONE, true)
-                        || it.contains("OrUsername", true)
-                        || it.contains("OrEmailAddress", true)
-                        || it.contains("OrEmail", true)
-                        || it.contains("OrPhone", true)-> {
+                it.contains(View.AUTOFILL_HINT_USERNAME, true)
+                        || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
+                        || it.contains("email", true)
+                        || it.contains(View.AUTOFILL_HINT_PHONE, true)-> {
                     result?.usernameId = autofillId
                     Log.d(TAG, "Autofill username hint")
                 }
-                it.equals(View.AUTOFILL_HINT_PASSWORD, true)
-                        || it.contains("password", true) -> {
+                it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password hint")
                     // Username not needed in this case
