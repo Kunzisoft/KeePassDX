@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode = 42
         versionName = "2.8.6"
         multiDexEnabled true
