@@ -370,4 +370,24 @@
     <string name="root">റൂട്ട്</string>
     <string name="minus">മൈനസ് ചിഹ്നം</string>
     <string name="hide_expired_entries_summary">കാലാവധി കഴിഞ്ഞ എൻട്രികൾ കാണിക്കുന്നില്ല</string>
+    <string name="warning_empty_keyfile">ഒരു ശൂന്യ കീ ഫയൽ ചേർക്കാൻ ശുപാർശ ചെയ്യുന്നില്ല.</string>
+    <string name="list_password_generator_options_summary">അനുവദനീയമായ പാസ്‌വേഡ് ജനറേറ്റർ പ്രതീകങ്ങൾ ക്രമീകരിക്കുക</string>
+    <string name="lock_database_back_root_summary">ഉപയോക്താവ് റൂട്ട് സ്ക്രീനിലെ ബാക്ക് ബട്ടൺ ക്ലിക്കുചെയ്യുമ്പോൾ ഡാറ്റാബേസ് ലോക്കുചെയ്യുക</string>
+    <string name="biometric_delete_all_key_warning">ബയോമെട്രിക് തിരിച്ചറിയലുമായി ബന്ധപ്പെട്ട എല്ലാ എൻ‌ക്രിപ്ഷൻ കീകളും ഇല്ലാതാക്കണോ\?</string>
+    <string name="biometric_delete_all_key_summary">ബയോമെട്രിക് തിരിച്ചറിയലുമായി ബന്ധപ്പെട്ട എല്ലാ എൻ‌ക്രിപ്ഷൻ കീകളും ഇല്ലാതാക്കുക</string>
+    <string name="path">പാത</string>
+    <string name="database_data_remove_unlinked_attachments_title">ലിങ്കുചെയ്യാത്ത ഡാറ്റ നീക്കംചെയ്യുക</string>
+    <string name="recycle_bin_group_title">റീസൈക്കിൾ ബിനിന്റെ ഗ്രൂപ്പ്</string>
+    <string name="allow_copy_password_title">ക്ലിപ്ബോര്ഡിന്റെ വിശ്വസ്തത</string>
+    <string name="keyboard_notification_entry_title">അറിയിപ്പ് വിവരം</string>
+    <string name="education_sort_summary">എൻ‌ട്രികളും ഗ്രൂപ്പുകളും എങ്ങനെ അടുക്കുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="education_sort_title">ഇനം തരംതിരിക്കൽ</string>
+    <string name="education_biometric_title">ബയോമെട്രിക് ഡാറ്റാബേസ് അൺലോക്കുചെയ്യൽ</string>
+    <string name="keyboard_entry_timeout_title">ടൈം ഔട്ട്</string>
+    <string name="monospace_font_fields_enable_title">ഫീൽഡിന്റെ ഫോണ്ട്</string>
+    <string name="data">ഡാറ്റ</string>
+    <string name="biometric_auto_open_prompt_title">ബിയോമെട്രിക് പ്രോംപ്റ്റ് സ്വയം തുറക്കുക</string>
+    <string name="biometric_unlock_enable_summary">ഡാറ്റാബേസ് തുറക്കുന്നതിന് നിങ്ങളുടെ ബയോമെട്രിക്സ് സ്കാൻ ചെയ്യാം</string>
+    <string name="warning_sure_remove_data">എന്തായാലും ഈ ഡാറ്റ നീക്കംചെയ്യണോ\?</string>
+    <string name="content_description_credentials_information">ക്രെഡൻഷ്യലുകളുടെ വിവരം</string>
 </resources>
