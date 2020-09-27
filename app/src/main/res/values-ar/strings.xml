@@ -326,4 +326,20 @@
     <string name="error_disallow_no_credentials">عين اعتماد واحد على الأقل.</string>
     <string name="contribution">مساهمة</string>
     <string name="contact">"‮تواصل معنا "</string>
+    <string name="biometric">البصمة</string>
+    <string name="credential_before_click_biometric_button">اكتب كلمة المرور ، ثم انقر زر \"البصمة\".</string>
+    <string name="biometric_scanning_error">خطأ بالبصمة: %1$s</string>
+    <string name="biometric_prompt_extract_credential_title">افتح قاعدة البيانات بالبصمة</string>
+    <string name="biometric_prompt_store_credential_title">احفظ البصمة</string>
+    <string name="warning_empty_keyfile_explanation">يجب ألا تغير محتوى ملف المفتاح، في أحسن الحالات يجب أن يحتوي بيانات مولدة عشوائيا.</string>
+    <string name="warning_empty_keyfile">من غير المستحسن اضافة ملف مفتاح فارغ.</string>
+    <string name="warning_sure_remove_data">أزل هذه البيانات عل أي حال؟</string>
+    <string name="warning_sure_add_file">أأضف الملف على أي حال؟</string>
+    <string name="warning_replace_file">رفعُ هذا الملف سيستبدل الموجود مسبقا.</string>
+    <string name="warning_database_link_revoked">أبطلَ مدير الملفات الوصول للملف</string>
+    <string name="warning_database_read_only">أعط صلاحية الكتابة من أجل حفظ قاعدة البيانات</string>
+    <string name="warning_password_encoding">تجنب استخدام المحارف غير الموجودة في ترميز قاعدة البيانات (تحوَّل المحارف غير الموجودة لنفس الحرف).</string>
+    <string name="hide_broken_locations_summary">إخف الروابط المعطلة في قائمة قواعد البيانات الحديثة</string>
+    <string name="auto_focus_search_summary">افتح البحث عند فتح قاعدة البيانات</string>
+    <string name="content_description_credentials_information">معلومات بيانات الاعتماد</string>
 </resources>
