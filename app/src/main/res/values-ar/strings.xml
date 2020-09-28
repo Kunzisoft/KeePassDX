@@ -61,7 +61,7 @@
     <string name="list_size_summary">حجم النص في قائمة العناصر</string>
     <string name="loading_database">يحمل قاعدة البيانات…</string>
     <string name="lowercase">حروف صغيرة</string>
-    <string name="hide_password_summary">إخفاء كلمات المرور بشكل افتراضي</string>
+    <string name="hide_password_summary">إخفاء كلمات السر بشكل افتراضي</string>
     <string name="about">عن التطبيق</string>
     <string name="menu_change_key_settings">تغيير المفتاح الرئيسي</string>
     <string name="settings">الإعدادات</string>
@@ -134,7 +134,7 @@
     <string name="error_out_of_memory">لا ذاكرة لتحميل قاعدة البيانات كاملة.</string>
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
     <string name="error_load_database_KDF_memory">لا يمكن تحميل المفتاح، حاول تقليل \"الذاكرة المستخدمة\" من قبل KDF.</string>
-    <string name="error_pass_gen_type">يجب تحديد على الأقل نوعا واحدا لتوليد كلمة مرور.</string>
+    <string name="error_pass_gen_type">يجب تحديد نوع واحد على الأقل لتوليد كلمة السر.</string>
     <string name="error_rounds_too_large">\"جولات\" كبيرة جداً. الإعداد إلى 2147483648.</string>
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
@@ -147,7 +147,7 @@
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">أظهر أسماء المستخدمين في قوائم المدخلات</string>
-    <string name="hint_generated_password">كلمةالسر الموَلدة</string>
+    <string name="hint_generated_password">كلمة السر الموَلدة</string>
     <string name="hint_keyfile">الملف المفتاحي</string>
     <string name="hide_password_title">اخفاء كلمات السر</string>
     <string name="copy_field">نُسخ %1$s</string>
@@ -296,7 +296,7 @@
     <string name="entry_UUID">UUID</string>
     <string name="html_about_contribution">من أجل &lt;strong&gt;حماية خصوصيتا&lt;/strong&gt;٫&lt;strong&gt; إصلاح العلل&lt;/strong&gt;٫ &lt;strong&gt;إضافة مميزات&lt;/strong&gt; &lt;strong&gt;وجعلنا نشطاء دائما&lt;/strong&gt;٫ نحن نعتمد على &lt;strong&gt;مساهمتك&lt;/strong&gt;.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>
-    <string name="content_description_password_checkbox">خانة تأشير كلمة المرور</string>
+    <string name="content_description_password_checkbox">خانة تأشير كلمة السر</string>
     <string name="content_description_add_item">أضف عنصر</string>
     <string name="warning_permanently_delete_nodes">حذف العقد المحددة نهائيا؟</string>
     <string name="filter">مرشح</string>
@@ -327,7 +327,7 @@
     <string name="contribution">مساهمة</string>
     <string name="contact">"‮تواصل معنا "</string>
     <string name="biometric">البصمة</string>
-    <string name="credential_before_click_biometric_button">اكتب كلمة المرور ، ثم انقر زر \"البصمة\".</string>
+    <string name="credential_before_click_biometric_button">اكتب كلمة السر ، ثم انقر زر \"البصمة\".</string>
     <string name="biometric_scanning_error">خطأ بالبصمة: %1$s</string>
     <string name="biometric_prompt_extract_credential_title">افتح قاعدة البيانات بالبصمة</string>
     <string name="biometric_prompt_store_credential_title">احفظ البصمة</string>
@@ -361,4 +361,22 @@
     <string name="clipboard_explanation_summary">انسخ حقول الإدخال باستخدام الحافظة</string>
     <string name="database_opened">قاعدة البيانات مفتوحة</string>
     <string name="autofill_preference_title">إعدادات الملء التلقائي</string>
+    <string name="education_entry_edit_title">حرر المدخلة</string>
+    <string name="education_biometric_summary">لفتح قاعدة البيانات بسرعة اربط كلمة المرور بالبصمة.</string>
+    <string name="education_search_summary">لإيجاد كلمة المرور، أدخل العنوان أو اسم المستخدم أو محتوى أحد الحقول.</string>
+    <string name="education_new_node_summary">المدخلات لإدارة معرفاتك الرقمية.
+\n
+\nالمجموعات (المجلدات) لتنظيم المدخلات في قاعدة البيانات.</string>
+    <string name="education_select_database_summary">لمتابعة استخدام قاعدة البيانات السابقة، افتحها من مدير الملفات.</string>
+    <string name="enable_auto_save_database_summary">حفظ قاعدة البيانات بعد كل إجراء (في وضع \"التعديل\")</string>
+    <string name="enable_auto_save_database_title">الحفظ التلقائي لقاعدة البيانات</string>
+    <string name="delete_entered_password_title">احذف كلمة السر</string>
+    <string name="autofill_web_domain_blocklist_summary">منع الملء للمواقع الموجودة في القائمة</string>
+    <string name="autofill_web_domain_blocklist_title">قائمة النطاقات المحظورة</string>
+    <string name="autofill_application_id_blocklist_summary">منع الملء التلقائي للتطبيقات الموجودة في القائمة</string>
+    <string name="autofill_application_id_blocklist_title">قائمة التطبيقات المحظورة</string>
+    <string name="autofill_auto_search_summary">يقترح تلقائيا نتائج البحث في النطاقات ومعرفات التطبيقات</string>
+    <string name="autofill_auto_search_title">البحث التلقائي</string>
+    <string name="content_description_repeat_toggle_password_visibility">بدِّل ظهور كلمة السر</string>
+    <string name="hide_expired_entries_summary">لن تعرض المدخلات منتهية الصلاحية</string>
 </resources>
