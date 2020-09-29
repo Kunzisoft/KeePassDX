@@ -66,7 +66,7 @@
             app:layout_constraintLeft_toRightOf="@+id/node_icon"
             app:layout_constraintEnd_toStartOf="@+id/node_attachment_icon"
             app:layout_constraintRight_toLeftOf="@+id/node_attachment_icon">
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                 android:lines="1"
                 android:singleLine="true"
                 style="@style/KeepassDXStyle.TextAppearance.Entry.Title" />
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"

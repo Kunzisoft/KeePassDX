@@ -81,7 +81,7 @@
             android:layout_alignParentEnd="true"
             android:layout_toRightOf="@+id/node_icon"
             android:layout_toEndOf="@+id/node_icon">
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:lines="1"
                 android:singleLine="true"
                 style="@style/KeepassDXStyle.TextAppearance.Group.Title" />
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

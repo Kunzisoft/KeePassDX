@@ -57,7 +57,7 @@ fun TextView.applyHiddenStyle(hide: Boolean, changeMaxLines: Boolean = true) {
 }
 
 fun TextView.setTextSize(unit: Int, defaultSize: Float, multiplier: Float) {
-    if (multiplier > 0.0F && multiplier != 1.0F)
+    if (multiplier > 0.0F)
         setTextSize(unit, defaultSize * multiplier)
 }
 
