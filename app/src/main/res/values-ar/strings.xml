@@ -379,4 +379,47 @@
     <string name="autofill_auto_search_title">البحث التلقائي</string>
     <string name="content_description_repeat_toggle_password_visibility">بدِّل ظهور كلمة السر</string>
     <string name="hide_expired_entries_summary">لن تعرض المدخلات منتهية الصلاحية</string>
+    <string name="education_read_only_summary">غيِّر وضع الجلسة.
+\n
+\n\"محمي من التعديل\" يمنع أي تغيير في قاعدة البيانات.
+\n\"قابل للتعديل\" يتيح لك إضافة أو حذف أو تعديل جميع العناصر.</string>
+    <string name="education_read_only_title">احمي قاعدة البيانات من التعديل</string>
+    <string name="education_unlock_title">افتح قاعدة البيانات</string>
+    <string name="education_add_attachment_summary">أضف مرفقا للمدخلة لحفظ بيانات اضافية.</string>
+    <string name="education_add_attachment_title">أضف مرفقا</string>
+    <string name="autofill_block">احظر الملء التلقائي</string>
+    <string name="keyboard_previous_database_credentials_title">شاشة بيانات اعتماد قاعدة البيانات</string>
+    <string name="keyboard_change">غيِّر لوحة المفاتيح</string>
+    <string name="keyboard_selection_entry_title">اختيار المدخلة</string>
+    <string name="device_keyboard_setting_title">إعدادات لوحة مفاتيح الجهاز</string>
+    <string name="magic_keyboard_explanation_summary">نشِّط لوحة مفاتيح مخصصة لملأ كلمة السر وحقول معرّفك</string>
+    <string name="biometric_auto_open_prompt_summary">اطلب فحص البصمة ان كانت قاعدة البيانات معدّة لذلك</string>
+    <string name="biometric_auto_open_prompt_title">افتح محث البصمة تلقائيا</string>
+    <string name="biometric_prompt_extract_credential_message">استخرج بيانات الاعتماد لقاعدة البيانات بالبصمة</string>
+    <string name="biometric_prompt_store_credential_message">تحذير: مازلت بحاجة لتذكر المفتاح الرئيسي عند استخدامك للبصمة.</string>
+    <string name="keystore_not_accessible">لم يُهيأ مخزن المفاتيح بشكل صحيح.</string>
+    <string name="warning_remove_unlinked_attachment">حذف البيانات سيقلل من حجم قاعدة البيانات لكن احذر أن تكون إحدى هذه البيانات ملحقة لكي-باس.</string>
+    <string name="subdomain_search_summary">ابحث عن النطاقات في النطاقات الفرعية</string>
+    <string name="subdomain_search_title">البحث في النطاق الفرعي</string>
+    <string name="recycle_bin">سلة المحذوفات</string>
+    <string name="compression_gzip">Gzip</string>
+    <string name="compression_none">بدون</string>
+    <string name="compression">الضغط</string>
+    <string name="database_custom_color_title">خصص لون لقاعدة البيانات</string>
+    <string name="database_default_username_title">اسم المستخدم الافتراضي</string>
+    <string name="clear_clipboard_notification_summary">أغلق قاعدة البيانات عند انتهاء مهلة استخدام الحافظة أو عند إغلاق الإشعار</string>
+    <string name="clear_clipboard_notification_title">امسح عند الخروج</string>
+    <string name="disable">عطّل</string>
+    <string name="enable">فعّل</string>
+    <string name="monospace_font_fields_enable_title">خط الحقول</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">يطالبك بتجديد المفتاح الرئيسي المرة المقبلة (لمرة واحدة)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">أرغمني على التجديد المرة المقبلة</string>
+    <string name="settings_database_force_changing_master_key_title">ألزِمني بالتجديد</string>
+    <string name="settings_database_force_changing_master_key_summary">يطالبك بتغيير المفتاح الرئيسي (بالأيام)</string>
+    <string name="settings_database_recommend_changing_master_key_summary">اقترح تجديد المفتاح الرئيسي (بالأيام)</string>
+    <string name="settings_database_recommend_changing_master_key_title">اقترح التجديد</string>
+    <string name="max_history_size_summary">حجم التأريخ ( بالبايت) لكل مدخل</string>
+    <string name="max_history_size_title">الحجم الأقصى</string>
+    <string name="max_history_items_summary">عدد عناصر التأريخ لكل مدخل</string>
+    <string name="education_generate_password_title">أنشئ كلمة سر قوية</string>
 </resources>
