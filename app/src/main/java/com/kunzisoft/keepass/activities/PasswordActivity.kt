@@ -686,7 +686,11 @@ open class PasswordActivity : SpecialModeActivity() {
                     && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
                     educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
-                        onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
+                        try {
+                            menu.findItem(R.id.menu_open_file_read_mode_key)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to find read mode menu")
+                        }
                         performedNextEducation(passwordActivityEducation, menu)
                     },
                     {
