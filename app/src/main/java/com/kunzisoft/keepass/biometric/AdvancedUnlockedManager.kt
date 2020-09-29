@@ -53,6 +53,10 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
     private var biometricMode: Mode = Mode.UNAVAILABLE
 
+    // Only to fix multiple fingerprint menu #332
+    private var mAllowAdvancedUnlockMenu = false
+    private var mAddBiometricMenuInProgress = false
+
     /**
      * Manage setting to auto open biometric prompt
      */
@@ -290,6 +294,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     @Synchronized
     fun initBiometricMode() {
+        mAllowAdvancedUnlockMenu = false
         when (biometricMode) {
             Mode.UNAVAILABLE -> initNotAvailable()
             Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
@@ -299,8 +304,22 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
             Mode.STORE_CREDENTIAL -> initEncryptData()
             Mode.EXTRACT_CREDENTIAL -> initDecryptData()
         }
+
+        invalidateBiometricMenu()
+    }
+
+    private fun invalidateBiometricMenu() {
         // Show fingerprint key deletion
-        context.invalidateOptionsMenu()
+        if (!mAddBiometricMenuInProgress) {
+            mAddBiometricMenuInProgress = true
+            cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
+                mAllowAdvancedUnlockMenu = containsCipher
+                        && (biometricMode != Mode.UNAVAILABLE
+                                && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
+                mAddBiometricMenuInProgress = false
+                context.invalidateOptionsMenu()
+            }
+        }
     }
 
     fun destroy() {
@@ -311,21 +330,9 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
     }
 
-    // Only to fix multiple fingerprint menu #332
-    private var addBiometricMenuInProgress = false
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
-        if (!addBiometricMenuInProgress) {
-            addBiometricMenuInProgress = true
-            cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
-                if ((biometricMode != Mode.UNAVAILABLE
-                                && biometricMode != Mode.BIOMETRIC_NOT_CONFIGURED
-                                && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
-                        && it) {
-                    menuInflater.inflate(R.menu.advanced_unlock, menu)
-                    addBiometricMenuInProgress = false
-                }
-            }
-        }
+        if (mAllowAdvancedUnlockMenu)
+            menuInflater.inflate(R.menu.advanced_unlock, menu)
     }
 
     fun deleteEntryKey() {
