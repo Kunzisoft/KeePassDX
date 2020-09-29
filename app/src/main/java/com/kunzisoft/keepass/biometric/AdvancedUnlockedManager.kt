@@ -337,6 +337,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     fun deleteEntryKey() {
         allowOpenBiometricPrompt = false
+        advancedUnlockInfoView?.setIconViewClickListener(false, null)
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         biometricUnlockDatabaseHelper?.deleteEntryKey()
         cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri) {
