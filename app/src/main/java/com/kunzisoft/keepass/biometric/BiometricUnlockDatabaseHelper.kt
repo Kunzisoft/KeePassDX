@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.biometric
 
 import android.app.KeyguardManager
 import android.content.Context
+import android.hardware.biometrics.BiometricManager.Authenticators.*
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
@@ -66,7 +67,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             setDeviceCredentialAllowed(true)
         else
         */
-            setNegativeButtonText(context.getString(android.R.string.cancel))
+        setNegativeButtonText(context.getString(android.R.string.cancel))
     }.build()
 
     private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
@@ -78,8 +79,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         if (keyguardManager?.isDeviceSecure == true)
             setDeviceCredentialAllowed(true)
         else
-         */
-            setNegativeButtonText(context.getString(android.R.string.cancel))
+        */
+        setNegativeButtonText(context.getString(android.R.string.cancel))
     }.build()
 
     val isKeyManagerInitialized: Boolean
@@ -91,7 +92,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         }
 
     init {
-        if (BiometricManager.from(context).canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
+        if (canAuthenticate(context) != BiometricManager.BIOMETRIC_SUCCESS) {
             // really not much to do when no fingerprint support found
             isKeyManagerInit = false
         } else {
@@ -294,6 +295,15 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         private const val BIOMETRIC_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
         private const val BIOMETRIC_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
         private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
+
+        fun canAuthenticate(context: Context): Int {
+            return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                BiometricManager.from(context).canAuthenticate()
+            } else {
+                context.getSystemService(android.hardware.biometrics.BiometricManager::class.java)
+                        .canAuthenticate(BIOMETRIC_STRONG)
+            }
+        }
 
         /**
          * Remove entry key in keystore

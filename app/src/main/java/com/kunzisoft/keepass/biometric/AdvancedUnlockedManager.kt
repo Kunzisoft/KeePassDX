@@ -84,13 +84,15 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
         // biometric not supported (by API level or hardware) so keep option hidden
         // or manually disable
-        val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
+        val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(context)
         allowOpenBiometricPrompt = true
 
         if (!PreferencesUtil.isBiometricUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
             toggleMode(Mode.UNAVAILABLE)
+        } else if (biometricCanAuthenticate == android.hardware.biometrics.BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED){
+            toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
         } else {
             // biometric is available but not configured, show icon but in disabled state with some information
             if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
@@ -114,7 +116,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                     } else {
                         cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
                             // biometric available but no stored password found yet for this DB so show info don't listen
-                            toggleMode( if (containsCipher) {
+                            toggleMode(if (containsCipher) {
                                 // listen for decryption
                                 Mode.EXTRACT_CREDENTIAL
                             } else {
@@ -156,10 +158,16 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             context.runOnUiThread {
                 when (biometricMode) {
-                    Mode.UNAVAILABLE -> {}
-                    Mode.BIOMETRIC_NOT_CONFIGURED -> {}
-                    Mode.KEY_MANAGER_UNAVAILABLE -> {}
-                    Mode.WAIT_CREDENTIAL -> {}
+                    Mode.UNAVAILABLE -> {
+                    }
+                    Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> {
+                    }
+                    Mode.BIOMETRIC_NOT_CONFIGURED -> {
+                    }
+                    Mode.KEY_MANAGER_UNAVAILABLE -> {
+                    }
+                    Mode.WAIT_CREDENTIAL -> {
+                    }
                     Mode.STORE_CREDENTIAL -> {
                         // newly store the entered password in encrypted way
                         biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
@@ -181,6 +189,16 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         showFingerPrintViews(false)
 
         advancedUnlockInfoView?.setIconViewClickListener(false, null)
+    }
+
+    private fun initSecurityUpdateRequired() {
+        showFingerPrintViews(true)
+        setAdvancedUnlockedTitleView(R.string.biometric_security_update_required)
+        setAdvancedUnlockedMessageView("")
+
+        advancedUnlockInfoView?.setIconViewClickListener(false) {
+            context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
+        }
     }
 
     private fun initNotConfigured() {
@@ -210,8 +228,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
         advancedUnlockInfoView?.setIconViewClickListener(false) {
             biometricAuthenticationCallback.onAuthenticationError(
-                    BiometricConstants.ERROR_UNABLE_TO_PROCESS
-                    , context.getString(R.string.credential_before_click_biometric_button))
+                    BiometricConstants.ERROR_UNABLE_TO_PROCESS, context.getString(R.string.credential_before_click_biometric_button))
         }
     }
 
@@ -275,6 +292,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     fun initBiometricMode() {
         when (biometricMode) {
             Mode.UNAVAILABLE -> initNotAvailable()
+            Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
             Mode.BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
             Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
             Mode.WAIT_CREDENTIAL -> initWaitData()
@@ -299,7 +317,9 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         if (!addBiometricMenuInProgress) {
             addBiometricMenuInProgress = true
             cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
-                if ((biometricMode != Mode.UNAVAILABLE && biometricMode != Mode.BIOMETRIC_NOT_CONFIGURED)
+                if ((biometricMode != Mode.UNAVAILABLE
+                                && biometricMode != Mode.BIOMETRIC_NOT_CONFIGURED
+                                && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
                         && it) {
                     menuInflater.inflate(R.menu.advanced_unlock, menu)
                     addBiometricMenuInProgress = false
@@ -359,7 +379,13 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     enum class Mode {
-        UNAVAILABLE, BIOMETRIC_NOT_CONFIGURED, KEY_MANAGER_UNAVAILABLE, WAIT_CREDENTIAL, STORE_CREDENTIAL, EXTRACT_CREDENTIAL
+        UNAVAILABLE,
+        BIOMETRIC_SECURITY_UPDATE_REQUIRED,
+        BIOMETRIC_NOT_CONFIGURED,
+        KEY_MANAGER_UNAVAILABLE,
+        WAIT_CREDENTIAL,
+        STORE_CREDENTIAL,
+        EXTRACT_CREDENTIAL
     }
 
     companion object {

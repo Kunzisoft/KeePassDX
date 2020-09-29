@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
+import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -68,7 +69,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -694,7 +694,7 @@ open class PasswordActivity : SpecialModeActivity() {
                     })
 
             if (!readOnlyEducationPerformed) {
-                val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
+                val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
