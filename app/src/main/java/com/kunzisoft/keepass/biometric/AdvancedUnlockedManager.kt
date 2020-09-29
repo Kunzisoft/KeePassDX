@@ -332,9 +332,10 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         allowOpenBiometricPrompt = false
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         biometricUnlockDatabaseHelper?.deleteEntryKey()
-        cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri)
-        biometricMode = Mode.BIOMETRIC_NOT_CONFIGURED
-        checkBiometricAvailability()
+        cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri) {
+            biometricMode = Mode.BIOMETRIC_NOT_CONFIGURED
+            checkBiometricAvailability()
+        }
     }
 
     override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
