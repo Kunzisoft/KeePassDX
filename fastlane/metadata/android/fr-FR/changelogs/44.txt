@@ -1,1 +1,2 @@
- *
+ * Mise à jour vers Android API 30
+ * Petites corrections

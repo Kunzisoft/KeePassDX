@@ -1,5 +1,6 @@
 KeePassDX(2.9)
- *
+ * Upgrade to Android API 30
+ * Small fixes
 
 KeePassDX(2.8.7)
  * Downgrade to Android API 29 (crash on startup with API 30 on some devices)
