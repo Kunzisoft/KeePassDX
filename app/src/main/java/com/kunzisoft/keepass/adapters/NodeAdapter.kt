@@ -58,7 +58,7 @@ class NodeAdapter (private val context: Context)
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     private var calculateViewTypeTextSize = Array(2) { true} // number of view type
-    private var textSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
+    private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
     private var prefSizeMultiplier: Float = 0F
     private var subtextDefaultDimension: Float = 0F
     private var infoTextDefaultDimension: Float = 0F
@@ -313,7 +313,7 @@ class NodeAdapter (private val context: Context)
         // Assign text
         holder.text.apply {
             text = subNode.title
-            setTextSize(textSizeUnit, infoTextDefaultDimension, prefSizeMultiplier)
+            setTextSize(mTextSizeUnit, infoTextDefaultDimension, prefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
         }
         // Add subText with username
@@ -334,7 +334,7 @@ class NodeAdapter (private val context: Context)
                 if (showUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
-                    setTextSize(textSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
+                    setTextSize(mTextSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
                 }
             }
 
@@ -351,7 +351,7 @@ class NodeAdapter (private val context: Context)
                     text = (subNode as Group)
                             .getNumberOfChildEntries(entryFilters)
                             .toString()
-                    setTextSize(textSizeUnit, numberChildrenTextDefaultDimension, prefSizeMultiplier)
+                    setTextSize(mTextSizeUnit, numberChildrenTextDefaultDimension, prefSizeMultiplier)
                     visibility = View.VISIBLE
                 }
             } else {
