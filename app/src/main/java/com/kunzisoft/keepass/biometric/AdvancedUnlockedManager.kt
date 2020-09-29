@@ -91,7 +91,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
             toggleMode(Mode.UNAVAILABLE)
-        } else if (biometricCanAuthenticate == android.hardware.biometrics.BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED){
+        } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED){
             toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
         } else {
             // biometric is available but not configured, show icon but in disabled state with some information
@@ -194,7 +194,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private fun initSecurityUpdateRequired() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.biometric_security_update_required)
-        setAdvancedUnlockedMessageView("")
 
         advancedUnlockInfoView?.setIconViewClickListener(false) {
             context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
@@ -214,7 +213,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private fun initKeyManagerNotAvailable() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.keystore_not_accessible)
-        setAdvancedUnlockedMessageView("")
 
         advancedUnlockInfoView?.setIconViewClickListener(false) {
             context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
@@ -233,11 +231,20 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     private fun openBiometricPrompt(biometricPrompt: BiometricPrompt?,
-                                    cryptoObject: BiometricPrompt.CryptoObject,
+                                    cryptoObject: BiometricPrompt.CryptoObject?,
                                     promptInfo: BiometricPrompt.PromptInfo) {
         context.runOnUiThread {
-            if (allowOpenBiometricPrompt)
-                biometricPrompt?.authenticate(promptInfo, cryptoObject)
+            if (allowOpenBiometricPrompt) {
+                if (biometricPrompt != null) {
+                    if (cryptoObject != null) {
+                        biometricPrompt.authenticate(promptInfo, cryptoObject)
+                    } else  {
+                        setAdvancedUnlockedTitleView(R.string.crypto_object_not_initialized)
+                    }
+                } else  {
+                    setAdvancedUnlockedTitleView(R.string.biometric_prompt_not_initialized)
+                }
+            }
         }
     }
 
@@ -247,14 +254,10 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedMessageView("")
 
         biometricUnlockDatabaseHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
-
-            cryptoObject?.let { crypto ->
-                // Set listener to open the biometric dialog and save credential
-                advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                    openBiometricPrompt(biometricPrompt, crypto, promptInfo)
-                }
+            // Set listener to open the biometric dialog and save credential
+            advancedUnlockInfoView?.setIconViewClickListener { _ ->
+                openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
             }
-
         }
     }
 
@@ -269,19 +272,16 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                 it?.specParameters?.let { specs ->
                     biometricUnlockDatabaseHelper?.initDecryptData(specs) { biometricPrompt, cryptoObject, promptInfo ->
 
-                        cryptoObject?.let { crypto ->
-                            // Set listener to open the biometric dialog and check credential
-                            advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                                openBiometricPrompt(biometricPrompt, crypto, promptInfo)
-                            }
-
-                            // Auto open the biometric prompt
-                            if (isBiometricPromptAutoOpenEnable) {
-                                isBiometricPromptAutoOpenEnable = false
-                                openBiometricPrompt(biometricPrompt, crypto, promptInfo)
-                            }
+                        // Set listener to open the biometric dialog and check credential
+                        advancedUnlockInfoView?.setIconViewClickListener { _ ->
+                            openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
                         }
 
+                        // Auto open the biometric prompt
+                        if (isBiometricPromptAutoOpenEnable) {
+                            isBiometricPromptAutoOpenEnable = false
+                            openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
+                        }
                     }
                 }
             }
@@ -329,6 +329,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     fun deleteEntryKey() {
+        allowOpenBiometricPrompt = false
+        biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         biometricUnlockDatabaseHelper?.deleteEntryKey()
         cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri)
         biometricMode = Mode.BIOMETRIC_NOT_CONFIGURED

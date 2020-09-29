@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.biometric
 
 import android.app.KeyguardManager
 import android.content.Context
-import android.hardware.biometrics.BiometricManager.Authenticators.*
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
@@ -30,6 +29,7 @@ import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
@@ -297,12 +297,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
         fun canAuthenticate(context: Context): Int {
-            return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                BiometricManager.from(context).canAuthenticate()
-            } else {
-                context.getSystemService(android.hardware.biometrics.BiometricManager::class.java)
-                        .canAuthenticate(BIOMETRIC_STRONG)
-            }
+            return BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
         }
 
         /**

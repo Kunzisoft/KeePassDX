@@ -281,6 +281,8 @@
     <string name="biometric_not_recognized">Could not recognize biometric</string>
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
+    <string name="biometric_prompt_not_initialized">Unable to initialize biometric prompt.</string>
+    <string name="crypto_object_not_initialized">Unable to retrieve crypto object.</string>
     <string name="credential_before_click_biometric_button">Type in the password, and then click the \"Biometric\" button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
