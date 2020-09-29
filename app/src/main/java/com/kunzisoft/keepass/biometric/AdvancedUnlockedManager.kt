@@ -340,7 +340,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         biometricUnlockDatabaseHelper?.deleteEntryKey()
         cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri) {
-            biometricMode = Mode.BIOMETRIC_NOT_CONFIGURED
             checkBiometricAvailability()
         }
     }
