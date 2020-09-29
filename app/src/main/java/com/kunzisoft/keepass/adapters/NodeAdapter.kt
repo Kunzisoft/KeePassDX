@@ -52,72 +52,72 @@ import java.util.*
 class NodeAdapter (private val context: Context)
     : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
-    private var nodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
-    private val nodeSortedListCallback: NodeSortedListCallback
-    private val nodeSortedList: SortedList<Node>
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
+    private val mNodeSortedListCallback: NodeSortedListCallback
+    private val mNodeSortedList: SortedList<Node>
+    private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
-    private var calculateViewTypeTextSize = Array(2) { true} // number of view type
+    private var mCalculateViewTypeTextSize = Array(2) { true} // number of view type
     private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
-    private var prefSizeMultiplier: Float = 0F
-    private var subtextDefaultDimension: Float = 0F
-    private var infoTextDefaultDimension: Float = 0F
-    private var numberChildrenTextDefaultDimension: Float = 0F
-    private var iconDefaultDimension: Float = 0F
+    private var mPrefSizeMultiplier: Float = 0F
+    private var mSubtextDefaultDimension: Float = 0F
+    private var mInfoTextDefaultDimension: Float = 0F
+    private var mNumberChildrenTextDefaultDimension: Float = 0F
+    private var mIconDefaultDimension: Float = 0F
 
-    private var showUserNames: Boolean = true
-    private var showNumberEntries: Boolean = true
-    private var entryFilters = arrayOf<Group.ChildFilter>()
+    private var mShowUserNames: Boolean = true
+    private var mShowNumberEntries: Boolean = true
+    private var mEntryFilters = arrayOf<Group.ChildFilter>()
 
-    private var actionNodesList = LinkedList<Node>()
-    private var nodeClickCallback: NodeClickCallback? = null
+    private var mActionNodesList = LinkedList<Node>()
+    private var mNodeClickCallback: NodeClickCallback? = null
 
     private val mDatabase: Database
 
     @ColorInt
-    private val contentSelectionColor: Int
+    private val mContentSelectionColor: Int
     @ColorInt
-    private val iconGroupColor: Int
+    private val mIconGroupColor: Int
     @ColorInt
-    private val iconEntryColor: Int
+    private val mIconEntryColor: Int
 
     /**
      * Determine if the adapter contains or not any element
      * @return true if the list is empty
      */
     val isEmpty: Boolean
-        get() = nodeSortedList.size() <= 0
+        get() = mNodeSortedList.size() <= 0
 
     init {
-        this.infoTextDefaultDimension = context.resources.getDimension(R.dimen.list_medium_size_default)
-        this.subtextDefaultDimension = context.resources.getDimension(R.dimen.list_small_size_default)
-        this.numberChildrenTextDefaultDimension = context.resources.getDimension(R.dimen.list_tiny_size_default)
-        this.iconDefaultDimension = context.resources.getDimension(R.dimen.list_icon_size_default)
+        this.mInfoTextDefaultDimension = context.resources.getDimension(R.dimen.list_medium_size_default)
+        this.mSubtextDefaultDimension = context.resources.getDimension(R.dimen.list_small_size_default)
+        this.mNumberChildrenTextDefaultDimension = context.resources.getDimension(R.dimen.list_tiny_size_default)
+        this.mIconDefaultDimension = context.resources.getDimension(R.dimen.list_icon_size_default)
 
         assignPreferences()
 
-        this.nodeSortedListCallback = NodeSortedListCallback()
-        this.nodeSortedList = SortedList(Node::class.java, nodeSortedListCallback)
+        this.mNodeSortedListCallback = NodeSortedListCallback()
+        this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
         // Database
         this.mDatabase = Database.getInstance()
 
         // Color of content selection
         val taContentSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        this.contentSelectionColor = taContentSelectionColor.getColor(0, Color.WHITE)
+        this.mContentSelectionColor = taContentSelectionColor.getColor(0, Color.WHITE)
         taContentSelectionColor.recycle()
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        this.iconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)
+        this.mIconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)
         taTextColorPrimary.recycle()
         // In two times to fix bug compilation
         val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        this.iconEntryColor = taTextColor.getColor(0, Color.BLACK)
+        this.mIconEntryColor = taTextColor.getColor(0, Color.BLACK)
         taTextColor.recycle()
     }
 
     fun assignPreferences() {
-        this.prefSizeMultiplier = PreferencesUtil.getListTextSize(context)
+        this.mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         notifyChangeSort(
                 PreferencesUtil.getListSort(context),
@@ -128,13 +128,13 @@ class NodeAdapter (private val context: Context)
                         )
                 )
 
-        this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
-        this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
+        this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
 
-        this.entryFilters = Group.ChildFilter.getDefaults(context)
+        this.mEntryFilters = Group.ChildFilter.getDefaults(context)
 
         // Reinit textSize for all view type
-        calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }
+        mCalculateViewTypeTextSize.forEachIndexed { index, _ -> mCalculateViewTypeTextSize[index] = true }
     }
 
     /**
@@ -142,12 +142,12 @@ class NodeAdapter (private val context: Context)
      */
     fun rebuildList(group: Group) {
         assignPreferences()
-        nodeSortedList.replaceAll(group.getFilteredChildren(entryFilters))
+        mNodeSortedList.replaceAll(group.getFilteredChildren(mEntryFilters))
     }
 
     private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
         override fun compare(item1: Node, item2: Node): Int {
-            return nodeComparator!!.compare(item1, item2)
+            return mNodeComparator!!.compare(item1, item2)
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
@@ -162,7 +162,7 @@ class NodeAdapter (private val context: Context)
     }
 
     fun contains(node: Node): Boolean {
-        return nodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
+        return mNodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
     }
 
     /**
@@ -170,7 +170,7 @@ class NodeAdapter (private val context: Context)
      * @param node Node to add
      */
     fun addNode(node: Node) {
-        nodeSortedList.add(node)
+        mNodeSortedList.add(node)
     }
 
     /**
@@ -178,7 +178,7 @@ class NodeAdapter (private val context: Context)
      * @param nodes Nodes to add
      */
     fun addNodes(nodes: List<Node>) {
-        nodeSortedList.addAll(nodes)
+        mNodeSortedList.addAll(nodes)
     }
 
     /**
@@ -186,7 +186,7 @@ class NodeAdapter (private val context: Context)
      * @param node Node to delete
      */
     fun removeNode(node: Node) {
-        nodeSortedList.remove(node)
+        mNodeSortedList.remove(node)
     }
 
     /**
@@ -195,7 +195,7 @@ class NodeAdapter (private val context: Context)
      */
     fun removeNodes(nodes: List<Node>) {
         nodes.forEach { node ->
-            nodeSortedList.remove(node)
+            mNodeSortedList.remove(node)
         }
     }
 
@@ -203,9 +203,9 @@ class NodeAdapter (private val context: Context)
      * Remove a node at [position] in the list
      */
     fun removeNodeAt(position: Int) {
-        nodeSortedList.removeItemAt(position)
+        mNodeSortedList.removeItemAt(position)
         // Refresh all the next items
-        notifyItemRangeChanged(position, nodeSortedList.size() - position)
+        notifyItemRangeChanged(position, mNodeSortedList.size() - position)
     }
 
     /**
@@ -226,10 +226,10 @@ class NodeAdapter (private val context: Context)
      * @param newNode Node after the update
      */
     fun updateNode(oldNode: Node, newNode: Node) {
-        nodeSortedList.beginBatchedUpdates()
-        nodeSortedList.remove(oldNode)
-        nodeSortedList.add(newNode)
-        nodeSortedList.endBatchedUpdates()
+        mNodeSortedList.beginBatchedUpdates()
+        mNodeSortedList.remove(oldNode)
+        mNodeSortedList.add(newNode)
+        mNodeSortedList.endBatchedUpdates()
     }
 
     /**
@@ -238,30 +238,30 @@ class NodeAdapter (private val context: Context)
      * @param newNodes Node after the update
      */
     fun updateNodes(oldNodes: List<Node>, newNodes: List<Node>) {
-        nodeSortedList.beginBatchedUpdates()
+        mNodeSortedList.beginBatchedUpdates()
         oldNodes.forEach { oldNode ->
-            nodeSortedList.remove(oldNode)
+            mNodeSortedList.remove(oldNode)
         }
-        nodeSortedList.addAll(newNodes)
-        nodeSortedList.endBatchedUpdates()
+        mNodeSortedList.addAll(newNodes)
+        mNodeSortedList.endBatchedUpdates()
     }
 
     fun notifyNodeChanged(node: Node) {
-        notifyItemChanged(nodeSortedList.indexOf(node))
+        notifyItemChanged(mNodeSortedList.indexOf(node))
     }
 
     fun setActionNodes(actionNodes: List<Node>) {
-        this.actionNodesList.apply {
+        this.mActionNodesList.apply {
             clear()
             addAll(actionNodes)
         }
     }
 
     fun unselectActionNodes() {
-        actionNodesList.forEach {
-            notifyItemChanged(nodeSortedList.indexOf(it))
+        mActionNodesList.forEach {
+            notifyItemChanged(mNodeSortedList.indexOf(it))
         }
-        this.actionNodesList.apply {
+        this.mActionNodesList.apply {
             clear()
         }
     }
@@ -271,49 +271,49 @@ class NodeAdapter (private val context: Context)
      */
     fun notifyChangeSort(sortNodeEnum: SortNodeEnum,
                          sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        this.nodeComparator = sortNodeEnum.getNodeComparator(sortNodeParameters)
+        this.mNodeComparator = sortNodeEnum.getNodeComparator(sortNodeParameters)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return nodeSortedList.get(position).type.ordinal
+        return mNodeSortedList.get(position).type.ordinal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
         val view: View = if (viewType == Type.GROUP.ordinal) {
-            inflater.inflate(R.layout.item_list_nodes_group, parent, false)
+            mInflater.inflate(R.layout.item_list_nodes_group, parent, false)
         } else {
-            inflater.inflate(R.layout.item_list_nodes_entry, parent, false)
+            mInflater.inflate(R.layout.item_list_nodes_entry, parent, false)
         }
         return NodeViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
-        val subNode = nodeSortedList.get(position)
+        val subNode = mNodeSortedList.get(position)
 
         // Node selection
-        holder.container.isSelected = actionNodesList.contains(subNode)
+        holder.container.isSelected = mActionNodesList.contains(subNode)
 
         // Assign image
         val iconColor = if (holder.container.isSelected)
-            contentSelectionColor
+            mContentSelectionColor
         else when (subNode.type) {
-            Type.GROUP -> iconGroupColor
-            Type.ENTRY -> iconEntryColor
+            Type.GROUP -> mIconGroupColor
+            Type.ENTRY -> mIconEntryColor
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
             assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
-                height = (iconDefaultDimension * prefSizeMultiplier).toInt()
-                width = (iconDefaultDimension * prefSizeMultiplier).toInt()
+                height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
+                width = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
             }
         }
 
         // Assign text
         holder.text.apply {
             text = subNode.title
-            setTextSize(mTextSizeUnit, infoTextDefaultDimension, prefSizeMultiplier)
+            setTextSize(mTextSizeUnit, mInfoTextDefaultDimension, mPrefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
         }
         // Add subText with username
@@ -331,10 +331,10 @@ class NodeAdapter (private val context: Context)
             holder.text.text = entry.getVisualTitle()
             holder.subText.apply {
                 val username = entry.username
-                if (showUserNames && username.isNotEmpty()) {
+                if (mShowUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
-                    setTextSize(mTextSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
+                    setTextSize(mTextSizeUnit, mSubtextDefaultDimension, mPrefSizeMultiplier)
                 }
             }
 
@@ -346,12 +346,12 @@ class NodeAdapter (private val context: Context)
 
         // Add number of entries in groups
         if (subNode.type == Type.GROUP) {
-            if (showNumberEntries) {
+            if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries(entryFilters)
+                            .getNumberOfChildEntries(mEntryFilters)
                             .toString()
-                    setTextSize(mTextSizeUnit, numberChildrenTextDefaultDimension, prefSizeMultiplier)
+                    setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
                 }
             } else {
@@ -361,22 +361,22 @@ class NodeAdapter (private val context: Context)
 
         // Assign click
         holder.container.setOnClickListener {
-            nodeClickCallback?.onNodeClick(subNode)
+            mNodeClickCallback?.onNodeClick(subNode)
         }
         holder.container.setOnLongClickListener {
-            nodeClickCallback?.onNodeLongClick(subNode) ?: false
+            mNodeClickCallback?.onNodeLongClick(subNode) ?: false
         }
     }
     
     override fun getItemCount(): Int {
-        return nodeSortedList.size()
+        return mNodeSortedList.size()
     }
 
     /**
      * Assign a listener when a node is clicked
      */
     fun setOnNodeClickListener(nodeClickCallback: NodeClickCallback?) {
-        this.nodeClickCallback = nodeClickCallback
+        this.mNodeClickCallback = nodeClickCallback
     }
 
     /**
