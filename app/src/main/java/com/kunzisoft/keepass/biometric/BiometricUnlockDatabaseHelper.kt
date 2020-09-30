@@ -29,7 +29,6 @@ import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
@@ -297,7 +296,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
         fun canAuthenticate(context: Context): Int {
-            return BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
+            // int BIOMETRIC_STRONG = 0x000F; https://github.com/Kunzisoft/KeePassDX/issues/724
+            return BiometricManager.from(context).canAuthenticate(0x000F.toInt())
         }
 
         /**
