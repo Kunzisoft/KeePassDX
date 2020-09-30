@@ -27,8 +27,12 @@ import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
@@ -158,7 +162,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     fun initEncryptData(actionIfCypherInit
                         : (biometricPrompt: BiometricPrompt?,
                            cryptoObject: BiometricPrompt.CryptoObject?,
-                           promptInfo: BiometricPrompt.PromptInfo)->Unit) {
+                           promptInfo: BiometricPrompt.PromptInfo) -> Unit) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -203,9 +207,9 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     }
 
     fun initDecryptData(ivSpecValue: String, actionIfCypherInit
-            : (biometricPrompt: BiometricPrompt?,
-               cryptoObject: BiometricPrompt.CryptoObject?,
-               promptInfo: BiometricPrompt.PromptInfo)->Unit) {
+    : (biometricPrompt: BiometricPrompt?,
+       cryptoObject: BiometricPrompt.CryptoObject?,
+       promptInfo: BiometricPrompt.PromptInfo) -> Unit) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -296,8 +300,17 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
         fun canAuthenticate(context: Context): Int {
-            // int BIOMETRIC_STRONG = 0x000F; https://github.com/Kunzisoft/KeePassDX/issues/724
-            return BiometricManager.from(context).canAuthenticate(0x000F.toInt())
+            return try {
+                BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
+            } catch (e: Exception) {
+                Toast.makeText(context, "Unable to authenticate with strong biometric.", Toast.LENGTH_LONG).show()
+                try {
+                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Unable to authenticate with weak biometric.", Toast.LENGTH_LONG).show()
+                    BIOMETRIC_ERROR_HW_UNAVAILABLE
+                }
+            }
         }
 
         /**
