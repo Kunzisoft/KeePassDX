@@ -27,7 +27,6 @@ import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
@@ -303,11 +302,11 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             return try {
                 BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
             } catch (e: Exception) {
-                Toast.makeText(context, "Unable to authenticate with strong biometric.", Toast.LENGTH_LONG).show()
+                Log.e(TAG, "Unable to authenticate with strong biometric.", e)
                 try {
                     BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Unable to authenticate with weak biometric.", Toast.LENGTH_LONG).show()
+                    Log.e(TAG, "Unable to authenticate with weak biometric.", e)
                     BIOMETRIC_ERROR_HW_UNAVAILABLE
                 }
             }
