@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.app.database
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
@@ -133,10 +134,14 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                         )
 
                         // Update values if history element not yet in the database
-                        if (fileDatabaseHistoryRetrieve == null) {
-                            databaseFileHistoryDao.add(fileDatabaseHistory)
-                        } else {
-                            databaseFileHistoryDao.update(fileDatabaseHistory)
+                        try {
+                            if (fileDatabaseHistoryRetrieve == null) {
+                                    databaseFileHistoryDao.add(fileDatabaseHistory)
+                            } else {
+                                databaseFileHistoryDao.update(fileDatabaseHistory)
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to add or update database history", e)
                         }
 
                         val fileDatabaseInfo = FileDatabaseInfo(applicationContext,
@@ -208,5 +213,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    companion object : SingletonHolderParameter<FileDatabaseHistoryAction, Context>(::FileDatabaseHistoryAction)
+    companion object : SingletonHolderParameter<FileDatabaseHistoryAction, Context>(::FileDatabaseHistoryAction) {
+        private val TAG = FileDatabaseHistoryAction::class.java.name
+    }
 }
