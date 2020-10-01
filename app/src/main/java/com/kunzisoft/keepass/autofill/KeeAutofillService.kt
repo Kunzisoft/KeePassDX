@@ -110,6 +110,13 @@ class KeeAutofillService : AutofillService() {
                 } else {
                     RemoteViews(packageName, R.layout.item_autofill_unlock)
                 }
+                // Tell to service the interest to save credentials
+                responseBuilder.setSaveInfo(
+                        SaveInfo.Builder(SaveInfo.SAVE_DATA_TYPE_USERNAME
+                                or SaveInfo.SAVE_DATA_TYPE_PASSWORD,
+                                arrayOf(parseResult.usernameId, parseResult.passwordId)
+                        ).build()
+                )
                 responseBuilder.setAuthentication(autofillIds, sender, remoteViewsUnlock)
                 callback.onSuccess(responseBuilder.build())
             }
@@ -117,8 +124,17 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
-        // TODO Save autofill
-        //callback.onFailure(getString(R.string.autofill_not_support_save));
+        val fillContexts = request.fillContexts
+        val latestStructure = fillContexts[fillContexts.size - 1].structure
+
+        StructureParser(latestStructure, true).parse()?.let { parseResult ->
+            parseResult.passwordValue?.let { autofillPasswordValue ->
+                Log.d(TAG, "autofill onSaveRequest password ${autofillPasswordValue.textValue}")
+                callback.onSuccess()
+                return
+            }
+        }
+        callback.onFailure("Unable to save values from form")
     }
 
     override fun onConnected() {
