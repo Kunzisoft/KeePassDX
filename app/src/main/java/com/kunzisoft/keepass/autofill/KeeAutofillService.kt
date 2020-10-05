@@ -23,6 +23,7 @@ import android.os.Build
 import android.os.CancellationSignal
 import android.service.autofill.*
 import android.util.Log
+import android.view.autofill.AutofillId
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
@@ -111,12 +112,23 @@ class KeeAutofillService : AutofillService() {
                     RemoteViews(packageName, R.layout.item_autofill_unlock)
                 }
                 // Tell to service the interest to save credentials
-                responseBuilder.setSaveInfo(
-                        SaveInfo.Builder(SaveInfo.SAVE_DATA_TYPE_USERNAME
-                                or SaveInfo.SAVE_DATA_TYPE_PASSWORD,
-                                arrayOf(parseResult.usernameId, parseResult.passwordId)
-                        ).build()
-                )
+                var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
+                val info = ArrayList<AutofillId>()
+                // Only if at least a password
+                parseResult.passwordId?.let { passwordInfo ->
+                    parseResult.usernameId?.let { usernameInfo ->
+                        types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
+                        info.add(usernameInfo)
+                    }
+                    types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
+                    info.add(passwordInfo)
+                }
+                if (info.isNotEmpty()) {
+                    responseBuilder.setSaveInfo(
+                            SaveInfo.Builder(types, info.toTypedArray()).build()
+                    )
+                }
+                // Build response
                 responseBuilder.setAuthentication(autofillIds, sender, remoteViewsUnlock)
                 callback.onSuccess(responseBuilder.build())
             }
