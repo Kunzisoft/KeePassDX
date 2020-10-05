@@ -77,7 +77,9 @@ internal class StructureParser(private val structure: AssistStructure,
                 Log.d(TAG, "Autofill domain: $webDomain")
             }
         }
+        val domainNotEmpty = result?.domain?.isNotEmpty() == true
 
+        var returnValue = false
         // Only parse visible nodes
         if (node.visibility == View.VISIBLE) {
             if (node.autofillId != null
@@ -86,19 +88,24 @@ internal class StructureParser(private val structure: AssistStructure,
                 val hints = node.autofillHints
                 if (hints != null && hints.isNotEmpty()) {
                     if (parseNodeByAutofillHint(node))
-                        return true
+                        returnValue = true
                 } else if (parseNodeByHtmlAttributes(node))
-                    return true
+                    returnValue = true
                 else if (parseNodeByAndroidInput(node))
-                    return true
+                    returnValue = true
             }
+            // Optimized return but only if domain not empty
+            if (domainNotEmpty && returnValue)
+                return true
             // Recursive method to process each node
             for (i in 0 until node.childCount) {
                 if (parseViewNode(node.getChildAt(i)))
+                    returnValue = true
+                if (domainNotEmpty && returnValue)
                     return true
             }
         }
-        return false
+        return returnValue
     }
 
     private fun parseNodeByAutofillHint(node: AssistStructure.ViewNode): Boolean {

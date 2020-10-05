@@ -49,8 +49,7 @@ class KeeAutofillService : AutofillService() {
     override fun onFillRequest(request: FillRequest,
                                cancellationSignal: CancellationSignal,
                                callback: FillCallback) {
-        val fillContexts = request.fillContexts
-        val latestStructure = fillContexts[fillContexts.size - 1].structure
+        val latestStructure = request.fillContexts.last().structure
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
