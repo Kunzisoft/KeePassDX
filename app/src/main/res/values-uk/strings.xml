@@ -51,7 +51,7 @@
     <string name="entry_keyfile">Файл ключа</string>
     <string name="entry_modified">Змінено</string>
     <string name="entry_password">Пароль</string>
-    <string name="entry_save">Зберегти</string>
+    <string name="save">Зберегти</string>
     <string name="entry_title">Назва</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Ім’я користувача</string>

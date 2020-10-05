@@ -51,7 +51,7 @@
     <string name="entry_keyfile">Súbor s kľúčom</string>
     <string name="entry_modified">Upravené</string>
     <string name="entry_password">Heslo</string>
-    <string name="entry_save">Uložiť</string>
+    <string name="save">Uložiť</string>
     <string name="entry_title">Meno</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Meno používateľa</string>

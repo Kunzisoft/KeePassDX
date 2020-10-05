@@ -53,7 +53,7 @@
     <string name="entry_keyfile">Sleutelbestand</string>
     <string name="entry_modified">Bewerkt op</string>
     <string name="entry_password">Wachtwoord</string>
-    <string name="entry_save">Opslaan</string>
+    <string name="save">Opslaan</string>
     <string name="entry_title">Naam</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Gebruikersnaam</string>

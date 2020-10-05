@@ -38,27 +38,29 @@ class KeeAutofillService : AutofillService() {
 
     var applicationIdBlocklist: Set<String>? = null
     var webDomainBlocklist: Set<String>? = null
+    var askToSaveData: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
 
         applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
         webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
+        askToSaveData = PreferencesUtil.askToSaveAutofillData(this) // TODO apply when changed
     }
 
     override fun onFillRequest(request: FillRequest,
                                cancellationSignal: CancellationSignal,
                                callback: FillCallback) {
-        val latestStructure = request.fillContexts.last().structure
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
         // Check user's settings for authenticating Responses and Datasets.
+        val latestStructure = request.fillContexts.last().structure
         StructureParser(latestStructure).parse()?.let { parseResult ->
 
             // Build search info only if applicationId or webDomain are not blocked
-            if (searchAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                    && searchAllowedFor(parseResult.domain, webDomainBlocklist)) {
+            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && autofillAllowedFor(parseResult.domain, webDomainBlocklist)) {
                 val searchInfo = SearchInfo().apply {
                     applicationId = parseResult.applicationId
                     webDomain = parseResult.domain
@@ -110,22 +112,25 @@ class KeeAutofillService : AutofillService() {
                 } else {
                     RemoteViews(packageName, R.layout.item_autofill_unlock)
                 }
+
                 // Tell to service the interest to save credentials
-                var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
-                val info = ArrayList<AutofillId>()
-                // Only if at least a password
-                parseResult.passwordId?.let { passwordInfo ->
-                    parseResult.usernameId?.let { usernameInfo ->
-                        types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
-                        info.add(usernameInfo)
+                if (askToSaveData) {
+                    var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
+                    val info = ArrayList<AutofillId>()
+                    // Only if at least a password
+                    parseResult.passwordId?.let { passwordInfo ->
+                        parseResult.usernameId?.let { usernameInfo ->
+                            types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
+                            info.add(usernameInfo)
+                        }
+                        types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
+                        info.add(passwordInfo)
                     }
-                    types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
-                    info.add(passwordInfo)
-                }
-                if (info.isNotEmpty()) {
-                    responseBuilder.setSaveInfo(
-                            SaveInfo.Builder(types, info.toTypedArray()).build()
-                    )
+                    if (info.isNotEmpty()) {
+                        responseBuilder.setSaveInfo(
+                                SaveInfo.Builder(types, info.toTypedArray()).build()
+                        )
+                    }
                 }
                 // Build response
                 responseBuilder.setAuthentication(autofillIds, sender, remoteViewsUnlock)
@@ -135,17 +140,20 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
-        val fillContexts = request.fillContexts
-        val latestStructure = fillContexts[fillContexts.size - 1].structure
+        val latestStructure = request.fillContexts.last().structure
+        StructureParser(latestStructure).parse()?.let { parseResult ->
 
-        StructureParser(latestStructure, true).parse()?.let { parseResult ->
-            parseResult.passwordValue?.let { autofillPasswordValue ->
-                Log.d(TAG, "autofill onSaveRequest password ${autofillPasswordValue.textValue}")
-                callback.onSuccess()
-                return
+            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && autofillAllowedFor(parseResult.domain, webDomainBlocklist)) {
+                parseResult.passwordValue?.let { autofillPasswordValue ->
+                    Log.d(TAG, "autofill onSaveRequest password ${autofillPasswordValue.textValue}")
+                    // TODO Save data
+                    callback.onSuccess()
+                    return
+                }
             }
         }
-        callback.onFailure("Unable to save values from form")
+        callback.onFailure("Saving form values is not allowed")
     }
 
     override fun onConnected() {
@@ -159,7 +167,7 @@ class KeeAutofillService : AutofillService() {
     companion object {
         private val TAG = KeeAutofillService::class.java.name
 
-        fun searchAllowedFor(element: String?, blockList: Set<String>?): Boolean {
+        fun autofillAllowedFor(element: String?, blockList: Set<String>?): Boolean {
             element?.let { elementNotNull ->
                 if (blockList?.any { appIdBlocked ->
                             elementNotNull.contains(appIdBlocked)

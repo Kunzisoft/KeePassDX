@@ -97,7 +97,7 @@
     <string name="contact">ബന്ധപെടുക</string>
     <string name="otp_secret">രഹസ്യം</string>
     <string name="entry_title">ശീർഷകം</string>
-    <string name="entry_save">സംരക്ഷിക്കുക</string>
+    <string name="save">സംരക്ഷിക്കുക</string>
     <string name="entry_password">പാസ്‌വേഡ്</string>
     <string name="entry_history">ഹിസ്റ്ററി</string>
     <string name="entry_created">സൃഷ്ടിച്ചു</string>

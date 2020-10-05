@@ -57,7 +57,7 @@
     <string name="entry_modified">Modificato</string>
     <string name="entry_not_found">Dati non trovati.</string>
     <string name="entry_password">Password</string>
-    <string name="entry_save">Salva</string>
+    <string name="save">Salva</string>
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome utente</string>

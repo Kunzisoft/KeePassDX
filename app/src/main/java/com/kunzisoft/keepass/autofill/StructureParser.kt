@@ -33,8 +33,7 @@ import java.util.*
  * Parse AssistStructure and guess username and password fields.
  */
 @RequiresApi(api = Build.VERSION_CODES.O)
-internal class StructureParser(private val structure: AssistStructure,
-                               private val retrieveValues: Boolean = false) {
+internal class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
     private var usernameCandidate: AutofillId? = null
     private var usernameNeeded = true

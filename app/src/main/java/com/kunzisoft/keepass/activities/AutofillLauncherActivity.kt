@@ -54,9 +54,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
         if (assistStructure == null) {
             setResult(Activity.RESULT_CANCELED)
             finish()
-        } else if (!KeeAutofillService.searchAllowedFor(searchInfo.applicationId,
+        } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
                         PreferencesUtil.applicationIdBlocklist(this))
-                || !KeeAutofillService.searchAllowedFor(searchInfo.webDomain,
+                || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
                         PreferencesUtil.webDomainBlocklist(this))) {
             // If item not allowed, show a toast
             Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()

@@ -109,7 +109,7 @@
     <string name="otp_period">Periode (detik)</string>
     <string name="otp_secret">Rahasia</string>
     <string name="entry_title">Judul</string>
-    <string name="entry_save">Simpan</string>
+    <string name="save">Simpan</string>
     <string name="entry_password">Kata Sandi</string>
     <string name="entry_not_found">Tidak bisa menemukan data entri.</string>
     <string name="retrieving_db_key">Mengambil kunci basisdata…</string>

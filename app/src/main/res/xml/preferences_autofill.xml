@@ -27,6 +27,14 @@
             android:defaultValue="@bool/autofill_auto_search_default"/>
     </PreferenceCategory>
     <PreferenceCategory
+        android:title="@string/save">
+        <SwitchPreference
+            android:key="@string/autofill_ask_to_save_data_key"
+            android:title="@string/autofill_ask_to_save_data_title"
+            android:summary="@string/autofill_ask_to_save_data_summary"
+            android:defaultValue="@bool/autofill_ask_to_save_data_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/filter">
         <com.kunzisoft.keepass.settings.preference.InputListPreference
             android:key="@string/autofill_application_id_blocklist_key"

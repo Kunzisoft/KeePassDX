@@ -55,7 +55,7 @@
     <string name="entry_modified">Τροποποιήθηκε</string>
     <string name="entry_not_found">Δεν ήταν δυνατή η εύρεση δεδομένων εισόδου.</string>
     <string name="entry_password">Κωδικός Πρόσβασης</string>
-    <string name="entry_save">Αποθήκευση</string>
+    <string name="save">Αποθήκευση</string>
     <string name="entry_title">Τίτλος</string>
     <string name="entry_url">Διεύθυνση URL</string>
     <string name="entry_user_name">Όνομα Χρήστη</string>

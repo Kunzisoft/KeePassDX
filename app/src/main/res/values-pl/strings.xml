@@ -49,7 +49,7 @@
     <string name="entry_keyfile">Plik klucza</string>
     <string name="entry_modified">Zmodyfikowano</string>
     <string name="entry_password">Hasło</string>
-    <string name="entry_save">Zapisz</string>
+    <string name="save">Zapisz</string>
     <string name="entry_title">Tytuł</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>

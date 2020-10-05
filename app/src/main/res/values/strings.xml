@@ -90,7 +90,7 @@
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
-    <string name="entry_save">Save</string>
+    <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
     <string name="otp_type">OTP type</string>
@@ -397,6 +397,8 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_ask_to_save_data_title">Ask to save data</string>
+    <string name="autofill_ask_to_save_data_summary">Ask to save data when a form is validated</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
     <string name="autofill_application_id_blocklist_summary">Blocklist that prevents auto filling of apps</string>
     <string name="autofill_web_domain_blocklist_title">Web domain blocklist</string>

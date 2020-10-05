@@ -28,19 +28,19 @@
 			android:key="@string/database_name_key"
 			android:persistent="false"
 			android:title="@string/database_name_title"
-            android:positiveButtonText="@string/entry_save"
+            android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
         <com.kunzisoft.keepass.settings.preference.InputTextPreference
             android:key="@string/database_description_key"
             android:persistent="false"
             android:title="@string/database_description_title"
-            android:positiveButtonText="@string/entry_save"
+            android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
         <com.kunzisoft.keepass.settings.preference.InputTextPreference
             android:key="@string/database_default_username_key"
             android:persistent="false"
             android:title="@string/database_default_username_title"
-            android:positiveButtonText="@string/entry_save"
+            android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
         <com.kunzisoft.keepass.settings.preference.DialogColorPreference
             xmlns:chroma="http://schemas.android.com/apk/res-auto"
@@ -99,14 +99,14 @@
             android:key="@string/max_history_items_key"
             android:persistent="false"
             android:title="@string/max_history_items_title"
-            android:positiveButtonText="@string/entry_save"
+            android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
         <com.kunzisoft.keepass.settings.preference.InputNumberPreference
             android:key="@string/max_history_size_key"
             android:persistent="false"
             android:title="@string/max_history_size_title"
             android:summary="@string/max_history_size_summary"
-            android:positiveButtonText="@string/entry_save"
+            android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
 
     </PreferenceCategory>

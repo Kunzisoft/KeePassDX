@@ -50,7 +50,7 @@
     <string name="entry_keyfile">Arquivo-chave</string>
     <string name="entry_modified">Modificado</string>
     <string name="entry_password">Senha</string>
-    <string name="entry_save">Salvar</string>
+    <string name="save">Salvar</string>
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de usuário</string>

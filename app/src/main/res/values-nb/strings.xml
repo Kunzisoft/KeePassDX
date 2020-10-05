@@ -58,7 +58,7 @@
     <string name="entry_modified">Endret</string>
     <string name="entry_not_found">Fant ikke oppføringsdata.</string>
     <string name="entry_password">Passord</string>
-    <string name="entry_save">Lagre</string>
+    <string name="save">Lagre</string>
     <string name="entry_title">Tittel</string>
     <string name="entry_url">Nettadresse</string>
     <string name="entry_user_name">Brukernavn</string>

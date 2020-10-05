@@ -54,7 +54,7 @@
     <string name="entry_keyfile">Kulcsfájl</string>
     <string name="entry_modified">Módosítva</string>
     <string name="entry_password">Jelszó</string>
-    <string name="entry_save">Mentés</string>
+    <string name="save">Mentés</string>
     <string name="entry_title">Név</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Felhasználónév</string>

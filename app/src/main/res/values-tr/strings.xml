@@ -49,7 +49,7 @@
     <string name="entry_modified">Değiştirilmiş</string>
     <string name="entry_not_found">Giriş Verisi bulamadı.</string>
     <string name="entry_password">Parola</string>
-    <string name="entry_save">Kaydet</string>
+    <string name="save">Kaydet</string>
     <string name="entry_title">Başlık</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
