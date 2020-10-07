@@ -31,12 +31,14 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import java.util.concurrent.atomic.AtomicBoolean
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
     var applicationIdBlocklist: Set<String>? = null
     var webDomainBlocklist: Set<String>? = null
+    private var mLock = AtomicBoolean()
 
     override fun onCreate() {
         super.onCreate()
@@ -48,42 +50,46 @@ class KeeAutofillService : AutofillService() {
     override fun onFillRequest(request: FillRequest,
                                cancellationSignal: CancellationSignal,
                                callback: FillCallback) {
-        val latestStructure = request.fillContexts.last().structure
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
         // Check user's settings for authenticating Responses and Datasets.
-        StructureParser(latestStructure).parse()?.let { parseResult ->
+        val latestStructure = request.fillContexts.last().structure
+        // Lock
+        if (!mLock.get()) {
+            mLock.set(true)
+            StructureParser(latestStructure).parse()?.let { parseResult ->
 
-            // Build search info only if applicationId or webDomain are not blocked
-            if (searchAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                    && searchAllowedFor(parseResult.domain, webDomainBlocklist)) {
-                val searchInfo = SearchInfo().apply {
-                    applicationId = parseResult.applicationId
-                    webDomain = parseResult.domain
-                }
+                // Build search info only if applicationId or webDomain are not blocked
+                if (searchAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                        && searchAllowedFor(parseResult.domain, webDomainBlocklist)) {
+                    val searchInfo = SearchInfo().apply {
+                        applicationId = parseResult.applicationId
+                        webDomain = parseResult.domain
+                    }
 
-                SearchHelper.checkAutoSearchInfo(this,
-                        Database.getInstance(),
-                        searchInfo,
-                        { items ->
-                            val responseBuilder = FillResponse.Builder()
-                            AutofillHelper.addHeader(responseBuilder, packageName,
-                                    parseResult.domain, parseResult.applicationId)
-                            items.forEach {
-                                responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                    SearchHelper.checkAutoSearchInfo(this,
+                            Database.getInstance(),
+                            searchInfo,
+                            { items ->
+                                val responseBuilder = FillResponse.Builder()
+                                AutofillHelper.addHeader(responseBuilder, packageName,
+                                        parseResult.domain, parseResult.applicationId)
+                                items.forEach {
+                                    responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                                }
+                                callback.onSuccess(responseBuilder.build())
+                            },
+                            {
+                                // Show UI if no search result
+                                showUIForEntrySelection(parseResult, searchInfo, callback)
+                            },
+                            {
+                                // Show UI if database not open
+                                showUIForEntrySelection(parseResult, searchInfo, callback)
                             }
-                            callback.onSuccess(responseBuilder.build())
-                        },
-                        {
-                            // Show UI if no search result
-                            showUIForEntrySelection(parseResult, searchInfo, callback)
-                        },
-                        {
-                            // Show UI if database not open
-                            showUIForEntrySelection(parseResult, searchInfo, callback)
-                        }
-                )
+                    )
+                }
             }
         }
     }
@@ -125,6 +131,7 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onDisconnected() {
+        mLock.set(false)
         Log.d(TAG, "onDisconnected")
     }
 
