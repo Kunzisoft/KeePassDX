@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.utils.UriUtil
 
+
 class NestedAppSettingsFragment : NestedSettingsFragment() {
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
@@ -211,7 +212,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             // < M solve verifyError exception
             var biometricUnlockSupported = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val biometricCanAuthenticate = BiometricManager.from(activity).canAuthenticate()
+                val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(activity)
                 biometricUnlockSupported = biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
             }
@@ -336,8 +337,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                findPreference<SwitchPreference?>(getString(R.string.settings_autofill_enable_key))?.let {
-                    autoFillEnablePreference ->
+                findPreference<SwitchPreference?>(getString(R.string.settings_autofill_enable_key))?.let { autoFillEnablePreference ->
                     val autofillManager = activity.getSystemService(AutofillManager::class.java)
                     autoFillEnablePreference.isChecked = autofillManager != null
                             && autofillManager.hasEnabledAutofillServices()
