@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
-     
+
  This file is part of KeePassDX.
 
   KeePassDX is free software: you can redistribute it and/or modify
@@ -78,7 +78,7 @@
 					android:id="@+id/entry_edit_user_name"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:inputType="text"
+					android:inputType="textNoSuggestions"
 					android:importantForAccessibility="no"
 					android:importantForAutofill="no"
 					android:maxLines="1"
