@@ -1,2 +1,4 @@
- * Upgrade to Android API 30
- * Small fixes
+ * Upgrade to Android API 30 #723
+ * Fix biometric issues #724 #740 #731
+ * Fix autofill #725 #551
+ * Small fixes and translations #732 #736 #737
