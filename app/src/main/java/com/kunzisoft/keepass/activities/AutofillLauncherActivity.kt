@@ -30,6 +30,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
@@ -48,44 +50,90 @@ class AutofillLauncherActivity : AppCompatActivity() {
             webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
         }
 
-        // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
+        // Retrieve selection mode
+        EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
+            when (specialMode) {
+                SpecialMode.DEFAULT -> {
+                    // Not an autofill call
+                    setResult(Activity.RESULT_CANCELED)
+                    finish()
+                }
+                SpecialMode.SELECTION -> {
+                    // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
+                    val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
 
-        if (assistStructure == null) {
-            setResult(Activity.RESULT_CANCELED)
-            finish()
-        } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
-                        PreferencesUtil.applicationIdBlocklist(this))
-                || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
-                        PreferencesUtil.webDomainBlocklist(this))) {
-            // If item not allowed, show a toast
-            Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
-            setResult(Activity.RESULT_CANCELED)
-            finish()
-        } else {
-            // If database is open
-            SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
-                    searchInfo,
-                    { items ->
-                        // Items found
-                        AutofillHelper.buildResponse(this, items)
+                    if (assistStructure == null) {
+                        setResult(Activity.RESULT_CANCELED)
                         finish()
-                    },
-                    {
-                        // Show the database UI to select the entry
-                        GroupActivity.launchForAutofillResult(this,
-                                assistStructure,
-                                false,
-                                searchInfo)
-                    },
-                    {
-                        // If database not open
-                        FileDatabaseSelectActivity.launchForAutofillResult(this,
-                                assistStructure,
-                                searchInfo)
+                    } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
+                                    PreferencesUtil.applicationIdBlocklist(this))
+                            || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
+                                    PreferencesUtil.webDomainBlocklist(this))) {
+                        // If item not allowed, show a toast
+                        Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+                        setResult(Activity.RESULT_CANCELED)
+                        finish()
+                    } else {
+                        // If database is open
+                        SearchHelper.checkAutoSearchInfo(this,
+                                Database.getInstance(),
+                                searchInfo,
+                                { items ->
+                                    // Items found
+                                    AutofillHelper.buildResponse(this, items)
+                                    finish()
+                                },
+                                {
+                                    // Show the database UI to select the entry
+                                    GroupActivity.launchForAutofillResult(this,
+                                            assistStructure,
+                                            false,
+                                            searchInfo)
+                                },
+                                {
+                                    // If database not open
+                                    FileDatabaseSelectActivity.launchForAutofillResult(this,
+                                            assistStructure,
+                                            searchInfo)
+                                }
+                        )
                     }
-            )
+                }
+                SpecialMode.REGISTRATION -> {
+                    if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
+                                    PreferencesUtil.applicationIdBlocklist(this))
+                            || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
+                                    PreferencesUtil.webDomainBlocklist(this))) {
+                        // If item not allowed, show a toast
+                        Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+                        setResult(Activity.RESULT_CANCELED)
+                    } else {
+                        // If database is open
+                        SearchHelper.checkAutoSearchInfo(this,
+                                Database.getInstance(),
+                                searchInfo,
+                                { _ ->
+                                    // Show the database UI to select the entry
+                                    GroupActivity.launchForRegistration(this,
+                                            false,
+                                            searchInfo)
+                                },
+                                {
+                                    // Show the database UI to select the entry
+                                    GroupActivity.launchForRegistration(this,
+                                            false,
+                                            searchInfo)
+                                },
+                                {
+                                    // If database not open
+                                    FileDatabaseSelectActivity.launchForRegistration(this,
+                                            searchInfo)
+                                }
+                        )
+                    }
+                    finish()
+                }
+            }
         }
 
         super.onCreate(savedInstanceState)
@@ -112,6 +160,17 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         }
                     },
                     PendingIntent.FLAG_CANCEL_CURRENT).intentSender
+        }
+
+        fun launchForRegistration(context: Context,
+                                  searchInfo: SearchInfo? = null) {
+            val intent = Intent(context, AutofillLauncherActivity::class.java)
+            EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
+            searchInfo?.let {
+                intent.putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
+                intent.putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
+            }
+            context.startActivity(intent)
         }
     }
 }

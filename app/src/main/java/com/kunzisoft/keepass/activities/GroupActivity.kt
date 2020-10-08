@@ -36,6 +36,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
@@ -49,8 +50,9 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.helpers.TypeMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -306,7 +308,7 @@ class GroupActivity : LockingActivity(),
      */
     private fun manageSearchInfoIntent(intent: Intent): Boolean {
         // To relaunch the activity as ACTION_SEARCH
-        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
         val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
         if (searchInfo != null && autoSearch) {
             intent.action = Intent.ACTION_SEARCH
@@ -355,7 +357,7 @@ class GroupActivity : LockingActivity(),
             fragmentTransaction.addToBackStack(fragmentTag)
             fragmentTransaction.commit()
 
-            if (mSelectionMode)
+            if (mSpecialMode != SpecialMode.DEFAULT)
                 mSelectionModeCountBackStack++
 
             // Update last access time.
@@ -485,7 +487,7 @@ class GroupActivity : LockingActivity(),
 
     override fun onCancelSpecialMode() {
         // To remove the navigation history and
-        EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+        EntrySelectionHelper.removeModesFromIntent(intent)
         val fragmentManager = supportFragmentManager
         if (mSelectionModeCountBackStack > 0) {
             for (selectionMode in 0 .. mSelectionModeCountBackStack) {
@@ -524,7 +526,7 @@ class GroupActivity : LockingActivity(),
 
             Type.ENTRY -> try {
                 val entryVersioned = node as Entry
-                EntrySelectionHelper.doEntrySelectionAction(intent,
+                EntrySelectionHelper.doSpecialAction(intent,
                         {
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
@@ -537,7 +539,7 @@ class GroupActivity : LockingActivity(),
                                         intent)
                             }
                         },
-                        {
+                        { _, _ ->
                             // Build response with the entry selected
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
                                 mDatabase?.let { database ->
@@ -546,6 +548,10 @@ class GroupActivity : LockingActivity(),
                                 }
                             }
                             finish()
+                        },
+                        { searchInfo ->
+                            rebuildListNodes()
+                            // TODO Registration
                         })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
@@ -699,6 +705,14 @@ class GroupActivity : LockingActivity(),
     override fun onResume() {
         super.onResume()
 
+        // If in registration mode, don't allow read only
+        if (mSpecialMode == SpecialMode.REGISTRATION
+                && mReadOnly) {
+            Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
+            EntrySelectionHelper.removeModesFromIntent(intent)
+            finish()
+        }
+
         // Show the lock button
         lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
             View.VISIBLE
@@ -727,7 +741,7 @@ class GroupActivity : LockingActivity(),
         if (mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
         }
-        if (!mSelectionMode) {
+        if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
         }
 
@@ -994,7 +1008,7 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun backToTheAppCaller() {
-        if (mAutofillSelection) {
+        if (mTypeMode == TypeMode.AUTOFILL) {
             // To get the app caller, only for autofill
             super.onBackPressed()
         } else {
@@ -1015,13 +1029,13 @@ class GroupActivity : LockingActivity(),
             // Else in root, lock if needed
             else {
                 intent.removeExtra(AUTO_SEARCH_KEY)
-                intent.removeExtra(KEY_SEARCH_INFO)
+                EntrySelectionHelper.removeSearchInfoFromIntent(intent)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
                     super.onBackPressed()
                 } else {
                     // To restore standard mode
-                    EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+                    EntrySelectionHelper.removeModesFromIntent(intent)
                     backToTheAppCaller()
                 }
             }
@@ -1079,9 +1093,7 @@ class GroupActivity : LockingActivity(),
                    searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
-                searchInfo?.let {
-                    intent.putExtra(KEY_SEARCH_INFO, it)
-                }
+                EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 context.startActivity(intent)
             }
@@ -1098,7 +1110,10 @@ class GroupActivity : LockingActivity(),
                                           readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                EntrySelectionHelper.startActivityForEntrySelectionResult(context, intent, searchInfo)
+                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                        intent,
+                        SpecialMode.SELECTION,
+                        searchInfo)
             }
         }
 
@@ -1115,7 +1130,27 @@ class GroupActivity : LockingActivity(),
                                     readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure, searchInfo)
+                AutofillHelper.startActivityForAutofillResult(activity,
+                        intent,
+                        assistStructure,
+                        searchInfo)
+            }
+        }
+
+        /*
+         * -------------------------
+         * 		Registration Launch
+         * -------------------------
+         */
+        fun launchForRegistration(context: Context,
+                                  autoSearch: Boolean = false,
+                                  searchInfo: SearchInfo? = null) {
+            checkTimeAndBuildIntent(context, null, false) { intent ->
+                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                        intent,
+                        SpecialMode.REGISTRATION,
+                        searchInfo)
             }
         }
     }

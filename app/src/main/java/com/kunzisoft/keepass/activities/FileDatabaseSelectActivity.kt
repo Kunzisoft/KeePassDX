@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.content.Context
@@ -45,8 +44,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -224,9 +223,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     }
 
     private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
-        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-        EntrySelectionHelper.doEntrySelectionAction(intent,
-                {
+        EntrySelectionHelper.doSpecialAction(intent,
+                { searchInfo -> // Default Action
                     try {
                         PasswordActivity.launch(this@FileDatabaseSelectActivity,
                                 databaseUri, keyFile,
@@ -239,7 +237,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         finish()
                     }
                 },
-                {
+                { searchInfo -> // Keyboard Selection Action
                     try {
                         PasswordActivity.launchForKeyboardResult(this@FileDatabaseSelectActivity,
                                 databaseUri, keyFile,
@@ -249,8 +247,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     }
                     finish()
                 },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                { searchInfo, assistStructure -> // Autofill Selection Action
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && assistStructure != null) {
                         try {
                             PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                     databaseUri, keyFile,
@@ -259,20 +257,31 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
                         }
+                    } else {
+                        finish()
                     }
+                },
+                { searchInfo -> // Registration Action
+                    try {
+                        PasswordActivity.launchForRegistration(this@FileDatabaseSelectActivity,
+                                databaseUri, keyFile,
+                                searchInfo)
+                    } catch (e: FileNotFoundException) {
+                        fileNoFoundAction(e)
+                    }
+                    finish()
                 })
     }
 
     private fun launchGroupActivity(readOnly: Boolean) {
-        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-        EntrySelectionHelper.doEntrySelectionAction(intent,
-                {
+        EntrySelectionHelper.doSpecialAction(intent,
+                { searchInfo ->
                     GroupActivity.launch(this@FileDatabaseSelectActivity,
                             false,
                             searchInfo,
                             readOnly)
                 },
-                {
+                { searchInfo ->
                     GroupActivity.launchForEntrySelectionResult(this@FileDatabaseSelectActivity,
                             false,
                             searchInfo,
@@ -280,14 +289,23 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     // Do not keep history
                     finish()
                 },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                { searchInfo, assistStructure ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && assistStructure != null) {
                         GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                 assistStructure,
                                 false,
                                 searchInfo,
                                 readOnly)
+                    } else {
+                        finish()
                     }
+                },
+                { searchInfo ->
+                    GroupActivity.launchForRegistration(this@FileDatabaseSelectActivity,
+                            false,
+                            searchInfo)
+                    // Do not keep history
+                    finish()
                 })
     }
 
@@ -302,15 +320,19 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         super.onResume()
 
         // Show open and create button or special mode
-        if  (mSelectionMode) {
-            // Disable create button if in selection mode or request for autofill
-            createDatabaseButtonView?.visibility = View.GONE
-        } else {
-            if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
-                // There is an activity which can handle this intent.
-                createDatabaseButtonView?.visibility = View.VISIBLE
-            } else{
-                // No Activity found that can handle this intent.
+        when (mSpecialMode) {
+            SpecialMode.DEFAULT -> {
+                if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
+                    // There is an activity which can handle this intent.
+                    createDatabaseButtonView?.visibility = View.VISIBLE
+                } else{
+                    // No Activity found that can handle this intent.
+                    createDatabaseButtonView?.visibility = View.GONE
+                }
+            }
+            SpecialMode.SELECTION,
+            SpecialMode.REGISTRATION -> {
+                // Disable create button if in selection mode or request for autofill
                 createDatabaseButtonView?.visibility = View.GONE
             }
         }
@@ -408,7 +430,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
-        if (!mSelectionMode) {
+        if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(menuInflater, menu)
         }
 
@@ -470,9 +492,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         fun launch(context: Context,
                    searchInfo: SearchInfo? = null) {
             val intent = Intent(context, FileDatabaseSelectActivity::class.java)
-            searchInfo?.let {
-                intent.putExtra(KEY_SEARCH_INFO, it)
-            }
+            EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
             context.startActivity(intent)
         }
 
@@ -484,8 +504,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         fun launchForEntrySelectionResult(activity: Activity,
                                           searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForEntrySelectionResult(activity,
+            EntrySelectionHelper.startActivityForSpecialModeResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
+                    SpecialMode.SELECTION,
                     searchInfo)
         }
 
@@ -502,6 +523,19 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
                     assistStructure,
+                    searchInfo)
+        }
+
+        /*
+         * -------------------------
+         * 		Registration Launch
+         * -------------------------
+         */
+        fun launchForRegistration(context: Context,
+                                  searchInfo: SearchInfo? = null) {
+            EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                    Intent(context, FileDatabaseSelectActivity::class.java),
+                    SpecialMode.REGISTRATION,
                     searchInfo)
         }
     }

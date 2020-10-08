@@ -145,18 +145,39 @@ class KeeAutofillService : AutofillService() {
         }
     }
 
+    private fun showUIForEntryRegistration(parseResult: StructureParser.Result,
+                                           searchInfo: SearchInfo,
+                                           callback: SaveCallback) {
+
+        parseResult.passwordValue?.let { autofillPasswordValue ->
+
+            AutofillLauncherActivity.launchForRegistration(this, searchInfo)
+
+            // TODO Treat sender value to call
+            // callback.onSuccess() or
+            // callback.onFailure("Saving form canceled")
+        }
+    }
+
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
         val latestStructure = request.fillContexts.last().structure
         StructureParser(latestStructure).parse()?.let { parseResult ->
 
             if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
                     && autofillAllowedFor(parseResult.domain, webDomainBlocklist)) {
-                parseResult.passwordValue?.let { autofillPasswordValue ->
-                    Log.d(TAG, "autofill onSaveRequest password ${autofillPasswordValue.textValue}")
-                    // TODO Save data
-                    callback.onSuccess()
-                    return
+                Log.d(TAG, "autofill onSaveRequest password")
+
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.domain
                 }
+
+                // TODO Save ${autofillPasswordValue.textValue}
+                // Show UI to save data
+                showUIForEntryRegistration(parseResult,
+                        searchInfo,
+                        callback)
+                return
             }
         }
         callback.onFailure("Saving form values is not allowed")

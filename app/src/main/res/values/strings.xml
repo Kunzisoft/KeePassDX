@@ -133,6 +133,7 @@
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
+    <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -212,6 +213,7 @@
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
     <string name="selection_mode">Selection mode</string>
+    <string name="registration_mode">Registration mode</string>
     <string name="remember_database_locations_title">Remember databases locations</string>
     <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
     <string name="remember_keyfile_locations_title">Remember keyfile locations</string>

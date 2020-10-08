@@ -43,7 +43,7 @@ abstract class LockingActivity : SpecialModeActivity() {
     // Force readOnly if Entry Selection mode
     protected var mReadOnly: Boolean
         get() {
-            return mReadOnlyToSave || mSelectionMode
+            return mReadOnlyToSave || mSpecialMode.readOnly
         }
         set(value) {
             mReadOnlyToSave = value

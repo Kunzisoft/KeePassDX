@@ -24,7 +24,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -125,6 +124,6 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity,
     // Populate Magikeyboard with entry
     MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
     // Consume the selection mode
-    EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+    EntrySelectionHelper.removeModesFromIntent(intent)
     activity.moveTaskToBack(true)
 }

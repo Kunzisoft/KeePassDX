@@ -34,7 +34,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -157,11 +157,9 @@ object AutofillHelper {
                                        intent: Intent,
                                        assistStructure: AssistStructure,
                                        searchInfo: SearchInfo?) {
-        EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent)
+        EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.SELECTION)
         intent.putExtra(ASSIST_STRUCTURE, assistStructure)
-        searchInfo?.let {
-            intent.putExtra(KEY_SEARCH_INFO, it)
-        }
+        EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
         activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
     }
 

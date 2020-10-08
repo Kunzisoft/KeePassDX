@@ -44,9 +44,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -285,9 +285,8 @@ open class PasswordActivity : SpecialModeActivity() {
     }
 
     private fun launchGroupActivity() {
-        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-        EntrySelectionHelper.doEntrySelectionAction(intent,
-                {
+        EntrySelectionHelper.doSpecialAction(intent,
+                { searchInfo ->
                     GroupActivity.launch(this@PasswordActivity,
                             true,
                             searchInfo,
@@ -297,7 +296,7 @@ open class PasswordActivity : SpecialModeActivity() {
                         finish()
                     }
                 },
-                {
+                { searchInfo ->
                     SearchHelper.checkAutoSearchInfo(this,
                             Database.getInstance(),
                             searchInfo,
@@ -328,7 +327,7 @@ open class PasswordActivity : SpecialModeActivity() {
                     // Do not keep history
                     finish()
                 },
-                { assistStructure ->
+                { searchInfo, assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         SearchHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
@@ -339,12 +338,16 @@ open class PasswordActivity : SpecialModeActivity() {
                                     finish()
                                 },
                                 {
-                                    // Here no search info found, disable auto search
-                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
-                                            assistStructure,
-                                            false,
-                                            searchInfo,
-                                            readOnly)
+                                    if (assistStructure != null) {
+                                        // Here no search info found, disable auto search
+                                        GroupActivity.launchForAutofillResult(this@PasswordActivity,
+                                                assistStructure,
+                                                false,
+                                                searchInfo,
+                                                readOnly)
+                                    } else {
+                                        finish()
+                                    }
                                 },
                                 {
                                     // Simply close if database not opened, normally not happened
@@ -352,6 +355,29 @@ open class PasswordActivity : SpecialModeActivity() {
                                 }
                         )
                     }
+                },
+                { searchInfo ->
+                    SearchHelper.checkAutoSearchInfo(this,
+                            Database.getInstance(),
+                            searchInfo,
+                            { _ ->
+                                // Select the one we want
+                                GroupActivity.launchForRegistration(this,
+                                        true,
+                                        searchInfo)
+                            },
+                            {
+                                // Here no search info found, disable auto search
+                                GroupActivity.launchForRegistration(this@PasswordActivity,
+                                        false,
+                                        searchInfo)
+                            },
+                            {
+                                // Simply close if database not opened, normally not happened
+                            }
+                    )
+                    // Do not keep history
+                    finish()
                 })
     }
 
@@ -607,13 +633,13 @@ open class PasswordActivity : SpecialModeActivity() {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-        if (mSelectionMode || mForceReadOnly) {
+        if (mSpecialMode != SpecialMode.DEFAULT || mForceReadOnly) {
             menu.removeItem(R.id.menu_open_file_read_mode_key)
         } else {
             changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
         }
 
-        if (!mSelectionMode) {
+        if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
         }
 
@@ -809,15 +835,12 @@ open class PasswordActivity : SpecialModeActivity() {
          */
 
         @Throws(FileNotFoundException::class)
-        fun launch(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                searchInfo: SearchInfo?) {
+        fun launch(activity: Activity,
+                   databaseFile: Uri,
+                   keyFile: Uri?,
+                   searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                searchInfo?.let {
-                    intent.putExtra(KEY_SEARCH_INFO, it)
-                }
+                EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
                 activity.startActivity(intent)
             }
         }
@@ -829,15 +852,15 @@ open class PasswordActivity : SpecialModeActivity() {
          */
 
         @Throws(FileNotFoundException::class)
-        fun launchForKeyboardResult(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                searchInfo: SearchInfo?) {
+        fun launchForKeyboardResult(activity: Activity,
+                                    databaseFile: Uri,
+                                    keyFile: Uri?,
+                                    searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelectionResult(
+                EntrySelectionHelper.startActivityForSpecialModeResult(
                         activity,
                         intent,
+                        SpecialMode.SELECTION,
                         searchInfo)
             }
         }
@@ -850,12 +873,11 @@ open class PasswordActivity : SpecialModeActivity() {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Throws(FileNotFoundException::class)
-        fun launchForAutofillResult(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                assistStructure: AssistStructure?,
-                searchInfo: SearchInfo?) {
+        fun launchForAutofillResult(activity: Activity,
+                                    databaseFile: Uri,
+                                    keyFile: Uri?,
+                                    assistStructure: AssistStructure?,
+                                    searchInfo: SearchInfo?) {
             if (assistStructure != null) {
                 buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                     AutofillHelper.startActivityForAutofillResult(
@@ -866,6 +888,24 @@ open class PasswordActivity : SpecialModeActivity() {
                 }
             } else {
                 launch(activity, databaseFile, keyFile, searchInfo)
+            }
+        }
+
+        /*
+         * -------------------------
+         * 		Registration Launch
+         * -------------------------
+         */
+        fun launchForRegistration(activity: Activity,
+                                  databaseFile: Uri,
+                                  keyFile: Uri?,
+                                  searchInfo: SearchInfo?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                EntrySelectionHelper.startActivityForSpecialModeResult(
+                        activity,
+                        intent,
+                        SpecialMode.REGISTRATION,
+                        searchInfo)
             }
         }
     }
