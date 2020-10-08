@@ -209,13 +209,11 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
+            val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
             // < M solve verifyError exception
-            var biometricUnlockSupported = false
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(activity)
-                biometricUnlockSupported = biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
-            }
+            val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                BiometricUnlockDatabaseHelper.unlockSupported(activity)
+            } else false
             if (!biometricUnlockSupported) {
                 // False if under Marshmallow
                 biometricUnlockEnablePreference?.apply {
@@ -227,10 +225,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         false
                     }
                 }
-            }
-
-            val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
-            if (!biometricUnlockSupported) {
                 deleteKeysFingerprints?.isEnabled = false
             } else {
                 deleteKeysFingerprints?.setOnPreferenceClickListener {
