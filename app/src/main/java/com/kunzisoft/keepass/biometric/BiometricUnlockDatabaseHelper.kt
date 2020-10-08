@@ -305,7 +305,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                     BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to authenticate with weak biometric.", e)
-                    BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                    BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE
                 }
             }
         }
