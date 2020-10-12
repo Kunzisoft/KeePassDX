@@ -77,7 +77,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                                     intent)
                         } else {
                             // Select the one we want
-                            GroupActivity.launchForEntrySelectionResult(this,
+                            GroupActivity.launchForKeyboardSelectionResult(this,
                                     true,
                                     searchInfo)
                         }
@@ -90,7 +90,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 {
                     // Show the database UI to select the entry
                     if (searchShareForMagikeyboard) {
-                        GroupActivity.launchForEntrySelectionResult(this,
+                        GroupActivity.launchForKeyboardSelectionResult(this,
                                 false,
                                 searchInfo)
                     } else {
@@ -102,7 +102,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 {
                     // If database not open
                     if (searchShareForMagikeyboard) {
-                        FileDatabaseSelectActivity.launchForEntrySelectionResult(this,
+                        FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
                                 searchInfo)
                     } else {
                         FileDatabaseSelectActivity.launch(this,

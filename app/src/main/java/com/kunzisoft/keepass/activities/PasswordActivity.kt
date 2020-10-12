@@ -309,14 +309,14 @@ open class PasswordActivity : SpecialModeActivity() {
                                             intent)
                                 } else {
                                     // Select the one we want
-                                    GroupActivity.launchForEntrySelectionResult(this,
+                                    GroupActivity.launchForKeyboardSelectionResult(this,
                                             true,
                                             searchInfo)
                                 }
                             },
                             {
                                 // Here no search info found, disable auto search
-                                GroupActivity.launchForEntrySelectionResult(this@PasswordActivity,
+                                GroupActivity.launchForKeyboardSelectionResult(this@PasswordActivity,
                                         false,
                                         searchInfo,
                                         readOnly)
@@ -856,7 +856,7 @@ open class PasswordActivity : SpecialModeActivity() {
                                     keyFile: Uri?,
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForSelectionModeResult(
+                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
                         activity,
                         intent,
                         searchInfo)

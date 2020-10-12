@@ -1126,13 +1126,13 @@ class GroupActivity : LockingActivity(),
          * 		Keyboard Launch
          * -------------------------
          */
-        fun launchForEntrySelectionResult(context: Context,
-                                          autoSearch: Boolean = false,
-                                          searchInfo: SearchInfo? = null,
-                                          readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+        fun launchForKeyboardSelectionResult(context: Context,
+                                             autoSearch: Boolean = false,
+                                             searchInfo: SearchInfo? = null,
+                                             readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                EntrySelectionHelper.startActivityForSelectionModeResult(context,
+                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
                         intent,
                         searchInfo)
             }

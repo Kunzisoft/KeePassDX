@@ -283,7 +283,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                             readOnly)
                 },
                 { searchInfo ->
-                    GroupActivity.launchForEntrySelectionResult(this@FileDatabaseSelectActivity,
+                    GroupActivity.launchForKeyboardSelectionResult(this@FileDatabaseSelectActivity,
                             false,
                             searchInfo,
                             readOnly)
@@ -502,9 +502,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
          * -------------------------
          */
 
-        fun launchForEntrySelectionResult(activity: Activity,
-                                          searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForSelectionModeResult(activity,
+        fun launchForKeyboardSelectionResult(activity: Activity,
+                                             searchInfo: SearchInfo? = null) {
+            EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
                     searchInfo)
         }

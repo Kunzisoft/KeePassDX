@@ -35,10 +35,11 @@ object EntrySelectionHelper {
     private const val KEY_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
     private const val KEY_REGISTER_INFO = "com.kunzisoft.keepass.extra.REGISTER_INFO"
 
-    fun startActivityForSelectionModeResult(context: Context,
-                                            intent: Intent,
-                                            searchInfo: SearchInfo?) {
+    fun startActivityForKeyboardSelectionModeResult(context: Context,
+                                                    intent: Intent,
+                                                    searchInfo: SearchInfo?) {
         addSpecialModeInIntent(intent, SpecialMode.SELECTION)
+        addTypeModeInIntent(intent, TypeMode.MAGIKEYBOARD)
         addSearchInfoInIntent(intent, searchInfo)
         context.startActivity(intent)
     }
@@ -130,8 +131,9 @@ object EntrySelectionHelper {
                 }
                 if (!assistStructureInit) {
                     if (intent.getSerializableExtra(KEY_SPECIAL_MODE) != null) {
+                        val typeMode = retrieveTypeModeFromIntent(intent)
                         removeModesFromIntent(intent)
-                        when (retrieveTypeModeFromIntent(intent)) {
+                        when (typeMode) {
                             TypeMode.DEFAULT -> defaultAction.invoke(searchInfo)
                             TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
                             TypeMode.AUTOFILL -> autofillSelectionAction.invoke(searchInfo, null)
