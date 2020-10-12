@@ -147,28 +147,30 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
-        val latestStructure = request.fillContexts.last().structure
-        StructureParser(latestStructure).parse(true)?.let { parseResult ->
+        if (askToSaveData) {
+            val latestStructure = request.fillContexts.last().structure
+            StructureParser(latestStructure).parse(true)?.let { parseResult ->
 
-            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                    && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
-                Log.d(TAG, "autofill onSaveRequest password")
+                if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                        && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+                    Log.d(TAG, "autofill onSaveRequest password")
 
-                // Show UI to save data
-                val registerInfo = RegisterInfo(SearchInfo().apply {
-                            applicationId = parseResult.applicationId
-                            webDomain = parseResult.webDomain
-                        },
-                        parseResult.usernameValue?.textValue?.toString(),
-                        parseResult.passwordValue?.textValue?.toString())
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
-                            registerInfo))
-                } else {
-                    AutofillLauncherActivity.launchForRegistration(this, registerInfo)
-                    callback.onSuccess()
+                    // Show UI to save data
+                    val registerInfo = RegisterInfo(SearchInfo().apply {
+                        applicationId = parseResult.applicationId
+                        webDomain = parseResult.webDomain
+                    },
+                            parseResult.usernameValue?.textValue?.toString(),
+                            parseResult.passwordValue?.textValue?.toString())
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
+                                registerInfo))
+                    } else {
+                        AutofillLauncherActivity.launchForRegistration(this, registerInfo)
+                        callback.onSuccess()
+                    }
+                    return
                 }
-                return
             }
         }
         callback.onFailure("Saving form values is not allowed")
