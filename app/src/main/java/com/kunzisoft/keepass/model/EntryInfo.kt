@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
-import java.util.*
+import kotlin.collections.ArrayList
 
 class EntryInfo : Parcelable {
 
@@ -101,7 +101,30 @@ class EntryInfo : Parcelable {
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
     }
 
+    fun addUniqueField(field: Field, number: Int = 0) {
+        var exists = false
+        var sameData = false
+        val suffix = if (number > 0) number.toString() else ""
+        customFields.forEach { currentField ->
+            if (currentField.name == field.name + suffix) {
+                exists = true
+                // Not write the same value again
+                if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
+                    sameData = true
+                } else {
+                    addUniqueField(currentField, number + 1)
+                }
+                return
+            }
+        }
+        if (!exists && !sameData)
+            (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
+    }
+
     companion object {
+
+        const val WEB_DOMAIN_FIELD_NAME = "WebDomain"
+        const val APPLICATION_ID_FIELD_NAME = "ApplicationId"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {

@@ -33,14 +33,28 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="?attr/toolbarAppearance"
-            android:popupTheme="?attr/toolbarPopupAppearance"
-            tools:targetApi="lollipop" />
+            android:layout_height="wrap_content" >
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="?attr/toolbarAppearance"
+                android:popupTheme="?attr/toolbarPopupAppearance"
+                tools:targetApi="lollipop" />
+
+            <com.kunzisoft.keepass.view.SpecialModeView
+                android:id="@+id/special_mode_view"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="?attr/specialToolbarAppearance"
+                app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
+                app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
+                app:layout_constraintTop_toTopOf="parent" />
+        </FrameLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

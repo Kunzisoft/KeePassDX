@@ -205,16 +205,33 @@ class GroupActivity : LockingActivity(),
         }
 
         // Add listeners to the add buttons
-        addNodeButtonView?.setAddGroupClickListener(View.OnClickListener {
+        addNodeButtonView?.setAddGroupClickListener {
             GroupEditDialogFragment.build()
                     .show(supportFragmentManager,
                             GroupEditDialogFragment.TAG_CREATE_GROUP)
-        })
-        addNodeButtonView?.setAddEntryClickListener(View.OnClickListener {
-            mCurrentGroup?.let { currentGroup ->
-                EntryEditActivity.launch(this@GroupActivity, currentGroup)
-            }
-        })
+        }
+        addNodeButtonView?.setAddEntryClickListener {
+            EntrySelectionHelper.doSpecialAction(intent,
+                    {
+                        mCurrentGroup?.let { currentGroup ->
+                            EntryEditActivity.launch(this@GroupActivity, currentGroup)
+                        }
+                    },
+                    {
+                        // Add button is not allowed for keyboard selection
+                    },
+                    { _, _ ->
+                        // Add button is not allowed for autofill selection
+                    },
+                    { searchInfo ->
+                        mCurrentGroup?.let { currentGroup ->
+                            EntryEditActivity.launchForRegistration(this@GroupActivity,
+                                    currentGroup, searchInfo)
+                        }
+                        finish()
+                    }
+            )
+        }
 
         mDatabase?.let { database ->
             // Search suggestion
@@ -551,7 +568,11 @@ class GroupActivity : LockingActivity(),
                         },
                         { searchInfo ->
                             rebuildListNodes()
-                            // TODO Registration
+                            // Registration to update the entry
+                            // TODO box update confirmation
+                            EntryEditActivity.launchForRegistration(this@GroupActivity,
+                                    entryVersioned, searchInfo)
+                            finish()
                         })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
@@ -1143,10 +1164,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForRegistration(context: Context,
-                                  autoSearch: Boolean = false,
                                   searchInfo: SearchInfo? = null) {
             checkTimeAndBuildIntent(context, null, false) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                intent.putExtra(AUTO_SEARCH_KEY, false)
                 EntrySelectionHelper.startActivityForSpecialModeResult(context,
                         intent,
                         SpecialMode.REGISTRATION,

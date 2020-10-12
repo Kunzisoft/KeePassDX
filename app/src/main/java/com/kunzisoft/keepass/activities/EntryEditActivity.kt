@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -42,13 +43,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
@@ -64,7 +68,6 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
@@ -170,6 +173,21 @@ class EntryEditActivity : LockingActivity(),
             }
             // Set default username
             tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
+        }
+
+        // Retrieve data from registration
+        tempEntryInfo?.customFields
+        val searchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        searchInfo?.webDomain?.let { webDomain ->
+            tempEntryInfo?.addUniqueField(Field(EntryInfo.WEB_DOMAIN_FIELD_NAME,
+                    ProtectedString(false, webDomain))
+            )
+        } ?: run {
+            searchInfo?.applicationId?.let { applicationId ->
+                tempEntryInfo?.addUniqueField(Field(EntryInfo.APPLICATION_ID_FIELD_NAME,
+                        ProtectedString(false, applicationId))
+                )
+            }
         }
 
         // Build fragment to manage entry modification
@@ -725,12 +743,13 @@ class EntryEditActivity : LockingActivity(),
          * Launch EntryEditActivity to update an existing entry
          *
          * @param activity from activity
-         * @param pwEntry Entry to update
+         * @param entry Entry to update
          */
-        fun launch(activity: Activity, pwEntry: Entry) {
+        fun launch(activity: Activity,
+                   entry: Entry) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, pwEntry.nodeId)
+                intent.putExtra(KEY_ENTRY, entry.nodeId)
                 activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }
@@ -739,13 +758,46 @@ class EntryEditActivity : LockingActivity(),
          * Launch EntryEditActivity to add a new entry
          *
          * @param activity from activity
-         * @param pwGroup Group who will contains new entry
+         * @param group Group who will contains new entry
          */
-        fun launch(activity: Activity, pwGroup: Group) {
+        fun launch(activity: Activity,
+                   group: Group) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, pwGroup.nodeId)
+                intent.putExtra(KEY_PARENT, group.nodeId)
                 activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+            }
+        }
+
+        /**
+         * Launch EntryEditActivity to register an updated entry (from autofill)
+         */
+        fun launchForRegistration(context: Context,
+                                  entry: Entry,
+                                  searchInfo: SearchInfo? = null) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                val intent = Intent(context, EntryEditActivity::class.java)
+                intent.putExtra(KEY_ENTRY, entry.nodeId)
+                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                        intent,
+                        SpecialMode.REGISTRATION,
+                        searchInfo)
+            }
+        }
+
+        /**
+         * Launch EntryEditActivity to register a new entry (from autofill)
+         */
+        fun launchForRegistration(context: Context,
+                                  group: Group,
+                                  searchInfo: SearchInfo? = null) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                val intent = Intent(context, EntryEditActivity::class.java)
+                intent.putExtra(KEY_PARENT, group.nodeId)
+                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                        intent,
+                        SpecialMode.REGISTRATION,
+                        searchInfo)
             }
         }
     }

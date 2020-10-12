@@ -108,20 +108,17 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
                         setResult(Activity.RESULT_CANCELED)
                     } else {
-                        // If database is open
                         SearchHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
                                 searchInfo,
                                 { _ ->
                                     // Show the database UI to select the entry
                                     GroupActivity.launchForRegistration(this,
-                                            false,
                                             searchInfo)
                                 },
                                 {
                                     // Show the database UI to select the entry
                                     GroupActivity.launchForRegistration(this,
-                                            false,
                                             searchInfo)
                                 },
                                 {
@@ -170,6 +167,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                 intent.putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
                 intent.putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

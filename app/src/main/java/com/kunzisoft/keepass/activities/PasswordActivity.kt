@@ -361,15 +361,13 @@ open class PasswordActivity : SpecialModeActivity() {
                             Database.getInstance(),
                             searchInfo,
                             { _ ->
-                                // Select the one we want
+                                // No auto search, it's a registration
                                 GroupActivity.launchForRegistration(this,
-                                        true,
                                         searchInfo)
                             },
                             {
                                 // Here no search info found, disable auto search
                                 GroupActivity.launchForRegistration(this@PasswordActivity,
-                                        false,
                                         searchInfo)
                             },
                             {

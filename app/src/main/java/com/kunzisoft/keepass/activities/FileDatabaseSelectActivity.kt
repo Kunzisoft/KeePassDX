@@ -302,7 +302,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 },
                 { searchInfo ->
                     GroupActivity.launchForRegistration(this@FileDatabaseSelectActivity,
-                            false,
                             searchInfo)
                     // Do not keep history
                     finish()
