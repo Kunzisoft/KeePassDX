@@ -184,14 +184,26 @@ class EntryEditActivity : LockingActivity(),
         }
         registerInfo?.searchInfo?.let { searchInfo ->
             searchInfo.webDomain?.let { webDomain ->
-                tempEntryInfo?.addUniqueField(Field(EntryInfo.WEB_DOMAIN_FIELD_NAME,
-                        ProtectedString(false, webDomain))
-                )
-            } ?: run {
-                searchInfo.applicationId?.let { applicationId ->
-                    tempEntryInfo?.addUniqueField(Field(EntryInfo.APPLICATION_ID_FIELD_NAME,
-                            ProtectedString(false, applicationId))
+                // If unable to save web domain in custom field or URL not populate, save in URL
+                if (mDatabase?.allowEntryCustomFields() != true) {
+                        //|| tempEntryInfo?.url?.isEmpty() == true) {
+                    val scheme = "http"
+                    // TODO Retrieve scheme
+                    tempEntryInfo?.url = "$scheme://$webDomain"
+                } else {
+                    // Save web domain in custom field
+                    tempEntryInfo?.addUniqueField(Field(EntryInfo.WEB_DOMAIN_FIELD_NAME,
+                            ProtectedString(false, webDomain))
                     )
+                }
+            } ?: run {
+                // Save application id in custom field
+                if (mDatabase?.allowEntryCustomFields() == true) {
+                    searchInfo.applicationId?.let { applicationId ->
+                        tempEntryInfo?.addUniqueField(Field(EntryInfo.APPLICATION_ID_FIELD_NAME,
+                                ProtectedString(false, applicationId))
+                        )
+                    }
                 }
             }
         }
@@ -708,7 +720,7 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    private fun onApprovedBackPressed(approved: ()-> Unit) {
+    private fun onApprovedBackPressed(approved: () -> Unit) {
         AlertDialog.Builder(this)
                 .setMessage(R.string.discard_changes)
                 .setNegativeButton(android.R.string.cancel, null)
