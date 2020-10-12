@@ -308,7 +308,7 @@ class EntryEditActivity : LockingActivity(),
                             }
                             if (newNodes.size == 1) {
                                 mEntry = newNodes[0] as Entry?
-                                finish()
+                                cancelSpecialModeAndFinish()
                             }
                         }
                     } catch (e: Exception) {
@@ -697,12 +697,29 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onBackPressed() {
+        onApprovedBackPressed {
+            super@EntryEditActivity.onBackPressed()
+        }
+    }
+
+    override fun onCancelSpecialMode() {
+        onApprovedBackPressed {
+            cancelSpecialModeAndFinish()
+        }
+    }
+
+    private fun onApprovedBackPressed(approved: ()-> Unit) {
         AlertDialog.Builder(this)
                 .setMessage(R.string.discard_changes)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.discard) { _, _ ->
-                    super@EntryEditActivity.onBackPressed()
+                    approved.invoke()
                 }.create().show()
+    }
+
+    private fun cancelSpecialModeAndFinish() {
+        super.onCancelSpecialMode()
+        finish()
     }
 
     override fun finish() {

@@ -51,6 +51,7 @@ object EntrySelectionHelper {
         // At the moment, only autofill for registration
         addTypeModeInIntent(intent, TypeMode.AUTOFILL)
         addRegisterInfoInIntent(intent, registerInfo)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
     }
 
@@ -118,6 +119,8 @@ object EntrySelectionHelper {
 
         when (retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
+                removeModesFromIntent(intent)
+                removeInfoFromIntent(intent)
                 defaultAction.invoke(retrieveSearchInfoFromIntent(intent))
             }
             SpecialMode.SELECTION -> {
@@ -145,6 +148,8 @@ object EntrySelectionHelper {
             }
             SpecialMode.REGISTRATION -> {
                 val registerInfo: RegisterInfo? = retrieveRegisterInfoFromIntent(intent)
+                removeModesFromIntent(intent)
+                removeInfoFromIntent(intent)
                 registrationAction.invoke(registerInfo)
             }
         }

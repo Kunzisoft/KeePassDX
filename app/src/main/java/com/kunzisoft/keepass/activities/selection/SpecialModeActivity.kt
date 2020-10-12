@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.activities.selection
 
+import android.os.Build
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
@@ -21,8 +22,39 @@ abstract class SpecialModeActivity : StylishActivity() {
 
     private var mSpecialModeView: SpecialModeView? = null
 
+    override fun onBackPressed() {
+        if (mSpecialMode != SpecialMode.DEFAULT)
+            onCancelSpecialMode()
+        else
+            super.onBackPressed()
+    }
+
+    /**
+     * To call the regular onBackPressed() method in special mode
+     */
+    protected fun onRegularBackPressed() {
+        super.onBackPressed()
+    }
+
     open fun onCancelSpecialMode() {
-        onBackPressed()
+        EntrySelectionHelper.removeModesFromIntent(intent)
+        EntrySelectionHelper.removeInfoFromIntent(intent)
+        if (mSpecialMode != SpecialMode.DEFAULT)
+            backToTheAppCaller()
+    }
+
+    protected fun backToTheAppCaller() {
+        if ((mSpecialMode == SpecialMode.SELECTION
+                        && mTypeMode == TypeMode.AUTOFILL)
+                || (mSpecialMode == SpecialMode.REGISTRATION
+                        && mTypeMode == TypeMode.AUTOFILL
+                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)) {
+            // To get the app caller, only for IntentSender
+            super.onBackPressed()
+        } else {
+            // To move the app in background
+            moveTaskToBack(true)
+        }
     }
 
     override fun onResume() {
@@ -76,6 +108,12 @@ abstract class SpecialModeActivity : StylishActivity() {
                     true
                 }
             }
+        }
+
+        // To hide home button from the regular toolbar in special mode
+        if (mSpecialMode != SpecialMode.DEFAULT) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setDisplayShowHomeEnabled(false)
         }
     }
 

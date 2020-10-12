@@ -52,7 +52,6 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.helpers.TypeMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -501,20 +500,6 @@ class GroupActivity : LockingActivity(),
             if (actionNodeMode == null)
                 showButton()
         }
-    }
-
-    override fun onCancelSpecialMode() {
-        // To remove the navigation history and
-        EntrySelectionHelper.removeModesFromIntent(intent)
-        val fragmentManager = supportFragmentManager
-        if (mSelectionModeCountBackStack > 0) {
-            for (selectionMode in 0 .. mSelectionModeCountBackStack) {
-                fragmentManager.popBackStack()
-            }
-        }
-        // Reinit the counter for navigation history
-        mSelectionModeCountBackStack = 0
-        backToTheAppCaller()
     }
 
     private fun refreshNumberOfChildren() {
@@ -1029,39 +1014,40 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
     }
 
-    private fun backToTheAppCaller() {
-        if (mTypeMode == TypeMode.AUTOFILL) {
-            // To get the app caller, only for autofill
-            super.onBackPressed()
-        } else {
-            // To move the app in background
-            moveTaskToBack(true)
-        }
-    }
-
     override fun onBackPressed() {
         if (mListNodesFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {
             // Normal way when we are not in root
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
-                super.onBackPressed()
+                super.onRegularBackPressed()
                 rebuildListNodes()
             }
             // Else in root, lock if needed
             else {
                 intent.removeExtra(AUTO_SEARCH_KEY)
+                EntrySelectionHelper.removeModesFromIntent(intent)
                 EntrySelectionHelper.removeInfoFromIntent(intent)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
-                    super.onBackPressed()
+                    super.onRegularBackPressed()
                 } else {
-                    // To restore standard mode
-                    EntrySelectionHelper.removeModesFromIntent(intent)
                     backToTheAppCaller()
                 }
             }
         }
+    }
+
+    override fun onCancelSpecialMode() {
+        val fragmentManager = supportFragmentManager
+        if (mSelectionModeCountBackStack > 0) {
+            for (selectionMode in 0 .. mSelectionModeCountBackStack) {
+                fragmentManager.popBackStack()
+            }
+        }
+        // Reinit the counter for navigation history
+        mSelectionModeCountBackStack = 0
+        super.onCancelSpecialMode()
     }
 
     companion object {
