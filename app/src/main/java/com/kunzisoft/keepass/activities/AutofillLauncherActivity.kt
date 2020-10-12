@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
@@ -43,12 +44,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 class AutofillLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        // Build search param
-        val searchInfo = SearchInfo().apply {
-            applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
-            webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
-        }
 
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
@@ -59,6 +54,11 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     finish()
                 }
                 SpecialMode.SELECTION -> {
+                    // Build search param
+                    val searchInfo = SearchInfo().apply {
+                        applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
+                        webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
+                    }
                     // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
                     val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
 
@@ -100,6 +100,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     }
                 }
                 SpecialMode.REGISTRATION -> {
+                    // To register info
+                    val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
+                    val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
                                     PreferencesUtil.applicationIdBlocklist(this))
                             || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
@@ -114,17 +117,17 @@ class AutofillLauncherActivity : AppCompatActivity() {
                                 { _ ->
                                     // Show the database UI to select the entry
                                     GroupActivity.launchForRegistration(this,
-                                            searchInfo)
+                                            registerInfo)
                                 },
                                 {
                                     // Show the database UI to select the entry
                                     GroupActivity.launchForRegistration(this,
-                                            searchInfo)
+                                            registerInfo)
                                 },
                                 {
                                     // If database not open
                                     FileDatabaseSelectActivity.launchForRegistration(this,
-                                            searchInfo)
+                                            registerInfo)
                                 }
                         )
                     }
@@ -146,6 +149,8 @@ class AutofillLauncherActivity : AppCompatActivity() {
         private const val KEY_SEARCH_APPLICATION_ID = "KEY_SEARCH_APPLICATION_ID"
         private const val KEY_SEARCH_DOMAIN = "KEY_SEARCH_DOMAIN"
 
+        private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
+
         fun getAuthIntentSenderForResponse(context: Context,
                                            searchInfo: SearchInfo? = null): IntentSender {
             return PendingIntent.getActivity(context, 0,
@@ -160,13 +165,10 @@ class AutofillLauncherActivity : AppCompatActivity() {
         }
 
         fun launchForRegistration(context: Context,
-                                  searchInfo: SearchInfo? = null) {
+                                  registerInfo: RegisterInfo) {
             val intent = Intent(context, AutofillLauncherActivity::class.java)
             EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
-            searchInfo?.let {
-                intent.putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
-                intent.putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
-            }
+            intent.putExtra(KEY_REGISTER_INFO, registerInfo)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }

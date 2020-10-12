@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.concurrent.atomic.AtomicBoolean
@@ -65,10 +66,10 @@ class KeeAutofillService : AutofillService() {
 
                 // Build search info only if applicationId or webDomain are not blocked
                 if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                        && autofillAllowedFor(parseResult.domain, webDomainBlocklist)) {
+                        && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
                     val searchInfo = SearchInfo().apply {
                         applicationId = parseResult.applicationId
-                        webDomain = parseResult.domain
+                        webDomain = parseResult.webDomain
                     }
 
                     SearchHelper.checkAutoSearchInfo(this,
@@ -77,7 +78,7 @@ class KeeAutofillService : AutofillService() {
                             { items ->
                                 val responseBuilder = FillResponse.Builder()
                                 AutofillHelper.addHeader(responseBuilder, packageName,
-                                        parseResult.domain, parseResult.applicationId)
+                                        parseResult.webDomain, parseResult.applicationId)
                                 items.forEach {
                                     responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
                                 }
@@ -107,9 +108,9 @@ class KeeAutofillService : AutofillService() {
                 val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this,
                         searchInfo)
                 val responseBuilder = FillResponse.Builder()
-                val remoteViewsUnlock: RemoteViews = if (!parseResult.domain.isNullOrEmpty()) {
+                val remoteViewsUnlock: RemoteViews = if (!parseResult.webDomain.isNullOrEmpty()) {
                     RemoteViews(packageName, R.layout.item_autofill_unlock_web_domain).apply {
-                        setTextViewText(R.id.autofill_web_domain_text, parseResult.domain)
+                        setTextViewText(R.id.autofill_web_domain_text, parseResult.webDomain)
                     }
                 } else if (!parseResult.applicationId.isNullOrEmpty()) {
                     RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
@@ -145,38 +146,26 @@ class KeeAutofillService : AutofillService() {
         }
     }
 
-    private fun showUIForEntryRegistration(parseResult: StructureParser.Result,
-                                           searchInfo: SearchInfo,
-                                           callback: SaveCallback) {
-
-        parseResult.passwordValue?.let { autofillPasswordValue ->
-
-            AutofillLauncherActivity.launchForRegistration(this, searchInfo)
-
-            // TODO Treat sender value to call
-            // callback.onSuccess() or
-            // callback.onFailure("Saving form canceled")
-        }
-    }
-
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
         val latestStructure = request.fillContexts.last().structure
-        StructureParser(latestStructure).parse()?.let { parseResult ->
+        StructureParser(latestStructure).parse(true)?.let { parseResult ->
 
             if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                    && autofillAllowedFor(parseResult.domain, webDomainBlocklist)) {
+                    && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
                 Log.d(TAG, "autofill onSaveRequest password")
 
-                val searchInfo = SearchInfo().apply {
-                    applicationId = parseResult.applicationId
-                    webDomain = parseResult.domain
-                }
-
-                // TODO Save ${autofillPasswordValue.textValue}
                 // Show UI to save data
-                showUIForEntryRegistration(parseResult,
-                        searchInfo,
-                        callback)
+                val registerInfo = RegisterInfo(SearchInfo().apply {
+                            applicationId = parseResult.applicationId
+                            webDomain = parseResult.webDomain
+                        },
+                        parseResult.usernameValue?.textValue?.toString(),
+                        parseResult.passwordValue?.textValue?.toString())
+                AutofillLauncherActivity.launchForRegistration(this, registerInfo)
+
+                // TODO Treat sender value to call
+                // callback.onSuccess() or
+                // callback.onFailure("Saving form canceled")
                 return
             }
         }

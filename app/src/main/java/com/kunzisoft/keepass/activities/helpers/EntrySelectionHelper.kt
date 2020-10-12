@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import java.io.Serializable
 
@@ -32,15 +33,23 @@ object EntrySelectionHelper {
     private const val KEY_SPECIAL_MODE = "com.kunzisoft.keepass.extra.SPECIAL_MODE"
     private const val KEY_TYPE_MODE = "com.kunzisoft.keepass.extra.TYPE_MODE"
     private const val KEY_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
+    private const val KEY_REGISTER_INFO = "com.kunzisoft.keepass.extra.REGISTER_INFO"
 
-    fun startActivityForSpecialModeResult(context: Context,
-                                          intent: Intent,
-                                          specialMode: SpecialMode,
-                                          searchInfo: SearchInfo?) {
-        addSpecialModeInIntent(intent, specialMode)
+    fun startActivityForSelectionModeResult(context: Context,
+                                            intent: Intent,
+                                            searchInfo: SearchInfo?) {
+        addSpecialModeInIntent(intent, SpecialMode.SELECTION)
+        addSearchInfoInIntent(intent, searchInfo)
+        context.startActivity(intent)
+    }
+
+    fun startActivityForRegistrationModeResult(context: Context,
+                                               intent: Intent,
+                                               registerInfo: RegisterInfo?) {
+        addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
         // At the moment, only autofill for registration
         addTypeModeInIntent(intent, TypeMode.AUTOFILL)
-        addSearchInfoInIntent(intent, searchInfo)
+        addRegisterInfoInIntent(intent, registerInfo)
         context.startActivity(intent)
     }
 
@@ -54,8 +63,19 @@ object EntrySelectionHelper {
         return intent.getParcelableExtra(KEY_SEARCH_INFO)
     }
 
-    fun removeSearchInfoFromIntent(intent: Intent) {
+    fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
+        registerInfo?.let {
+            intent.putExtra(KEY_REGISTER_INFO, it)
+        }
+    }
+
+    fun retrieveRegisterInfoFromIntent(intent: Intent): RegisterInfo? {
+        return intent.getParcelableExtra(KEY_REGISTER_INFO)
+    }
+
+    fun removeInfoFromIntent(intent: Intent) {
         intent.removeExtra(KEY_SEARCH_INFO)
+        intent.removeExtra(KEY_REGISTER_INFO)
     }
 
     fun addSpecialModeInIntent(intent: Intent, specialMode: SpecialMode) {
@@ -93,14 +113,14 @@ object EntrySelectionHelper {
                         keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
                         autofillSelectionAction: (searchInfo: SearchInfo?,
                                                   assistStructure: AssistStructure?) -> Unit,
-                        registrationAction: (searchInfo: SearchInfo?) -> Unit) {
+                        registrationAction: (registerInfo: RegisterInfo?) -> Unit) {
 
-        val searchInfo: SearchInfo? = retrieveSearchInfoFromIntent(intent)
         when (retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
-                defaultAction.invoke(searchInfo)
+                defaultAction.invoke(retrieveSearchInfoFromIntent(intent))
             }
             SpecialMode.SELECTION -> {
+                val searchInfo: SearchInfo? = retrieveSearchInfoFromIntent(intent)
                 var assistStructureInit = false
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     AutofillHelper.retrieveAssistStructure(intent)?.let { assistStructure ->
@@ -122,7 +142,8 @@ object EntrySelectionHelper {
                 }
             }
             SpecialMode.REGISTRATION -> {
-                registrationAction.invoke(searchInfo)
+                val registerInfo: RegisterInfo? = retrieveRegisterInfoFromIntent(intent)
+                registrationAction.invoke(registerInfo)
             }
         }
     }

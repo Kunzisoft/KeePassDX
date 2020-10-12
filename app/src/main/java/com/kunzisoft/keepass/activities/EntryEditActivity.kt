@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -176,17 +175,24 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Retrieve data from registration
-        tempEntryInfo?.customFields
-        val searchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-        searchInfo?.webDomain?.let { webDomain ->
-            tempEntryInfo?.addUniqueField(Field(EntryInfo.WEB_DOMAIN_FIELD_NAME,
-                    ProtectedString(false, webDomain))
-            )
-        } ?: run {
-            searchInfo?.applicationId?.let { applicationId ->
-                tempEntryInfo?.addUniqueField(Field(EntryInfo.APPLICATION_ID_FIELD_NAME,
-                        ProtectedString(false, applicationId))
+        val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        registerInfo?.username?.let {
+            tempEntryInfo?.username = it
+        }
+        registerInfo?.password?.let {
+            tempEntryInfo?.password = it
+        }
+        registerInfo?.searchInfo?.let { searchInfo ->
+            searchInfo.webDomain?.let { webDomain ->
+                tempEntryInfo?.addUniqueField(Field(EntryInfo.WEB_DOMAIN_FIELD_NAME,
+                        ProtectedString(false, webDomain))
                 )
+            } ?: run {
+                searchInfo.applicationId?.let { applicationId ->
+                    tempEntryInfo?.addUniqueField(Field(EntryInfo.APPLICATION_ID_FIELD_NAME,
+                            ProtectedString(false, applicationId))
+                    )
+                }
             }
         }
 
@@ -774,14 +780,13 @@ class EntryEditActivity : LockingActivity(),
          */
         fun launchForRegistration(context: Context,
                                   entry: Entry,
-                                  searchInfo: SearchInfo? = null) {
+                                  registerInfo: RegisterInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
                 intent.putExtra(KEY_ENTRY, entry.nodeId)
-                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                         intent,
-                        SpecialMode.REGISTRATION,
-                        searchInfo)
+                        registerInfo)
             }
         }
 
@@ -790,14 +795,13 @@ class EntryEditActivity : LockingActivity(),
          */
         fun launchForRegistration(context: Context,
                                   group: Group,
-                                  searchInfo: SearchInfo? = null) {
+                                  registerInfo: RegisterInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
                 intent.putExtra(KEY_PARENT, group.nodeId)
-                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                         intent,
-                        SpecialMode.REGISTRATION,
-                        searchInfo)
+                        registerInfo)
             }
         }
     }

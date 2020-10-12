@@ -58,6 +58,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
@@ -356,19 +357,19 @@ open class PasswordActivity : SpecialModeActivity() {
                         )
                     }
                 },
-                { searchInfo ->
+                { registerInfo ->
                     SearchHelper.checkAutoSearchInfo(this,
                             Database.getInstance(),
-                            searchInfo,
+                            registerInfo?.searchInfo,
                             { _ ->
                                 // No auto search, it's a registration
                                 GroupActivity.launchForRegistration(this,
-                                        searchInfo)
+                                        registerInfo)
                             },
                             {
                                 // Here no search info found, disable auto search
                                 GroupActivity.launchForRegistration(this@PasswordActivity,
-                                        searchInfo)
+                                        registerInfo)
                             },
                             {
                                 // Simply close if database not opened, normally not happened
@@ -855,10 +856,9 @@ open class PasswordActivity : SpecialModeActivity() {
                                     keyFile: Uri?,
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForSpecialModeResult(
+                EntrySelectionHelper.startActivityForSelectionModeResult(
                         activity,
                         intent,
-                        SpecialMode.SELECTION,
                         searchInfo)
             }
         }
@@ -897,13 +897,12 @@ open class PasswordActivity : SpecialModeActivity() {
         fun launchForRegistration(activity: Activity,
                                   databaseFile: Uri,
                                   keyFile: Uri?,
-                                  searchInfo: SearchInfo?) {
+                                  registerInfo: RegisterInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForSpecialModeResult(
+                EntrySelectionHelper.startActivityForRegistrationModeResult(
                         activity,
                         intent,
-                        SpecialMode.REGISTRATION,
-                        searchInfo)
+                        registerInfo)
             }
         }
     }

@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
@@ -503,9 +504,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         fun launchForEntrySelectionResult(activity: Activity,
                                           searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForSpecialModeResult(activity,
+            EntrySelectionHelper.startActivityForSelectionModeResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
-                    SpecialMode.SELECTION,
                     searchInfo)
         }
 
@@ -531,11 +531,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
          * -------------------------
          */
         fun launchForRegistration(context: Context,
-                                  searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                                  registerInfo: RegisterInfo? = null) {
+            EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                     Intent(context, FileDatabaseSelectActivity::class.java),
-                    SpecialMode.REGISTRATION,
-                    searchInfo)
+                    registerInfo)
         }
     }
 }

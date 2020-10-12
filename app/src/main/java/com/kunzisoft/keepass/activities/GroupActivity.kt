@@ -66,6 +66,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
@@ -1050,7 +1051,7 @@ class GroupActivity : LockingActivity(),
             // Else in root, lock if needed
             else {
                 intent.removeExtra(AUTO_SEARCH_KEY)
-                EntrySelectionHelper.removeSearchInfoFromIntent(intent)
+                EntrySelectionHelper.removeInfoFromIntent(intent)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
                     super.onBackPressed()
@@ -1131,9 +1132,8 @@ class GroupActivity : LockingActivity(),
                                           readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                EntrySelectionHelper.startActivityForSelectionModeResult(context,
                         intent,
-                        SpecialMode.SELECTION,
                         searchInfo)
             }
         }
@@ -1164,13 +1164,12 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForRegistration(context: Context,
-                                  searchInfo: SearchInfo? = null) {
+                                  registerInfo: RegisterInfo? = null) {
             checkTimeAndBuildIntent(context, null, false) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, false)
-                EntrySelectionHelper.startActivityForSpecialModeResult(context,
+                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                         intent,
-                        SpecialMode.REGISTRATION,
-                        searchInfo)
+                        registerInfo)
             }
         }
     }

@@ -29,6 +29,11 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     constructor()
 
+    constructor(toCopy: SearchInfo?) {
+        applicationId = toCopy?.applicationId
+        webDomain = toCopy?.webDomain
+    }
+
     private constructor(parcel: Parcel) {
         val readAppId = parcel.readString()
         applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId

@@ -30,7 +30,8 @@ abstract class SpecialModeActivity : StylishActivity() {
 
         mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
         mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
-        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)?.searchInfo
+                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
 
         // To show the selection mode
         mSpecialModeView = findViewById(R.id.special_mode_view)
