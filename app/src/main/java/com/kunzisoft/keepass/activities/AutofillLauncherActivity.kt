@@ -151,8 +151,8 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
         private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
 
-        fun getAuthIntentSenderForResponse(context: Context,
-                                           searchInfo: SearchInfo? = null): IntentSender {
+        fun getAuthIntentSenderForSelection(context: Context,
+                                            searchInfo: SearchInfo? = null): IntentSender {
             return PendingIntent.getActivity(context, 0,
                     // Doesn't work with Parcelable (don't know why?)
                     Intent(context, AutofillLauncherActivity::class.java).apply {
@@ -160,6 +160,16 @@ class AutofillLauncherActivity : AppCompatActivity() {
                             putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
                             putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
                         }
+                    },
+                    PendingIntent.FLAG_CANCEL_CURRENT).intentSender
+        }
+
+        fun getAuthIntentSenderForRegistration(context: Context,
+                                               registerInfo: RegisterInfo): IntentSender {
+            return PendingIntent.getActivity(context, 0,
+                    Intent(context, AutofillLauncherActivity::class.java).apply {
+                        EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
+                        putExtra(KEY_REGISTER_INFO, registerInfo)
                     },
                     PendingIntent.FLAG_CANCEL_CURRENT).intentSender
         }

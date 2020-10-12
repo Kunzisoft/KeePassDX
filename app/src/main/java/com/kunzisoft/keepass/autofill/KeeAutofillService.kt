@@ -105,7 +105,7 @@ class KeeAutofillService : AutofillService() {
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this,
+                val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(this,
                         searchInfo)
                 val responseBuilder = FillResponse.Builder()
                 val remoteViewsUnlock: RemoteViews = if (!parseResult.webDomain.isNullOrEmpty()) {
@@ -140,7 +140,7 @@ class KeeAutofillService : AutofillService() {
                     }
                 }
                 // Build response
-                responseBuilder.setAuthentication(autofillIds, sender, remoteViewsUnlock)
+                responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 callback.onSuccess(responseBuilder.build())
             }
         }
@@ -161,11 +161,13 @@ class KeeAutofillService : AutofillService() {
                         },
                         parseResult.usernameValue?.textValue?.toString(),
                         parseResult.passwordValue?.textValue?.toString())
-                AutofillLauncherActivity.launchForRegistration(this, registerInfo)
-
-                // TODO Treat sender value to call
-                // callback.onSuccess() or
-                // callback.onFailure("Saving form canceled")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
+                            registerInfo))
+                } else {
+                    AutofillLauncherActivity.launchForRegistration(this, registerInfo)
+                    callback.onSuccess()
+                }
                 return
             }
         }
