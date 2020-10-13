@@ -617,10 +617,11 @@ class GroupActivity : LockingActivity(),
         newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase).apply {
             saveSearchInfo(mDatabase, searchInfo)
         })
+        // In selection mode, it's forced read-only, just checked if AutoSave is enabled
         mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
                 entry,
                 newEntry,
-                !mReadOnly && mAutoSaveEnable
+                mAutoSaveEnable
         )
     }
 
