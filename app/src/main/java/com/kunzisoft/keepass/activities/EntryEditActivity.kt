@@ -490,10 +490,8 @@ class EntryEditActivity : LockingActivity(),
                 Entry(mEntry!!)
             }?.let { newEntry ->
 
-                newEntry.setEntryInfo(mDatabase, newEntryInfo)
                 // Build info
-                newEntry.lastAccessTime = DateInstant()
-                newEntry.lastModificationTime = DateInstant()
+                newEntry.setEntryInfo(mDatabase, newEntryInfo)
 
                 // Delete temp attachment if not used
                 mTempAttachments.forEach {
