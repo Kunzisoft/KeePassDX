@@ -22,9 +22,11 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import kotlin.collections.ArrayList
@@ -101,7 +103,7 @@ class EntryInfo : Parcelable {
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
     }
 
-    fun addUniqueField(field: Field, number: Int = 0) {
+    private fun addUniqueField(field: Field, number: Int = 0) {
         var exists = false
         var sameData = false
         val suffix = if (number > 0) number.toString() else ""
@@ -119,6 +121,34 @@ class EntryInfo : Parcelable {
         }
         if (!exists && !sameData)
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
+    }
+
+    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo?) {
+        searchInfo?.let { mSearchInfo ->
+            mSearchInfo.webDomain?.let { webDomain ->
+                // If unable to save web domain in custom field or URL not populate, save in URL
+                if (database?.allowEntryCustomFields() != true) {
+                    //|| tempEntryInfo?.url?.isEmpty() == true) {
+                    val scheme = "http"
+                    // TODO Retrieve scheme
+                    url = "$scheme://$webDomain"
+                } else {
+                    // Save web domain in custom field
+                    addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
+                            ProtectedString(false, webDomain))
+                    )
+                }
+            } ?: run {
+                // Save application id in custom field
+                if (database?.allowEntryCustomFields() == true) {
+                    mSearchInfo.applicationId?.let { applicationId ->
+                        addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
+                                ProtectedString(false, applicationId))
+                        )
+                    }
+                }
+            }
+        }
     }
 
     companion object {

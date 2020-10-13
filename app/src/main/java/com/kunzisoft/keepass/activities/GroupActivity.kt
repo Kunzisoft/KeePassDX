@@ -72,6 +72,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
@@ -252,6 +253,35 @@ class GroupActivity : LockingActivity(),
                 refreshSearchGroup()
 
                 when (actionTask) {
+                    ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                        if (result.isSuccess) {
+                            mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                            EntrySelectionHelper.doSpecialAction(intent,
+                                    {
+                                        // Not use
+                                    },
+                                    {
+                                        try {
+                                            val entry = newNodes[0] as Entry
+                                            entrySelectedForKeyboardSelection(entry)
+                                        } catch (e: Exception) {
+                                            Log.e(TAG, "Unable to perform action for keyboard selection after entry update", e)
+                                        }
+                                    },
+                                    { _, _ ->
+                                        try {
+                                            val entry = newNodes[0] as Entry
+                                            entrySelectedForAutofillSelection(entry)
+                                        } catch (e: Exception) {
+                                            Log.e(TAG, "Unable to perform action for autofill selection after entry update", e)
+                                        }
+                                    },
+                                    {
+                                        // Not use
+                                    }
+                            )
+                        }
+                    }
                     ACTION_DATABASE_UPDATE_GROUP_TASK -> {
                         if (result.isSuccess) {
                             mListNodesFragment?.updateNodes(oldNodes, newNodes)
@@ -533,24 +563,19 @@ class GroupActivity : LockingActivity(),
                         {
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
-                        {
-                            rebuildListNodes()
-                            // Populate Magikeyboard with entry
-                            mDatabase?.let { database ->
-                                populateKeyboardAndMoveAppToBackground(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(database),
-                                        intent)
+                        { searchInfo ->
+                            if (PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                                updateEntryWithSearchInfo(entryVersioned, searchInfo)
+                            } else {
+                                entrySelectedForKeyboardSelection(entryVersioned)
                             }
                         },
-                        { _, _ ->
-                            // Build response with the entry selected
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
-                                mDatabase?.let { database ->
-                                    AutofillHelper.buildResponse(this@GroupActivity,
-                                            entryVersioned.getEntryInfo(database))
-                                }
+                        { searchInfo, _ ->
+                            if (PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
+                                updateEntryWithSearchInfo(entryVersioned, searchInfo)
+                            } else {
+                                entrySelectedForAutofillSelection(entryVersioned)
                             }
-                            finish()
                         },
                         { searchInfo ->
                             rebuildListNodes()
@@ -564,6 +589,39 @@ class GroupActivity : LockingActivity(),
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
+    }
+
+    private fun entrySelectedForKeyboardSelection(entry: Entry) {
+        rebuildListNodes()
+        // Populate Magikeyboard with entry
+        mDatabase?.let { database ->
+            populateKeyboardAndMoveAppToBackground(this,
+                    entry.getEntryInfo(database),
+                    intent)
+        }
+    }
+
+    private fun entrySelectedForAutofillSelection(entry: Entry) {
+        // Build response with the entry selected
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
+            mDatabase?.let { database ->
+                AutofillHelper.buildResponse(this,
+                        entry.getEntryInfo(database))
+            }
+        }
+        finish()
+    }
+
+    private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo?) {
+        val newEntry = Entry(entry)
+        newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase).apply {
+            saveSearchInfo(mDatabase, searchInfo)
+        })
+        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
+                entry,
+                newEntry,
+                !mReadOnly && mAutoSaveEnable
+        )
     }
 
     private fun finishNodeAction() {

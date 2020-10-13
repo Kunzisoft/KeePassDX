@@ -25,6 +25,11 @@
             android:title="@string/autofill_auto_search_title"
             android:summary="@string/autofill_auto_search_summary"
             android:defaultValue="@bool/autofill_auto_search_default"/>
+        <SwitchPreference
+            android:key="@string/autofill_save_search_info_key"
+            android:title="@string/autofill_save_search_info_title"
+            android:summary="@string/autofill_save_search_info_summary"
+            android:defaultValue="@bool/autofill_save_search_info_default"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/save">

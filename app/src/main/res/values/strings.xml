@@ -381,6 +381,8 @@
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
     <string name="keyboard_search_share_title">Search shared info</string>
     <string name="keyboard_search_share_summary">Automatically search for shared information to populate the keyboard</string>
+    <string name="keyboard_save_search_info_title">Save shared info</string>
+    <string name="keyboard_save_search_info_summary">Try to save shared information when making a manual entry selection</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -402,6 +404,8 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_save_search_info_title">Save search info</string>
+    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
     <string name="autofill_ask_to_save_data_summary">Ask to save data when a form is validated</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
