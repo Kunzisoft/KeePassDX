@@ -418,7 +418,7 @@
     <string name="clipboard_explanation_summary">Copier les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
     <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
-    <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>
+    <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données</string>
     <string name="max_history_items_title">Nombre maximum</string>
     <string name="max_history_items_summary">Limite le nombre d\'éléments de l’historique par entrée</string>
     <string name="max_history_size_title">Taille maximum</string>
@@ -506,4 +506,12 @@
     <string name="warning_file_too_big">Une base de données KeePass est seulement censée contenir de petits fichiers utilitaires (tels que les fichiers clé PGP).
 \n
 \nVotre base de données peut vraiment devenir grosse et réduire les performances avec ce téléversement.</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Retire les pièces-jointes contenues dans la base de données mais non liées à une entrée</string>
+    <string name="database_data_remove_unlinked_attachments_title">Retirer les données non liées</string>
+    <string name="data">Données</string>
+    <string name="warning_empty_keyfile_explanation">Le contenu du fichier clé ne devrait jamais changer et, dans le meilleur cas, devrait contenir des données générées aléatoirement.</string>
+    <string name="warning_empty_keyfile">Il n’est pas recommandé d’ajouter un fichier clé vide.</string>
+    <string name="warning_sure_remove_data">Retirer tout de même ces données \?</string>
+    <string name="warning_remove_unlinked_attachment">Retirer les données non liées peut réduire la taille de votre base de données mais peut aussi supprimer des données utilisées pour les extensions KeePass.</string>
+    <string name="content_description_credentials_information">Détails des identifiants de connexion</string>
 </resources>
