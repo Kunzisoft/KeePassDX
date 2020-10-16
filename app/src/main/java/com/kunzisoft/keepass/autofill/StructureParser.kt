@@ -84,6 +84,14 @@ internal class StructureParser(private val structure: AssistStructure) {
                 Log.d(TAG, "Autofill domain: $webDomain")
             }
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            node.webScheme?.let { webScheme ->
+                if (webScheme.isNotEmpty()) {
+                    result?.webScheme = webScheme
+                    Log.d(TAG, "Autofill scheme: $webScheme")
+                }
+            }
+        }
         val domainNotEmpty = result?.webDomain?.isNotEmpty() == true
 
         var returnValue = false
@@ -270,6 +278,12 @@ internal class StructureParser(private val structure: AssistStructure) {
         var applicationId: String? = null
 
         var webDomain: String? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var webScheme: String? = null
             set(value) {
                 if (field == null)
                     field = value

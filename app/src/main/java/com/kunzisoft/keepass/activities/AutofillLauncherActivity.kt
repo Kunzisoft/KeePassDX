@@ -58,6 +58,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     val searchInfo = SearchInfo().apply {
                         applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                         webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
+                        webScheme = intent.getStringExtra(KEY_SEARCH_SCHEME)
                     }
                     // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
                     val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
@@ -148,6 +149,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
         private const val KEY_SEARCH_APPLICATION_ID = "KEY_SEARCH_APPLICATION_ID"
         private const val KEY_SEARCH_DOMAIN = "KEY_SEARCH_DOMAIN"
+        private const val KEY_SEARCH_SCHEME = "KEY_SEARCH_SCHEME"
 
         private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
 
@@ -159,6 +161,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         searchInfo?.let {
                             putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
                             putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
+                            putExtra(KEY_SEARCH_SCHEME, it.webScheme)
                         }
                     },
                     PendingIntent.FLAG_CANCEL_CURRENT).intentSender

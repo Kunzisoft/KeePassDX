@@ -126,11 +126,10 @@ class EntryInfo : Parcelable {
     fun saveSearchInfo(database: Database?, searchInfo: SearchInfo?) {
         searchInfo?.let { mSearchInfo ->
             mSearchInfo.webDomain?.let { webDomain ->
-                // If unable to save web domain in custom field or URL not populate, save in URL
-                if (database?.allowEntryCustomFields() != true) {
-                    //|| tempEntryInfo?.url?.isEmpty() == true) {
-                    val scheme = "http"
-                    // TODO Retrieve scheme
+                // If unable to save web domain in custom field or URL not populated, save in URL
+                if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
+                    val retrievedScheme = mSearchInfo.webScheme
+                    val scheme = if (retrievedScheme.isNullOrEmpty()) "http" else retrievedScheme
                     url = "$scheme://$webDomain"
                 } else {
                     // Save web domain in custom field

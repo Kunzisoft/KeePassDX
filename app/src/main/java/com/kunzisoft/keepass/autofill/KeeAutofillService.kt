@@ -70,6 +70,7 @@ class KeeAutofillService : AutofillService() {
                     val searchInfo = SearchInfo().apply {
                         applicationId = parseResult.applicationId
                         webDomain = parseResult.webDomain
+                        webScheme = parseResult.webScheme
                     }
 
                     SearchHelper.checkAutoSearchInfo(this,
@@ -159,6 +160,7 @@ class KeeAutofillService : AutofillService() {
                     val registerInfo = RegisterInfo(SearchInfo().apply {
                         applicationId = parseResult.applicationId
                         webDomain = parseResult.webDomain
+                        webScheme = parseResult.webScheme
                     },
                             parseResult.usernameValue?.textValue?.toString(),
                             parseResult.passwordValue?.textValue?.toString())
