@@ -218,11 +218,29 @@ class GroupActivity : LockingActivity(),
                             EntryEditActivity.launch(this@GroupActivity, currentGroup)
                         }
                     },
-                    {
-                        // Add button is not allowed for keyboard selection
+                    { searchInfo ->
+                        if (PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                            mCurrentGroup?.let { currentGroup ->
+                                EntryEditActivity.launchForKeyboardSelectionResult(this@GroupActivity,
+                                        currentGroup, searchInfo)
+                            }
+                        }
                     },
-                    { _, _ ->
-                        // Add button is not allowed for autofill selection
+                    { searchInfo, assistStructure ->
+                        var finishActivity = true
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                                && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
+                            mCurrentGroup?.let { currentGroup ->
+                                assistStructure?.let { autofillStructure ->
+                                    finishActivity = false
+                                    EntryEditActivity.launchForAutofillResult(this@GroupActivity,
+                                            autofillStructure,
+                                            currentGroup, searchInfo)
+                                }
+                            }
+                        }
+                        if (finishActivity)
+                            finish()
                     },
                     { searchInfo ->
                         mCurrentGroup?.let { currentGroup ->
@@ -577,13 +595,8 @@ class GroupActivity : LockingActivity(),
                                 entrySelectedForAutofillSelection(entryVersioned)
                             }
                         },
-                        { searchInfo ->
-                            rebuildListNodes()
-                            // Registration to update the entry
-                            // TODO box update confirmation
-                            EntryEditActivity.launchForRegistration(this@GroupActivity,
-                                    entryVersioned, searchInfo)
-                            finish()
+                        { registerInfo ->
+                            entrySelectedForRegistration(entryVersioned, registerInfo)
                         })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
@@ -599,6 +612,7 @@ class GroupActivity : LockingActivity(),
                     entry.getEntryInfo(database),
                     intent)
         }
+        super.onCancelSpecialMode()
     }
 
     private fun entrySelectedForAutofillSelection(entry: Entry) {
@@ -609,6 +623,16 @@ class GroupActivity : LockingActivity(),
                         entry.getEntryInfo(database))
             }
         }
+        super.onCancelSpecialMode()
+    }
+
+    private fun entrySelectedForRegistration(entry: Entry, registerInfo: RegisterInfo?) {
+        rebuildListNodes()
+        // Registration to update the entry
+        // TODO box update confirmation
+        EntryEditActivity.launchForRegistration(this@GroupActivity,
+                entry, registerInfo)
+        super.onCancelSpecialMode()
         finish()
     }
 
@@ -617,11 +641,11 @@ class GroupActivity : LockingActivity(),
         newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase).apply {
             saveSearchInfo(mDatabase, searchInfo)
         })
-        // In selection mode, it's forced read-only, just checked if AutoSave is enabled
+        // In selection mode, it's forced read-only, so update not allowed
         mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
                 entry,
                 newEntry,
-                mAutoSaveEnable
+                !mReadOnly && mAutoSaveEnable
         )
     }
 

@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -34,6 +35,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,12 +48,12 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
@@ -176,14 +178,16 @@ class EntryEditActivity : LockingActivity(),
 
         // Retrieve data from registration
         val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        val searchInfo: SearchInfo? = registerInfo?.searchInfo
+                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
         registerInfo?.username?.let {
             tempEntryInfo?.username = it
         }
         registerInfo?.password?.let {
             tempEntryInfo?.password = it
         }
-        registerInfo?.searchInfo?.let { searchInfo ->
-            tempEntryInfo?.saveSearchInfo(mDatabase, searchInfo)
+        searchInfo?.let { tempSearchInfo ->
+            tempEntryInfo?.saveSearchInfo(mDatabase, tempSearchInfo)
         }
 
         // Build fragment to manage entry modification
@@ -297,8 +301,24 @@ class EntryEditActivity : LockingActivity(),
                                 }
                             }
                             if (newNodes.size == 1) {
-                                mEntry = newNodes[0] as Entry?
-                                cancelSpecialModeAndFinish()
+                                (newNodes[0] as? Entry?)?.let { entry ->
+                                    mEntry = entry
+                                    EntrySelectionHelper.doSpecialAction(intent,
+                                            {
+                                                // Finish naturally
+                                                finish()
+                                            },
+                                            {
+                                                entryValidatedForKeyboardSelection(entry)
+                                            },
+                                            { _, _ ->
+                                                entryValidatedForAutofillSelection(entry)
+                                            },
+                                            {
+                                                entryValidatedForRegistration()
+                                            }
+                                    )
+                                }
                             }
                         }
                     } catch (e: Exception) {
@@ -308,6 +328,35 @@ class EntryEditActivity : LockingActivity(),
             }
             coordinatorLayout?.showActionError(result)
         }
+    }
+
+    private fun entryValidatedForKeyboardSelection(entry: Entry) {
+        // Populate Magikeyboard with entry
+        mDatabase?.let { database ->
+            populateKeyboardAndMoveAppToBackground(this,
+                    entry.getEntryInfo(database),
+                    intent)
+        }
+        super.onCancelSpecialMode()
+        finish()
+    }
+
+    private fun entryValidatedForAutofillSelection(entry: Entry) {
+        // Build Autofill response with the entry selected
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mDatabase?.let { database ->
+                AutofillHelper.buildResponse(this@EntryEditActivity,
+                        entry.getEntryInfo(database))
+            }
+        }
+        super.onCancelSpecialMode()
+        super.finish()
+    }
+
+    private fun entryValidatedForRegistration() {
+        // Entry registered, finish naturally
+        super.onCancelSpecialMode()
+        finish()
     }
 
     override fun onResume() {
@@ -692,7 +741,8 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCancelSpecialMode() {
         onApprovedBackPressed {
-            cancelSpecialModeAndFinish()
+            super.onCancelSpecialMode()
+            finish()
         }
     }
 
@@ -703,11 +753,6 @@ class EntryEditActivity : LockingActivity(),
                 .setPositiveButton(R.string.discard) { _, _ ->
                     approved.invoke()
                 }.create().show()
-    }
-
-    private fun cancelSpecialModeAndFinish() {
-        super.onCancelSpecialMode()
-        finish()
     }
 
     override fun finish() {
@@ -777,6 +822,39 @@ class EntryEditActivity : LockingActivity(),
                 val intent = Intent(activity, EntryEditActivity::class.java)
                 intent.putExtra(KEY_PARENT, group.nodeId)
                 activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+            }
+        }
+
+        /**
+         * Launch EntryEditActivity to add a new entry in keyboard selection
+         */
+        fun launchForKeyboardSelectionResult(context: Context,
+                                             group: Group,
+                                             searchInfo: SearchInfo? = null) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                val intent = Intent(context, EntryEditActivity::class.java)
+                intent.putExtra(KEY_PARENT, group.nodeId)
+                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
+                        intent,
+                        searchInfo)
+            }
+        }
+
+        /**
+         * Launch EntryEditActivity to add a new entry in autofill selection
+         */
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        fun launchForAutofillResult(activity: Activity,
+                                    assistStructure: AssistStructure,
+                                    group: Group,
+                                    searchInfo: SearchInfo? = null) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                val intent = Intent(activity, EntryEditActivity::class.java)
+                intent.putExtra(KEY_PARENT, group.nodeId)
+                AutofillHelper.startActivityForAutofillResult(activity,
+                        intent,
+                        assistStructure,
+                        searchInfo)
             }
         }
 

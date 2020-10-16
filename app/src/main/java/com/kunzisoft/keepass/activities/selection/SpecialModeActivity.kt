@@ -36,19 +36,28 @@ abstract class SpecialModeActivity : StylishActivity() {
         super.onBackPressed()
     }
 
+    /**
+     * Intent sender uses special retains data in callback
+     */
+    private fun isIntentSender(): Boolean {
+        return (mSpecialMode == SpecialMode.SELECTION
+                && mTypeMode == TypeMode.AUTOFILL)
+                || (mSpecialMode == SpecialMode.REGISTRATION
+                && mTypeMode == TypeMode.AUTOFILL
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+    }
+
     open fun onCancelSpecialMode() {
-        EntrySelectionHelper.removeModesFromIntent(intent)
-        EntrySelectionHelper.removeInfoFromIntent(intent)
-        if (mSpecialMode != SpecialMode.DEFAULT)
-            backToTheAppCaller()
+        if (!isIntentSender()) {
+            EntrySelectionHelper.removeModesFromIntent(intent)
+            EntrySelectionHelper.removeInfoFromIntent(intent)
+            if (mSpecialMode != SpecialMode.DEFAULT)
+                backToTheAppCaller()
+        }
     }
 
     protected fun backToTheAppCaller() {
-        if ((mSpecialMode == SpecialMode.SELECTION
-                        && mTypeMode == TypeMode.AUTOFILL)
-                || (mSpecialMode == SpecialMode.REGISTRATION
-                        && mTypeMode == TypeMode.AUTOFILL
-                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)) {
+        if (isIntentSender()) {
             // To get the app caller, only for IntentSender
             super.onBackPressed()
         } else {

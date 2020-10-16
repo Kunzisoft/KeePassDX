@@ -70,9 +70,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
 
     private var readOnly: Boolean = false
-        get() {
-            return field || specialMode.readOnly
-        }
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
 
     val isEmpty: Boolean
