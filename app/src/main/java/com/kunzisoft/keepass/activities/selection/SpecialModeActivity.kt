@@ -47,12 +47,30 @@ abstract class SpecialModeActivity : StylishActivity() {
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
     }
 
-    open fun onCancelSpecialMode() {
-        if (!isIntentSender()) {
+    open fun onValidateSpecialMode() {
+        if (isIntentSender()) {
+            super.finish()
+        } else {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
-            if (mSpecialMode != SpecialMode.DEFAULT)
-                backToTheAppCaller()
+            if (mSpecialMode != SpecialMode.DEFAULT) {
+                // To move the app in background
+                moveTaskToBack(true)
+            }
+        }
+    }
+
+    open fun onCancelSpecialMode() {
+        if (isIntentSender()) {
+            // To get the app caller, only for IntentSender
+            super.onBackPressed()
+        } else {
+            EntrySelectionHelper.removeModesFromIntent(intent)
+            EntrySelectionHelper.removeInfoFromIntent(intent)
+            if (mSpecialMode != SpecialMode.DEFAULT) {
+                // To move the app in background
+                moveTaskToBack(true)
+            }
         }
     }
 

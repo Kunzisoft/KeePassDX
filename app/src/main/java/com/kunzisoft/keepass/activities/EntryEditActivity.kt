@@ -315,7 +315,7 @@ class EntryEditActivity : LockingActivity(),
                                                 entryValidatedForAutofillSelection(entry)
                                             },
                                             {
-                                                entryValidatedForRegistration()
+                                                onValidateSpecialMode()
                                             }
                                     )
                                 }
@@ -330,6 +330,12 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
+    override fun onValidateSpecialMode() {
+        super.onValidateSpecialMode()
+        // Don't keep activity history for entry edition
+        finish()
+    }
+
     private fun entryValidatedForKeyboardSelection(entry: Entry) {
         // Populate Magikeyboard with entry
         mDatabase?.let { database ->
@@ -337,8 +343,7 @@ class EntryEditActivity : LockingActivity(),
                     entry.getEntryInfo(database),
                     intent)
         }
-        super.onCancelSpecialMode()
-        finish()
+        onValidateSpecialMode()
     }
 
     private fun entryValidatedForAutofillSelection(entry: Entry) {
@@ -349,14 +354,7 @@ class EntryEditActivity : LockingActivity(),
                         entry.getEntryInfo(database))
             }
         }
-        super.onCancelSpecialMode()
-        super.finish()
-    }
-
-    private fun entryValidatedForRegistration() {
-        // Entry registered, finish naturally
-        super.onCancelSpecialMode()
-        finish()
+        onValidateSpecialMode()
     }
 
     override fun onResume() {
@@ -742,7 +740,6 @@ class EntryEditActivity : LockingActivity(),
     override fun onCancelSpecialMode() {
         onApprovedBackPressed {
             super.onCancelSpecialMode()
-            finish()
         }
     }
 

@@ -632,7 +632,7 @@ open class PasswordActivity : SpecialModeActivity() {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-        if (mSpecialMode != SpecialMode.DEFAULT || mForceReadOnly) {
+        if (mForceReadOnly) {
             menu.removeItem(R.id.menu_open_file_read_mode_key)
         } else {
             changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))

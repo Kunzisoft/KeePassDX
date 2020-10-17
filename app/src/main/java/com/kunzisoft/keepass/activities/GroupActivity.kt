@@ -219,17 +219,14 @@ class GroupActivity : LockingActivity(),
                         }
                     },
                     { searchInfo ->
-                        if (PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
-                            mCurrentGroup?.let { currentGroup ->
-                                EntryEditActivity.launchForKeyboardSelectionResult(this@GroupActivity,
-                                        currentGroup, searchInfo)
-                            }
+                        mCurrentGroup?.let { currentGroup ->
+                            EntryEditActivity.launchForKeyboardSelectionResult(this@GroupActivity,
+                                    currentGroup, searchInfo)
                         }
                     },
                     { searchInfo, assistStructure ->
                         var finishActivity = true
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                                && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             mCurrentGroup?.let { currentGroup ->
                                 assistStructure?.let { autofillStructure ->
                                     finishActivity = false
@@ -582,14 +579,14 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
                         { searchInfo ->
-                            if (PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                            if (!mReadOnly && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
                                 updateEntryWithSearchInfo(entryVersioned, searchInfo)
                             } else {
                                 entrySelectedForKeyboardSelection(entryVersioned)
                             }
                         },
                         { searchInfo, _ ->
-                            if (PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
+                            if (!mReadOnly && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
                                 updateEntryWithSearchInfo(entryVersioned, searchInfo)
                             } else {
                                 entrySelectedForAutofillSelection(entryVersioned)
@@ -612,7 +609,7 @@ class GroupActivity : LockingActivity(),
                     entry.getEntryInfo(database),
                     intent)
         }
-        super.onCancelSpecialMode()
+        onValidateSpecialMode()
     }
 
     private fun entrySelectedForAutofillSelection(entry: Entry) {
@@ -623,7 +620,7 @@ class GroupActivity : LockingActivity(),
                         entry.getEntryInfo(database))
             }
         }
-        super.onCancelSpecialMode()
+        onValidateSpecialMode()
     }
 
     private fun entrySelectedForRegistration(entry: Entry, registerInfo: RegisterInfo?) {
@@ -632,8 +629,7 @@ class GroupActivity : LockingActivity(),
         // TODO box update confirmation
         EntryEditActivity.launchForRegistration(this@GroupActivity,
                 entry, registerInfo)
-        super.onCancelSpecialMode()
-        finish()
+        onValidateSpecialMode()
     }
 
     private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo?) {
@@ -1121,7 +1117,7 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    override fun onCancelSpecialMode() {
+    private fun removeFragmentHistory() {
         val fragmentManager = supportFragmentManager
         if (mSelectionModeCountBackStack > 0) {
             for (selectionMode in 0 .. mSelectionModeCountBackStack) {
@@ -1130,6 +1126,15 @@ class GroupActivity : LockingActivity(),
         }
         // Reinit the counter for navigation history
         mSelectionModeCountBackStack = 0
+    }
+
+    override fun onValidateSpecialMode() {
+        removeFragmentHistory()
+        super.onValidateSpecialMode()
+    }
+
+    override fun onCancelSpecialMode() {
+        removeFragmentHistory()
         super.onCancelSpecialMode()
     }
 
