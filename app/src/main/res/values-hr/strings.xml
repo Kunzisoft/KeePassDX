@@ -72,7 +72,7 @@
     <string name="content_description_keyfile_checkbox">Potvrdni okvir datoteke ključa</string>
     <string name="entry_keyfile">Datoteka ključa</string>
     <string name="entry_password">Lozinka</string>
-    <string name="entry_save">Spremi</string>
+    <string name="save">Spremi</string>
     <string name="entry_title">Naslov</string>
     <string name="entry_setup_otp">Postavi jednokratnu lozinku</string>
     <string name="otp_type">Tip OTP-a</string>

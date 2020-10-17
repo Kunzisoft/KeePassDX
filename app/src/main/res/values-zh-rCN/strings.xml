@@ -51,7 +51,7 @@
     <string name="entry_keyfile">密钥文件</string>
     <string name="entry_modified">修改时间</string>
     <string name="entry_password">密码</string>
-    <string name="entry_save">保存</string>
+    <string name="save">保存</string>
     <string name="entry_title">名称</string>
     <string name="entry_url">链接</string>
     <string name="entry_user_name">用户名</string>

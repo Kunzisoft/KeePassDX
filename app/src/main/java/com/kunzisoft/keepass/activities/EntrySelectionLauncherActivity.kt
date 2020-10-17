@@ -24,7 +24,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -78,7 +77,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                                     intent)
                         } else {
                             // Select the one we want
-                            GroupActivity.launchForEntrySelectionResult(this,
+                            GroupActivity.launchForKeyboardSelectionResult(this,
                                     true,
                                     searchInfo)
                         }
@@ -91,7 +90,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 {
                     // Show the database UI to select the entry
                     if (searchShareForMagikeyboard) {
-                        GroupActivity.launchForEntrySelectionResult(this,
+                        GroupActivity.launchForKeyboardSelectionResult(this,
                                 false,
                                 searchInfo)
                     } else {
@@ -103,7 +102,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 {
                     // If database not open
                     if (searchShareForMagikeyboard) {
-                        FileDatabaseSelectActivity.launchForEntrySelectionResult(this,
+                        FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
                                 searchInfo)
                     } else {
                         FileDatabaseSelectActivity.launch(this,
@@ -125,6 +124,6 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity,
     // Populate Magikeyboard with entry
     MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
     // Consume the selection mode
-    EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+    EntrySelectionHelper.removeModesFromIntent(intent)
     activity.moveTaskToBack(true)
 }

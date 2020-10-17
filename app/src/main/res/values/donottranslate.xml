@@ -120,9 +120,11 @@
     <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
     <bool name="keyboard_selection_entry_default" translatable="false">false</bool>
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
-    <string name="keyboard_search_share_key" translatable="false">keyboard_search_share_key</string>
     <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
+    <string name="keyboard_search_share_key" translatable="false">keyboard_search_share_key</string>
     <bool name="keyboard_search_share_default" translatable="false">false</bool>
+    <string name="keyboard_save_search_info_key" translatable="false">keyboard_save_search_info_key</string>
+    <bool name="keyboard_save_search_info_default" translatable="false">true</bool>
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
@@ -139,6 +141,10 @@
     <bool name="keyboard_previous_fill_in_default" translatable="false">false</bool>
     <string name="autofill_auto_search_key" translatable="false">autofill_auto_search_key</string>
     <bool name="autofill_auto_search_default" translatable="false">true</bool>
+    <string name="autofill_save_search_info_key" translatable="false">autofill_save_search_info_key</string>
+    <bool name="autofill_save_search_info_default" translatable="false">true</bool>
+    <string name="autofill_ask_to_save_data_key" translatable="false">autofill_ask_to_save_data_key</string>
+    <bool name="autofill_ask_to_save_data_default" translatable="false">true</bool>
     <string name="autofill_application_id_blocklist_key" translatable="false">autofill_application_id_blocklist_key</string>
     <string-array name="autofill_application_id_blocklist_default">
     </string-array>

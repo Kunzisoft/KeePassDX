@@ -52,7 +52,7 @@
     <string name="entry_modified">Ændret</string>
     <string name="entry_not_found">Data for posten blev ikke fundet.</string>
     <string name="entry_password">Adgangskode</string>
-    <string name="entry_save">Gem</string>
+    <string name="save">Gem</string>
     <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Brugernavn</string>

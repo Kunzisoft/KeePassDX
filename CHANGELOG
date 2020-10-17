@@ -1,6 +1,8 @@
 KeePassDX(2.9)
- * Upgrade to Android API 30
- * Small fixes
+ * Upgrade to Android API 30 #723
+ * Fix biometric issues #724 #740 #731
+ * Fix autofill #725 #551
+ * Small fixes and translations #732 #736 #737
 
 KeePassDX(2.8.7)
  * Downgrade to Android API 29 (crash on startup with API 30 on some devices)

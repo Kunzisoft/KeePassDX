@@ -50,7 +50,7 @@
     <string name="entry_expires">Caduca</string>
     <string name="entry_modified">Modificado</string>
     <string name="entry_password">Contrasinal</string>
-    <string name="entry_save">Gardar</string>
+    <string name="save">Gardar</string>
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Usuario</string>

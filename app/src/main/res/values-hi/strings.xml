@@ -57,7 +57,7 @@
     <string name="entry_modified">संशोधित</string>
     <string name="entry_not_found">प्रवेश का डाटा नहीं मिल सका।</string>
     <string name="entry_password">पासवर्ड</string>
-    <string name="entry_save">सहेजें</string>
+    <string name="save">सहेजें</string>
     <string name="entry_title">शीर्षक</string>
     <string name="entry_url">यू.आर.एल</string>
     <string name="entry_user_name">उपयोगकर्ता का नाम</string>

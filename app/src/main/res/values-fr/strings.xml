@@ -59,7 +59,7 @@
     <string name="entry_modified">Modifiée</string>
     <string name="entry_not_found">Impossible de trouver les données de l’entrée.</string>
     <string name="entry_password">Mot de passe</string>
-    <string name="entry_save">Enregistrer</string>
+    <string name="save">Enregistrer</string>
     <string name="entry_title">Titre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nom d’utilisateur</string>

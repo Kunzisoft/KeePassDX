@@ -52,7 +52,7 @@
     <string name="entry_keyfile">Archivo de clave</string>
     <string name="entry_modified">Modificación</string>
     <string name="entry_password">Contraseña</string>
-    <string name="entry_save">Guardar</string>
+    <string name="save">Guardar</string>
     <string name="entry_title">Nombre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nombre de usuario</string>

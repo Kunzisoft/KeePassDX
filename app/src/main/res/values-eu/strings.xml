@@ -55,7 +55,7 @@
     <string name="entry_modified">Aldatua</string>
     <string name="entry_not_found">Sarreraren datuak ez aurkituak.</string>
     <string name="entry_password">Pasahitza</string>
-    <string name="entry_save">Gorde</string>
+    <string name="save">Gorde</string>
     <string name="entry_title">Izena</string>
     <string name="entry_url">URLa</string>
     <string name="entry_user_name">Erabiltzaile izena</string>

@@ -55,7 +55,7 @@
     <string name="entry_modified">Muokattu</string>
     <string name="entry_not_found">Tietueen tietoja ei löytynyt.</string>
     <string name="entry_password">Salasana</string>
-    <string name="entry_save">Tallenna</string>
+    <string name="save">Tallenna</string>
     <string name="entry_title">Nimi</string>
     <string name="entry_url">URL-osoite</string>
     <string name="entry_user_name">Käyttäjänimi</string>

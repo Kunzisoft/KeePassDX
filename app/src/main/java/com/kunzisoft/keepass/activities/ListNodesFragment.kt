@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.node.Type
 import java.util.*
@@ -69,10 +70,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
 
     private var readOnly: Boolean = false
-        get() {
-            return field || selectionMode
-        }
-    private var selectionMode: Boolean = false
+    private var specialMode: SpecialMode = SpecialMode.DEFAULT
 
     val isEmpty: Boolean
         get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
@@ -195,7 +193,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         super.onResume()
 
         activity?.intent?.let {
-            selectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(it)
+            specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
         }
 
         // Refresh data

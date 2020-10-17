@@ -39,7 +39,7 @@
     <string name="entry_modified">معدل</string>
     <string name="entry_not_found">تعذر العثور على بيانات المُدخلة.</string>
     <string name="entry_password">كلمة السر</string>
-    <string name="entry_save">حفظ</string>
+    <string name="save">حفظ</string>
     <string name="entry_title">العنوان</string>
     <string name="entry_url">رابط</string>
     <string name="entry_user_name">اسم المستخدم</string>

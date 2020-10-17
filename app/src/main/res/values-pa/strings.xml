@@ -169,7 +169,7 @@
     <string name="otp_type">OTP ਦੀ ਕਿਸਮ</string>
     <string name="entry_setup_otp">ਇਕੇਹਰਾ ਪਾਸਵਰਡ ਸੈਟਅੱਪ ਕਰੋ</string>
     <string name="entry_title">ਨਾਂ</string>
-    <string name="entry_save">ਸੰਭਾਲੋ</string>
+    <string name="save">ਸੰਭਾਲੋ</string>
     <string name="entry_password">ਪਾਸਵਰਡ</string>
     <string name="entry_not_found">ਐਂਟਰੀ ਡਾਟਾ ਲੱਭਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।</string>
     <string name="entry_modified">ਸੋਧ ਕੀਤੀ</string>

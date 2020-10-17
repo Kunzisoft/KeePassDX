@@ -55,7 +55,7 @@
     <string name="entry_modified">נערך לאחרונה</string>
     <string name="entry_not_found">נתוני ערך לא נמצאו.</string>
     <string name="entry_password">סיסמה</string>
-    <string name="entry_save">שמור</string>
+    <string name="save">שמור</string>
     <string name="entry_title">שם</string>
     <string name="entry_user_name">שם משתמש</string>
     <string name="error_arc4">צופן זרם Arcfour אינו נתמך.</string>

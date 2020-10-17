@@ -90,7 +90,7 @@
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
-    <string name="entry_save">Save</string>
+    <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
     <string name="otp_type">OTP type</string>
@@ -133,6 +133,7 @@
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
+    <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -212,6 +213,7 @@
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
     <string name="selection_mode">Selection mode</string>
+    <string name="registration_mode">Registration mode</string>
     <string name="remember_database_locations_title">Remember databases locations</string>
     <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
     <string name="remember_keyfile_locations_title">Remember keyfile locations</string>
@@ -379,6 +381,8 @@
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
     <string name="keyboard_search_share_title">Search shared info</string>
     <string name="keyboard_search_share_summary">Automatically search for shared information to populate the keyboard</string>
+    <string name="keyboard_save_search_info_title">Save shared info</string>
+    <string name="keyboard_save_search_info_summary">Try to save shared information when making a manual entry selection</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -400,6 +404,10 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_save_search_info_title">Save search info</string>
+    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
+    <string name="autofill_ask_to_save_data_title">Ask to save data</string>
+    <string name="autofill_ask_to_save_data_summary">Ask to save data when a form is validated</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
     <string name="autofill_application_id_blocklist_summary">Blocklist that prevents auto filling of apps</string>
     <string name="autofill_web_domain_blocklist_title">Web domain blocklist</string>

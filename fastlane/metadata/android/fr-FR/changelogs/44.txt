@@ -1,2 +1,4 @@
- * Mise à jour vers Android API 30
- * Petites corrections
+ * Mise à jour vers Android API 30 #723
+ * Correction de problèmes biométriques #724 #740 #731
+ * Correction de l'autofill #725 #551
+ * Petites corrections et traductions #732 #736 #737

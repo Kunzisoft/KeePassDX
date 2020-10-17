@@ -54,7 +54,7 @@
     <string name="entry_keyfile">Nyckelfil</string>
     <string name="entry_modified">Ändrad</string>
     <string name="entry_password">Lösenord</string>
-    <string name="entry_save">Spara</string>
+    <string name="save">Spara</string>
     <string name="entry_title">Namn</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Användarnamn</string>

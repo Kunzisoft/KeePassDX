@@ -55,7 +55,7 @@
     <string name="entry_modified">Изменено</string>
     <string name="entry_not_found">Данные записи не найдены.</string>
     <string name="entry_password">Пароль</string>
-    <string name="entry_save">Сохранить</string>
+    <string name="save">Сохранить</string>
     <string name="entry_title">Название</string>
     <string name="entry_url">Ссылка</string>
     <string name="entry_user_name">Имя пользователя</string>

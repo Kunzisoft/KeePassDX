@@ -26,14 +26,26 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 else -> null
             }
         }
+    var webScheme: String? = null
+        get() {
+            return if (webDomain == null) null else field
+        }
 
     constructor()
+
+    constructor(toCopy: SearchInfo?) {
+        applicationId = toCopy?.applicationId
+        webDomain = toCopy?.webDomain
+        webScheme = toCopy?.webScheme
+    }
 
     private constructor(parcel: Parcel) {
         val readAppId = parcel.readString()
         applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
         webDomain = if (readDomain.isNullOrEmpty()) null else readDomain
+        val readScheme = parcel.readString()
+        webScheme = if (readScheme.isNullOrEmpty()) null else readScheme
     }
 
     override fun describeContents(): Int {
@@ -43,6 +55,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
+        parcel.writeString(webScheme ?: "")
     }
 
     override fun getName(resources: Resources): String {
@@ -50,7 +63,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     fun containsOnlyNullValues(): Boolean {
-        return applicationId == null && webDomain == null
+        return applicationId == null && webDomain == null && webScheme == null
     }
 
     override fun equals(other: Any?): Boolean {
@@ -61,6 +74,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
+        if (webScheme != other.webScheme) return false
 
         return true
     }
@@ -68,6 +82,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     override fun hashCode(): Int {
         var result = applicationId?.hashCode() ?: 0
         result = 31 * result + (webDomain?.hashCode() ?: 0)
+        result = 31 * result + (webScheme?.hashCode() ?: 0)
         return result
     }
 

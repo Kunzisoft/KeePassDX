@@ -51,7 +51,7 @@
     <string name="entry_keyfile">Arxiu clau</string>
     <string name="entry_modified">Modificada</string>
     <string name="entry_password">Contrasenya</string>
-    <string name="entry_save">Guarda</string>
+    <string name="save">Guarda</string>
     <string name="entry_title">Nom</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Usuari</string>

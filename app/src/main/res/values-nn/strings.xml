@@ -50,7 +50,7 @@
     <string name="entry_keyfile">Nøkkelfil</string>
     <string name="entry_modified">Endra</string>
     <string name="entry_password">Passord</string>
-    <string name="entry_save">Lagra</string>
+    <string name="save">Lagra</string>
     <string name="entry_title">Namn</string>
     <string name="entry_url">Adresse</string>
     <string name="entry_user_name">Brukaramn</string>

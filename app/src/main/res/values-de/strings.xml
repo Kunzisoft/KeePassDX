@@ -61,7 +61,7 @@
     <string name="entry_modified">Änderungsdatum</string>
     <string name="entry_not_found">Zugriffsdaten wurden nicht gefunden.</string>
     <string name="entry_password">Passwort</string>
-    <string name="entry_save">Speichern</string>
+    <string name="save">Speichern</string>
     <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Benutzername</string>

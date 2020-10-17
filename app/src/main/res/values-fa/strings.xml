@@ -184,7 +184,7 @@
     <string name="otp_type">نوع OTP</string>
     <string name="entry_setup_otp">گذرواژه یکبار مصرف تنظیم کنید</string>
     <string name="entry_title">عنوان</string>
-    <string name="entry_save">ذخیره</string>
+    <string name="save">ذخیره</string>
     <string name="entry_password">رمز عبور</string>
     <string name="entry_not_found">نمی توانست داده های ورودی را پیدا کند.</string>
     <string name="entry_modified">تغییر</string>

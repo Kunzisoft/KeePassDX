@@ -440,7 +440,7 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="entry_url">URL</string>
     <string name="entry_title">Nome</string>
-    <string name="entry_save">Guardar</string>
+    <string name="save">Guardar</string>
     <string name="entry_password">Palavra-passe</string>
     <string name="entry_not_found">Não foi possível encontrar os dados da entrada.</string>
     <string name="entry_modified">Modificado</string>

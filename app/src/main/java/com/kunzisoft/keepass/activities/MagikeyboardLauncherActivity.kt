@@ -35,11 +35,11 @@ class MagikeyboardLauncherActivity : AppCompatActivity() {
                 null,
                 {},
                 {
-                    GroupActivity.launchForEntrySelectionResult(this)
+                    GroupActivity.launchForKeyboardSelectionResult(this)
                 },
                 {
                     // Pass extra to get entry
-                    FileDatabaseSelectActivity.launchForEntrySelectionResult(this)
+                    FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this)
                 }
         )
         finish()

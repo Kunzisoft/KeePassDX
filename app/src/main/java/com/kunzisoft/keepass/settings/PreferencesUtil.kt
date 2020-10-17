@@ -345,6 +345,14 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_search_share_default))
     }
 
+    fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
+        if (!isKeyboardSearchShareEnable(context))
+            return false
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_save_search_info_key),
+                context.resources.getBoolean(R.bool.keyboard_save_search_info_default))
+    }
+
     fun isAutoGoActionEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_auto_go_action_key),
@@ -379,6 +387,18 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
                 context.resources.getBoolean(R.bool.autofill_auto_search_default))
+    }
+
+    fun isAutofillSaveSearchInfoEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_save_search_info_key),
+                context.resources.getBoolean(R.bool.autofill_save_search_info_default))
+    }
+
+    fun askToSaveAutofillData(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_ask_to_save_data_key),
+                context.resources.getBoolean(R.bool.autofill_ask_to_save_data_default))
     }
 
     /**

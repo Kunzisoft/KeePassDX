@@ -51,7 +51,7 @@
     <string name="entry_keyfile">キーファイル</string>
     <string name="entry_modified">変更日</string>
     <string name="entry_password">パスワード</string>
-    <string name="entry_save">保存</string>
+    <string name="save">保存</string>
     <string name="entry_title">タイトル</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">ユーザー名</string>
