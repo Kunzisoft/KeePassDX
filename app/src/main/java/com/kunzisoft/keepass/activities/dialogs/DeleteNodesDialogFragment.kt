@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 
-class DeleteNodesDialogFragment : DialogFragment() {
+open class DeleteNodesDialogFragment : DialogFragment() {
 
     private var mNodesToDelete: List<Node> = ArrayList()
     private var mListener: DeleteNodeListener? = null
@@ -51,6 +51,10 @@ class DeleteNodesDialogFragment : DialogFragment() {
         super.onDetach()
     }
 
+    protected open fun retrieveMessage(): String {
+        return getString(R.string.warning_permanently_delete_nodes)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         arguments?.apply {
@@ -68,7 +72,7 @@ class DeleteNodesDialogFragment : DialogFragment() {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
 
-            builder.setMessage(getString(R.string.warning_permanently_delete_nodes))
+            builder.setMessage(retrieveMessage())
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mListener?.permanentlyDeleteNodes(mNodesToDelete)
             }

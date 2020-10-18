@@ -45,10 +45,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -754,7 +751,7 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onDeleteMenuClick(nodes: List<Node>): Boolean {
+    private fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false): Boolean {
         val database = mDatabase
 
         // If recycle bin enabled, ensure it exists
@@ -774,11 +771,20 @@ class GroupActivity : LockingActivity(),
         }
         // else open the dialog to confirm deletion
         else {
-            DeleteNodesDialogFragment.getInstance(nodes)
-                    .show(supportFragmentManager, "deleteNodesDialogFragment")
+            val deleteNodesDialogFragment: DeleteNodesDialogFragment =
+            if (recycleBin) {
+                EmptyRecycleBinDialogFragment.getInstance(nodes)
+            } else {
+                DeleteNodesDialogFragment.getInstance(nodes)
+            }
+            deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
         }
         finishNodeAction()
         return true
+    }
+
+    override fun onDeleteMenuClick(nodes: List<Node>): Boolean {
+        return deleteNodes(nodes)
     }
 
     override fun permanentlyDeleteNodes(nodes: List<Node>) {
@@ -957,7 +963,7 @@ class GroupActivity : LockingActivity(),
             R.id.menu_empty_recycle_bin -> {
                 mCurrentGroup?.getChildren()?.let { listChildren ->
                     // Automatically delete all elements
-                    onDeleteMenuClick(listChildren)
+                    deleteNodes(listChildren, true)
                 }
                 return true
             }

@@ -3,7 +3,7 @@ KeePassDX(2.9)
  * Save new credentials with Autofill #524
  * Fix biometric issues #724 #740 #731
  * Fix autofill #725 #551
- * Small fixes and translations #732 #736 #737
+ * Small fixes and translations #732 #736 #737 #742
 
 KeePassDX(2.8.7)
  * Downgrade to Android API 29 (crash on startup with API 30 on some devices)

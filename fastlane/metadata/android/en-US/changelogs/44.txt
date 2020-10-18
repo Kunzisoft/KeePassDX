@@ -2,4 +2,4 @@
  * Save new credentials with Autofill #524
  * Fix biometric issues #724 #740 #731
  * Fix autofill #725 #551
- * Small fixes and translations #732 #736 #737
+ * Small fixes and translations #732 #736 #737 #742
