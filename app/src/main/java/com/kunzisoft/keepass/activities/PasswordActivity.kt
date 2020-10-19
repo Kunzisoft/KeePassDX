@@ -476,7 +476,8 @@ open class PasswordActivity : SpecialModeActivity() {
                                     }
                                 })
                     }
-                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable = mAllowAutoOpenBiometricPrompt
+                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable =
+                            mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
                     advancedUnlockedManager?.checkBiometricAvailability()
                     biometricInitialize = true
                 } else {
