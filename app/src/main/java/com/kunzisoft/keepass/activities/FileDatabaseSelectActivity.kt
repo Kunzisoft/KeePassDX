@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -202,6 +203,24 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                             databaseFilesViewModel.addDatabaseFile(databaseUri, keyFileUri)
                         }
                     }
+                    ACTION_DATABASE_LOAD_TASK -> {
+                        val database = Database.getInstance()
+                        if (result.isSuccess
+                                && database.loaded) {
+                            launchGroupActivity(database)
+                        } else {
+                            var resultError = ""
+                            val resultMessage = result.message
+                            // Show error message
+                            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                                resultError = "$resultError $resultMessage"
+                            }
+                            Log.e(TAG, resultError)
+                            Snackbar.make(activity_file_selection_coordinator_layout,
+                                    resultError,
+                                    Snackbar.LENGTH_LONG).asError().show()
+                        }
+                    }
                 }
             }
         }
@@ -274,7 +293,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 })
     }
 
-    private fun launchGroupActivity(readOnly: Boolean) {
+    private fun launchGroupActivity(database: Database) {
+        val readOnly = database.isReadOnly
         EntrySelectionHelper.doSpecialAction(intent,
                 { searchInfo ->
                     GroupActivity.launch(this@FileDatabaseSelectActivity,
@@ -339,7 +359,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         val database = Database.getInstance()
         if (database.loaded) {
-            launchGroupActivity(database.isReadOnly)
+            launchGroupActivity(database)
         } else {
             // Construct adapter with listeners
             if (PreferencesUtil.showRecentFiles(this)) {
