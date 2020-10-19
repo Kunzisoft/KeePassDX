@@ -327,16 +327,16 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.delete_entered_password_default))
     }
 
-    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
-                context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
-    }
-
     fun isKeyboardNotificationEntryEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
                 context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
+    }
+
+    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
+                context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
     }
 
     fun isKeyboardSearchShareEnable(context: Context): Boolean {
@@ -381,6 +381,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_previous_fill_in_key),
                 context.resources.getBoolean(R.bool.keyboard_previous_fill_in_default))
+    }
+
+    fun isKeyboardPreviousLockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_previous_lock_key),
+                context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
     }
 
     fun isAutofillCloseDatabaseEnable(context: Context): Boolean {

@@ -354,6 +354,7 @@
     <string name="allow_copy_password_warning">Warning: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
+    <string name="notification">Notification</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Lock the database when the clipboard duration expires or the notification is closed after you start using it</string>
     <string name="database_name_title">Database name</string>
@@ -403,6 +404,8 @@
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
+    <string name="keyboard_previous_lock_title">Lock database</string>
+    <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
     <string name="autofill_close_database_title">Close database</string>
     <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
     <string name="autofill_auto_search_title">Auto search</string>
