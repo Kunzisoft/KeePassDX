@@ -403,7 +403,7 @@ open class PasswordActivity : SpecialModeActivity() {
                             mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
                     advancedUnlockedManager?.checkBiometricAvailability()
                 } else {
-                    advancedUnlockedManager?.destroy()
+                    advancedUnlockedManager?.destroy(true)
                     advancedUnlockedManager = null
                 }
             }
