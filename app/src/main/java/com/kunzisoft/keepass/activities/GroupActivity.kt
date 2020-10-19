@@ -209,41 +209,33 @@ class GroupActivity : LockingActivity(),
                             GroupEditDialogFragment.TAG_CREATE_GROUP)
         }
         addNodeButtonView?.setAddEntryClickListener {
-            EntrySelectionHelper.doSpecialAction(intent,
-                    {
-                        mCurrentGroup?.let { currentGroup ->
+            mCurrentGroup?.let { currentGroup ->
+                EntrySelectionHelper.doSpecialAction(intent,
+                        {
                             EntryEditActivity.launch(this@GroupActivity, currentGroup)
-                        }
-                    },
-                    { searchInfo ->
-                        mCurrentGroup?.let { currentGroup ->
+                        },
+                        { searchInfo ->
                             EntryEditActivity.launchForKeyboardSelectionResult(this@GroupActivity,
                                     currentGroup, searchInfo)
-                        }
-                    },
-                    { searchInfo, assistStructure ->
-                        var finishActivity = true
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            mCurrentGroup?.let { currentGroup ->
-                                assistStructure?.let { autofillStructure ->
-                                    finishActivity = false
-                                    EntryEditActivity.launchForAutofillResult(this@GroupActivity,
-                                            autofillStructure,
-                                            currentGroup, searchInfo)
-                                }
+                            onLaunchActivitySpecialMode()
+                        },
+                        { searchInfo, assistStructure ->
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                EntryEditActivity.launchForAutofillResult(this@GroupActivity,
+                                        assistStructure,
+                                        currentGroup, searchInfo)
+                                onLaunchActivitySpecialMode()
+                            } else {
+                                onCancelSpecialMode()
                             }
-                        }
-                        if (finishActivity)
-                            finish()
-                    },
-                    { searchInfo ->
-                        mCurrentGroup?.let { currentGroup ->
+                        },
+                        { searchInfo ->
                             EntryEditActivity.launchForRegistration(this@GroupActivity,
                                     currentGroup, searchInfo)
+                            onLaunchActivitySpecialMode()
                         }
-                        finish()
-                    }
-            )
+                )
+            }
         }
 
         mDatabase?.let { database ->

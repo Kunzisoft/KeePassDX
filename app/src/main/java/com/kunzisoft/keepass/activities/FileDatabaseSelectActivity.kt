@@ -249,12 +249,12 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         PasswordActivity.launch(this@FileDatabaseSelectActivity,
                                 databaseUri, keyFile,
                                 searchInfo)
+                        // Remove the search info from intent
+                        if (searchInfo != null) {
+                            finish()
+                        }
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
-                    }
-                    // Remove the search info from intent
-                    if (searchInfo != null) {
-                        finish()
                     }
                 },
                 { searchInfo -> // Keyboard Selection Action
@@ -262,23 +262,24 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         PasswordActivity.launchForKeyboardResult(this@FileDatabaseSelectActivity,
                                 databaseUri, keyFile,
                                 searchInfo)
+                        onLaunchActivitySpecialMode()
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
                     }
-                    finish()
                 },
                 { searchInfo, assistStructure -> // Autofill Selection Action
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && assistStructure != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         try {
                             PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                     databaseUri, keyFile,
                                     assistStructure,
                                     searchInfo)
+                            onLaunchActivitySpecialMode()
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
                         }
                     } else {
-                        finish()
+                        onCancelSpecialMode()
                     }
                 },
                 { searchInfo -> // Registration Action
@@ -286,10 +287,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         PasswordActivity.launchForRegistration(this@FileDatabaseSelectActivity,
                                 databaseUri, keyFile,
                                 searchInfo)
+                        onLaunchActivitySpecialMode()
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
                     }
-                    finish()
                 })
     }
 
@@ -301,6 +302,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                             false,
                             searchInfo,
                             readOnly)
+                    if (searchInfo != null) {
+                        finish()
+                    }
                 },
                 { searchInfo ->
                     GroupActivity.launchForKeyboardSelectionResult(this@FileDatabaseSelectActivity,
@@ -308,25 +312,30 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                             searchInfo,
                             readOnly)
                     // Do not keep history
-                    finish()
+                    onLaunchActivitySpecialMode()
                 },
                 { searchInfo, assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && assistStructure != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                 assistStructure,
                                 false,
                                 searchInfo,
                                 readOnly)
+                        onLaunchActivitySpecialMode()
                     } else {
-                        finish()
+                        onCancelSpecialMode()
                     }
                 },
                 { searchInfo ->
                     GroupActivity.launchForRegistration(this@FileDatabaseSelectActivity,
                             searchInfo)
-                    // Do not keep history
-                    finish()
+                    onLaunchActivitySpecialMode()
                 })
+    }
+
+    override fun onCancelSpecialMode() {
+        super.onCancelSpecialMode()
+        finish()
     }
 
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {

@@ -307,11 +307,13 @@ open class PasswordActivity : SpecialModeActivity() {
                                     populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
                                             items[0],
                                             intent)
+                                    onValidateSpecialMode()
                                 } else {
                                     // Select the one we want
                                     GroupActivity.launchForKeyboardSelectionResult(this,
                                             true,
                                             searchInfo)
+                                    onLaunchActivitySpecialMode()
                                 }
                             },
                             {
@@ -320,14 +322,13 @@ open class PasswordActivity : SpecialModeActivity() {
                                         false,
                                         searchInfo,
                                         readOnly)
+                                onLaunchActivitySpecialMode()
                             },
                             {
                                 // Simply close if database not opened, normally not happened
                                 onCancelSpecialMode()
                             }
                     )
-                    // Do not keep history
-                    finish()
                 },
                 { searchInfo, assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -338,27 +339,23 @@ open class PasswordActivity : SpecialModeActivity() {
                                     // Response is build
                                     AutofillHelper.buildResponse(this, items)
                                     onValidateSpecialMode()
-                                    finish()
                                 },
                                 {
-                                    if (assistStructure != null) {
-                                        // Here no search info found, disable auto search
-                                        GroupActivity.launchForAutofillResult(this@PasswordActivity,
-                                                assistStructure,
-                                                false,
-                                                searchInfo,
-                                                readOnly)
-                                    } else {
-                                        onCancelSpecialMode()
-                                        finish()
-                                    }
+                                    // Here no search info found, disable auto search
+                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
+                                            assistStructure,
+                                            false,
+                                            searchInfo,
+                                            readOnly)
+                                    onLaunchActivitySpecialMode()
                                 },
                                 {
                                     // Simply close if database not opened, normally not happened
                                     onCancelSpecialMode()
-                                    finish()
                                 }
                         )
+                    } else {
+                        onCancelSpecialMode()
                     }
                 },
                 { registerInfo ->
@@ -369,20 +366,30 @@ open class PasswordActivity : SpecialModeActivity() {
                                 // No auto search, it's a registration
                                 GroupActivity.launchForRegistration(this,
                                         registerInfo)
+                                onLaunchActivitySpecialMode()
                             },
                             {
                                 // Here no search info found, disable auto search
                                 GroupActivity.launchForRegistration(this@PasswordActivity,
                                         registerInfo)
+                                onLaunchActivitySpecialMode()
                             },
                             {
                                 // Simply close if database not opened, normally not happened
                                 onCancelSpecialMode()
                             }
                     )
-                    // Do not keep history
-                    finish()
                 })
+    }
+
+    override fun onValidateSpecialMode() {
+        super.onValidateSpecialMode()
+        finish()
+    }
+
+    override fun onCancelSpecialMode() {
+        super.onCancelSpecialMode()
+        finish()
     }
 
     private val onEditorActionListener = object : TextView.OnEditorActionListener {

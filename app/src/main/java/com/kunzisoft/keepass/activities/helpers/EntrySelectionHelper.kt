@@ -114,7 +114,7 @@ object EntrySelectionHelper {
                         defaultAction: (searchInfo: SearchInfo?) -> Unit,
                         keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
                         autofillSelectionAction: (searchInfo: SearchInfo?,
-                                                  assistStructure: AssistStructure?) -> Unit,
+                                                  assistStructure: AssistStructure) -> Unit,
                         registrationAction: (registerInfo: RegisterInfo?) -> Unit) {
 
         when (retrieveSpecialModeFromIntent(intent)) {
@@ -139,7 +139,11 @@ object EntrySelectionHelper {
                         when (typeMode) {
                             TypeMode.DEFAULT -> defaultAction.invoke(searchInfo)
                             TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
-                            TypeMode.AUTOFILL -> autofillSelectionAction.invoke(searchInfo, null)
+                            else -> {
+                                // In this case, error
+                                removeModesFromIntent(intent)
+                                removeInfoFromIntent(intent)
+                            }
                         }
                     } else {
                         defaultAction.invoke(searchInfo)

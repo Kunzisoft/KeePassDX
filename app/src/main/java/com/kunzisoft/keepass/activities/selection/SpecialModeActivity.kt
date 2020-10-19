@@ -49,6 +49,14 @@ abstract class SpecialModeActivity : StylishActivity() {
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
     }
 
+    fun onLaunchActivitySpecialMode() {
+        if (!isIntentSender()) {
+            EntrySelectionHelper.removeModesFromIntent(intent)
+            EntrySelectionHelper.removeInfoFromIntent(intent)
+            finish()
+        }
+    }
+
     open fun onValidateSpecialMode() {
         if (isIntentSender()) {
             super.finish()
