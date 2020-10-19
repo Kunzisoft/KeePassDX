@@ -123,28 +123,26 @@ class EntryInfo : Parcelable {
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
     }
 
-    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo?) {
-        searchInfo?.let { mSearchInfo ->
-            mSearchInfo.webDomain?.let { webDomain ->
-                // If unable to save web domain in custom field or URL not populated, save in URL
-                if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
-                    val retrievedScheme = mSearchInfo.webScheme
-                    val scheme = if (retrievedScheme.isNullOrEmpty()) "http" else retrievedScheme
-                    url = "$scheme://$webDomain"
-                } else {
-                    // Save web domain in custom field
-                    addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
-                            ProtectedString(false, webDomain))
+    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+        searchInfo.webDomain?.let { webDomain ->
+            // If unable to save web domain in custom field or URL not populated, save in URL
+            if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
+                val retrievedScheme = searchInfo.webScheme
+                val scheme = if (retrievedScheme.isNullOrEmpty()) "http" else retrievedScheme
+                url = "$scheme://$webDomain"
+            } else {
+                // Save web domain in custom field
+                addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
+                        ProtectedString(false, webDomain))
+                )
+            }
+        } ?: run {
+            // Save application id in custom field
+            if (database?.allowEntryCustomFields() == true) {
+                searchInfo.applicationId?.let { applicationId ->
+                    addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
+                            ProtectedString(false, applicationId))
                     )
-                }
-            } ?: run {
-                // Save application id in custom field
-                if (database?.allowEntryCustomFields() == true) {
-                    mSearchInfo.applicationId?.let { applicationId ->
-                        addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
-                                ProtectedString(false, applicationId))
-                        )
-                    }
                 }
             }
         }

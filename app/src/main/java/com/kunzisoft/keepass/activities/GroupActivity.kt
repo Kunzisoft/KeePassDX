@@ -576,14 +576,18 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
                         { searchInfo ->
-                            if (!mReadOnly && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                            if (!mReadOnly
+                                    && searchInfo != null
+                                    && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
                                 updateEntryWithSearchInfo(entryVersioned, searchInfo)
                             } else {
                                 entrySelectedForKeyboardSelection(entryVersioned)
                             }
                         },
                         { searchInfo, _ ->
-                            if (!mReadOnly && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
+                            if (!mReadOnly
+                                    && searchInfo != null
+                                    && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
                                 updateEntryWithSearchInfo(entryVersioned, searchInfo)
                             } else {
                                 entrySelectedForAutofillSelection(entryVersioned)
@@ -629,7 +633,7 @@ class GroupActivity : LockingActivity(),
         onValidateSpecialMode()
     }
 
-    private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo?) {
+    private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo) {
         val newEntry = Entry(entry)
         newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase).apply {
             saveSearchInfo(mDatabase, searchInfo)
