@@ -56,7 +56,6 @@ import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -286,100 +285,12 @@ open class PasswordActivity : SpecialModeActivity() {
     }
 
     private fun launchGroupActivity() {
-        EntrySelectionHelper.doSpecialAction(intent,
-                { searchInfo ->
-                    GroupActivity.launch(this@PasswordActivity,
-                            true,
-                            searchInfo,
-                            readOnly)
-                    // Finish activity if no search info
-                    if (searchInfo != null) {
-                        finish()
-                    }
-                },
-                { searchInfo ->
-                    SearchHelper.checkAutoSearchInfo(this,
-                            Database.getInstance(),
-                            searchInfo,
-                            { items ->
-                                // Response is build
-                                if (items.size == 1) {
-                                    populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
-                                            items[0],
-                                            intent)
-                                    onValidateSpecialMode()
-                                } else {
-                                    // Select the one we want
-                                    GroupActivity.launchForKeyboardSelectionResult(this,
-                                            true,
-                                            searchInfo)
-                                    onLaunchActivitySpecialMode()
-                                }
-                            },
-                            {
-                                // Here no search info found, disable auto search
-                                GroupActivity.launchForKeyboardSelectionResult(this@PasswordActivity,
-                                        false,
-                                        searchInfo,
-                                        readOnly)
-                                onLaunchActivitySpecialMode()
-                            },
-                            {
-                                // Simply close if database not opened, normally not happened
-                                onCancelSpecialMode()
-                            }
-                    )
-                },
-                { searchInfo, assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        SearchHelper.checkAutoSearchInfo(this,
-                                Database.getInstance(),
-                                searchInfo,
-                                { items ->
-                                    // Response is build
-                                    AutofillHelper.buildResponse(this, items)
-                                    onValidateSpecialMode()
-                                },
-                                {
-                                    // Here no search info found, disable auto search
-                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
-                                            assistStructure,
-                                            false,
-                                            searchInfo,
-                                            readOnly)
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Simply close if database not opened, normally not happened
-                                    onCancelSpecialMode()
-                                }
-                        )
-                    } else {
-                        onCancelSpecialMode()
-                    }
-                },
-                { registerInfo ->
-                    SearchHelper.checkAutoSearchInfo(this,
-                            Database.getInstance(),
-                            registerInfo?.searchInfo,
-                            { _ ->
-                                // No auto search, it's a registration
-                                GroupActivity.launchForRegistration(this,
-                                        registerInfo)
-                                onLaunchActivitySpecialMode()
-                            },
-                            {
-                                // Here no search info found, disable auto search
-                                GroupActivity.launchForRegistration(this@PasswordActivity,
-                                        registerInfo)
-                                onLaunchActivitySpecialMode()
-                            },
-                            {
-                                // Simply close if database not opened, normally not happened
-                                onCancelSpecialMode()
-                            }
-                    )
-                })
+        GroupActivity.launch(this,
+                readOnly,
+                { onValidateSpecialMode() },
+                { onCancelSpecialMode() },
+                { onLaunchActivitySpecialMode() }
+        )
     }
 
     override fun onValidateSpecialMode() {
@@ -917,6 +828,68 @@ open class PasswordActivity : SpecialModeActivity() {
                         intent,
                         registerInfo)
             }
+        }
+
+        /*
+         * -------------------------
+         * 		Global Launch
+         * -------------------------
+         */
+        fun launch(activity: Activity,
+                   databaseUri: Uri,
+                   keyFile: Uri?,
+                   fileNoFoundAction: (exception: FileNotFoundException) -> Unit,
+                   onCancelSpecialMode: () -> Unit,
+                   onLaunchActivitySpecialMode: () -> Unit) {
+            EntrySelectionHelper.doSpecialAction(activity.intent,
+                    { searchInfo -> // Default Action
+                        try {
+                            PasswordActivity.launch(activity,
+                                    databaseUri, keyFile,
+                                    searchInfo)
+                            // Remove the search info from intent
+                            if (searchInfo != null) {
+                                activity.finish()
+                            }
+                        } catch (e: FileNotFoundException) {
+                            fileNoFoundAction(e)
+                        }
+                    },
+                    { searchInfo -> // Keyboard Selection Action
+                        try {
+                            PasswordActivity.launchForKeyboardResult(activity,
+                                    databaseUri, keyFile,
+                                    searchInfo)
+                            onLaunchActivitySpecialMode()
+                        } catch (e: FileNotFoundException) {
+                            fileNoFoundAction(e)
+                        }
+                    },
+                    { searchInfo, assistStructure -> // Autofill Selection Action
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            try {
+                                PasswordActivity.launchForAutofillResult(activity,
+                                        databaseUri, keyFile,
+                                        assistStructure,
+                                        searchInfo)
+                                onLaunchActivitySpecialMode()
+                            } catch (e: FileNotFoundException) {
+                                fileNoFoundAction(e)
+                            }
+                        } else {
+                            onCancelSpecialMode()
+                        }
+                    },
+                    { searchInfo -> // Registration Action
+                        try {
+                            PasswordActivity.launchForRegistration(activity,
+                                    databaseUri, keyFile,
+                                    searchInfo)
+                            onLaunchActivitySpecialMode()
+                        } catch (e: FileNotFoundException) {
+                            fileNoFoundAction(e)
+                        }
+                    })
         }
     }
 }

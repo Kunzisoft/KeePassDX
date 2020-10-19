@@ -41,6 +41,7 @@ object EntrySelectionHelper {
         addSpecialModeInIntent(intent, SpecialMode.SELECTION)
         addTypeModeInIntent(intent, TypeMode.MAGIKEYBOARD)
         addSearchInfoInIntent(intent, searchInfo)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
     }
 

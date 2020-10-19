@@ -60,6 +60,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -1247,6 +1248,112 @@ class GroupActivity : LockingActivity(),
                         intent,
                         registerInfo)
             }
+        }
+
+        /*
+         * -------------------------
+         * 		Global Launch
+         * -------------------------
+         */
+        fun launch(activity: Activity,
+                   readOnly: Boolean,
+                   onValidateSpecialMode: () -> Unit,
+                   onCancelSpecialMode: () -> Unit,
+                   onLaunchActivitySpecialMode: () -> Unit) {
+            EntrySelectionHelper.doSpecialAction(activity.intent,
+                    { searchInfo ->
+                        GroupActivity.launch(activity,
+                                true,
+                                searchInfo,
+                                readOnly)
+                        // Finish activity if no search info
+                        if (searchInfo != null) {
+                            activity.finish()
+                        }
+                    },
+                    { searchInfo ->
+                        SearchHelper.checkAutoSearchInfo(activity,
+                                Database.getInstance(),
+                                searchInfo,
+                                { items ->
+                                    // Response is build
+                                    if (items.size == 1) {
+                                        populateKeyboardAndMoveAppToBackground(activity,
+                                                items[0],
+                                                activity.intent)
+                                        onValidateSpecialMode()
+                                    } else {
+                                        // Select the one we want
+                                        GroupActivity.launchForKeyboardSelectionResult(activity,
+                                                true,
+                                                searchInfo)
+                                        onLaunchActivitySpecialMode()
+                                    }
+                                },
+                                {
+                                    // Here no search info found, disable auto search
+                                    GroupActivity.launchForKeyboardSelectionResult(activity,
+                                            false,
+                                            searchInfo,
+                                            readOnly)
+                                    onLaunchActivitySpecialMode()
+                                },
+                                {
+                                    // Simply close if database not opened, normally not happened
+                                    onCancelSpecialMode()
+                                }
+                        )
+                    },
+                    { searchInfo, assistStructure ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            SearchHelper.checkAutoSearchInfo(activity,
+                                    Database.getInstance(),
+                                    searchInfo,
+                                    { items ->
+                                        // Response is build
+                                        AutofillHelper.buildResponse(activity, items)
+                                        onValidateSpecialMode()
+                                    },
+                                    {
+                                        // Here no search info found, disable auto search
+                                        GroupActivity.launchForAutofillResult(activity,
+                                                assistStructure,
+                                                false,
+                                                searchInfo,
+                                                readOnly)
+                                        onLaunchActivitySpecialMode()
+                                    },
+                                    {
+                                        // Simply close if database not opened, normally not happened
+                                        onCancelSpecialMode()
+                                    }
+                            )
+                        } else {
+                            onCancelSpecialMode()
+                        }
+                    },
+                    { registerInfo ->
+                        SearchHelper.checkAutoSearchInfo(activity,
+                                Database.getInstance(),
+                                registerInfo?.searchInfo,
+                                { _ ->
+                                    // No auto search, it's a registration
+                                    GroupActivity.launchForRegistration(activity,
+                                            registerInfo)
+                                    onLaunchActivitySpecialMode()
+                                },
+                                {
+                                    // Here no search info found, disable auto search
+                                    GroupActivity.launchForRegistration(activity,
+                                            registerInfo)
+                                    onLaunchActivitySpecialMode()
+                                },
+                                {
+                                    // Simply close if database not opened, normally not happened
+                                    onCancelSpecialMode()
+                                }
+                        )
+                    })
         }
     }
 }
