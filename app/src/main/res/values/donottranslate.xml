@@ -139,6 +139,8 @@
     <bool name="keyboard_previous_database_credentials_default" translatable="false">false</bool>
     <string name="keyboard_previous_fill_in_key" translatable="false">keyboard_previous_fill_in_key</string>
     <bool name="keyboard_previous_fill_in_default" translatable="false">false</bool>
+        <string name="autofill_close_database_key" translatable="false">autofill_close_database_key</string>
+    <bool name="autofill_close_database_default" translatable="false">false</bool>
     <string name="autofill_auto_search_key" translatable="false">autofill_auto_search_key</string>
     <bool name="autofill_auto_search_default" translatable="false">true</bool>
     <string name="autofill_save_search_info_key" translatable="false">autofill_save_search_info_key</string>

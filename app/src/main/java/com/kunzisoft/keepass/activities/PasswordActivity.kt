@@ -323,6 +323,7 @@ open class PasswordActivity : SpecialModeActivity() {
                             },
                             {
                                 // Simply close if database not opened, normally not happened
+                                onCancelSpecialMode()
                             }
                     )
                     // Do not keep history
@@ -336,6 +337,7 @@ open class PasswordActivity : SpecialModeActivity() {
                                 { items ->
                                     // Response is build
                                     AutofillHelper.buildResponse(this, items)
+                                    onValidateSpecialMode()
                                     finish()
                                 },
                                 {
@@ -347,11 +349,13 @@ open class PasswordActivity : SpecialModeActivity() {
                                                 searchInfo,
                                                 readOnly)
                                     } else {
+                                        onCancelSpecialMode()
                                         finish()
                                     }
                                 },
                                 {
                                     // Simply close if database not opened, normally not happened
+                                    onCancelSpecialMode()
                                     finish()
                                 }
                         )
@@ -373,6 +377,7 @@ open class PasswordActivity : SpecialModeActivity() {
                             },
                             {
                                 // Simply close if database not opened, normally not happened
+                                onCancelSpecialMode()
                             }
                     )
                     // Do not keep history

@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : AppCompatActivity() {
@@ -82,6 +83,10 @@ class AutofillLauncherActivity : AppCompatActivity() {
                                 { items ->
                                     // Items found
                                     AutofillHelper.buildResponse(this, items)
+                                    if (PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
+                                        // Close the database
+                                        sendBroadcast(Intent(LOCK_ACTION))
+                                    }
                                     finish()
                                 },
                                 {

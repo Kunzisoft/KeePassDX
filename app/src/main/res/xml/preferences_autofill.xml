@@ -19,20 +19,25 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/search_label">
+        android:title="@string/general">
+        <SwitchPreference
+            android:key="@string/autofill_close_database_key"
+            android:title="@string/autofill_close_database_title"
+            android:summary="@string/autofill_close_database_summary"
+            android:defaultValue="@bool/autofill_close_database_default"/>
         <SwitchPreference
             android:key="@string/autofill_auto_search_key"
             android:title="@string/autofill_auto_search_title"
             android:summary="@string/autofill_auto_search_summary"
             android:defaultValue="@bool/autofill_auto_search_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/save">
         <SwitchPreference
             android:key="@string/autofill_save_search_info_key"
             android:title="@string/autofill_save_search_info_title"
             android:summary="@string/autofill_save_search_info_summary"
             android:defaultValue="@bool/autofill_save_search_info_default"/>
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/save">
         <SwitchPreference
             android:key="@string/autofill_ask_to_save_data_key"
             android:title="@string/autofill_ask_to_save_data_title"

@@ -383,6 +383,13 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_previous_fill_in_default))
     }
 
+    fun isAutofillCloseDatabaseEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_close_database_key),
+                context.resources.getBoolean(R.bool.autofill_close_database_default))
+    }
+
+
     fun isAutofillAutoSearchEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),

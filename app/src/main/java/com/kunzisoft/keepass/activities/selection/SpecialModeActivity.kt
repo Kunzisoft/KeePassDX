@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.activities.selection
 
+import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.kunzisoft.keepass.activities.helpers.TypeMode
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.view.SpecialModeView
 
 /**
@@ -57,6 +59,11 @@ abstract class SpecialModeActivity : StylishActivity() {
                 // To move the app in background
                 moveTaskToBack(true)
             }
+        }
+        if (mTypeMode == TypeMode.AUTOFILL
+                && PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
+            // Close the database
+            sendBroadcast(Intent(LOCK_ACTION))
         }
     }
 

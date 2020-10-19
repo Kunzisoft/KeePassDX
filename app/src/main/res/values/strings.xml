@@ -403,6 +403,8 @@
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
+    <string name="autofill_close_database_title">Close database</string>
+    <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
     <string name="autofill_save_search_info_title">Save search info</string>
