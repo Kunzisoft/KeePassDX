@@ -50,7 +50,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
 
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
-    private var biometricMode: Mode = Mode.UNAVAILABLE
+    private var biometricMode: Mode = Mode.BIOMETRIC_UNAVAILABLE
 
     // Only to fix multiple fingerprint menu #332
     private var mAllowAdvancedUnlockMenu = false
@@ -60,7 +60,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
      * Manage setting to auto open biometric prompt
      */
     private var biometricPromptAutoOpenPreference = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
-    var isBiometricPromptAutoOpenEnable: Boolean = true
+    var isBiometricPromptAutoOpenEnable: Boolean = false
         get() {
             return field && biometricPromptAutoOpenPreference
         }
@@ -93,7 +93,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         if (!PreferencesUtil.isBiometricUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-            toggleMode(Mode.UNAVAILABLE)
+            toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
         } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED){
             toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
         } else {
@@ -161,7 +161,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             context.runOnUiThread {
                 when (biometricMode) {
-                    Mode.UNAVAILABLE -> {
+                    Mode.BIOMETRIC_UNAVAILABLE -> {
                     }
                     Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> {
                     }
@@ -295,7 +295,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     fun initBiometricMode() {
         mAllowAdvancedUnlockMenu = false
         when (biometricMode) {
-            Mode.UNAVAILABLE -> initNotAvailable()
+            Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
             Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
             Mode.BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
             Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
@@ -313,7 +313,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
             mAddBiometricMenuInProgress = true
             cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
                 mAllowAdvancedUnlockMenu = containsCipher
-                        && (biometricMode != Mode.UNAVAILABLE
+                        && (biometricMode != Mode.BIOMETRIC_UNAVAILABLE
                                 && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
                 mAddBiometricMenuInProgress = false
                 context.invalidateOptionsMenu()
@@ -327,6 +327,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
+        advancedUnlockInfoView?.visibility = View.GONE
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
@@ -388,7 +389,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     enum class Mode {
-        UNAVAILABLE,
+        BIOMETRIC_UNAVAILABLE,
         BIOMETRIC_SECURITY_UPDATE_REQUIRED,
         BIOMETRIC_NOT_CONFIGURED,
         KEY_MANAGER_UNAVAILABLE,

@@ -370,10 +370,10 @@ open class PasswordActivity : SpecialModeActivity() {
             verifyCheckboxesAndLoadDatabase(password, keyFileUri)
         } else {
             // Init Biometric elements
-            var biometricInitialize = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isBiometricUnlockEnable(this)) {
-                    if (advancedUnlockedManager == null && databaseFileUri != null) {
+                    if (advancedUnlockedManager == null
+                            && databaseFileUri != null) {
                         advancedUnlockedManager = AdvancedUnlockedManager(this,
                                 databaseFileUri,
                                 advancedUnlockInfoView,
@@ -402,13 +402,12 @@ open class PasswordActivity : SpecialModeActivity() {
                     advancedUnlockedManager?.isBiometricPromptAutoOpenEnable =
                             mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
                     advancedUnlockedManager?.checkBiometricAvailability()
-                    biometricInitialize = true
                 } else {
                     advancedUnlockedManager?.destroy()
-                    advancedUnlockInfoView?.visibility = View.GONE
+                    advancedUnlockedManager = null
                 }
             }
-            if (!biometricInitialize) {
+            if (advancedUnlockedManager == null) {
                 checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
             }
             checkboxKeyFileView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
