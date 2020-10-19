@@ -261,6 +261,11 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 { onLaunchActivitySpecialMode() })
     }
 
+    override fun onValidateSpecialMode() {
+        super.onValidateSpecialMode()
+        finish()
+    }
+
     override fun onCancelSpecialMode() {
         super.onCancelSpecialMode()
         finish()
