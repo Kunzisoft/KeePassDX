@@ -461,4 +461,5 @@
     <string name="entry_attachments">Archivos adjuntos</string>
     <string name="entry_add_attachment">Añadir un adjunto</string>
     <string name="content_description_credentials_information">Información de credenciales</string>
+    <string name="database_opened">Base de datos abierta</string>
 </resources>
