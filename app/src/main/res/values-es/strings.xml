@@ -439,4 +439,26 @@
     <string name="contact">Contactar</string>
     <string name="error_otp_period">Período debe estar entre %1$d y %2$d segundos.</string>
     <string name="error_copy_group_here">No se puede copiar un grupo aquí.</string>
+    <string name="database_data_compression_summary">La compresión de datos reduce el tamaño de la base de datos</string>
+    <string name="database_data_compression_title">Compresión de datos</string>
+    <string name="warning_empty_keyfile">No se recomienda agregar un archivo de claves vacío.</string>
+    <string name="warning_sure_remove_data">¿Eliminar estos datos de todos modos\?</string>
+    <string name="warning_sure_add_file">¿Agregar el archivo de todos modos\?</string>
+    <string name="warning_replace_file">Al cargar este archivo reemplazará el existente.</string>
+    <string name="warning_permanently_delete_nodes">¿Borrar los nodos seleccionados de forma permanente\?</string>
+    <string name="warning_database_link_revoked">El acceso al archivo fue revocado por el administrador de archivos</string>
+    <string name="command_execution">Ejecutando el comando …</string>
+    <string name="hide_broken_locations_summary">Ocultar enlaces rotos en la lista de bases de datos recientes</string>
+    <string name="hide_broken_locations_title">Ocultar enlaces de bases de datos rotos</string>
+    <string name="remember_keyfile_locations_summary">Realiza un seguimiento de dónde se almacenan los archivos de claves</string>
+    <string name="remember_keyfile_locations_title">Recuerdar las ubicaciones de los archivos de claves</string>
+    <string name="subdomain_search_summary">Buscar dominios web con restricciones de subdominios</string>
+    <string name="subdomain_search_title">Búsqueda de subdominio</string>
+    <string name="auto_focus_search_summary">Solicite una búsqueda al abrir una base de datos</string>
+    <string name="auto_focus_search_title">Búsqueda rápida</string>
+    <string name="menu_delete_entry_history">Borrar historial</string>
+    <string name="error_otp_digits">El token debe tener de %1$d a %2$d dígitos.</string>
+    <string name="entry_attachments">Archivos adjuntos</string>
+    <string name="entry_add_attachment">Añadir un adjunto</string>
+    <string name="content_description_credentials_information">Información de credenciales</string>
 </resources>
