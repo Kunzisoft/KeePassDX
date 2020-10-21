@@ -520,4 +520,6 @@
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+    <string name="show_uuid_title">Show UUID</string>
+    <string name="show_uuid_summary">Displays the UUID linked to an entry</string>
 </resources>
