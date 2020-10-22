@@ -65,7 +65,6 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
@@ -364,7 +363,7 @@ class GroupActivity : LockingActivity(),
         val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
         if (searchInfo != null && autoSearch) {
             intent.action = Intent.ACTION_SEARCH
-            intent.putExtra(SearchManager.QUERY, searchInfo.getSearchString(this))
+            intent.putExtra(SearchManager.QUERY, searchInfo.toString())
             return true
         }
         return false

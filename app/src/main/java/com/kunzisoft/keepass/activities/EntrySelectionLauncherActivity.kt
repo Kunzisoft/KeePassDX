@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
 
 /**
  * Activity to search or select entry in database,
@@ -54,13 +55,25 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
             else -> {}
         }
 
-        // Setting to integrate Magikeyboard
-        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
-
         // Build search param
         val searchInfo = SearchInfo().apply {
             webDomain = sharedWebDomain
         }
+        if (!PreferencesUtil.searchSubdomains(this)) {
+            UriUtil.getWebDomainWithoutSubDomain(this, sharedWebDomain) { webDomainWithoutSubDomain ->
+                searchInfo.webDomain = webDomainWithoutSubDomain
+                launch(searchInfo)
+            }
+        } else {
+            launch(searchInfo)
+        }
+
+        super.onCreate(savedInstanceState)
+    }
+
+    private fun launch(searchInfo: SearchInfo) {
+        // Setting to integrate Magikeyboard
+        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
         // If database is open
         SearchHelper.checkAutoSearchInfo(this,
@@ -112,8 +125,6 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
         )
 
         finish()
-
-        super.onCreate(savedInstanceState)
     }
 }
 
