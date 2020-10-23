@@ -137,7 +137,6 @@
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket az adatbázis-fájlban (a nem felismert karakterek mert ugyanarra a betűre lesznek alakítva).</string>
     <string name="version_label">Verzió: %1$s</string>
-    <string name="configure_biometric">Az ujjlenyomat-leolvasás támogatott, de nincs beállítva.</string>
     <string name="open_biometric_prompt_unlock_database">Ujjlenyomat-leolvasás</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
     <string name="biometric_invalid_key">Az biometrikus kulcs nem olvasható. Törölje, és ismételje meg a biometrikus felismerési folyamatot.</string>

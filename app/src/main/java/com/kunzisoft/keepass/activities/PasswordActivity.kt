@@ -334,7 +334,6 @@ open class PasswordActivity : SpecialModeActivity() {
                 sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
             }
 
-            advancedUnlockInfoView?.visibility = View.GONE
             // Don't allow auto open prompt if lock become when UI visible
             mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
                 false

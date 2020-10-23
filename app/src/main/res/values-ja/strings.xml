@@ -196,7 +196,6 @@
     <string name="content_description_remove_field">フィールドを削除</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
     <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
-    <string name="configure_biometric">生体認証プロンプト対応ですが、未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
     <string name="otp_type">OTP の種類</string>

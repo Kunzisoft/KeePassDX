@@ -181,7 +181,6 @@
     <string name="warning_password_encoding">Evite emplear en la base de datos caracteres que no pertenezcan al formato de codificación del texto (los caracteres no reconocidos se convierten a la misma letra).</string>
     <string name="warning_empty_password">¿Confirma que no quiere utilizar la protección ante desbloqueo de contraseñas\?</string>
     <string name="warning_no_encryption_key">¿Confirma que no quiere utilizar alguna clave de cifrado\?</string>
-    <string name="configure_biometric">Se admite la petición de datos biométricos pero no se han configurado.</string>
     <string name="open_biometric_prompt_unlock_database">Abra la petición de datos biométricos para desbloquear la base de datos</string>
     <string name="encrypted_value_stored">Contraseña cifrada almacenada</string>
     <string name="biometric_invalid_key">No se puede leer información huella dactilar. Por favor elimínela y repita el proceso de reconocimiento dactilar.</string>

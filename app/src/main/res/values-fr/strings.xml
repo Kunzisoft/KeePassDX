@@ -161,7 +161,7 @@
     <string name="warning_empty_password">Continuer sans protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Continuer sans clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
-    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
+    <string name="configure_biometric">Aucune information d’identification biométrique ou de périphérique n’est enregistrée.</string>
     <string name="open_biometric_prompt_unlock_database">Ouvrir l’invite biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>

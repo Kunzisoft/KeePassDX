@@ -305,7 +305,6 @@
     <string name="biometric_prompt_store_credential_title">ബയോമെട്രിക് തിരിച്ചറിയൽ സംരക്ഷിക്കുക</string>
     <string name="open_biometric_prompt_store_credential">ക്രെഡൻഷ്യലുകൾ സംഭരിക്കുന്നതിന് ബയോമെട്രിക് പ്രോംപ്റ്റ് തുറക്കുക</string>
     <string name="open_biometric_prompt_unlock_database">ഡാറ്റാബേസ് അൺലോക്കുചെയ്യുന്നതിന് ബയോമെട്രിക് പ്രോംപ്റ്റ് തുറക്കുക</string>
-    <string name="configure_biometric">ബയോമെട്രിക് പ്രോംപ്റ്റ് പിന്തുണയ്ക്കുന്നു, പക്ഷേ സജ്ജീകരിച്ചിട്ടില്ല.</string>
     <string name="warning_sure_add_file">എന്തായാലും ഫയൽ ചേർക്കണോ\?</string>
     <string name="warning_replace_file">ഈ ഫയൽ അപ്‌ലോഡുചെയ്യുന്നത് നിലവിലുള്ള ഫയലിനെ മാറ്റിസ്ഥാപിക്കും.</string>
     <string name="warning_database_link_revoked">ഫയൽ മാനേജർ റദ്ദാക്കിയ ഫയലിലേക്കുള്ള ആക്സസ്</string>

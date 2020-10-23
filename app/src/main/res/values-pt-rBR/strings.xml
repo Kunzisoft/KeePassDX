@@ -190,7 +190,6 @@
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
     <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
-    <string name="configure_biometric">Impressão digital é suportada, mas não está configurada.</string>
     <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital para abrir o bando de dados</string>
     <string name="encrypted_value_stored">Senha encriptada armazenada</string>
     <string name="biometric_invalid_key">Não pôde ler chave de impressão digital. Por favor, apague-a e repita o procedimento de reconhecimento biométrico.</string>

@@ -193,7 +193,6 @@
     <string name="warning_empty_password">Kontynuować bez ochrony odblokowującej hasło\?</string>
     <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
-    <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie jest skonfigurowane.</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Grupy poprzednie</string>
     <string name="open_biometric_prompt_unlock_database">Otwórz żądanie biometryczne, aby odblokować bazę danych</string>

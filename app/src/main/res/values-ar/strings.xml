@@ -189,7 +189,6 @@
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
     <string name="path">مسار</string>
-    <string name="configure_biometric">فحص البصمة مدعوم لكنه ليس معد.</string>
     <string name="open_biometric_prompt_unlock_database">فحص البصمة</string>
     <string name="biometric_invalid_key">لا يمكن قراءة مفتاح البصمة.
 \nاستعد كلمة السر.</string>

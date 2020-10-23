@@ -270,7 +270,7 @@
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_biometric">Biometric prompt is supported, but not set up.</string>
+    <string name="configure_biometric">No biometric or device credential is enrolled.</string>
     <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>

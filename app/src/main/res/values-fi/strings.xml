@@ -220,7 +220,6 @@
     <string name="biometric_prompt_store_credential_title">Tallenna biometrinen tunnistus</string>
     <string name="open_biometric_prompt_store_credential">Avaa biometrinen komentokehote tallentaaksesi pääsytiedot</string>
     <string name="open_biometric_prompt_unlock_database">Avaa biometrinen komentokehote avataksesi salasanatietokannan</string>
-    <string name="configure_biometric">Biometrinen komentokehote on tuettu, mutta ei asetettu.</string>
     <string name="keystore_not_accessible">Avainsäilöä ei ole kunnolla alustettu.</string>
     <string name="build_label">Koontiversio %1$s</string>
     <string name="warning_database_link_revoked">Tiedostoon pääsy evätty</string>
