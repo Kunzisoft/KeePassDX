@@ -403,6 +403,7 @@ open class PasswordActivity : SpecialModeActivity() {
                             mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
                     advancedUnlockedManager?.checkBiometricAvailability()
                 } else {
+                    advancedUnlockInfoView?.visibility = View.GONE
                     advancedUnlockedManager?.destroy()
                     advancedUnlockedManager = null
                 }
@@ -649,15 +650,16 @@ open class PasswordActivity : SpecialModeActivity() {
                     && !readOnlyEducationPerformed) {
                 val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
                 PreferencesUtil.isBiometricUnlockEnable(applicationContext)
-                && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
-                && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
-                {
-                    performedNextEducation(passwordActivityEducation, menu)
-                },
-                {
-                    performedNextEducation(passwordActivityEducation, menu)
-                })
+                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.visibility == View.VISIBLE
+                        && advancedUnlockInfoView?.unlockIconImageView != null
+                        && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
+                        {
+                            performedNextEducation(passwordActivityEducation, menu)
+                        },
+                        {
+                            performedNextEducation(passwordActivityEducation, menu)
+                        })
             }
         }
     }
