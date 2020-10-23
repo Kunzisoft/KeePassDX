@@ -327,7 +327,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
-        advancedUnlockInfoView?.visibility = View.GONE
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
