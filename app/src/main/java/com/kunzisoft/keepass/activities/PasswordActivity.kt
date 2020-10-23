@@ -645,19 +645,19 @@ open class PasswordActivity : SpecialModeActivity() {
                         performedNextEducation(passwordActivityEducation, menu)
                     })
 
-            if (!readOnlyEducationPerformed) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !readOnlyEducationPerformed) {
                 val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
-                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
-                        && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        },
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        })
+                PreferencesUtil.isBiometricUnlockEnable(applicationContext)
+                && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
+                && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
+                {
+                    performedNextEducation(passwordActivityEducation, menu)
+                },
+                {
+                    performedNextEducation(passwordActivityEducation, menu)
+                })
             }
         }
     }
