@@ -5,4 +5,5 @@
  * Correction de problèmes biométriques #724 #740 #731
  * Correction de l'autofill #725 #551
  * Correction de la recherche de sous-domaine #728
+ * Correction de la recherche de backup #759
  * Petites corrections et traductions #732 #736 #737 #738 #742
