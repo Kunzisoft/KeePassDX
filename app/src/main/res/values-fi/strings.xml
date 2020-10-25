@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Palaute</string>
     <string name="homepage">Kotisivu</string>
-    <string name="about_description">KeePass-salasanahallintaohjelman Android toteutus</string>
+    <string name="about_description">KeePass-salasanahallintaohjelman Android-toteutus</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
@@ -92,7 +92,7 @@
     <string name="list_size_summary">Tekstin koko ryhmälistauksessa</string>
     <string name="loading_database">Ladataan salasanatietokantaa…</string>
     <string name="lowercase">pienet kirjaimet</string>
-    <string name="hide_password_title">Piilota salasaan</string>
+    <string name="hide_password_title">Piilota salasana</string>
     <string name="hide_password_summary">Piilota salasanat oletuksena</string>
     <string name="about">Tietoa</string>
     <string name="menu_change_key_settings">Vaihda pääsalasanaa</string>
