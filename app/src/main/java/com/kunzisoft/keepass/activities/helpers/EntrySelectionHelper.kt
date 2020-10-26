@@ -121,7 +121,6 @@ object EntrySelectionHelper {
         when (retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
                 removeModesFromIntent(intent)
-                removeInfoFromIntent(intent)
                 defaultAction.invoke(retrieveSearchInfoFromIntent(intent))
             }
             SpecialMode.SELECTION -> {
