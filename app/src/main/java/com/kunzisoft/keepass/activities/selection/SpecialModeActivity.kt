@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.activities.selection
 
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
@@ -97,6 +98,13 @@ abstract class SpecialModeActivity : StylishActivity() {
             // To move the app in background
             moveTaskToBack(true)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
+        mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
     }
 
     override fun onResume() {
