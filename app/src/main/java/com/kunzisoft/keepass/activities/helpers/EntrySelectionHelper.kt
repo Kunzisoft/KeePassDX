@@ -135,10 +135,11 @@ object EntrySelectionHelper {
                 }
                 if (!assistStructureInit) {
                     if (intent.getSerializableExtra(KEY_SPECIAL_MODE) != null) {
-                        val typeMode = retrieveTypeModeFromIntent(intent)
-                        removeModesFromIntent(intent)
-                        when (typeMode) {
-                            TypeMode.DEFAULT -> defaultAction.invoke(searchInfo)
+                        when (retrieveTypeModeFromIntent(intent)) {
+                            TypeMode.DEFAULT -> {
+                                removeModesFromIntent(intent)
+                                defaultAction.invoke(searchInfo)
+                            }
                             TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
                             else -> {
                                 // In this case, error
