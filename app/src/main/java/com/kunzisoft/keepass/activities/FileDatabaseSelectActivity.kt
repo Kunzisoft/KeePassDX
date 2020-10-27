@@ -292,8 +292,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     createDatabaseButtonView?.visibility = View.GONE
                 }
             }
-            SpecialMode.SELECTION,
-            SpecialMode.REGISTRATION -> {
+            else -> {
                 // Disable create button if in selection mode or request for autofill
                 createDatabaseButtonView?.visibility = View.GONE
             }
@@ -447,15 +446,25 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         /*
          * -------------------------
-         * Launch only to standard search, else pass by PasswordActivity
+         * 		Standard Launch
          * -------------------------
          */
 
-        fun launch(context: Context,
-                   searchInfo: SearchInfo? = null) {
-            val intent = Intent(context, FileDatabaseSelectActivity::class.java)
-            EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
-            context.startActivity(intent)
+        fun launch(context: Context) {
+            context.startActivity(Intent(context, FileDatabaseSelectActivity::class.java))
+        }
+
+        /*
+         * -------------------------
+         * 		Search Launch
+         * -------------------------
+         */
+
+        fun launchForSearchResult(context: Context,
+                                  searchInfo: SearchInfo) {
+            EntrySelectionHelper.startActivityForSearchModeResult(context,
+                    Intent(context, FileDatabaseSelectActivity::class.java),
+                    searchInfo)
         }
 
         /*

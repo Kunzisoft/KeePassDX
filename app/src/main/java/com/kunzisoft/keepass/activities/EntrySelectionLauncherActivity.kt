@@ -95,7 +95,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                                     searchInfo)
                         }
                     } else {
-                        GroupActivity.launch(this,
+                        GroupActivity.launchForSearchResult(this,
                                 true,
                                 searchInfo)
                     }
@@ -107,7 +107,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                                 false,
                                 searchInfo)
                     } else {
-                        GroupActivity.launch(this,
+                        GroupActivity.launchForSaveResult(this,
                                 false,
                                 searchInfo)
                     }
@@ -118,12 +118,11 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                         FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
                                 searchInfo)
                     } else {
-                        FileDatabaseSelectActivity.launch(this,
+                        FileDatabaseSelectActivity.launchForSearchResult(this,
                                 searchInfo)
                     }
                 }
         )
-
         finish()
     }
 }

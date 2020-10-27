@@ -25,7 +25,11 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
@@ -95,6 +99,15 @@ abstract class LockingActivity : SpecialModeActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // If in ave or registration mode, don't allow read only
+        if ((mSpecialMode == SpecialMode.SAVE
+                        || mSpecialMode == SpecialMode.REGISTRATION)
+                && mReadOnly) {
+            Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
+            EntrySelectionHelper.removeModesFromIntent(intent)
+            finish()
+        }
 
         mProgressDatabaseTaskProvider?.registerProgressTask()
 

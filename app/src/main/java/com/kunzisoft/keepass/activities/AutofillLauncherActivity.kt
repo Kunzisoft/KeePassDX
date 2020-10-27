@@ -50,11 +50,6 @@ class AutofillLauncherActivity : AppCompatActivity() {
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
             when (specialMode) {
-                SpecialMode.DEFAULT -> {
-                    // Not an autofill call
-                    setResult(Activity.RESULT_CANCELED)
-                    finish()
-                }
                 SpecialMode.SELECTION -> {
                     // Build search param
                     val searchInfo = SearchInfo().apply {
@@ -82,6 +77,11 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         }
                     }
                     launchRegistration(searchInfo, registerInfo)
+                }
+                else -> {
+                    // Not an autofill call
+                    setResult(Activity.RESULT_CANCELED)
+                    finish()
                 }
             }
         }
