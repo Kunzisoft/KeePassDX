@@ -114,7 +114,7 @@ class EntryInfo : Parcelable {
                 if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
                     sameData = true
                 } else {
-                    addUniqueField(currentField, number + 1)
+                    addUniqueField(field, number + 1)
                 }
                 return
             }
