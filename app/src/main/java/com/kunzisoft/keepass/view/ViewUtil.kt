@@ -25,7 +25,13 @@ import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.text.Selection
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
@@ -66,6 +72,21 @@ fun TextView.strikeOut(strikeOut: Boolean) {
         paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     else
         paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+}
+
+fun TextView.customLink(listener: (View) -> Unit) {
+    val spannableString = SpannableString(this.text)
+    val clickableSpan = object : ClickableSpan() {
+        override fun onClick(view: View) {
+            Selection.setSelection((view as TextView).text as Spannable, 0)
+            view.invalidate()
+            listener.invoke(view)
+        }
+    }
+    spannableString.setSpan(clickableSpan, 0, text.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+    this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
 
 fun Snackbar.asError(): Snackbar {
