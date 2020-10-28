@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.UriUtil
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : AppCompatActivity() {
@@ -49,11 +50,6 @@ class AutofillLauncherActivity : AppCompatActivity() {
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
             when (specialMode) {
-                SpecialMode.DEFAULT -> {
-                    // Not an autofill call
-                    setResult(Activity.RESULT_CANCELED)
-                    finish()
-                }
                 SpecialMode.SELECTION -> {
                     // Build search param
                     val searchInfo = SearchInfo().apply {
@@ -61,88 +57,114 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
                         webScheme = intent.getStringExtra(KEY_SEARCH_SCHEME)
                     }
-                    // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-                    val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
-
-                    if (assistStructure == null) {
-                        setResult(Activity.RESULT_CANCELED)
-                        finish()
-                    } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
-                                    PreferencesUtil.applicationIdBlocklist(this))
-                            || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
-                                    PreferencesUtil.webDomainBlocklist(this))) {
-                        // If item not allowed, show a toast
-                        Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
-                        setResult(Activity.RESULT_CANCELED)
-                        finish()
+                    if (!PreferencesUtil.searchSubdomains(this)) {
+                        UriUtil.getWebDomainWithoutSubDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                            searchInfo.webDomain = webDomainWithoutSubDomain
+                            launchSelection(searchInfo)
+                        }
                     } else {
-                        // If database is open
-                        SearchHelper.checkAutoSearchInfo(this,
-                                Database.getInstance(),
-                                searchInfo,
-                                { items ->
-                                    // Items found
-                                    AutofillHelper.buildResponse(this, items)
-                                    if (PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
-                                        // Close the database
-                                        sendBroadcast(Intent(LOCK_ACTION))
-                                    }
-                                    finish()
-                                },
-                                {
-                                    // Show the database UI to select the entry
-                                    GroupActivity.launchForAutofillResult(this,
-                                            assistStructure,
-                                            false,
-                                            searchInfo)
-                                },
-                                {
-                                    // If database not open
-                                    FileDatabaseSelectActivity.launchForAutofillResult(this,
-                                            assistStructure,
-                                            searchInfo)
-                                }
-                        )
+                        launchSelection(searchInfo)
                     }
                 }
                 SpecialMode.REGISTRATION -> {
                     // To register info
                     val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
-                                    PreferencesUtil.applicationIdBlocklist(this))
-                            || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
-                                    PreferencesUtil.webDomainBlocklist(this))) {
-                        // If item not allowed, show a toast
-                        Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
-                        setResult(Activity.RESULT_CANCELED)
-                    } else {
-                        SearchHelper.checkAutoSearchInfo(this,
-                                Database.getInstance(),
-                                searchInfo,
-                                { _ ->
-                                    // Show the database UI to select the entry
-                                    GroupActivity.launchForRegistration(this,
-                                            registerInfo)
-                                },
-                                {
-                                    // Show the database UI to select the entry
-                                    GroupActivity.launchForRegistration(this,
-                                            registerInfo)
-                                },
-                                {
-                                    // If database not open
-                                    FileDatabaseSelectActivity.launchForRegistration(this,
-                                            registerInfo)
-                                }
-                        )
+                    if (!PreferencesUtil.searchSubdomains(this)) {
+                        UriUtil.getWebDomainWithoutSubDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                            searchInfo.webDomain = webDomainWithoutSubDomain
+                            launchRegistration(searchInfo, registerInfo)
+                        }
                     }
+                    launchRegistration(searchInfo, registerInfo)
+                }
+                else -> {
+                    // Not an autofill call
+                    setResult(Activity.RESULT_CANCELED)
                     finish()
                 }
             }
         }
 
         super.onCreate(savedInstanceState)
+    }
+
+    private fun launchSelection(searchInfo: SearchInfo) {
+        // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
+        val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
+
+        if (assistStructure == null) {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
+                        PreferencesUtil.applicationIdBlocklist(this))
+                || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
+                        PreferencesUtil.webDomainBlocklist(this))) {
+            // If item not allowed, show a toast
+            Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        } else {
+            // If database is open
+            SearchHelper.checkAutoSearchInfo(this,
+                    Database.getInstance(),
+                    searchInfo,
+                    { items ->
+                        // Items found
+                        AutofillHelper.buildResponse(this, items)
+                        if (PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
+                            // Close the database
+                            sendBroadcast(Intent(LOCK_ACTION))
+                        }
+                        finish()
+                    },
+                    {
+                        // Show the database UI to select the entry
+                        GroupActivity.launchForAutofillResult(this,
+                                assistStructure,
+                                false,
+                                searchInfo)
+                    },
+                    {
+                        // If database not open
+                        FileDatabaseSelectActivity.launchForAutofillResult(this,
+                                assistStructure,
+                                searchInfo)
+                    }
+            )
+        }
+    }
+
+    private fun launchRegistration(searchInfo: SearchInfo, registerInfo: RegisterInfo?) {
+        if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
+                        PreferencesUtil.applicationIdBlocklist(this))
+                || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
+                        PreferencesUtil.webDomainBlocklist(this))) {
+            // If item not allowed, show a toast
+            Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+            setResult(Activity.RESULT_CANCELED)
+        } else {
+            SearchHelper.checkAutoSearchInfo(this,
+                    Database.getInstance(),
+                    searchInfo,
+                    { _ ->
+                        // Show the database UI to select the entry
+                        GroupActivity.launchForRegistration(this,
+                                registerInfo)
+                    },
+                    {
+                        // Show the database UI to select the entry
+                        GroupActivity.launchForRegistration(this,
+                                registerInfo)
+                    },
+                    {
+                        // If database not open
+                        FileDatabaseSelectActivity.launchForRegistration(this,
+                                registerInfo)
+                    }
+            )
+        }
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -202,7 +202,6 @@
     <string name="data">Dados</string>
     <string name="unavailable_feature_version">O aparelho está a executar Android %1$s, mas precisa de %2$s ou posterior.</string>
     <string name="clipboard_notifications_summary">Mostrar notificações de área de transferência para copiar campos ao visualizar uma entrada</string>
-    <string name="configure_biometric">O escaneamento biométrico é suportado, mas não configurado.</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o escaneamento de biomẽtrico</string>
     <string name="warning_empty_keyfile_explanation">O conteúdo do ficheiro-chave nunca deve ser alterado e, no melhor dos casos, deve conter dados gerados aleatoriamente.</string>
     <string name="warning_empty_keyfile">Não é recomendável adicionar um ficheiro de chave vazio.</string>

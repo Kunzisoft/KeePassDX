@@ -191,7 +191,6 @@
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Fortsæt uden krypteringsnøgle\?</string>
-    <string name="configure_biometric">Biometrisk prompt understøttes, men er ikke konfigureret.</string>
     <string name="open_biometric_prompt_unlock_database">Åbn biometriske forespørgsel for at låse databasen op</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
     <string name="biometric_invalid_key">Kan ikke læse den biometriske nøgle. Slet den og gentag den biometriske genkendelsesprocedure.</string>

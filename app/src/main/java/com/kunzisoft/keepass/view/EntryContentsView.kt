@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
 
@@ -78,6 +79,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val historyListView: RecyclerView
     private val historyAdapter = EntryHistoryAdapter(context)
 
+    private val uuidContainerView: View
     private val uuidView: TextView
     private val uuidReferenceView: TextView
 
@@ -126,6 +128,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             adapter = historyAdapter
         }
 
+        uuidContainerView = findViewById(R.id.entry_UUID_container)
+        uuidContainerView?.apply {
+            visibility = if (PreferencesUtil.showUUID(context)) View.VISIBLE else View.GONE
+        }
         uuidView = findViewById(R.id.entry_UUID)
         uuidReferenceView = findViewById(R.id.entry_UUID_reference)
     }

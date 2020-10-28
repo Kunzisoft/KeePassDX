@@ -28,7 +28,6 @@ import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorK
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
@@ -53,7 +52,7 @@ class SearchHelper {
                         && !searchInfo.containsOnlyNullValues()) {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
-                            searchInfo.getSearchString(context),
+                            searchInfo.toString(),
                             PreferencesUtil.omitBackup(context),
                             MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->

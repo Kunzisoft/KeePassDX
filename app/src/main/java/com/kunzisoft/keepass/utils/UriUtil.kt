@@ -27,6 +27,10 @@ import android.os.Build
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 import java.io.*
 import java.util.*
 
@@ -94,17 +98,18 @@ object UriUtil {
             null
     }
 
-    fun getWebDomainWithoutSubDomain(webDomain: String?): String? {
-        webDomain?.split(".")?.let { domainArray ->
-            if (domainArray.isEmpty()) {
-                return ""
+    fun getWebDomainWithoutSubDomain(context: Context,
+                                     webDomain: String?,
+                                     webDomainWithoutSubDomain: (String?) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            if (webDomain != null) {
+                val publicSuffixList = PublicSuffixList(context)
+                webDomainWithoutSubDomain.invoke(publicSuffixList
+                        .getPublicSuffixPlusOne(webDomain).await())
+            } else {
+                webDomainWithoutSubDomain.invoke(null)
             }
-            if (domainArray.size == 1) {
-                return domainArray[0];
-            }
-            return domainArray[domainArray.size - 2] + "." + domainArray[domainArray.size - 1]
         }
-        return null
     }
 
     fun decode(uri: String?): String {

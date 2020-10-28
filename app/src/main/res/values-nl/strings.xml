@@ -198,7 +198,6 @@
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
     <string name="warning_no_encryption_key">Doorgaan zonder coderingssleutel\?</string>
-    <string name="configure_biometric">Biometrische herkenning is ondersteund, maar niet ingesteld.</string>
     <string name="open_biometric_prompt_unlock_database">Biometrische herkenning gebruiken om de database te ontgrendelen</string>
     <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
     <string name="biometric_invalid_key">Kan de biometrische gegevens niet lezen. Verwijder deze en herhaal de procedure voor biometrische herkenning.</string>

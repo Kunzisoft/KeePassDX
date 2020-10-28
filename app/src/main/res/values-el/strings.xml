@@ -348,7 +348,6 @@
     <string name="error_create_database_file">Δεν είναι δυνατή η δημιουργία βάσης δεδομένων με αυτόν τον κωδικό πρόσβασης και το αρχείο κλειδί.</string>
     <string name="menu_advanced_unlock_settings">Προηγμένο ξεκλείδωμα</string>
     <string name="menu_biometric_remove_key">Διαγράψτε το αποθηκευμένο βιομετρικό κλειδί</string>
-    <string name="configure_biometric">Η Βιομετρική προτροπή υποστηρίζεται αλλά δεν έχει ρυθμιστεί.</string>
     <string name="open_biometric_prompt_unlock_database">Ανοίξτε τη βιομετρική προτροπή για να ξεκλειδώσετε τη βάση δεδομένων</string>
     <string name="open_biometric_prompt_store_credential">Ανοίξτε τη βιομετρική προτροπή για την αποθήκευση διαπιστευτηρίων</string>
     <string name="biometric_prompt_store_credential_title">Αποθήκευση βιομετρικής αναγνώρισης</string>

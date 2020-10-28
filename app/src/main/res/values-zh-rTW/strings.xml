@@ -285,7 +285,6 @@
     <string name="biometric_prompt_extract_credential_title">使用生物識別開啟資料庫</string>
     <string name="biometric_prompt_store_credential_message">警告：即使已啟用生物識別，你仍須牢記你的主密碼。</string>
     <string name="biometric_prompt_store_credential_title">儲存生物識別資訊</string>
-    <string name="configure_biometric">此設備支援生物識別登入，但未啟用。</string>
     <string name="build_label">版本號 %1$s</string>
     <string name="version_label">版本 %1$s</string>
     <string name="warning_permanently_delete_nodes">確定永久刪除已選項目？</string>

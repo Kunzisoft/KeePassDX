@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.activities.selection
 
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
@@ -99,6 +100,13 @@ abstract class SpecialModeActivity : StylishActivity() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
+        mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -113,6 +121,8 @@ abstract class SpecialModeActivity : StylishActivity() {
             // Populate title
             val selectionModeStringId = when (mSpecialMode) {
                 SpecialMode.DEFAULT, // Not important because hidden
+                SpecialMode.SEARCH -> R.string.search_mode
+                SpecialMode.SAVE -> R.string.save_mode
                 SpecialMode.SELECTION -> R.string.selection_mode
                 SpecialMode.REGISTRATION -> R.string.registration_mode
             }
@@ -121,13 +131,17 @@ abstract class SpecialModeActivity : StylishActivity() {
                 TypeMode.MAGIKEYBOARD -> R.string.magic_keyboard_title
                 TypeMode.AUTOFILL -> R.string.autofill
             }
-            title = "${getString(selectionModeStringId)} (${getString(typeModeStringId)})"
+            title = getString(selectionModeStringId)
+            if (mTypeMode != TypeMode.DEFAULT)
+                title = "$title (${getString(typeModeStringId)})"
             // Populate subtitle
             subtitle = searchInfo?.getName(resources)
 
             // Show the toolbar or not
             visible = when (mSpecialMode) {
                 SpecialMode.DEFAULT -> false
+                SpecialMode.SEARCH -> true
+                SpecialMode.SAVE -> true
                 SpecialMode.SELECTION -> true
                 SpecialMode.REGISTRATION -> true
             }

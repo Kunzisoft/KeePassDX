@@ -35,6 +35,25 @@ object EntrySelectionHelper {
     private const val KEY_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
     private const val KEY_REGISTER_INFO = "com.kunzisoft.keepass.extra.REGISTER_INFO"
 
+    fun startActivityForSearchModeResult(context: Context,
+                                         intent: Intent,
+                                         searchInfo: SearchInfo) {
+        addSpecialModeInIntent(intent, SpecialMode.SEARCH)
+        addSearchInfoInIntent(intent, searchInfo)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
+    }
+
+    fun startActivityForSaveModeResult(context: Context,
+                                             intent: Intent,
+                                             searchInfo: SearchInfo) {
+        addSpecialModeInIntent(intent, SpecialMode.SAVE)
+        addTypeModeInIntent(intent, TypeMode.DEFAULT)
+        addSearchInfoInIntent(intent, searchInfo)
+        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
+    }
+
     fun startActivityForKeyboardSelectionModeResult(context: Context,
                                                     intent: Intent,
                                                     searchInfo: SearchInfo?) {
@@ -112,17 +131,39 @@ object EntrySelectionHelper {
     }
 
     fun doSpecialAction(intent: Intent,
-                        defaultAction: (searchInfo: SearchInfo?) -> Unit,
+                        defaultAction: () -> Unit,
+                        searchAction: (searchInfo: SearchInfo) -> Unit,
+                        saveAction: (searchInfo: SearchInfo) -> Unit,
                         keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
                         autofillSelectionAction: (searchInfo: SearchInfo?,
                                                   assistStructure: AssistStructure) -> Unit,
-                        registrationAction: (registerInfo: RegisterInfo?) -> Unit) {
+                        autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit) {
 
         when (retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
                 removeModesFromIntent(intent)
                 removeInfoFromIntent(intent)
-                defaultAction.invoke(retrieveSearchInfoFromIntent(intent))
+                defaultAction.invoke()
+            }
+            SpecialMode.SEARCH -> {
+                val searchInfo = retrieveSearchInfoFromIntent(intent)
+                removeModesFromIntent(intent)
+                removeInfoFromIntent(intent)
+                if (searchInfo != null)
+                    searchAction.invoke(searchInfo)
+                else {
+                    defaultAction.invoke()
+                }
+            }
+            SpecialMode.SAVE -> {
+                val searchInfo = retrieveSearchInfoFromIntent(intent)
+                removeModesFromIntent(intent)
+                removeInfoFromIntent(intent)
+                if (searchInfo != null)
+                    saveAction.invoke(searchInfo)
+                else {
+                    defaultAction.invoke()
+                }
             }
             SpecialMode.SELECTION -> {
                 val searchInfo: SearchInfo? = retrieveSearchInfoFromIntent(intent)
@@ -135,10 +176,14 @@ object EntrySelectionHelper {
                 }
                 if (!assistStructureInit) {
                     if (intent.getSerializableExtra(KEY_SPECIAL_MODE) != null) {
-                        val typeMode = retrieveTypeModeFromIntent(intent)
-                        removeModesFromIntent(intent)
-                        when (typeMode) {
-                            TypeMode.DEFAULT -> defaultAction.invoke(searchInfo)
+                        when (retrieveTypeModeFromIntent(intent)) {
+                            TypeMode.DEFAULT -> {
+                                removeModesFromIntent(intent)
+                                if (searchInfo != null)
+                                    searchAction.invoke(searchInfo)
+                                else
+                                    defaultAction.invoke()
+                            }
                             TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
                             else -> {
                                 // In this case, error
@@ -147,7 +192,10 @@ object EntrySelectionHelper {
                             }
                         }
                     } else {
-                        defaultAction.invoke(searchInfo)
+                        if (searchInfo != null)
+                            searchAction.invoke(searchInfo)
+                        else
+                            defaultAction.invoke()
                     }
                 }
             }
@@ -155,7 +203,7 @@ object EntrySelectionHelper {
                 val registerInfo: RegisterInfo? = retrieveRegisterInfoFromIntent(intent)
                 removeModesFromIntent(intent)
                 removeInfoFromIntent(intent)
-                registrationAction.invoke(registerInfo)
+                autofillRegistrationAction.invoke(registerInfo)
             }
         }
     }

@@ -123,6 +123,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.hide_expired_entries_default))
     }
 
+    fun showUUID(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_uuid_key),
+                context.resources.getBoolean(R.bool.show_uuid_default))
+    }
+
     /**
      * Retrieve the text size in % (1 for 100%)
      */

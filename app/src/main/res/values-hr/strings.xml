@@ -450,7 +450,6 @@
     <string name="education_unlock_summary">Upiši lozinku i/ili datoteku ključa za otključavanje baze podataka.
 \n
 \nSpremi sigurnosnu kopiju datoteke baze podataka na sigurno mjesto nakon svake promjene.</string>
-    <string name="configure_biometric">Biometrijska prijava je podržana, ali nije postavljena.</string>
     <string name="subdomain_search_title">Pretraživanje poddomenom</string>
     <string name="education_setup_OTP_summary">Postavi upravljanje jednokratnim lozinkama (HOTP / TOTP) za generiranje tokena koji je potreban za dvofaktorsku autentifikaciju (2FA).</string>
     <string name="hide_expired_entries_title">Sakrij istekle unose</string>

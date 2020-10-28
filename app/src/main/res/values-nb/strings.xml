@@ -173,7 +173,6 @@
     <string name="warning_empty_password">Ønsker du å fortsette uten passordbeskyttelse\?</string>
     <string name="warning_no_encryption_key">Ønsker du å fortsette uten en krypteringsnøkkel\?</string>
     <string name="version_label">Versjon %1$s</string>
-    <string name="configure_biometric">Fingeravtrykket er satt støttet, men ikke satt opp på denne enheten.</string>
     <string name="open_biometric_prompt_unlock_database">Venter på fingeravtrykk</string>
     <string name="encrypted_value_stored">Kryptert passord lagret</string>
     <string name="biometric_invalid_key">Kan ikke lese biometrisk nøkkel. Slett den og gjenta biometrisk gjenkjennelse.</string>

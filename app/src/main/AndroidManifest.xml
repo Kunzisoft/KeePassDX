@@ -47,7 +47,7 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.PasswordActivity"
             android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

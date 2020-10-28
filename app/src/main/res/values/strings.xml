@@ -212,6 +212,8 @@
     <string name="read_only_warning">Depending on your file manager, KeePassDX may not allowed to write in your storage.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
+    <string name="search_mode">Search mode</string>
+    <string name="save_mode">Save mode</string>
     <string name="selection_mode">Selection mode</string>
     <string name="registration_mode">Registration mode</string>
     <string name="remember_database_locations_title">Remember databases locations</string>
@@ -270,7 +272,7 @@
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_biometric">Biometric prompt is supported, but not set up.</string>
+    <string name="configure_biometric">No biometric or device credential is enrolled.</string>
     <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
@@ -520,4 +522,6 @@
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+    <string name="show_uuid_title">Show UUID</string>
+    <string name="show_uuid_summary">Displays the UUID linked to an entry</string>
 </resources>

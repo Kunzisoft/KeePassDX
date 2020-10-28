@@ -321,14 +321,12 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         }
     }
 
-    fun destroy(hideAdvancedUnlockView: Boolean = false) {
+    fun destroy() {
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
-        if (hideAdvancedUnlockView)
-            advancedUnlockInfoView?.visibility = View.GONE
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {

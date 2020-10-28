@@ -339,7 +339,6 @@ open class PasswordActivity : SpecialModeActivity() {
                 false
             else
                 mAllowAutoOpenBiometricPrompt
-
             mDatabaseFileUri?.let { databaseFileUri ->
                 databaseFileViewModel.loadDatabaseFile(databaseFileUri)
             }
@@ -403,7 +402,8 @@ open class PasswordActivity : SpecialModeActivity() {
                             mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
                     advancedUnlockedManager?.checkBiometricAvailability()
                 } else {
-                    advancedUnlockedManager?.destroy(true)
+                    advancedUnlockInfoView?.visibility = View.GONE
+                    advancedUnlockedManager?.destroy()
                     advancedUnlockedManager = null
                 }
             }
@@ -645,12 +645,13 @@ open class PasswordActivity : SpecialModeActivity() {
                         performedNextEducation(passwordActivityEducation, menu)
                     })
 
-            if (!readOnlyEducationPerformed) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !readOnlyEducationPerformed) {
                 val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
+                PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
+                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.visibility == View.VISIBLE
+                        && advancedUnlockInfoView?.unlockIconImageView != null
                         && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
@@ -759,11 +760,28 @@ open class PasswordActivity : SpecialModeActivity() {
         @Throws(FileNotFoundException::class)
         fun launch(activity: Activity,
                    databaseFile: Uri,
-                   keyFile: Uri?,
-                   searchInfo: SearchInfo?) {
+                   keyFile: Uri?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
                 activity.startActivity(intent)
+            }
+        }
+
+        /*
+         * -------------------------
+         * 		Share Launch
+         * -------------------------
+         */
+
+        @Throws(FileNotFoundException::class)
+        fun launchForSearchResult(activity: Activity,
+                                  databaseFile: Uri,
+                                  keyFile: Uri?,
+                                  searchInfo: SearchInfo) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                EntrySelectionHelper.startActivityForSearchModeResult(
+                        activity,
+                        intent,
+                        searchInfo)
             }
         }
 
@@ -797,18 +815,14 @@ open class PasswordActivity : SpecialModeActivity() {
         fun launchForAutofillResult(activity: Activity,
                                     databaseFile: Uri,
                                     keyFile: Uri?,
-                                    assistStructure: AssistStructure?,
+                                    assistStructure: AssistStructure,
                                     searchInfo: SearchInfo?) {
-            if (assistStructure != null) {
-                buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                    AutofillHelper.startActivityForAutofillResult(
-                            activity,
-                            intent,
-                            assistStructure,
-                            searchInfo)
-                }
-            } else {
-                launch(activity, databaseFile, keyFile, searchInfo)
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                AutofillHelper.startActivityForAutofillResult(
+                        activity,
+                        intent,
+                        assistStructure,
+                        searchInfo)
             }
         }
 
@@ -840,55 +854,49 @@ open class PasswordActivity : SpecialModeActivity() {
                    fileNoFoundAction: (exception: FileNotFoundException) -> Unit,
                    onCancelSpecialMode: () -> Unit,
                    onLaunchActivitySpecialMode: () -> Unit) {
-            EntrySelectionHelper.doSpecialAction(activity.intent,
-                    { searchInfo -> // Default Action
-                        try {
+
+            try {
+                EntrySelectionHelper.doSpecialAction(activity.intent,
+                        {
                             PasswordActivity.launch(activity,
+                                    databaseUri, keyFile)
+                        },
+                        { searchInfo -> // Search Action
+                            PasswordActivity.launchForSearchResult(activity,
                                     databaseUri, keyFile,
                                     searchInfo)
-                            // Remove the search info from intent
-                            if (searchInfo != null) {
-                                activity.finish()
-                            }
-                        } catch (e: FileNotFoundException) {
-                            fileNoFoundAction(e)
-                        }
-                    },
-                    { searchInfo -> // Keyboard Selection Action
-                        try {
+                            onLaunchActivitySpecialMode()
+                        },
+                        { // Save Action
+                            // Not directly used, a search is performed before
+                        },
+                        { searchInfo -> // Keyboard Selection Action
                             PasswordActivity.launchForKeyboardResult(activity,
                                     databaseUri, keyFile,
                                     searchInfo)
                             onLaunchActivitySpecialMode()
-                        } catch (e: FileNotFoundException) {
-                            fileNoFoundAction(e)
-                        }
-                    },
-                    { searchInfo, assistStructure -> // Autofill Selection Action
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            try {
+                        },
+                        { searchInfo, assistStructure -> // Autofill Selection Action
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 PasswordActivity.launchForAutofillResult(activity,
                                         databaseUri, keyFile,
                                         assistStructure,
                                         searchInfo)
                                 onLaunchActivitySpecialMode()
-                            } catch (e: FileNotFoundException) {
-                                fileNoFoundAction(e)
+                            } else {
+                                onCancelSpecialMode()
                             }
-                        } else {
-                            onCancelSpecialMode()
-                        }
-                    },
-                    { searchInfo -> // Registration Action
-                        try {
+                        },
+                        { registerInfo -> // Registration Action
                             PasswordActivity.launchForRegistration(activity,
                                     databaseUri, keyFile,
-                                    searchInfo)
+                                    registerInfo)
                             onLaunchActivitySpecialMode()
-                        } catch (e: FileNotFoundException) {
-                            fileNoFoundAction(e)
                         }
-                    })
+                )
+            } catch (e: FileNotFoundException) {
+                fileNoFoundAction(e)
+            }
         }
     }
 }

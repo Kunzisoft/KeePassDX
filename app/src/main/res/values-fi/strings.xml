@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Palaute</string>
     <string name="homepage">Kotisivu</string>
-    <string name="about_description">KeePass-salasanahallintaohjelman Android toteutus</string>
+    <string name="about_description">KeePass-salasanahallintaohjelman Android-toteutus</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
@@ -92,7 +92,7 @@
     <string name="list_size_summary">Tekstin koko ryhmälistauksessa</string>
     <string name="loading_database">Ladataan salasanatietokantaa…</string>
     <string name="lowercase">pienet kirjaimet</string>
-    <string name="hide_password_title">Piilota salasaan</string>
+    <string name="hide_password_title">Piilota salasana</string>
     <string name="hide_password_summary">Piilota salasanat oletuksena</string>
     <string name="about">Tietoa</string>
     <string name="menu_change_key_settings">Vaihda pääsalasanaa</string>
@@ -214,13 +214,11 @@
     <string name="biometric_scanning_error">Biometrinen virhe: %1$s</string>
     <string name="biometric_not_recognized">Biometristä tunnistusta ei tunnistettu</string>
     <string name="biometric_invalid_key">Biometristä avainta ei voitu lukea. Poista se ja toista biometrinen tunnistus.</string>
-    <string name="biometric_prompt_extract_credential_message"></string>
     <string name="biometric_prompt_extract_credential_title">Avaa salasanatietokanta biometrisellä tunnistuksella</string>
     <string name="biometric_prompt_store_credential_message">Varoitus: Sinun pitää vielä muistaa pääsalasanasi jos käytät biometristä tunnistusta.</string>
     <string name="biometric_prompt_store_credential_title">Tallenna biometrinen tunnistus</string>
     <string name="open_biometric_prompt_store_credential">Avaa biometrinen komentokehote tallentaaksesi pääsytiedot</string>
     <string name="open_biometric_prompt_unlock_database">Avaa biometrinen komentokehote avataksesi salasanatietokannan</string>
-    <string name="configure_biometric">Biometrinen komentokehote on tuettu, mutta ei asetettu.</string>
     <string name="keystore_not_accessible">Avainsäilöä ei ole kunnolla alustettu.</string>
     <string name="build_label">Koontiversio %1$s</string>
     <string name="warning_database_link_revoked">Tiedostoon pääsy evätty</string>

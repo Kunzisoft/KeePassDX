@@ -15,7 +15,6 @@
     <string name="open_biometric_prompt_store_credential">اعلان بیومتریک را برای ذخیره اعتبارنامه باز کنید</string>
     <string name="open_biometric_prompt_unlock_database">برای باز کردن قفل پایگاه داده ، دستور بیومتریک را باز کنید</string>
     <string name="keystore_not_accessible">فروشگاه اصلی به درستی تنظیم نشده است.</string>
-    <string name="configure_biometric">بیومتریک پشتیبانی می شود ، اما تنظیم نشده است.</string>
     <string name="build_label">%1$s را بسازید</string>
     <string name="version_label">نسخه %1$s</string>
     <string name="warning_permanently_delete_nodes">گره های انتخاب شده برای همیشه حذف شوند؟</string>

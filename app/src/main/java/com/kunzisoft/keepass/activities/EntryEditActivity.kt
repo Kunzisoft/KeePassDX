@@ -309,6 +309,12 @@ class EntryEditActivity : LockingActivity(),
                                                 finish()
                                             },
                                             {
+                                                // Nothing when search retrieved
+                                            },
+                                            {
+                                                onValidateSpecialMode()
+                                            },
+                                            {
                                                 entryValidatedForKeyboardSelection(entry)
                                             },
                                             { _, _ ->
@@ -819,6 +825,30 @@ class EntryEditActivity : LockingActivity(),
                 val intent = Intent(activity, EntryEditActivity::class.java)
                 intent.putExtra(KEY_PARENT, group.nodeId)
                 activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+            }
+        }
+
+        fun launchForSave(context: Context,
+                          entry: Entry,
+                          searchInfo: SearchInfo) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                val intent = Intent(context, EntryEditActivity::class.java)
+                intent.putExtra(KEY_ENTRY, entry.nodeId)
+                EntrySelectionHelper.startActivityForSaveModeResult(context,
+                        intent,
+                        searchInfo)
+            }
+        }
+
+        fun launchForSave(context: Context,
+                          group: Group,
+                          searchInfo: SearchInfo) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                val intent = Intent(context, EntryEditActivity::class.java)
+                intent.putExtra(KEY_PARENT, group.nodeId)
+                EntrySelectionHelper.startActivityForSaveModeResult(context,
+                        intent,
+                        searchInfo)
             }
         }
 
