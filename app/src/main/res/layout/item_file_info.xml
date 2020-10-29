@@ -207,6 +207,7 @@
             android:textIsSelectable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:paddingTop="8dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:paddingLeft="12dp"
