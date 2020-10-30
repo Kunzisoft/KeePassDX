@@ -186,9 +186,11 @@
             android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
             android:paddingTop="8dp"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
             android:textColor="?android:attr/textColorHintInverse"
             app:layout_constraintBottom_toBottomOf="@+id/file_modification_container"
-            app:layout_constraintEnd_toStartOf="@+id/file_delete_button"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="8 bytes" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -197,8 +199,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_remove_from_list"
             android:src="@drawable/ic_content_delete_white_24dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:tint="?android:attr/textColorHintInverse"
             style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
 
@@ -207,14 +209,13 @@
             android:textIsSelectable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingTop="8dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             app:layout_constraintTop_toBottomOf="@+id/file_modification_container"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/file_modify_button"
+            app:layout_constraintStart_toEndOf="@+id/file_delete_button"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="/path/to/DatabaseName.kdbx"
             android:textColor="?android:attr/textColorHintInverse"
