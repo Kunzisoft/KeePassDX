@@ -45,9 +45,11 @@ abstract class SpecialModeActivity : StylishActivity() {
     private fun isIntentSender(): Boolean {
         return (mSpecialMode == SpecialMode.SELECTION
                 && mTypeMode == TypeMode.AUTOFILL)
+                /* TODO Registration callback #765
                 || (mSpecialMode == SpecialMode.REGISTRATION
                 && mTypeMode == TypeMode.AUTOFILL
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                */
     }
 
     fun onLaunchActivitySpecialMode() {

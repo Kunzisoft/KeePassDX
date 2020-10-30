@@ -164,13 +164,14 @@ class KeeAutofillService : AutofillService() {
                     },
                             parseResult.usernameValue?.textValue?.toString(),
                             parseResult.passwordValue?.textValue?.toString())
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
-                                registerInfo))
-                    } else {
+                    // TODO Callback in each activity #765
+                    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    //    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
+                    //            registerInfo))
+                    //} else {
                         AutofillLauncherActivity.launchForRegistration(this, registerInfo)
                         callback.onSuccess()
-                    }
+                    //}
                     return
                 }
             }
