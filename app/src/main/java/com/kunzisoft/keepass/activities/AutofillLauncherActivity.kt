@@ -112,10 +112,6 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     { items ->
                         // Items found
                         AutofillHelper.buildResponse(this, items)
-                        if (PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
-                            // Close the database
-                            sendBroadcast(Intent(LOCK_ACTION))
-                        }
                         finish()
                     },
                     {
@@ -169,6 +165,12 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
+
+        if (PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
+            // Close the database
+            sendBroadcast(Intent(LOCK_ACTION))
+        }
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 
