@@ -306,13 +306,13 @@ class EntryEditActivity : LockingActivity(),
                                     EntrySelectionHelper.doSpecialAction(intent,
                                             {
                                                 // Finish naturally
-                                                finish()
+                                                finishForEntryResult()
                                             },
                                             {
                                                 // Nothing when search retrieved
                                             },
                                             {
-                                                onValidateSpecialMode()
+                                                entryValidatedForSave()
                                             },
                                             {
                                                 entryValidatedForKeyboardSelection(entry)
@@ -321,7 +321,7 @@ class EntryEditActivity : LockingActivity(),
                                                 entryValidatedForAutofillSelection(entry)
                                             },
                                             {
-                                                onValidateSpecialMode()
+                                                entryValidatedForAutofillRegistration()
                                             }
                                     )
                                 }
@@ -336,10 +336,9 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    override fun onValidateSpecialMode() {
-        super.onValidateSpecialMode()
-        // Don't keep activity history for entry edition
-        finish()
+    private fun entryValidatedForSave() {
+        onValidateSpecialMode()
+        finishForEntryResult()
     }
 
     private fun entryValidatedForKeyboardSelection(entry: Entry) {
@@ -350,6 +349,8 @@ class EntryEditActivity : LockingActivity(),
                     intent)
         }
         onValidateSpecialMode()
+        // Don't keep activity history for entry edition
+        finishForEntryResult()
     }
 
     private fun entryValidatedForAutofillSelection(entry: Entry) {
@@ -361,6 +362,11 @@ class EntryEditActivity : LockingActivity(),
             }
         }
         onValidateSpecialMode()
+    }
+
+    private fun entryValidatedForAutofillRegistration() {
+        onValidateSpecialMode()
+        finishForEntryResult()
     }
 
     override fun onResume() {
@@ -758,8 +764,8 @@ class EntryEditActivity : LockingActivity(),
                 }.create().show()
     }
 
-    override fun finish() {
-        // Assign entry callback as a result in all case
+    private fun finishForEntryResult() {
+        // Assign entry callback as a result
         try {
             mEntry?.let { entry ->
                 val bundle = Bundle()
