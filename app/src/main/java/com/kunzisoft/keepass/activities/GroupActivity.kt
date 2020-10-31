@@ -36,6 +36,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
@@ -1211,8 +1212,8 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launch(context: Context,
-                   autoSearch: Boolean = false,
-                   readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+                   readOnly: Boolean,
+                   autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 context.startActivity(intent)
@@ -1225,9 +1226,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForSearchResult(context: Context,
-                                  autoSearch: Boolean = false,
+                                  readOnly: Boolean,
                                   searchInfo: SearchInfo,
-                                  readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+                                  autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.addSearchInfoInIntent(
@@ -1243,8 +1244,8 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForSaveResult(context: Context,
-                                autoSearch: Boolean = false,
-                                searchInfo: SearchInfo) {
+                                searchInfo: SearchInfo,
+                                autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(context, null, false) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.startActivityForSaveModeResult(context,
@@ -1259,9 +1260,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             autoSearch: Boolean = false,
+                                             readOnly: Boolean,
                                              searchInfo: SearchInfo? = null,
-                                             readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+                                             autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
@@ -1277,10 +1278,10 @@ class GroupActivity : LockingActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
+                                    readOnly: Boolean,
                                     assistStructure: AssistStructure,
-                                    autoSearch: Boolean = false,
                                     searchInfo: SearchInfo? = null,
-                                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
+                                    autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 AutofillHelper.startActivityForAutofillResult(activity,
@@ -1318,8 +1319,8 @@ class GroupActivity : LockingActivity(),
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
                         GroupActivity.launch(activity,
-                                true,
-                                readOnly)
+                                readOnly,
+                                true)
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,
@@ -1328,21 +1329,22 @@ class GroupActivity : LockingActivity(),
                                 { _ ->
                                     // Response is build
                                     GroupActivity.launchForSearchResult(activity,
-                                            true,
-                                            searchInfo)
+                                            readOnly,
+                                            searchInfo,
+                                            true)
                                     onLaunchActivitySpecialMode()
                                 },
                                 {
                                     // Here no search info found
                                     if (readOnly) {
                                         GroupActivity.launchForSearchResult(activity,
-                                                false,
+                                                readOnly,
                                                 searchInfo,
-                                                readOnly)
+                                                false)
                                     } else {
                                         GroupActivity.launchForSaveResult(activity,
-                                                false,
-                                                searchInfo)
+                                                searchInfo,
+                                                false)
                                     }
                                     onLaunchActivitySpecialMode()
                                 },
@@ -1369,17 +1371,18 @@ class GroupActivity : LockingActivity(),
                                     } else {
                                         // Select the one we want
                                         GroupActivity.launchForKeyboardSelectionResult(activity,
-                                                true,
-                                                searchInfo)
+                                                readOnly,
+                                                searchInfo,
+                                                true)
                                         onLaunchActivitySpecialMode()
                                     }
                                 },
                                 {
                                     // Here no search info found, disable auto search
                                     GroupActivity.launchForKeyboardSelectionResult(activity,
-                                            false,
+                                            readOnly,
                                             searchInfo,
-                                            readOnly)
+                                            false)
                                     onLaunchActivitySpecialMode()
                                 },
                                 {
@@ -1401,10 +1404,10 @@ class GroupActivity : LockingActivity(),
                                     {
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
+                                                readOnly,
                                                 assistStructure,
-                                                false,
                                                 searchInfo,
-                                                readOnly)
+                                                false)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
@@ -1417,26 +1420,34 @@ class GroupActivity : LockingActivity(),
                         }
                     },
                     { registerInfo ->
-                        SearchHelper.checkAutoSearchInfo(activity,
-                                Database.getInstance(),
-                                registerInfo?.searchInfo,
-                                { _ ->
-                                    // No auto search, it's a registration
-                                    GroupActivity.launchForRegistration(activity,
-                                            registerInfo)
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Here no search info found, disable auto search
-                                    GroupActivity.launchForRegistration(activity,
-                                            registerInfo)
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Simply close if database not opened, normally not happened
-                                    onCancelSpecialMode()
-                                }
-                        )
+                        if (!readOnly) {
+                            SearchHelper.checkAutoSearchInfo(activity,
+                                    Database.getInstance(),
+                                    registerInfo?.searchInfo,
+                                    { _ ->
+                                        // No auto search, it's a registration
+                                        GroupActivity.launchForRegistration(activity,
+                                                registerInfo)
+                                        onLaunchActivitySpecialMode()
+                                    },
+                                    {
+                                        // Here no search info found, disable auto search
+                                        GroupActivity.launchForRegistration(activity,
+                                                registerInfo)
+                                        onLaunchActivitySpecialMode()
+                                    },
+                                    {
+                                        // Simply close if database not opened, normally not happened
+                                        onCancelSpecialMode()
+                                    }
+                            )
+                        } else {
+                            Toast.makeText(activity.applicationContext,
+                                    R.string.autofill_read_only_save,
+                                    Toast.LENGTH_LONG)
+                                    .show()
+                            onCancelSpecialMode()
+                        }
                     })
         }
     }

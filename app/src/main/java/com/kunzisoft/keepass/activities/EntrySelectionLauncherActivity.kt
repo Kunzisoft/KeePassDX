@@ -76,8 +76,10 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
         val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
         // If database is open
+        val database = Database.getInstance()
+        val readOnly = database.isReadOnly
         SearchHelper.checkAutoSearchInfo(this,
-                Database.getInstance(),
+                database,
                 searchInfo,
                 { items ->
                     // Items found
@@ -91,25 +93,28 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                         } else {
                             // Select the one we want
                             GroupActivity.launchForKeyboardSelectionResult(this,
-                                    true,
-                                    searchInfo)
+                                    readOnly,
+                                    searchInfo,
+                                    true)
                         }
                     } else {
                         GroupActivity.launchForSearchResult(this,
-                                true,
-                                searchInfo)
+                                readOnly,
+                                searchInfo,
+                                true)
                     }
                 },
                 {
                     // Show the database UI to select the entry
-                    if (searchShareForMagikeyboard) {
+                    if (readOnly || searchShareForMagikeyboard) {
                         GroupActivity.launchForKeyboardSelectionResult(this,
-                                false,
-                                searchInfo)
+                                readOnly,
+                                searchInfo,
+                                false)
                     } else {
                         GroupActivity.launchForSaveResult(this,
-                                false,
-                                searchInfo)
+                                searchInfo,
+                                false)
                     }
                 },
                 {

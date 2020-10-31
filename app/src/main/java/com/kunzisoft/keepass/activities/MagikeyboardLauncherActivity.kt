@@ -30,12 +30,18 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 class MagikeyboardLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val database = Database.getInstance()
+        val readOnly = database.isReadOnly
         SearchHelper.checkAutoSearchInfo(this,
-                Database.getInstance(),
+                database,
                 null,
-                {},
                 {
-                    GroupActivity.launchForKeyboardSelectionResult(this)
+                    // Not called
+                    // if items found directly returns before calling this activity
+                },
+                {
+                    // Select if not found
+                    GroupActivity.launchForKeyboardSelectionResult(this, readOnly)
                 },
                 {
                     // Pass extra to get entry

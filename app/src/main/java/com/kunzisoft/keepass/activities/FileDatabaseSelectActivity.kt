@@ -171,7 +171,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
                         mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
                     }
-                    GroupActivity.launch(this@FileDatabaseSelectActivity)
+                    GroupActivity.launch(this@FileDatabaseSelectActivity,
+                            PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
                 }
                 DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
                     databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->

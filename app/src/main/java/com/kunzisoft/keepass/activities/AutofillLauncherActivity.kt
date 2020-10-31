@@ -100,11 +100,12 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         PreferencesUtil.applicationIdBlocklist(this))
                 || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
                         PreferencesUtil.webDomainBlocklist(this))) {
-            // If item not allowed, show a toast
-            Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+            showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
             finish()
         } else {
+            val database = Database.getInstance()
+            val readOnly = database.isReadOnly
             // If database is open
             SearchHelper.checkAutoSearchInfo(this,
                     Database.getInstance(),
@@ -117,9 +118,10 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
+                                readOnly,
                                 assistStructure,
-                                false,
-                                searchInfo)
+                                searchInfo,
+                                false)
                     },
                     {
                         // If database not open
@@ -136,22 +138,31 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         PreferencesUtil.applicationIdBlocklist(this))
                 || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
                         PreferencesUtil.webDomainBlocklist(this))) {
-            // If item not allowed, show a toast
-            Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+            showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
         } else {
+            val database = Database.getInstance()
+            val readOnly = database.isReadOnly
             SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
+                    database,
                     searchInfo,
                     { _ ->
-                        // Show the database UI to select the entry
-                        GroupActivity.launchForRegistration(this,
-                                registerInfo)
+                        if (!readOnly) {
+                            // Show the database UI to select the entry
+                            GroupActivity.launchForRegistration(this,
+                                    registerInfo)
+                        } else {
+                            showReadOnlySaveMessage()
+                        }
                     },
                     {
-                        // Show the database UI to select the entry
-                        GroupActivity.launchForRegistration(this,
-                                registerInfo)
+                        if (!readOnly) {
+                            // Show the database UI to select the entry
+                            GroupActivity.launchForRegistration(this,
+                                    registerInfo)
+                        } else {
+                            showReadOnlySaveMessage()
+                        }
                     },
                     {
                         // If database not open
@@ -161,6 +172,15 @@ class AutofillLauncherActivity : AppCompatActivity() {
             )
         }
         finish()
+    }
+
+    private fun showBlockRestartMessage() {
+        // If item not allowed, show a toast
+        Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showReadOnlySaveMessage() {
+        Toast.makeText(this.applicationContext, R.string.autofill_read_only_save, Toast.LENGTH_LONG).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
