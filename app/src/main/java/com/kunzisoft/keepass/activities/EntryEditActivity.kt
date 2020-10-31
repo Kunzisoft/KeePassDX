@@ -110,6 +110,9 @@ class EntryEditActivity : LockingActivity(),
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
 
+    // To ask data lost only one time
+    private var backPressedAlreadyApproved = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_edit)
@@ -756,12 +759,17 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun onApprovedBackPressed(approved: () -> Unit) {
-        AlertDialog.Builder(this)
-                .setMessage(R.string.discard_changes)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(R.string.discard) { _, _ ->
-                    approved.invoke()
-                }.create().show()
+        if (!backPressedAlreadyApproved) {
+            AlertDialog.Builder(this)
+                    .setMessage(R.string.discard_changes)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(R.string.discard) { _, _ ->
+                        backPressedAlreadyApproved = true
+                        approved.invoke()
+                    }.create().show()
+        } else {
+            approved.invoke()
+        }
     }
 
     private fun finishForEntryResult() {
