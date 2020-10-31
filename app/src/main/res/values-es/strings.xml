@@ -41,8 +41,8 @@
     <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
     <string name="default_checkbox">Utilice como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft es \u0020de <strong>código abierto</strong> y <strong>sin publicidad</strong>.
-\nSe proporciona tal cual, bajo licencia <strong>GPLv3</strong>, sin ninguna garantía.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft es \u0020de &lt;strong&gt;código abierto&lt;/strong&gt; y &lt;strong&gt;sin publicidad&lt;/strong&gt;.
+\nSe proporciona tal cual, bajo licencia &lt;strong&gt;GPLv3&lt;/strong&gt;, sin ninguna garantía.</string>
     <string name="select_database_file">Abrir base de datos existente</string>
     <string name="entry_accessed">Acceso</string>
     <string name="entry_cancel">Cancelar</string>
@@ -267,7 +267,7 @@
     <string name="education_sort_summary">Ordenar registros y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
-    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta es <strong>sin publicidad</strong>, <strong>software libre con copyleft</strong> y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta es &lt;strong&gt;sin publicidad&lt;/strong&gt;, &lt;strong&gt;software libre con copyleft&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
     <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a &lt;strong&gt;la característica visual &lt;/strong&gt;y usted ayudará especialmente a &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Esta &lt;strong&gt;característica visual &lt;/strong&gt;está disponible gracias a tu generosidad.</string>
     <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu &lt;strong&gt;contribución.&lt;/strong&gt;</string>

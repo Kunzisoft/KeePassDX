@@ -129,8 +129,8 @@
     <string name="entry_cancel">Batalkan</string>
     <string name="entry_accessed">Diakses</string>
     <string name="html_about_contribution">Untuk &lt;strong&gt;menjaga kebebasan kami&lt;/strong&gt;, &lt;strong&gt;memperbaiki bug&lt;/strong&gt;, &lt;strong&gt; menambah fitur&lt;/strong&gt; dan &lt;strong&gt;agar selalu aktif&lt;/strong&gt;, kami mengandalkan &lt;strong&gt; kontribusi&lt;/strong&gt;.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>open source</strong> dan <strong>tanpa iklan</strong>.
-\nTersedia apa adanya, di bawah lisensi <strong>GPLv3</strong>, tanpa jaminan apa pun.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;open source&lt;/strong&gt; dan &lt;strong&gt;tanpa iklan&lt;/strong&gt;.
+\nTersedia apa adanya, di bawah lisensi &lt;strong&gt;GPLv3&lt;/strong&gt;, tanpa jaminan apa pun.</string>
     <string name="default_checkbox">Gunakan sebagai basisdata standar</string>
     <string name="decrypting_db">Mendekripsi konten basisdata…</string>
     <string name="database">BasisData</string>

@@ -39,8 +39,8 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Digitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de <strong>código aberto</strong> e <strong>sem propagandas</strong>.
-\nÉ fornecido no estado em que se encontra, sob licença <strong>GPLv3</strong>, sem qualquer garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;.
+\nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
