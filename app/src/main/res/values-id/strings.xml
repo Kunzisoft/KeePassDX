@@ -129,7 +129,8 @@
     <string name="entry_cancel">Batalkan</string>
     <string name="entry_accessed">Diakses</string>
     <string name="html_about_contribution">Untuk &lt;strong&gt;menjaga kebebasan kami&lt;/strong&gt;, &lt;strong&gt;memperbaiki bug&lt;/strong&gt;, &lt;strong&gt; menambah fitur&lt;/strong&gt; dan &lt;strong&gt;agar selalu aktif&lt;/strong&gt;, kami mengandalkan &lt;strong&gt; kontribusi&lt;/strong&gt;.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt; open source &lt;/strong&gt; dan &lt;strong&gt; tanpa iklan &lt;/strong&gt;.&lt;br&gt;Tersedia apa adanya, di bawah lisensi &lt;strong&gt; GPLv3 &lt;/strong&gt;, tanpa jaminan apa pun.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>open source</strong> dan <strong>tanpa iklan</strong>.
+\nTersedia apa adanya, di bawah lisensi <strong>GPLv3</strong>, tanpa jaminan apa pun.</string>
     <string name="default_checkbox">Gunakan sebagai basisdata standar</string>
     <string name="decrypting_db">Mendekripsi konten basisdata…</string>
     <string name="database">BasisData</string>
@@ -205,4 +206,32 @@
     <string name="progress_create">Membuat basisdata baru…</string>
     <string name="subdomain_search_summary">Cari Domain Web dengan Kendala Subdomain</string>
     <string name="subdomain_search_title">Pencarian Subdomain</string>
+    <string name="max_history_items_title">Jumlah maksimal</string>
+    <string name="recycle_bin_group_title">Grup Recycle bin</string>
+    <string name="recycle_bin_summary">Memindah grup dan entri ke \"Recycle bin\" sebelum menghapus</string>
+    <string name="recycle_bin_title">Penggunaan Recycle bin</string>
+    <string name="space">Jarak</string>
+    <string name="special">Khusus</string>
+    <string name="sort_menu">Urutan</string>
+    <string name="underline">Garis bawah</string>
+    <string name="sort_db">Pengurutan alami</string>
+    <string name="sort_recycle_bin_bottom">Recycle bin dibawah</string>
+    <string name="sort_groups_before">Grup sebelumnya</string>
+    <string name="build_label">Build %1$s</string>
+    <string name="version_label">Versi %1$s</string>
+    <string name="warning_empty_keyfile_explanation">Isi dari keyfile sebaiknya tidak di ubah, dan yang terbaik harus berupa data acak.</string>
+    <string name="warning_empty_keyfile">Tidak disarankan menambah keyfile kosong.</string>
+    <string name="warning_sure_remove_data">Hapus data ini\?</string>
+    <string name="warning">Peringatan</string>
+    <string name="unsupported_db_version">Versi database tidak di dukung.</string>
+    <string name="search_results">Hasil pencarian</string>
+    <string name="search">Cari</string>
+    <string name="sort_last_access_time">Akses</string>
+    <string name="sort_last_modify_time">Modifikasi</string>
+    <string name="sort_username">Nama pengguna</string>
+    <string name="sort_title">Judul</string>
+    <string name="search_label">Cari</string>
+    <string name="do_not_kill_app">Jangan tutup aplikasi…</string>
+    <string name="command_execution">Menjalankan perintah…</string>
+    <string name="saving_database">Menyimpan database…</string>
 </resources>

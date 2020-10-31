@@ -183,7 +183,7 @@
     <string name="field_name">Nome do campo</string>
     <string name="error_autofill_enable_service">Não pôde ser ativado o serviço de preenchimento automático.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
-    <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
+    <string name="error_string_key">Um nome do campo é necessário para cada cadeia.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
