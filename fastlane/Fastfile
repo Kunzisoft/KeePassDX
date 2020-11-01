@@ -71,5 +71,6 @@ platform :android do
     gradle(
       task: 'clean'
     )
+    sh("git", "checkout", ".")
   end
 end
