@@ -1,0 +1,9 @@
+ * Upgrade to Android API 30 #723
+ * Save new credentials with Autofill #524
+ * Setting to close database after Autofill selection #755
+ * Setting to switch keyboard when database is locked #625
+ * Fix biometric issues #724 #740 #731
+ * Fix autofill #725 #551
+ * Fix subdomain search #728
+ * Fix backup search #759
+ * Small fixes and translations #732 #736 #737 #738 #742 #767

@@ -51,7 +51,7 @@
     <string name="entry_keyfile">密钥文件</string>
     <string name="entry_modified">修改时间</string>
     <string name="entry_password">密码</string>
-    <string name="entry_save">保存</string>
+    <string name="save">保存</string>
     <string name="entry_title">名称</string>
     <string name="entry_url">链接</string>
     <string name="entry_user_name">用户名</string>
@@ -230,7 +230,6 @@
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_biometric">此设备支持生物特征提示，但不尚未设置。</string>
     <string name="open_biometric_prompt_unlock_database">打开生物识别提示以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>

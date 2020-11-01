@@ -55,7 +55,7 @@
     <string name="entry_modified">Изменено</string>
     <string name="entry_not_found">Данные записи не найдены.</string>
     <string name="entry_password">Пароль</string>
-    <string name="entry_save">Сохранить</string>
+    <string name="save">Сохранить</string>
     <string name="entry_title">Название</string>
     <string name="entry_url">Ссылка</string>
     <string name="entry_user_name">Имя пользователя</string>
@@ -138,7 +138,6 @@
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="version_label">Версия %1$s</string>
-    <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>
     <string name="open_biometric_prompt_unlock_database">Начать биометрическую разблокировку базы</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
     <string name="biometric_invalid_key">Невозможно распознать биометрический ключ. Пожалуйста, удалите его и повторите процедуру настройки биометрического распознавания.</string>

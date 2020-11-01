@@ -52,7 +52,7 @@
     <string name="entry_keyfile">Atslēgas fails</string>
     <string name="entry_modified">Modificēts</string>
     <string name="entry_password">Parole</string>
-    <string name="entry_save">Saglabāt</string>
+    <string name="save">Saglabāt</string>
     <string name="entry_title">Vārds</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Lietotāja vārds</string>

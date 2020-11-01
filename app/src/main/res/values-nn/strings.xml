@@ -23,13 +23,13 @@
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>
-    <string name="encryption_algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="app_timeout">Programtidsavbrot</string>
-    <string name="app_timeout_summary">Tid før databasen blir låst når programmet ikkje er i bruk.</string>
-    <string name="application">Program</string>
+    <string name="app_timeout_summary">Idle time before locking the database</string>
+    <string name="application">App</string>
     <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
-    <string name="file_manager_install_description">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
+    <string name="file_manager_install_description">A file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT is needed to create, open and save database files.»</string>
     <string name="clipboard_cleared">Utklippstavla er tømt.</string>
     <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavla blir tømt etter at brukarnamnet eller passordet er kopiert.</string>
@@ -50,7 +50,7 @@
     <string name="entry_keyfile">Nøkkelfil</string>
     <string name="entry_modified">Endra</string>
     <string name="entry_password">Passord</string>
-    <string name="entry_save">Lagra</string>
+    <string name="save">Lagra</string>
     <string name="entry_title">Namn</string>
     <string name="entry_url">Adresse</string>
     <string name="entry_user_name">Brukaramn</string>
@@ -138,4 +138,11 @@
         <item>Middels</item>
         <item>Stor</item>
     </string-array>
+    <string name="extended_ASCII">Extended ASCII»</string>
+    <string name="key_derivation_function">Key derivation function</string>
+    <string name="encryption">Encryption</string>
+    <string name="security">Security</string>
+    <string name="master_key">Master key</string>
+    <string name="edit_entry">Edit entry</string>
+    <string name="contact">Contact</string>
 </resources>

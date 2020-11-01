@@ -22,7 +22,7 @@
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Kontakt</string>
-    <string name="contribution">Mitwirken</string>
+    <string name="contribution">Beitrag</string>
     <string name="feedback">Rückmeldung</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
@@ -31,7 +31,7 @@
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="encryption_algorithm">Verschlüsselungsalgorithmus</string>
     <string name="app_timeout">App-Timeout</string>
-    <string name="app_timeout_summary">Inaktivität vor dem Sperren der Datenbank</string>
+    <string name="app_timeout_summary">Inaktivitätszeit vor dem Sperren der Datenbank</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-Einstellungen</string>
     <string name="brackets">Klammern</string>
@@ -61,7 +61,7 @@
     <string name="entry_modified">Änderungsdatum</string>
     <string name="entry_not_found">Zugriffsdaten wurden nicht gefunden.</string>
     <string name="entry_password">Passwort</string>
-    <string name="entry_save">Speichern</string>
+    <string name="save">Speichern</string>
     <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Benutzername</string>
@@ -185,7 +185,6 @@
     <string name="lock">Sperren</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, ist aber nicht eingerichtet.</string>
     <string name="open_biometric_prompt_unlock_database">Biometrie-Abfrage öffnen, um die Datenbank zu entsperren</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie ihn und wiederholen Sie den biometrischen Erkennungsprozess.</string>
@@ -380,7 +379,7 @@
     <string name="content_description_update_from_list">Aktualisieren</string>
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
-    <string name="menu_advanced_unlock_settings">Erweiterte Entsperrung</string>
+    <string name="menu_advanced_unlock_settings">Erweitertes Entsperren</string>
     <string name="biometric_prompt_store_credential_title">Biometrische Erkennung speichern</string>
     <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrischer Erkennung öffnen</string>
     <string name="biometric">Biometrisch</string>
@@ -418,7 +417,7 @@
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
     <string name="database_data_compression_title">Datenkompression</string>
-    <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße.</string>
+    <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße</string>
     <string name="max_history_items_title">Maximale Anzahl</string>
     <string name="max_history_items_summary">Anzahl der Verlaufseinträge pro Eintrag begrenzen</string>
     <string name="max_history_size_title">Maximale Größe</string>
@@ -458,7 +457,7 @@
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden nicht angezeigt</string>
     <string name="style_choose_title">App-Design</string>
-    <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
+    <string name="style_choose_summary">Design, das in der App genutzt wird</string>
     <string-array name="list_style_names">
         <item>Hell</item>
         <item>Dunkel</item>
@@ -501,4 +500,20 @@
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
     <string name="keyboard_previous_fill_in_summary">Automatisches Zurückschalten auf die vorherige Tastatur nach Ausführung der automatischen Tastenaktion</string>
     <string name="keyboard_previous_database_credentials_summary">Automatisches Zurückschalten zur vorherigen Tastatur auf dem Datenbank-Anmeldebildschirm</string>
+    <string name="education_add_attachment_summary">Laden Sie einen Anhang für Ihren Eintrag hoch, um wichtige externe Daten zu speichern.</string>
+    <string name="content_description_credentials_information">Anmeldeinformationen</string>
+    <string name="data">Daten</string>
+    <string name="database_data_remove_unlinked_attachments_title">Unverknüpfte Daten entfernen</string>
+    <string name="warning_empty_keyfile">Es wird nicht empfohlen, eine leere Schlüsseldatei hinzuzufügen.</string>
+    <string name="warning_empty_keyfile_explanation">Der Inhalt der Key-Datei sollte nie geändert werden und im besten Fall zufällig generierte Daten enthalten.</string>
+    <string name="warning_sure_remove_data">Sollen diese Daten trotzdem entfernt werden\?</string>
+    <string name="warning_remove_unlinked_attachment">Das Entfernen ungekoppelter Daten könnte die Größe Ihrer Datenbank reduzieren, jedoch auch Daten, die von KeePass-Plugins genutzt werden, entfernen.</string>
+    <string name="warning_replace_file">Das Hochladen dieser Datei wird die bereits Existierende ersetzen.</string>
+    <string name="warning_file_too_big">Eine KeePass-Datenbank sollte nur kleine Dienstprogrammdateien beinhalten (zum Beispiel PGP-Schlüsseldateien).
+\n
+\nMit diesem Upload könnte Ihre Datenbank sehr groß werden und an Geschwindigkeit verlieren.</string>
+    <string name="upload_attachment">%1$s hochladen</string>
+    <string name="education_add_attachment_title">Anhang hinzufügen</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
+    <string name="warning_sure_add_file">Die Datei trotzdem hinzufügen\?</string>
 </resources>

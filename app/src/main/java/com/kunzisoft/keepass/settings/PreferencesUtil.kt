@@ -123,6 +123,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.hide_expired_entries_default))
     }
 
+    fun showUUID(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_uuid_key),
+                context.resources.getBoolean(R.bool.show_uuid_default))
+    }
+
     /**
      * Retrieve the text size in % (1 for 100%)
      */
@@ -327,22 +333,30 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.delete_entered_password_default))
     }
 
-    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
-                context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
-    }
-
     fun isKeyboardNotificationEntryEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
                 context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
     }
 
+    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
+                context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
+    }
+
     fun isKeyboardSearchShareEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_search_share_key),
                 context.resources.getBoolean(R.bool.keyboard_search_share_default))
+    }
+
+    fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
+        if (!isKeyboardSearchShareEnable(context))
+            return false
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_save_search_info_key),
+                context.resources.getBoolean(R.bool.keyboard_save_search_info_default))
     }
 
     fun isAutoGoActionEnable(context: Context): Boolean {
@@ -375,10 +389,35 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_previous_fill_in_default))
     }
 
+    fun isKeyboardPreviousLockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_previous_lock_key),
+                context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
+    }
+
+    fun isAutofillCloseDatabaseEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_close_database_key),
+                context.resources.getBoolean(R.bool.autofill_close_database_default))
+    }
+
+
     fun isAutofillAutoSearchEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
                 context.resources.getBoolean(R.bool.autofill_auto_search_default))
+    }
+
+    fun isAutofillSaveSearchInfoEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_save_search_info_key),
+                context.resources.getBoolean(R.bool.autofill_save_search_info_default))
+    }
+
+    fun askToSaveAutofillData(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_ask_to_save_data_key),
+                context.resources.getBoolean(R.bool.autofill_ask_to_save_data_default))
     }
 
     /**

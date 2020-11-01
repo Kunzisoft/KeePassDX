@@ -59,7 +59,7 @@
     <string name="entry_modified">Modifiée</string>
     <string name="entry_not_found">Impossible de trouver les données de l’entrée.</string>
     <string name="entry_password">Mot de passe</string>
-    <string name="entry_save">Enregistrer</string>
+    <string name="save">Enregistrer</string>
     <string name="entry_title">Titre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nom d’utilisateur</string>
@@ -161,7 +161,7 @@
     <string name="warning_empty_password">Continuer sans protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Continuer sans clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
-    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
+    <string name="configure_biometric">Aucune information d’identification biométrique ou de périphérique n’est enregistrée.</string>
     <string name="open_biometric_prompt_unlock_database">Ouvrir l’invite biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>
@@ -418,7 +418,7 @@
     <string name="clipboard_explanation_summary">Copier les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
     <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
-    <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>
+    <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données</string>
     <string name="max_history_items_title">Nombre maximum</string>
     <string name="max_history_items_summary">Limite le nombre d\'éléments de l’historique par entrée</string>
     <string name="max_history_size_title">Taille maximum</string>
@@ -506,4 +506,12 @@
     <string name="warning_file_too_big">Une base de données KeePass est seulement censée contenir de petits fichiers utilitaires (tels que les fichiers clé PGP).
 \n
 \nVotre base de données peut vraiment devenir grosse et réduire les performances avec ce téléversement.</string>
+    <string name="content_description_credentials_information">Informations des identifiants</string>
+    <string name="warning_remove_unlinked_attachment">Supprimer les données non-liées peut réduire la taille de votre base de données mais peut également supprimer des données utilisées par des extensions KeePass.</string>
+    <string name="warning_sure_remove_data">Supprimer ces données quand même ?</string>
+    <string name="warning_empty_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé vide.</string>
+    <string name="warning_empty_keyfile_explanation">Le contenu du fichier clé ne devrait jamais changer, et dans le meilleur des cas, devrait contenir des données générées aléatoirement.</string>
+    <string name="database_data_remove_unlinked_attachments_title">Supprimer les données non-liées</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Supprimer les pièces jointes contenues dans la base de données mais non-liées à une entrée</string>
+    <string name="data">Données</string>
 </resources>

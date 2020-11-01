@@ -22,12 +22,14 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
-import java.util.*
+import kotlin.collections.ArrayList
 
 class EntryInfo : Parcelable {
 
@@ -101,7 +103,56 @@ class EntryInfo : Parcelable {
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
     }
 
+    private fun addUniqueField(field: Field, number: Int = 0) {
+        var exists = false
+        var sameData = false
+        val suffix = if (number > 0) number.toString() else ""
+        customFields.forEach { currentField ->
+            if (currentField.name == field.name + suffix) {
+                exists = true
+                // Not write the same value again
+                if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
+                    sameData = true
+                } else {
+                    addUniqueField(field, number + 1)
+                }
+                return
+            }
+        }
+        if (!exists && !sameData)
+            (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
+    }
+
+    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+        searchInfo.webDomain?.let { webDomain ->
+            // If unable to save web domain in custom field or URL not populated, save in URL
+            val scheme = searchInfo.webScheme
+            val webScheme = if (scheme.isNullOrEmpty()) "http" else scheme
+            val webDomainToStore = "$webScheme://$webDomain"
+            if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
+                url = webDomainToStore
+            } else {
+                // Save web domain in custom field
+                addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
+                        ProtectedString(false, webDomainToStore))
+                )
+            }
+        } ?: run {
+            // Save application id in custom field
+            if (database?.allowEntryCustomFields() == true) {
+                searchInfo.applicationId?.let { applicationId ->
+                    addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
+                            ProtectedString(false, applicationId))
+                    )
+                }
+            }
+        }
+    }
+
     companion object {
+
+        const val WEB_DOMAIN_FIELD_NAME = "WebDomain"
+        const val APPLICATION_ID_FIELD_NAME = "ApplicationId"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {

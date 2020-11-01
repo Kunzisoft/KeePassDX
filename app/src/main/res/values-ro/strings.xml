@@ -81,7 +81,7 @@
     <string name="entry_modified">Modificat</string>
     <string name="entry_not_found">Nu s-au putut găsi date de intrare.</string>
     <string name="entry_password">Parola</string>
-    <string name="entry_save">Salveaza</string>
+    <string name="save">Salveaza</string>
     <string name="entry_title">Titlu</string>
     <string name="entry_setup_otp">Setați o singură parolă</string>
     <string name="otp_type">Tipul OTP</string>
@@ -234,7 +234,6 @@
     <string name="warning_permanently_delete_nodes">Sigur doriți să ștergeți definitiv nodurile selectate\?</string>
     <string name="version_label">Versiunea %1$s</string>
     <string name="build_label">Construiți %1$s</string>
-    <string name="configure_biometric">Indicatorul biometric este acceptat, dar nu este configurat.</string>
     <string name="keystore_not_accessible">Magazinul de chei nu este inițializat corect.</string>
     <string name="open_biometric_prompt_unlock_database">Deschideți promptul biometric pentru deblocarea bazei de date</string>
     <string name="open_biometric_prompt_store_credential">Deschideți promptul biometric pentru a stoca datele de acreditare</string>

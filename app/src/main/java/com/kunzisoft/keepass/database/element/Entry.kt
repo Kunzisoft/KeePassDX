@@ -464,6 +464,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         database?.binaryPool?.let { binaryPool ->
             addAttachments(binaryPool, newEntryInfo.attachments)
         }
+        // Update date time
+        lastAccessTime = DateInstant()
+        lastModificationTime = DateInstant()
 
         database?.stopManageEntry(this)
     }

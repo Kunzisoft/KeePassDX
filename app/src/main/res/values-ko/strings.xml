@@ -58,7 +58,7 @@
     <string name="entry_modified">수정</string>
     <string name="entry_not_found">항목 데이터를 찾을 수 없습니다.</string>
     <string name="entry_password">비밀번호</string>
-    <string name="entry_save">저장</string>
+    <string name="save">저장</string>
     <string name="entry_title">제목</string>
     <string name="entry_url">링크</string>
     <string name="entry_user_name">아이디</string>

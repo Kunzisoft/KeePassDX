@@ -186,6 +186,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     override fun isInRecycleBin(group: GroupKDB): Boolean {
         var currentGroup: GroupKDB? = group
 
+        // Init backup group variable
+        if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
+            findBackupGroupId()
+
         if (backupGroup == null)
             return false
 
@@ -203,17 +207,21 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return false
     }
 
-    /**
-     * Ensure that the backup tree exists if enabled, and create it
-     * if it doesn't exist
-     */
-    fun ensureBackupExists() {
+    private fun findBackupGroupId() {
         rootGroups.forEach { currentGroup ->
             if (currentGroup.level == 0
                     && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
                 backupGroupId = currentGroup.id
             }
         }
+    }
+
+    /**
+     * Ensure that the backup tree exists if enabled, and create it
+     * if it doesn't exist
+     */
+    fun ensureBackupExists() {
+        findBackupGroupId()
 
         if (backupGroup == null) {
             // Create recycle bin

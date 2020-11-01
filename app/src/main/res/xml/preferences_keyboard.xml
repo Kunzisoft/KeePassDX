@@ -19,22 +19,12 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/keyboard_entry_category">
-        <SwitchPreference
-            android:key="@string/keyboard_selection_entry_key"
-            android:title="@string/keyboard_selection_entry_title"
-            android:summary="@string/keyboard_selection_entry_summary"
-            android:defaultValue="@bool/keyboard_selection_entry_default"/>
+        android:title="@string/notification">
         <SwitchPreference
             android:key="@string/keyboard_notification_entry_key"
             android:title="@string/keyboard_notification_entry_title"
             android:summary="@string/keyboard_notification_entry_summary"
             android:defaultValue="@bool/keyboard_notification_entry_default"/>
-        <SwitchPreference
-            android:key="@string/keyboard_search_share_key"
-            android:title="@string/keyboard_search_share_title"
-            android:summary="@string/keyboard_search_share_summary"
-            android:defaultValue="@bool/keyboard_search_share_default"/>
         <SwitchPreference
             android:key="@string/keyboard_notification_entry_clear_close_key"
             android:title="@string/keyboard_notification_entry_clear_close_title"
@@ -50,6 +40,28 @@
             android:dialogTitle="@string/keyboard_entry_timeout_title"
             android:defaultValue="@string/keyboard_entry_timeout_default"
             android:dependency="@string/keyboard_notification_entry_clear_close_key"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/keyboard_entry_category">
+        <SwitchPreference
+            android:key="@string/keyboard_selection_entry_key"
+            android:title="@string/keyboard_selection_entry_title"
+            android:summary="@string/keyboard_selection_entry_summary"
+            android:defaultValue="@bool/keyboard_selection_entry_default"/>
+        <SwitchPreference
+            android:key="@string/keyboard_search_share_key"
+            android:title="@string/keyboard_search_share_title"
+            android:summary="@string/keyboard_search_share_summary"
+            android:defaultValue="@bool/keyboard_search_share_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/save">
+        <SwitchPreference
+            android:key="@string/keyboard_save_search_info_key"
+            android:title="@string/keyboard_save_search_info_title"
+            android:summary="@string/keyboard_save_search_info_summary"
+            android:dependency="@string/keyboard_search_share_key"
+            android:defaultValue="@bool/keyboard_save_search_info_default"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/keyboard_keys_category">
@@ -80,5 +92,10 @@
             android:summary="@string/keyboard_previous_fill_in_summary"
             android:defaultValue="@bool/keyboard_previous_fill_in_default"
             android:dependency="@string/keyboard_auto_go_action_key"/>
+        <SwitchPreference
+            android:key="@string/keyboard_previous_lock_key"
+            android:title="@string/keyboard_previous_lock_title"
+            android:summary="@string/keyboard_previous_lock_summary"
+            android:defaultValue="@bool/keyboard_previous_lock_default"/>
     </PreferenceCategory>
 </PreferenceScreen>

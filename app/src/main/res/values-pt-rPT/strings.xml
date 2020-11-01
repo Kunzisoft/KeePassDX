@@ -55,7 +55,7 @@
     <string name="entry_modified">Modificado</string>
     <string name="entry_not_found">Não foi possível encontrar os dados da entrada.</string>
     <string name="entry_password">Palavra-passe</string>
-    <string name="entry_save">Guardar</string>
+    <string name="save">Guardar</string>
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de utilizador</string>
@@ -190,7 +190,6 @@
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio por palavra-passe\?</string>
     <string name="warning_no_encryption_key">Continuar sem a chave de criptografia\?</string>
     <string name="build_label">Compilação %1$s</string>
-    <string name="configure_biometric">O escaneamento biométrico é suportado, mas não configurado.</string>
     <string name="encrypted_value_stored">Palavra-passe encriptada armazenada</string>
     <string name="biometric_not_recognized">Biométrico não reconhecido</string>
     <string name="biometric_scanning_error">Problema do biométrico: %1$s</string>

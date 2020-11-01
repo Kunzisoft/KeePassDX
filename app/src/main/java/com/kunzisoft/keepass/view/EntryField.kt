@@ -30,7 +30,8 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
 import com.kunzisoft.keepass.R
-import java.util.regex.Pattern
+import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.utils.UriUtil
 
 class EntryField @JvmOverloads constructor(context: Context,
                                            attrs: AttributeSet? = null,
@@ -101,9 +102,7 @@ class EntryField @JvmOverloads constructor(context: Context,
                 setTextIsSelectable(true)
             }
             applyHiddenStyle(isProtected && !showButtonView.isSelected)
-            if (valueView.autoLinkMask == LINKIFY_MASKS) {
-                linkify()
-            }
+            if (!isProtected) linkify()
         }
     }
 
@@ -113,13 +112,23 @@ class EntryField @JvmOverloads constructor(context: Context,
     }
 
     private fun linkify() {
-        valueView.autoLinkMask = LINKIFY_MASKS
-        LinkifyCompat.addLinks(valueView, LINKIFY_MASKS)
+        when {
+            labelView.text.contains(APPLICATION_ID_FIELD_NAME) -> {
+                val packageName = valueView.text.toString()
+                if (UriUtil.isExternalAppInstalled(context, packageName)) {
+                    valueView.customLink {
+                        UriUtil.openExternalApp(context, packageName)
+                    }
+                }
+            }
+            else -> {
+                LinkifyCompat.addLinks(valueView, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
+            }
+        }
     }
 
     fun setLinkAll() {
-        valueView.autoLinkMask = LINKIFY_ALL
-        LinkifyCompat.addLinks(valueView, LINKIFY_ALL)
+        LinkifyCompat.addLinks(valueView, Linkify.ALL)
     }
 
     fun activateCopyButton(enable: Boolean) {
@@ -130,9 +139,5 @@ class EntryField @JvmOverloads constructor(context: Context,
     fun assignCopyButtonClickListener(onClickActionListener: OnClickListener?) {
         copyButtonView.setOnClickListener(onClickActionListener)
         copyButtonView.visibility = if (onClickActionListener == null) GONE else VISIBLE
-    }
-    companion object {
-        private const val LINKIFY_MASKS = Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES
-        private const val LINKIFY_ALL = Linkify.ALL
     }
 }

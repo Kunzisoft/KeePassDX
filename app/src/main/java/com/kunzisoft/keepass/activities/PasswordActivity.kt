@@ -44,19 +44,20 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
+import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
@@ -68,7 +69,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -285,74 +285,22 @@ open class PasswordActivity : SpecialModeActivity() {
     }
 
     private fun launchGroupActivity() {
-        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-        EntrySelectionHelper.doEntrySelectionAction(intent,
-                {
-                    GroupActivity.launch(this@PasswordActivity,
-                            true,
-                            searchInfo,
-                            readOnly)
-                    // Finish activity if no search info
-                    if (searchInfo != null) {
-                        finish()
-                    }
-                },
-                {
-                    SearchHelper.checkAutoSearchInfo(this,
-                            Database.getInstance(),
-                            searchInfo,
-                            { items ->
-                                // Response is build
-                                if (items.size == 1) {
-                                    populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
-                                            items[0],
-                                            intent)
-                                } else {
-                                    // Select the one we want
-                                    GroupActivity.launchForEntrySelectionResult(this,
-                                            true,
-                                            searchInfo)
-                                }
-                            },
-                            {
-                                // Here no search info found, disable auto search
-                                GroupActivity.launchForEntrySelectionResult(this@PasswordActivity,
-                                        false,
-                                        searchInfo,
-                                        readOnly)
-                            },
-                            {
-                                // Simply close if database not opened, normally not happened
-                            }
-                    )
-                    // Do not keep history
-                    finish()
-                },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        SearchHelper.checkAutoSearchInfo(this,
-                                Database.getInstance(),
-                                searchInfo,
-                                { items ->
-                                    // Response is build
-                                    AutofillHelper.buildResponse(this, items)
-                                    finish()
-                                },
-                                {
-                                    // Here no search info found, disable auto search
-                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
-                                            assistStructure,
-                                            false,
-                                            searchInfo,
-                                            readOnly)
-                                },
-                                {
-                                    // Simply close if database not opened, normally not happened
-                                    finish()
-                                }
-                        )
-                    }
-                })
+        GroupActivity.launch(this,
+                readOnly,
+                { onValidateSpecialMode() },
+                { onCancelSpecialMode() },
+                { onLaunchActivitySpecialMode() }
+        )
+    }
+
+    override fun onValidateSpecialMode() {
+        super.onValidateSpecialMode()
+        finish()
+    }
+
+    override fun onCancelSpecialMode() {
+        super.onCancelSpecialMode()
+        finish()
     }
 
     private val onEditorActionListener = object : TextView.OnEditorActionListener {
@@ -391,7 +339,6 @@ open class PasswordActivity : SpecialModeActivity() {
                 false
             else
                 mAllowAutoOpenBiometricPrompt
-
             mDatabaseFileUri?.let { databaseFileUri ->
                 databaseFileViewModel.loadDatabaseFile(databaseFileUri)
             }
@@ -422,10 +369,10 @@ open class PasswordActivity : SpecialModeActivity() {
             verifyCheckboxesAndLoadDatabase(password, keyFileUri)
         } else {
             // Init Biometric elements
-            var biometricInitialize = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isBiometricUnlockEnable(this)) {
-                    if (advancedUnlockedManager == null && databaseFileUri != null) {
+                    if (advancedUnlockedManager == null
+                            && databaseFileUri != null) {
                         advancedUnlockedManager = AdvancedUnlockedManager(this,
                                 databaseFileUri,
                                 advancedUnlockInfoView,
@@ -451,15 +398,16 @@ open class PasswordActivity : SpecialModeActivity() {
                                     }
                                 })
                     }
-                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable = mAllowAutoOpenBiometricPrompt
+                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable =
+                            mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
                     advancedUnlockedManager?.checkBiometricAvailability()
-                    biometricInitialize = true
                 } else {
-                    advancedUnlockedManager?.destroy()
                     advancedUnlockInfoView?.visibility = View.GONE
+                    advancedUnlockedManager?.destroy()
+                    advancedUnlockedManager = null
                 }
             }
-            if (!biometricInitialize) {
+            if (advancedUnlockedManager == null) {
                 checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
             }
             checkboxKeyFileView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
@@ -569,15 +517,25 @@ open class PasswordActivity : SpecialModeActivity() {
             clearCredentialsViews()
         }
 
-        databaseFileUri?.let { databaseUri ->
-            // Show the progress dialog and load the database
-            showProgressDialogAndLoadDatabase(
-                    databaseUri,
-                    password,
-                    keyFileUri,
-                    readOnly,
-                    cipherDatabaseEntity,
-                    false)
+        if (readOnly && (
+                mSpecialMode == SpecialMode.SAVE
+                || mSpecialMode == SpecialMode.REGISTRATION)
+        ) {
+            Log.e(TAG, getString(R.string.autofill_read_only_save))
+            Snackbar.make(activity_password_coordinator_layout,
+                    R.string.autofill_read_only_save,
+                    Snackbar.LENGTH_LONG).asError().show()
+        } else {
+            databaseFileUri?.let { databaseUri ->
+                // Show the progress dialog and load the database
+                showProgressDialogAndLoadDatabase(
+                        databaseUri,
+                        password,
+                        keyFileUri,
+                        readOnly,
+                        cipherDatabaseEntity,
+                        false)
+            }
         }
     }
 
@@ -607,13 +565,13 @@ open class PasswordActivity : SpecialModeActivity() {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-        if (mSelectionMode || mForceReadOnly) {
+        if (mForceReadOnly) {
             menu.removeItem(R.id.menu_open_file_read_mode_key)
         } else {
             changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
         }
 
-        if (!mSelectionMode) {
+        if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
         }
 
@@ -686,19 +644,24 @@ open class PasswordActivity : SpecialModeActivity() {
                     && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
                     educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
-                        onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
+                        try {
+                            menu.findItem(R.id.menu_open_file_read_mode_key)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to find read mode menu")
+                        }
                         performedNextEducation(passwordActivityEducation, menu)
                     },
                     {
                         performedNextEducation(passwordActivityEducation, menu)
                     })
 
-            if (!readOnlyEducationPerformed) {
-                val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !readOnlyEducationPerformed) {
+                val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
+                PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
+                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.visibility == View.VISIBLE
+                        && advancedUnlockInfoView?.unlockIconImageView != null
                         && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
@@ -805,16 +768,30 @@ open class PasswordActivity : SpecialModeActivity() {
          */
 
         @Throws(FileNotFoundException::class)
-        fun launch(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                searchInfo: SearchInfo?) {
+        fun launch(activity: Activity,
+                   databaseFile: Uri,
+                   keyFile: Uri?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                searchInfo?.let {
-                    intent.putExtra(KEY_SEARCH_INFO, it)
-                }
                 activity.startActivity(intent)
+            }
+        }
+
+        /*
+         * -------------------------
+         * 		Share Launch
+         * -------------------------
+         */
+
+        @Throws(FileNotFoundException::class)
+        fun launchForSearchResult(activity: Activity,
+                                  databaseFile: Uri,
+                                  keyFile: Uri?,
+                                  searchInfo: SearchInfo) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                EntrySelectionHelper.startActivityForSearchModeResult(
+                        activity,
+                        intent,
+                        searchInfo)
             }
         }
 
@@ -825,13 +802,12 @@ open class PasswordActivity : SpecialModeActivity() {
          */
 
         @Throws(FileNotFoundException::class)
-        fun launchForKeyboardResult(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                searchInfo: SearchInfo?) {
+        fun launchForKeyboardResult(activity: Activity,
+                                    databaseFile: Uri,
+                                    keyFile: Uri?,
+                                    searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelectionResult(
+                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
                         activity,
                         intent,
                         searchInfo)
@@ -846,22 +822,90 @@ open class PasswordActivity : SpecialModeActivity() {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Throws(FileNotFoundException::class)
-        fun launchForAutofillResult(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                assistStructure: AssistStructure?,
-                searchInfo: SearchInfo?) {
-            if (assistStructure != null) {
-                buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                    AutofillHelper.startActivityForAutofillResult(
-                            activity,
-                            intent,
-                            assistStructure,
-                            searchInfo)
-                }
-            } else {
-                launch(activity, databaseFile, keyFile, searchInfo)
+        fun launchForAutofillResult(activity: Activity,
+                                    databaseFile: Uri,
+                                    keyFile: Uri?,
+                                    assistStructure: AssistStructure,
+                                    searchInfo: SearchInfo?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                AutofillHelper.startActivityForAutofillResult(
+                        activity,
+                        intent,
+                        assistStructure,
+                        searchInfo)
+            }
+        }
+
+        /*
+         * -------------------------
+         * 		Registration Launch
+         * -------------------------
+         */
+        fun launchForRegistration(activity: Activity,
+                                  databaseFile: Uri,
+                                  keyFile: Uri?,
+                                  registerInfo: RegisterInfo?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                EntrySelectionHelper.startActivityForRegistrationModeResult(
+                        activity,
+                        intent,
+                        registerInfo)
+            }
+        }
+
+        /*
+         * -------------------------
+         * 		Global Launch
+         * -------------------------
+         */
+        fun launch(activity: Activity,
+                   databaseUri: Uri,
+                   keyFile: Uri?,
+                   fileNoFoundAction: (exception: FileNotFoundException) -> Unit,
+                   onCancelSpecialMode: () -> Unit,
+                   onLaunchActivitySpecialMode: () -> Unit) {
+
+            try {
+                EntrySelectionHelper.doSpecialAction(activity.intent,
+                        {
+                            PasswordActivity.launch(activity,
+                                    databaseUri, keyFile)
+                        },
+                        { searchInfo -> // Search Action
+                            PasswordActivity.launchForSearchResult(activity,
+                                    databaseUri, keyFile,
+                                    searchInfo)
+                            onLaunchActivitySpecialMode()
+                        },
+                        { // Save Action
+                            // Not directly used, a search is performed before
+                        },
+                        { searchInfo -> // Keyboard Selection Action
+                            PasswordActivity.launchForKeyboardResult(activity,
+                                    databaseUri, keyFile,
+                                    searchInfo)
+                            onLaunchActivitySpecialMode()
+                        },
+                        { searchInfo, assistStructure -> // Autofill Selection Action
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                PasswordActivity.launchForAutofillResult(activity,
+                                        databaseUri, keyFile,
+                                        assistStructure,
+                                        searchInfo)
+                                onLaunchActivitySpecialMode()
+                            } else {
+                                onCancelSpecialMode()
+                            }
+                        },
+                        { registerInfo -> // Registration Action
+                            PasswordActivity.launchForRegistration(activity,
+                                    databaseUri, keyFile,
+                                    registerInfo)
+                            onLaunchActivitySpecialMode()
+                        }
+                )
+            } catch (e: FileNotFoundException) {
+                fileNoFoundAction(e)
             }
         }
     }

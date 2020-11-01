@@ -169,6 +169,10 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
         serviceConnection = null
     }
 
+    fun isBinded(): Boolean {
+        return mBinder != null
+    }
+
     fun registerProgressTask() {
         stopDialog()
 

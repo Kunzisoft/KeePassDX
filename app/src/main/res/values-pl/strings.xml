@@ -49,7 +49,7 @@
     <string name="entry_keyfile">Plik klucza</string>
     <string name="entry_modified">Zmodyfikowano</string>
     <string name="entry_password">Hasło</string>
-    <string name="entry_save">Zapisz</string>
+    <string name="save">Zapisz</string>
     <string name="entry_title">Tytuł</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>
@@ -193,7 +193,6 @@
     <string name="warning_empty_password">Kontynuować bez ochrony odblokowującej hasło\?</string>
     <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
-    <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie jest skonfigurowane.</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Grupy poprzednie</string>
     <string name="open_biometric_prompt_unlock_database">Otwórz żądanie biometryczne, aby odblokować bazę danych</string>
@@ -415,7 +414,7 @@
     <string name="contains_duplicate_uuid_procedure">Rozwiązać problem poprzez stworzenie nowych identyfikatory UUID duplikatów, aby kontynuować\?</string>
     <string name="clipboard_explanation_summary">Skopiuj pola wprowadzania danych za pomocą schowka urządzenia</string>
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
-    <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych.</string>
+    <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych</string>
     <string name="max_history_items_title">Maksymalna liczba</string>
     <string name="max_history_size_summary">Ogranicz rozmiar historii (w bajtach) na wpis</string>
     <string name="settings_database_force_changing_master_key_title">Wymuś odnowienie</string>
@@ -497,4 +496,12 @@
     <string name="warning_file_too_big">Baza danych KeePass powinna zawierać tylko małe pliki narzędziowe (takie jak pliki kluczy PGP).
 \n
 \nTwoja baza danych może stać się bardzo duża i zmniejszyć wydajność dzięki temu wgrywaniu danych.</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Usuwa załączniki znajdujące się w bazie danych, ale niepowiązane z danym wpisem</string>
+    <string name="database_data_remove_unlinked_attachments_title">Usuń niepołączone dane</string>
+    <string name="data">Dane</string>
+    <string name="warning_empty_keyfile_explanation">Zawartość pliku klucza nie powinna być nigdy zmieniana, a w najlepszym przypadku powinna zawierać losowo wygenerowane dane.</string>
+    <string name="warning_empty_keyfile">Nie zaleca się dodawania pustego pliku klucza.</string>
+    <string name="warning_sure_remove_data">Czy mimo to usunąć te dane\?</string>
+    <string name="warning_remove_unlinked_attachment">Usunięcie niepowiązanych danych może zmniejszyć rozmiar bazy danych, ale może również spowodować usunięcie danych używanych przez wtyczki KeePass.</string>
+    <string name="content_description_credentials_information">Informacje o poświadczeniach</string>
 </resources>

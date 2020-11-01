@@ -49,7 +49,7 @@
     <string name="entry_modified">Değiştirilmiş</string>
     <string name="entry_not_found">Giriş Verisi bulamadı.</string>
     <string name="entry_password">Parola</string>
-    <string name="entry_save">Kaydet</string>
+    <string name="save">Kaydet</string>
     <string name="entry_title">Başlık</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
@@ -175,7 +175,6 @@
     <string name="warning_no_encryption_key">Şifreleme anahtarı olmadan devam edilsin mi\?</string>
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
-    <string name="configure_biometric">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
     <string name="open_biometric_prompt_unlock_database">Veri tabanının kilidini açmak için biyometrik taramayı aç</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
     <string name="biometric_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>

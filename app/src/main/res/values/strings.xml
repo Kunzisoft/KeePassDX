@@ -90,7 +90,7 @@
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
-    <string name="entry_save">Save</string>
+    <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
     <string name="otp_type">OTP type</string>
@@ -133,6 +133,7 @@
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
+    <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -211,7 +212,10 @@
     <string name="read_only_warning">Depending on your file manager, KeePassDX may not allowed to write in your storage.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
+    <string name="search_mode">Search mode</string>
+    <string name="save_mode">Save mode</string>
     <string name="selection_mode">Selection mode</string>
+    <string name="registration_mode">Registration mode</string>
     <string name="remember_database_locations_title">Remember databases locations</string>
     <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
     <string name="remember_keyfile_locations_title">Remember keyfile locations</string>
@@ -258,6 +262,7 @@
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
+    <string name="warning_empty_recycle_bin">Permanently delete all nodes from the recycle bin?</string>
     <string name="warning_file_too_big">A KeePass database is supposed to contain only small utility files (such as PGP key files).\n\nYour database may get very large and reduce performance with this upload.</string>
     <string name="warning_replace_file">Uploading this file will replace the existing one.</string>
     <string name="warning_sure_add_file">Add the file anyway?</string>
@@ -267,7 +272,8 @@
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_biometric">Biometric prompt is supported, but not set up.</string>
+    <string name="configure_biometric">No biometric or device credential is enrolled.</string>
+    <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
@@ -280,6 +286,8 @@
     <string name="biometric_not_recognized">Could not recognize biometric</string>
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
+    <string name="biometric_prompt_not_initialized">Unable to initialize biometric prompt.</string>
+    <string name="crypto_object_not_initialized">Unable to retrieve crypto object.</string>
     <string name="credential_before_click_biometric_button">Type in the password, and then click the \"Biometric\" button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
@@ -348,6 +356,7 @@
     <string name="allow_copy_password_warning">Warning: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
+    <string name="notification">Notification</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Lock the database when the clipboard duration expires or the notification is closed after you start using it</string>
     <string name="database_name_title">Database name</string>
@@ -376,6 +385,8 @@
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
     <string name="keyboard_search_share_title">Search shared info</string>
     <string name="keyboard_search_share_summary">Automatically search for shared information to populate the keyboard</string>
+    <string name="keyboard_save_search_info_title">Save shared info</string>
+    <string name="keyboard_save_search_info_summary">Try to save shared information when making a manual entry selection</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -395,14 +406,23 @@
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
+    <string name="keyboard_previous_lock_title">Lock database</string>
+    <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
+    <string name="autofill_close_database_title">Close database</string>
+    <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_save_search_info_title">Save search info</string>
+    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
+    <string name="autofill_ask_to_save_data_title">Ask to save data</string>
+    <string name="autofill_ask_to_save_data_summary">Ask to save data when a form is validated</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
     <string name="autofill_application_id_blocklist_summary">Blocklist that prevents auto filling of apps</string>
     <string name="autofill_web_domain_blocklist_title">Web domain blocklist</string>
     <string name="autofill_web_domain_blocklist_summary">Blocklist that prevents auto filling of web domains</string>
     <string name="autofill_block">Block autofill</string>
     <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
+    <string name="autofill_read_only_save">Data save is not allowed for a database opened as read-only.</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
@@ -503,4 +523,6 @@
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+    <string name="show_uuid_title">Show UUID</string>
+    <string name="show_uuid_summary">Displays the UUID linked to an entry</string>
 </resources>

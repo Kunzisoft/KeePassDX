@@ -15,7 +15,6 @@
     <string name="open_biometric_prompt_store_credential">اعلان بیومتریک را برای ذخیره اعتبارنامه باز کنید</string>
     <string name="open_biometric_prompt_unlock_database">برای باز کردن قفل پایگاه داده ، دستور بیومتریک را باز کنید</string>
     <string name="keystore_not_accessible">فروشگاه اصلی به درستی تنظیم نشده است.</string>
-    <string name="configure_biometric">بیومتریک پشتیبانی می شود ، اما تنظیم نشده است.</string>
     <string name="build_label">%1$s را بسازید</string>
     <string name="version_label">نسخه %1$s</string>
     <string name="warning_permanently_delete_nodes">گره های انتخاب شده برای همیشه حذف شوند؟</string>
@@ -184,7 +183,7 @@
     <string name="otp_type">نوع OTP</string>
     <string name="entry_setup_otp">گذرواژه یکبار مصرف تنظیم کنید</string>
     <string name="entry_title">عنوان</string>
-    <string name="entry_save">ذخیره</string>
+    <string name="save">ذخیره</string>
     <string name="entry_password">رمز عبور</string>
     <string name="entry_not_found">نمی توانست داده های ورودی را پیدا کند.</string>
     <string name="entry_modified">تغییر</string>

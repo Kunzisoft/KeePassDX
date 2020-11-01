@@ -54,7 +54,7 @@
     <string name="entry_keyfile">Nyckelfil</string>
     <string name="entry_modified">Ändrad</string>
     <string name="entry_password">Lösenord</string>
-    <string name="entry_save">Spara</string>
+    <string name="save">Spara</string>
     <string name="entry_title">Namn</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Användarnamn</string>
@@ -350,7 +350,6 @@
     <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfil.</string>
     <string name="menu_advanced_unlock_settings">Avancerad upplåsning</string>
     <string name="menu_biometric_remove_key">Radera sparad biometrisk nyckel</string>
-    <string name="configure_biometric">Biometrisk prompt stöds men är inte konfigurerad.</string>
     <string name="open_biometric_prompt_unlock_database">Öppna den biometriska prompten för att låsa upp databasen</string>
     <string name="open_biometric_prompt_store_credential">Öppna den biometriska prompten för att lagra autentiseringsuppgifter</string>
     <string name="biometric_prompt_store_credential_title">Spara biometrisk igenkänning</string>

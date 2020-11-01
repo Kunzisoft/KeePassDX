@@ -183,7 +183,7 @@
     <string name="field_name">Nome do campo</string>
     <string name="error_autofill_enable_service">Não pôde ser ativado o serviço de preenchimento automático.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
-    <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
+    <string name="error_string_key">Um nome do campo é necessário para cada cadeia.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
@@ -202,7 +202,6 @@
     <string name="data">Dados</string>
     <string name="unavailable_feature_version">O aparelho está a executar Android %1$s, mas precisa de %2$s ou posterior.</string>
     <string name="clipboard_notifications_summary">Mostrar notificações de área de transferência para copiar campos ao visualizar uma entrada</string>
-    <string name="configure_biometric">O escaneamento biométrico é suportado, mas não configurado.</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o escaneamento de biomẽtrico</string>
     <string name="warning_empty_keyfile_explanation">O conteúdo do ficheiro-chave nunca deve ser alterado e, no melhor dos casos, deve conter dados gerados aleatoriamente.</string>
     <string name="warning_empty_keyfile">Não é recomendável adicionar um ficheiro de chave vazio.</string>
@@ -440,7 +439,7 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="entry_url">URL</string>
     <string name="entry_title">Nome</string>
-    <string name="entry_save">Guardar</string>
+    <string name="save">Guardar</string>
     <string name="entry_password">Palavra-passe</string>
     <string name="entry_not_found">Não foi possível encontrar os dados da entrada.</string>
     <string name="entry_modified">Modificado</string>

@@ -22,8 +22,10 @@ package com.kunzisoft.keepass.utils
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
@@ -94,19 +96,6 @@ object UriUtil {
             null
     }
 
-    fun getWebDomainWithoutSubDomain(webDomain: String?): String? {
-        webDomain?.split(".")?.let { domainArray ->
-            if (domainArray.isEmpty()) {
-                return ""
-            }
-            if (domainArray.size == 1) {
-                return domainArray[0];
-            }
-            return domainArray[domainArray.size - 2] + "." + domainArray[domainArray.size - 1]
-        }
-        return null
-    }
-
     fun decode(uri: String?): String {
         return Uri.decode(uri) ?: ""
     }
@@ -144,6 +133,24 @@ object UriUtil {
 
     fun gotoUrl(context: Context, resId: Int) {
         gotoUrl(context, context.getString(resId))
+    }
+
+    fun isExternalAppInstalled(context: Context, packageName: String): Boolean {
+        try {
+            context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            return true
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "App not accessible", e)
+        }
+        return false
+    }
+
+    fun openExternalApp(context: Context, packageName: String) {
+        try {
+            context.startActivity(context.applicationContext.packageManager.getLaunchIntentForPackage(packageName))
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "App cannot be open", e)
+        }
     }
 
     fun getBinaryDir(context: Context): File {

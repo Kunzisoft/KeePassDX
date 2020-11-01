@@ -24,7 +24,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -32,6 +31,7 @@ import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
 
 /**
  * Activity to search or select entry in database,
@@ -55,17 +55,27 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
             else -> {}
         }
 
-        // Setting to integrate Magikeyboard
-        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
-
         // Build search param
         val searchInfo = SearchInfo().apply {
             webDomain = sharedWebDomain
         }
+        SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+            searchInfo.webDomain = concreteWebDomain
+            launch(searchInfo)
+        }
+
+        super.onCreate(savedInstanceState)
+    }
+
+    private fun launch(searchInfo: SearchInfo) {
+        // Setting to integrate Magikeyboard
+        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
         // If database is open
+        val database = Database.getInstance()
+        val readOnly = database.isReadOnly
         SearchHelper.checkAutoSearchInfo(this,
-                Database.getInstance(),
+                database,
                 searchInfo,
                 { items ->
                     // Items found
@@ -78,43 +88,43 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                                     intent)
                         } else {
                             // Select the one we want
-                            GroupActivity.launchForEntrySelectionResult(this,
-                                    true,
-                                    searchInfo)
+                            GroupActivity.launchForKeyboardSelectionResult(this,
+                                    readOnly,
+                                    searchInfo,
+                                    true)
                         }
                     } else {
-                        GroupActivity.launch(this,
-                                true,
-                                searchInfo)
+                        GroupActivity.launchForSearchResult(this,
+                                readOnly,
+                                searchInfo,
+                                true)
                     }
                 },
                 {
                     // Show the database UI to select the entry
-                    if (searchShareForMagikeyboard) {
-                        GroupActivity.launchForEntrySelectionResult(this,
-                                false,
-                                searchInfo)
+                    if (readOnly || searchShareForMagikeyboard) {
+                        GroupActivity.launchForKeyboardSelectionResult(this,
+                                readOnly,
+                                searchInfo,
+                                false)
                     } else {
-                        GroupActivity.launch(this,
-                                false,
-                                searchInfo)
+                        GroupActivity.launchForSaveResult(this,
+                                searchInfo,
+                                false)
                     }
                 },
                 {
                     // If database not open
                     if (searchShareForMagikeyboard) {
-                        FileDatabaseSelectActivity.launchForEntrySelectionResult(this,
+                        FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
                                 searchInfo)
                     } else {
-                        FileDatabaseSelectActivity.launch(this,
+                        FileDatabaseSelectActivity.launchForSearchResult(this,
                                 searchInfo)
                     }
                 }
         )
-
         finish()
-
-        super.onCreate(savedInstanceState)
     }
 }
 
@@ -125,6 +135,6 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity,
     // Populate Magikeyboard with entry
     MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
     // Consume the selection mode
-    EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+    EntrySelectionHelper.removeModesFromIntent(intent)
     activity.moveTaskToBack(true)
 }

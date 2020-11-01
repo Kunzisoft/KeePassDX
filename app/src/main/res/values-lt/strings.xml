@@ -17,16 +17,16 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">KeePassDX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
-    <string name="clipboard_cleared">Iškarpinė išvalyta.</string>
+    <string name="about_description">KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
+    <string name="clipboard_cleared">Iškarpinė išvalyta</string>
     <string name="invalid_credentials">Neteisingas slaptažodis arba rakto failas.</string>
     <string name="feedback">Atsiliepimai</string>
     <string name="homepage">Pagrindinis puslapis</string>
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
-    <string name="encryption_algorithm">Algortimas</string>
-    <string name="app_timeout_summary">Laikas, per kurį yra užrakinama duomenų bazė po neveiklumo programėlėje.</string>
+    <string name="encryption_algorithm">Šifravimo algortimas</string>
+    <string name="app_timeout_summary">Neveiklumo trukmė prieš duomenų bazės užrakinimą</string>
     <string name="application">Programėlė</string>
     <string name="menu_app_settings">Programėlės nustatymai</string>
     <string name="brackets">Skliaustai</string>
@@ -38,11 +38,11 @@
     <string name="entry_modified">Keista</string>
     <string name="entry_expires">Pasibaigia</string>
     <string name="entry_password">Slaptažodis</string>
-    <string name="entry_save">Išsaugoti</string>
+    <string name="save">Išsaugoti</string>
     <string name="entry_title">Pavadinimas</string>
     <string name="entry_url">URL</string>
-    <string name="entry_user_name">Naudotojo vardas</string>
-    <string name="error_invalid_db">Neteisinga duomenų bazė.</string>
+    <string name="entry_user_name">Slapyvardis</string>
+    <string name="error_invalid_db">Nepavyko perskaityti duomenų bazės.</string>
     <string name="field_name">Lauko pavadinimas</string>
     <string name="field_value">Lauko reikšmė</string>
     <string name="file_browser">Failų naršyklė</string>
@@ -77,7 +77,7 @@
     <string name="content_description_remove_from_list">Pašalinti</string>
     <string name="root">Šaknis</string>
     <string name="read_only">Tik skaitymui</string>
-    <string name="error_pass_match">Slaptažodžiai nesutampa</string>
+    <string name="error_pass_match">Slaptažodžiai nesutampa.</string>
     <string name="clipboard_timeout">Iškarpinės trukmė</string>
     <string name="clipboard_error_title">Iškarpinės klaida</string>
     <string name="entry_confpassword">Patvirtinti slaptažodį</string>
@@ -85,10 +85,10 @@
     <string name="sort_db">DB rūšiavimo tvarka</string>
     <string name="menu_hide_password">Slėpti slaptažodį</string>
     <string name="app_timeout">Programėlės neveiklumas</string>
-    <string name="clipboard_error_clear">Iškarpinės išvalymas nepavyko</string>
+    <string name="clipboard_error_clear">Nepavyko išvalyti iškarpinės</string>
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
     <string name="omit_backup_search_title">Neiškoti atkūrimo įrašuose</string>
-    <string name="error_can_not_handle_uri">KeePassDX negali apdoroti šio uri.</string>
+    <string name="error_can_not_handle_uri">KeePassDX negali apdoroti šio URI.</string>
     <string name="entry_not_found">Įrašo duomenys nerasti.</string>
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
     <string name="entry_keyfile">Rakto failas</string>
@@ -107,4 +107,13 @@
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Neteisingas kelias.</string>
     <string name="education_unlock_summary">Įveskite slaptažodį rba raktą, tam kad atidarytumėte duomenų bazę.</string>
+    <string name="clipboard_error">Kai kurie įrenginiai neleidžia programėlėms naudoti iškarpinės.</string>
+    <string name="allow">Leisti</string>
+    <string name="extended_ASCII">Išplėstas ASCII</string>
+    <string name="encryption">Šifravimas</string>
+    <string name="security">Saugumas</string>
+    <string name="master_key">Pagrindinis raktas</string>
+    <string name="contribution">Įnašai</string>
+    <string name="contact">Kontaktai</string>
+    <string name="edit_entry">Redaguoti įrašą</string>
 </resources>

@@ -1,0 +1,9 @@
+ * Mise à jour vers Android API 30 #723
+ * Sauvegarde de nouveaux identifiants avec le remplissage automatique #524
+ * Paramètre pour fermer la base de données après une sélection de remplissage automatique #755
+ * Paramètre pour changer de clavier quand la base de données est verouillée #625
+ * Correction de problèmes biométriques #724 #740 #731
+ * Correction de l'autofill #725 #551
+ * Correction de la recherche de sous-domaine #728
+ * Correction de la recherche de backup #759
+ * Petites corrections et traductions #732 #736 #737 #738 #742 #767

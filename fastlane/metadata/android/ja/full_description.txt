@@ -1,0 +1,24 @@
+<b>複数の形式に対応する KeePass パスワード マネージャー</b>。Android の設計基準が組み込まれており、パスワード、鍵、デジタル ID を安全な方法で保存して使用できます。
+
+<b>機能</b>
+ - データベースファイル / エントリー・グループの作成
+ - .kdb、.kdbx ファイル（バージョン1から4）に対応。AES、Twofish、ChaCha20、Argon2 アルゴリズムが使用可能
+ - 主流の代替ソフトウェア（KeePass、KeePassX、KeePassXC など）との互換性あり
+ - URI / URL フィールドは開くのもコピーするのもすばやく行えます
+ - 生体認証を使った高速ロック解除 （指紋認証 / 顔認証 / …）
+ - 2 要素認証（2FA）のためのワンタイムパスワード管理（HOTP / TOTP）
+ - マテリアルデザインに準拠した複数のテーマ
+ - 自動入力機能の統合
+ - フィールド入力用のキーボード
+ - エントリーごとの履歴
+ - 設定の細かな管理
+ - コードはネイティブ言語（Kotlin / Java / JNI / C）で書かれています
+
+KeePassDX は <b>オープンソース</b>かつ<b>広告なし</b>です。
+
+寄付または <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">pro バージョン</a>の購入は
+サービスの改善と必要な機能の迅速な開発につながります。
+
+プロジェクトは常に発展しています。次のアップデートの開発状況を迷わずチェック: <a href="https://github.com/Kunzisoft/KeePassDX/projects">進行中の作業</a>
+
+Issue を送る: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

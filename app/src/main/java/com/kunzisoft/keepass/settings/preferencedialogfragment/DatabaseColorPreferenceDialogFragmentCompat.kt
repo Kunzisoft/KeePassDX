@@ -54,7 +54,6 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
 
         val fragmentManager = childFragmentManager
         chromaColorFragment = fragmentManager.findFragmentByTag(TAG_FRAGMENT_COLORS) as ChromaColorFragment?
-        val fragmentTransaction = fragmentManager.beginTransaction()
 
         database?.let { database ->
             val initColor = try {
@@ -69,7 +68,10 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
 
         if (chromaColorFragment == null) {
             chromaColorFragment = newInstance(arguments)
-            fragmentTransaction.add(com.kunzisoft.androidclearchroma.R.id.color_dialog_container, chromaColorFragment!!, TAG_FRAGMENT_COLORS).commit()
+            fragmentManager.beginTransaction().apply {
+                add(com.kunzisoft.androidclearchroma.R.id.color_dialog_container, chromaColorFragment!!, TAG_FRAGMENT_COLORS)
+                commit()
+            }
         }
 
         alertDialogBuilder.setPositiveButton(android.R.string.ok) { _, _ ->

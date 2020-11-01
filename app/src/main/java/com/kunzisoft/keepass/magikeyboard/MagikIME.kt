@@ -184,7 +184,6 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun switchToPreviousKeyboard() {
         var imeManager: InputMethodManager? = null
         try {

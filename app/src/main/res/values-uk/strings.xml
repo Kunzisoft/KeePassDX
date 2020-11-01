@@ -51,7 +51,7 @@
     <string name="entry_keyfile">Файл ключа</string>
     <string name="entry_modified">Змінено</string>
     <string name="entry_password">Пароль</string>
-    <string name="entry_save">Зберегти</string>
+    <string name="save">Зберегти</string>
     <string name="entry_title">Назва</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Ім’я користувача</string>
@@ -148,7 +148,6 @@
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
     <string name="clear_clipboard_notification_summary">Блокувати базу даних після закінчення терміну дії буфера обміну, або закрито сповіщення після початку користування ним</string>
-    <string name="configure_biometric">Розблокування біометричними даними підтримується, але не налаштоване.</string>
     <string name="content_description_add_group">Додати групу</string>
     <string name="content_description_update_from_list">Оновити</string>
     <string name="keyboard">Клавіатура</string>

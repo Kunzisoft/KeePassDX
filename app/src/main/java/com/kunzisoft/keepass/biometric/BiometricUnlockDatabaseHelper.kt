@@ -29,6 +29,8 @@ import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
@@ -66,7 +68,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             setDeviceCredentialAllowed(true)
         else
         */
-            setNegativeButtonText(context.getString(android.R.string.cancel))
+        setNegativeButtonText(context.getString(android.R.string.cancel))
     }.build()
 
     private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
@@ -78,8 +80,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         if (keyguardManager?.isDeviceSecure == true)
             setDeviceCredentialAllowed(true)
         else
-         */
-            setNegativeButtonText(context.getString(android.R.string.cancel))
+        */
+        setNegativeButtonText(context.getString(android.R.string.cancel))
     }.build()
 
     val isKeyManagerInitialized: Boolean
@@ -91,12 +93,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         }
 
     init {
-        if (BiometricManager.from(context).canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
-            // really not much to do when no fingerprint support found
-            isKeyManagerInit = false
-        } else {
+        if (allowInitKeyStore(context)) {
             this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
-
             try {
                 this.keyStore = KeyStore.getInstance(BIOMETRIC_KEYSTORE)
                 this.keyGenerator = KeyGenerator.getInstance(BIOMETRIC_KEY_ALGORITHM, BIOMETRIC_KEYSTORE)
@@ -113,6 +111,9 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 isKeyManagerInit = false
                 biometricUnlockCallback?.onBiometricException(e)
             }
+        } else {
+            // really not much to do when no fingerprint support found
+            isKeyManagerInit = false
         }
     }
 
@@ -158,7 +159,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     fun initEncryptData(actionIfCypherInit
                         : (biometricPrompt: BiometricPrompt?,
                            cryptoObject: BiometricPrompt.CryptoObject?,
-                           promptInfo: BiometricPrompt.PromptInfo)->Unit) {
+                           promptInfo: BiometricPrompt.PromptInfo) -> Unit) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -203,9 +204,9 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     }
 
     fun initDecryptData(ivSpecValue: String, actionIfCypherInit
-            : (biometricPrompt: BiometricPrompt?,
-               cryptoObject: BiometricPrompt.CryptoObject?,
-               promptInfo: BiometricPrompt.PromptInfo)->Unit) {
+    : (biometricPrompt: BiometricPrompt?,
+       cryptoObject: BiometricPrompt.CryptoObject?,
+       promptInfo: BiometricPrompt.PromptInfo) -> Unit) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -294,6 +295,37 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         private const val BIOMETRIC_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
         private const val BIOMETRIC_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
         private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
+
+        fun canAuthenticate(context: Context): Int {
+            return try {
+                BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to authenticate with strong biometric.", e)
+                try {
+                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to authenticate with weak biometric.", e)
+                    BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE
+                }
+            }
+        }
+
+        fun allowInitKeyStore(context: Context): Boolean {
+            val biometricCanAuthenticate = canAuthenticate(context)
+            return (  biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
+                    )
+        }
+
+        fun unlockSupported(context: Context): Boolean {
+            val biometricCanAuthenticate = canAuthenticate(context)
+            return (  biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
+                    )
+        }
 
         /**
          * Remove entry key in keystore
