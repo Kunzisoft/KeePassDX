@@ -1,9 +1,15 @@
 package com.kunzisoft.keepass.model
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.ObjectNameResource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 class SearchInfo : ObjectNameResource, Parcelable {
 
@@ -15,6 +21,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 else -> null
             }
         }
+    // A web domain can also containing an IP
     var webDomain: String? = null
         set(value) {
             field = when {
@@ -102,6 +109,29 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
             override fun newArray(size: Int): Array<SearchInfo?> {
                 return arrayOfNulls(size)
+            }
+        }
+
+        /**
+         * Get the concrete web domain AKA without sub domain if needed
+         */
+        fun getConcreteWebDomain(context: Context,
+                                 webDomain: String?,
+                                 concreteWebDomain: (String?) -> Unit) {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (webDomain != null) {
+                    // Warning, web domain can contains IP, don't crop in this case
+                    if (PreferencesUtil.searchSubdomains(context)
+                            || Regex(WEB_IP_REGEX).matches(webDomain)) {
+                        concreteWebDomain.invoke(webDomain)
+                    } else {
+                        val publicSuffixList = PublicSuffixList(context)
+                        concreteWebDomain.invoke(publicSuffixList
+                                .getPublicSuffixPlusOne(webDomain).await())
+                    }
+                } else {
+                    concreteWebDomain.invoke(null)
+                }
             }
         }
     }

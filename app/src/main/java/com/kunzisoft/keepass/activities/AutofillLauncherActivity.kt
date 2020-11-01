@@ -57,12 +57,8 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
                         webScheme = intent.getStringExtra(KEY_SEARCH_SCHEME)
                     }
-                    if (!PreferencesUtil.searchSubdomains(this)) {
-                        UriUtil.getWebDomainWithoutSubDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
-                            searchInfo.webDomain = webDomainWithoutSubDomain
-                            launchSelection(searchInfo)
-                        }
-                    } else {
+                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                        searchInfo.webDomain = concreteWebDomain
                         launchSelection(searchInfo)
                     }
                 }
@@ -70,12 +66,8 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     // To register info
                     val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    if (!PreferencesUtil.searchSubdomains(this)) {
-                        UriUtil.getWebDomainWithoutSubDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
-                            searchInfo.webDomain = webDomainWithoutSubDomain
-                            launchRegistration(searchInfo, registerInfo)
-                        }
-                    } else {
+                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                        searchInfo.webDomain = concreteWebDomain
                         launchRegistration(searchInfo, registerInfo)
                     }
                 }

@@ -73,13 +73,8 @@ class KeeAutofillService : AutofillService() {
                         webDomain = parseResult.webDomain
                         webScheme = parseResult.webScheme
                     }
-
-                    if (!PreferencesUtil.searchSubdomains(this)) {
-                        UriUtil.getWebDomainWithoutSubDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
-                            searchInfo.webDomain = webDomainWithoutSubDomain
-                            launchSelection(searchInfo, parseResult, callback)
-                        }
-                    } else {
+                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                        searchInfo.webDomain = webDomainWithoutSubDomain
                         launchSelection(searchInfo, parseResult, callback)
                     }
                 }

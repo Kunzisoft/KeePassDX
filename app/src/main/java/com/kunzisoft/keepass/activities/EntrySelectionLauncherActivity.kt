@@ -59,12 +59,8 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
         val searchInfo = SearchInfo().apply {
             webDomain = sharedWebDomain
         }
-        if (!PreferencesUtil.searchSubdomains(this)) {
-            UriUtil.getWebDomainWithoutSubDomain(this, sharedWebDomain) { webDomainWithoutSubDomain ->
-                searchInfo.webDomain = webDomainWithoutSubDomain
-                launch(searchInfo)
-            }
-        } else {
+        SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+            searchInfo.webDomain = concreteWebDomain
             launch(searchInfo)
         }
 
