@@ -6,4 +6,4 @@
  * Fix autofill #725 #551
  * Fix subdomain search #728
  * Fix backup search #759
- * Small fixes and translations #732 #736 #737 #738 #742
+ * Small fixes and translations #732 #736 #737 #738 #742 #767
