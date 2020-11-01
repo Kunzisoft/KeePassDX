@@ -517,15 +517,25 @@ open class PasswordActivity : SpecialModeActivity() {
             clearCredentialsViews()
         }
 
-        databaseFileUri?.let { databaseUri ->
-            // Show the progress dialog and load the database
-            showProgressDialogAndLoadDatabase(
-                    databaseUri,
-                    password,
-                    keyFileUri,
-                    readOnly,
-                    cipherDatabaseEntity,
-                    false)
+        if (readOnly && (
+                mSpecialMode == SpecialMode.SAVE
+                || mSpecialMode == SpecialMode.REGISTRATION)
+        ) {
+            Log.e(TAG, getString(R.string.autofill_read_only_save))
+            Snackbar.make(activity_password_coordinator_layout,
+                    R.string.autofill_read_only_save,
+                    Snackbar.LENGTH_LONG).asError().show()
+        } else {
+            databaseFileUri?.let { databaseUri ->
+                // Show the progress dialog and load the database
+                showProgressDialogAndLoadDatabase(
+                        databaseUri,
+                        password,
+                        keyFileUri,
+                        readOnly,
+                        cipherDatabaseEntity,
+                        false)
+            }
         }
     }
 
