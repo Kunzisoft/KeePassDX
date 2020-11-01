@@ -754,7 +754,8 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCancelSpecialMode() {
         onApprovedBackPressed {
-            super.onCancelSpecialMode()
+            super@EntryEditActivity.onCancelSpecialMode()
+            finish()
         }
     }
 
