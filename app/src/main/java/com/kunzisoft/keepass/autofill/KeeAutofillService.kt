@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import java.util.concurrent.atomic.AtomicBoolean
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -73,30 +74,43 @@ class KeeAutofillService : AutofillService() {
                         webScheme = parseResult.webScheme
                     }
 
-                    SearchHelper.checkAutoSearchInfo(this,
-                            Database.getInstance(),
-                            searchInfo,
-                            { items ->
-                                val responseBuilder = FillResponse.Builder()
-                                AutofillHelper.addHeader(responseBuilder, packageName,
-                                        parseResult.webDomain, parseResult.applicationId)
-                                items.forEach {
-                                    responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
-                                }
-                                callback.onSuccess(responseBuilder.build())
-                            },
-                            {
-                                // Show UI if no search result
-                                showUIForEntrySelection(parseResult, searchInfo, callback)
-                            },
-                            {
-                                // Show UI if database not open
-                                showUIForEntrySelection(parseResult, searchInfo, callback)
-                            }
-                    )
+                    if (!PreferencesUtil.searchSubdomains(this)) {
+                        UriUtil.getWebDomainWithoutSubDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                            searchInfo.webDomain = webDomainWithoutSubDomain
+                            launchSelection(searchInfo, parseResult, callback)
+                        }
+                    } else {
+                        launchSelection(searchInfo, parseResult, callback)
+                    }
                 }
             }
         }
+    }
+
+    private fun launchSelection(searchInfo: SearchInfo,
+                                parseResult: StructureParser.Result,
+                                callback: FillCallback) {
+        SearchHelper.checkAutoSearchInfo(this,
+                Database.getInstance(),
+                searchInfo,
+                { items ->
+                    val responseBuilder = FillResponse.Builder()
+                    AutofillHelper.addHeader(responseBuilder, packageName,
+                            parseResult.webDomain, parseResult.applicationId)
+                    items.forEach {
+                        responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                    }
+                    callback.onSuccess(responseBuilder.build())
+                },
+                {
+                    // Show UI if no search result
+                    showUIForEntrySelection(parseResult, searchInfo, callback)
+                },
+                {
+                    // Show UI if database not open
+                    showUIForEntrySelection(parseResult, searchInfo, callback)
+                }
+        )
     }
 
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,

@@ -75,8 +75,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
                             searchInfo.webDomain = webDomainWithoutSubDomain
                             launchRegistration(searchInfo, registerInfo)
                         }
+                    } else {
+                        launchRegistration(searchInfo, registerInfo)
                     }
-                    launchRegistration(searchInfo, registerInfo)
                 }
                 else -> {
                     // Not an autofill call
