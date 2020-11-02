@@ -1,1 +1,2 @@
+ * Correction Magiclavier non complètement visible #772
  * Petites corrections #771
