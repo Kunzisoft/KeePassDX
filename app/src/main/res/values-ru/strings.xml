@@ -504,4 +504,27 @@
     <string name="warning_sure_remove_data">Всё равно удалить эти данные\?</string>
     <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер вашей базы данных, но также может удалить данные, используемые для плагинов KeePass.</string>
     <string name="content_description_credentials_information">Информация об учётных данных</string>
+    <string name="biometric_prompt_not_initialized">Невозможно инициализировать ввод биометрического ключа.</string>
+    <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
+    <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
+    <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
+    <string name="keyboard_save_search_info_summary">Сохранять общую информацию при ручном выборе записи</string>
+    <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
+    <string name="crypto_object_not_initialized">Невозможно получить доступ к зашифрованному объекту.</string>
+    <string name="keyboard_previous_lock_title">Блокировка базы</string>
+    <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
+    <string name="show_uuid_summary">Показывать UUID, связанный с записью</string>
+    <string name="show_uuid_title">Показывать UUID</string>
+    <string name="autofill_read_only_save">Сохранение данных невозможно для базы, открытой только для чтения.</string>
+    <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после проверки формы</string>
+    <string name="autofill_ask_to_save_data_title">Запрос сохранения данных</string>
+    <string name="autofill_close_database_summary">Закрывать базу после выбора автозаполнения</string>
+    <string name="autofill_close_database_title">Закрыть базу</string>
+    <string name="notification">Уведомление</string>
+    <string name="biometric_security_update_required">Требуется обновление биометрической системы безопасности.</string>
+    <string name="warning_empty_recycle_bin">Удалить всё содержимое корзины безвозвратно\?</string>
+    <string name="registration_mode">Режим регистрации</string>
+    <string name="save_mode">Режим записи</string>
+    <string name="search_mode">Режим поиска</string>
+    <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения</string>
 </resources>
