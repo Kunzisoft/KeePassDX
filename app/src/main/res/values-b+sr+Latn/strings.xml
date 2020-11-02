@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="file_manager_install_description">Za kreiranje, otvaranje i čuvanje datoteka baze podataka potreban je menadžer datoteka koji prihvata Intent akcije ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT</string>
+    <string name="extended_ASCII">Prošireni ASCII</string>
+    <string name="brackets">Zagrade</string>
+    <string name="application">Aplikacija</string>
+    <string name="app_timeout_summary">Neaktivno vreme pre zaključavanja baze podataka</string>
+    <string name="key_derivation_function">Funkcija za generisanje ključa</string>
+    <string name="encryption_algorithm">Algoritam šifrovanja</string>
+    <string name="encryption">Šifrovanje</string>
+    <string name="security">Sigurnost</string>
+    <string name="master_key">Glavni ključ</string>
+    <string name="homepage">Početna strana</string>
+    <string name="feedback">Povratne informacije</string>
+    <string name="contribution">Doprinos</string>
+    <string name="add_group">Dodaj grupu</string>
+    <string name="accept">Prihvati</string>
+    <string name="about_description">Android implementacija KeePass menadžera lozinki</string>
+</resources>
