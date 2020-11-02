@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="contact">連絡先</string>
     <string name="contribution">貢献</string>
     <string name="feedback">フィードバック</string>
@@ -75,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong>オープンソース&lt;/strong&gt;かつ&lt;strong&gt;広告なし&lt;/strong&gt;です。\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;かつ&lt;strong&gt;広告なし&lt;/strong&gt;です。\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
@@ -522,4 +521,7 @@
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>
     <string name="show_uuid_title">UUID を表示</string>
     <string name="show_uuid_summary">エントリーにリンクされた UUID を表示します</string>
+    <string name="autofill_read_only_save">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
+    <string name="save_mode">保存モード</string>
+    <string name="search_mode">検索モード</string>
 </resources>
