@@ -1,2 +1,3 @@
  * Fix Magikeyboard not fully visible #772
+ * Fix change font size #770
  * Small fixes #771

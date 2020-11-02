@@ -89,9 +89,6 @@ class NodeAdapter (private val context: Context)
         get() = mNodeSortedList.size() <= 0
 
     init {
-        this.mInfoTextDefaultDimension = context.resources.getDimension(R.dimen.list_medium_size_default)
-        this.mSubtextDefaultDimension = context.resources.getDimension(R.dimen.list_small_size_default)
-        this.mNumberChildrenTextDefaultDimension = context.resources.getDimension(R.dimen.list_tiny_size_default)
         this.mIconDefaultDimension = context.resources.getDimension(R.dimen.list_icon_size_default)
 
         assignPreferences()
@@ -284,7 +281,13 @@ class NodeAdapter (private val context: Context)
         } else {
             mInflater.inflate(R.layout.item_list_nodes_entry, parent, false)
         }
-        return NodeViewHolder(view)
+        val nodeViewHolder = NodeViewHolder(view)
+        mInfoTextDefaultDimension = nodeViewHolder.text.textSize
+        mSubtextDefaultDimension = nodeViewHolder.subText.textSize
+        nodeViewHolder.numberChildren?.let {
+            mNumberChildrenTextDefaultDimension = it.textSize
+        }
+        return nodeViewHolder
     }
 
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {

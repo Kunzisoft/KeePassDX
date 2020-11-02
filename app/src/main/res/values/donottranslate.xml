@@ -287,9 +287,6 @@
     </string-array>
 
     <!-- Text Size -->
-    <dimen name="list_tiny_size_default" translatable="false">9dp</dimen>
-    <dimen name="list_small_size_default" translatable="false">14dp</dimen>
-    <dimen name="list_medium_size_default" translatable="false">16dp</dimen>
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
     <string name="list_size_string_small" translatable="false">small</string>
     <string name="list_size_string_medium" translatable="false">medium</string>

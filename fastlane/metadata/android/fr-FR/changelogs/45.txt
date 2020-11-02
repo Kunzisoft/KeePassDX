@@ -1,2 +1,3 @@
  * Correction Magiclavier non complètement visible #772
+ * Correction du changement de police #770
  * Petites corrections #771
