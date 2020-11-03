@@ -1,0 +1,5 @@
+ * Copie du mot de passe depuis le générateur #697
+ * Correction Magiclavier non complètement visible #772
+ * Correction du changement de police #770
+ * Correction de crash #774
+ * Petites corrections #771

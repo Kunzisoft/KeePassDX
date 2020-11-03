@@ -1,0 +1,5 @@
+ * Copy password from generator #697
+ * Fix Magikeyboard not fully visible #772
+ * Fix change font size #770
+ * Fix crash #774
+ * Small fixes #771

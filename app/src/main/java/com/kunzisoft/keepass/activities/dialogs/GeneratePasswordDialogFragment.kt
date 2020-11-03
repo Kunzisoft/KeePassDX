@@ -26,13 +26,11 @@ import com.google.android.material.textfield.TextInputLayout
 import androidx.fragment.app.DialogFragment
 import androidx.appcompat.app.AlertDialog
 import android.view.View
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.SeekBar
+import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.applyFontVisibility
 
 class GeneratePasswordDialogFragment : DialogFragment() {
@@ -78,6 +76,15 @@ class GeneratePasswordDialogFragment : DialogFragment() {
             passwordInputLayoutView = root?.findViewById(R.id.password_input_layout)
             passwordView = root?.findViewById(R.id.password)
             passwordView?.applyFontVisibility()
+            val passwordCopyView: ImageView? = root?.findViewById(R.id.password_copy_button)
+            passwordCopyView?.visibility = if(PreferencesUtil.allowCopyPasswordAndProtectedFields(activity))
+                View.VISIBLE else View.GONE
+            val clipboardHelper = ClipboardHelper(activity)
+            passwordCopyView?.setOnClickListener {
+                clipboardHelper.timeoutCopyToClipboard(passwordView!!.text.toString(),
+                        getString(R.string.copy_field,
+                                getString(R.string.entry_password)))
+            }
 
             lengthTextView = root?.findViewById(R.id.length)
 
