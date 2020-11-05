@@ -438,7 +438,7 @@
     <string name="menu_save_database">Datenbank speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
     <string name="command_execution">Befehl ausführen…</string>
-    <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
+    <string name="warning_permanently_delete_nodes">Sollen die ausgewählten Knoten wirklich gelöscht werden\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
     <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf die Biometrie-Schaltfläche.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
@@ -531,4 +531,12 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
+    <string name="autofill_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
+    <string name="autofill_ask_to_save_data_summary">Speichern von Daten anfordern, wenn ein Formular überprüft wird</string>
+    <string name="autofill_ask_to_save_data_title">Speichern von Daten anfordern</string>
+    <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
+    <string name="autofill_close_database_summary">Datenbank nach der Auswahl des automatischen Ausfüllens schließen</string>
+    <string name="keyboard_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
+    <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
+    <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
 </resources>
