@@ -473,7 +473,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_keepass_crypto_finalkey_NativeAE
   (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)mk.c_seed);
   (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
-  // step 2: encrypt the hash "rounds" (default: 6000) times
+  // step 2: encrypt the hash "rounds"
   iret = pthread_create( &t1, NULL, (void*)generate_key_material, (void*)&mk );
   if( iret != 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 1"); // FIXME: get a better exception class for this...
