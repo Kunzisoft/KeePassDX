@@ -401,7 +401,7 @@
     <string name="clipboard_explanation_summary">Kopier indtastningsfelter ved hjælp af enhedens udklipsholder</string>
     <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
     <string name="database_data_compression_title">Datakomprimering</string>
-    <string name="database_data_compression_summary">Datakomprimering reducerer databasens størrelse.</string>
+    <string name="database_data_compression_summary">Datakomprimering reducerer databasens størrelse</string>
     <string name="max_history_items_title">Max. antal</string>
     <string name="max_history_items_summary">Begræns antallet af historikposter pr. indtastning</string>
     <string name="max_history_size_title">Max. størrelse</string>
@@ -489,4 +489,39 @@
     <string name="subdomain_search_title">Underdomæne søgning</string>
     <string name="error_string_type">Teksten stemmer ikke overens med det ønskede element.</string>
     <string name="content_description_add_item">Tilføj element</string>
+    <string name="show_uuid_summary">Viser UUID\'en, der er knyttet til en post</string>
+    <string name="show_uuid_title">Vis UUID</string>
+    <string name="upload_attachment">Overfør %1$s</string>
+    <string name="education_add_attachment_title">Vedhæft fil</string>
+    <string name="autofill_read_only_save">Lagring af data er ikke tilladt for en database, der er åbnet som skrivebeskyttet.</string>
+    <string name="autofill_ask_to_save_data_summary">Bed om at gemme data, når en formular er valideret</string>
+    <string name="autofill_ask_to_save_data_title">Bed om at gemme data</string>
+    <string name="autofill_save_search_info_title">Gem søgeoplysninger</string>
+    <string name="autofill_close_database_summary">Luk databasen efter en markering af autofyld</string>
+    <string name="autofill_close_database_title">Luk database</string>
+    <string name="keyboard_previous_lock_summary">Skift automatisk tilbage til det forrige tastatur efter låsning af databasen</string>
+    <string name="keyboard_previous_lock_title">Lås databasen</string>
+    <string name="keyboard_save_search_info_title">Gem delte oplysninger</string>
+    <string name="notification">Anmeldelse</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Fjerner vedhæftede filer indeholdt i databasen, men ikke knyttet til en post</string>
+    <string name="database_data_remove_unlinked_attachments_title">Fjern ikke-sammenkædede data</string>
+    <string name="data">Data</string>
+    <string name="crypto_object_not_initialized">Kryptoobjektet kunne ikke hentes.</string>
+    <string name="biometric_prompt_not_initialized">Biometrisk prompt kunne ikke initialiseres.</string>
+    <string name="biometric_security_update_required">Biometrisk sikkerhedsopdatering påkrævet.</string>
+    <string name="warning_empty_keyfile_explanation">Indholdet af nøglefilen bør aldrig ændres og bør i bedste fald indeholde tilfældigt genererede data.</string>
+    <string name="warning_empty_keyfile">Det anbefales ikke at tilføje en tom nøglefil.</string>
+    <string name="warning_sure_remove_data">Fjern alligevel disse data\?</string>
+    <string name="warning_remove_unlinked_attachment">Fjernelse af ikke-linkede data kan mindske størrelsen på databasen, men kan også slette data, der bruges til KeePass-plugins.</string>
+    <string name="warning_sure_add_file">Tilføj alligevel filen\?</string>
+    <string name="warning_replace_file">Overførelsen af filen erstatter den eksisterende.</string>
+    <string name="warning_file_too_big">En KeePass database formodes kun at indeholde små hjælpefiler (såsom PGP nøglefiler).
+\n
+\nDatabasen kan blive meget stor og reducere ydeevnen med denne overførelse.</string>
+    <string name="warning_empty_recycle_bin">Slet alle noder permanent fra papirkurven\?</string>
+    <string name="registration_mode">Registreringstilstand</string>
+    <string name="save_mode">Gem tilstand</string>
+    <string name="search_mode">Søgetilstand</string>
+    <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database</string>
+    <string name="content_description_credentials_information">Oplysninger om legitimationsoplysninger</string>
 </resources>
