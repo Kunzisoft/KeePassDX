@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hide_expired_entries_summary">ਮਿਆਦ ਪੁੱਗੀਆਂ ਐਂਟਰੀਆਂ ਨੂੰ ਲੁਕਾ ਕੇ ਰੱਖੋ</string>
+    <string name="hide_expired_entries_summary">ਮਿਆਦ ਪੁੱਗੀਆਂ ਐਂਟਰੀਆਂ ਦਿਖਾਈਆਂ ਨਹੀਂ ਹਨ</string>
     <string name="hide_expired_entries_title">ਮਿਆਦ ਪੁੱਗੀਆਂ ਐਂਟਰੀਆਂ ਲੁਕਾਓ</string>
     <string name="icon_pack_choose_summary">ਐਪ ਵਿੱਚ ਵਰਤਿਆ ਆਈਕਾਨ ਪੈਕ</string>
     <string name="icon_pack_choose_title">ਆਈਕਾਨ ਪੈਕ</string>
@@ -280,7 +280,7 @@
     <string name="biometric_prompt_store_credential_title">ਬਾਇਓਮੈਟਰਿਕ ਪਛਾਣ ਨੂੰ ਸੰਭਾਲੋ</string>
     <string name="open_biometric_prompt_store_credential">ਸਨਦਾਂ ਸੰਭਾਲਣ ਲਈ ਬਾਇਓਮੈਟਰਿਕ ਪੁੱਛਗਿੱਛ ਕਰੋ</string>
     <string name="open_biometric_prompt_unlock_database">ਡਾਟਾਬੇਸ ਅਣ-ਲਾਕ ਕਰਨ ਲਈ ਬਾਇਮੈਟਰਿਕ ਪੁੱਛਗਿੱਛ ਖੋਲ੍ਹੋ</string>
-    <string name="configure_biometric">ਬਾਇਓਮੈਟਰਿਕ ਪੁੱਛਗਿੱਛ ਸਹਾਇਕ ਤਾਂ ਹੈ, ਪਰ ਸੈਟਅੱਪ ਨਹੀਂ ਕੀਤੀ ਗਈ ਹੈ।</string>
+    <string name="configure_biometric">ਕੋਈ ਬਾਇਓਮੈਟਰਿਕ ਜਾਂ ਡਿਵਾਈਸ ਸਨਦ ਦਾਖਲ ਨਹੀਂ ਕੀਤੀ ਹੈ।</string>
     <string name="warning_sure_remove_data">ਇਹ ਡਾਟਾ ਕਿਵੇਂ ਵੀ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="warning_sure_add_file">ਕਿਵੇਂ ਵੀ ਫ਼ਾਇਲ ਜੋੜਨੀ ਹੈ\?</string>
     <string name="warning_replace_file">ਇਸ ਫ਼ਾਇਲ ਨੂੰ ਅੱਪਲੋਡ ਕਰਨ ਨਾਲ ਮੌਜੂਦਾ ਫ਼ਾਇਲ ਬਦਲ ਦਿੱਤੀ ਜਾਵੇਗੀ।</string>
@@ -289,4 +289,19 @@
     <string name="command_execution">...ਕਮਾਂਡ ਚਲਾਈ ਜਾ ਰਹੀ ਹੈ</string>
     <string name="error_autofill_enable_service">ਆਪੇ-ਭਰਨ ਸੇਵਾ ਨੂੰ ਸਮਰੱਥ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।</string>
     <string name="content_description_credentials_information">ਸਨਦ ਜਾਣਕਾਰੀ</string>
+    <string name="autofill_block">ਆਪੇ-ਭਰਨ ਤੋਂ ਰੋਕ</string>
+    <string name="autofill_web_domain_blocklist_summary">ਪਾਬੰਦੀ-ਸੂਚੀ, ਜੋ ਕਿ ਵੈੱਬ ਡੋਮੇਨ ਲਈ ਆਪੇ ਭਰੇ ਜਾਣ ਤੋਂ ਰੋਕਦੀ ਹੈ</string>
+    <string name="autofill_web_domain_blocklist_title">ਵੈੱਬ ਡੋਮੇਨ ਪਾਬੰਦੀ-ਸੂਚੀ</string>
+    <string name="autofill_application_id_blocklist_summary">ਪਾਬੰਦੀ-ਸੂਚੀ, ਜੋ ਕਿ ਐਪਾਂ ਦੇ ਆਪੇ ਭਰੇ ਜਾਣ ਤੋਂ ਰੋਕਦੀ ਹੈ</string>
+    <string name="autofill_application_id_blocklist_title">ਐਪਲੀਕੇਸ਼ਨ ਪਾਬੰਦੀ-ਸੂਚੀ</string>
+    <string name="autofill_ask_to_save_data_summary">ਜਦੋਂ ਖੇਤਰ ਦੀ ਜਾਂਚ ਹੋ ਜਾਵੇ ਤਾਂ ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਪੁੱਛੋ</string>
+    <string name="autofill_ask_to_save_data_title">ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਪੁੱਛੋ</string>
+    <string name="education_generate_password_title">ਮਜ਼ਬੂਤ ਪਾਸਵਰਡ ਬਣਾਓ</string>
+    <string name="education_unlock_title">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਅਣ-ਲਾਕ ਕਰੋ</string>
+    <string name="education_field_copy_title">ਖੇਤਰ ਨੂੰ ਕਾਪੀ ਕਰੋ</string>
+    <string name="education_lock_summary">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਫ਼ੌਰੀ ਤੌਰ ਉੱਤੇ ਲਾਕ ਕਰੋ, ਤੁਸੀਂ ਕੁਝ ਦੇਰ ਬਾਅਦ ਅਤੇ ਜਦੋਂ ਸਕਰੀਨ ਬੰਦ ਹੋਵੇ ਤਾਂ ਇਸ ਨੂੰ ਲਾਕ ਕਰਨ ਲਈ ਐਪ ਨੂੰ ਸੈਟਅੱਪ ਕਰ ਸਕਦੇ ਹੋ।</string>
+    <string name="education_lock_title">ਡਾਟਾਬੇਸ ਲਾਕ ਕਰੋ</string>
+    <string name="upload_attachment">%1$s ਅੱਪਲੋਡ ਕਰੋ</string>
+    <string name="kdf_AES">AES</string>
+    <string name="show_uuid_summary">ਐਂਟਰੀ ਨਾਲ ਸੰਬੰਧਿਤ UUID ਦਿਖਾਉਂਦਾ ਹੈ</string>
 </resources>
