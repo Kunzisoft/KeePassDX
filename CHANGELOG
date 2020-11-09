@@ -1,6 +1,7 @@
 KeePassDX(2.9.2)
  * Fix search in OTP #780
  * Fix empty OTP field after selection #781
+  * Fix same save shared info #783
 
 KeePassDX(2.9.1)
  * Copy password from generator #697

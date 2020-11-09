@@ -1,2 +1,3 @@
  * Correction de la recherche de l'OTP #780
  * Correction de champ OTP vide après sélection #781
+ * Correction de la sauvegarde d'une même info partagée #783

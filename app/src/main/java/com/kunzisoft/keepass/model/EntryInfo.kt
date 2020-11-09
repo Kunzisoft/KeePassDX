@@ -104,22 +104,23 @@ class EntryInfo : Parcelable {
     }
 
     private fun addUniqueField(field: Field, number: Int = 0) {
-        var exists = false
-        var sameData = false
+        var sameName = false
+        var sameValue = false
         val suffix = if (number > 0) number.toString() else ""
         customFields.forEach { currentField ->
+            // Not write the same data again
+            if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
+                sameValue = true
+                return
+            }
+            // Same name but new value, create a new suffix
             if (currentField.name == field.name + suffix) {
-                exists = true
-                // Not write the same value again
-                if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
-                    sameData = true
-                } else {
-                    addUniqueField(field, number + 1)
-                }
+                sameName = true
+                addUniqueField(field, number + 1)
                 return
             }
         }
-        if (!exists && !sameData)
+        if (!sameName && !sameValue)
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
     }
 
@@ -131,7 +132,8 @@ class EntryInfo : Parcelable {
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
-            } else {
+            }
+            else if (url != webDomainToStore){
                 // Save web domain in custom field
                 addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
                         ProtectedString(false, webDomainToStore))
