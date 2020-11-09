@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.search.iterator
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
 import kotlin.collections.Map.Entry
 
@@ -75,6 +76,7 @@ class EntrySearchStringIteratorKDBX(
             EntryKDBX.STR_PASSWORD -> mSearchParameters.searchInPasswords
             EntryKDBX.STR_URL -> mSearchParameters.searchInUrls
             EntryKDBX.STR_NOTES -> mSearchParameters.searchInNotes
+            OtpEntryFields.OTP_FIELD -> mSearchParameters.searchInOTP
             else -> mSearchParameters.searchInOther
         }
     }

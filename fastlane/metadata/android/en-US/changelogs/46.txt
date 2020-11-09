@@ -1,1 +1,1 @@
- *
+ * Fix search in OTP #780

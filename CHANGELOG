@@ -1,5 +1,5 @@
 KeePassDX(2.9.2)
- *
+ * Fix search in OTP #780
 
 KeePassDX(2.9.1)
  * Copy password from generator #697

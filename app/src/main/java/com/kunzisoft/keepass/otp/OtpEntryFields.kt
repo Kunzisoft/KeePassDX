@@ -35,7 +35,7 @@ object OtpEntryFields {
     private val TAG = OtpEntryFields::class.java.name
 
     // Field from KeePassXC
-    private const val OTP_FIELD = "otp"
+    const val OTP_FIELD = "otp"
 
     // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
     private const val OTP_SCHEME = "otpauth"
