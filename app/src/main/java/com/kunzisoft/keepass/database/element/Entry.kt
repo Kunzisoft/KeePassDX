@@ -411,8 +411,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
      */
 
     /**
-     * Retrieve generated entry info,
-     * Remove parameter fields and add auto generated elements in auto custom fields
+     * Retrieve generated entry info.
+     * If are not [raw] data, remove parameter fields and add auto generated elements in auto custom fields
      */
     fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
         val entryInfo = EntryInfo()

@@ -660,7 +660,7 @@ class GroupActivity : LockingActivity(),
 
     private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo) {
         val newEntry = Entry(entry)
-        newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase).apply {
+        newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase, true).apply {
             saveSearchInfo(mDatabase, searchInfo)
         })
         // In selection mode, it's forced read-only, so update not allowed

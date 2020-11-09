@@ -1,1 +1,2 @@
  * Fix search in OTP #780
+ * Fix empty OTP field after selection #781
