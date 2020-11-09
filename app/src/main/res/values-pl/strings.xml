@@ -504,4 +504,27 @@
     <string name="warning_sure_remove_data">Czy mimo to usunąć te dane\?</string>
     <string name="warning_remove_unlinked_attachment">Usunięcie niepowiązanych danych może zmniejszyć rozmiar bazy danych, ale może również spowodować usunięcie danych używanych przez wtyczki KeePass.</string>
     <string name="content_description_credentials_information">Informacje o poświadczeniach</string>
+    <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem</string>
+    <string name="show_uuid_title">Pokaż UUID</string>
+    <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej jako tylko do odczytu.</string>
+    <string name="autofill_ask_to_save_data_summary">Poproś o zapisanie danych po zatwierdzeniu formularza</string>
+    <string name="autofill_ask_to_save_data_title">Poproś o zapisanie danych</string>
+    <string name="autofill_save_search_info_summary">Spróbuj zapisać informacje wyszukiwania podczas dokonywania ręcznego wyboru pozycji</string>
+    <string name="autofill_save_search_info_title">Zapisz informacje wyszukiwania</string>
+    <string name="autofill_close_database_summary">Zamknij bazę danych po wybraniu autouzupełniania</string>
+    <string name="autofill_close_database_title">Zamknij bazę danych</string>
+    <string name="keyboard_previous_lock_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury po zablokowaniu bazy danych</string>
+    <string name="keyboard_previous_lock_title">Zablokuj bazę danych</string>
+    <string name="keyboard_save_search_info_summary">Spróbuj zapisać udostępnione informacje podczas ręcznego wybierania pozycji</string>
+    <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
+    <string name="notification">Powiadomienia</string>
+    <string name="crypto_object_not_initialized">Nie można pobrać obiektu kryptograficznego.</string>
+    <string name="biometric_prompt_not_initialized">Nie można zainicjować monitu biometrycznego.</string>
+    <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
+    <string name="configure_biometric">Nie zarejestrowano żadnych danych biometrycznych ani danych urządzenia.</string>
+    <string name="warning_empty_recycle_bin">Trwale usunąć wszystkie węzły z kosza\?</string>
+    <string name="registration_mode">Tryb rejestracji</string>
+    <string name="save_mode">Tryb zapisywania</string>
+    <string name="search_mode">Tryb wyszukiwania</string>
+    <string name="error_registration_read_only">Zapisywanie nowego elementu nie jest dozwolone w bazie danych tylko do odczytu</string>
 </resources>
