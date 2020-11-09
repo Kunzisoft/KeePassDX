@@ -24,7 +24,7 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
 
 KeePassDX est <b>opensource</b> et <b>sans publicité</b>.
 
-Le projet est en constante évolution. N'hésitez pas à vérifier l'état de développement des prochaines mises à jour : <a href="https://github.com/Kunzisoft/KeePassDX/projects">Tâches en cours</a>
+Le projet est en constante évolution. N'hésitez pas à vérifier l'état de développement des prochaines mises à jour : <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
 
 Vous avez un bug : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
 
