@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +36,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         get() {
             return if (webDomain == null) null else field
         }
+    var otpString: String? = null
 
     constructor()
 
@@ -42,6 +44,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         applicationId = toCopy?.applicationId
         webDomain = toCopy?.webDomain
         webScheme = toCopy?.webScheme
+        otpString = toCopy?.otpString
     }
 
     private constructor(parcel: Parcel) {
@@ -51,6 +54,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
         webDomain = if (readDomain.isNullOrEmpty()) null else readDomain
         val readScheme = parcel.readString()
         webScheme = if (readScheme.isNullOrEmpty()) null else readScheme
+        val readOtp = parcel.readString()
+        otpString = if (readOtp.isNullOrEmpty()) null else readOtp
     }
 
     override fun describeContents(): Int {
@@ -61,14 +66,23 @@ class SearchInfo : ObjectNameResource, Parcelable {
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")
+        parcel.writeString(otpString ?: "")
     }
 
     override fun getName(resources: Resources): String {
+        if (otpString != null) {
+            OtpEntryFields.parseFields { otpString }?.let { otpElement ->
+                return "${otpElement.type} (${otpElement.name})"
+            }
+        }
         return toString()
     }
 
     fun containsOnlyNullValues(): Boolean {
-        return applicationId == null && webDomain == null && webScheme == null
+        return applicationId == null
+                && webDomain == null
+                && webScheme == null
+                && otpString == null
     }
 
     override fun equals(other: Any?): Boolean {
@@ -80,6 +94,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
         if (webScheme != other.webScheme) return false
+        if (otpString != other.otpString) return false
 
         return true
     }
@@ -88,11 +103,12 @@ class SearchInfo : ObjectNameResource, Parcelable {
         var result = applicationId?.hashCode() ?: 0
         result = 31 * result + (webDomain?.hashCode() ?: 0)
         result = 31 * result + (webScheme?.hashCode() ?: 0)
+        result = 31 * result + (otpString?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return webDomain ?: applicationId ?: ""
+        return otpString ?: webDomain ?: applicationId ?: ""
     }
 
     companion object {

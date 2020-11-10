@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import kotlin.collections.ArrayList
 
@@ -125,7 +126,14 @@ class EntryInfo : Parcelable {
     }
 
     fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
-        searchInfo.webDomain?.let { webDomain ->
+        searchInfo.otpString?.let { otpString ->
+            // Replace the OTP field
+            OtpEntryFields.parseFields { otpString }?.let { otpElement ->
+                (customFields as ArrayList<Field>).add(
+                        OtpEntryFields.buildOtpField(otpElement, null, null)
+                )
+            }
+        } ?: searchInfo.webDomain?.let { webDomain ->
             // If unable to save web domain in custom field or URL not populated, save in URL
             val scheme = searchInfo.webScheme
             val webScheme = if (scheme.isNullOrEmpty()) "http" else scheme

@@ -797,6 +797,25 @@ open class PasswordActivity : SpecialModeActivity() {
 
         /*
          * -------------------------
+         * 		Save Launch
+         * -------------------------
+         */
+
+        @Throws(FileNotFoundException::class)
+        fun launchForSaveResult(activity: Activity,
+                                databaseFile: Uri,
+                                keyFile: Uri?,
+                                searchInfo: SearchInfo) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                EntrySelectionHelper.startActivityForSaveModeResult(
+                        activity,
+                        intent,
+                        searchInfo)
+            }
+        }
+
+        /*
+         * -------------------------
          * 		Keyboard Launch
          * -------------------------
          */
@@ -877,8 +896,11 @@ open class PasswordActivity : SpecialModeActivity() {
                                     searchInfo)
                             onLaunchActivitySpecialMode()
                         },
-                        { // Save Action
-                            // Not directly used, a search is performed before
+                        { searchInfo -> // Save Action
+                            PasswordActivity.launchForSaveResult(activity,
+                                    databaseUri, keyFile,
+                                    searchInfo)
+                            onLaunchActivitySpecialMode()
                         },
                         { searchInfo -> // Keyboard Selection Action
                             PasswordActivity.launchForKeyboardResult(activity,
