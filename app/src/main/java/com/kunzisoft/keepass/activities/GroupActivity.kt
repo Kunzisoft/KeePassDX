@@ -591,13 +591,29 @@ class GroupActivity : LockingActivity(),
                                 finish()
                         },
                         { searchInfo ->
-                            if (!mReadOnly
-                                    && searchInfo != null
-                                    && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
-                                updateEntryWithSearchInfo(entryVersioned, searchInfo)
-                            } else {
-                                entrySelectedForKeyboardSelection(entryVersioned)
-                            }
+                            // Recheck search, only to fix #783 because workflow allows to open multiple search elements
+                            SearchHelper.checkAutoSearchInfo(this,
+                                    mDatabase!!,
+                                    searchInfo,
+                                    { _ ->
+                                        // Item in search, don't save
+                                        entrySelectedForKeyboardSelection(entryVersioned)
+                                    },
+                                    {
+                                        // Item not found, save it if required
+                                        if (!mReadOnly
+                                                && searchInfo != null
+                                                && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                                            updateEntryWithSearchInfo(entryVersioned, searchInfo)
+                                        } else {
+                                            entrySelectedForKeyboardSelection(entryVersioned)
+                                        }
+                                    },
+                                    {
+                                        // Normally not append
+                                        finish()
+                                    }
+                            )
                         },
                         { searchInfo, _ ->
                             if (!mReadOnly
