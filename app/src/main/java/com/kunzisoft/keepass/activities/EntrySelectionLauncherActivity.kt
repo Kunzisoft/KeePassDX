@@ -52,14 +52,16 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                     // Retrieve web domain or OTP
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.let { extra ->
                         sharedWebDomain = Uri.parse(extra).host
-                        otpString = checkOtpString(extra)
+                        if (OtpEntryFields.isOTPUri(extra))
+                            otpString = extra
                     }
                 }
             }
             Intent.ACTION_VIEW -> {
                 // Retrieve OTP
                 intent.dataString?.let { extra ->
-                    otpString = checkOtpString(extra)
+                    if (OtpEntryFields.isOTPUri(extra))
+                        otpString = extra
                 }
             }
             else -> {}
@@ -77,10 +79,6 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-    }
-
-    private fun checkOtpString(otpString: String?): String? {
-        return if (OtpEntryFields.parseFields { otpString } == null) null else otpString
     }
 
     private fun launch(searchInfo: SearchInfo) {

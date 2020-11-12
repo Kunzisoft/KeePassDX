@@ -49,6 +49,9 @@ object OtpEntryFields {
     private const val ENCODER_URL_PARAM = "encoder"
     private const val COUNTER_URL_PARAM = "counter"
 
+    // OTPauth URI
+    private const val REGEX_OTP_AUTH = "^(?:otpauth://([ht]otp)/)(?:(?:([^:?#]*): *)?([^:?#]*))(?:\\?([^#]+))$"
+
     // Key-values (maybe from plugin or old KeePassXC)
     private const val SEED_KEY = "key"
     private const val DIGITS_KEY = "size"
@@ -91,7 +94,25 @@ object OtpEntryFields {
         // HOTP fields from KeePass 2
         if (parseHOTPFromField(getField, otpElement))
             return otpElement
+        return null
+    }
 
+    /**
+     * Tell if [otpUri] is a valid Otp URI
+     */
+    fun isOTPUri(otpUri: String): Boolean {
+        if (Pattern.matches(REGEX_OTP_AUTH, otpUri))
+            return true
+        return false
+    }
+
+    /**
+     * Get OtpElement from [otpUri]
+     */
+    fun parseOTPUri(otpUri: String): OtpElement? {
+        val otpElement = OtpElement()
+        if (parseOTPUri({ key -> if (key == OTP_FIELD) otpUri else null }, otpElement))
+            return otpElement
         return null
     }
 
@@ -104,7 +125,7 @@ object OtpEntryFields {
      */
     private fun parseOTPUri(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val otpPlainText = getField(OTP_FIELD)
-        if (otpPlainText != null && otpPlainText.isNotEmpty()) {
+        if (otpPlainText != null && otpPlainText.isNotEmpty() && isOTPUri(otpPlainText)) {
             val uri = Uri.parse(replaceSpaceChars(otpPlainText))
 
             if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase(Locale.ENGLISH)) {

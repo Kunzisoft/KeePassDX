@@ -128,7 +128,7 @@ class EntryInfo : Parcelable {
     fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
         searchInfo.otpString?.let { otpString ->
             // Replace the OTP field
-            OtpEntryFields.parseFields { otpString }?.let { otpElement ->
+            OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
                 val mutableCustomFields = customFields as ArrayList<Field>
                 val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
                 if (mutableCustomFields.contains(otpField)) {
