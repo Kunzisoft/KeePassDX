@@ -24,7 +24,8 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.otp.OtpElement.Companion.replaceSpaceChars
+import com.kunzisoft.keepass.otp.OtpElement.Companion.removeLineChars
+import com.kunzisoft.keepass.otp.OtpElement.Companion.removeSpaceChars
 import com.kunzisoft.keepass.otp.TokenCalculator.*
 import java.util.*
 import java.util.regex.Pattern
@@ -125,7 +126,7 @@ object OtpEntryFields {
     private fun parseOTPUri(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val otpPlainText = getField(OTP_FIELD)
         if (otpPlainText != null && otpPlainText.isNotEmpty() && isOTPUri(otpPlainText)) {
-            val uri = Uri.parse(replaceSpaceChars(otpPlainText))
+            val uri = Uri.parse(removeSpaceChars(otpPlainText))
 
             if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase(Locale.ENGLISH)) {
                 Log.e(TAG, "Invalid or missing scheme in uri")
@@ -158,16 +159,16 @@ object OtpEntryFields {
             if (nameParam != null && nameParam.isNotEmpty()) {
                 val userIdArray = nameParam.split(":", "%3A")
                 if (userIdArray.size > 1) {
-                    otpElement.issuer = userIdArray[0]
-                    otpElement.name = userIdArray[1]
+                    otpElement.issuer = removeLineChars(userIdArray[0])
+                    otpElement.name = removeLineChars(userIdArray[1])
                 } else {
-                    otpElement.name = nameParam
+                    otpElement.name = removeLineChars(nameParam)
                 }
             }
 
             val issuerParam = uri.getQueryParameter(ISSUER_URL_PARAM)
             if (issuerParam != null && issuerParam.isNotEmpty())
-                otpElement.issuer = issuerParam
+                otpElement.issuer = removeLineChars(issuerParam)
 
             val secretParam = uri.getQueryParameter(SECRET_URL_PARAM)
             if (secretParam != null && secretParam.isNotEmpty()) {
@@ -261,7 +262,7 @@ object OtpEntryFields {
     }
 
     private fun encodeParameter(parameter: String): String {
-        return Uri.encode(parameter.replace("[\\r|\\n|\\t|\\u00A0]+".toRegex(), ""))
+        return Uri.encode(OtpElement.removeLineChars(parameter))
     }
 
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
