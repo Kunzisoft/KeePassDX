@@ -129,9 +129,12 @@ class EntryInfo : Parcelable {
         searchInfo.otpString?.let { otpString ->
             // Replace the OTP field
             OtpEntryFields.parseFields { otpString }?.let { otpElement ->
-                (customFields as ArrayList<Field>).add(
-                        OtpEntryFields.buildOtpField(otpElement, null, null)
-                )
+                val mutableCustomFields = customFields as ArrayList<Field>
+                val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
+                if (mutableCustomFields.contains(otpField)) {
+                    mutableCustomFields.remove(otpField)
+                }
+                mutableCustomFields.add(otpField)
             }
         } ?: searchInfo.webDomain?.let { webDomain ->
             // If unable to save web domain in custom field or URL not populated, save in URL
