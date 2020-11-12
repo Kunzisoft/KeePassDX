@@ -51,9 +51,10 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 if ("text/plain" == intent.type) {
                     // Retrieve web domain or OTP
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.let { extra ->
-                        sharedWebDomain = Uri.parse(extra).host
                         if (OtpEntryFields.isOTPUri(extra))
                             otpString = extra
+                        else
+                            sharedWebDomain = Uri.parse(extra).host
                     }
                 }
             }

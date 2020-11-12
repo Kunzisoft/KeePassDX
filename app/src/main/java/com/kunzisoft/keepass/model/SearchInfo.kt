@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.model
 
 import android.content.Context
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -72,7 +73,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     override fun getName(resources: Resources): String {
         otpString?.let { otpString ->
             OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
-                return "${otpElement.type} (${otpElement.name})"
+                return "${otpElement.type} (${Uri.decode(otpElement.issuer)} : ${Uri.decode(otpElement.name)})"
             }
         }
         return toString()

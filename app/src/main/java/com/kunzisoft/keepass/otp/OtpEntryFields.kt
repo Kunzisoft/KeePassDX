@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement.Companion.replaceSpaceChars
 import com.kunzisoft.keepass.otp.TokenCalculator.*
-import java.net.URLEncoder
 import java.util.*
 import java.util.regex.Pattern
 
@@ -156,8 +155,15 @@ object OtpEntryFields {
             }
 
             val nameParam = validateAndGetNameInPath(uri.path)
-            if (nameParam != null && nameParam.isNotEmpty())
-                otpElement.name = nameParam
+            if (nameParam != null && nameParam.isNotEmpty()) {
+                val userIdArray = nameParam.split(":", "%3A")
+                if (userIdArray.size > 1) {
+                    otpElement.issuer = userIdArray[0]
+                    otpElement.name = userIdArray[1]
+                } else {
+                    otpElement.name = nameParam
+                }
+            }
 
             val issuerParam = uri.getQueryParameter(ISSUER_URL_PARAM)
             if (issuerParam != null && issuerParam.isNotEmpty())
@@ -232,14 +238,14 @@ object OtpEntryFields {
         }
         val issuer =
                 if (title != null && title.isNotEmpty())
-                    replaceCharsForUrl(title)
+                    Uri.encode(title)
                 else
-                    replaceCharsForUrl(otpElement.issuer)
+                    Uri.encode(otpElement.issuer)
         val accountName =
                 if (username != null && username.isNotEmpty())
-                    replaceCharsForUrl(username)
+                    Uri.encode(username)
                 else
-                    replaceCharsForUrl(otpElement.name)
+                    Uri.encode(otpElement.name)
         val uriString = StringBuilder("otpauth://$otpAuthority/$issuer:$accountName" +
                 "?$SECRET_URL_PARAM=${otpElement.getBase32Secret()}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
@@ -252,10 +258,6 @@ object OtpEntryFields {
         }
 
         return Uri.parse(uriString.toString())
-    }
-
-    private fun replaceCharsForUrl(parameter: String): String {
-        return URLEncoder.encode(replaceSpaceChars(parameter), "UTF-8")
     }
 
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
@@ -342,7 +344,7 @@ object OtpEntryFields {
         // path is "/name", so remove leading "/", and trailing white spaces
         val name = path.substring(1).trim { it <= ' ' }
         return if (name.isEmpty()) {
-            null // only white spaces.
+            null
         } else name
     }
 
@@ -359,7 +361,7 @@ object OtpEntryFields {
     /**
      * Build Otp field from an OtpElement
      */
-    fun buildOtpField(otpElement: OtpElement, title: String?, username: String?): Field {
+    fun buildOtpField(otpElement: OtpElement, title: String? = null, username: String? = null): Field {
         return Field(OTP_FIELD, ProtectedString(true,
                 buildOtpUri(otpElement, title, username).toString()))
     }
