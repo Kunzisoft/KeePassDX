@@ -129,6 +129,11 @@ class EntryInfo : Parcelable {
         searchInfo.otpString?.let { otpString ->
             // Replace the OTP field
             OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
+                if (title.isEmpty())
+                    title = otpElement.issuer
+                if (username.isEmpty())
+                    username = otpElement.name
+                // Add OTP field
                 val mutableCustomFields = customFields as ArrayList<Field>
                 val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
                 if (mutableCustomFields.contains(otpField)) {

@@ -73,7 +73,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     override fun getName(resources: Resources): String {
         otpString?.let { otpString ->
             OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
-                return "${otpElement.type} (${Uri.decode(otpElement.issuer)} : ${Uri.decode(otpElement.name)})"
+                return "${otpElement.type} (${Uri.decode(otpElement.issuer)}:${Uri.decode(otpElement.name)})"
             }
         }
         return toString()
