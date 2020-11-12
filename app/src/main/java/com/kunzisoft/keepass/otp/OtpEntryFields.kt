@@ -238,15 +238,15 @@ object OtpEntryFields {
         }
         val issuer =
                 if (title != null && title.isNotEmpty())
-                    Uri.encode(title)
+                    encodeParameter(title)
                 else
-                    Uri.encode(otpElement.issuer)
+                    encodeParameter(otpElement.issuer)
         val accountName =
                 if (username != null && username.isNotEmpty())
-                    Uri.encode(username)
+                    encodeParameter(username)
                 else
-                    Uri.encode(otpElement.name)
-        val uriString = StringBuilder("otpauth://$otpAuthority/$issuer:$accountName" +
+                    encodeParameter(otpElement.name)
+        val uriString = StringBuilder("otpauth://$otpAuthority/$issuer%3A$accountName" +
                 "?$SECRET_URL_PARAM=${otpElement.getBase32Secret()}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
                 "&$DIGITS_URL_PARAM=${otpElement.digits}" +
@@ -258,6 +258,10 @@ object OtpEntryFields {
         }
 
         return Uri.parse(uriString.toString())
+    }
+
+    private fun encodeParameter(parameter: String): String {
+        return Uri.encode(parameter.replace("[\\r|\\n|\\t|\\u00A0]+".toRegex(), ""))
     }
 
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
