@@ -1370,8 +1370,20 @@ class GroupActivity : LockingActivity(),
                                 }
                         )
                     },
-                    {
-                        // Nothing with Save Info, only pass by search first
+                    { searchInfo ->
+                        // Save info used with OTP
+                        if (!readOnly) {
+                            GroupActivity.launchForSaveResult(activity,
+                                    searchInfo,
+                                    false)
+                            onLaunchActivitySpecialMode()
+                        }  else {
+                            Toast.makeText(activity.applicationContext,
+                                    R.string.autofill_read_only_save,
+                                    Toast.LENGTH_LONG)
+                                    .show()
+                            onCancelSpecialMode()
+                        }
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,

@@ -216,13 +216,17 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             return secret.isNotEmpty() && checkBase64Secret(secret)
         }
 
-        fun replaceSpaceChars(parameter: String): String {
+        fun removeLineChars(parameter: String): String {
+            return parameter.replace("[\\r|\\n|\\t|\\u00A0]+".toRegex(), "")
+        }
+
+        fun removeSpaceChars(parameter: String): String {
             return parameter.replace("[\\r|\\n|\\t|\\s|\\u00A0]+".toRegex(), "")
         }
 
         fun replaceBase32Chars(parameter: String): String {
             // Add 'A' at end if not Base32 length
-            var parameterNewSize = replaceSpaceChars(parameter.toUpperCase(Locale.ENGLISH))
+            var parameterNewSize = removeSpaceChars(parameter.toUpperCase(Locale.ENGLISH))
             while (parameterNewSize.length % 8 != 0) {
                 parameterNewSize += 'A'
             }
