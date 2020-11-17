@@ -54,7 +54,7 @@
     <string name="save">Зберегти</string>
     <string name="entry_title">Назва</string>
     <string name="entry_url">URL</string>
-    <string name="entry_user_name">Ім’я користувача</string>
+    <string name="entry_user_name">Ім\'я користувача</string>
     <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
     <string name="error_can_not_handle_uri">Не вдалось обробити цей URI в KeePassDX.</string>
     <string name="error_file_not_create">Не вдалося створити нотатку</string>
