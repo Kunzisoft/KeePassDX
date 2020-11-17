@@ -504,4 +504,27 @@
     <string name="error_string_type">Αυτό το κείμενο δεν ταιριάζει με το ζητούμενο στοιχείο.</string>
     <string name="content_description_credentials_information">Πληροφορίες Διαπιστευτηρίων</string>
     <string name="content_description_add_item">Προσθήκη είδους</string>
+    <string name="show_uuid_summary">Εμφανίζει το UUID που είναι συνδεδεμένο σε μια καταχώριση</string>
+    <string name="show_uuid_title">Εμφάνιση UUID</string>
+    <string name="autofill_read_only_save">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
+    <string name="autofill_ask_to_save_data_summary">Ζητήστε να αποθηκεύσετε δεδομένα όταν επικυρώνεται μια φόρμα</string>
+    <string name="autofill_ask_to_save_data_title">Ζητήστε να αποθηκεύσετε δεδομένα</string>
+    <string name="autofill_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε πληροφορίες αναζήτησης κατά την επιλογή χειροκίνητης καταχώρισης</string>
+    <string name="autofill_save_search_info_title">Αποθήκευση πληροφοριών αναζήτησης</string>
+    <string name="autofill_close_database_summary">Κλείστε τη βάση δεδομένων μετά από μια επιλογή αυτόματης συμπλήρωσης</string>
+    <string name="autofill_close_database_title">Κλείσιμο βάσης δεδομένων</string>
+    <string name="keyboard_previous_lock_summary">Επιστρέψτε αυτόματα στο προηγούμενο πληκτρολόγιο μετά το κλείδωμα της βάσης δεδομένων</string>
+    <string name="keyboard_previous_lock_title">Κλείδωμα βάσης δεδομένων</string>
+    <string name="keyboard_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε κοινόχρηστες πληροφορίες όταν κάνετε μια χειροκίνητη επιλογή καταχώρησης</string>
+    <string name="keyboard_save_search_info_title">Αποθήκευση κοινόχρηστων πληροφοριών</string>
+    <string name="notification">Ειδοποίηση</string>
+    <string name="crypto_object_not_initialized">Δεν είναι δυνατή η ανάκτηση κρυπτογραφικού αντικειμένου.</string>
+    <string name="biometric_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία της βιομετρικής προτροπής.</string>
+    <string name="biometric_security_update_required">Απαιτείται ενημέρωση βιομετρικής ασφάλειας.</string>
+    <string name="configure_biometric">Κανένα πιστοποιητικό βιομετρίας ή συσκευής δεν είναι εγγεγραμμένο.</string>
+    <string name="warning_empty_recycle_bin">Να διαγραφούν οριστικά όλοι οι κόμβοι από τον κάδο ανακύκλωσης;</string>
+    <string name="registration_mode">Τρόπος εγγραφής</string>
+    <string name="save_mode">Λειτουργία αποθήκευσης</string>
+    <string name="search_mode">Λειτουργία αναζήτησης</string>
+    <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
 </resources>
