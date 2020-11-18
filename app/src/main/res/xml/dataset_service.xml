@@ -26,7 +26,7 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
     android:settingsActivity="com.kunzisoft.keepass.settings.AutofillSettingsActivity" >
     <compatibility-package
         android:name="com.amazon.cloud9"
-        android:maxLongVersionCode="10000000000" />
+        android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="com.android.browser"
         android:maxLongVersionCode="10000000000"/>
@@ -124,6 +124,18 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="com.yandex.browser"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
+        android:name="idm.internet.download.manager"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="idm.internet.download.manager.adm.lite"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="idm.internet.download.manager.plus"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="io.github.forkmaintainers.iceraven"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
         android:name="mark.via.gp"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
@@ -176,5 +188,14 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="org.torproject.torbrowser_alpha"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="org.ungoogled.chromium"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="org.ungoogled.chromium.extensions.stable"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="org.ungoogled.chromium.stable"
         android:maxLongVersionCode="10000000000"/>
 </autofill-service>
