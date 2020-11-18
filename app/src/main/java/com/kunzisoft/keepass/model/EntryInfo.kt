@@ -107,7 +107,7 @@ class EntryInfo : Parcelable {
     private fun addUniqueField(field: Field, number: Int = 0) {
         var sameName = false
         var sameValue = false
-        val suffix = if (number > 0) number.toString() else ""
+        val suffix = if (number > 0) "_$number" else ""
         customFields.forEach { currentField ->
             // Not write the same data again
             if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
@@ -152,7 +152,8 @@ class EntryInfo : Parcelable {
             else if (url != webDomainToStore){
                 // Save web domain in custom field
                 addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
-                        ProtectedString(false, webDomainToStore))
+                        ProtectedString(false, webDomainToStore)),
+                        1 // Start to one because URL is a standard field name
                 )
             }
         } ?: run {
@@ -169,8 +170,8 @@ class EntryInfo : Parcelable {
 
     companion object {
 
-        const val WEB_DOMAIN_FIELD_NAME = "WebDomain"
-        const val APPLICATION_ID_FIELD_NAME = "ApplicationId"
+        const val WEB_DOMAIN_FIELD_NAME = "URL"
+        const val APPLICATION_ID_FIELD_NAME = "AndroidApp"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {
