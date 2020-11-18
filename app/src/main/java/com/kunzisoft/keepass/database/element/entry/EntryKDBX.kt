@@ -321,6 +321,14 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return size
     }
 
+    fun newCustomNameAllowed(name: String): Boolean {
+        return !(name.equals(STR_TITLE, true)
+                || name.equals(STR_USERNAME, true)
+                || name.equals(STR_PASSWORD, true)
+                || name.equals(STR_URL, true)
+                || name.equals(STR_NOTES, true))
+    }
+
     override fun putCustomData(key: String, value: String) {
         customData[key] = value
     }

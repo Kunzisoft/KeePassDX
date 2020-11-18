@@ -297,6 +297,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
     }
 
     /**
+     * True if [field] name is not a standard field name
+     */
+    fun newExtraFieldNameAllowed(field: Field): Boolean {
+        return entryKDBX?.newCustomNameAllowed(field.name) == true
+    }
+
+    /**
      * Update or add an extra field to the list (standard or custom)
      */
     fun putExtraField(field: Field) {
