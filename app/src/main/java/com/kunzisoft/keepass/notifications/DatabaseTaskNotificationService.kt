@@ -70,6 +70,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mMessageId: Int? = null
     private var mWarningId: Int? = null
 
+    override fun retrieveChannelId(): String {
+        return CHANNEL_DATABASE_ID
+    }
+
+    override fun retrieveChannelName(): String {
+        return getString(R.string.database)
+    }
+
     inner class ActionTaskBinder: Binder() {
 
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
@@ -759,6 +767,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     companion object {
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
+
+        private const val CHANNEL_DATABASE_ID = "com.kunzisoft.keepass.notification.channel.database"
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"

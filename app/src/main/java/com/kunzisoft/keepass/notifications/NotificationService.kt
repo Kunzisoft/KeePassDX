@@ -24,6 +24,14 @@ abstract class NotificationService : Service() {
         return null
     }
 
+    open fun retrieveChannelId(): String {
+        return CHANNEL_ID
+    }
+
+    open fun retrieveChannelName(): String {
+        return CHANNEL_NAME
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -31,9 +39,9 @@ abstract class NotificationService : Service() {
 
         // Create notification channel for Oreo+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (notificationManager?.getNotificationChannel(CHANNEL_ID_KEEPASS) == null) {
-                val channel = NotificationChannel(CHANNEL_ID_KEEPASS,
-                        CHANNEL_NAME_KEEPASS,
+            if (notificationManager?.getNotificationChannel(retrieveChannelId()) == null) {
+                val channel = NotificationChannel(retrieveChannelId(),
+                        retrieveChannelName(),
                         NotificationManager.IMPORTANCE_DEFAULT).apply {
                     enableVibration(false)
                     setSound(null, null)
@@ -51,7 +59,7 @@ abstract class NotificationService : Service() {
     }
 
     protected fun buildNewNotification(): NotificationCompat.Builder {
-        return NotificationCompat.Builder(this, CHANNEL_ID_KEEPASS)
+        return NotificationCompat.Builder(this, retrieveChannelId())
                 .setColor(colorNotificationAccent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
@@ -70,7 +78,7 @@ abstract class NotificationService : Service() {
     }
 
     companion object {
-        const val CHANNEL_ID_KEEPASS = "com.kunzisoft.keepass.notification.channel"
-        const val CHANNEL_NAME_KEEPASS = "KeePassDX notification"
+        private const val CHANNEL_ID = "com.kunzisoft.keepass.notification.channel"
+        private const val CHANNEL_NAME = "KeePassDX notification"
     }
 }

@@ -1,5 +1,6 @@
  * Préviens la création manuelle d'un nom de champ existant #718
  * Harmonisation des noms de champ #789
+ * Différents canaux pour chaque type de notification #688
  * Correction de la recherche de l'OTP #780
  * Correction de champ OTP vide après sélection #781
  * Correction de la sauvegarde d'une même info partagée #783
