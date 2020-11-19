@@ -1,3 +1,4 @@
+ * Gestion des liens OTP depuis les apps lecteur de code QR #556
  * Préviens la création manuelle d'un nom de champ existant #718
  * Harmonisation des noms de champ #789
  * Différents canaux pour chaque type de notification #688
