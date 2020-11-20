@@ -23,11 +23,11 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
@@ -282,14 +282,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Database is normally open
             if (mDatabase.loaded) {
                 // Build Intents for notification action
-                var pendingDatabaseFlag = 0
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    pendingDatabaseFlag = PendingIntent.FLAG_IMMUTABLE
-                }
                 val pendingDatabaseIntent = PendingIntent.getActivity(this,
                         0,
-                        Intent(this, GroupActivity::class.java),
-                        pendingDatabaseFlag)
+                        Intent(this, GroupActivity::class.java).apply {
+                            ReadOnlyHelper.putReadOnlyInIntent(this, mDatabase.isReadOnly)
+                        },
+                        PendingIntent.FLAG_UPDATE_CURRENT)
                 val deleteIntent = Intent(this, DatabaseTaskNotificationService::class.java).apply {
                     action = ACTION_DATABASE_CLOSE
                 }
