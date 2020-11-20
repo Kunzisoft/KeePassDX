@@ -46,6 +46,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_history_username"
         style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+        android:maxLines="6"
+        android:ellipsize="end"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
@@ -58,6 +60,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_history_url"
         style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+        android:maxLines="6"
+        android:ellipsize="end"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />

@@ -119,7 +119,8 @@
                                 android:layout_marginStart="@dimen/image_list_margin"
                                 android:layout_weight="1"
                                 android:text="@string/root"
-                                android:maxLines="1"
+                                android:maxLines="2"
+                                android:ellipsize="end"
                                 style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
                         </LinearLayout>
                     </LinearLayout>
