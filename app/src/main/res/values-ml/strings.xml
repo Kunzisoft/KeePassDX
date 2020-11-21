@@ -136,7 +136,7 @@
     <string name="error_load_database_KDF_memory">കീ ലോഡുചെയ്യാനായില്ല. KDF \"മെമ്മറി ഉപയോഗം\" കുറയ്ക്കാൻ ശ്രമിക്കുക.</string>
     <string name="error_out_of_memory">നിങ്ങളുടെ മുഴുവൻ ഡാറ്റാബേസും ലോഡുചെയ്യാൻ മെമ്മറിയൊന്നുമില്ല.</string>
     <string name="error_invalid_OTP">OTP രഹസ്യം അസാധുവാണ്.</string>
-    <string name="error_can_not_handle_uri">ഈ URI കൈകാര്യം ചെയ്യാൻ Keepass DXന് കഴിഞ്ഞില്ല.</string>
+    <string name="error_can_not_handle_uri">ഈ URI കൈകാര്യം ചെയ്യാൻ KeePassDXന് കഴിഞ്ഞില്ല.</string>
     <string name="error_arc4">Arcfour stream cipher പിന്തുണയ്ക്കുന്നില്ല.</string>
     <string name="entry_not_found">എൻ‌ട്രി ഡാറ്റ കണ്ടെത്താനായില്ല.</string>
     <string name="entry_attachments">അറ്റാച്ചുമെന്റുകൾ</string>
@@ -150,7 +150,7 @@
     <string name="content_description_entry_icon">എൻട്രി ഐക്കൺ</string>
     <string name="clipboard_timeout_summary">ക്ലിപ്പ്ബോർഡിലെ സ്റ്റോറേജിന്റെ ദൈർക്യം</string>
     <string name="key_derivation_function">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ</string>
-    <string name="about_description">Keepass പാസ്‍വേഡ് മാനേജറിന്റെ Android നടപ്പിലാക്കൽ</string>
+    <string name="about_description">KeePass പാസ്‍വേഡ് മാനേജറിന്റെ Android നടപ്പിലാക്കൽ</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
@@ -221,7 +221,7 @@
     <string name="lock_database_screen_off_summary">സ്‌ക്രീൻ ഓഫാകുമ്പോൾ ഡാറ്റാബേസ് പൂട്ടുക</string>
     <string name="database_opened">ഡാറ്റാബേസ് തുറന്നു</string>
     <string name="autofill_preference_title">ഓട്ടോഫിൽ ക്രമീകരണങ്ങൾ</string>
-    <string name="autofill_sign_in_prompt">KeePass DX ഉപയോഗിച്ച് പ്രവേശിക്കുക</string>
+    <string name="autofill_sign_in_prompt">KeePassDX ഉപയോഗിച്ച് പ്രവേശിക്കുക</string>
     <string name="biometric_not_recognized">ബയോമെട്രിക് തിരിച്ചറിയാൻ കഴിഞ്ഞില്ല</string>
     <string name="biometric_prompt_extract_credential_title">ഡാറ്റാബേസ് ബയോമെട്രിക് തിരിച്ചറിയൽ ഉപയോഗിച്ച് തുറക്കുക</string>
     <string name="unsupported_db_version">പിന്തുണയ്‌ക്കാത്ത ഡാറ്റാബേസ് പതിപ്പ്.</string>
@@ -322,7 +322,7 @@
     <string name="remember_database_locations_summary">ഡാറ്റാബേസുകൾ എവിടെയാണ് സൂക്ഷിച്ചിരിക്കുന്നതെന്ന് ട്രാക്ക് ചെയ്യുന്നു</string>
     <string name="remember_database_locations_title">ഡാറ്റാബേസ് ലൊക്കേഷനുകൾ ഓർത്തുവെയ്ക്കുക</string>
     <string name="contains_duplicate_uuid">ഡാറ്റാബേസിൽ തനിപ്പകർപ്പ് UUID-കൾ അടങ്ങിയിരിക്കുന്നു.</string>
-    <string name="read_only_warning">നിങ്ങളുടെ ഫയൽ മാനേജരെ ആശ്രയിച്ച്, നിങ്ങളുടെ സ്റ്റോറേജിൽ എഴുതാൻ KeepassDX-നെ അനുവദിച്ചേക്കില്ല.</string>
+    <string name="read_only_warning">നിങ്ങളുടെ ഫയൽ മാനേജരെ ആശ്രയിച്ച്, നിങ്ങളുടെ സ്റ്റോറേജിൽ എഴുതാൻ KeePassDX-നെ അനുവദിച്ചേക്കില്ല.</string>
     <string name="auto_focus_search_summary">ഡാറ്റാബേസ് തുറക്കുമ്പോൾ തിരയൽ അഭ്യർത്ഥിക്കുക</string>
     <string name="omit_backup_search_summary">തിരയൽ ഫലങ്ങളിൽ നിന്ന് \"ബാക്കപ്പ്\", \"റീസൈക്കിൾ ബിൻ\" ഗ്രൂപ്പുകൾ ഒഴിവാക്കുക</string>
     <string name="omit_backup_search_title">ബാക്കപ്പ് എൻ‌ട്രികളിലൂടെ തിരയരുത്</string>

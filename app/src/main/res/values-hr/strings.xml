@@ -184,7 +184,7 @@
     <string name="menu_appearance_settings">Izgled</string>
     <string name="general">Opće</string>
     <string name="autofill">Automatsko ispunjavanje</string>
-    <string name="autofill_service_name">Automatsko ispunjavanje obrazaca KeepassDX</string>
+    <string name="autofill_service_name">Automatsko ispunjavanje obrazaca KeePassDX</string>
     <string name="set_autofill_service_title">Postavi standardnu uslugu automatskog ispunjavanja</string>
     <string name="list_password_generator_options_title">Znakovi lozinke</string>
     <string name="list_password_generator_options_summary">Postavi dozvoljene znakove za generiranje lozinke</string>

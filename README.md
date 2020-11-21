@@ -1,6 +1,6 @@
-# Android KeepassDX
+# Android KeePassDX
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> KeepassDX is a **multi-format KeePass manager for Android devices**. The app allows creating keys and passwords in a secure way by integrating with the Android design standards.
+<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> KeePassDX is a **multi-format KeePass manager for Android devices**. The app allows creating keys and passwords in a secure way by integrating with the Android design standards.
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
 
@@ -19,7 +19,7 @@
  - Precise management of **settings**.
  - Code written in **native languages** *(Kotlin / Java / JNI / C)*.
 
-KeepassDX is **open source** and **ad-free**.
+KeePassDX is **open source** and **ad-free**.
 
 ## What is KeePassDX?
 
@@ -88,4 +88,4 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
   
-  *This project is a fork of [KeepassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
+  *This project is a fork of [KeePassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
