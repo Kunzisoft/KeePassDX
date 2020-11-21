@@ -115,7 +115,7 @@
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
-    <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
+    <string name="file_manager_install_description">المحرر الذي يقبل هاذا الفعل ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانتاج, فتح وحفض ملفات قاعدة البيانات.</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة(إذا كان جهازك يدعمها)</string>
@@ -291,7 +291,7 @@
     <string name="otp_algorithm">الخوارزمية</string>
     <string name="otp_digits">أرقام</string>
     <string name="otp_counter">العداد</string>
-    <string name="entry_setup_otp">عين كلمة المرور للمرة الواحدة</string>
+    <string name="entry_setup_otp">كلمة المرور للمرة الواحدة</string>
     <string name="entry_UUID">UUID</string>
     <string name="html_about_contribution">من أجل &lt;strong&gt;حماية خصوصيتا&lt;/strong&gt;٫&lt;strong&gt; إصلاح العلل&lt;/strong&gt;٫ &lt;strong&gt;إضافة مميزات&lt;/strong&gt; &lt;strong&gt;وجعلنا نشطاء دائما&lt;/strong&gt;٫ نحن نعتمد على &lt;strong&gt;مساهمتك&lt;/strong&gt;.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>
