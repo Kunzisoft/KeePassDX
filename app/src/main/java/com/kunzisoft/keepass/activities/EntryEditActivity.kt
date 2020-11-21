@@ -461,7 +461,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         if (!extraFieldAlreadyContainsName
-                && (mEntry == null || mEntry?.newExtraFieldNameAllowed(field) == true)) {
+                && Entry.newExtraFieldNameAllowed(field)) {
             actionIfNewName.invoke()
         } else {
             Log.e(TAG, "Unable to create the new field, field name already exists")
