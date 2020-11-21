@@ -1,0 +1,111 @@
+Files ic00.png to ic61.png under res/drawable, res/drawable-hdpi and res/drawable-ldpi
+
+TITLE:    NUVOLA ICON THEME for KDE 3.x
+AUTHOR:    David Vignoni | ICON KING
+SITE:    http://www.icon-king.com
+MAILING LIST: http://mail.icon-king.com/mailman/listinfo/nuvola_icon-king.com
+
+Copyright (c)  2003-2004  David Vignoni.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation,
+version 2.1 of the License.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with this library (see the the license.txt file); if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#######**** NOTE THIS ADD-ON ****#######
+The GNU Lesser General Public License or LGPL is written for software libraries
+in the first place. The LGPL has to be considered valid for this artwork
+library too.
+Nuvola icon theme for KDE 3.x is a special kind of software library, it is an
+artwork library, it's elements can be used in a Graphical User Interface, or
+GUI.
+Source code, for this library means:
+ - raster png image* .
+The LGPL in some sections obliges you to make the files carry
+notices. With images this is in some cases impossible or hardly usefull.
+With this library a notice is placed at a prominent place in the directory
+containing the elements. You may follow this practice.
+The exception in section 6 of the GNU Lesser General Public License covers
+the use of elements of this art library in a GUI.
+dave [at] icon-king.com
+
+Date:        15 october 2004
+Version:    1.0
+
+DESCRIPTION:
+
+Icon theme for KDE 3.x.
+Icons where designed using Adobe Illustrator, and then exported to PNG format.
+Icons shadows and minor corrections were done using Adobe Photoshop.
+Kiconedit was used to correct some 16x16 and 22x22 icons.
+
+LICENSE
+
+Released under GNU Lesser General Public License (LGPL)
+Look at the license.txt file.
+
+CONTACT
+
+David Vignoni
+e-mail :        david [at] icon-king.com
+ICQ :            117761009
+http:               http://www.icon-king.com
+
+---
+
+Files ic62.png under res/drawable, res/drawable-hdpi and res/drawable-ldpi
+
+Based on http://de.wikipedia.org/w/index.php?title=Datei:Tux.svg&filetimestamp=20090927073505
+
+The copyright holder of this file allows anyone to use it for any purpose, 
+provided that the copyright holders Larry Ewing, Simon Budig and
+Anja Gerwinski are mentioned.
+
+---
+
+Files ic63.png under res/drawable, res/drawable-hdpi and res/drawable-ldpi
+
+Based on http://en.wikipedia.org/wiki/File:ASF-logo.svg
+
+Apache logo
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may
+obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+
+---
+
+Files ic64.png under res/drawable, res/drawable-hdpi and res/drawable-ldpi
+
+Created by Jeremy JAMET and licensed under the terms of the GPLv3.
+
+---
+
+Files ic65.png, ic67.png and ic68.png under res/drawable, res/drawable-hdpi and res/drawable-ldpi
+
+Created by Tobias Selig and licensed under the terms of the GPLv2 or GPLv3.
+
+---
+
+File ic66.png under under res/drawable, res/drawable-hdpi and res/drawable-ldpi
+
+Based on http://commons.wikimedia.org/wiki/File:Dollar_symbol_gold.svg
+
+Author: Rugby471
+
+Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.2 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is
+included in the section entitled "GNU Free Documentation License".
+
+---
