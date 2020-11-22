@@ -124,7 +124,7 @@
     <string name="error_wrong_length">\"ദൈർഘ്യം\" ഫീൽഡിൽ ഒരു പോസിറ്റീവ് നമ്പർ നൽകുക.</string>
     <string name="error_pass_gen_type">ഒരു പാസ്‌വേഡ് ജനറേഷൻ തരമെങ്കിലും തിരഞ്ഞെടുക്കണം.</string>
     <string name="otp_counter">കൌണ്ടർ</string>
-    <string name="html_about_contribution">ഞങ്ങളുടെ <strong>സ്വാതന്ത്ര്യം നിലനിർത്തുന്നതിനും</strong>, <strong> ബഗുകൾ പരിഹരിക്കുന്നതിനും</strong>, <strong>സവിശേഷതകൾ ചേർക്കുന്നതിനും </strong>, എല്ലായ്പ്പോഴും<strong>സജീവമായിരിക്കുന്നതിനും</strong>, നിങ്ങളുടെ <strong>സംഭാവന</strong> ഞങ്ങൾ കണക്കാക്കുന്നു.</string>
+    <string name="html_about_contribution">ഞങ്ങളുടെ &lt;strong&gt;സ്വാതന്ത്ര്യം നിലനിർത്തുന്നതിനും&lt;/strong&gt;, &lt;strong&gt; ബഗുകൾ പരിഹരിക്കുന്നതിനും&lt;/strong&gt;, &lt;strong&gt;സവിശേഷതകൾ ചേർക്കുന്നതിനും &lt;/strong&gt;, എല്ലായ്പ്പോഴും&lt;strong&gt;സജീവമായിരിക്കുന്നതിനും&lt;/strong&gt;, നിങ്ങളുടെ &lt;strong&gt;സംഭാവന&lt;/strong&gt; ഞങ്ങൾ കണക്കാക്കുന്നു.</string>
     <string name="error_create_database_file">ഈ പാസ്‌വേഡും കീഫയലും ഉപയോഗിച്ച് ഡാറ്റാബേസ് സൃഷ്ടിക്കാൻ കഴിയില്ല.</string>
     <string name="error_copy_group_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു ഗ്രൂപ്പ് പകർത്താൻ കഴിയില്ല.</string>
     <string name="error_copy_entry_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു എൻ‌ട്രി പകർ‌ത്താൻ‌ കഴിയില്ല.</string>

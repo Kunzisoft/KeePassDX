@@ -345,7 +345,7 @@
     <string name="keyboard_previous_database_credentials_title">Écran des identifications de la base de données</string>
     <string name="keyboard_previous_database_credentials_summary">Revenir automatiquement au clavier précédent sur l\'écran des identifications de la base de données</string>
     <string name="keyboard_previous_fill_in_title">Action de touche automatique</string>
-    <string name="keyboard_previous_fill_in_summary">Revenir automatiquement au clavier précédent après avoir exécuté "Action de touche automatique"</string>
+    <string name="keyboard_previous_fill_in_summary">Revenir automatiquement au clavier précédent après avoir exécuté \"Action de touche automatique\"</string>
     <string name="selection_mode">Mode sélection</string>
     <string name="do_not_kill_app">Veuillez ne pas tuer l’application…</string>
     <string name="lock_database_back_root_title">Appuyer sur « Retour » pour verrouiller</string>
@@ -448,7 +448,7 @@
     <string name="entry_attachments">Attachements</string>
     <string name="menu_restore_entry_history">Restaurer l\'historique</string>
     <string name="menu_delete_entry_history">Effacer l\'historique</string>
-    <string name="keyboard_auto_go_action_title">Action de touche auto</string>
+    <string name="keyboard_auto_go_action_title">Action de touche automatique</string>
     <string name="keyboard_auto_go_action_summary">Action de la touche « Go » après avoir appuyé sur une touche « Champ »</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
@@ -478,7 +478,7 @@
     <string name="discard">Abandonner</string>
     <string name="discard_changes">Abandonner les modifications \?</string>
     <string name="validate">Valider</string>
-    <string name="autofill_auto_search_summary">Suggérer automatiquement des résultats de recherche à partir du domaine Web ou de l\'application ID</string>
+    <string name="autofill_auto_search_summary">Suggère automatiquement des résultats de recherche à partir du domaine Web ou de l\'application ID</string>
     <string name="autofill_auto_search_title">Recherche automatique</string>
     <string name="lock_database_show_button_summary">Affiche le bouton de verrouillage dans l\'interface utilisateur</string>
     <string name="lock_database_show_button_title">Afficher le bouton de verrouillage</string>
@@ -491,7 +491,7 @@
     <string name="autofill_web_domain_blocklist_title">Liste de blocage de domaine Web</string>
     <string name="autofill_application_id_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des applications</string>
     <string name="autofill_application_id_blocklist_title">Liste de blocage d\'application</string>
-    <string name="keyboard_search_share_summary">Rechercher automatiquement les informations partagées pour remplir le clavier</string>
+    <string name="keyboard_search_share_summary">Recherche automatiquement les informations partagées pour remplir le clavier</string>
     <string name="keyboard_search_share_title">Rechercher les informations partagées</string>
     <string name="filter">Filtre</string>
     <string name="subdomain_search_summary">Recherche des domaines Web avec des contraintes de sous-domaines</string>

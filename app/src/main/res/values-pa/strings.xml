@@ -358,8 +358,8 @@
     <string name="education_read_only_title">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਲਿਖਣ ਤੋਂ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="education_sort_title">ਚੀਜ਼ਾਂ ਲੜੀਬੱਧ ਕਰੋ</string>
     <string name="education_donation_title">ਹਿੱਸਾ ਪਾਓ</string>
-    <string name="html_text_dev_feature_buy_pro"><strong>ਪ੍ਰੋ</strong> ਵਰਜ਼ਨ ਖਰੀਦ ਕੇ,</string>
-    <string name="html_text_dev_feature_contibute"><strong>ਹਿੱਸਾ ਪਾ ਕੇ</strong>,</string>
+    <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;ਪ੍ਰੋ&lt;/strong&gt; ਵਰਜ਼ਨ ਖਰੀਦ ਕੇ,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;ਹਿੱਸਾ ਪਾ ਕੇ&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_thanks">ਤੁਹਾਡੇ ਹਿੱਸਾ ਪਾਉਣ ਲਈ ਬਹੁਤ ਧੰਨਵਾਦ ਹੈ।</string>
     <string name="show_uuid_title">UUID ਵੇਖਾਓ</string>
 </resources>

@@ -406,7 +406,7 @@
     <string name="keyboard_previous_database_credentials_title">Database credentials screen</string>
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
-    <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing "Auto key action"</string>
+    <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
     <string name="autofill_close_database_title">Close database</string>

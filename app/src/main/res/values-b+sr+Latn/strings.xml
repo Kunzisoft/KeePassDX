@@ -226,9 +226,9 @@
     <string name="entry_notes">Napomene</string>
     <string name="entry_cancel">Otkaži</string>
     <string name="entry_accessed">Pristupljeno</string>
-    <string name="html_about_contribution">Kako bismo <strong>zadržali našu slobodu</strong>, <strong>ispravljali greške</strong>, <strong>dodavali nove opcije</strong> i <strong>uvek bili aktivni</strong>, računamo na Vaš <strong>doprinos</strong>.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>otvorenog koda</strong> i <strong>ne sadrži reklame</strong>.
-\nPonuđen je onakav kakav jeste, pod <strong>GPLv3</strong> licencom, bez ikakvih garancija.</string>
+    <string name="html_about_contribution">Kako bismo &lt;strong&gt;zadržali našu slobodu&lt;/strong&gt;, &lt;strong&gt;ispravljali greške&lt;/strong&gt;, &lt;strong&gt;dodavali nove opcije&lt;/strong&gt; i &lt;strong&gt;uvek bili aktivni&lt;/strong&gt;, računamo na Vaš &lt;strong&gt;doprinos&lt;/strong&gt;.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;otvorenog koda&lt;/strong&gt; i &lt;strong&gt;ne sadrži reklame&lt;/strong&gt;.
+\nPonuđen je onakav kakav jeste, pod &lt;strong&gt;GPLv3&lt;/strong&gt; licencom, bez ikakvih garancija.</string>
     <string name="digits">Cifre</string>
     <string name="default_checkbox">Koristi kao podrazumevanu bazu podataka</string>
     <string name="decrypting_db">Dešifrovanje sadržaja baze podataka…</string>
