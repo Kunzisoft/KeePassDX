@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import kotlin.collections.ArrayList
 
@@ -104,37 +105,55 @@ class EntryInfo : Parcelable {
     }
 
     private fun addUniqueField(field: Field, number: Int = 0) {
-        var exists = false
-        var sameData = false
-        val suffix = if (number > 0) number.toString() else ""
+        var sameName = false
+        var sameValue = false
+        val suffix = if (number > 0) "_$number" else ""
         customFields.forEach { currentField ->
+            // Not write the same data again
+            if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
+                sameValue = true
+                return
+            }
+            // Same name but new value, create a new suffix
             if (currentField.name == field.name + suffix) {
-                exists = true
-                // Not write the same value again
-                if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
-                    sameData = true
-                } else {
-                    addUniqueField(field, number + 1)
-                }
+                sameName = true
+                addUniqueField(field, number + 1)
                 return
             }
         }
-        if (!exists && !sameData)
+        if (!sameName && !sameValue)
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
     }
 
     fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
-        searchInfo.webDomain?.let { webDomain ->
+        searchInfo.otpString?.let { otpString ->
+            // Replace the OTP field
+            OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
+                if (title.isEmpty())
+                    title = otpElement.issuer
+                if (username.isEmpty())
+                    username = otpElement.name
+                // Add OTP field
+                val mutableCustomFields = customFields as ArrayList<Field>
+                val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
+                if (mutableCustomFields.contains(otpField)) {
+                    mutableCustomFields.remove(otpField)
+                }
+                mutableCustomFields.add(otpField)
+            }
+        } ?: searchInfo.webDomain?.let { webDomain ->
             // If unable to save web domain in custom field or URL not populated, save in URL
             val scheme = searchInfo.webScheme
             val webScheme = if (scheme.isNullOrEmpty()) "http" else scheme
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
-            } else {
+            }
+            else if (url != webDomainToStore){
                 // Save web domain in custom field
                 addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
-                        ProtectedString(false, webDomainToStore))
+                        ProtectedString(false, webDomainToStore)),
+                        1 // Start to one because URL is a standard field name
                 )
             }
         } ?: run {
@@ -151,8 +170,8 @@ class EntryInfo : Parcelable {
 
     companion object {
 
-        const val WEB_DOMAIN_FIELD_NAME = "WebDomain"
-        const val APPLICATION_ID_FIELD_NAME = "ApplicationId"
+        const val WEB_DOMAIN_FIELD_NAME = "URL"
+        const val APPLICATION_ID_FIELD_NAME = "AndroidApp"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {

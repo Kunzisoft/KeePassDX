@@ -23,11 +23,11 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
@@ -69,6 +69,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mTitleId: Int = R.string.database_opened
     private var mMessageId: Int? = null
     private var mWarningId: Int? = null
+
+    override fun retrieveChannelId(): String {
+        return CHANNEL_DATABASE_ID
+    }
+
+    override fun retrieveChannelName(): String {
+        return getString(R.string.database)
+    }
 
     inner class ActionTaskBinder: Binder() {
 
@@ -274,14 +282,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Database is normally open
             if (mDatabase.loaded) {
                 // Build Intents for notification action
-                var pendingDatabaseFlag = 0
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    pendingDatabaseFlag = PendingIntent.FLAG_IMMUTABLE
-                }
                 val pendingDatabaseIntent = PendingIntent.getActivity(this,
                         0,
-                        Intent(this, GroupActivity::class.java),
-                        pendingDatabaseFlag)
+                        Intent(this, GroupActivity::class.java).apply {
+                            ReadOnlyHelper.putReadOnlyInIntent(this, mDatabase.isReadOnly)
+                        },
+                        PendingIntent.FLAG_UPDATE_CURRENT)
                 val deleteIntent = Intent(this, DatabaseTaskNotificationService::class.java).apply {
                     action = ACTION_DATABASE_CLOSE
                 }
@@ -759,6 +765,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     companion object {
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
+
+        private const val CHANNEL_DATABASE_ID = "com.kunzisoft.keepass.notification.channel.database"
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"

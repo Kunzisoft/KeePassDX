@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 class SearchHelper {
 
     companion object {
-        const val MAX_SEARCH_ENTRY = 6
+        const val MAX_SEARCH_ENTRY = 10
 
         /**
          * Utility method to perform actions if item is found or not after an auto search in [database]

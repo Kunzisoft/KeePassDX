@@ -52,6 +52,14 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
+    override fun retrieveChannelId(): String {
+        return CHANNEL_ATTACHMENT_ID
+    }
+
+    override fun retrieveChannelName(): String {
+        return getString(R.string.entry_attachments)
+    }
+
     inner class ActionTaskBinder: Binder() {
 
         fun getService(): AttachmentFileNotificationService = this@AttachmentFileNotificationService
@@ -429,6 +437,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     companion object {
         private val TAG = AttachmentFileNotificationService::javaClass.name
+
+        private const val CHANNEL_ATTACHMENT_ID = "com.kunzisoft.keepass.notification.channel.attachment"
 
         const val ACTION_ATTACHMENT_FILE_START_UPLOAD = "ACTION_ATTACHMENT_FILE_START_UPLOAD"
         const val ACTION_ATTACHMENT_FILE_START_DOWNLOAD = "ACTION_ATTACHMENT_FILE_START_DOWNLOAD"

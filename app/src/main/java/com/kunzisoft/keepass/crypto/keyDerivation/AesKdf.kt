@@ -42,7 +42,7 @@ class AesKdf : KdfEngine() {
             }
         }
 
-    override val defaultKeyRounds: Long = 6000L
+    override val defaultKeyRounds: Long = 500000L
 
     override fun getName(resources: Resources): String {
         return resources.getString(R.string.kdf_AES)

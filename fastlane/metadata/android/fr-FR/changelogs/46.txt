@@ -1,0 +1,9 @@
+ * Gestion des liens OTP depuis les apps lecteur de code QR #556
+ * Préviens la création manuelle d'un nom de champ existant #718
+ * Harmonisation des noms de champ #789
+ * Différents canaux pour chaque type de notification #688
+ * Correction OTP #780 #781
+ * Correction de la sauvegarde d'une même info partagée #783
+ * Correction du changement vers le clavier précédent #782
+ * Correction de lecture seule #792
+ * Meilleure UI #719 #534 #617 #793

@@ -91,7 +91,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="?android:attr/windowBackground"
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="8dp">
             <androidx.appcompat.widget.AppCompatEditText
@@ -110,7 +110,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/file_alias_save"
-                android:textColor="?attr/textColorInverse"
+                android:textColor="?android:attr/textColor"
                 tools:text="DatabaseAlias" />
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/file_alias_save"
@@ -124,7 +124,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_save_white_24dp"
                 android:contentDescription="@string/content_description_file_information"
-                style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
+                style="@style/KeepassDXStyle.ImageButton.Simple"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ViewSwitcher>
 

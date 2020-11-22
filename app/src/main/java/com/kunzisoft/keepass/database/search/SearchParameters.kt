@@ -33,6 +33,7 @@ class SearchParameters {
     var searchInUrls = true
     var searchInGroupNames = false
     var searchInNotes = true
+    var searchInOTP = false
     var searchInOther = true
     var searchInUUIDs = false
     var searchInTags = true
@@ -54,6 +55,7 @@ class SearchParameters {
         this.searchInUrls = source.searchInUrls
         this.searchInGroupNames = source.searchInGroupNames
         this.searchInNotes = source.searchInNotes
+        this.searchInOTP = source.searchInOTP
         this.searchInOther = source.searchInOther
         this.searchInUUIDs = source.searchInUUIDs
         this.searchInTags = source.searchInTags
@@ -69,6 +71,7 @@ class SearchParameters {
         searchInUrls = false
         searchInGroupNames = false
         searchInNotes = false
+        searchInOTP = false
         searchInOther = false
         searchInUUIDs = false
         searchInTags = false

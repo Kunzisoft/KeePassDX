@@ -40,6 +40,14 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
     private var pendingDeleteIntent: PendingIntent? = null
 
+    override fun retrieveChannelId(): String {
+        return CHANNEL_MAGIKEYBOARD_ID
+    }
+
+    override fun retrieveChannelName(): String {
+        return getString(R.string.magic_keyboard_title)
+    }
+
     private fun stopNotificationAndSendLockIfNeeded() {
         // Clear the entry if define in preferences
         if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
@@ -145,8 +153,9 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
         private const val TAG = "KeyboardEntryNotifSrv"
 
-        const val ENTRY_INFO_KEY = "ENTRY_INFO_KEY"
+        private const val CHANNEL_MAGIKEYBOARD_ID = "com.kunzisoft.keepass.notification.channel.magikeyboard"
 
+        const val ENTRY_INFO_KEY = "ENTRY_INFO_KEY"
         const val ACTION_CLEAN_KEYBOARD_ENTRY = "ACTION_CLEAN_KEYBOARD_ENTRY"
 
         fun launchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean) {

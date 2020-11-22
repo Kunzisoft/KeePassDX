@@ -591,13 +591,29 @@ class GroupActivity : LockingActivity(),
                                 finish()
                         },
                         { searchInfo ->
-                            if (!mReadOnly
-                                    && searchInfo != null
-                                    && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
-                                updateEntryWithSearchInfo(entryVersioned, searchInfo)
-                            } else {
-                                entrySelectedForKeyboardSelection(entryVersioned)
-                            }
+                            // Recheck search, only to fix #783 because workflow allows to open multiple search elements
+                            SearchHelper.checkAutoSearchInfo(this,
+                                    mDatabase!!,
+                                    searchInfo,
+                                    { _ ->
+                                        // Item in search, don't save
+                                        entrySelectedForKeyboardSelection(entryVersioned)
+                                    },
+                                    {
+                                        // Item not found, save it if required
+                                        if (!mReadOnly
+                                                && searchInfo != null
+                                                && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                                            updateEntryWithSearchInfo(entryVersioned, searchInfo)
+                                        } else {
+                                            entrySelectedForKeyboardSelection(entryVersioned)
+                                        }
+                                    },
+                                    {
+                                        // Normally not append
+                                        finish()
+                                    }
+                            )
                         },
                         { searchInfo, _ ->
                             if (!mReadOnly
@@ -660,7 +676,7 @@ class GroupActivity : LockingActivity(),
 
     private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo) {
         val newEntry = Entry(entry)
-        newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase).apply {
+        newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase, true).apply {
             saveSearchInfo(mDatabase, searchInfo)
         })
         // In selection mode, it's forced read-only, so update not allowed
@@ -1354,8 +1370,20 @@ class GroupActivity : LockingActivity(),
                                 }
                         )
                     },
-                    {
-                        // Nothing with Save Info, only pass by search first
+                    { searchInfo ->
+                        // Save info used with OTP
+                        if (!readOnly) {
+                            GroupActivity.launchForSaveResult(activity,
+                                    searchInfo,
+                                    false)
+                            onLaunchActivitySpecialMode()
+                        }  else {
+                            Toast.makeText(activity.applicationContext,
+                                    R.string.autofill_read_only_save,
+                                    Toast.LENGTH_LONG)
+                                    .show()
+                            onCancelSpecialMode()
+                        }
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,

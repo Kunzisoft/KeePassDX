@@ -20,7 +20,7 @@
 --><resources>
     <string name="feedback">Feedback</string>
     <string name="homepage">Hasiera orria</string>
-    <string name="about_description">Keepass pasahitza kudeatzailearen Androiderako inplementazioa</string>
+    <string name="about_description">KeePass pasahitza kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>

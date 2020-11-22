@@ -1,0 +1,9 @@
+ * Managing OTP links from QR applications #556
+ * Prevent manual creation of existing field name #718
+ * Harmonization of field names #789
+ * Different channels for each type of notification #688
+ * Fix OTP #780 #781
+ * Fix same save shared info #783
+ * Fix switch back to previous keyboard #782
+ * Fix read only #792
+ * Better UI #719 #534 #617 #793

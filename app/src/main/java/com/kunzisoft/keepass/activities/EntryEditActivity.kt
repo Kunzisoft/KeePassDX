@@ -452,14 +452,35 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
     }
 
+    private fun verifyNameField(field: Field,
+                                actionIfNewName: () -> Unit) {
+        var extraFieldAlreadyContainsName = false
+        entryEditFragment?.getExtraFields()?.forEach {
+            if (it.name.equals(field.name, true))
+                extraFieldAlreadyContainsName = true
+        }
+
+        if (!extraFieldAlreadyContainsName
+                && Entry.newExtraFieldNameAllowed(field)) {
+            actionIfNewName.invoke()
+        } else {
+            Log.e(TAG, "Unable to create the new field, field name already exists")
+            coordinatorLayout?.let {
+                Snackbar.make(it, R.string.error_field_name_already_exists, Snackbar.LENGTH_LONG).asError().show()
+            }
+        }
+    }
+
     override fun onNewCustomFieldApproved(newField: Field) {
-        entryEditFragment?.apply {
-            putExtraField(newField)
+        verifyNameField(newField) {
+            entryEditFragment?.putExtraField(newField)
         }
     }
 
     override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        entryEditFragment?.replaceExtraField(oldField, newField)
+        verifyNameField(newField) {
+            entryEditFragment?.replaceExtraField(oldField, newField)
+        }
     }
 
     override fun onDeleteCustomFieldApproved(oldField: Field) {

@@ -100,6 +100,7 @@ class SearchEntryCursorAdapter(private val context: Context,
                 } else {
                     ""
                 }
+                visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
                 strikeOut(currentEntry.isCurrentlyExpires)
             }
         }
@@ -160,8 +161,8 @@ class SearchEntryCursorAdapter(private val context: Context,
     }
 
     private class ViewHolder {
-        internal var imageViewIcon: ImageView? = null
-        internal var textViewTitle: TextView? = null
-        internal var textViewSubTitle: TextView? = null
+        var imageViewIcon: ImageView? = null
+        var textViewTitle: TextView? = null
+        var textViewSubTitle: TextView? = null
     }
 }

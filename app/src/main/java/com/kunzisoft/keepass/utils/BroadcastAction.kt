@@ -77,12 +77,14 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
                             cancelLockPendingIntent(context)
                         }
                     }
-                    LOCK_ACTION,
-                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> {
+                    LOCK_ACTION -> {
                         lockAction.invoke()
                         if (PreferencesUtil.isKeyboardPreviousLockEnable(context)) {
                             backToPreviousKeyboardAction?.invoke()
                         } else {}
+                    }
+                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> {
+                        lockAction.invoke()
                     }
                     BACK_PREVIOUS_KEYBOARD_ACTION -> {
                         backToPreviousKeyboardAction?.invoke()

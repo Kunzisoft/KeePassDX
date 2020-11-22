@@ -24,6 +24,6 @@ This pro version is under development, buying it encourages <b>faster developmen
 
 KeePassDX Pro is <b>open source</b> and <b>ad-free</b>.
 
-The project is constantly evolving. Do not hesitate to check the development status of the next updates: <a href="https://github.com/Kunzisoft/KeePassDX/projects">Ongoing tasks</a>
+The project is constantly evolving. Do not hesitate to check the development status of the next updates: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
 
 Send issues to: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

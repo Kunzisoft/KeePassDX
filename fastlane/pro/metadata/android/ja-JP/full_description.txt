@@ -24,6 +24,6 @@
 
 KeePassDX Pro は <b>オープンソース</b>かつ<b>広告なし</b>です。
 
-プロジェクトは常に発展しています。次のアップデートの開発状況を迷わずチェック: <a href="https://github.com/Kunzisoft/KeePassDX/projects">進行中の作業</a>
+プロジェクトは常に発展しています。次のアップデートの開発状況を迷わずチェック: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
 
 Issue を送る: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

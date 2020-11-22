@@ -87,8 +87,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 tools:text="Node Title"
-                android:lines="1"
-                android:singleLine="true"
+                android:maxLines="2"
+                android:ellipsize="end"
                 style="@style/KeepassDXStyle.TextAppearance.Group.Title" />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"

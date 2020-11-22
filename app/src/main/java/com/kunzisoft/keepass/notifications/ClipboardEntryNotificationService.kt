@@ -39,6 +39,14 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     private var notificationTimeoutMilliSecs: Long = 0
     private var cleanCopyNotificationTimerTask: Thread? = null
 
+    override fun retrieveChannelId(): String {
+        return CHANNEL_CLIPBOARD_ID
+    }
+
+    override fun retrieveChannelName(): String {
+        return getString(R.string.clipboard)
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -229,6 +237,8 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     companion object {
 
         private val TAG = ClipboardEntryNotificationService::class.java.name
+
+        private const val CHANNEL_CLIPBOARD_ID = "com.kunzisoft.keepass.notification.channel.clipboard"
 
         const val ACTION_NEW_NOTIFICATION = "ACTION_NEW_NOTIFICATION"
         const val EXTRA_ENTRY_INFO = "EXTRA_ENTRY_INFO"

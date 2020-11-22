@@ -431,6 +431,7 @@ class Database {
             searchInPasswords = false
             searchInUrls = true
             searchInNotes = true
+            searchInOTP = false
             searchInOther = true
             searchInUUIDs = false
             searchInTags = false

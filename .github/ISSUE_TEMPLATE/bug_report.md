@@ -20,7 +20,7 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-** Keepass Database **
+**KeePass Database**
  - Created with: [e.g Windows KeePass 2.42]
  - Version: [e.g. 2]
  - Location: [e.g. Remote file retrieved with GDrive app]
