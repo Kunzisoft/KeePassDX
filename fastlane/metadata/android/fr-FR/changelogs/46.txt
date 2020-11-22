@@ -6,4 +6,4 @@
  * Correction de la sauvegarde d'une même info partagée #783
  * Correction du changement vers le clavier précédent #782
  * Correction de lecture seule #792
- * Meilleure UI #719 #534 #617
+ * Meilleure UI #719 #534 #617 #793

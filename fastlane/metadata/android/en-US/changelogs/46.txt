@@ -6,4 +6,4 @@
  * Fix same save shared info #783
  * Fix switch back to previous keyboard #782
  * Fix read only #792
- * Better UI #719 #534 #617
+ * Better UI #719 #534 #617 #793
