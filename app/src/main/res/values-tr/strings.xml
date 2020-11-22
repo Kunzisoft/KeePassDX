@@ -467,7 +467,7 @@
     <string name="subdomain_search_title">Alt etki alanı arama</string>
     <string name="error_string_type">Bu metin istenen ögeyle eşleşmiyor.</string>
     <string name="content_description_add_item">Öge ekle</string>
-    <string name="keyboard_previous_fill_in_summary">Otomatik tuş eylemini gerçekleştirdikten sonra otomatik olarak önceki klavyeye dön</string>
+    <string name="keyboard_previous_fill_in_summary">\"Otomatik tuş eylemini\" gerçekleştirdikten sonra otomatik olarak önceki klavyeye dön</string>
     <string name="keyboard_previous_fill_in_title">Otomatik tuş eylemi</string>
     <string name="keyboard_previous_database_credentials_summary">Veri tabanı kimlik bilgileri ekranında otomatik olarak önceki klavyeye dön</string>
     <string name="keyboard_previous_database_credentials_title">Veri tabanı kimlik bilgileri ekranı</string>
@@ -511,4 +511,5 @@
     <string name="save_mode">Kaydetme modu</string>
     <string name="search_mode">Arama modu</string>
     <string name="error_registration_read_only">Salt okunur bir veri tabanında yeni bir öge kaydetmeye izin verilmiyor</string>
+    <string name="error_field_name_already_exists">Alan adı zaten var.</string>
 </resources>
