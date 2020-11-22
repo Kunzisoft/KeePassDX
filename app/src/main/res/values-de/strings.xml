@@ -438,7 +438,7 @@
     <string name="menu_save_database">Datenbank speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
     <string name="command_execution">Befehl ausführen…</string>
-    <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
+    <string name="warning_permanently_delete_nodes">Sollen die ausgewählten Knoten wirklich gelöscht werden\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
     <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf die Biometrie-Schaltfläche.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
@@ -516,4 +516,27 @@
     <string name="education_add_attachment_title">Anhang hinzufügen</string>
     <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
     <string name="warning_sure_add_file">Die Datei trotzdem hinzufügen\?</string>
+    <string name="show_uuid_summary">Zeigt die mit einem Eintrag verknüpfte UUID an</string>
+    <string name="show_uuid_title">UUID anzeigen</string>
+    <string name="autofill_read_only_save">Das Speichern von Daten ist für eine als schreibgeschützt geöffnete Datenbank nicht zulässig.</string>
+    <string name="autofill_close_database_title">Datenbank schließen</string>
+    <string name="keyboard_previous_lock_summary">Automatisches Zurückschalten zur vorherigen Tastatur nach dem Sperren der Datenbank</string>
+    <string name="keyboard_previous_lock_title">Datenbank sperren</string>
+    <string name="notification">Benachrichtigung</string>
+    <string name="crypto_object_not_initialized">Kryptoobjekt kann nicht abgerufen werden.</string>
+    <string name="biometric_prompt_not_initialized">Biometrische Eingabeaufforderung kann nicht initialisiert werden.</string>
+    <string name="biometric_security_update_required">Biometrisches Sicherheitsupdate erforderlich.</string>
+    <string name="configure_biometric">Es sind keine biometrischen oder Geräteanmeldeinformationen registriert.</string>
+    <string name="registration_mode">Registrierungsmodus</string>
+    <string name="save_mode">Speichermodus</string>
+    <string name="search_mode">Suchmodus</string>
+    <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
+    <string name="autofill_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
+    <string name="autofill_ask_to_save_data_summary">Speichern von Daten anfordern, wenn ein Formular überprüft wird</string>
+    <string name="autofill_ask_to_save_data_title">Speichern von Daten anfordern</string>
+    <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
+    <string name="autofill_close_database_summary">Datenbank nach der Auswahl des automatischen Ausfüllens schließen</string>
+    <string name="keyboard_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
+    <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
+    <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
 </resources>

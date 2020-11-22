@@ -149,7 +149,7 @@
     <string name="progress_create">Stvaranje nove baze podataka …</string>
     <string name="protection">Zaštita</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplicirane UUID-ove.</string>
-    <string name="selection_mode">Mod odabira</string>
+    <string name="selection_mode">Modus odabira</string>
     <string name="encryption_explanation">Algoritam šifriranja baze podataka koji se koristi za sve podatke.</string>
     <string name="memory_usage">Korištenje memorije</string>
     <string name="parallelism">Paralelnost</string>
@@ -281,7 +281,7 @@
     <string name="biometric_prompt_extract_credential_message">Izvadi akreditaciju baze podataka s biometrijskim podacima</string>
     <string name="biometric_not_recognized">Nije moguće prepoznati biometriju</string>
     <string name="no_credentials_stored">Ova baza podataka još nema spremljenu akreditaciju.</string>
-    <string name="credential_before_click_biometric_button">Upiši lozinku, zatim klikne gumb „Biometrija”.</string>
+    <string name="credential_before_click_biometric_button">Upiši lozinku, zatim pritisni gumb „Biometrija”.</string>
     <string name="biometric">Biometrija</string>
     <string name="autofill_sign_in_prompt">Prijavi se s KeePassDX</string>
     <string name="autofill_explanation_summary">Aktiviraj automatsko ispunjavanje za brzo ispunjavanje obrazaca u drugim aplikacijama</string>
@@ -488,4 +488,27 @@
     <string name="data">Podaci</string>
     <string name="warning_sure_remove_data">Svejedno ukloniti ove podatke\?</string>
     <string name="content_description_credentials_information">Podaci podataka prijave</string>
+    <string name="autofill_save_search_info_summary">Pokušaj spremiti podatke pretrage prilikom odabira ručnog unosa</string>
+    <string name="notification">Obavijest</string>
+    <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka</string>
+    <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
+    <string name="show_uuid_summary">Prikazuje UUID povezan s unosom</string>
+    <string name="show_uuid_title">Prikaži UUID</string>
+    <string name="autofill_ask_to_save_data_summary">Zatraži spremanje podataka kad se obrazac provjeri</string>
+    <string name="autofill_ask_to_save_data_title">Zatraži spremanje podataka</string>
+    <string name="autofill_save_search_info_title">Spremi podatke pretrage</string>
+    <string name="autofill_close_database_summary">Zatvori bazu podataka nakon odabira automatskog ispunjavanja</string>
+    <string name="autofill_close_database_title">Zatvori bazu podataka</string>
+    <string name="keyboard_previous_lock_summary">Automatski prebaci na prethodnu tipkovnicu nakon zaključavanja baze podataka</string>
+    <string name="keyboard_previous_lock_title">Zaključaj bazu podataka</string>
+    <string name="keyboard_save_search_info_summary">Pokušaj spremiti dijeljene informacije prilikom odabira ručnog unosa</string>
+    <string name="keyboard_save_search_info_title">Spremi dijeljene informacije</string>
+    <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
+    <string name="crypto_object_not_initialized">Nije moguće dohvatiti kripto objekt.</string>
+    <string name="biometric_prompt_not_initialized">Nije moguće pokrenuti biometrijsku prijavu.</string>
+    <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>
+    <string name="configure_biometric">Ne postoji biometrijski ključ niti podaci za prijavu uređaja.</string>
+    <string name="registration_mode">Modus registracije</string>
+    <string name="save_mode">Modus spremanja</string>
+    <string name="search_mode">Modus pretrage</string>
 </resources>
