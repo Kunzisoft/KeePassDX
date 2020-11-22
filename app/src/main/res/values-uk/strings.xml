@@ -484,8 +484,8 @@
     <string name="filter">Фільтр</string>
     <string name="content_description_add_item">Додати елемент</string>
     <string name="keyboard_change">Перемикання клавіатури</string>
-    <string name="keyboard_previous_fill_in_summary">Автоматично перемикатися до попередньої клавіатури після виконання дії Самочинного введення</string>
-    <string name="keyboard_previous_fill_in_title">Самочинне введення</string>
+    <string name="keyboard_previous_fill_in_summary">Автоматично перемикатися до попередньої клавіатури після виконання дії «Автоматична дія кнопки»</string>
+    <string name="keyboard_previous_fill_in_title">Автоматична дія кнопки</string>
     <string name="keyboard_previous_database_credentials_summary">Автоматичне перемикання до попередньої клавіатури, на екрані входу до бази даних</string>
     <string name="keyboard_previous_database_credentials_title">Екран входу до бази даних</string>
     <string name="warning_file_too_big">База даних KeePass має містити лише невеликі файли утиліт (наприклад, файли ключів PGP).
@@ -527,4 +527,5 @@
     <string name="save_mode">Режим збереження</string>
     <string name="search_mode">Режим пошуку</string>
     <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
+    <string name="error_field_name_already_exists">Назва поля вже існує.</string>
 </resources>
