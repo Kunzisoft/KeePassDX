@@ -29,11 +29,11 @@ import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.security.KeyStore
 import java.security.UnrecoverableKeyException
 import java.util.concurrent.Executors
@@ -58,31 +58,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
     var biometricUnlockCallback: BiometricUnlockCallback? = null
 
-    private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
-        setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
-        setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
-        setConfirmationRequired(true)
-        // TODO device credential #102 #152
-        /*
-        if (keyguardManager?.isDeviceSecure == true)
-            setDeviceCredentialAllowed(true)
-        else
-        */
-        setNegativeButtonText(context.getString(android.R.string.cancel))
-    }.build()
-
-    private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
-        setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
-        //setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
-        setConfirmationRequired(false)
-        // TODO device credential #102 #152
-        /*
-        if (keyguardManager?.isDeviceSecure == true)
-            setDeviceCredentialAllowed(true)
-        else
-        */
-        setNegativeButtonText(context.getString(android.R.string.cancel))
-    }.build()
+    private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(context)
 
     val isKeyManagerInitialized: Boolean
         get() {
@@ -139,6 +115,12 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                                         // Require the user to authenticate with a fingerprint to authorize every use
                                         // of the key
                                         .setUserAuthenticationRequired(true)
+                                        .apply {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                                                    && deviceCredentialUnlockEnable) {
+                                                setUserAuthenticationParameters(0, KeyProperties.AUTH_DEVICE_CREDENTIAL)
+                                            }
+                                        }
                                         .build())
                         keyGenerator?.generateKey()
                     }
@@ -164,13 +146,27 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             return
         }
         try {
+            // TODO if (keyguardManager?.isDeviceSecure == true) {
             getSecretKey()?.let { secretKey ->
                 cipher?.init(Cipher.ENCRYPT_MODE, secretKey)
 
                 initBiometricPrompt()
-                actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoStoreCredential)
-            }
 
+                val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
+                    setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
+                    setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
+                    setConfirmationRequired(true)
+                    if (deviceCredentialUnlockEnable) {
+                        setAllowedAuthenticators(DEVICE_CREDENTIAL)
+                    } else {
+                        setNegativeButtonText(context.getString(android.R.string.cancel))
+                    }
+                }.build()
+
+                actionIfCypherInit.invoke(biometricPrompt,
+                        cryptoObject,
+                        promptInfoStoreCredential)
+            }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
             biometricUnlockCallback?.onInvalidKeyException(unrecoverableKeyException)
@@ -211,6 +207,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             return
         }
         try {
+            // TODO if (keyguardManager?.isDeviceSecure == true) {
             // important to restore spec here that was used for decryption
             val iv = Base64.decode(ivSpecValue, Base64.NO_WRAP)
             val spec = IvParameterSpec(iv)
@@ -219,9 +216,22 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 cipher?.init(Cipher.DECRYPT_MODE, secretKey, spec)
 
                 initBiometricPrompt()
-                actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoExtractCredential)
-            }
 
+                val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
+                    setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
+                    //setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
+                    setConfirmationRequired(false)
+                    if (deviceCredentialUnlockEnable) {
+                        setAllowedAuthenticators(DEVICE_CREDENTIAL)
+                    } else {
+                        setNegativeButtonText(context.getString(android.R.string.cancel))
+                    }
+                }.build()
+
+                actionIfCypherInit.invoke(biometricPrompt,
+                        cryptoObject,
+                        promptInfoExtractCredential)
+            }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
             deleteEntryKey()
@@ -299,11 +309,19 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
 
         fun canAuthenticate(context: Context): Int {
             return try {
-                BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
+                } else {
+                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to authenticate with strong biometric.", e)
                 try {
-                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
+                    } else {
+                        BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
+                    }
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to authenticate with weak biometric.", e)
                     BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE

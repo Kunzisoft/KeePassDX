@@ -416,7 +416,7 @@
     <string name="contains_duplicate_uuid_procedure">Résoudre le problème en générant de nouveaux UUID pour les doublons et continuer \?</string>
     <string name="database_opened">Base de données ouverte</string>
     <string name="clipboard_explanation_summary">Copier les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
-    <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
+    <string name="advanced_unlock_explanation_summary">Utiliser le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données</string>
     <string name="max_history_items_title">Nombre maximum</string>

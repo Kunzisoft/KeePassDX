@@ -225,6 +225,10 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
+    fun isAdvancedUnlockEnable(context: Context): Boolean {
+        return isBiometricUnlockEnable(context) || isDeviceCredentialUnlockEnable(context)
+    }
+
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
@@ -235,6 +239,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_auto_open_prompt_key),
                 context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))
+    }
+
+    fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.device_credential_unlock_enable_key),
+                context.resources.getBoolean(R.bool.device_credential_unlock_enable_default))
     }
 
     fun getListSort(context: Context): SortNodeEnum {

@@ -293,6 +293,7 @@
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
+    <string name="device_credential">Device credential</string>
     <string name="general">General</string>
     <string name="autofill">Autofill</string>
     <string name="autofill_service_name">KeePassDX form autofilling</string>
@@ -321,11 +322,13 @@
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
+    <string name="device_credential_unlock_enable_title">Device credential unlocking</string>
+    <string name="device_credential_unlock_enable_summary">Lets you use your device credential to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto-open biometric prompt</string>
     <string name="biometric_auto_open_prompt_summary">Automatically ask for biometric if the database is set up to use it</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
-    <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
-    <string name="biometric_delete_all_key_warning">Delete all encryption keys related to biometric recognition?</string>
+    <string name="biometric_delete_all_key_summary">Delete all encryption keys related to advanced unlock recognition</string>
+    <string name="biometric_delete_all_key_warning">Delete all encryption keys related to advanced unlock recognition?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>

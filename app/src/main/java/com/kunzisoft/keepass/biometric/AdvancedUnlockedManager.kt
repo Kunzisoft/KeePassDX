@@ -90,7 +90,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(context)
         allowOpenBiometricPrompt = true
 
-        if (!PreferencesUtil.isBiometricUnlockEnable(context)
+        if (!PreferencesUtil.isAdvancedUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
             toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
@@ -136,7 +136,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private fun toggleMode(newBiometricMode: Mode) {
         if (newBiometricMode != biometricMode) {
             biometricMode = newBiometricMode
-            initBiometricMode()
+            initAdvancedUnlockMode()
         }
     }
 
@@ -292,7 +292,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     @Synchronized
-    fun initBiometricMode() {
+    fun initAdvancedUnlockMode() {
         mAllowAdvancedUnlockMenu = false
         when (biometricMode) {
             Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
