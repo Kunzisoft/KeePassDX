@@ -35,7 +35,7 @@
     <string name="clipboard_error">Nogle enheder, vil ikke lade programmer bruge udklipsholderen.</string>
     <string name="clipboard_error_clear">Kunne ikke rydde udklipsholderen</string>
     <string name="clipboard_timeout">Udklipsholder timeout</string>
-    <string name="clipboard_timeout_summary">Varighed af opbevaring i udklipsholder</string>
+    <string name="clipboard_timeout_summary">Varighed af opbevaring i udklipsholder (hvis det understøttes)</string>
     <string name="select_to_copy">Vælg for at kopiere %1$s til udklipsholder</string>
     <string name="retrieving_db_key">Opretter databasenøgle…</string>
     <string name="database">Database</string>
@@ -212,7 +212,7 @@
     <string name="list_password_generator_options_summary">Angiv tilladte tegn for adgangskodegenerator</string>
     <string name="clipboard">Udklipsholder</string>
     <string name="clipboard_notifications_title">Udklipsholdermeddelelser</string>
-    <string name="clipboard_notifications_summary">Aktivér udklipsholder for at kopiere felter når en post vises</string>
+    <string name="clipboard_notifications_summary">Vis udklipsholder for at kopiere felter når en post vises</string>
     <string name="clipboard_warning">Hvis automatisk sletning af udklipsholder mislykkes, slet historikken manuelt.</string>
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
@@ -224,7 +224,7 @@
     <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse</string>
     <string name="biometric_delete_all_key_warning">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse\?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
-    <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
+    <string name="unavailable_feature_version">Enheden kører Android %1$s, men har brug for %2$s eller nyere.</string>
     <string name="unavailable_feature_hardware">Kunne ikke finde den tilsvarende hardware.</string>
     <string name="file_name">Filnavn</string>
     <string name="path">Sti</string>
@@ -247,13 +247,13 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktiver et brugerdefineret tastatur, der udfylder adgangskoder og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillad ingen hovednøgle</string>
-    <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
+    <string name="allow_no_password_summary">Tillader at trykke på knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åbn database skrivebeskyttet som standard</string>
     <string name="enable_education_screens_title">Pædagogiske tips</string>
     <string name="enable_education_screens_summary">Fremhæv elementer for at lære, hvordan programmet fungerer</string>
     <string name="reset_education_screens_title">Nulstil pædagogiske tip</string>
-    <string name="reset_education_screens_summary">Vis alle pædagogiske info igen</string>
+    <string name="reset_education_screens_summary">Vis al uddannelsesinformation igen</string>
     <string name="reset_education_screens_text">Nulstilling af pædagogiske tips</string>
     <string name="education_create_database_title">Opret databasefilen</string>
     <string name="education_create_database_summary">Opret den første adgangskodeadministrationsfil.</string>
@@ -448,10 +448,10 @@
     <string name="html_about_contribution">For at &lt;strong&gt;holde vores frihed&lt;/strong&gt;, &lt;strong&gt;rette fejl&lt;/strong&gt;, &lt;strong&gt;tilføje funktioner&lt;/strong&gt; og &lt;strong&gt;at være altid aktiv&lt;/strong&gt;, regner vi med &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Hurtig søgning</string>
     <string name="auto_focus_search_summary">Anmod om en søgning når en database åbnes</string>
-    <string name="remember_database_locations_title">Gem placering af databaser</string>
-    <string name="remember_database_locations_summary">Husk placeringen af databaser</string>
-    <string name="remember_keyfile_locations_title">Gem placering af nøglefiler</string>
-    <string name="remember_keyfile_locations_summary">Husker placeringen af databasernøglefiler</string>
+    <string name="remember_database_locations_title">Husk placeringer af databaser</string>
+    <string name="remember_database_locations_summary">Holder styr på, hvor databaserne gemmes</string>
+    <string name="remember_keyfile_locations_title">Husk placering af nøglefiler</string>
+    <string name="remember_keyfile_locations_summary">Holder styr på, hvor nøglefiler gemmes</string>
     <string name="show_recent_files_title">Vis seneste filer</string>
     <string name="show_recent_files_summary">Vis placeringer af de seneste databaser</string>
     <string name="hide_broken_locations_title">Skjule brudte databaselinks</string>
@@ -464,7 +464,7 @@
     <string name="discard">Kassér</string>
     <string name="discard_changes">Kasser ændringer\?</string>
     <string name="validate">Valider</string>
-    <string name="autofill_auto_search_summary">Foreslår automatisk søgeresultater fra webdomænet eller applikationsId</string>
+    <string name="autofill_auto_search_summary">Foreslår automatisk søgeresultater fra webdomænet eller applikations-id</string>
     <string name="autofill_auto_search_title">Automatisk søgning</string>
     <string name="lock_database_show_button_summary">Viser låseknappen i brugergrænsefladen</string>
     <string name="lock_database_show_button_title">Vis låseknap</string>
@@ -479,10 +479,10 @@
     <string name="autofill_web_domain_blocklist_title">Blokeringsliste for webdomæne</string>
     <string name="autofill_application_id_blocklist_summary">Blokeringsliste der forhindrer automatisk udfyldning af programmer</string>
     <string name="autofill_application_id_blocklist_title">Blokeringsliste for program</string>
-    <string name="keyboard_previous_fill_in_summary">Skift automatisk tilbage til det forrige tastatur efter udførelse af automatisk tastehandling</string>
+    <string name="keyboard_previous_fill_in_summary">Skift automatisk tilbage til det forrige tastatur efter udførelse af \"Automatisk tastehandling\"</string>
     <string name="keyboard_previous_fill_in_title">Auto nøglehandling</string>
     <string name="keyboard_previous_database_credentials_summary">Skift automatisk tilbage til det forrige tastatur på databasens legitimationsskærm</string>
-    <string name="keyboard_previous_database_credentials_title">Database legitimationsoplysninger skærm</string>
+    <string name="keyboard_previous_database_credentials_title">Skærmbilledet til databaselegitimationsoplysninger</string>
     <string name="keyboard_change">Skifte tastatur</string>
     <string name="filter">Filter</string>
     <string name="subdomain_search_summary">Søg på webdomæner med begrænsninger på underdomæner</string>
@@ -524,4 +524,9 @@
     <string name="search_mode">Søgetilstand</string>
     <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database</string>
     <string name="content_description_credentials_information">Oplysninger om legitimationsoplysninger</string>
+    <string name="configure_biometric">Der er ikke tilmeldt biometriske legitimationsoplysninger eller enhedsoplysninger.</string>
+    <string name="education_add_attachment_summary">Overfør en vedhæftet fil til posten for at gemme vigtige eksterne data.</string>
+    <string name="autofill_save_search_info_summary">Forsøger at gemme delte oplysninger, når der foretages et manuelt indtastningsvalg</string>
+    <string name="keyboard_save_search_info_summary">Forsøger at gemme delte oplysninger, når der foretages et manuelt indtastningsvalg</string>
+    <string name="error_field_name_already_exists">Feltnavnet findes allerede.</string>
 </resources>
