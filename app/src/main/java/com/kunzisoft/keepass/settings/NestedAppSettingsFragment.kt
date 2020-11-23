@@ -30,7 +30,6 @@ import android.view.autofill.AutofillManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.biometric.BiometricManager
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
@@ -209,14 +208,15 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
-            val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
-            // < M solve verifyError exception
+            val deviceCredentialUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.device_credential_unlock_enable_key))
+            val autoOpenPromptPreference: SwitchPreference? = findPreference(getString(R.string.biometric_auto_open_prompt_key))
+
             val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                BiometricUnlockDatabaseHelper.unlockSupported(activity)
+                BiometricUnlockDatabaseHelper.biometricUnlockSupported(activity)
             } else false
-            if (!biometricUnlockSupported) {
+            biometricUnlockEnablePreference?.apply {
                 // False if under Marshmallow
-                biometricUnlockEnablePreference?.apply {
+                if (!biometricUnlockSupported) {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
                         (preference as SwitchPreference).isChecked = false
@@ -224,9 +224,48 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                 .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
                     }
+                } else {
+                    setOnPreferenceChangeListener { _, newValue ->
+                        val checked = (newValue as Boolean)
+                        autoOpenPromptPreference?.isEnabled = checked
+                                || deviceCredentialUnlockEnablePreference?.isChecked == true
+                        if (checked)
+                            deviceCredentialUnlockEnablePreference?.isChecked = false
+                        true
+                    }
                 }
-                deleteKeysFingerprints?.isEnabled = false
-            } else {
+            }
+
+
+            val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                BiometricUnlockDatabaseHelper.deviceCredentialUnlockSupported(activity)
+            } else false
+            deviceCredentialUnlockEnablePreference?.apply {
+                if (!deviceCredentialUnlockSupported) {
+                    isChecked = false
+                    setOnPreferenceClickListener { preference ->
+                        (preference as SwitchPreference).isChecked = false
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.R)
+                                .show(parentFragmentManager, "unavailableFeatureDialog")
+                        false
+                    }
+                } else {
+                    setOnPreferenceChangeListener { _, newValue ->
+                        val checked = (newValue as Boolean)
+                        autoOpenPromptPreference?.isEnabled = checked ||
+                                biometricUnlockEnablePreference?.isChecked == true
+                        if (checked)
+                            biometricUnlockEnablePreference?.isChecked = false
+                        true
+                    }
+                }
+            }
+
+            autoOpenPromptPreference?.isEnabled = biometricUnlockEnablePreference?.isChecked == true
+                        || deviceCredentialUnlockEnablePreference?.isChecked == true
+
+            val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
+            if (biometricUnlockSupported || deviceCredentialUnlockSupported) {
                 deleteKeysFingerprints?.setOnPreferenceClickListener {
                     context?.let { context ->
                         AlertDialog.Builder(context)
@@ -260,6 +299,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     }
                     false
                 }
+            } else {
+                deleteKeysFingerprints?.isEnabled = false
             }
         }
 

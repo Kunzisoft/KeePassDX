@@ -307,21 +307,26 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         private const val BIOMETRIC_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
         private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         fun canAuthenticate(context: Context): Int {
             return try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
-                } else {
-                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
-                }
+                BiometricManager.from(context).canAuthenticate(
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+                    } else {
+                        BIOMETRIC_STRONG
+                    }
+                )
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to authenticate with strong biometric.", e)
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
-                    } else {
-                        BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
-                    }
+                    BiometricManager.from(context).canAuthenticate(
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                BIOMETRIC_WEAK or DEVICE_CREDENTIAL
+                            } else {
+                                BIOMETRIC_WEAK
+                            }
+                    )
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to authenticate with weak biometric.", e)
                     BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE
@@ -329,6 +334,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             }
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         fun allowInitKeyStore(context: Context): Boolean {
             val biometricCanAuthenticate = canAuthenticate(context)
             return (  biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
@@ -336,19 +342,42 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                     )
         }
 
-        fun unlockSupported(context: Context): Boolean {
-            val biometricCanAuthenticate = canAuthenticate(context)
-            return (  biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        fun biometricUnlockSupported(context: Context): Boolean {
+            val biometricCanAuthenticate = try {
+                BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to authenticate with strong biometric.", e)
+                try {
+                    BiometricManager.from(context).canAuthenticate(BIOMETRIC_WEAK)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to authenticate with weak biometric.", e)
+                    BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE
+                }
+            }
+            return (biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
-                    )
+            )
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.R)
+        fun deviceCredentialUnlockSupported(context: Context): Boolean {
+            val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate(DEVICE_CREDENTIAL)
+            return (biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
+            )
         }
 
         /**
          * Remove entry key in keystore
          */
+        @RequiresApi(api = Build.VERSION_CODES.M)
         fun deleteEntryKeyInKeystoreForBiometric(context: FragmentActivity,
                                                  biometricCallback: BiometricUnlockErrorCallback) {
             BiometricUnlockDatabaseHelper(context).apply {
