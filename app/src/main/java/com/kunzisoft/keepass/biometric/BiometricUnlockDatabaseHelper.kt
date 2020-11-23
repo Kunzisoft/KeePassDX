@@ -196,10 +196,10 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 val ivSpecValue = Base64.encodeToString(spec.iv, Base64.NO_WRAP)
                 biometricUnlockCallback?.handleEncryptedResult(encryptedBase64, ivSpecValue)
             }
-
         } catch (e: Exception) {
+            val exception = Exception(context.getString(R.string.keystore_not_accessible), e)
             Log.e(TAG, "Unable to encrypt data", e)
-            biometricUnlockCallback?.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(exception)
         }
     }
 
@@ -248,8 +248,9 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             Log.e(TAG, "Unable to decrypt data", badPaddingException)
             biometricUnlockCallback?.onInvalidKeyException(badPaddingException)
         } catch (e: Exception) {
-            Log.e(TAG, "Unable to decrypt data", e)
-            biometricUnlockCallback?.onBiometricException(e)
+            val exception = Exception(context.getString(R.string.keystore_not_accessible), e)
+            Log.e(TAG, "Unable to decrypt data", exception)
+            biometricUnlockCallback?.onBiometricException(exception)
         }
     }
 
