@@ -484,7 +484,7 @@
     <string name="error_string_type">文本和请求的条目不匹配.</string>
     <string name="content_description_add_item">添加条目</string>
     <string name="keyboard_previous_database_credentials_title">数据库凭据屏幕</string>
-    <string name="keyboard_previous_fill_in_summary">执行自动键动作后，自动切换回前一个键盘</string>
+    <string name="keyboard_previous_fill_in_summary">执行“自动键动作”后，自动切换回前一个键盘</string>
     <string name="keyboard_previous_fill_in_title">自动键动作</string>
     <string name="keyboard_previous_database_credentials_summary">如果显示数据库凭据屏幕，则自动返回到上一个键盘</string>
     <string name="keyboard_change">切换键盘</string>
@@ -527,4 +527,5 @@
     <string name="save_mode">保存模式</string>
     <string name="search_mode">搜索模式</string>
     <string name="error_registration_read_only">只读数据库不允许保存新条目</string>
+    <string name="error_field_name_already_exists">字段名已经存在。</string>
 </resources>
