@@ -402,7 +402,7 @@
     <string name="keyboard_previous_database_credentials_title">データベース認証情報の画面</string>
     <string name="keyboard_previous_database_credentials_summary">データベース認証情報の画面で、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
-    <string name="keyboard_previous_fill_in_summary">自動キーアクションの実行後、切り替え前のキーボードへ自動的に戻します</string>
+    <string name="keyboard_previous_fill_in_summary">[自動キーアクション] の実行後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_lock_title">データベースをロック</string>
     <string name="keyboard_previous_lock_summary">データベースのロック後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="autofill_close_database_title">データベースを閉じる</string>
@@ -524,4 +524,5 @@
     <string name="autofill_read_only_save">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
+    <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>
 </resources>
