@@ -142,7 +142,7 @@
     <string name="biometric_invalid_key">Impossibile leggere la chiave biometrica. Eliminala e ripeti la procedura di riconoscimento.</string>
     <string name="biometric_scanning_error">Problema impronta: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa l\'impronta per salvare questa password</string>
-    <string name="no_credentials_stored">Questa base di dati non ha ancora alcuna password.</string>
+    <string name="no_credentials_stored">Questo database non contiene alcuna credenziale.</string>
     <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
 \n
 \nEseguire il backup del file di database in un luogo sicuro dopo ogni modifica.</string>
