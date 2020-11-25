@@ -70,9 +70,9 @@
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intera base di dati.</string>
     <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
-    <string name="error_rounds_too_large">\"Livello\" troppo alto. Impostato a 2147483648.</string>
+    <string name="error_rounds_too_large">«Livello» troppo alto. Impostato a 2147483648.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
-    <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo \"lunghezza\".</string>
+    <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo «lunghezza».</string>
     <string name="field_name">Nome campo</string>
     <string name="field_value">Valore campo</string>
     <string name="file_not_found_content">File non trovato. Prova a riaprirlo dal tuo gestore di file.</string>
@@ -114,7 +114,7 @@
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Installa un browser web per aprire questo URL.</string>
     <string name="omit_backup_search_title">Non cercare nelle voci di backup</string>
-    <string name="omit_backup_search_summary">Ometti i gruppi \"Backup\" e \"Cestino\" dai risultati di ricerca</string>
+    <string name="omit_backup_search_summary">Ometti i gruppi «Backup» e «Cestino» dai risultati di ricerca</string>
     <string name="progress_create">Creazione di una nuova base di dati…</string>
     <string name="progress_title">In corso…</string>
     <string name="protection">Protezione</string>
@@ -142,10 +142,10 @@
     <string name="biometric_invalid_key">Impossibile leggere la chiave biometrica. Eliminala e ripeti la procedura di riconoscimento.</string>
     <string name="biometric_scanning_error">Problema impronta: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa l\'impronta per salvare questa password</string>
-    <string name="no_credentials_stored">Questo database non contiene alcuna credenziale.</string>
-    <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
+    <string name="no_credentials_stored">Questa base di dati non contiene alcuna credenziale.</string>
+    <string name="education_unlock_summary">Inserisci la password o il file chiave per sbloccare la base di dati.
 \n
-\nEseguire il backup del file di database in un luogo sicuro dopo ogni modifica.</string>
+\nEseguire il backup del file di base di dati in un luogo sicuro dopo ogni modifica.</string>
     <string-array name="timeout_options">
         <item>5 secondi</item>
         <item>10 secondi</item>
@@ -213,10 +213,10 @@
     <string name="clipboard_warning">Se l\'eliminazione automatica degli appunti fallisce, cancellali manualmente.</string>
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
-    <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
+    <string name="lock_database_screen_off_summary">Blocca la base di dati quando lo schermo è spento</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
-    <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
+    <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire la base di dati</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
     <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
     <string name="biometric_delete_all_key_warning">Eliminare tutte le chiavi di cifrature associate al riconoscimento biometrico \?</string>
@@ -228,15 +228,15 @@
     <string name="assign_master_key">Assegna una chiave master</string>
     <string name="create_keepass_file">Crea una nuova base di dati</string>
     <string name="recycle_bin_title">Uso del Cestino</string>
-    <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo \"Cestino\" prima di eliminarlo</string>
+    <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo «Cestino» prima di eliminarlo</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
     <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">Attenzione: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
-    <string name="database_name_title">Nome database</string>
-    <string name="database_description_title">Descrizione database</string>
-    <string name="database_version_title">Versione database</string>
+    <string name="database_name_title">Nome della base di dati</string>
+    <string name="database_description_title">Descrizione della base di dati</string>
+    <string name="database_version_title">Versione della base di dati</string>
     <string name="text_appearance">Testo</string>
     <string name="application_appearance">App</string>
     <string name="other">Altro</string>
@@ -246,42 +246,42 @@
     <string name="allow_no_password_title">Non consentire nessuna chiave principale</string>
     <string name="allow_no_password_summary">Abilita il pulsante «Apri» se le credenziali non sono selezionate</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
-    <string name="enable_read_only_summary">Apri il database in sola lettura in modo predefinito</string>
+    <string name="enable_read_only_summary">Apri la base di dati in sola lettura in modo predefinito</string>
     <string name="enable_education_screens_title">Suggerimenti educativi</string>
     <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
     <string name="reset_education_screens_title">Ripristina i suggerimenti educativi</string>
     <string name="reset_education_screens_summary">Mostra di nuovo tutte le informazioni educative</string>
     <string name="reset_education_screens_text">Suggerimenti educativi ripristinati</string>
-    <string name="education_create_database_title">Crea il tuo file di database</string>
+    <string name="education_create_database_title">Crea il tuo file di base di dati</string>
     <string name="education_create_database_summary">Crea il tuo primo file di gestione password.</string>
-    <string name="education_select_database_title">Apri un database esistente</string>
-    <string name="education_select_database_summary">Apri il tuo file database precedente dal tuo gestore di file per continuare ad usarlo.</string>
-    <string name="education_new_node_title">Aggiungi elementi al tuo database</string>
-    <string name="education_new_node_summary">Gli elementi aiutano a gestire le tue identità digitali. 
-\n 
-\nI gruppi (~ cartelle) organizzano gli elementi nel database.</string>
+    <string name="education_select_database_title">Apri una base di dati esistente</string>
+    <string name="education_select_database_summary">Apri il tuo file di base di dati precedente dal tuo gestore di file per continuare ad usarlo.</string>
+    <string name="education_new_node_title">Aggiungi elementi alla tua base di dati</string>
+    <string name="education_new_node_summary">Gli elementi aiutano a gestire le tue identità digitali.
+\n
+\nI gruppi (come cartelle) organizzano gli elementi nella base di dati.</string>
     <string name="education_search_title">Cerca tra gli elementi</string>
     <string name="education_search_summary">Inserisci il titolo, il nome utente o il contenuto di altri campi per recuperare le tue password.</string>
-    <string name="education_biometric_title">Sblocco del database tramite impronta digitale</string>
-    <string name="education_biometric_summary">Collega la password alla tua impronta digitale per sbloccare velocemente il database.</string>
+    <string name="education_biometric_title">Sblocco della base di dati tramite impronta digitale</string>
+    <string name="education_biometric_summary">Collega la password alla tua impronta digitale per sbloccare velocemente la base di dati.</string>
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
     <string name="education_generate_password_title">Crea una password robusta</string>
     <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticare di tenerla al sicuro.</string>
     <string name="education_entry_new_field_title">Aggiungi campi personalizzati</string>
     <string name="education_entry_new_field_summary">Registra un campo aggiuntivo, inserisci delle informazioni e proteggilo se necessario.</string>
-    <string name="education_unlock_title">Sblocca il tuo database</string>
-    <string name="education_read_only_title">Proteggi da scrittura il tuo database</string>
-    <string name="education_read_only_summary">Cambia la modalità di apertura per la sessione. 
-\n 
-\n\"Sola lettura\" impedisce modifiche accidentali al database. 
-\n\"Modificabile\" permette di aggiungere, eliminare o modificare tutti gli elementi.</string>
+    <string name="education_unlock_title">Sblocca la tua base di dati</string>
+    <string name="education_read_only_title">Proteggi da scrittura la tua base di dati</string>
+    <string name="education_read_only_summary">Cambia la modalità di apertura per la sessione.
+\n
+\n«Sola lettura» impedisce modifiche accidentali alla base di dati.
+\n«Modificabile» permette di aggiungere, eliminare o modificare tutti gli elementi.</string>
     <string name="education_field_copy_title">Copia un campo</string>
     <string name="education_field_copy_summary">I campi copiati possono essere incollati ovunque. 
 \n 
 \nUsa il metodo di inserimento che preferisci.</string>
-    <string name="education_lock_title">Blocca il database</string>
-    <string name="education_lock_summary">Blocca velocemente il database, puoi impostare l\'app per bloccarlo dopo un certo periodo e quando lo schermo si spegne.</string>
+    <string name="education_lock_title">Blocca la base di dati</string>
+    <string name="education_lock_summary">Blocca velocemente la base di dati, puoi impostare l\'applicazione per bloccarla dopo un certo periodo e quando lo schermo si spegne.</string>
     <string name="education_sort_title">Ordine elementi</string>
     <string name="education_sort_summary">Scegli l\'ordine di elementi e gruppi.</string>
     <string name="education_donation_title">Partecipa</string>
@@ -312,7 +312,7 @@
     <string name="icon_pack_choose_summary">Pacchetto icone usato nell\'app</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Caricamento della base di dati fallito.</string>
-    <string name="error_load_database_KDF_memory">Caricamento della chiave fallito. Prova a diminuire l\' \"Utilizzo memoria\" del KDF.</string>
+    <string name="error_load_database_KDF_memory">Caricamento della chiave fallito. Prova a diminuire l\'«Utilizzo memoria» del KDF.</string>
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
@@ -329,7 +329,7 @@
     <string name="keyboard_notification_entry_content_title">%1$s disponibile nella Magitastiera</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Pulisci alla chiusura</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Chiudere il database alla chiusura della notifica</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Chiudere la base di dati alla chiusura della notifica</string>
     <string name="keyboard_appearance_category">Aspetto</string>
     <string name="keyboard_theme_title">Tema tastiera</string>
     <string name="keyboard_keys_category">Tasti</string>
@@ -338,14 +338,14 @@
     <string name="selection_mode">Modalità selezione</string>
     <string name="do_not_kill_app">Non terminare l\'app…</string>
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
-    <string name="lock_database_back_root_summary">Bloccare il database quando l\'utente preme il pulsante Indietro nella schermata principale</string>
+    <string name="lock_database_back_root_summary">Blocca la base di dati quando l\'utente preme il pulsante Indietro nella schermata principale</string>
     <string name="clear_clipboard_notification_title">Pulisci alla chiusura</string>
-    <string name="clear_clipboard_notification_summary">Blocca il database quando scade la durata degli appunti o la notifica viene chiusa dopo che inizi ad usarlo</string>
+    <string name="clear_clipboard_notification_summary">Blocca la base di dati quando scade la durata degli appunti o la notifica viene chiusa dopo che inizi ad usarlo</string>
     <string name="recycle_bin">Cestino</string>
     <string name="keyboard_selection_entry_title">Selezione elemento</string>
     <string name="keyboard_selection_entry_summary">Mostra i campi di input nella Magitastiera durante la visualizzazione di un elemento</string>
     <string name="delete_entered_password_title">Elimina password</string>
-    <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
+    <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione alla base di dati</string>
     <string name="content_description_open_file">Apri il file</string>
     <string name="content_description_node_children">Figli del nodo</string>
     <string name="content_description_add_node">Aggiungi un nodo</string>
@@ -430,12 +430,12 @@
     <string name="max_history_size_summary">Limita la dimensione (in byte) della cronologia per voce</string>
     <string name="max_history_items_summary">Limita il numero di elementi della cronologia per voce</string>
     <string name="recycle_bin_group_title">Gruppo cestino</string>
-    <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database</string>
+    <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni della base di dati</string>
     <string name="database_data_compression_title">Compressione dati</string>
-    <string name="biometric_auto_open_prompt_summary">Proponi l\'autenticazione biometrica quando il database è configurato per usarla</string>
-    <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco avanzato per aprire il database più facilmente</string>
+    <string name="biometric_auto_open_prompt_summary">Proponi l\'autenticazione biometrica quando la base di dati è configurata per usarla</string>
+    <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco avanzato per aprire la base di dati più facilmente</string>
     <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
-    <string name="database_opened">Database aperto</string>
+    <string name="database_opened">Base di dati aperta</string>
     <string name="biometric">Biometrico</string>
     <string name="credential_before_click_biometric_button">Digita la password e poi fai clic sul pulsante biometrico.</string>
     <string name="biometric_prompt_extract_credential_message">Estrai le credenziali della base di dati con dati biometrici</string>
@@ -451,17 +451,17 @@
     <string name="download_initialization">Inizializzazione…</string>
     <string name="download_attachment">Scaricamento %1$s</string>
     <string name="education_setup_OTP_title">Imposta OTP</string>
-    <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità \"Modificabile\")</string>
-    <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
+    <string name="enable_auto_save_database_summary">Salva la base di dati dopo ogni azione importante (in modalità «Modificabile»)</string>
+    <string name="enable_auto_save_database_title">Salvataggio automatico della base di dati</string>
     <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o ID dell\'applicazione</string>
     <string name="autofill_auto_search_title">Ricerca automatica</string>
-    <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto \"Campo\" invia il tasto \"Vai\"</string>
+    <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto «Campo» invia il tasto «Vai»</string>
     <string name="keyboard_auto_go_action_title">Azione auto key</string>
     <string name="device_keyboard_setting_title">Impostazioni tastiera dispositivo</string>
     <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nessuna</string>
     <string name="compression">Compressione</string>
-    <string name="database_custom_color_title">Colore del database customizzato</string>
+    <string name="database_custom_color_title">Colore personalizzato della base di dati</string>
     <string name="database_default_username_title">Nome utente di default</string>
     <string name="disable">Disabilita</string>
     <string name="enable">Abilita</string>
@@ -489,13 +489,13 @@
     <string name="content_description_add_item">Aggiungi elemento</string>
     <string name="keyboard_previous_fill_in_summary">Torna automaticamente alla tastiera precedente quando si esegue l\'azione del tasto automatico</string>
     <string name="keyboard_previous_fill_in_title">Azione tasto automatico</string>
-    <string name="keyboard_previous_database_credentials_summary">Torna automaticamente alla tastiera precedente nella schermata delle credenziali del database</string>
-    <string name="keyboard_previous_database_credentials_title">Schermata credenziali database</string>
+    <string name="keyboard_previous_database_credentials_summary">Torna automaticamente alla tastiera precedente nella schermata delle credenziali della base di dati</string>
+    <string name="keyboard_previous_database_credentials_title">Schermata credenziali della base di dati</string>
     <string name="keyboard_change">Cambia tastiera</string>
     <string name="upload_attachment">Carica %1$s</string>
     <string name="education_add_attachment_summary">Carica un allegato alla voce per salvare dati esterni importanti.</string>
     <string name="education_add_attachment_title">Aggiungi allegato</string>
-    <string name="database_data_remove_unlinked_attachments_summary">Rimuovi gli allegati contenuti nel database ma non collegati ad una voce</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Rimuovi gli allegati contenuti nella base di dati ma non collegati ad una voce</string>
     <string name="database_data_remove_unlinked_attachments_title">Rimuovi i dati scollegati</string>
     <string name="data">Dati</string>
     <string name="warning_empty_keyfile_explanation">Il contenuto del file chiave non deve mai essere modificato e, nel migliore dei casi, dovrebbe contenere dati generati casualmente.</string>
