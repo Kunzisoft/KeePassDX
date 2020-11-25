@@ -305,7 +305,7 @@
 \n 
 \n\"Somente leitura\" evita que faça alterações não intencionais na base de dados. 
 \n\"Gravação\" permite-o adicionar, apagar ou modificar todos os elementos.</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador em listas de entrada</string>
+    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador na lista entradas</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
