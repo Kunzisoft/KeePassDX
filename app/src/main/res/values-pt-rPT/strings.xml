@@ -157,7 +157,7 @@
         <item>Média</item>
         <item>Grande</item>
     </string-array>
-    <string name="extended_ASCII">ASCII Estendido</string>
+    <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
     <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente descarregar o \"Uso de Memória\" do KDF.</string>
