@@ -498,7 +498,7 @@
     <string name="keyboard_change">Tastatur wechseln</string>
     <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
-    <string name="keyboard_previous_fill_in_summary">Automatisches Zurückschalten auf die vorherige Tastatur nach Ausführung der automatischen Tastenaktion</string>
+    <string name="keyboard_previous_fill_in_summary">Nach Ausführung der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln.</string>
     <string name="keyboard_previous_database_credentials_summary">Automatisches Zurückschalten zur vorherigen Tastatur auf dem Datenbank-Anmeldebildschirm</string>
     <string name="education_add_attachment_summary">Laden Sie einen Anhang für Ihren Eintrag hoch, um wichtige externe Daten zu speichern.</string>
     <string name="content_description_credentials_information">Anmeldeinformationen</string>
