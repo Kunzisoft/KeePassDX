@@ -22,7 +22,7 @@
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Kontakt</string>
-    <string name="contribution">Beitrag</string>
+    <string name="contribution">Beiträge</string>
     <string name="feedback">Rückmeldung</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
