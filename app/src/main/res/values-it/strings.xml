@@ -408,7 +408,7 @@
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
     <string name="master_key">Chiave principale</string>
-    <string name="contribution">Contribuisci</string>
+    <string name="contribution">Contributi</string>
     <string name="biometric_prompt_store_credential_message">Attenzione: Devi comunque ricordarti la password principale anche se usi il riconoscimento biometrico.</string>
     <string name="warning_database_read_only">Garantisci il permesso di scrittura per salvare i cambiamenti della base di dati</string>
     <string name="hide_broken_locations_summary">Nascondi collegamenti corrotti nella lista delle basi di dati recenti</string>
