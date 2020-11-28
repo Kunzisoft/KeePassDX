@@ -467,7 +467,7 @@
 \nGrupe (~mape) organiziraju unose u bazi podataka.</string>
     <string name="download_progression">U tijeku: %1$d%%</string>
     <string name="download_complete">Gotovo!</string>
-    <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja automatske radnje tipke</string>
+    <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja „Automatska radnje tipke”</string>
     <string name="keyboard_previous_fill_in_title">Automatska radnja tipke</string>
     <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu u bazu podataka</string>
     <string name="keyboard_previous_database_credentials_title">Ekran za unos podataka za prijavu u bazu podataka</string>
@@ -511,4 +511,5 @@
     <string name="registration_mode">Modus registracije</string>
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
+    <string name="error_field_name_already_exists">Ime polja već postoji.</string>
 </resources>
