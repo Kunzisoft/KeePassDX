@@ -20,7 +20,7 @@
     <string name="feedback">Geri Bildirim</string>
     <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
-    <string name="accept">Kabul et</string>
+    <string name="accept">"Kimsin sen\? "</string>
     <string name="add_entry">Girdi Ekle</string>
     <string name="edit_entry">Girdi Düzenle</string>
     <string name="add_group">Grup Ekle</string>
@@ -32,7 +32,7 @@
     <string name="application">Uygulama</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
-    <string name="file_manager_install_description">Veritabanı dosyaları oluşturmak, açmak ve kaydetmek için Niyet eylemini ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT kabul eden bir dosya yöneticisi gerekir.</string>
+    <string name="file_manager_install_description">Niyet eylemini kabul eden bir dosya yöneticisi. ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT veri tabanı dosyaları oluşturmak, açmak ve kaydetmek için gereklidir.</string>
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
     <string name="clipboard_error_title">Pano hatası</string>
