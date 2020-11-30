@@ -20,7 +20,7 @@
     <string name="feedback">Відгук</string>
     <string name="homepage">Домівка</string>
     <string name="about_description">KeePassDX є Android-версією менеджера паролів KeePass</string>
-    <string name="accept">Прийняти</string>
+    <string name="accept">"Хто ти в біса такий\? "</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
@@ -29,7 +29,7 @@
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Параметри застосунку</string>
     <string name="brackets">Дужки</string>
-    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
+    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймує дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
     <string name="clipboard_timeout">Час до очищення буфера обміну</string>
     <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну (якщо підтримується пристроєм)</string>
