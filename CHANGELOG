@@ -1,3 +1,6 @@
+KeePassDX(2.9.3)
+ * Unlock database by device credentials (PIN/Password/Pattern) #779 #102
+
 KeePassDX(2.9.2)
  * Managing OTP links from QR applications #556
  * Prevent manual creation of existing field name #718
