@@ -20,7 +20,7 @@
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
     <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
-    <string name="accept">接受</string>
+    <string name="accept">"你到底是谁？ "</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
     <string name="encryption_algorithm">加密算法</string>
@@ -29,7 +29,7 @@
     <string name="application">应用</string>
     <string name="menu_app_settings">程序设置</string>
     <string name="brackets">括号</string>
-    <string name="file_manager_install_description">新建与保存数据库需要支持打开和新建文件的文件管理器。</string>
+    <string name="file_manager_install_description">需要一款接受意图操作 ACTION_CREATE_DOCUMENT 和 ACTION_OPEN_DOCUMENT 的文件管理器来创建、打开和保存数据库文件。</string>
     <string name="clipboard_cleared">剪贴板已清空</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
     <string name="clipboard_timeout_summary">剪贴板保存时间 （若您的设备支持该功能）</string>
