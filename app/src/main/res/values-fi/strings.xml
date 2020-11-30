@@ -208,17 +208,8 @@
     <string name="autofill_explanation_summary">Ota käyttöön automaattinen täyttö täyttääksesi lomakkeita nopeasti muissa sovelluksissa</string>
     <string name="menu_appearance_settings">Ulkonäkö</string>
     <string name="database_history">Historia</string>
-    <string name="credential_before_click_biometric_button">Kirjoita salana ja paina \"Biometrinen\" painiketta.</string>
     <string name="biometric">Biometrinen</string>
     <string name="no_credentials_stored">Tässä salasanatietokannassa ei ole vielä pääsytietoja.</string>
-    <string name="biometric_scanning_error">Biometrinen virhe: %1$s</string>
-    <string name="biometric_not_recognized">Biometristä tunnistusta ei tunnistettu</string>
-    <string name="biometric_invalid_key">Biometristä avainta ei voitu lukea. Poista se ja toista biometrinen tunnistus.</string>
-    <string name="biometric_prompt_extract_credential_title">Avaa salasanatietokanta biometrisellä tunnistuksella</string>
-    <string name="biometric_prompt_store_credential_message">Varoitus: Sinun pitää vielä muistaa pääsalasanasi jos käytät biometristä tunnistusta.</string>
-    <string name="biometric_prompt_store_credential_title">Tallenna biometrinen tunnistus</string>
-    <string name="open_biometric_prompt_store_credential">Avaa biometrinen komentokehote tallentaaksesi pääsytiedot</string>
-    <string name="open_biometric_prompt_unlock_database">Avaa biometrinen komentokehote avataksesi salasanatietokannan</string>
     <string name="keystore_not_accessible">Avainsäilöä ei ole kunnolla alustettu.</string>
     <string name="build_label">Koontiversio %1$s</string>
     <string name="warning_database_link_revoked">Tiedostoon pääsy evätty</string>
@@ -302,7 +293,6 @@
     <string name="menu_restore_entry_history">Palauta historia</string>
     <string name="menu_empty_recycle_bin">Tyhjennä roskakori</string>
     <string name="menu_file_selection_read_only">Kirjoitussuojattu</string>
-    <string name="menu_biometric_remove_key">Poista tallennettu biometrinen avain</string>
     <string name="menu_save_database">Tallenna salasanatietokanta</string>
     <string name="menu_cancel">Peruuta</string>
     <string name="menu_paste">Liitä</string>

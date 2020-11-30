@@ -200,11 +200,11 @@ open class PasswordActivity : SpecialModeActivity() {
             onActionFinish = { actionTask, result ->
                 when (actionTask) {
                     ACTION_DATABASE_LOAD_TASK -> {
-                        // Recheck biometric if error
+                        // Recheck advanced unlock if error
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                            if (PreferencesUtil.isAdvancedUnlockEnable(this@PasswordActivity)) {
                                 // Stay with the same mode and init it
-                                advancedUnlockedManager?.initBiometricMode()
+                                advancedUnlockedManager?.initAdvancedUnlockMode()
                             }
                         }
 
@@ -370,7 +370,7 @@ open class PasswordActivity : SpecialModeActivity() {
         } else {
             // Init Biometric elements
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PreferencesUtil.isBiometricUnlockEnable(this)) {
+                if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
                     if (advancedUnlockedManager == null
                             && databaseFileUri != null) {
                         advancedUnlockedManager = AdvancedUnlockedManager(this,
@@ -658,7 +658,7 @@ open class PasswordActivity : SpecialModeActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && !readOnlyEducationPerformed) {
                 val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
-                PreferencesUtil.isBiometricUnlockEnable(applicationContext)
+                PreferencesUtil.isAdvancedUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                         && advancedUnlockInfoView != null && advancedUnlockInfoView?.visibility == View.VISIBLE
                         && advancedUnlockInfoView?.unlockIconImageView != null
@@ -691,7 +691,7 @@ open class PasswordActivity : SpecialModeActivity() {
                 readOnly = !readOnly
                 changeOpenFileReadIcon(item)
             }
-            R.id.menu_biometric_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 advancedUnlockedManager?.deleteEntryKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)

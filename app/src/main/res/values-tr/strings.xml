@@ -123,7 +123,6 @@
     <string name="menu_open">Aç</string>
     <string name="menu_search">Ara</string>
     <string name="menu_showpass">Parolayı göster</string>
-    <string name="menu_biometric_remove_key">Kaydedilen parmak izini silin</string>
     <string name="menu_url">URL\'ye git</string>
     <string name="menu_file_selection_read_only">Yazma korumalı</string>
     <string name="menu_open_file_read_and_write">Değiştirilebilir</string>
@@ -175,12 +174,7 @@
     <string name="warning_no_encryption_key">Şifreleme anahtarı olmadan devam edilsin mi\?</string>
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
-    <string name="open_biometric_prompt_unlock_database">Veri tabanının kilidini açmak için biyometrik taramayı aç</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
-    <string name="biometric_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
-    <string name="biometric_not_recognized">Parmak izi tanınamadı</string>
-    <string name="biometric_scanning_error">Parmak izi sorunu: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Bu şifreyi saklamak için parmak izini kullanın</string>
     <string name="no_credentials_stored">Bu veritabanının henüz bir parolası yok.</string>
     <string name="database_history">Geçmiş</string>
     <string name="menu_appearance_settings">Görünüm</string>
@@ -206,7 +200,6 @@
     <string name="biometric_unlock_enable_summary">Veritabanını açmak için biyometriklerinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
     <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
-    <string name="biometric_delete_all_key_warning">Biyometrik tanıma ile ilgili tüm şifreleme anahtarları silinsin mi\?</string>
     <string name="unavailable_feature_text">Bu özellik başlatılamadı.</string>
     <string name="unavailable_feature_version">Aygıtta Android %1$s çalışıyor, ancak %2$s veya sonraki bir sürüm gerekli.</string>
     <string name="unavailable_feature_hardware">İlgili donanım bulunamadı.</string>
@@ -350,10 +343,6 @@
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
     <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veritabanı oluşturulamıyor.</string>
     <string name="menu_advanced_unlock_settings">Gelişmiş kilit açma</string>
-    <string name="biometric_prompt_store_credential_title">Biyometrik tanımayı kaydedin</string>
-    <string name="biometric_prompt_store_credential_message">Uyarı: Biyometrik tanıma kullanıyorsanız hala ana parolanızı hatırlamanız gerekir.</string>
-    <string name="biometric_prompt_extract_credential_title">Biyometrik tanıma ile veritabanı aç</string>
-    <string name="biometric_prompt_extract_credential_message">Biyometrik verilerle veritabanı kimlik bilgilerini çıkar</string>
     <string name="biometric">Biyometrik</string>
     <string name="biometric_auto_open_prompt_title">Biyometrik taramayı otomatik aç</string>
     <string name="biometric_auto_open_prompt_summary">Vari tabanı, onu kullanacak biçimde ayarlandıysa biyometriği otomatik olarak sor</string>
@@ -410,7 +399,6 @@
     <string name="command_execution">Komut çalıştırılıyor…</string>
     <string name="warning_permanently_delete_nodes">Seçilen düğümler kalıcı olarak silinsin mi\?</string>
     <string name="keystore_not_accessible">Anahtar deposu düzgün bir şekilde başlatılmadı.</string>
-    <string name="credential_before_click_biometric_button">Parolayı yazın, sonra \"Biyometrik\" düğmesine tıklayın.</string>
     <string name="recycle_bin_group_title">Geri dönüşüm kutusu grubu</string>
     <string name="enable_auto_save_database_title">Veritabanını otomatik kaydet</string>
     <string name="enable_auto_save_database_summary">Her önemli işlemden sonra veri tabanını kaydet (\"Değiştirilebilir\" modda)</string>
@@ -503,7 +491,6 @@
     <string name="keyboard_save_search_info_title">Paylaşılan bilgileri kaydet</string>
     <string name="notification">Bildirim</string>
     <string name="crypto_object_not_initialized">Şifreleme nesnesi alınamıyor.</string>
-    <string name="biometric_prompt_not_initialized">Biyometrik tarama başlatılamıyor.</string>
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
     <string name="configure_biometric">Biyometrik bilgiler veya aygıt kimlik doğrulama bilgileri kaydedilmedi.</string>
     <string name="warning_empty_recycle_bin">Geri dönüşüm kutusundaki tüm düğümler kalıcı olarak silinsin mi\?</string>

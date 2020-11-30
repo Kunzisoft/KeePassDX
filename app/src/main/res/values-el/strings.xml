@@ -347,16 +347,6 @@
     <string name="content_description_keyboard_close_fields">Κλείσιμο πεδίων</string>
     <string name="error_create_database_file">Δεν είναι δυνατή η δημιουργία βάσης δεδομένων με αυτόν τον κωδικό πρόσβασης και το αρχείο κλειδί.</string>
     <string name="menu_advanced_unlock_settings">Προηγμένο ξεκλείδωμα</string>
-    <string name="menu_biometric_remove_key">Διαγράψτε το αποθηκευμένο βιομετρικό κλειδί</string>
-    <string name="open_biometric_prompt_unlock_database">Ανοίξτε τη βιομετρική προτροπή για να ξεκλειδώσετε τη βάση δεδομένων</string>
-    <string name="open_biometric_prompt_store_credential">Ανοίξτε τη βιομετρική προτροπή για την αποθήκευση διαπιστευτηρίων</string>
-    <string name="biometric_prompt_store_credential_title">Αποθήκευση βιομετρικής αναγνώρισης</string>
-    <string name="biometric_prompt_store_credential_message">Προειδοποίηση: Πρέπει ακόμα να θυμάστε τον κύριο κωδικό πρόσβασης σας εάν χρησιμοποιείτε βιομετρική αναγνώριση.</string>
-    <string name="biometric_prompt_extract_credential_title">Άνοιγμα βάσης δεδομένων με βιομετρική αναγνώριση</string>
-    <string name="biometric_prompt_extract_credential_message">Εξαγωγή της πιστοποίησης βάσης δεδομένων με βιομετρικά δεδομένα</string>
-    <string name="biometric_invalid_key">Δεν είναι δυνατή η ανάγνωση του βιομετρικού κλειδιού. Διαγράψτε το και επαναλάβετε τη διαδικασία βιομετρικής αναγνώρισης.</string>
-    <string name="biometric_not_recognized">Δεν ήταν δυνατή η αναγνώριση βιομετρικών στοιχείων</string>
-    <string name="biometric_scanning_error">Βιομετρικό σφάλμα: %1$s</string>
     <string name="no_credentials_stored">Αυτή η βάση δεδομένων δεν έχει αποθηκευμένα διαπιστευτήρια ακόμα.</string>
     <string name="menu_appearance_settings">Εμφάνιση</string>
     <string name="biometric">Βιομετρία</string>
@@ -367,7 +357,6 @@
     <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματα βιομετρία εάν η βάση δεδομένων έχει ρυθμιστεί για να τη χρησιμοποιήσει</string>
     <string name="biometric_delete_all_key_title">Διαγράψτε τα κλειδιά κρυπτογράφησης</string>
     <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση</string>
-    <string name="biometric_delete_all_key_warning">Διαγραφή όλων των κλειδιών κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση;</string>
     <string name="enable">Ενεργοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
     <string name="master_key">Κύριο κλειδί</string>
@@ -426,7 +415,6 @@
     <string name="command_execution">Εκτέλεση της εντολής…</string>
     <string name="warning_permanently_delete_nodes">Οριστική διαγραφή επιλεγμένων κόμβων;</string>
     <string name="keystore_not_accessible">Η κλειδοθήκη δεν έχει προετοιμαστεί σωστά.</string>
-    <string name="credential_before_click_biometric_button">Πληκτρολογήστε τον κωδικό πρόσβασης και στη συνέχεια κάντε κλικ στο κουμπί \"Biometric\".</string>
     <string name="recycle_bin_group_title">Ομάδα Κάδου Ανακύκλωσης</string>
     <string name="enable_auto_save_database_title">Αυτόματη αποθήκευση βάσης δεδομένων</string>
     <string name="enable_auto_save_database_summary">Αποθήκευση της βάσης δεδομένων μετά από κάθε σημαντική ενέργεια (σε λειτουργία \"Τροποποιήσιμο\")</string>
@@ -519,7 +507,6 @@
     <string name="keyboard_save_search_info_title">Αποθήκευση κοινόχρηστων πληροφοριών</string>
     <string name="notification">Ειδοποίηση</string>
     <string name="crypto_object_not_initialized">Δεν είναι δυνατή η ανάκτηση κρυπτογραφικού αντικειμένου.</string>
-    <string name="biometric_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία της βιομετρικής προτροπής.</string>
     <string name="biometric_security_update_required">Απαιτείται ενημέρωση βιομετρικής ασφάλειας.</string>
     <string name="configure_biometric">Κανένα πιστοποιητικό βιομετρίας ή συσκευής δεν είναι εγγεγραμμένο.</string>
     <string name="warning_empty_recycle_bin">Να διαγραφούν οριστικά όλοι οι κόμβοι από τον κάδο ανακύκλωσης;</string>

@@ -170,7 +170,6 @@
     <string name="menu_move">Verplaatsen</string>
     <string name="menu_paste">Plakken</string>
     <string name="menu_cancel">Annuleren</string>
-    <string name="menu_biometric_remove_key">Opgeslagen biometrische gegevens verwijderen</string>
     <string name="menu_file_selection_read_only">Alleen-lezen</string>
     <string name="menu_open_file_read_and_write">Lezen en schrijven</string>
     <string name="protection">Beveiliging</string>
@@ -198,12 +197,7 @@
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
     <string name="warning_no_encryption_key">Doorgaan zonder coderingssleutel\?</string>
-    <string name="open_biometric_prompt_unlock_database">Biometrische herkenning gebruiken om de database te ontgrendelen</string>
     <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
-    <string name="biometric_invalid_key">Kan de biometrische gegevens niet lezen. Verwijder deze en herhaal de procedure voor biometrische herkenning.</string>
-    <string name="biometric_not_recognized">Biometrie niet herkend</string>
-    <string name="biometric_scanning_error">Probleem met biometrie: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Biometrische herkenning gebruiken om wachtwoorden op te slaan</string>
     <string name="no_credentials_stored">Deze database heeft nog geen opgeslagen gegevens.</string>
     <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
@@ -229,7 +223,6 @@
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
     <string name="biometric_delete_all_key_summary">Alle sleutels voor biometrische herkenning verwijderen</string>
-    <string name="biometric_delete_all_key_warning">Alle coderingssleutels voor biometrische herkenning verwijderen\?</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Het apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
@@ -370,10 +363,6 @@
     <string name="content_description_keyboard_close_fields">Velden sluiten</string>
     <string name="error_create_database_file">Kan geen database aanmaken met dit wachtwoord en sleutelbestand.</string>
     <string name="menu_advanced_unlock_settings">Geavanceerd ontgrendelen</string>
-    <string name="biometric_prompt_store_credential_title">Biometrische herkenning opslaan</string>
-    <string name="biometric_prompt_store_credential_message">Waarschuwing: Je moet nog steeds je hoofdwachtwoord onthouden als je biometrische herkenning gebruikt.</string>
-    <string name="biometric_prompt_extract_credential_title">Database openen met biometrische herkenning</string>
-    <string name="biometric_prompt_extract_credential_message">Database-referenties uitpakken met biometrische herkenning</string>
     <string name="biometric">Biometrie</string>
     <string name="biometric_auto_open_prompt_title">Automatisch om biometrie vragen</string>
     <string name="biometric_auto_open_prompt_summary">Automatisch om biometrie vragen als een database hiervoor is ingesteld</string>
@@ -443,7 +432,6 @@
     <string name="lock_database_show_button_summary">Geeft de vergrendelknop weer in de gebruikersinterface</string>
     <string name="lock_database_show_button_title">Vergrendelknop weergeven</string>
     <string name="autofill_preference_title">Instellingen voor automatisch aanvullen</string>
-    <string name="credential_before_click_biometric_button">Voer het wachtwoord in en klik vervolgens op de knop \"Biometrie\".</string>
     <string name="keystore_not_accessible">De sleutelopslag is niet correct geïnitialiseerd.</string>
     <string name="warning_permanently_delete_nodes">Geselecteerde knooppunten definitief verwijderen\?</string>
     <string name="warning_database_link_revoked">Toegang tot het bestand ingetrokken door bestandsbeheer</string>

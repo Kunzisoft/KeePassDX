@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/biometric_message"
-        tools:text="@string/biometric_prompt_store_credential_title"
+        tools:text="@string/advanced_unlock_prompt_store_credential_title"
         style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
         android:textSize="14sp"
         android:gravity="center" />

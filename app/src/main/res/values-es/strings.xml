@@ -157,7 +157,6 @@
     <string name="keyfile_is_empty">El archivo de clave está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
     <string name="menu_form_filling_settings">Llenado de formulario</string>
-    <string name="menu_biometric_remove_key">Quite la clave de huella dactilar</string>
     <string name="protection">Protección</string>
     <string name="read_only">Protegida contra escritura</string>
     <string name="read_only_warning">KeePassDX necesita permiso de escritura para modificar la base de datos.</string>
@@ -182,14 +181,9 @@
     <string name="warning_password_encoding">Evite emplear en la base de datos caracteres que no pertenezcan al formato de codificación del texto (los caracteres no reconocidos se convierten a la misma letra).</string>
     <string name="warning_empty_password">¿Continuar sin la protección de desbloqueo de contraseña\?</string>
     <string name="warning_no_encryption_key">¿Continuar sin clave de cifrado\?</string>
-    <string name="open_biometric_prompt_unlock_database">Abra la petición de datos biométricos para desbloquear la base de datos</string>
     <string name="encrypted_value_stored">Contraseña cifrada almacenada</string>
-    <string name="biometric_invalid_key">No se puede leer la clave biométrica. Bórrela y repita el procedimiento de reconocimiento biométrico.</string>
-    <string name="biometric_not_recognized">No fue posible identificar los datos biométricos</string>
-    <string name="biometric_scanning_error">Error de biometría: %1$s</string>
     <string name="database_history">Historial</string>
     <string name="autofill_explanation_summary">Habilite el servicio para completar formularios fácilmente desde otras aplicaciones</string>
-    <string name="open_biometric_prompt_store_credential">Abra la petición de datos biométricos para almacenar credenciales</string>
     <string name="no_credentials_stored">Esta base de datos aún no tiene credenciales almacenadas.</string>
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
@@ -212,7 +206,6 @@
     <string name="biometric_unlock_enable_summary">Le permite escanear su huella dactilar u otro dato biométrico para abrir la base de datos</string>
     <string name="biometric_delete_all_key_title">Eliminar claves de cifrado</string>
     <string name="biometric_delete_all_key_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento biométrico</string>
-    <string name="biometric_delete_all_key_warning">¿Confirma que quiere eliminar todas las claves relativas al reconocimiento biométrico\?</string>
     <string name="unavailable_feature_text">No se pudo iniciar esta funcionalidad.</string>
     <string name="unavailable_feature_version">La versión de Android del dispositivo es %1$s, pero es necesaria la %2$s o posterior.</string>
     <string name="unavailable_feature_hardware">No se encontró el hardware correspondiente.</string>
@@ -360,10 +353,6 @@
     <string name="content_description_keyboard_close_fields">Cerrar campos</string>
     <string name="error_create_database_file">No se puede crear la base de datos con esta contraseña y este archivo de clave.</string>
     <string name="menu_advanced_unlock_settings">Desbloqueo avanzado</string>
-    <string name="biometric_prompt_store_credential_title">Guardar reconocimiento biométrico</string>
-    <string name="biometric_prompt_store_credential_message">Atención: debe recordar su contraseña maestra aunque use el reconocimiento biométrico.</string>
-    <string name="biometric_prompt_extract_credential_title">Abrir base de datos con reconocimiento biométrico</string>
-    <string name="biometric_prompt_extract_credential_message">Extraer credencial de base de datos con datos biométricos</string>
     <string name="biometric">Biometría</string>
     <string name="biometric_auto_open_prompt_title">Abrir petición de datos biométricos automáticamente</string>
     <string name="biometric_auto_open_prompt_summary">Abrir automáticamente la petición de datos biométricos cuando se define una clave biométrica para una base de datos</string>
@@ -409,7 +398,7 @@
     <string name="compression_none">Ninguna</string>
     <string name="compression">Compresión</string>
     <string name="database_default_username_title">Nombre de usuario predeterminado</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Requerir cambiar la contraseña maestra la próxima vez (una sóla vez)</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Requerir cambiar la contraseña maestra la próxima vez (una sola vez)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Forzar renovación la próxima vez</string>
     <string name="settings_database_force_changing_master_key_summary">Requerir un cambio de contraseña maestra (días)</string>
     <string name="settings_database_force_changing_master_key_title">Forzar renovación</string>

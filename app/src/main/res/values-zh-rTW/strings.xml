@@ -150,7 +150,6 @@
     <string name="menu_paste">貼上</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">顯示密碼</string>
-    <string name="menu_biometric_remove_key">移除現存生物識別金鑰</string>
     <string name="menu_file_selection_read_only">唯讀</string>
     <string name="menu_open_file_read_and_write">讀寫</string>
     <string name="omit_backup_search_title">不要搜尋備份的項目</string>
@@ -282,9 +281,6 @@
     <string name="validate">驗證</string>
     <string name="content_description_add_item">添加項目</string>
     <string name="encrypted_value_stored">已儲存加密密碼</string>
-    <string name="biometric_prompt_extract_credential_title">使用生物識別開啟資料庫</string>
-    <string name="biometric_prompt_store_credential_message">警告：即使已啟用生物識別，你仍須牢記你的主密碼。</string>
-    <string name="biometric_prompt_store_credential_title">儲存生物識別資訊</string>
     <string name="build_label">版本號 %1$s</string>
     <string name="version_label">版本 %1$s</string>
     <string name="warning_permanently_delete_nodes">確定永久刪除已選項目？</string>
@@ -295,10 +291,8 @@
     <string name="device_keyboard_setting_title">裝置鍵盤設定</string>
     <string name="magic_keyboard_explanation_summary">啟用用作輸入密碼和其他欄位的自訂鍵盤</string>
     <string name="keyboard">鍵盤</string>
-    <string name="biometric_delete_all_key_warning">確定刪除生物識別加密金鑰嗎？</string>
     <string name="biometric_delete_all_key_summary">刪除全部生物識別加密金鑰</string>
     <string name="biometric_delete_all_key_title">刪除加密金鑰</string>
-    <string name="biometric_invalid_key">無法讀取生物識別金鑰。請刪除原有金鑰，再重新啟用生物識別。</string>
     <string name="keystore_not_accessible">金鑰庫未能初始化。</string>
     <string name="education_select_database_title">開啟現有資料庫</string>
     <string name="education_create_database_title">建立你的資料庫檔案</string>
@@ -346,8 +340,6 @@
     <string name="general">一般</string>
     <string name="menu_appearance_settings">外觀</string>
     <string name="database_history">歷史</string>
-    <string name="biometric_scanning_error">生物特徵驗證: %1$s</string>
-    <string name="biometric_not_recognized">無法通過生物特徵認證</string>
     <string name="warning_sure_remove_data">仍要移除此資料？</string>
     <string name="warning_sure_add_file">仍要新增檔案？</string>
     <string name="warning_replace_file">上傳此檔案會取代現有的檔案。</string>

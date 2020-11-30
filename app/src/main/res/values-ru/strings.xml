@@ -138,11 +138,7 @@
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="version_label">Версия %1$s</string>
-    <string name="open_biometric_prompt_unlock_database">Начать биометрическую разблокировку базы</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="biometric_invalid_key">Невозможно распознать биометрический ключ. Удалите его и повторите процедуру настройки биометрического распознавания.</string>
-    <string name="biometric_scanning_error">Проблема с биометрическим ключом: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Используйте биометрический ключ, чтобы сохранить главный пароль</string>
     <string name="no_credentials_stored">Для этой базы главный пароль ещё не сохранён.</string>
     <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
 \n
@@ -192,7 +188,6 @@
     <string name="menu_move">Переместить</string>
     <string name="menu_paste">Вставить</string>
     <string name="menu_cancel">Отмена</string>
-    <string name="menu_biometric_remove_key">Удалить биометрический ключ</string>
     <string name="menu_file_selection_read_only">Только чтение</string>
     <string name="menu_open_file_read_and_write">Чтение и запись</string>
     <string name="sort_groups_before">Сначала группы</string>
@@ -200,7 +195,6 @@
     <string name="sort_title">Название записи</string>
     <string name="warning_empty_password">Продолжить без пароля для защиты базы\?</string>
     <string name="warning_no_encryption_key">Продолжить без ключа шифрования\?</string>
-    <string name="biometric_not_recognized">Биометрический ключ не распознан</string>
     <string name="database_history">История</string>
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
@@ -225,7 +219,6 @@
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
     <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием биометрического ключа</string>
-    <string name="biometric_delete_all_key_warning">Удалить все ключи шифрования, связанные с биометрическим распознаванием\?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s, но требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
@@ -365,10 +358,6 @@
     <string name="content_description_keyboard_close_fields">Закрыть поля</string>
     <string name="error_create_database_file">Невозможно создать базу с этим паролем и ключевым файлом.</string>
     <string name="menu_advanced_unlock_settings">Дополнительная разблокировка</string>
-    <string name="biometric_prompt_store_credential_title">Сохранение биометрического ключа</string>
-    <string name="biometric_prompt_store_credential_message">Внимание: вам по-прежнему нужно помнить главный пароль при использовании использование функции биометрического распознавания.</string>
-    <string name="biometric_prompt_extract_credential_title">Открыть базу биометрическим ключом</string>
-    <string name="biometric_prompt_extract_credential_message">Извлекать главный пароль биометрическим ключом</string>
     <string name="biometric">Биометрический ключ</string>
     <string name="biometric_auto_open_prompt_title">Автозапрос биометрического ключа</string>
     <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать биометрический ключ, если он установлен для базы</string>
@@ -426,7 +415,6 @@
     <string name="command_execution">Выполнение команды…</string>
     <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные элементы\?</string>
     <string name="keystore_not_accessible">Хранилище ключей не инициализировано должным образом.</string>
-    <string name="credential_before_click_biometric_button">Введите пароль, затем нажмите кнопку биометрии.</string>
     <string name="recycle_bin_group_title">Группа \"корзины\"</string>
     <string name="enable_auto_save_database_title">Автосохранение базы</string>
     <string name="enable_auto_save_database_summary">Сохранять базу после каждого важного действия (в \"режиме записи\")</string>
@@ -504,7 +492,6 @@
     <string name="warning_sure_remove_data">Всё равно удалить эти данные\?</string>
     <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер вашей базы данных, но также может удалить данные, используемые для плагинов KeePass.</string>
     <string name="content_description_credentials_information">Информация об учётных данных</string>
-    <string name="biometric_prompt_not_initialized">Невозможно инициализировать ввод биометрического ключа.</string>
     <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
     <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>

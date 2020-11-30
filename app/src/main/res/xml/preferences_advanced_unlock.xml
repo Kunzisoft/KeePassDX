@@ -19,7 +19,7 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/biometric">
+        android:title="@string/general">
         <Preference
             android:key="@string/advanced_unlock_explanation_key"
             android:icon="@drawable/prefs_info_24dp"
@@ -30,15 +30,18 @@
             android:summary="@string/biometric_unlock_enable_summary"
             android:defaultValue="@bool/biometric_unlock_enable_default"/>
         <SwitchPreference
+            android:key="@string/device_credential_unlock_enable_key"
+            android:title="@string/device_credential_unlock_enable_title"
+            android:summary="@string/device_credential_unlock_enable_summary"
+            android:defaultValue="@bool/device_credential_unlock_enable_default"/>
+        <SwitchPreference
             android:key="@string/biometric_auto_open_prompt_key"
             android:title="@string/biometric_auto_open_prompt_title"
             android:summary="@string/biometric_auto_open_prompt_summary"
-            android:dependency="@string/biometric_unlock_enable_key"
             android:defaultValue="@bool/biometric_auto_open_prompt_default"/>
         <Preference
             android:key="@string/biometric_delete_all_key_key"
             android:title="@string/biometric_delete_all_key_title"
             android:summary="@string/biometric_delete_all_key_summary" />
-
     </PreferenceCategory>
 </PreferenceScreen>

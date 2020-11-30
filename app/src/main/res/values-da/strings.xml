@@ -168,7 +168,6 @@
     <string name="menu_move">Flyt</string>
     <string name="menu_paste">Indsæt</string>
     <string name="menu_cancel">Annuller</string>
-    <string name="menu_biometric_remove_key">Slet gemt fingeraftryk</string>
     <string name="menu_file_selection_read_only">Skrivebeskyttet</string>
     <string name="menu_open_file_read_and_write">Modificerbar</string>
     <string name="read_only">Skrivebeskyttet</string>
@@ -191,12 +190,7 @@
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Fortsæt uden krypteringsnøgle\?</string>
-    <string name="open_biometric_prompt_unlock_database">Åbn biometriske forespørgsel for at låse databasen op</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
-    <string name="biometric_invalid_key">Kan ikke læse den biometriske nøgle. Slet den og gentag den biometriske genkendelsesprocedure.</string>
-    <string name="biometric_not_recognized">Kunne ikke genkende biometrisk</string>
-    <string name="biometric_scanning_error">Biometrisk fejl: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Åbn den biometriske prompt for at gemme legitimationsoplysninger</string>
     <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="database_history">Historik</string>
     <string name="menu_appearance_settings">Udseende</string>
@@ -222,7 +216,6 @@
     <string name="biometric_unlock_enable_summary">Giver mulighed for at scanne biometriske for at åbne databasen</string>
     <string name="biometric_delete_all_key_title">Slet krypteringsnøgler</string>
     <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse</string>
-    <string name="biometric_delete_all_key_warning">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse\?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
     <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
     <string name="unavailable_feature_hardware">Kunne ikke finde den tilsvarende hardware.</string>
@@ -364,10 +357,6 @@
     <string name="content_description_keyboard_close_fields">Luk felter</string>
     <string name="error_create_database_file">Kan ikke oprette database med denne adgangskode og nøglefil.</string>
     <string name="menu_advanced_unlock_settings">Avanceret oplåsning</string>
-    <string name="biometric_prompt_store_credential_title">Gem biometrisk genkendelse</string>
-    <string name="biometric_prompt_store_credential_message">Advarsel: hovedadgangskoden skal stadig huskes, hvis der bruges biometrisk genkendelse.</string>
-    <string name="biometric_prompt_extract_credential_title">Åbn database med biometrisk genkendelse</string>
-    <string name="biometric_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
     <string name="biometric">Biometrisk</string>
     <string name="biometric_auto_open_prompt_title">Åbn automatisk biometrisk prompt</string>
     <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter biometri, hvis databasen er konfigureret til at bruge den</string>
@@ -424,7 +413,6 @@
     <string name="command_execution">Udfører kommandoen…</string>
     <string name="warning_permanently_delete_nodes">Slet markerede noder permanent\?</string>
     <string name="keystore_not_accessible">Nøglelageret er ikke korrekt initialiseret.</string>
-    <string name="credential_before_click_biometric_button">Indtast adgangskoden, og klik derefter på knappen \"Biometrisk\".</string>
     <string name="recycle_bin_group_title">Papirkurvsgruppe</string>
     <string name="enable_auto_save_database_title">Gem automatisk database</string>
     <string name="enable_auto_save_database_summary">Gem databasen efter hver en vigtig handling (i tilstanden \"Modificerbar\")</string>
@@ -507,7 +495,6 @@
     <string name="database_data_remove_unlinked_attachments_title">Fjern ikke-sammenkædede data</string>
     <string name="data">Data</string>
     <string name="crypto_object_not_initialized">Kryptoobjektet kunne ikke hentes.</string>
-    <string name="biometric_prompt_not_initialized">Biometrisk prompt kunne ikke initialiseres.</string>
     <string name="biometric_security_update_required">Biometrisk sikkerhedsopdatering påkrævet.</string>
     <string name="warning_empty_keyfile_explanation">Indholdet af nøglefilen bør aldrig ændres og bør i bedste fald indeholde tilfældigt genererede data.</string>
     <string name="warning_empty_keyfile">Det anbefales ikke at tilføje en tom nøglefil.</string>

@@ -9,7 +9,6 @@
     <string name="menu_open_file_read_and_write">Bisa Diubah</string>
     <string name="menu_file_selection_read_only">Lindungi Dari Perubahan</string>
     <string name="menu_url">Membuka Tautan</string>
-    <string name="menu_biometric_remove_key">Hapus Kunci Sidik Jari Yang Tersimpan</string>
     <string name="menu_showpass">Tampilkan Kata Sandi</string>
     <string name="menu_search">Cari</string>
     <string name="menu_open">Buka</string>

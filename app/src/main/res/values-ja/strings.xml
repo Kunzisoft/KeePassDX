@@ -185,7 +185,6 @@
     <string name="menu_open">開く</string>
     <string name="menu_search">検索</string>
     <string name="menu_showpass">パスワードを表示</string>
-    <string name="menu_biometric_remove_key">保存済み生体鍵を削除</string>
     <string name="menu_url">URL に移動</string>
     <string name="menu_file_selection_read_only">書き込み禁止</string>
     <string name="menu_open_file_read_and_write">変更可能</string>
@@ -272,20 +271,9 @@
     <string name="configure_biometric">生体情報またはデバイス認証情報が未登録です。</string>
     <string name="biometric_security_update_required">生体認証セキュリティの更新が必要です。</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
-    <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開きロックを解除します</string>
-    <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開き認証情報を保存します</string>
-    <string name="biometric_prompt_store_credential_title">生体認証の保存</string>
-    <string name="biometric_prompt_store_credential_message">警告：生体認証を使用する場合も、マスター パスワードを記憶する必要があります。</string>
-    <string name="biometric_prompt_extract_credential_title">生体認証でデータベースを開く</string>
-    <string name="biometric_prompt_extract_credential_message">生体情報を使ってデータベースの認証情報を取り出します</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
-    <string name="biometric_invalid_key">生体鍵が読み取れません。削除して生体認証の手順を繰り返してください。</string>
-    <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
-    <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
-    <string name="biometric_prompt_not_initialized">生体認証プロンプトを初期化できません。</string>
     <string name="crypto_object_not_initialized">crypto オブジェクトを取得できません。</string>
-    <string name="credential_before_click_biometric_button">パスワードを入力し、[生体認証] ボタンをタップします。</string>
     <string name="database_history">履歴</string>
     <string name="menu_appearance_settings">デザイン</string>
     <string name="biometric">生体認証</string>
@@ -321,7 +309,6 @@
     <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に求めます</string>
     <string name="biometric_delete_all_key_title">暗号鍵を削除</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号鍵を削除します</string>
-    <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号鍵を削除しますか？</string>
     <string name="unavailable_feature_text">この機能を起動できませんでした。</string>
     <string name="unavailable_feature_version">デバイスは Android %1$s を実行していますが、%2$s 以降が必要です。</string>
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>

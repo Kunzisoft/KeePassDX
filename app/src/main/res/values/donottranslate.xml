@@ -97,6 +97,8 @@
     <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
     <bool name="biometric_auto_open_prompt_default" translatable="false">false</bool>
     <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
+    <string name="device_credential_unlock_enable_key" translatable="false">device_credential_unlock_enable_key</string>
+    <bool name="device_credential_unlock_enable_default" translatable="false">false</bool>
 
     <!-- Form Filling Settings -->
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>

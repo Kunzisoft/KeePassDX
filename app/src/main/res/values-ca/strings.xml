@@ -193,10 +193,7 @@
     <string name="biometric">Biomètric</string>
     <string name="menu_appearance_settings">Apariència</string>
     <string name="database_history">Història</string>
-    <string name="credential_before_click_biometric_button">Escriviu la contrasenya abans de fer clic en el botó biomètric.</string>
     <string name="encrypted_value_stored">Contrasenya xifrada desada</string>
-    <string name="biometric_prompt_extract_credential_title">Obri la base de dades amb reconeixement biomètric</string>
-    <string name="biometric_prompt_store_credential_message">Alerta: Heu de recordar la vostra contrasenya mestra encara que feu servir el reconeixement biomètrica.</string>
     <string name="warning_permanently_delete_nodes">Voleu suprimir definitivament els nodes seleccionats\?</string>
     <string name="warning_no_encryption_key">Voleu continuar sense contrasenya de xifrat\?</string>
     <string name="warning_database_link_revoked">L\'accés al fitxer ha estat revocat pel gestor de fitxers</string>
@@ -232,7 +229,6 @@
     <string name="menu_empty_recycle_bin">Buida la paperera</string>
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="menu_file_selection_read_only">Protegit contra escriptura</string>
-    <string name="menu_biometric_remove_key">Suprimeix la clau biomètrica desada</string>
     <string name="menu_save_database">Desa la base de dades</string>
     <string name="menu_cancel">Cancel·la</string>
     <string name="menu_paste">Enganxa</string>
