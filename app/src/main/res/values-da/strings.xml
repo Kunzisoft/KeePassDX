@@ -216,7 +216,6 @@
     <string name="biometric_unlock_enable_summary">Giver mulighed for at scanne biometriske for at åbne databasen</string>
     <string name="biometric_delete_all_key_title">Slet krypteringsnøgler</string>
     <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse</string>
-    <string name="biometric_delete_all_key_warning">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse\?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
     <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
     <string name="unavailable_feature_hardware">Kunne ikke finde den tilsvarende hardware.</string>

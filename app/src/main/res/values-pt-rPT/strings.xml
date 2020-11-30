@@ -474,7 +474,6 @@
     <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
     <string name="education_setup_OTP_summary">Configurar a gestão de palavra-passe única (HOTP / TOTP) para gerar um token solicitado para autenticação de dois fatores (2FA).</string>
     <string name="remember_keyfile_locations_title">Lembrar locais de ficheiros-chave</string>
-    <string name="biometric_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento biométrico\?</string>
     <string name="download_progression">Em progresso: %1$d%%</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o escaneamento de biomẽtrico</string>
     <string name="advanced_unlock">Desbloqueio avançado</string>

@@ -341,7 +341,6 @@
     <string name="database_data_compression_title">ضغط البيانات</string>
     <string name="data">البيانات</string>
     <string name="unavailable_feature_hardware">تعذر العثور على ماسح البصمة.</string>
-    <string name="biometric_delete_all_key_warning">هل تريد حذف كل مفاتيح التشفير المرتبطة بالبصمة؟</string>
     <string name="biometric_delete_all_key_summary">احذف كل مفاتيح التشفير المرتبطة بالبصمة</string>
     <string name="advanced_unlock_explanation_summary">استخدم إلغاء القفل المتقدم لفتح قاعدة البيانات بسهولة</string>
     <string name="lock_database_show_button_summary">يعرض زر القَفل في الواجهة</string>

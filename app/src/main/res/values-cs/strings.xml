@@ -217,7 +217,6 @@
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním biometrického údaje</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
     <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s biometrickým rozlišením</string>
-    <string name="biometric_delete_all_key_warning">Smazat všechny šifrovací klíče související s biometrickým rozlišením\?</string>
     <string name="unavailable_feature_text">Tuto funkci se nedaří spustit.</string>
     <string name="unavailable_feature_version">V zařízení je instalován Android %1$s, ale potřebná je verze %2$s a novější.</string>
     <string name="unavailable_feature_hardware">Hardware nebyl rozpoznán.</string>

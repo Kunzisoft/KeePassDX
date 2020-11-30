@@ -394,7 +394,6 @@
     <string name="file_name">Назва файлу</string>
     <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
-    <string name="biometric_delete_all_key_warning">Видалити всі ключі шифрування, пов\'язані з розпізнаванням біометричного ключа\?</string>
     <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов\'язані з розпізнаванням біометричного ключа</string>
     <string name="biometric_delete_all_key_title">Видалити ключі шифрування</string>
     <string name="biometric_auto_open_prompt_summary">Автоматично запитувати біометричний ключ, якщо базу даних налаштовано для роботи з ним</string>

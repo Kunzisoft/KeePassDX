@@ -268,7 +268,6 @@
     <string name="biometric_auto_open_prompt_summary">Deschideți automat biometric prompt atunci când o cheie biometrică este definită pentru o bază de date</string>
     <string name="biometric_delete_all_key_title">Ștergeți cheile de criptare</string>
     <string name="biometric_delete_all_key_summary">Ștergeți toate cheile de criptare legate de recunoașterea biometrică</string>
-    <string name="biometric_delete_all_key_warning">Sigur doriți să ștergeți toate cheile legate de recunoașterea biometrică\?</string>
     <string name="unavailable_feature_text">Nu s-a putut porni această caracteristică.</string>
     <string name="unavailable_feature_version">Versiunea dvs. de Android %1$s nu corespunde versiunii minime %2$s necesare.</string>
     <string name="unavailable_feature_hardware">Nu s-a putut găsi hardware-ul corespunzător.</string>

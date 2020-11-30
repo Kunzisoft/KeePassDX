@@ -200,7 +200,6 @@
     <string name="biometric_unlock_enable_summary">Veritabanını açmak için biyometriklerinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
     <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
-    <string name="biometric_delete_all_key_warning">Biyometrik tanıma ile ilgili tüm şifreleme anahtarları silinsin mi\?</string>
     <string name="unavailable_feature_text">Bu özellik başlatılamadı.</string>
     <string name="unavailable_feature_version">Aygıtta Android %1$s çalışıyor, ancak %2$s veya sonraki bir sürüm gerekli.</string>
     <string name="unavailable_feature_hardware">İlgili donanım bulunamadı.</string>

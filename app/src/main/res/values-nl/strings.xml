@@ -223,7 +223,6 @@
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
     <string name="biometric_delete_all_key_summary">Alle sleutels voor biometrische herkenning verwijderen</string>
-    <string name="biometric_delete_all_key_warning">Alle coderingssleutels voor biometrische herkenning verwijderen\?</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Het apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>

@@ -219,7 +219,6 @@
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle mit der biometrischen Erkennung verbundenen Verschlüsselungsschlüssel löschen.</string>
-    <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle mit der biometrischen Erkennung verknüpften Schlüssel löschen möchten\?</string>
     <string name="unavailable_feature_version">Auf dem Gerät läuft Android %1$s, eine Version ab %2$s wäre aber nötig.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
     <string name="recycle_bin_title">Papierkorb-Nutzung</string>

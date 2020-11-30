@@ -219,7 +219,6 @@
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
     <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием биометрического ключа</string>
-    <string name="biometric_delete_all_key_warning">Удалить все ключи шифрования, связанные с биометрическим распознаванием\?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s, но требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>

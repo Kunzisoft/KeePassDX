@@ -213,7 +213,6 @@
     <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
     <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
-    <string name="biometric_delete_all_key_warning">Eliminare tutte le chiavi di cifrature associate al riconoscimento biometrico \?</string>
     <string name="unavailable_feature_text">Impossibile avviare questa funzione.</string>
     <string name="unavailable_feature_version">La tua versione di Android %1$s non è la minima %2$s richiesta.</string>
     <string name="unavailable_feature_hardware">L\'hardware relativo non è stato trovato.</string>

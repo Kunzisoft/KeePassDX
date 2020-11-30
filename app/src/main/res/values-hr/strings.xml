@@ -196,7 +196,6 @@
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
     <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s biometrijskim prepoznavanjem</string>
-    <string name="biometric_delete_all_key_warning">Izbrisati sve ključeve povezane s biometrijskim prepoznavanjem\?</string>
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="file_name">Ime datoteke</string>
     <string name="path">Putanja</string>

@@ -198,7 +198,6 @@
     <string name="biometric_unlock_enable_summary">Skru på fingeravtrykksåpning av database</string>
     <string name="biometric_delete_all_key_title">Slett krypteringsnøkler</string>
     <string name="biometric_delete_all_key_summary">Slett alle fingeravtrykksnøkler som har med fingeravtrykksgjenkjennelse å gjøre</string>
-    <string name="biometric_delete_all_key_warning">Er du sikker på at du vil slette alle nøklene som har med fingeravtrykk å gjøre?</string>
     <string name="unavailable_feature_text">Kunne ikke starte denne funksjonen.</string>
     <string name="unavailable_feature_version">Din Androidversjon %1$s oppfyller ikke minimumskravet, %2$s kreves.</string>
     <string name="unavailable_feature_hardware">Fant ikke maskinvaren.</string>

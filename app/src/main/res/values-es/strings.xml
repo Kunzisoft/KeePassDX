@@ -206,7 +206,6 @@
     <string name="biometric_unlock_enable_summary">Le permite escanear su huella dactilar u otro dato biométrico para abrir la base de datos</string>
     <string name="biometric_delete_all_key_title">Eliminar claves de cifrado</string>
     <string name="biometric_delete_all_key_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento biométrico</string>
-    <string name="biometric_delete_all_key_warning">¿Confirma que quiere eliminar todas las claves relativas al reconocimiento biométrico\?</string>
     <string name="unavailable_feature_text">No se pudo iniciar esta funcionalidad.</string>
     <string name="unavailable_feature_version">La versión de Android del dispositivo es %1$s, pero es necesaria la %2$s o posterior.</string>
     <string name="unavailable_feature_hardware">No se encontró el hardware correspondiente.</string>

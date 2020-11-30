@@ -291,7 +291,6 @@
     <string name="device_keyboard_setting_title">裝置鍵盤設定</string>
     <string name="magic_keyboard_explanation_summary">啟用用作輸入密碼和其他欄位的自訂鍵盤</string>
     <string name="keyboard">鍵盤</string>
-    <string name="biometric_delete_all_key_warning">確定刪除生物識別加密金鑰嗎？</string>
     <string name="biometric_delete_all_key_summary">刪除全部生物識別加密金鑰</string>
     <string name="biometric_delete_all_key_title">刪除加密金鑰</string>
     <string name="keystore_not_accessible">金鑰庫未能初始化。</string>

@@ -359,7 +359,6 @@
     <string name="biometric_auto_open_prompt_summary">Öppna biometrisk prompt automatiskt när en biometrisk nyckel är definierad för en databas</string>
     <string name="biometric_delete_all_key_title">Radera krypteringsnycklar</string>
     <string name="biometric_delete_all_key_summary">Radera alla krypteringsnycklar som hör till den biometriska igenkänningen</string>
-    <string name="biometric_delete_all_key_warning">Är du säker på att du vill radera alla nycklar som hör till den biometriska igenkänningen\?</string>
     <string name="enable">Aktivera</string>
     <string name="disable">Avaktivera</string>
     <string name="entry_history">Historik</string>

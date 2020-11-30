@@ -219,7 +219,6 @@
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
     <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem linii papilarnych</string>
-    <string name="biometric_delete_all_key_warning">Czy usunąć wszystkie klucze szyfrowania związane z rozpoznawaniem biometrycznym\?</string>
     <string name="unavailable_feature_text">Nie można uruchomić tej funkcji.</string>
     <string name="unavailable_feature_version">Urządzenie pracuje na systemie Android %1$s, ale wymaga wersji %2$s lub nowszej.</string>
     <string name="unavailable_feature_hardware">Nie można znaleźć odpowiedniego sprzętu.</string>

@@ -357,7 +357,6 @@
     <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματα βιομετρία εάν η βάση δεδομένων έχει ρυθμιστεί για να τη χρησιμοποιήσει</string>
     <string name="biometric_delete_all_key_title">Διαγράψτε τα κλειδιά κρυπτογράφησης</string>
     <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση</string>
-    <string name="biometric_delete_all_key_warning">Διαγραφή όλων των κλειδιών κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση;</string>
     <string name="enable">Ενεργοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
     <string name="master_key">Κύριο κλειδί</string>

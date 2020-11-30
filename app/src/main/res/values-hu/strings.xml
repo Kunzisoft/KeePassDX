@@ -221,7 +221,6 @@
     <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis megnyitásához</string>
     <string name="biometric_delete_all_key_title">Titkosítási kulcsok törlése</string>
     <string name="biometric_delete_all_key_summary">Az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcs törlése</string>
-    <string name="biometric_delete_all_key_warning">Biztos, hogy törli az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcsot\?</string>
     <string name="unavailable_feature_text">A funkciót nem sikerült elindítani.</string>
     <string name="unavailable_feature_version">Az eszköz Android %1$s rendszert futtat, de %2$s vagy újabb szükséges.</string>
     <string name="unavailable_feature_hardware">Nem található a megfelelő hardver.</string>

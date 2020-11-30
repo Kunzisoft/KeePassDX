@@ -341,7 +341,6 @@
     <string name="master_key">Chave Mestre</string>
     <string name="disable">Desativar</string>
     <string name="enable">Ativar</string>
-    <string name="biometric_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento biométrico\?</string>
     <string name="biometric_delete_all_key_summary">Apague todas as chaves de encriptação relacionadas ao reconhecimento de biométrico</string>
     <string name="biometric_delete_all_key_title">Apague chaves de encriptação</string>
     <string name="biometric_auto_open_prompt_summary">Pedir pelo biométrico automaticamente se a base de dados estiver configurada para usá-la</string>

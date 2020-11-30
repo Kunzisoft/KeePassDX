@@ -244,7 +244,6 @@
     <string name="biometric_unlock_enable_summary">通过生物识别解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
     <string name="biometric_delete_all_key_summary">删除所有与生物识别相关的密钥</string>
-    <string name="biometric_delete_all_key_warning">要删除所有与生物识别相关的密钥吗？</string>
     <string name="unavailable_feature_text">无法启动此功能。</string>
     <string name="unavailable_feature_version">此设备运行 Android %1$s ，但应用需要 %2$s 或更高版本。</string>
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>

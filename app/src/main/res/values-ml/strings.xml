@@ -361,7 +361,6 @@
     <string name="warning_empty_keyfile">ഒരു ശൂന്യ കീ ഫയൽ ചേർക്കാൻ ശുപാർശ ചെയ്യുന്നില്ല.</string>
     <string name="list_password_generator_options_summary">അനുവദനീയമായ പാസ്‌വേഡ് ജനറേറ്റർ പ്രതീകങ്ങൾ ക്രമീകരിക്കുക</string>
     <string name="lock_database_back_root_summary">ഉപയോക്താവ് റൂട്ട് സ്ക്രീനിലെ ബാക്ക് ബട്ടൺ ക്ലിക്കുചെയ്യുമ്പോൾ ഡാറ്റാബേസ് ലോക്കുചെയ്യുക</string>
-    <string name="biometric_delete_all_key_warning">ബയോമെട്രിക് തിരിച്ചറിയലുമായി ബന്ധപ്പെട്ട എല്ലാ എൻ‌ക്രിപ്ഷൻ കീകളും ഇല്ലാതാക്കണോ\?</string>
     <string name="biometric_delete_all_key_summary">ബയോമെട്രിക് തിരിച്ചറിയലുമായി ബന്ധപ്പെട്ട എല്ലാ എൻ‌ക്രിപ്ഷൻ കീകളും ഇല്ലാതാക്കുക</string>
     <string name="path">പാത</string>
     <string name="database_data_remove_unlinked_attachments_title">ലിങ്കുചെയ്യാത്ത ഡാറ്റ നീക്കംചെയ്യുക</string>

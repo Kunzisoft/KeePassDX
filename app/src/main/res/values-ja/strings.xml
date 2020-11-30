@@ -309,7 +309,6 @@
     <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に求めます</string>
     <string name="biometric_delete_all_key_title">暗号鍵を削除</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号鍵を削除します</string>
-    <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号鍵を削除しますか？</string>
     <string name="unavailable_feature_text">この機能を起動できませんでした。</string>
     <string name="unavailable_feature_version">デバイスは Android %1$s を実行していますが、%2$s 以降が必要です。</string>
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>

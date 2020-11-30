@@ -187,7 +187,6 @@
     <string name="biometric_unlock_enable_summary">Permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
     <string name="biometric_delete_all_key_title">Supprimer les clés de chiffrement</string>
     <string name="biometric_delete_all_key_summary">Supprime toutes les clés de chiffrement liées à la reconnaissance biométrique</string>
-    <string name="biometric_delete_all_key_warning">Supprimer toutes les clés de chiffrement liées à la reconnaissance biométrique \?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
     <string name="unavailable_feature_version">L’appareil tourne sous Android %1$s, mais la version %2$s ou supérieure est requise.</string>
     <string name="unavailable_feature_hardware">Impossible de trouver le matériel correspondant.</string>
