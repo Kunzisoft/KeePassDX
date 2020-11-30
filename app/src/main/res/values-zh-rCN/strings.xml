@@ -167,7 +167,6 @@
     <string name="menu_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">显示密码</string>
-    <string name="menu_biometric_remove_key">删除已保存的与生物识别相关的密钥</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
     <string name="omit_backup_search_title">搜索时忽略备份条目</string>
@@ -192,7 +191,6 @@
     <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
-    <string name="open_biometric_prompt_store_credential">使用生物识别保存此密码</string>
     <string name="database_history">历史</string>
     <string name="menu_appearance_settings">外观</string>
     <string name="general">常规</string>
@@ -230,11 +228,7 @@
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">Build %1$s</string>
-    <string name="open_biometric_prompt_unlock_database">打开生物识别提示以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
-    <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>
-    <string name="biometric_not_recognized">无法识别生物识别信息</string>
-    <string name="biometric_scanning_error">生物识别错误：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认的填充服务</string>
     <string name="autofill_explanation_summary">启用自动填充功能，以快速填写其他应用中的表单</string>
@@ -368,10 +362,6 @@
     <string name="content_description_keyboard_close_fields">关闭字段</string>
     <string name="error_create_database_file">无法使用此密码和密钥文件新建数据库。</string>
     <string name="menu_advanced_unlock_settings">高级解锁</string>
-    <string name="biometric_prompt_store_credential_title">保存生物识别信息</string>
-    <string name="biometric_prompt_store_credential_message">警告：即使您已经使用生物识别数据存储了凭据，你仍需牢记主密码</string>
-    <string name="biometric_prompt_extract_credential_title">使用生物识别功能打开数据库</string>
-    <string name="biometric_prompt_extract_credential_message">使用生物识别数据提取数据库凭据</string>
     <string name="biometric">生物识别</string>
     <string name="biometric_auto_open_prompt_title">自动打开生物识别提示</string>
     <string name="biometric_auto_open_prompt_summary">生物识别密钥已配置时自动打开提示</string>
@@ -427,7 +417,6 @@
     <string name="menu_empty_recycle_bin">清空回收站</string>
     <string name="command_execution">正在执行命令……</string>
     <string name="warning_permanently_delete_nodes">是否永久删除选中的条目？</string>
-    <string name="credential_before_click_biometric_button">请先输入密码，再点击“生物识别”按钮。</string>
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
     <string name="enable_auto_save_database_summary">在每次执行重要操作后保存数据库（仅在编辑模式下有效）</string>
@@ -519,7 +508,6 @@
     <string name="keyboard_save_search_info_title">保存分享的信息</string>
     <string name="notification">通知</string>
     <string name="crypto_object_not_initialized">无法检索加密对象。</string>
-    <string name="biometric_prompt_not_initialized">无法初始化生物识别提示。</string>
     <string name="biometric_security_update_required">需要生物识别安全更新。</string>
     <string name="configure_biometric">未登记生物识别或设备凭证。</string>
     <string name="warning_empty_recycle_bin">从回收站永久删除所有节点？</string>

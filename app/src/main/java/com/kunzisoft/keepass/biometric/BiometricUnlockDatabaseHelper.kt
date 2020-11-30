@@ -153,8 +153,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 initBiometricPrompt()
 
                 val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
-                    setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
-                    setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
+                    setTitle(context.getString(R.string.advanced_unlock_prompt_store_credential_title))
+                    setDescription(context.getString(R.string.advanced_unlock_prompt_store_credential_message))
                     setConfirmationRequired(true)
                     if (deviceCredentialUnlockEnable) {
                         setAllowedAuthenticators(DEVICE_CREDENTIAL)
@@ -218,7 +218,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 initBiometricPrompt()
 
                 val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
-                    setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
+                    setTitle(context.getString(R.string.advanced_unlock_prompt_extract_credential_title))
                     //setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
                     setConfirmationRequired(false)
                     if (deviceCredentialUnlockEnable) {

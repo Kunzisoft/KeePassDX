@@ -167,7 +167,6 @@
     <string name="menu_move">Przenieś</string>
     <string name="menu_paste">Wklej</string>
     <string name="menu_cancel">Anuluj</string>
-    <string name="menu_biometric_remove_key">Usuń zapisany klucz linii papilarnych</string>
     <string name="menu_file_selection_read_only">Chroniony przed zapisem</string>
     <string name="menu_open_file_read_and_write">Modyfikowalne</string>
     <string name="protection">Ochrona</string>
@@ -195,11 +194,6 @@
     <string name="version_label">Wersja %1$s</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Grupy poprzednie</string>
-    <string name="open_biometric_prompt_unlock_database">Otwórz żądanie biometryczne, aby odblokować bazę danych</string>
-    <string name="biometric_invalid_key">Nie można odczytać klucza biometrycznego. Usuń go i powtórz procedurę rozpoznawania biometrycznego.</string>
-    <string name="biometric_not_recognized">Nie można rozpoznać odcisku palca</string>
-    <string name="biometric_scanning_error">Problem z odciskiem palca: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Użyj odcisku palca, aby zapisać to hasło</string>
     <string name="no_credentials_stored">Baza danych nie ma jeszcze hasła.</string>
     <string name="database_history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
@@ -365,10 +359,6 @@
     <string name="content_description_keyboard_close_fields">Zamknij pola</string>
     <string name="error_create_database_file">Nie można utworzyć bazy danych przy użyciu tego hasła i pliku klucza.</string>
     <string name="menu_advanced_unlock_settings">Zaawansowane odblokowywanie</string>
-    <string name="biometric_prompt_store_credential_title">Zapisz rozpoznawanie biometryczne</string>
-    <string name="biometric_prompt_store_credential_message">Ostrzeżenie: Jeśli korzystasz z rozpoznawania biometrycznego, musisz jeszcze zapamiętać hasło główne.</string>
-    <string name="biometric_prompt_extract_credential_title">Otwarta baza danych z rozpoznawaniem biometrycznym</string>
-    <string name="biometric_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z danymi biometrycznymi</string>
     <string name="biometric">Biometryczne</string>
     <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie monitu biometrycznego</string>
     <string name="enable">Włącz</string>
@@ -426,7 +416,6 @@
     <string name="command_execution">Wykonywanie polecenia…</string>
     <string name="warning_permanently_delete_nodes">Czy trwale usunąć wybrane węzły\?</string>
     <string name="keystore_not_accessible">Magazyn kluczy nie został poprawnie zainicjowany.</string>
-    <string name="credential_before_click_biometric_button">Wpisz hasło, a następnie kliknij przycisk \"Biometric\".</string>
     <string name="recycle_bin_group_title">Kosz grupy</string>
     <string name="enable_auto_save_database_title">Automatycznie zapisuj bazę danych</string>
     <string name="enable_auto_save_database_summary">Zapisz bazę danych po każdym ważnym działaniu (w trybie „Modyfikowalnym”)</string>
@@ -519,7 +508,6 @@
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
     <string name="notification">Powiadomienia</string>
     <string name="crypto_object_not_initialized">Nie można pobrać obiektu kryptograficznego.</string>
-    <string name="biometric_prompt_not_initialized">Nie można zainicjować monitu biometrycznego.</string>
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
     <string name="configure_biometric">Nie zarejestrowano żadnych danych biometrycznych ani danych urządzenia.</string>
     <string name="warning_empty_recycle_bin">Trwale usunąć wszystkie węzły z kosza\?</string>

@@ -169,7 +169,6 @@
     <string name="menu_move">Přesunout</string>
     <string name="menu_paste">Vložit</string>
     <string name="menu_cancel">Storno</string>
-    <string name="menu_biometric_remove_key">Smazat uložený biometrický klíč</string>
     <string name="menu_file_selection_read_only">Chráněno před zápisem</string>
     <string name="menu_open_file_read_and_write">Čtení a zápis</string>
     <string name="read_only">Chráněno před zápisem</string>
@@ -192,12 +191,7 @@
     <string name="warning_password_encoding">Nepoužívejte v hesle pro databázový soubor znaky mimo znakovou sadu Latin-1 (nepoužívejte znaky s diakritikou).</string>
     <string name="warning_empty_password">Pokračovat bez ochrany odemknutím heslem\?</string>
     <string name="warning_no_encryption_key">Pokračovat bez šifrovacího klíče\?</string>
-    <string name="open_biometric_prompt_unlock_database">Otevřít biometrickou pobídku k otevření databáze</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
-    <string name="biometric_invalid_key">Nelze načíst biometrický klíč. Prosím, smažte jej a opakujte proceduru biometrického rozpoznání.</string>
-    <string name="biometric_not_recognized">Biometrický prvek nerozpoznán</string>
-    <string name="biometric_scanning_error">Chyba s biometrickým prvkem: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Otevři biometrickou pobídku k uložení hesel</string>
     <string name="no_credentials_stored">Tato databáze zatím nemá uložené heslo.</string>
     <string name="database_history">Historie</string>
     <string name="menu_appearance_settings">Vzhled</string>
@@ -364,10 +358,6 @@
     <string name="content_description_keyboard_close_fields">Zavři kolonky</string>
     <string name="error_create_database_file">Nelze vytvořit databázi s tímto heslem a klíčem ze souboru.</string>
     <string name="menu_advanced_unlock_settings">Pokročilé odemčení</string>
-    <string name="biometric_prompt_store_credential_title">Uložit biometrické rozlišení</string>
-    <string name="biometric_prompt_store_credential_message">VAROVÁNÍ: I s použitím biometrického rozlišení budete muset znát své hlavní heslo.</string>
-    <string name="biometric_prompt_extract_credential_title">Otevřít databázi skrze biometrické rozlišení</string>
-    <string name="biometric_prompt_extract_credential_message">Vytáhnout heslo databáze biometrickými daty</string>
     <string name="biometric">Biometrika</string>
     <string name="biometric_auto_open_prompt_title">Automaticky otevřít biometrickou pobídku</string>
     <string name="biometric_auto_open_prompt_summary">Automaticky žádat biometriku, je-li databáze nastavena k jejímu použití</string>
@@ -424,7 +414,6 @@
     <string name="command_execution">Provádím příkaz…</string>
     <string name="warning_permanently_delete_nodes">Natrvalo smazat vybrané uzly\?</string>
     <string name="keystore_not_accessible">Úložiště klíčů není řádně inicializováno.</string>
-    <string name="credential_before_click_biometric_button">Zadejte heslo a pak klikněte na tlačítko \"Biometrika\".</string>
     <string name="recycle_bin_group_title">Skupina Koš</string>
     <string name="enable_auto_save_database_title">Uložit databázi automaticky</string>
     <string name="enable_auto_save_database_summary">Uložit databázi po každé důležité akci (v režimu \"Zápis\")</string>

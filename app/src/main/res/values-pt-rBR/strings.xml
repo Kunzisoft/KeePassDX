@@ -163,7 +163,6 @@
     <string name="menu_move">Mover</string>
     <string name="menu_paste">Colar</string>
     <string name="menu_cancel">Cancelar</string>
-    <string name="menu_biometric_remove_key">Deletar impressão digital salva</string>
     <string name="menu_file_selection_read_only">Somente leitura</string>
     <string name="menu_open_file_read_and_write">Gravação</string>
     <string name="protection">Proteção</string>
@@ -191,12 +190,7 @@
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
     <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
-    <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital para abrir o bando de dados</string>
     <string name="encrypted_value_stored">Senha encriptada armazenada</string>
-    <string name="biometric_invalid_key">Não pôde ler chave de impressão digital. Por favor, apague-a e repita o procedimento de reconhecimento biométrico.</string>
-    <string name="biometric_not_recognized">Não pôde reconhecer impressão digital</string>
-    <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
     <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
@@ -338,7 +332,7 @@
     <string name="lock_database_back_root_title">Pressione \'Voltar\' para trancar</string>
     <string name="lock_database_back_root_summary">Trancar a base de dados quando o usuário pressiona o botão \"Voltar\" na tela inicial</string>
     <string name="clear_clipboard_notification_title">Limpar ao fechar</string>
-    <string name="clear_clipboard_notification_summary">Bloquear o banco de dados quando a duração da área de transferência expirar ou a notificação for fechada depois do inicio do uso</string>
+    <string name="clear_clipboard_notification_summary">Bloquear o banco de dados quando a duração da área de transferência expirar ou a notificação for fechada depois do início do uso</string>
     <string name="recycle_bin">Lixeira</string>
     <string name="keyboard_selection_entry_title">Seleção de entrada</string>
     <string name="keyboard_selection_entry_summary">Mostrar campos de entrada no Magikeyboard quando estiver visualizando uma Entrada</string>
@@ -368,10 +362,6 @@
     <string name="content_description_keyboard_close_fields">Campos fechados</string>
     <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
     <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
-    <string name="biometric_prompt_store_credential_title">Salvar reconhecimento biométrico</string>
-    <string name="biometric_prompt_store_credential_message">AVISO: Apesar de usar o reconhecimento biométrico, você ainda precisará lembrar sua senha mestra.</string>
-    <string name="biometric_prompt_extract_credential_title">Abrir banco de dados com biometria</string>
-    <string name="biometric_prompt_extract_credential_message">Extrair credenciais do banco de dados com biometria</string>
     <string name="biometric">Biometria</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o prompt de biometria</string>
     <string name="biometric_auto_open_prompt_summary">Pedir automaticamente pelo prompt de biometria se a base de dados estiver configurada para usá-la</string>
@@ -428,7 +418,6 @@
     <string name="command_execution">Executando o comando…</string>
     <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
     <string name="keystore_not_accessible">A chave não foi propriamente inicializada.</string>
-    <string name="credential_before_click_biometric_button">Digite sua senha e então clique no botão de \"Biometria\".</string>
     <string name="recycle_bin_group_title">Grupo de lixeira</string>
     <string name="enable_auto_save_database_title">Salvar automaticamente a base de dados</string>
     <string name="enable_auto_save_database_summary">Salvar automaticamente a base de dados depois de uma ação importante (somente no modo \"Gravação\")</string>

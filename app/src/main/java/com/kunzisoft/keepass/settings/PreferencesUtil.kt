@@ -235,7 +235,7 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
     }
 
-    fun isBiometricPromptAutoOpenEnable(context: Context): Boolean {
+    fun isAdvancedUnlockPromptAutoOpenEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_auto_open_prompt_key),
                 context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))

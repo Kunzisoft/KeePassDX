@@ -170,7 +170,6 @@
     <string name="menu_open">Deschide</string>
     <string name="menu_search">Căutare</string>
     <string name="menu_showpass">Arata parola</string>
-    <string name="menu_biometric_remove_key">Ștergeți cheia biometrică salvată</string>
     <string name="menu_url">Accesați adresa URL</string>
     <string name="menu_file_selection_read_only">Protejat la scriere</string>
     <string name="menu_open_file_read_and_write">Modificabil</string>
@@ -235,18 +234,8 @@
     <string name="version_label">Versiunea %1$s</string>
     <string name="build_label">Construiți %1$s</string>
     <string name="keystore_not_accessible">Magazinul de chei nu este inițializat corect.</string>
-    <string name="open_biometric_prompt_unlock_database">Deschideți promptul biometric pentru deblocarea bazei de date</string>
-    <string name="open_biometric_prompt_store_credential">Deschideți promptul biometric pentru a stoca datele de acreditare</string>
-    <string name="biometric_prompt_store_credential_title">Salvați recunoașterea biometrică</string>
-    <string name="biometric_prompt_store_credential_message">Avertisment: trebuie să vă amintiți parola de master dacă utilizați recunoașterea biometrică.</string>
-    <string name="biometric_prompt_extract_credential_title">Baza de date deschisă cu recunoaștere biometrică</string>
-    <string name="biometric_prompt_extract_credential_message">Extrageți datele de bază cu date biometrice</string>
     <string name="encrypted_value_stored">Parola criptată stocată</string>
-    <string name="biometric_invalid_key">Nu pot citi cheia biometrică. Vă rugăm să îl ștergeți și să repetați procedura de recunoaștere biometrică.</string>
-    <string name="biometric_not_recognized">Nu a putut recunoaște biometric</string>
-    <string name="biometric_scanning_error">Eroare biometrică: %1$s</string>
     <string name="no_credentials_stored">Această bază de date nu are încă credențiale stocate.</string>
-    <string name="credential_before_click_biometric_button">De acum nu există date creditate stocate.</string>
     <string name="database_history">Istoric</string>
     <string name="menu_appearance_settings">Aparenta</string>
     <string name="biometric">Biometric</string>

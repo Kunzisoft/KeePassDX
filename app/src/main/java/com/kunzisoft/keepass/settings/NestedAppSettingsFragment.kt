@@ -279,7 +279,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                                 object : BiometricUnlockDatabaseHelper.BiometricUnlockErrorCallback {
                                                     fun showException(e: Exception) {
                                                         Toast.makeText(context,
-                                                                getString(R.string.biometric_scanning_error, e.localizedMessage),
+                                                                getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
                                                                 Toast.LENGTH_SHORT).show()
                                                     }
 

@@ -73,7 +73,6 @@
     <string name="menu_lock">اقفل قاعدة البيانات</string>
     <string name="menu_open">فتح</string>
     <string name="menu_search">البحث</string>
-    <string name="menu_biometric_remove_key">إزالة بصمة المفتاح</string>
     <string name="minus">ناقص</string>
     <string name="never">أبداً</string>
     <string name="no_results">لا توجد نتائج للبحث</string>
@@ -189,11 +188,7 @@
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
     <string name="path">مسار</string>
-    <string name="open_biometric_prompt_unlock_database">فحص البصمة</string>
-    <string name="biometric_invalid_key">لا يمكن قراءة مفتاح البصمة.
-\nاستعد كلمة السر.</string>
-    <string name="biometric_not_recognized">لم يتعرّف على البصمة</string>
-    <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
+
     <string name="database_history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
     <string name="advanced_unlock">البصمة</string>
@@ -326,10 +321,6 @@
     <string name="contribution">مساهمة</string>
     <string name="contact">"‮تواصل معنا "</string>
     <string name="biometric">البصمة</string>
-    <string name="credential_before_click_biometric_button">اكتب كلمة السر ، ثم انقر زر \"البصمة\".</string>
-    <string name="biometric_scanning_error">خطأ بالبصمة: %1$s</string>
-    <string name="biometric_prompt_extract_credential_title">افتح قاعدة البيانات بالبصمة</string>
-    <string name="biometric_prompt_store_credential_title">احفظ البصمة</string>
     <string name="warning_empty_keyfile_explanation">يجب ألا تغير محتوى ملف المفتاح، في أحسن الحالات يجب أن يحتوي بيانات مولدة عشوائيا.</string>
     <string name="warning_empty_keyfile">من غير المستحسن اضافة ملف مفتاح فارغ.</string>
     <string name="warning_sure_remove_data">أزل هذه البيانات عل أي حال؟</string>
@@ -394,8 +385,6 @@
     <string name="magic_keyboard_explanation_summary">نشِّط لوحة مفاتيح مخصصة لملأ كلمة السر وحقول معرّفك</string>
     <string name="biometric_auto_open_prompt_summary">اطلب فحص البصمة ان كانت قاعدة البيانات معدّة لذلك</string>
     <string name="biometric_auto_open_prompt_title">افتح محث البصمة تلقائيا</string>
-    <string name="biometric_prompt_extract_credential_message">استخرج بيانات الاعتماد لقاعدة البيانات بالبصمة</string>
-    <string name="biometric_prompt_store_credential_message">تحذير: مازلت بحاجة لتذكر المفتاح الرئيسي عند استخدامك للبصمة.</string>
     <string name="keystore_not_accessible">لم يُهيأ مخزن المفاتيح بشكل صحيح.</string>
     <string name="warning_remove_unlinked_attachment">حذف البيانات سيقلل من حجم قاعدة البيانات لكن احذر أن تكون إحدى هذه البيانات ملحقة لكي-باس.</string>
     <string name="subdomain_search_summary">ابحث عن النطاقات في النطاقات الفرعية</string>

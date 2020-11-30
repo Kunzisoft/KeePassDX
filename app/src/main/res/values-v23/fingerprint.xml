@@ -22,8 +22,7 @@
     <integer name="fingerprint_viewport_center">80</integer>
     <integer name="fingerprint_stroke_width">5</integer>
     <integer name="tick_cross_stroke_width">7</integer>
-    <dimen name="fingerprint_width">80dp</dimen>
-    <dimen name="fingerprint_height">80dp</dimen>
+    <dimen name="advanced_unlock_size">80dp</dimen>
 
     <!-- a pretty rough & ready re-draw of the fingerprint glyph from
          https://github.com/googlesamples/android-FingerprintDialog -->

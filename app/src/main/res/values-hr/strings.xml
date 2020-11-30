@@ -133,7 +133,6 @@
     <string name="menu_open">Otvori</string>
     <string name="menu_search">Traži</string>
     <string name="menu_showpass">Prikaži lozinku</string>
-    <string name="menu_biometric_remove_key">Izbriši spremljene biometrijske ključeve</string>
     <string name="menu_url">Idi na URL</string>
     <string name="menu_open_file_read_and_write">Promjenjivo</string>
     <string name="menu_empty_recycle_bin">Isprazni koš za smeće</string>
@@ -176,10 +175,7 @@
     <string name="warning_permanently_delete_nodes">Trajno izbrisati odabrane čvorove\?</string>
     <string name="version_label">Verzija %1$s</string>
     <string name="build_label">Izgradnja %1$s</string>
-    <string name="biometric_prompt_store_credential_message">Upozorenje: Ako koristiš biometrijsko prepoznavanje i dalje moraš zapamtiti svoju glavnu lozinku.</string>
-    <string name="biometric_prompt_extract_credential_title">Otvori bazu podataka pomoću biometrijskog prepoznavanja</string>
     <string name="encrypted_value_stored">Šifrirana lozinka pohranjena</string>
-    <string name="biometric_invalid_key">Nije moguće pročitati biometrijski ključ. Izbriši ga i ponovi postupak prepoznavanja.</string>
     <string name="database_history">Povijest</string>
     <string name="menu_appearance_settings">Izgled</string>
     <string name="general">Opće</string>
@@ -277,11 +273,7 @@
     <string name="special">Posebni znakovi</string>
     <string name="underline">Podcrtaj</string>
     <string name="uppercase">Velika slova</string>
-    <string name="biometric_prompt_store_credential_title">Spremi biometrijsko prepoznavanje</string>
-    <string name="biometric_prompt_extract_credential_message">Izvadi akreditaciju baze podataka s biometrijskim podacima</string>
-    <string name="biometric_not_recognized">Nije moguće prepoznati biometriju</string>
     <string name="no_credentials_stored">Ova baza podataka još nema spremljenu akreditaciju.</string>
-    <string name="credential_before_click_biometric_button">Upiši lozinku, zatim pritisni gumb „Biometrija”.</string>
     <string name="biometric">Biometrija</string>
     <string name="autofill_sign_in_prompt">Prijavi se s KeePassDX</string>
     <string name="autofill_explanation_summary">Aktiviraj automatsko ispunjavanje za brzo ispunjavanje obrazaca u drugim aplikacijama</string>
@@ -378,7 +370,6 @@
     <string name="education_biometric_title">Biometrijsko otključavanje baze podataka</string>
     <string name="kdf_AES">AES</string>
     <string name="contribution">Doprinos</string>
-    <string name="open_biometric_prompt_store_credential">Za spremanje akreditacija, otvori biometrijsku prijavu</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
     <string name="warning_database_read_only">Za spremanje promjena u bazi podataka, datoteci dozvoli pisanje</string>
     <string name="app_timeout">Istek vremena aplikacije</string>
@@ -418,7 +409,6 @@
     <string name="icon_pack_choose_summary">Paket ikona, koji se koristi u aplikaciji</string>
     <string name="hide_expired_entries_summary">Istekli unosi se ne pokazuju</string>
     <string name="education_lock_title">Zaključaj bazu podataka</string>
-    <string name="open_biometric_prompt_unlock_database">Za otključavanje baze podataka, otvori biometrijsku prijavu</string>
     <string name="education_unlock_title">Otključaj bazu podataka</string>
     <string name="biometric_auto_open_prompt_summary">Automatski traži biometriju, ako je baza podataka tako postavljena</string>
     <string name="unavailable_feature_text">Nije moguće pokrenuti ovu funkciju.</string>
@@ -460,7 +450,6 @@
     <string name="html_text_ad_free">Za razliku od mnogih aplikacija za upravljanje lozinkama, ova je &lt;strong&gt;bez oglasa&lt;/strong&gt;, &lt;strong&gt;copylefted slobodan softver&lt;/strong&gt; i ne prikuplja osobne podatke na svojim poslužiteljima, bez obzira na korištenu verziju.</string>
     <string name="rounds">Transformacijski prolazi</string>
     <string name="download_initialization">Inicijaliziranje …</string>
-    <string name="biometric_scanning_error">Biometrijska greška: %1$s</string>
     <string name="education_donation_title">Sudjeluj</string>
     <string name="education_new_node_summary">Unosi pomažu u upravljanju digitalnim identitetom.
 \n
@@ -505,7 +494,6 @@
     <string name="keyboard_save_search_info_title">Spremi dijeljene informacije</string>
     <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
     <string name="crypto_object_not_initialized">Nije moguće dohvatiti kripto objekt.</string>
-    <string name="biometric_prompt_not_initialized">Nije moguće pokrenuti biometrijsku prijavu.</string>
     <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>
     <string name="configure_biometric">Ne postoji biometrijski ključ niti podaci za prijavu uređaja.</string>
     <string name="registration_mode">Modus registracije</string>

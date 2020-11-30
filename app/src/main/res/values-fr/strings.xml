@@ -113,7 +113,6 @@
     <string name="menu_open">Ouvrir</string>
     <string name="menu_search">Rechercher</string>
     <string name="menu_showpass">Afficher le mot de passe</string>
-    <string name="menu_biometric_remove_key">Supprimer l’empreinte biométrique enregistrée</string>
     <string name="menu_url">Ouvrir l’URL</string>
     <string name="minus">Moins</string>
     <string name="never">Jamais</string>
@@ -162,13 +161,8 @@
     <string name="warning_no_encryption_key">Continuer sans clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
     <string name="configure_biometric">Aucune information d’identification biométrique ou de périphérique n’est enregistrée.</string>
-    <string name="open_biometric_prompt_unlock_database">Ouvrir l’invite biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>
-    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Veuillez la supprimer et répéter la procédure de reconnaissance biométrique.</string>
-    <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte biométique</string>
-    <string name="biometric_scanning_error">Erreur biométrique : %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Ouvrir l’invite biométrique pour stocker les identifiants</string>
     <string name="no_credentials_stored">Cette base de données n’a pas encore stocké d’identifiants.</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
@@ -383,10 +377,6 @@
     <string name="menu_advanced_unlock_settings">Déverrouillage avancé</string>
     <string name="enable">Activer</string>
     <string name="disable">Désactiver</string>
-    <string name="biometric_prompt_store_credential_title">Enregistrer la reconnaissance biométrique</string>
-    <string name="biometric_prompt_store_credential_message">Attention : Vous devez toujours vous souvenir de votre mot de passe principal si vous utilisez la reconnaissance biométrique.</string>
-    <string name="biometric_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance biométrique</string>
-    <string name="biometric_prompt_extract_credential_message">Extraire les identifiants de la base de données avec les données biométriques</string>
     <string name="biometric">Biométrie</string>
     <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement l’invite biométrique</string>
     <string name="biometric_auto_open_prompt_summary">Demande automatiquement la reconnaissance biométrique si la base de données est configurée pour l\'utiliser</string>
@@ -441,7 +431,6 @@
     <string name="command_execution">Exécution de la commande…</string>
     <string name="warning_permanently_delete_nodes">Supprimer définitivement les nœuds sélectionnés \?</string>
     <string name="keystore_not_accessible">Le magasin de clés n’est pas correctement initialisé.</string>
-    <string name="credential_before_click_biometric_button">Saisissez le mot de passe puis cliquez sur le bouton biométrique.</string>
     <string name="recycle_bin_group_title">Groupe de la corbeille</string>
     <string name="enable_auto_save_database_title">Enregistrement automatique de la base de données</string>
     <string name="enable_auto_save_database_summary">Enregistre la base de données après chaque action importante (en mode « Modifiable »)</string>
@@ -529,7 +518,6 @@
     <string name="keyboard_save_search_info_title">Enregistrer les infos partagées</string>
     <string name="notification">Notification</string>
     <string name="crypto_object_not_initialized">Impossible de récupérer l\'objet crypto.</string>
-    <string name="biometric_prompt_not_initialized">Impossible d\'initialiser l\'invite biométrique.</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
     <string name="warning_empty_recycle_bin">Supprimer définitivement tous les nœuds de la corbeille \?</string>
     <string name="registration_mode">Mode enregistrement</string>

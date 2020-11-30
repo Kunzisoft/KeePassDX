@@ -24,7 +24,6 @@
     <string name="menu_open_file_read_and_write">Izmenjivo</string>
     <string name="menu_file_selection_read_only">Zaštićeno od upisivanja</string>
     <string name="menu_url">Idi na URL adresu</string>
-    <string name="menu_biometric_remove_key">Izbriši sačuvani biometrijski ključ</string>
     <string name="menu_showpass">Prikaži lozinku</string>
     <string name="menu_search">Traži</string>
     <string name="menu_open">Otvori</string>

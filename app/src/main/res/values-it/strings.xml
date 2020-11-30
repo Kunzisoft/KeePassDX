@@ -137,11 +137,7 @@
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
     <string name="version_label">Versione %1$s</string>
-    <string name="open_biometric_prompt_unlock_database">Usa la scansione impronte per sbloccare la banca dati</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
-    <string name="biometric_invalid_key">Impossibile leggere la chiave biometrica. Eliminala e ripeti la procedura di riconoscimento.</string>
-    <string name="biometric_scanning_error">Problema impronta: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Usa l\'impronta per salvare questa password</string>
     <string name="no_credentials_stored">Questo database non ha ancora alcuna password.</string>
     <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
 \n
@@ -175,7 +171,6 @@
     <string name="menu_move">Sposta</string>
     <string name="menu_paste">Incolla</string>
     <string name="menu_cancel">Annulla</string>
-    <string name="menu_biometric_remove_key">Elimina l\'impronta digitale salvata</string>
     <string name="menu_file_selection_read_only">Sola lettura</string>
     <string name="menu_open_file_read_and_write">Modificabile</string>
     <string name="encryption_explanation">Algoritmo di cifratura del database usato per tutti i dati.</string>
@@ -195,7 +190,6 @@
     <string name="sort_last_access_time">Accesso</string>
     <string name="warning_empty_password">Continuare senza aver impostato una password di sblocco \?</string>
     <string name="warning_no_encryption_key">Continuare senza una chiave di cifratura\?</string>
-    <string name="biometric_not_recognized">Impronta non riconosciuta</string>
     <string name="database_history">Cronologia</string>
     <string name="menu_appearance_settings">Aspetto</string>
     <string name="general">Generale</string>
@@ -403,13 +397,10 @@
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
     <string name="html_about_contribution">Per poter &lt;strong&gt;mantenere la nostra libertà&lt;/strong&gt;, &lt;strong&gt;risolvere bug&lt;/strong&gt;, &lt;strong&gt;aggiungere funzionalità&lt;/strong&gt; ed &lt;strong&gt;essere sempre attivi&lt;/strong&gt;, facciamo affidamento sul tuo &lt;strong&gt;contributo&lt;/strong&gt;.</string>
     <string name="contact">Contatto</string>
-    <string name="biometric_prompt_extract_credential_title">Apri il database con il riconoscimento biometrico</string>
-    <string name="biometric_prompt_store_credential_title">Salva il riconoscimento biometrico</string>
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
     <string name="master_key">Chiave principale</string>
     <string name="contribution">Contribuisci</string>
-    <string name="biometric_prompt_store_credential_message">Attenzione: Devi comunque ricordarti la password principale anche se usi il riconoscimento biometrico.</string>
     <string name="warning_database_read_only">Garantisci il permesso di scrittura per salvare i cambiamenti del database</string>
     <string name="hide_broken_locations_summary">Nascondi link corrotti nella lista dei database recenti</string>
     <string name="hide_broken_locations_title">Nascondi i link di database corrotti</string>
@@ -437,8 +428,6 @@
     <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
     <string name="database_opened">Database aperto</string>
     <string name="biometric">Biometrico</string>
-    <string name="credential_before_click_biometric_button">Digita la password e poi fai clic sul pulsante biometrico.</string>
-    <string name="biometric_prompt_extract_credential_message">Estrai le credenziali del database con dati biometrici</string>
     <string name="settings_database_force_changing_master_key_title">Forza rinnovo</string>
     <string name="settings_database_recommend_changing_master_key_summary">Consigliato cambiare la chiave principale (giorni)</string>
     <string name="settings_database_recommend_changing_master_key_title">Rinnovo raccomandato</string>

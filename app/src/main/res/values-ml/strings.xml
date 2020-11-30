@@ -177,7 +177,6 @@
     <string name="content_description_file_information">ഫയലിനെക്കുറിച്ചുള്ള വിവരം</string>
     <string name="content_description_background">ബാക്ക്ഗ്രൗണ്ട്</string>
     <string name="brackets">ബ്രാക്കറ്റുകൾ</string>
-    <string name="biometric_prompt_store_credential_message">മുന്നറിയിപ്പ്: ബയോമെട്രിക് തിരിച്ചറിയൽ ഉപയോഗിക്കുകയാണെങ്കിലും നിങ്ങൾ മാസ്റ്റർ പാസ്സ്‌വേഡ്‌ ഓർത്തിരിക്കണം.</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;ഓപ്പൺ സോഴ്‌സും&lt;/strong&gt; and &lt;strong&gt;പരസ്യം ഇല്ലാത്ത&lt;/strong&gt;.
 \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="warning_empty_password">പാസ്‌വേഡ് അൺലോക്കുചെയ്യൽ പരിരക്ഷയില്ലാതെ തുടരുക\?</string>
@@ -190,7 +189,6 @@
     <string name="education_field_copy_title">ഏതെങ്കിലും ഒരു ഫീൽഡ് പകർത്തുക</string>
     <string name="error_invalid_path">Path ശെരിയാണോ എന്ന് ഉറപ്പാക്കുക.</string>
     <string name="kdf_AES">AES</string>
-    <string name="biometric_scanning_error">ബയോമെട്രിക് പിശക്: %1$s</string>
     <string name="extended_ASCII">വിപുലീകരിച്ച ASCII</string>
     <string name="icon_pack_choose_summary">ആപ്പിൽ ഉപയോഗിച്ചിരിക്കുന്ന ഐക്കൺ പാക്ക്</string>
     <string name="style_choose_title">അപ്പ്ലിക്കേഷന്റെ തീം</string>
@@ -222,13 +220,10 @@
     <string name="database_opened">ഡാറ്റാബേസ് തുറന്നു</string>
     <string name="autofill_preference_title">ഓട്ടോഫിൽ ക്രമീകരണങ്ങൾ</string>
     <string name="autofill_sign_in_prompt">KeePassDX ഉപയോഗിച്ച് പ്രവേശിക്കുക</string>
-    <string name="biometric_not_recognized">ബയോമെട്രിക് തിരിച്ചറിയാൻ കഴിഞ്ഞില്ല</string>
-    <string name="biometric_prompt_extract_credential_title">ഡാറ്റാബേസ് ബയോമെട്രിക് തിരിച്ചറിയൽ ഉപയോഗിച്ച് തുറക്കുക</string>
     <string name="unsupported_db_version">പിന്തുണയ്‌ക്കാത്ത ഡാറ്റാബേസ് പതിപ്പ്.</string>
     <string name="sort_last_modify_time">പരിഷ്‌ക്കരണം</string>
     <string name="command_execution">കമാൻഡ് നടപ്പിലാക്കുന്നു. . .</string>
     <string name="subdomain_search_title">ഉപഡൊമെയ്ൻ തിരയുക</string>
-    <string name="menu_biometric_remove_key">സംരക്ഷിച്ച ബയോമെട്രിക് കീ ഇല്ലാതാക്കുക</string>
     <string name="menu_master_key_settings">മാസ്റ്റർകീയുടെ ക്രമീകരണങ്ങൾ</string>
     <string name="about">ഇതിനെ കുറിച്ച്</string>
     <string name="lowercase">ചെറിയക്ഷരം</string>
@@ -298,13 +293,7 @@
     <string name="file_manager_install_description">ഉദ്ദേശിക്കുന്ന പ്രവര്‍ത്തനം സ്വീകരിക്കുന്ന ഒരു ഫയല്‍ മാനേജര്‍. ഡാറ്റാബേസ് ഫയലുകള്‍ നിര്‍മ്മിക്കാനും തുറക്കാനും സൂക്ഷിക്കാനും ACTION_CREATE_DOCUMENT നോടൊപ്പം ACTION_OPEN_DOCUMENT കൂടെ ആവശ്യമുണ്ട്.</string>
     <string name="autofill_service_name">KeePassDX ഫോം ഓട്ടോഫില്ലിംഗ്</string>
     <string name="biometric">ബയോമെട്രിക്</string>
-    <string name="credential_before_click_biometric_button">പാസ്‌വേഡ് ടൈപ്പുചെയ്യുക, തുടർന്ന് \"ബയോമെട്രിക്\" ബട്ടൺ ക്ലിക്കുചെയ്യുക.</string>
     <string name="no_credentials_stored">ഈ ഡാറ്റാബേസിൽ ഇതുവരെ ക്രെഡൻഷ്യൽ സംഭരിച്ചിട്ടില്ല.</string>
-    <string name="biometric_invalid_key">ബയോമെട്രിക് കീ വായിക്കാൻ കഴിയില്ല. ദയവായി ഇത് ഇല്ലാതാക്കി ബയോമെട്രിക് തിരിച്ചറിയൽ നടപടിക്രമം ആവർത്തിക്കുക.</string>
-    <string name="biometric_prompt_extract_credential_message">ബയോമെട്രിക് ഡാറ്റ ഉപയോഗിച്ച് ഡാറ്റാബേസ് ക്രെഡൻഷ്യൽ എക്‌സ്‌ട്രാക്റ്റുചെയ്യുക</string>
-    <string name="biometric_prompt_store_credential_title">ബയോമെട്രിക് തിരിച്ചറിയൽ സംരക്ഷിക്കുക</string>
-    <string name="open_biometric_prompt_store_credential">ക്രെഡൻഷ്യലുകൾ സംഭരിക്കുന്നതിന് ബയോമെട്രിക് പ്രോംപ്റ്റ് തുറക്കുക</string>
-    <string name="open_biometric_prompt_unlock_database">ഡാറ്റാബേസ് അൺലോക്കുചെയ്യുന്നതിന് ബയോമെട്രിക് പ്രോംപ്റ്റ് തുറക്കുക</string>
     <string name="warning_sure_add_file">എന്തായാലും ഫയൽ ചേർക്കണോ\?</string>
     <string name="warning_replace_file">ഈ ഫയൽ അപ്‌ലോഡുചെയ്യുന്നത് നിലവിലുള്ള ഫയലിനെ മാറ്റിസ്ഥാപിക്കും.</string>
     <string name="warning_database_link_revoked">ഫയൽ മാനേജർ റദ്ദാക്കിയ ഫയലിലേക്കുള്ള ആക്സസ്</string>

@@ -185,13 +185,9 @@
     <string name="lock">Sperren</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="open_biometric_prompt_unlock_database">Biometrie-Abfrage öffnen, um die Datenbank zu entsperren</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie ihn und wiederholen Sie den biometrischen Erkennungsprozess.</string>
-    <string name="biometric_scanning_error">Biometrischer Fehler: %1$s</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="open_biometric_prompt_store_credential">Biometrische Abfrage öffnen, um Anmeldedaten zu speichern.</string>
     <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
@@ -200,7 +196,6 @@
     <string name="error_autofill_enable_service">Dienst für automatisches Ausfüllen kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Formularausfüllung</string>
-    <string name="menu_biometric_remove_key">Gespeicherten biometrischen Schlüssel löschen</string>
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet.</string>
     <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
@@ -216,7 +211,6 @@
     <string name="sort_creation_time">Erstelldatum</string>
     <string name="sort_last_modify_time">Änderungsdatum</string>
     <string name="sort_last_access_time">Zugriffsdatum</string>
-    <string name="biometric_not_recognized">Biometrische Daten nicht erkannt</string>
     <string name="autofill">Automatisches Ausfüllen</string>
     <string name="autofill_service_name">KeePassDX autom. Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
@@ -380,13 +374,9 @@
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
     <string name="menu_advanced_unlock_settings">Erweitertes Entsperren</string>
-    <string name="biometric_prompt_store_credential_title">Biometrische Erkennung speichern</string>
-    <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrischer Erkennung öffnen</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
-    <string name="biometric_prompt_store_credential_message">Achtung: Wenn Sie die biometrische Erkennung verwenden, müssen Sie sich trotzdem Ihr Master-Passwort merken.</string>
-    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen aus biometrischen Daten extrahieren</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Abfrage automatisch öffnen</string>
     <string name="biometric_auto_open_prompt_summary">Automatisch nach Biometrie fragen, wenn die Datenbank dafür eingerichtet ist</string>
     <string name="master_key">Hauptschlüssel</string>
@@ -440,7 +430,6 @@
     <string name="command_execution">Befehl ausführen…</string>
     <string name="warning_permanently_delete_nodes">Sollen die ausgewählten Knoten wirklich gelöscht werden\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
-    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf die Biometrie-Schaltfläche.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
     <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>
@@ -524,7 +513,6 @@
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="crypto_object_not_initialized">Kryptoobjekt kann nicht abgerufen werden.</string>
-    <string name="biometric_prompt_not_initialized">Biometrische Eingabeaufforderung kann nicht initialisiert werden.</string>
     <string name="biometric_security_update_required">Biometrisches Sicherheitsupdate erforderlich.</string>
     <string name="configure_biometric">Es sind keine biometrischen oder Geräteanmeldeinformationen registriert.</string>
     <string name="registration_mode">Registrierungsmodus</string>

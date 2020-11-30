@@ -137,11 +137,7 @@
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket az adatbázis-fájlban (a nem felismert karakterek mert ugyanarra a betűre lesznek alakítva).</string>
     <string name="version_label">Verzió: %1$s</string>
-    <string name="open_biometric_prompt_unlock_database">Ujjlenyomat-leolvasás megnyitása az adatbázis feloldásához</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
-    <string name="biometric_invalid_key">Az biometrikus kulcs nem olvasható. Törölje, és ismételje meg a biometrikus felismerési folyamatot.</string>
-    <string name="biometric_scanning_error">Ujjlenyomat probléma: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Használjon ujjlenyomatot a jelszó tárolásához</string>
     <string name="no_credentials_stored">Az adatbázisnak még nincs jelszava.</string>
     <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
 \n
@@ -180,7 +176,6 @@
     <string name="menu_move">Áthelyezés</string>
     <string name="menu_paste">Beillesztés</string>
     <string name="menu_cancel">Mégse</string>
-    <string name="menu_biometric_remove_key">Mentett ujjlenyomat törlése</string>
     <string name="menu_file_selection_read_only">Írásvédett</string>
     <string name="menu_open_file_read_and_write">Módosítható</string>
     <string name="create_keepass_file">Új adatbázis létrehozása</string>
@@ -202,7 +197,6 @@
     <string name="warning_empty_password">Biztos, hogy jelszavas feloldási védelem nélkül folytatja\?</string>
     <string name="warning_no_encryption_key">Biztos, hogy titkosítási kulcs nélkül folytatja\?</string>
     <string name="build_label">Összeállítás: %1$s</string>
-    <string name="biometric_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
     <string name="database_history">Előzmények</string>
     <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
@@ -352,10 +346,6 @@
     <string name="lock_database_show_button_title">Zárolás gomb megjelenítése</string>
     <string name="lock_database_back_root_summary">Az adatbázis zárolása, ha a felhasználó a vissza gombra kattint az indítóképernyőn</string>
     <string name="autofill_preference_title">Automatikus kitöltés beállításai</string>
-    <string name="biometric_prompt_extract_credential_message">Adatbázis hitelesítő adatainak kinyerése ujjlenyomattal</string>
-    <string name="biometric_prompt_extract_credential_title">Adatbázis megnyitása ujjlenyomat-felismeréssel</string>
-    <string name="biometric_prompt_store_credential_message">Figyelmeztetés: Továbbra is meg kell jegyeznie a mesterjelszót, ha ujjlenyomat-felismerést használ.</string>
-    <string name="biometric_prompt_store_credential_title">Ujjlenyomat mentése</string>
     <string name="warning_database_link_revoked">A fájlhoz történő hozzáférést visszavonta a fájlkezelő</string>
     <string name="warning_database_read_only">Fájlírási-hozzáférés megadása az adatbázis-változások mentéséhez</string>
     <string name="hide_broken_locations_summary">A törött adatbázis-hivatkozások elrejtése a nemrég használt adatbázisok listájában</string>
@@ -394,7 +384,6 @@
     <string name="enable_auto_save_database_summary">Az adatbázis mentése minden fontos művelet után („Módosítható” módban)</string>
     <string name="enable_auto_save_database_title">Adatbázis automatikus mentése</string>
     <string name="recycle_bin_group_title">Kuka csoportja</string>
-    <string name="credential_before_click_biometric_button">Írja be a jelszót, majd kattintson az „Ujjlenyomat” gombra.</string>
     <string name="keystore_not_accessible">Az kulcstár nincs helyesen előkészítve.</string>
     <string name="warning_permanently_delete_nodes">Biztos, hogy végleg törli a kiválasztott csomópontokat\?</string>
     <string name="command_execution">Parancs végrehajtása…</string>
@@ -480,7 +469,6 @@
     <string name="database_data_remove_unlinked_attachments_title">Nem összekapcsolt adatok eltávolítása</string>
     <string name="data">Adatok</string>
     <string name="crypto_object_not_initialized">A titkosítási objektum nem kérhető le.</string>
-    <string name="biometric_prompt_not_initialized">A biometrikus leolvasás nem készíthető elő.</string>
     <string name="biometric_security_update_required">Biometrikus biztonsági frissítés szükséges.</string>
     <string name="configure_biometric">Nincs biometrikus vagy eszközazonosító beállítva.</string>
     <string name="warning_empty_keyfile_explanation">A kulcsfájl tartalmának sosem szabad megváltoznia, és a legjobb esetben véletlenszerűen előállított adatokat kellene tartalmaznia.</string>

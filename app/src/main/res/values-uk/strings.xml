@@ -203,7 +203,6 @@
     <string name="menu_paste">Вставити</string>
     <string name="menu_move">Перемістити</string>
     <string name="menu_copy">Скопіювати</string>
-    <string name="menu_biometric_remove_key">Видалити збережений біометричний ключ</string>
     <string name="content_description_keyfile_checkbox">Поле файла ключа</string>
     <string name="menu_master_key_settings">Налаштування головного ключа</string>
     <string name="menu_security_settings">Параметри безпеки</string>
@@ -266,9 +265,6 @@
     <string name="content_description_add_node">Додати вузол</string>
     <string name="content_description_node_children">Дочірні вузли</string>
     <string name="unavailable_feature_hardware">Не вдалося знайти відповідне обладнання.</string>
-    <string name="biometric_not_recognized">Не вдалося розпізнати біометричний ключ</string>
-    <string name="biometric_invalid_key">Не вдалося розпізнати біометричний ключ. Видаліть його та повторіть процедуру створення ключа.</string>
-    <string name="biometric_prompt_store_credential_message">Попередження: Якщо ви користуєтеся біометричним ключем, вам однаково необхідно пам\'ятати головний пароль.</string>
     <string name="hide_expired_entries_summary">Застарілі записи не показано</string>
     <string name="hide_expired_entries_title">Приховувати застарілі записи</string>
     <string name="icon_pack_choose_summary">Набір піктограм застосунку</string>
@@ -434,15 +430,8 @@
     <string name="biometric">Біометричний ключ</string>
     <string name="menu_appearance_settings">Зовнішній вигляд</string>
     <string name="database_history">Історія</string>
-    <string name="credential_before_click_biometric_button">Введіть пароль, а потім натисніть \"біометричну\" кнопку.</string>
     <string name="no_credentials_stored">У цій базі даних ще немає збережених облікових даних.</string>
-    <string name="biometric_scanning_error">Помилка біометричного ключа: %1$s</string>
     <string name="encrypted_value_stored">Зашифрований пароль збережено</string>
-    <string name="biometric_prompt_extract_credential_message">Витяг облікових даних бази даних за допомогою біометричного ключа</string>
-    <string name="biometric_prompt_extract_credential_title">Відкрити базу даних біометричним ключем</string>
-    <string name="biometric_prompt_store_credential_title">Зберегти біометричний ключ</string>
-    <string name="open_biometric_prompt_unlock_database">Розблокувати базу даних біометричним ключем</string>
-    <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем щоб зберегти дані</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>
     <string name="warning_permanently_delete_nodes">Видалити вибрані вузли остаточно\?</string>
@@ -519,7 +508,6 @@
     <string name="keyboard_save_search_info_title">Збереження спільних відомостей</string>
     <string name="notification">Сповіщення</string>
     <string name="crypto_object_not_initialized">Не вдалося отримати крипто-об\'єкт.</string>
-    <string name="biometric_prompt_not_initialized">Не вдалося ініціалізувати біометричний запит.</string>
     <string name="biometric_security_update_required">Необхідно оновити біометричний захист.</string>
     <string name="configure_biometric">Біометричних чи облікових даних пристрою не зареєстровано.</string>
     <string name="warning_empty_recycle_bin">Видалити всі вузли з кошика остаточно\?</string>

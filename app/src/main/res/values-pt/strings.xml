@@ -284,7 +284,6 @@
     <string name="enable_auto_save_database_summary">Gravar a base de dados automaticamente depois de uma ação importante (somente no modo \"Modificável\")</string>
     <string name="enable_auto_save_database_title">Gravar a base de dados automaticamente</string>
     <string name="recycle_bin_group_title">Grupo de cesto da reciclagem</string>
-    <string name="credential_before_click_biometric_button">Digite sua palavra-passe e depois clique no botão de \"Biométrico\".</string>
     <string name="keystore_not_accessible">A chave não foi propriamente inicializada.</string>
     <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
     <string name="command_execution">A executar o comando…</string>
@@ -352,16 +351,6 @@
     <string name="biometric">Biométrico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
-    <string name="biometric_scanning_error">Problema do biométrico: %1$s</string>
-    <string name="biometric_not_recognized">Biométrico não reconhecido</string>
-    <string name="biometric_invalid_key">Não pôde ler a chave biométrica. Por favor, apague-a e repita o procedimento de reconhecimento biométrico.</string>
-    <string name="biometric_prompt_extract_credential_message">Extrair credenciais da base de dados com biométrico</string>
-    <string name="biometric_prompt_extract_credential_title">Abrir base de dados com biométrico</string>
-    <string name="biometric_prompt_store_credential_message">Aviso: apesar de usar o reconhecimento biométrico, ainda precisará de se lembrar da sua palavra-passe.</string>
-    <string name="biometric_prompt_store_credential_title">Gravar reconhecimento biométrico</string>
-    <string name="open_biometric_prompt_store_credential">Use o biométrico para armazenar esta palavra-chave</string>
-    <string name="open_biometric_prompt_unlock_database">Escaneamento do biométrico para abrir a base de dados</string>
-    <string name="menu_biometric_remove_key">Apagar o biométrico gravado</string>
     <string name="menu_database_settings">Definições da base de dados</string>
     <string name="menu_change_key_settings">Alterar chave mestre</string>
     <string name="error_create_database_file">Impossível de criar uma base de dados com essa palavra-passe e ficheiro-chave.</string>

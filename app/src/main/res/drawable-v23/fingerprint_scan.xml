@@ -15,8 +15,8 @@
   limitations under the License.
   -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="@dimen/fingerprint_width"
-        android:height="@dimen/fingerprint_height"
+        android:width="@dimen/advanced_unlock_size"
+        android:height="@dimen/advanced_unlock_size"
         android:viewportWidth="@integer/fingerprint_viewport_width"
         android:viewportHeight="@integer/fingerprint_viewport_height">
 
