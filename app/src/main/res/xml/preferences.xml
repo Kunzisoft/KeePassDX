@@ -34,7 +34,7 @@
 		<Preference
 			android:key="@string/settings_advanced_unlock_key"
 			android:title="@string/menu_advanced_unlock_settings"
-			android:icon="@drawable/prefs_fingerprint_24dp"
+			android:icon="@drawable/prefs_bolt_24dp"
 			android:persistent="false" />
 		<Preference
 			android:key="@string/settings_appearance_key"
