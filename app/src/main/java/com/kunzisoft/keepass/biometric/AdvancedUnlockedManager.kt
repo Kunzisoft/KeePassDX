@@ -364,9 +364,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     override fun onBiometricException(e: Exception) {
-        e.localizedMessage?.let {
-            setAdvancedUnlockedMessageView(it)
-        }
+        val errorMessage = e.cause?.localizedMessage ?: e.localizedMessage ?: ""
+        setAdvancedUnlockedMessageView(errorMessage)
     }
 
     private fun showFingerPrintViews(show: Boolean) {

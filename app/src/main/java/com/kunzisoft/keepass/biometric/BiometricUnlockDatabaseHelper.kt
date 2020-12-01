@@ -311,7 +311,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         fun canAuthenticate(context: Context): Int {
             return try {
                 BiometricManager.from(context).canAuthenticate(
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                            && PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
                         BIOMETRIC_STRONG or DEVICE_CREDENTIAL
                     } else {
                         BIOMETRIC_STRONG
@@ -321,7 +322,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 Log.e(TAG, "Unable to authenticate with strong biometric.", e)
                 try {
                     BiometricManager.from(context).canAuthenticate(
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                                    && PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
                                 BIOMETRIC_WEAK or DEVICE_CREDENTIAL
                             } else {
                                 BIOMETRIC_WEAK
