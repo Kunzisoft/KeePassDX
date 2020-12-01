@@ -20,7 +20,7 @@
     <string name="feedback">Geri Bildirim</string>
     <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
-    <string name="accept">"Kimsin sen\? "</string>
+    <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi Ekle</string>
     <string name="edit_entry">Girdi Düzenle</string>
     <string name="add_group">Grup Ekle</string>
