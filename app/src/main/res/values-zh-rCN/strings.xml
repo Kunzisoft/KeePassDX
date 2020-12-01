@@ -20,7 +20,7 @@
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
     <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
-    <string name="accept">"你到底是谁？ "</string>
+    <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
     <string name="encryption_algorithm">加密算法</string>
