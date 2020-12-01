@@ -129,8 +129,8 @@
     <string name="search_label">Cerca</string>
     <string name="sort_db">Ordine naturale</string>
     <string name="special">Speciali</string>
-    <string name="search">Titolo/descrizione voce</string>
-    <string name="search_results">Risultati ricerca</string>
+    <string name="search">Cerca</string>
+    <string name="search_results">Risultati della ricerca</string>
     <string name="underline">Trattino basso</string>
     <string name="unsupported_db_version">Versione della base di dati non supportata.</string>
     <string name="uppercase">Maiuscole</string>
