@@ -20,7 +20,7 @@
     <string name="feedback">Відгук</string>
     <string name="homepage">Домівка</string>
     <string name="about_description">KeePassDX є Android-версією менеджера паролів KeePass</string>
-    <string name="accept">"Хто ти в біса такий\? "</string>
+    <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
