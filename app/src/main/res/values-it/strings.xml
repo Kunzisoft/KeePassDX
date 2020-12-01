@@ -216,12 +216,12 @@
     <string name="lock_database_screen_off_summary">Blocca la base di dati quando lo schermo è spento</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
-    <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire la base di dati</string>
+    <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
     <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
     <string name="biometric_delete_all_key_warning">Eliminare tutte le chiavi di cifrature associate al riconoscimento biometrico \?</string>
     <string name="unavailable_feature_text">Impossibile avviare questa funzione.</string>
-    <string name="unavailable_feature_version">La tua versione di Android %1$s non è la minima %2$s richiesta.</string>
+    <string name="unavailable_feature_version">Il dispositivo usa Android %1$s, ma richiede %2$s o versioni successive.</string>
     <string name="unavailable_feature_hardware">L\'hardware relativo non è stato trovato.</string>
     <string name="file_name">Nome file</string>
     <string name="path">Percorso</string>
@@ -232,7 +232,7 @@
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
-    <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
+    <string name="allow_copy_password_summary">Consenti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">Attenzione: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
     <string name="database_name_title">Nome della base di dati</string>
     <string name="database_description_title">Descrizione della base di dati</string>
@@ -390,7 +390,7 @@
     <string name="invalid_db_same_uuid">%1$s con le stesse credenziali univoche %2$s è già esistente.</string>
     <string name="creating_database">Sto creando la base di dati…</string>
     <string name="menu_security_settings">Impostazioni di sicurezza</string>
-    <string name="contains_duplicate_uuid">Il database contiene identificativi univoci universali (UUID) duplicati.</string>
+    <string name="contains_duplicate_uuid">Il database contiene Identificativi Univoci Universali (UUID) duplicati.</string>
     <string name="error_save_database">Non è possibile salvare la base di dati.</string>
     <string name="menu_save_database">Salva la base di dati</string>
     <string name="menu_empty_recycle_bin">Svuota il cestino</string>
