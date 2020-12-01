@@ -22,7 +22,7 @@
     <string name="feedback">Feedback</string>
     <string name="homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager</string>
-    <string name="accept">"Who the hell are you\? "</string>
+    <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
     <string name="edit_entry">Edit entry</string>
     <string name="add_group">Add group</string>
