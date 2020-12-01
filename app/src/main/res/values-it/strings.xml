@@ -379,7 +379,7 @@
     <string name="otp_counter">Contatore</string>
     <string name="otp_digits">Cifre</string>
     <string name="otp_algorithm">Algoritmo</string>
-    <string name="entry_otp">Password usa e getta</string>
+    <string name="entry_otp">Password usa e getta (OTP)</string>
     <string name="error_invalid_OTP">Segreto per password usa e getta (OTP) non valido.</string>
     <string name="error_disallow_no_credentials">Impostare almeno una credenziale.</string>
     <string name="error_copy_group_here">Non puoi copiare un gruppo qui.</string>
@@ -390,7 +390,7 @@
     <string name="invalid_db_same_uuid">%1$s con le stesse credenziali univoche %2$s è già esistente.</string>
     <string name="creating_database">Sto creando la base di dati…</string>
     <string name="menu_security_settings">Impostazioni di sicurezza</string>
-    <string name="contains_duplicate_uuid">La base di dati tiene identificativi univoci univerali duplicati.</string>
+    <string name="contains_duplicate_uuid">Il database contiene identificativi univoci universali (UUID) duplicati.</string>
     <string name="error_save_database">Non è possibile salvare la base di dati.</string>
     <string name="menu_save_database">Salva la base di dati</string>
     <string name="menu_empty_recycle_bin">Svuota il cestino</string>
