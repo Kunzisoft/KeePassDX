@@ -27,7 +27,7 @@
     <string name="encryption_algorithm">Algoritmo de cifrado</string>
     <string name="key_derivation_function">Función de derivación de chave</string>
     <string name="app_timeout">Tempo de espera da aplicación</string>
-    <string name="app_timeout_summary">Tempo antes de bloquear a base de datos cando a aplicación está inactiva.</string>
+    <string name="app_timeout_summary">Tiempo de inactividad antes de bloquear la base de datos</string>
     <string name="application">Aplicación</string>
     <string name="brackets">Parénteses</string>
     <string name="extended_ASCII">ASCII extendido</string>
