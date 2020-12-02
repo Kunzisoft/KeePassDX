@@ -281,7 +281,7 @@
     <string name="download_attachment">Завантаження %1$s</string>
     <string name="contribute">Допомогти</string>
     <string name="download">Завантажити</string>
-    <string name="html_text_dev_feature_upgrade">Не забудьте постійно оновлювати застосунок, встановлюючи нові версії.</string>
+    <string name="html_text_dev_feature_upgrade">Не забувайте оновлювати застосунок, встановлюючи нові версії.</string>
     <string name="html_text_dev_feature_work_hard">Ми докладаємо всіх зусиль для якнайшвидшого випуску цієї функції.</string>
     <string name="html_text_dev_feature_thanks">Щиро вдячні за вашу допомогу.</string>
     <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
@@ -305,7 +305,7 @@
     <string name="education_read_only_summary">Змініть режим сеансу.
 \n
 \n\"Захист від запису\" запобігає внесенню випадкових змін до бази даних.
-\n\"Дозволити зміни\" дозволяє вам додавати, видаляти чи змінювати будь-які елементи.</string>
+\n\"Дозволити зміни\" дозволяє додавати, видаляти чи змінювати будь-які елементи.</string>
     <string name="enable_auto_save_database_summary">Зберігати базу даних після кожної важливої дії (у режимі \"Дозволити зміни\")</string>
     <string name="education_read_only_title">Захистіть вашу базу даних від запису</string>
     <string name="education_unlock_title">Розблокуйте вашу базу даних</string>
@@ -394,17 +394,17 @@
     <string name="file_name">Назва файлу</string>
     <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
-    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов\'язані з розпізнаванням біометричного ключа</string>
+    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов\'язані з розпізнаванням розширеного розблокування</string>
     <string name="biometric_delete_all_key_title">Видалити ключі шифрування</string>
-    <string name="biometric_auto_open_prompt_summary">Автоматично запитувати біометричний ключ, якщо базу даних налаштовано для роботи з ним</string>
-    <string name="biometric_auto_open_prompt_title">Автоматично запитувати біометричний ключ</string>
+    <string name="biometric_auto_open_prompt_summary">Автоматично запитувати розширене розблокування, якщо базу даних налаштовано для роботи з ним</string>
+    <string name="biometric_auto_open_prompt_title">Автозапит ключа</string>
     <string name="biometric_unlock_enable_summary">Дозволяє сканувати біометричні дані, щоб відкрити базу даних</string>
     <string name="biometric_unlock_enable_title">Розблокування біометричним ключем</string>
     <string name="advanced_unlock_explanation_summary">Увімкніть розширені параметри розблокування та спростіть відкриття бази даних</string>
     <string name="advanced_unlock">Розширені параметри розблокування</string>
     <string name="lock_database_show_button_summary">Показувати кнопку блокування в інтерфейсі користувача</string>
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
-    <string name="lock_database_back_root_summary">Перебуваючи в кореневій частині бази даних, натискання кнопки «Назад» заблокує базу даних</string>
+    <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натисне кнопку назад на головному екрані</string>
     <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
     <string name="lock_database_screen_off_summary">Блокувати базу даних, якщо екран вимкнено</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
@@ -515,4 +515,20 @@
     <string name="search_mode">Режим пошуку</string>
     <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
     <string name="error_field_name_already_exists">Назва поля вже існує.</string>
+    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов\'язані з розширеним розпізнаванням розблокування\?</string>
+    <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
+    <string name="device_credential_unlock_enable_title">Розблокування облікових даних пристрою</string>
+    <string name="device_credential">Облікові дані пристрою</string>
+    <string name="credential_before_click_advanced_unlock_button">Введіть пароль, а потім натисніть кнопку «Розширене розблокування».</string>
+    <string name="advanced_unlock_prompt_not_initialized">Не вдалося ініціалізувати запит на розширене розблокування.</string>
+    <string name="advanced_unlock_scanning_error">Помилка розширеного розблокування: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Не вдалося розпізнати розширене розблокування</string>
+    <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розширеного розблокування. Видаліть його та повторіть процедуру створення ключа.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розширеного розблокування</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Відкрити базу даних розширеним розпізнаванням розблокування</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Попередження: Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати головний пароль.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Розпізнавання розширеного розблокування</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Відкривати запит розширеного розблокування, щоб зберегти облікові дані</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Відкривати запит розширеного розблокування, щоб розблокувати базу даних</string>
+    <string name="menu_keystore_remove_key">Видалити ключ розширеного розблокування</string>
 </resources>
