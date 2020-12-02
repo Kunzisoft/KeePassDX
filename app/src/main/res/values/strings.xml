@@ -118,7 +118,7 @@
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
     <string name="error_label_exists">This label already exists.</string>
-    <string name="error_wrong_length">Enter a positive whole number in the \"Length\" field.</string>
+    <string name="error_wrong_length">Enter a positive integer number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
     <string name="error_move_folder_in_itself">You can not move a group into itself.</string>
     <string name="error_move_entry_here">You can not move an entry here.</string>
@@ -313,7 +313,7 @@
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
-    <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
+    <string name="lock_database_back_root_summary">While on the root of the database, pressing Back will lock the database</string>
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="advanced_unlock">Advanced unlock</string>
