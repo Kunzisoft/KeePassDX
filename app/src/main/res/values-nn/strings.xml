@@ -25,7 +25,7 @@
     <string name="add_group">Legg til gruppe</string>
     <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="app_timeout">Programtidsavbrot</string>
-    <string name="app_timeout_summary">Idle time before locking the database</string>
+    <string name="app_timeout_summary"></string>
     <string name="application">App</string>
     <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>

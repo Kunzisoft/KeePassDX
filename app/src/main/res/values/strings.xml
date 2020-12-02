@@ -314,7 +314,7 @@
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
-    <string name="lock_database_back_root_summary">While on the root of the database, pressing Back will lock the database</string>
+    <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="advanced_unlock">Advanced unlock</string>
@@ -352,7 +352,7 @@
     <string name="settings_database_force_changing_master_key_summary">Require changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Force renewal next time</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Require changing the master key the next time (once)</string>
-    <string name="monospace_font_fields_enable_title">Field font</string>
+    <string name="monospace_font_fields_enable_title">Field typeface</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow copying the entry password and protected fields to the clipboard</string>
@@ -368,7 +368,7 @@
     <string name="database_custom_color_title">Custom database color</string>
     <string name="database_version_title">Database version</string>
     <string name="text_appearance">Text</string>
-    <string name="application_appearance">App</string>
+    <string name="application_appearance">Interface</string>
     <string name="other">Other</string>
     <string name="compression">Compression</string>
     <string name="compression_none">None</string>
@@ -462,7 +462,10 @@
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter the password and/or keyfile to unlock your database.\n\nBackup your database file in a safe place after each change.</string>
     <string name="education_read_only_title">Write protect your database</string>
-    <string name="education_read_only_summary">Change opening mode for the session.\n\n\"Write-protected\" prevents unintended changes to the database.\n\"Modifiable\" lets you add, delete, or modify all elements.</string>
+    <string name="education_read_only_summary">Change opening mode for the session.
+\n
+\n\"Write-protected\" prevents unintended changes to the database.
+\n\"Modifiable\" lets you add, delete, or modify all the elements as you wish.</string>
     <string name="education_field_copy_title">Copy a field</string>
     <string name="education_field_copy_summary">Copied fields can be pasted anywhere.\n\nUse the form filling method you prefer.</string>
     <string name="education_lock_title">Lock the database</string>
@@ -481,7 +484,7 @@
     <string name="html_text_dev_feature_encourage">you are encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
     <string name="html_text_dev_feature_thanks">Thanks a lot for your contribution.</string>
     <string name="html_text_dev_feature_work_hard">We are working hard to release this feature quickly.</string>
-    <string name="html_text_dev_feature_upgrade">Do not forget to keep your app up to date by installing new versions.</string>
+    <string name="html_text_dev_feature_upgrade">Remember to keep your app up to date by installing new versions.</string>
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
     <string name="download_attachment">Download %1$s</string>

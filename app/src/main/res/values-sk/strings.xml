@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Spätná väzba</string>
     <string name="homepage">Domovská stránka</string>
     <string name="about_description">Správca hesiel KeePass pre Android</string>
@@ -26,7 +25,7 @@
     <string name="add_group">Pridať Skupinu</string>
     <string name="encryption_algorithm">Šifrovací algoritmus</string>
     <string name="app_timeout">Časový limit aplikácie</string>
-    <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna.</string>
+    <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna</string>
     <string name="application">Aplikácia</string>
     <string name="menu_app_settings">Nastavenia aplikácie</string>
     <string name="brackets">Konzoly</string>

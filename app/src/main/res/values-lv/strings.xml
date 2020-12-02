@@ -25,7 +25,7 @@
     <string name="add_group">Jauna grupa</string>
     <string name="encryption_algorithm">Šifrēšanas algoritms</string>
     <string name="app_timeout">Pielikuma taimauts</string>
-    <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva.</string>
+    <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva</string>
     <string name="application">Programma</string>
     <string name="menu_app_settings">Programmas iestatījumi</string>
     <string name="brackets">Iekavas</string>
