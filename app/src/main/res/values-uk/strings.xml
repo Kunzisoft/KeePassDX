@@ -66,7 +66,7 @@
     <string name="error_pass_gen_type">Необхідно вибрати принаймні один тип створення пароля.</string>
     <string name="error_pass_match">Паролі не збігаються.</string>
     <string name="error_rounds_too_large">Забагато циклів. Встановлено 2147483648.</string>
-    <string name="error_wrong_length">Введіть додатне ціле число до поля \"Довжина\".</string>
+    <string name="error_wrong_length">Введіть додатне ціле додатне число до поля \"Довжина\".</string>
     <string name="file_browser">Файловий менеджер</string>
     <string name="generate_password">Згенерувати пароль</string>
     <string name="hint_conf_pass">Підтвердити пароль</string>
@@ -154,7 +154,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="compression">Стиснення</string>
     <string name="other">Інше</string>
-    <string name="application_appearance">Застосунок</string>
+    <string name="application_appearance">Інтерфейс</string>
     <string name="text_appearance">Текст</string>
     <string name="database_version_title">Версія бази даних</string>
     <string name="database_custom_color_title">Власний колір бази даних</string>
@@ -228,7 +228,7 @@
     <string name="error_save_database">Не вдалося зберегти базу даних.</string>
     <string name="error_create_database_file">Неможливо створити базу даних із цим паролем та файлом ключа.</string>
     <string name="error_create_database">Не вдалося створити файл бази даних.</string>
-    <string name="error_copy_group_here">Ви не можете скопіювати групу сюди.</string>
+    <string name="error_copy_group_here">Ви не можете копіювати групу сюди.</string>
     <string name="error_copy_entry_here">Ви не можете копіювати записи сюди.</string>
     <string name="error_move_entry_here">Ви не можете перемістити запис сюди.</string>
     <string name="error_move_folder_in_itself">Ви не можете перемістити групу в себе саму.</string>
@@ -409,7 +409,7 @@
     <string name="advanced_unlock">Розширені параметри розблокування</string>
     <string name="lock_database_show_button_summary">Показувати кнопку блокування в інтерфейсі користувача</string>
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
-    <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натискає кнопку назад на головному екрані</string>
+    <string name="lock_database_back_root_summary">Перебуваючи в кореневій частині бази даних, натискання кнопки «Назад» заблокує базу даних</string>
     <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
     <string name="lock_database_screen_off_summary">Блокувати базу даних, якщо екран вимкнено</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
