@@ -508,7 +508,6 @@
     <string name="keyboard_save_search_info_title">Uložit sdílené info</string>
     <string name="notification">Oznámení</string>
     <string name="crypto_object_not_initialized">Krypto objekt nelze načíst.</string>
-    <string name="biometric_prompt_not_initialized">Biometrický dialog nelze spustit.</string>
     <string name="biometric_security_update_required">Vyžadována aktualizace biometrického zabezpečení.</string>
     <string name="configure_biometric">Žádné přihlašovací ani biometrické údaje nejsou registrovány.</string>
     <string name="warning_empty_recycle_bin">Trvale odstranit všechny položky z koše\?</string>
