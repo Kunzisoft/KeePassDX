@@ -280,14 +280,14 @@
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>stile visivo</strong> e soprattutto aiuterai nella <strong>realizzazione dei progetti della comunità.</strong></string>
-    <string name="html_text_feature_generosity">Questa <strong>stile visivo</strong> è disponibile grazie alla tua generosità.</string>
-    <string name="html_text_donation">Al fine di mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo <strong>contributo.</strong></string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa &lt;strong&gt;stile visivo&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione dei progetti della comunità.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Questa &lt;strong&gt;stile visivo&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
+    <string name="html_text_donation">Al fine di mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo &lt;strong&gt;contributo.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Questa funzione è &lt;strong&gt;in sviluppo&lt;/strong&gt; e richiede il tuo &lt;strong&gt;contributo&lt;/strong&gt; per essere disponibile a breve.</string>
     <string name="html_text_dev_feature_buy_pro">Acquistando la versione &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">
         &lt;strong&gt;Contribuendo&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">stai incoraggiando gli sviluppatori a creare <strong>nuove funzionalità</strong> e a <strong>correggere errori</strong> in base alle tue osservazioni.</string>
+    <string name="html_text_dev_feature_encourage">stai incoraggiando gli sviluppatori a creare &lt;strong&gt;nuove funzionalità&lt;/strong&gt; e a &lt;strong&gt;correggere errori&lt;/strong&gt; in base alle tue osservazioni.</string>
     <string name="html_text_dev_feature_thanks">Grazie mille per il tuo contributo.</string>
     <string name="html_text_dev_feature_work_hard">Stiamo lavorando sodo per rilasciare questa funzione a breve.</string>
     <string name="html_text_dev_feature_upgrade">Non dimenticare di tenere aggiornata l\'app installando nuove versioni.</string>
