@@ -212,7 +212,7 @@
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
     <string name="text_appearance">Texte</string>
-    <string name="application_appearance">Application</string>
+    <string name="application_appearance">Interface</string>
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magiclavier</string>
@@ -316,7 +316,7 @@
     <string name="education_read_only_summary">Changez le mode d’ouverture pour la session.
 \n
 \n« Protégé en écriture » empêche les modifications involontaires de la base de données.
-\n« Modifiable » vous permet d’ajouter, de supprimer ou de modifier tous les éléments.</string>
+\n« Modifiable » vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger votre base de données.</string>
     <string name="error_load_database_KDF_memory">Impossible de charger la clé. Veuillez essayer de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
