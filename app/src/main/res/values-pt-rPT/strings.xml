@@ -157,7 +157,7 @@
         <item>Média</item>
         <item>Grande</item>
     </string-array>
-    <string name="extended_ASCII">ASCII Estendido</string>
+    <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
     <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente descarregar o \"Uso de Memória\" do KDF.</string>
@@ -301,7 +301,7 @@
 \n 
 \n\"Somente leitura\" evita que faça alterações não intencionais na base de dados. 
 \n\"Gravação\" permite-o adicionar, apagar ou modificar todos os elementos.</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador em listas de entrada</string>
+    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador na lista entradas</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
