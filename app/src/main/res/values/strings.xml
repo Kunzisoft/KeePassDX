@@ -313,7 +313,7 @@
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
-    <string name="lock_database_back_root_summary">While on the root of the database, pressing Back will lock the database</string>
+    <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="advanced_unlock">Advanced unlock</string>
