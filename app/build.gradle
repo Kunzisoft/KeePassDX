@@ -20,7 +20,7 @@ android {
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
-        manifestPlaceholders = [ googleAndroidBackupAPIKey:"" ]
+        manifestPlaceholders = [ googleAndroidBackupAPIKey:"unused" ]
 
         kapt {
             arguments {
