@@ -346,7 +346,7 @@
     <string name="settings_database_force_changing_master_key_summary">マスターキーの変更を必須にします（日数）</string>
     <string name="settings_database_force_changing_master_key_next_time_title">次回更新を強制</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
-    <string name="monospace_font_fields_enable_title">フィールド フォント</string>
+    <string name="monospace_font_fields_enable_title">フィールド書体</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して、文字を見やすくします</string>
     <string name="allow_copy_password_title">クリップボードの信頼</string>
     <string name="allow_copy_password_summary">エントリーのパスワードと保護されたフィールドを、クリップボードにコピーすることを許可します</string>
@@ -362,7 +362,7 @@
     <string name="database_custom_color_title">カスタムカラー</string>
     <string name="database_version_title">データベースのバージョン</string>
     <string name="text_appearance">テキスト</string>
-    <string name="application_appearance">アプリ</string>
+    <string name="application_appearance">インターフェース</string>
     <string name="other">その他</string>
     <string name="compression">圧縮</string>
     <string name="compression_none">なし</string>
@@ -455,7 +455,10 @@
     <string name="education_unlock_title">データベースのロックを解除</string>
     <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、またはその両方を入力します。\n\nデータベース ファイルは変更するたびに安全な場所へバックアップしてください。</string>
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
-    <string name="education_read_only_summary">セッションのロック解除モードを変更します。\n\n[書き込み禁止] では、データベースに対する意図しない変更を防ぐことができます。\n[変更可能] では、すべての要素を追加、削除、変更できます。</string>
+    <string name="education_read_only_summary">セッションのロック解除モードを変更します。
+\n
+\n[書き込み禁止] では、データベースに対する意図しない変更を防ぐことができます。
+\n[変更可能] では、すべての要素を必要に応じて追加、削除、変更できます。</string>
     <string name="education_field_copy_title">フィールドをコピー</string>
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。\n\nお好みのフォーム入力方法を使用してください。</string>
     <string name="education_lock_title">データベースをロック</string>
