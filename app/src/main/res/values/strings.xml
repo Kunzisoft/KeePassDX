@@ -123,7 +123,7 @@
     <string name="error_move_folder_in_itself">You can not move a group into itself.</string>
     <string name="error_move_entry_here">You can not move an entry here.</string>
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
-    <string name="error_copy_group_here">You can not copy a group here.</string>
+    <string name="error_copy_group_here">You cannot copy a group here.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
     <string name="error_save_database">Could not save database.</string>
