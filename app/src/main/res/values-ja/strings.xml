@@ -515,4 +515,5 @@
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
     <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>
+    <string name="menu_keystore_remove_key">高度なロック解除用の鍵を削除</string>
 </resources>
