@@ -194,11 +194,11 @@
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veri tabanını kilitle</string>
-    <string name="advanced_unlock">Parmakizi</string>
-    <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
+    <string name="advanced_unlock">Gelişmiş kilit açma</string>
+    <string name="biometric_unlock_enable_title">Biyometrik kilit açma</string>
     <string name="biometric_unlock_enable_summary">Veri tabanını açmak için biyometriklerinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
-    <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
+    <string name="biometric_delete_all_key_summary">Gelişmiş kilit açma tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
     <string name="unavailable_feature_text">Bu özellik başlatılamadı.</string>
     <string name="unavailable_feature_version">Aygıtta Android %1$s çalışıyor, ancak %2$s veya sonraki bir sürüm gerekli.</string>
     <string name="unavailable_feature_hardware">İlgili donanım bulunamadı.</string>
@@ -259,7 +259,7 @@
     <string name="education_search_title">Girdilerde arayın</string>
     <string name="education_search_summary">Parolanızı kurtarmak için başlık, kullanıcı adı veya diğer alanların içeriğini girin.</string>
     <string name="education_biometric_title">Veri tabanı kilidini biyometrik verilerle açın</string>
-    <string name="education_biometric_summary">Veri tabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
+    <string name="education_biometric_summary">Veri tabanınızı hızlıca açmak için parolanızı taranan biyometrik verinize bağlayın.</string>
     <string name="education_entry_edit_title">Girdiyi düzenleyin</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
@@ -343,8 +343,8 @@
     <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veri tabanı oluşturulamıyor.</string>
     <string name="menu_advanced_unlock_settings">Gelişmiş kilit açma</string>
     <string name="biometric">Biyometrik</string>
-    <string name="biometric_auto_open_prompt_title">Biyometrik taramayı otomatik aç</string>
-    <string name="biometric_auto_open_prompt_summary">Vari tabanı, onu kullanacak biçimde ayarlandıysa biyometriği otomatik olarak sor</string>
+    <string name="biometric_auto_open_prompt_title">Otomatik açma istemi</string>
+    <string name="biometric_auto_open_prompt_summary">Vari tabanı onu kullanacak biçimde ayarlandıysa otomatik olarak gelişmiş kilit açma isteğinde bulun</string>
     <string name="enable">Etkinleştir</string>
     <string name="disable">Devre dışı</string>
     <string name="master_key">Ana anahtar</string>
@@ -498,4 +498,21 @@
     <string name="search_mode">Arama modu</string>
     <string name="error_registration_read_only">Salt okunur bir veri tabanında yeni bir öge kaydetmeye izin verilmiyor</string>
     <string name="error_field_name_already_exists">Alan adı zaten var.</string>
+    <string name="advanced_unlock_delete_all_key_warning">Gelişmiş kilit açma tanıma ile ilgili tüm şifreleme anahtarları silinsin mi\?</string>
+    <string name="device_credential_unlock_enable_summary">Veri tabanını açmak için aygıt kimlik bilgilerinizi kullanmanıza olanak tanır</string>
+    <string name="device_credential_unlock_enable_title">Aygıt kimlik bilgisiyle kilit açma</string>
+    <string name="device_credential">Aygıt kimlik bilgileri</string>
+    <string name="credential_before_click_advanced_unlock_button">Parolayı yazın ve ardından \"Gelişmiş kilit açma\" düğmesine tıklayın.</string>
+    <string name="advanced_unlock_prompt_not_initialized">Gelişmiş kilit açma istemi başlatılamıyor.</string>
+    <string name="no_credentials_stored">Bu veri tabanında henüz saklanmış kimlik bilgisi yok.</string>
+    <string name="advanced_unlock_scanning_error">Gelişmiş kilit açma hatası: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Gelişmiş kilit açma parmak izi tanınamadı</string>
+    <string name="advanced_unlock_invalid_key">Gelişmiş kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma işlemini tekrarlayın.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Veri tabanı kimlik bilgilerini gelişmiş kilit açma özelliğiyle çıkarın</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Veri tabanını gelişmiş kilit açma tanıma ile aç</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Uyarı: Gelişmiş kilit açma tanıma kullanırsanız, yine de ana parolanızı hatırlamanız gerekmektedir.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Gelişmiş kilit açma tanıma</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Kimlik bilgilerini saklamak için gelişmiş kilit açma istemini aç</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Veri tabanının kilidini açmak için gelişmiş kilit açma istemini aç</string>
+    <string name="menu_keystore_remove_key">Gelişmiş kilit açma anahtarını sil</string>
 </resources>
