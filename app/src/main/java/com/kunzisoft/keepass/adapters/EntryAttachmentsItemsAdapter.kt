@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.text.format.Formatter
@@ -31,6 +32,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.ImageViewerActivity
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -62,6 +64,13 @@ class EntryAttachmentsItemsAdapter(context: Context)
         val entryAttachmentState = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
+        holder.binaryFileThumbnail.apply {
+            setOnClickListener {
+                context.startActivity(Intent(context, ImageViewerActivity::class.java).apply {
+
+                })
+            }
+        }
         holder.binaryFileBroken.apply {
             setColorFilter(Color.RED)
             visibility = if (entryAttachmentState.attachment.binaryAttachment.isCorrupted) {
@@ -136,6 +145,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        var binaryFileThumbnail: ImageView = itemView.findViewById(R.id.item_attachment_thumbnail)
         var binaryFileBroken: ImageView = itemView.findViewById(R.id.item_attachment_broken)
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)
