@@ -1,1 +1,2 @@
  * Déverouillage de base de données avec identifiants de l'appareil (PIN/Password/Pattern) #779 #102
+ * Supprimer le parmètre de base de données par défaut quand le fichier n'est plus accessible #803

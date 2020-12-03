@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -92,6 +93,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
     private val databaseFileViewModel: DatabaseFileViewModel by viewModels()
 
+    private var mDefaultDatabase: Boolean = false
     private var mDatabaseFileUri: Uri? = null
     private var mDatabaseKeyFileUri: Uri? = null
 
@@ -173,6 +175,11 @@ open class PasswordActivity : SpecialModeActivity() {
             mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
         }
 
+        // Observe if default database
+        databaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
+            mDefaultDatabase = isDefaultDatabase
+        }
+
         // Observe database file change
         databaseFileViewModel.databaseFileLoaded.observe(this, Observer { databaseFile ->
             // Force read only if the file does not exists
@@ -220,32 +227,40 @@ open class PasswordActivity : SpecialModeActivity() {
                             if (resultException != null) {
                                 resultError = resultException.getLocalizedMessage(resources)
 
-                                // Relaunch loading if we need to fix UUID
-                                if (resultException is DuplicateUuidDatabaseException) {
-                                    showLoadDatabaseDuplicateUuidMessage {
+                                when (resultException) {
+                                    is DuplicateUuidDatabaseException -> {
+                                        // Relaunch loading if we need to fix UUID
+                                        showLoadDatabaseDuplicateUuidMessage {
 
-                                        var databaseUri: Uri? = null
-                                        var masterPassword: String? = null
-                                        var keyFileUri: Uri? = null
-                                        var readOnly = true
-                                        var cipherEntity: CipherDatabaseEntity? = null
+                                            var databaseUri: Uri? = null
+                                            var masterPassword: String? = null
+                                            var keyFileUri: Uri? = null
+                                            var readOnly = true
+                                            var cipherEntity: CipherDatabaseEntity? = null
 
-                                        result.data?.let { resultData ->
-                                            databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                            masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
-                                            keyFileUri = resultData.getParcelable(KEY_FILE_URI_KEY)
-                                            readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                            cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
+                                            result.data?.let { resultData ->
+                                                databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                                masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
+                                                keyFileUri = resultData.getParcelable(KEY_FILE_URI_KEY)
+                                                readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                                cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
+                                            }
+
+                                            databaseUri?.let { databaseFileUri ->
+                                                showProgressDialogAndLoadDatabase(
+                                                        databaseFileUri,
+                                                        masterPassword,
+                                                        keyFileUri,
+                                                        readOnly,
+                                                        cipherEntity,
+                                                        true)
+                                            }
                                         }
-
-                                        databaseUri?.let { databaseFileUri ->
-                                            showProgressDialogAndLoadDatabase(
-                                                    databaseFileUri,
-                                                    masterPassword,
-                                                    keyFileUri,
-                                                    readOnly,
-                                                    cipherEntity,
-                                                    true)
+                                    }
+                                    is FileNotFoundDatabaseException -> {
+                                        // Remove this default database inaccessible
+                                        if (mDefaultDatabase) {
+                                            databaseFileViewModel.removeDefaultDatabase()
                                         }
                                     }
                                 }
@@ -276,6 +291,9 @@ open class PasswordActivity : SpecialModeActivity() {
         } else {
             mDatabaseFileUri = intent?.getParcelableExtra(KEY_FILENAME)
             mDatabaseKeyFileUri = intent?.getParcelableExtra(KEY_KEYFILE)
+        }
+        mDatabaseFileUri?.let {
+            databaseFileViewModel.checkIfIsDefaultDatabase(it)
         }
     }
 

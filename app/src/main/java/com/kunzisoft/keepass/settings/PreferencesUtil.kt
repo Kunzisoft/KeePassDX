@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.settings
 
+import android.app.backup.BackupManager
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
@@ -43,6 +44,7 @@ object PreferencesUtil {
             }
             apply()
         }
+        BackupManager(context).dataChanged()
     }
 
     fun getDefaultDatabasePath(context: Context): String? {
