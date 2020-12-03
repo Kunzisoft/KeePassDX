@@ -175,7 +175,7 @@
     <string name="warning_permanently_delete_nodes">Trajno izbrisati odabrane čvorove\?</string>
     <string name="version_label">Verzija %1$s</string>
     <string name="build_label">Izgradnja %1$s</string>
-    <string name="encrypted_value_stored">Šifrirana lozinka pohranjena</string>
+    <string name="encrypted_value_stored">Šifrirana lozinka spremljena</string>
     <string name="database_history">Povijest</string>
     <string name="menu_appearance_settings">Izgled</string>
     <string name="general">Opće</string>
@@ -195,7 +195,7 @@
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
-    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s biometrijskim prepoznavanjem</string>
+    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s prepoznavanjem naprednog otključavanja</string>
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="file_name">Ime datoteke</string>
     <string name="path">Putanja</string>
@@ -409,9 +409,9 @@
     <string name="hide_expired_entries_summary">Istekli unosi se ne pokazuju</string>
     <string name="education_lock_title">Zaključaj bazu podataka</string>
     <string name="education_unlock_title">Otključaj bazu podataka</string>
-    <string name="biometric_auto_open_prompt_summary">Automatski traži biometriju, ako je baza podataka tako postavljena</string>
+    <string name="biometric_auto_open_prompt_summary">Automatski zatraži napredno otključavanje ako je baza podataka tako postavljena</string>
     <string name="unavailable_feature_text">Nije moguće pokrenuti ovu funkciju.</string>
-    <string name="biometric_auto_open_prompt_title">Automatski otvori biometrijsku prijavu</string>
+    <string name="biometric_auto_open_prompt_title">Automatski otvori prozor za prijavu</string>
     <string name="clipboard_timeout">Istek vremena međuspremnika</string>
     <string name="education_search_title">Pretraži unose</string>
     <string name="education_field_copy_title">Kopiraj jedno polje</string>
@@ -499,4 +499,15 @@
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>
+    <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s prepoznavanjem naprednog otključavanja\?</string>
+    <string name="credential_before_click_advanced_unlock_button">Upiši lozinku i zatim pritisni gumb „Napredno otključavanje”.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću prepoznavanja naprednog otključavanja</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Upozorenje: Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
+    <string name="menu_keystore_remove_key">Izbriši ključ naprednog otključavanja</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Prepoznavanje naprednog otključavanja</string>
+    <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor naprednog otključavanja.</string>
+    <string name="advanced_unlock_scanning_error">Greška naprednog otključavanja: %1$s</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka naprednog otključavanja</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Otvori prozor naprednog otključavanja za spremanje podataka za prijavu</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Otvori prozor naprednog otključavanja za otključavanje baze podataka</string>
 </resources>

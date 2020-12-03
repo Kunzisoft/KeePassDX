@@ -515,4 +515,10 @@
     <string name="search_mode">Λειτουργία αναζήτησης</string>
     <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
     <string name="error_field_name_already_exists">Το όνομα πεδίου υπάρχει ήδη.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Προηγμένο ξεκλείδωμα αναγνώρισης</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Προειδοποίηση: Θα πρέπει να θυμάστε τον κύριο κωδικό πρόσβασης εάν χρησιμοποιείτε προηγμένο ξεκλείδωμα αναγνώρισης.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Ανοίξτε τη βάση δεδομένων με προηγμένο ξεκλείδωμα αναγνώρισης</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για αποθήκευση διαπιστευτηρίων</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλείιδώσετε τη βάση δεδομένων</string>
+    <string name="menu_keystore_remove_key">Διαγραφή προηγμένου κλειδιού ξεκλειδώματος</string>
 </resources>
