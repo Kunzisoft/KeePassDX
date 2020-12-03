@@ -531,4 +531,9 @@
     <string name="open_advanced_unlock_prompt_store_credential">Відкривати запит розширеного розблокування, щоб зберегти облікові дані</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Відкривати запит розширеного розблокування, щоб розблокувати базу даних</string>
     <string name="menu_keystore_remove_key">Видалити ключ розширеного розблокування</string>
+    <string name="enter">Enter</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Вибрати запис</string>
+    <string name="back_to_previous_keyboard">Повернутися до попередньої клавіатури</string>
+    <string name="custom_fields">Власні поля</string>
 </resources>
