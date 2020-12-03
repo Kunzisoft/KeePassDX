@@ -36,7 +36,6 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -162,7 +161,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         }
 
         // Observe list of databases
-        databaseFilesViewModel.databaseFilesLoaded.observe(this, Observer { databaseFiles ->
+        databaseFilesViewModel.databaseFilesLoaded.observe(this) { databaseFiles ->
             when (databaseFiles.databaseFileAction) {
                 DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
                     mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
@@ -186,13 +185,13 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 }
             }
             databaseFilesViewModel.consumeAction()
-        })
+        }
 
         // Observe default database
-        databaseFilesViewModel.defaultDatabase.observe(this, Observer {
+        databaseFilesViewModel.defaultDatabase.observe(this) {
             // Retrieve settings for default database
             mAdapterDatabaseHistory?.setDefaultDatabase(it)
-        })
+        }
 
         // Attach the dialog thread to this activity
         mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {

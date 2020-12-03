@@ -39,7 +39,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -181,7 +180,7 @@ open class PasswordActivity : SpecialModeActivity() {
         }
 
         // Observe database file change
-        databaseFileViewModel.databaseFileLoaded.observe(this, Observer { databaseFile ->
+        databaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
             // Force read only if the file does not exists
             mForceReadOnly = databaseFile?.let {
                 !it.databaseFileExists
@@ -201,7 +200,7 @@ open class PasswordActivity : SpecialModeActivity() {
             filenameView?.text = databaseFile?.databaseAlias ?: ""
 
             onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri)
-        })
+        }
 
         mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
             onActionFinish = { actionTask, result ->
