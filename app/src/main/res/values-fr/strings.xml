@@ -540,4 +540,9 @@
     <string name="open_advanced_unlock_prompt_store_credential">Ouvrez l\'invite de déverrouillage avancé pour stocker les informations d\'identification</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Ouvrez l\'invite de déverrouillage avancé pour déverrouiller la base de données</string>
     <string name="menu_keystore_remove_key">Supprimer la clé de déverrouillage avancé</string>
+    <string name="enter">Entrer</string>
+    <string name="backspace">Retour arrière</string>
+    <string name="select_entry">Sélection d\'une entrée</string>
+    <string name="back_to_previous_keyboard">Retour au clavier précédent</string>
+    <string name="custom_fields">Champs customisés</string>
 </resources>
