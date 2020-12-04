@@ -213,7 +213,7 @@
     <string name="database_description_title">Περιγραφή Βάσης Δεδομένων</string>
     <string name="database_version_title">Έκδοση Βάσης Δεδομένων</string>
     <string name="text_appearance">Κείμενο</string>
-    <string name="application_appearance">Εφαρμογή</string>
+    <string name="application_appearance">Διεπαφή</string>
     <string name="other">Άλλα</string>
     <string name="keyboard">Πληκτρολόγιο</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -257,7 +257,7 @@
     <string name="html_text_dev_feature_encourage">ενθαρρύνετε τους προγραμματιστές να δημιουργούν &lt;strong&gt;νέες λειτουργίες&lt;/strong&gt; και να &lt;strong&gt;διορθώνουν σφάλματα&lt;/strong&gt; σύμφωνα με τις παρατηρήσεις σας.</string>
     <string name="html_text_dev_feature_thanks">Ευχαριστούμε πολύ για τη συνεισφορά σας.</string>
     <string name="html_text_dev_feature_work_hard">Εργαζόμαστε σκληρά για να διαθέσουμε αυτό το χαρακτηριστικό γρήγορα.</string>
-    <string name="html_text_dev_feature_upgrade">Μην ξεχνάτε να ενημερώνετε την εφαρμογή σας, εγκαθιστώντας νέες εκδόσεις.</string>
+    <string name="html_text_dev_feature_upgrade">Θυμηθείτε να ενημερώνετε την εφαρμογή σας, εγκαθιστώντας νέες εκδόσεις.</string>
     <string name="download">Download</string>
     <string name="contribute">Συνεισφορά</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -286,7 +286,7 @@
     <string name="education_read_only_summary">Αλλάξτε τη λειτουργία ανοίγματος για το session.
 \n
 \nΤο \"Προστατευμένο από εγγραφή\" αποτρέπει τυχόν μη επιθυμητές αλλαγές στη βάση δεδομένων.
-\nΤο \"Τροποποιητικό\" σάς επιτρέπει να προσθέσετε, να διαγράψετε ή να τροποποιήσετε όλα τα στοιχεία.</string>
+\nΤο \"Τροποποιητικό\" σάς επιτρέπει να προσθέσετε, να διαγράψετε ή να τροποποιήσετε όλα τα στοιχεία όπως επιθυμείτε.</string>
     <string name="edit_entry">Επεξεργασία καταχώρησης</string>
     <string name="error_load_database">Δεν ήταν δυνατή η φόρτωση της βάσης δεδομένων σας.</string>
     <string name="error_load_database_KDF_memory">Δεν ήταν δυνατή η φόρτωση του κλειδιού. Προσπαθήστε να μειώσετε την KDF \"Χρήση μνήμης\".</string>
@@ -315,7 +315,7 @@
     <string name="selection_mode">Λειτουργία επιλογής</string>
     <string name="do_not_kill_app">Μη κλείσιμο της εφαρμογής …</string>
     <string name="lock_database_back_root_title">Πατήστε \'Πίσω\' για να κλειδώσετε</string>
-    <string name="lock_database_back_root_summary">Κλείδωμα της βάσης δεδομένων όταν ο χρήστης κάνει κλικ στο κουμπί \"πίσω\" στη αρχική οθόνη</string>
+    <string name="lock_database_back_root_summary">Κλείδωμα της βάσης δεδομένων όταν ο χρήστης κάνει κλικ στο κουμπί \"πίσω\" στην οθόνη προέλευσης</string>
     <string name="clear_clipboard_notification_title">Καθαρισμός στο κλείσιμο</string>
     <string name="clear_clipboard_notification_summary">Κλείδωμα της βάσης δεδομένων όταν λήξει η διάρκεια του προχείρου ή η ειδοποίηση κλείσει αφού αρχίσετε να την χρησιμοποιείτε</string>
     <string name="recycle_bin">Κάδος ανακύκλωσης</string>
@@ -353,10 +353,10 @@
     <string name="advanced_unlock">Προηγμένο ξεκλείδωμα</string>
     <string name="biometric_unlock_enable_title">Βιομετρικό ξεκλείδωμα</string>
     <string name="biometric_unlock_enable_summary">Σας επιτρέπει να σαρώσετε το βιομετρικό σας για να ανοίξετε τη βάση δεδομένων</string>
-    <string name="biometric_auto_open_prompt_title">Αυτόματο άνοιγμα βιομετρικής προτροπής</string>
-    <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματα βιομετρία εάν η βάση δεδομένων έχει ρυθμιστεί για να τη χρησιμοποιήσει</string>
+    <string name="biometric_auto_open_prompt_title">Αυτόματο άνοιγμα προτροπής</string>
+    <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματα προηγμένο ξεκλείδωμα εάν η βάση δεδομένων έχει ρυθμιστεί για να το χρησιμοποιήσει</string>
     <string name="biometric_delete_all_key_title">Διαγράψτε τα κλειδιά κρυπτογράφησης</string>
-    <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση</string>
+    <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με το προηγμένο ξεκλείδωμα</string>
     <string name="enable">Ενεργοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
     <string name="master_key">Κύριο κλειδί</string>
@@ -521,4 +521,19 @@
     <string name="open_advanced_unlock_prompt_store_credential">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για αποθήκευση διαπιστευτηρίων</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλείιδώσετε τη βάση δεδομένων</string>
     <string name="menu_keystore_remove_key">Διαγραφή προηγμένου κλειδιού ξεκλειδώματος</string>
+    <string name="enter">Enter</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Επιλέξτε καταχώριση</string>
+    <string name="back_to_previous_keyboard">Επιστροφή στο προηγούμενο πληκτρολόγιο</string>
+    <string name="custom_fields">Προσαρμοσμένα πεδία</string>
+    <string name="advanced_unlock_delete_all_key_warning">Διαγραφή όλων των κλειδιών κρυπτογράφησης που σχετίζονται με το προηγμένο ξεκλείδωμα αναγνώρισης;</string>
+    <string name="device_credential_unlock_enable_summary">Σας επιτρέπει να χρησιμοποιήσετε τα διαπιστευτήρια της συσκευής σας για να ανοίξετε τη βάση δεδομένων</string>
+    <string name="device_credential_unlock_enable_title">Ξεκλείδωμα διαπιστευτηρίων συσκευής</string>
+    <string name="device_credential">Διαπιστευτήρια συσκευής</string>
+    <string name="credential_before_click_advanced_unlock_button">Πληκτρολογήστε τον κωδικό πρόσβασης, και στη συνέχεια κάντε κλικ στο κουμπί \"Προηγμένο ξεκλείδωμα\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία προτροπής προηγμένου ξεκλειδώματος.</string>
+    <string name="advanced_unlock_not_recognized">Δεν ήταν δυνατή η αναγνώριση αποτυπώματος προηγμένου ξεκλειδώματος</string>
+    <string name="advanced_unlock_scanning_error">Προηγμένο ξεκλείδωμα σφάλμα: %1$s</string>
+    <string name="advanced_unlock_invalid_key">Δεν είναι δυνατή η ανάγνωση του προηγμένου κλειδιού ξεκλειδώματος. Διαγράψτε το και επαναλάβετε τη διαδικασία αναγνώρισης ξεκλειδώματος.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Εξαγωγή διαπιστευτηρίων βάσης δεδομένων με προηγμένο ξεκλείδωμα δεδομένων</string>
 </resources>
