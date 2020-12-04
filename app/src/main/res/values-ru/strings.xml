@@ -264,10 +264,10 @@
     <string name="education_biometric_summary">Установите взаимосвязь между паролем и биометрическим ключом для быстрой разблокировки базы.</string>
     <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
-    <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Возможны перекрёстные ссылки между полями разных записей.</string>
+    <string name="education_entry_edit_summary">Редактируйте записи с пользовательскими полями. Возможны перекрёстные ссылки между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надёжный пароль</string>
     <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
-    <string name="education_entry_new_field_title">Добавляйте настраиваемые поля</string>
+    <string name="education_entry_new_field_title">Добавляйте пользовательские поля</string>
     <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
     <string name="education_read_only_title">База только для чтения</string>
@@ -531,4 +531,9 @@
     <string name="advanced_unlock_scanning_error">Ошибка расширенной разблокировки: %1$s</string>
     <string name="advanced_unlock_prompt_store_credential_title">Распознавание расширенной разблокировки</string>
     <string name="menu_keystore_remove_key">Удалить ключ расширенной разблокировки</string>
+    <string name="enter">Ввод</string>
+    <string name="back_to_previous_keyboard">Возврат к предыдущей клавиатуре</string>
+    <string name="custom_fields">Пользовательские поля</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Выберите запись</string>
 </resources>
