@@ -532,8 +532,8 @@
     <string name="advanced_unlock_prompt_extract_credential_message">高度なロック解除を使ってデータベース認証情報を取り出します</string>
     <string name="advanced_unlock_prompt_extract_credential_title">高度なロック解除を使ってデータベースを開く</string>
     <string name="advanced_unlock_prompt_store_credential_message">警告：高度なロック解除を使用する場合も、マスター パスワードを記憶する必要があります。</string>
-    <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の承認</string>
-    <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて、認証情報を保存する</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いて、ロックを解除する</string>
+    <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
+    <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて認証情報を保存する</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いてロックを解除する</string>
     <string name="select_entry">エントリーを選択</string>
 </resources>
