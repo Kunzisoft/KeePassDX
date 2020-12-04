@@ -531,4 +531,9 @@
     <string name="open_advanced_unlock_prompt_store_credential">打开高级解锁提示来存储凭证</string>
     <string name="open_advanced_unlock_prompt_unlock_database">打开高级解锁提示来解锁数据库</string>
     <string name="menu_keystore_remove_key">删除高级解锁密钥</string>
+    <string name="enter">输入</string>
+    <string name="backspace">退格键</string>
+    <string name="select_entry">选择条目</string>
+    <string name="back_to_previous_keyboard">回到先前的键盘</string>
+    <string name="custom_fields">自定义字段</string>
 </resources>
