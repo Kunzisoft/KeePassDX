@@ -200,13 +200,35 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         advancedUnlockInfoView?.setIconViewClickListener(false, null)
     }
 
+    @Suppress("DEPRECATION")
+    private fun openBiometricSetting() {
+        advancedUnlockInfoView?.setIconViewClickListener(false) {
+            when {
+                /*
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
+                    // Need parameters and result parser
+                    context.startActivityForResult(Intent(Settings.ACTION_BIOMETRIC_ENROLL),
+                            ACTION_BIOMETRIC_ENROLL_REQUEST_CODE)
+                }
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                    // Not working with Xiaomi... (crash after trying to enroll fingerprint
+                    context.startActivityForResult(Intent(Settings.ACTION_FINGERPRINT_ENROLL),
+                            ACTION_FINGERPRINT_ENROLL_REQUEST_CODE)
+                }
+                */
+                else -> {
+                    // ACTION_SECURITY_SETTINGS do not contains fingerprint enrollment in Xiaomi...
+                    context.startActivity(Intent(Settings.ACTION_SETTINGS))
+                }
+            }
+        }
+    }
+
     private fun initSecurityUpdateRequired() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.biometric_security_update_required)
 
-        advancedUnlockInfoView?.setIconViewClickListener(false) {
-            context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
-        }
+        openBiometricSetting()
     }
 
     private fun initNotConfigured() {
@@ -214,18 +236,14 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.configure_biometric)
         setAdvancedUnlockedMessageView("")
 
-        advancedUnlockInfoView?.setIconViewClickListener(false) {
-            context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
-        }
+        openBiometricSetting()
     }
 
     private fun initKeyManagerNotAvailable() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.keystore_not_accessible)
 
-        advancedUnlockInfoView?.setIconViewClickListener(false) {
-            context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
-        }
+        openBiometricSetting()
     }
 
     private fun initWaitData() {
