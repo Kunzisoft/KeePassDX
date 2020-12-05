@@ -249,8 +249,6 @@
 \nGruppen (wie Ordner) helfen, Einträge in der Datenbank zu ordnen.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben, um die Passwörter wiederzufinden.</string>
-    <string name="education_biometric_title">Biometrische Datenbank-Entsperrung</string>
-    <string name="education_biometric_summary">Verknüpft Ihr Passwort mit Ihrer gescannten Biometrie, um Ihre Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>

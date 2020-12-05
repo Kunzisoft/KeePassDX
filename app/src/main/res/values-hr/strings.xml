@@ -366,7 +366,6 @@
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="education_read_only_title">Zaštiti bazu podataka od pisanja</string>
     <string name="autofill_web_domain_blocklist_title">Popis blokiranja web domena</string>
-    <string name="education_biometric_title">Biometrijsko otključavanje baze podataka</string>
     <string name="kdf_AES">AES</string>
     <string name="contribution">Doprinos</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
@@ -398,7 +397,7 @@
     <string name="kdf_Argon2">Argon2</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="show_recent_files_summary">Prikaži mjesto nedavnih baza podataka</string>
-    <string name="education_biometric_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom.</string>
+    <string name="education_advanced_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom.</string>
     <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj&lt;strong&gt;doprinos.&lt;/strong&gt;</string>
     <string name="kdf_explanation">Za stvaranje ključa za algoritam šifriranja, glavni ključ se transformira pomoću funkcije za generiranje ključeva koja sadrži slučajnu komponentu.</string>
     <string name="lock_database_back_root_summary">Zaključaj bazu podataka kad korisnik pritisne gumb za natrag na ekranu</string>

@@ -359,8 +359,6 @@
 \nGrupuri (~ foldere) organizează intrări în baza de date.</string>
     <string name="education_search_title">Căutați prin intrări</string>
     <string name="education_search_summary">Introduceți titlul, numele de utilizator sau conținutul altor câmpuri pentru a prelua parolele.</string>
-    <string name="education_biometric_title">Deblocarea bazei de date prin biometric</string>
-    <string name="education_biometric_summary">Conectați parola la biometrica scanată pentru a debloca rapid baza de date.</string>
     <string name="education_entry_edit_title">Modificați intrarea</string>
     <string name="education_entry_edit_summary">Modificați-vă înregistrarea cu câmpuri personalizate. Datele despre pool pot fi referențiate între diferite câmpuri de intrare.</string>
     <string name="education_generate_password_title">Creați o parolă puternică pentru intrarea dvs.</string>

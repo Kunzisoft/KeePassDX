@@ -258,8 +258,6 @@
 \nGruplar (~klasörler) veri tabanınızdaki girdileri düzenler.</string>
     <string name="education_search_title">Girdilerde arayın</string>
     <string name="education_search_summary">Parolanızı kurtarmak için başlık, kullanıcı adı veya diğer alanların içeriğini girin.</string>
-    <string name="education_biometric_title">Veri tabanı kilidini biyometrik verilerle açın</string>
-    <string name="education_biometric_summary">Veri tabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
     <string name="education_entry_edit_title">Girdiyi düzenleyin</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>

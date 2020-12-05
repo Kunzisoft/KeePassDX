@@ -452,8 +452,8 @@
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
     <string name="education_search_summary">Enter title, username or content of other fields to retrieve your passwords.</string>
-    <string name="education_biometric_title">Biometric database unlocking</string>
-    <string name="education_biometric_summary">Link your password to your scanned biometric to quickly unlock your database.</string>
+    <string name="education_advanced_unlock_title">Advanced database unlocking</string>
+    <string name="education_advanced_unlock_summary">Link your password to your scanned biometric or device credential to quickly unlock your database.</string>
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password</string>

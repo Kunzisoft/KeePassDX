@@ -255,8 +255,6 @@
 \nI gruppi (come cartelle) organizzano gli elementi nella base di dati.</string>
     <string name="education_search_title">Cerca tra gli elementi</string>
     <string name="education_search_summary">Inserisci il titolo, il nome utente o il contenuto di altri campi per recuperare le tue password.</string>
-    <string name="education_biometric_title">Sblocco della base di dati tramite impronta digitale</string>
-    <string name="education_biometric_summary">Collega la password alla tua impronta digitale per sbloccare velocemente la base di dati.</string>
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
     <string name="education_generate_password_title">Crea una password robusta</string>

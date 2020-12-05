@@ -291,8 +291,6 @@
 \n还可以使用群组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
-    <string name="education_biometric_title">正在解锁生物识别数据库</string>
-    <string name="education_biometric_summary">将主密钥与生物识别信息关联，以快速解锁数据库。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">新建一个强密码</string>

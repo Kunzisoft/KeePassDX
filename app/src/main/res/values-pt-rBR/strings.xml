@@ -257,8 +257,6 @@
 \nGrupos (~pastas) organizam suas entradas e sua base de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas senhas.</string>
-    <string name="education_biometric_title">Desbloqueio do banco de dados por Impressão digital</string>
-    <string name="education_biometric_summary">Faça o link entre sua senha e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Criar uma senha forte</string>

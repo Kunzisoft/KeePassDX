@@ -260,8 +260,6 @@
 \n
 \nДобавляйте группы (аналог папок) для организации записей и баз.</string>
     <string name="education_search_title">Легко находите ваши записи</string>
-    <string name="education_biometric_title">Биометрическая разблокировка базы</string>
-    <string name="education_biometric_summary">Установите взаимосвязь между паролем и биометрическим ключом для быстрой разблокировки базы.</string>
     <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Возможны перекрёстные ссылки между полями разных записей.</string>

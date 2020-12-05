@@ -194,7 +194,6 @@
     <string name="education_setup_OTP_title">Configurar OTP</string>
     <string name="education_add_attachment_summary">Envie um anexo à sua entrada para gravar dados externos importantes.</string>
     <string name="education_add_attachment_title">Adicionar anexo</string>
-    <string name="education_biometric_title">Desbloqueio da base de dados por biométricos</string>
     <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" se nenhumas credenciais estiverem selecionadas</string>
     <string name="database_data_remove_unlinked_attachments_summary">Remove anexos contidos na base de dados, mas não ligados a uma entrada</string>
     <string name="database_data_remove_unlinked_attachments_title">Remover dados não ligados</string>
@@ -290,7 +289,7 @@
     <string name="menu_empty_recycle_bin">Esvaziar cesto da reciclagem</string>
     <string name="menu_save_database">Gravar base de dados</string>
     <string name="error_save_database">Não foi possível gravar a base de dados.</string>
-    <string name="education_biometric_summary">Ligue a sua palavra-passe e o seu biométrico gravado para rapidamente desbloquear a sua base de dados.</string>
+    <string name="education_advanced_unlock_summary">Ligue a sua palavra-passe e o seu biométrico gravado para rapidamente desbloquear a sua base de dados.</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
     <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
     <string name="compression_gzip">Gzip</string>

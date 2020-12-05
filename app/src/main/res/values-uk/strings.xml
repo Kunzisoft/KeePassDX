@@ -317,8 +317,6 @@
     <string name="education_generate_password_title">Створіть надійний пароль</string>
     <string name="education_entry_edit_summary">Додавайте власні поля до записів. Дані полів різних записів можна повʼязувати між собою.</string>
     <string name="education_entry_edit_title">Змінюйте записи</string>
-    <string name="education_biometric_summary">Зв\'яжіть пароль та скановані біометричні дані для швидкого розблокування бази даних.</string>
-    <string name="education_biometric_title">Біометричне розблокування бази даних</string>
     <string name="education_search_summary">Введіть назву, ім\'я користувача або вміст інших полів для пошуку паролів.</string>
     <string name="education_search_title">Шукайте поміж записів</string>
     <string name="education_new_node_summary">Створюйте записи для керування вашими обліковими записами.

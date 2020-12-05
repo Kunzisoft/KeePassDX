@@ -259,8 +259,6 @@
 \nSkupiny (ekvivalent složek) organizují záznamy v databázi.</string>
     <string name="education_search_title">Hledejte v položkách</string>
     <string name="education_search_summary">Zadejte název, uživatelské jméno nebo jiné položky k nalezení svých hesel.</string>
-    <string name="education_biometric_title">Odemknutí databáze biometricky</string>
-    <string name="education_biometric_summary">Propojte své heslo s načtenou biometrikou pro rychlé odemknutí databáze.</string>
     <string name="education_entry_edit_title">Upravit položku</string>
     <string name="education_entry_edit_summary">Přidejte ke své položce vlastní kolonky. Společná data mohou být sdílena mezi více různými kolonkami.</string>
     <string name="education_generate_password_title">Vytvořit silné heslo</string>

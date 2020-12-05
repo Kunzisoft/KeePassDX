@@ -280,8 +280,6 @@
 \nA csoportok (~mappák) rendszerezik a bejegyzéseket az adatbázisban.</string>
     <string name="education_search_title">Keresés a bejegyzések között</string>
     <string name="education_search_summary">Adja meg a címet, felhasználónevet vagy más mezők tartalmát, hogy lekérje a jelszavát.</string>
-    <string name="education_biometric_title">Adatbázis feloldása ujjlenyomattal</string>
-    <string name="education_biometric_summary">Kösse össze a jelszavát a mentett ujjlenyomatával, hogy gyorsan fel tudja oldani az adatbázist.</string>
     <string name="education_entry_edit_title">Bejegyzés szerkesztése</string>
     <string name="education_generate_password_title">Erős jelszó létrehozása</string>
     <string name="education_generate_password_summary">Állítson elő egy erős jelszót, és rendelje hozzá a bejegyzéshez, adja meg egyszerűen az űrlap feltételeinek megfelelően, és ne felejtse el biztonságosan tárolni.</string>

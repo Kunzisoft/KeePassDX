@@ -261,8 +261,6 @@
 \nGrupy (~ foldery) organizują wpisy w bazie danych.</string>
     <string name="education_search_title">Przeszukuj wpisy</string>
     <string name="education_search_summary">Wprowadź tytuł, nazwę użytkownika lub zawartość innych pól, aby odzyskać swoje hasła.</string>
-    <string name="education_biometric_title">Biometryczne odblokowanie bazy danych</string>
-    <string name="education_biometric_summary">Połącz swoje hasło z zeskanowanym odciskiem palca, aby szybko odblokować bazę danych.</string>
     <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
     <string name="education_generate_password_title">Utwórz silne hasło</string>

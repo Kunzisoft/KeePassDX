@@ -241,8 +241,6 @@
 \nLos grupos (~carpetas) organizan las entradas en su base de datos.</string>
     <string name="education_search_title">Busque registros fácilmente</string>
     <string name="education_search_summary">Busque entradas por título, nombre de usuario u otros campos para recuperar fácilmente sus contraseñas.</string>
-    <string name="education_biometric_title">Desbloquee su base de datos con su huella digital</string>
-    <string name="education_biometric_summary">Vincule la contraseña a su escaneo biométrico para desbloquear rápidamente la base de datos.</string>
     <string name="education_entry_edit_title">Editar la entrada</string>
     <string name="education_entry_edit_summary">Edite la entrada con campos personalizados, puede agregar referencias a los datos de la agrupación entre campos de diferentes entradas.</string>
     <string name="education_generate_password_title">Crear una contraseña segura</string>

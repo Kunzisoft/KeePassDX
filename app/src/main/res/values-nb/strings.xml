@@ -240,8 +240,6 @@
 \nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
     <string name="education_search_title">Søk i dine oppføringer</string>
     <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_biometric_title">Lås opp databasen din med fingeravtrykket ditt</string>
-    <string name="education_biometric_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord</string>

@@ -407,8 +407,6 @@
     <string name="compression_gzip">Gzip</string>
     <string name="magic_keyboard_explanation_summary">Ενεργοποιώντας ένα προσαρμοσμένο πληκτρολόγιο συγκεντρώνει τους κωδικούς πρόσβασής σας και όλα τα πεδία ταυτότητας</string>
     <string name="device_keyboard_setting_title">Ρυθμίσεις πληκτρολογίου συσκευής</string>
-    <string name="education_biometric_title">Βιομετρικό ξεκλείδωμα βάσης δεδομένων</string>
-    <string name="education_biometric_summary">Συνδέστε τον κωδικό πρόσβασής σας στο σαρωμένο βιομετρικό σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>
     <string name="error_save_database">Δεν ήταν δυνατή η αποθήκευση της βάσης δεδομένων.</string>
     <string name="menu_save_database">Αποθήκευση βάσης δεδομένων</string>
     <string name="menu_empty_recycle_bin">Αδειάστε τον κάδο ανακύκλωσης</string>

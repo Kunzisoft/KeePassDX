@@ -225,8 +225,6 @@
 \nLes groupes (≈dossiers) organisent les entrées dans votre base de données.</string>
     <string name="education_search_title">Rechercher dans les entrées</string>
     <string name="education_search_summary">Saisir le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
-    <string name="education_biometric_title">Déverrouillage biométrique de la base de données</string>
-    <string name="education_biometric_summary">Associe votre mot de passe à votre empreinte biométrique numérisée pour déverrouiller rapidement votre base de données.</string>
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifie votre entrée avec des champs personnalisés. La collection des données peut être référencée entre différents champs de l’entrée.</string>
     <string name="education_generate_password_title">Créer un mot de passe fort</string>

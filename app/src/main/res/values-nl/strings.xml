@@ -265,8 +265,6 @@
 \nGroepen (~mappen) organiseren de items in je database.</string>
     <string name="education_search_title">Doorzoek al je items</string>
     <string name="education_search_summary">Doorzoek items op titel, gebruikersnaam of andere velden om wachtwoorden te vinden.</string>
-    <string name="education_biometric_title">Biometrische database -ontgrendeling</string>
-    <string name="education_biometric_summary">Koppel je wachtwoord aan je biometrie om de database snel te ontgrendelen.</string>
     <string name="education_entry_edit_title">Item bewerken</string>
     <string name="education_entry_edit_summary">Bewerk het item met aangepaste velden. Referenties kunnen worden toegevoegd tussen velden van verschillende items.</string>
     <string name="education_generate_password_title">Genereer een sterk wachtwoord</string>
