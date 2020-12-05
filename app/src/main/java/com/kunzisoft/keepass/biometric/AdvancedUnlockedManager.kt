@@ -203,24 +203,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     @Suppress("DEPRECATION")
     private fun openBiometricSetting() {
         advancedUnlockInfoView?.setIconViewClickListener(false) {
-            when {
-                /*
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
-                    // Need parameters and result parser
-                    context.startActivityForResult(Intent(Settings.ACTION_BIOMETRIC_ENROLL),
-                            ACTION_BIOMETRIC_ENROLL_REQUEST_CODE)
-                }
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
-                    // Not working with Xiaomi... (crash after trying to enroll fingerprint
-                    context.startActivityForResult(Intent(Settings.ACTION_FINGERPRINT_ENROLL),
-                            ACTION_FINGERPRINT_ENROLL_REQUEST_CODE)
-                }
-                */
-                else -> {
-                    // ACTION_SECURITY_SETTINGS do not contains fingerprint enrollment in Xiaomi...
-                    context.startActivity(Intent(Settings.ACTION_SETTINGS))
-                }
-            }
+            // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
+            context.startActivity(Intent(Settings.ACTION_SETTINGS))
         }
     }
 
