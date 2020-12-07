@@ -46,6 +46,10 @@ class AdvancedUnlockNotificationService : NotificationService() {
         return CHANNEL_ADVANCED_UNLOCK_ID
     }
 
+    override fun retrieveChannelName(): String {
+        return getString(R.string.advanced_unlock)
+    }
+
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
         return mActionTaskBinder
@@ -125,9 +129,11 @@ class AdvancedUnlockNotificationService : NotificationService() {
         private const val ACTION_REMOVE_KEYS = "ACTION_REMOVE_KEYS"
 
         fun startServiceForTimeout(context: Context) {
-            context.startService(Intent(context, AdvancedUnlockNotificationService::class.java).apply {
-                action = ACTION_TIMEOUT
-            })
+            if (PreferencesUtil.isTempAdvancedUnlockEnable(context)) {
+                context.startService(Intent(context, AdvancedUnlockNotificationService::class.java).apply {
+                    action = ACTION_TIMEOUT
+                })
+            }
         }
     }
 }
