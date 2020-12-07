@@ -61,9 +61,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
             // Unfortunately swipe is disabled in lollipop+
             setDeleteIntent(pendingDeleteIntent)
         }
-        // Not necessarilly a foreground service
-        // startForeground(notificationId, notificationBuilder.build())
-        notificationManager?.notify(notificationId, notificationBuilder.build())
+        // Not necessarily a foreground service
+        startForeground(notificationId, notificationBuilder.build())
+        //notificationManager?.notify(notificationId, notificationBuilder.build())
 
         if (intent?.action == ACTION_REMOVE_KEYS) {
             stopSelf()

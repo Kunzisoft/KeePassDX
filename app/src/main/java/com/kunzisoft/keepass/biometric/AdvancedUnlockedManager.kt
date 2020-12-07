@@ -78,7 +78,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
             // Add old listener to enable the button, only be call here because of onCheckedChange bug
             onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
         }
-        cipherDatabaseAction.initialize()
     }
 
     /**
@@ -184,10 +183,10 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                     }
                     Mode.EXTRACT_CREDENTIAL -> {
                         // retrieve the encrypted value from preferences
-                        cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
-                            it?.encryptedValue?.let { value ->
+                        cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
+                            cipherDatabase?.encryptedValue?.let { value ->
                                 biometricUnlockDatabaseHelper?.decryptData(value)
-                            }
+                            } ?: deleteEncryptedDatabaseKey()
                         }
                     }
                 }
@@ -294,7 +293,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                             openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
                         }
                     }
-                }
+                } ?: deleteEncryptedDatabaseKey()
             }
         }
     }

@@ -45,20 +45,16 @@ class CipherDatabaseAction(context: Context) {
     private var mBinder: AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
 
-    fun initialize() {
-        applicationContext.startService(mIntentAdvancedUnlockService)
-    }
-
     @Synchronized
-    private fun attachService(serviceAttached: () -> Unit) {
+    private fun attachService(performedAction: () -> Unit) {
         // Check if a service is currently running else do nothing
         if (mBinder != null) {
-            serviceAttached.invoke()
+            performedAction.invoke()
         } else if (mServiceConnection == null) {
             mServiceConnection = object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as AdvancedUnlockNotificationService.AdvancedUnlockBinder)
-                    serviceAttached.invoke()
+                    performedAction.invoke()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
@@ -66,11 +62,11 @@ class CipherDatabaseAction(context: Context) {
                     mServiceConnection = null
                 }
             }
-            // bind Service
-            mServiceConnection?.let {
-                applicationContext.bindService(mIntentAdvancedUnlockService,
-                        it,
-                        Context.BIND_ABOVE_CLIENT)
+            applicationContext.bindService(mIntentAdvancedUnlockService,
+                    mServiceConnection!!,
+                    Context.BIND_ABOVE_CLIENT)
+            if (mBinder == null) {
+                applicationContext.startService(mIntentAdvancedUnlockService)
             }
         }
     }
