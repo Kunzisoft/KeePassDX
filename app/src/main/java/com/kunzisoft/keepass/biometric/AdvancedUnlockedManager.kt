@@ -279,10 +279,9 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedMessageView("")
 
         if (biometricUnlockDatabaseHelper != null) {
-            cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
-
-                it?.specParameters?.let { specs ->
-                    biometricUnlockDatabaseHelper?.initDecryptData(specs) { biometricPrompt, cryptoObject, promptInfo ->
+            cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
+                cipherDatabase?.let {
+                    biometricUnlockDatabaseHelper?.initDecryptData(it.specParameters) { biometricPrompt, cryptoObject, promptInfo ->
 
                         // Set listener to open the biometric dialog and check credential
                         advancedUnlockInfoView?.setIconViewClickListener { _ ->

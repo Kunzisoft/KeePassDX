@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import com.kunzisoft.keepass.R
@@ -14,8 +15,21 @@ class AdvancedUnlockNotificationService : NotificationService() {
     private var mActionTaskBinder = AdvancedUnlockBinder()
 
     inner class AdvancedUnlockBinder: Binder() {
-        fun getTempCipherDao(): MutableList<CipherDatabaseEntity> {
-            return mTempCipherDao
+        fun getCipherDatabase(databaseUri: Uri): CipherDatabaseEntity? {
+            return mTempCipherDao.firstOrNull { it.databaseUri == databaseUri.toString()}
+        }
+        fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity) {
+            val cipherDatabaseRetrieve = mTempCipherDao.firstOrNull { it.databaseUri == cipherDatabaseEntity.databaseUri }
+            cipherDatabaseRetrieve?.replaceContent(cipherDatabaseEntity)
+                    ?: mTempCipherDao.add(cipherDatabaseEntity)
+        }
+        fun deleteByDatabaseUri(databaseUri: Uri) {
+            mTempCipherDao.firstOrNull { it.databaseUri == databaseUri.toString() }?.let {
+                mTempCipherDao.remove(it)
+            }
+        }
+        fun deleteAll() {
+            mTempCipherDao.clear()
         }
     }
 
@@ -47,7 +61,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
             // Unfortunately swipe is disabled in lollipop+
             setDeleteIntent(pendingDeleteIntent)
         }
-        startForeground(notificationId, notificationBuilder.build())
+        // Not necessarilly a foreground service
+        // startForeground(notificationId, notificationBuilder.build())
+        notificationManager?.notify(notificationId, notificationBuilder.build())
 
         if (intent?.action == ACTION_REMOVE_KEYS) {
             stopSelf()
