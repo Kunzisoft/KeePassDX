@@ -71,12 +71,22 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
+    private val cipherDatabaseListener = object: CipherDatabaseAction.DatabaseListener {
+        override fun onDatabaseCleared() {
+            deleteEncryptedDatabaseKey()
+        }
+    }
+
     init {
         // Add a check listener to change fingerprint mode
         checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
             checkBiometricAvailability()
             // Add old listener to enable the button, only be call here because of onCheckedChange bug
             onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
+        }
+        cipherDatabaseAction.apply {
+            reloadPreferences()
+            registerDatabaseListener(cipherDatabaseListener)
         }
     }
 
@@ -334,6 +344,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
+        cipherDatabaseAction.unregisterDatabaseListener(cipherDatabaseListener)
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {

@@ -28,6 +28,7 @@ import android.os.IBinder
 import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
+import java.util.*
 
 class CipherDatabaseAction(context: Context) {
 
@@ -38,12 +39,18 @@ class CipherDatabaseAction(context: Context) {
                     .cipherDatabaseDao()
 
     // Temp DAO to easily remove content if object no longer in memory
-    private val useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
+    private var useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
 
     private val mIntentAdvancedUnlockService = Intent(applicationContext,
             AdvancedUnlockNotificationService::class.java)
     private var mBinder: AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
+
+    private var mDatabaseListeners = LinkedList<DatabaseListener>()
+
+    fun reloadPreferences() {
+        useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
+    }
 
     @Synchronized
     private fun attachService(performedAction: () -> Unit) {
@@ -60,6 +67,9 @@ class CipherDatabaseAction(context: Context) {
                 override fun onServiceDisconnected(name: ComponentName?) {
                     mBinder = null
                     mServiceConnection = null
+                    mDatabaseListeners.forEach {
+                        it.onDatabaseCleared()
+                    }
                 }
             }
             applicationContext.bindService(mIntentAdvancedUnlockService,
@@ -69,6 +79,18 @@ class CipherDatabaseAction(context: Context) {
                 applicationContext.startService(mIntentAdvancedUnlockService)
             }
         }
+    }
+
+    fun registerDatabaseListener(listener: DatabaseListener) {
+        mDatabaseListeners.add(listener)
+    }
+
+    fun unregisterDatabaseListener(listener: DatabaseListener) {
+        mDatabaseListeners.remove(listener)
+    }
+
+    interface DatabaseListener {
+        fun onDatabaseCleared()
     }
 
     fun getCipherDatabase(databaseUri: Uri,
