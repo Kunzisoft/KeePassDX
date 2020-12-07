@@ -709,7 +709,7 @@ open class PasswordActivity : SpecialModeActivity() {
                 changeOpenFileReadIcon(item)
             }
             R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                advancedUnlockedManager?.deleteEntryKey()
+                advancedUnlockedManager?.deleteEncryptedDatabaseKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }

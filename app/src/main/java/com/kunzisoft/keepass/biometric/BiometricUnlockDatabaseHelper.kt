@@ -234,7 +234,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
-            deleteEntryKey()
+            deleteKeystoreKey()
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize decrypt data", invalidKeyException)
             biometricUnlockCallback?.onInvalidKeyException(invalidKeyException)
@@ -264,7 +264,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         }
     }
 
-    fun deleteEntryKey() {
+    fun deleteKeystoreKey() {
         try {
             keyStore?.load(null)
             keyStore?.deleteEntry(BIOMETRIC_KEYSTORE_KEY)
@@ -397,7 +397,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                         biometricCallback.onBiometricException(e)
                     }
                 }
-                deleteEntryKey()
+                deleteKeystoreKey()
             }
         }
     }

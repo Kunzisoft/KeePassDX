@@ -342,11 +342,10 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
             menuInflater.inflate(R.menu.advanced_unlock, menu)
     }
 
-    fun deleteEntryKey() {
+    fun deleteEncryptedDatabaseKey() {
         allowOpenBiometricPrompt = false
         advancedUnlockInfoView?.setIconViewClickListener(false, null)
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
-        biometricUnlockDatabaseHelper?.deleteEntryKey()
         cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri) {
             checkBiometricAvailability()
         }
