@@ -52,8 +52,8 @@
             android:title="@string/temp_advanced_unlock_timeout_title"
             android:summary="@string/temp_advanced_unlock_timeout_summary"
             android:dependency="@string/temp_advanced_unlock_enable_key"
-            android:entries="@array/timeout_options"
-            android:entryValues="@array/timeout_values"
+            android:entries="@array/large_timeout_options"
+            android:entryValues="@array/large_timeout_values"
             android:dialogTitle="@string/advanced_unlock_timeout"
             android:defaultValue="@string/temp_advanced_unlock_timeout_default"/>
         <Preference

@@ -35,6 +35,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
@@ -190,6 +191,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                     Mode.STORE_CREDENTIAL -> {
                         // newly store the entered password in encrypted way
                         biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
+                        AdvancedUnlockNotificationService.startServiceForTimeout(context)
                     }
                     Mode.EXTRACT_CREDENTIAL -> {
                         // retrieve the encrypted value from preferences

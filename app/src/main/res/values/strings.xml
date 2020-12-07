@@ -521,6 +521,20 @@
         <item>30 minutes</item>
         <item>Never</item>
     </string-array>
+    <string-array name="large_timeout_options">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>5 hours</item>
+        <item>10 hours</item>
+        <item>24 hours</item>
+        <item>48 hours</item>
+        <item>1 week</item>
+        <item>1 month</item>
+        <item>Never</item>
+    </string-array>
     <string-array name="list_size_options">
         <item>Small</item>
         <item>Medium</item>
