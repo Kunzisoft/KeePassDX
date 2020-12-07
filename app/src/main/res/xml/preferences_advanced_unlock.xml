@@ -39,6 +39,23 @@
             android:title="@string/biometric_auto_open_prompt_title"
             android:summary="@string/biometric_auto_open_prompt_summary"
             android:defaultValue="@bool/biometric_auto_open_prompt_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/content">
+        <SwitchPreference
+            android:key="@string/temp_advanced_unlock_enable_key"
+            android:title="@string/temp_advanced_unlock_enable_title"
+            android:summary="@string/temp_advanced_unlock_enable_summary"
+            android:defaultValue="@bool/temp_advanced_unlock_enable_default"/>
+        <ListPreference
+            android:key="@string/temp_advanced_unlock_timeout_key"
+            android:title="@string/temp_advanced_unlock_timeout_title"
+            android:summary="@string/temp_advanced_unlock_timeout_summary"
+            android:dependency="@string/temp_advanced_unlock_enable_key"
+            android:entries="@array/timeout_options"
+            android:entryValues="@array/timeout_values"
+            android:dialogTitle="@string/clipboard_timeout"
+            android:defaultValue="@string/temp_advanced_unlock_timeout_default"/>
         <Preference
             android:key="@string/biometric_delete_all_key_key"
             android:title="@string/biometric_delete_all_key_title"
