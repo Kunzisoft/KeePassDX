@@ -319,6 +319,7 @@
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="content">Content</string>
     <string name="advanced_unlock">Advanced unlock</string>
+    <string name="advanced_unlock_tap_delete">Tap to delete advanced unlocking keys</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>

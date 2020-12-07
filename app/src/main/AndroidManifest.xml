@@ -174,11 +174,15 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".notifications.AttachmentFileNotificationService"
+            android:name="com.kunzisoft.keepass.notifications.AttachmentFileNotificationService"
             android:enabled="true"
             android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService"
             android:enabled="true"
             android:exported="false" />
         <!-- Receiver for Autofill -->

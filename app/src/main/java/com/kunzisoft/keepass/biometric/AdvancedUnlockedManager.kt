@@ -78,6 +78,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
             // Add old listener to enable the button, only be call here because of onCheckedChange bug
             onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
         }
+        cipherDatabaseAction.initialize()
     }
 
     /**

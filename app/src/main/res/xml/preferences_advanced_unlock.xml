@@ -54,7 +54,7 @@
             android:dependency="@string/temp_advanced_unlock_enable_key"
             android:entries="@array/timeout_options"
             android:entryValues="@array/timeout_values"
-            android:dialogTitle="@string/clipboard_timeout"
+            android:dialogTitle="@string/advanced_unlock_timeout"
             android:defaultValue="@string/temp_advanced_unlock_timeout_default"/>
         <Preference
             android:key="@string/biometric_delete_all_key_key"
