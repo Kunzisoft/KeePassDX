@@ -135,5 +135,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
                 })
             }
         }
+
+        fun stopService(context: Context) {
+            context.stopService(Intent(context, AdvancedUnlockNotificationService::class.java))
+        }
     }
 }
