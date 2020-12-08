@@ -25,7 +25,7 @@
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
     <string name="app_timeout">Час очікування застосунку</string>
-    <string name="app_timeout_summary">Час очікування до блокування бази даних</string>
+    <string name="app_timeout_summary">Час бездіяльности до блокування бази даних</string>
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Параметри застосунку</string>
     <string name="brackets">Дужки</string>
@@ -206,7 +206,7 @@
     <string name="content_description_keyfile_checkbox">Поле файла ключа</string>
     <string name="menu_master_key_settings">Налаштування головного ключа</string>
     <string name="menu_security_settings">Параметри безпеки</string>
-    <string name="menu_advanced_unlock_settings">Розширені параметри розблокування</string>
+    <string name="menu_advanced_unlock_settings">Розширене розблокування</string>
     <string name="menu_form_filling_settings">Заповнення форм</string>
     <string name="copy_field">Скопійовано %1$s</string>
     <string name="creating_database">Створення бази даних…</string>
@@ -353,7 +353,7 @@
     <string name="keyboard_notification_entry_content_title">%1$s доступне на Magikeyboard</string>
     <string name="keyboard_notification_entry_content_title_text">Запис</string>
     <string name="keyboard_entry_timeout_summary">Час очікування до очищення клавіатури від запису</string>
-    <string name="keyboard_entry_timeout_title">Час очікування</string>
+    <string name="keyboard_entry_timeout_title">Обмеження часу</string>
     <string name="keyboard_notification_entry_clear_close_summary">Закрити базу даних під час закриття сповіщення</string>
     <string name="keyboard_notification_entry_clear_close_title">Очищати під час закриття</string>
     <string name="keyboard_notification_entry_summary">Показувати сповіщення, коли запис доступний</string>
@@ -534,4 +534,13 @@
     <string name="select_entry">Вибрати запис</string>
     <string name="back_to_previous_keyboard">Повернутися до попередньої клавіатури</string>
     <string name="custom_fields">Власні поля</string>
+    <string name="advanced_unlock_timeout">Час дії розширеного розблокування</string>
+    <string name="temp_advanced_unlock_timeout_title">Час дії розширеного розблокування</string>
+    <string name="education_advanced_unlock_summary">Пов’яжіть свій пароль зі сканованими біометричними даними або даними пристрою, щоб швидко розблокувати базу даних.</string>
+    <string name="education_advanced_unlock_title">Розширене розблокування бази даних</string>
+    <string name="temp_advanced_unlock_timeout_summary">Тривалість використання розширеного розблокування перед видаленням його вмісту</string>
+    <string name="temp_advanced_unlock_enable_summary">Не зберігайте зашифрований вміст для використання розширеного розблокування</string>
+    <string name="temp_advanced_unlock_enable_title">Тимчасове розширене розблокування</string>
+    <string name="advanced_unlock_tap_delete">Торкнутися, щоб видалити клавіші розширеного розблокування</string>
+    <string name="content">Вміст</string>
 </resources>
