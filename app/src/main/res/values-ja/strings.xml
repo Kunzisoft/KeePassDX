@@ -534,4 +534,13 @@
     <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて認証情報を保存する</string>
     <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いてロックを解除する</string>
     <string name="select_entry">エントリーを選択</string>
+    <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
+    <string name="education_advanced_unlock_title">データベースの高度なロック解除</string>
+    <string name="advanced_unlock_timeout">高度なロック解除のタイムアウト</string>
+    <string name="temp_advanced_unlock_timeout_summary">コンテンツを削除して高度なロック解除を終了するまでの期間</string>
+    <string name="temp_advanced_unlock_timeout_title">高度なロック解除の有効期限</string>
+    <string name="temp_advanced_unlock_enable_summary">高度なロック解除に使用する暗号化コンテンツを保存しません</string>
+    <string name="temp_advanced_unlock_enable_title">一時的な高度なロック解除</string>
+    <string name="advanced_unlock_tap_delete">タップして高度なロック解除用の鍵を削除する</string>
+    <string name="content">コンテンツ</string>
 </resources>
