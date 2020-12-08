@@ -543,4 +543,13 @@
     <string name="select_entry">Sélection d\'une entrée</string>
     <string name="back_to_previous_keyboard">Retour au clavier précédent</string>
     <string name="custom_fields">Champs customisés</string>
+    <string name="education_advanced_unlock_summary">Lier votre mot de passe à vos informations d\'identification biométriques ou de périphérique scannées pour déverrouiller rapidement votre base de données.</string>
+    <string name="education_advanced_unlock_title">Déverrouillage avancé de la base de données</string>
+    <string name="advanced_unlock_timeout">Délai du déverrouillage avancé</string>
+    <string name="temp_advanced_unlock_timeout_summary">Durée d\'utilisation du déverrouillage avancé avant de supprimer son contenu</string>
+    <string name="temp_advanced_unlock_timeout_title">Expiration du déverrouillage avancé</string>
+    <string name="temp_advanced_unlock_enable_summary">Ne stocker aucun contenu crypté pour utiliser le déverrouillage avancé</string>
+    <string name="temp_advanced_unlock_enable_title">Déverrouillage avancé temporaire</string>
+    <string name="advanced_unlock_tap_delete">Appuyez pour supprimer les clés de déverrouillage avancées</string>
+    <string name="content">Contenu</string>
 </resources>
