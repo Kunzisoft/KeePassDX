@@ -534,4 +534,13 @@
     <string name="advanced_unlock_scanning_error">Προηγμένο ξεκλείδωμα σφάλμα: %1$s</string>
     <string name="advanced_unlock_invalid_key">Δεν είναι δυνατή η ανάγνωση του προηγμένου κλειδιού ξεκλειδώματος. Διαγράψτε το και επαναλάβετε τη διαδικασία αναγνώρισης ξεκλειδώματος.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Εξαγωγή διαπιστευτηρίων βάσης δεδομένων με προηγμένο ξεκλείδωμα δεδομένων</string>
+    <string name="education_advanced_unlock_summary">Συνδέστε τον κωδικό πρόσβασής σας με το σαρωμένο βιομετρικό ή τα διαπιστευτήρια της συσκευής σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>
+    <string name="education_advanced_unlock_title">Προηγμένο ξεκλείδωμα βάσης δεδομένων</string>
+    <string name="advanced_unlock_timeout">Χρονικό όριο προηγμένου ξεκλειδώματος</string>
+    <string name="temp_advanced_unlock_enable_title">Προσωρινό προηγμένο ξεκλείδωμα</string>
+    <string name="temp_advanced_unlock_enable_summary">Μην αποθηκεύετε κανένα κρυπτογραφημένο περιεχόμενο για να χρησιμοποιήσετε προηγμένο ξεκλείδωμα</string>
+    <string name="temp_advanced_unlock_timeout_summary">Διάρκεια της χρήσης προηγμένου ξεκλειδώματος πριν την διαγραφή του περιεχομένου</string>
+    <string name="temp_advanced_unlock_timeout_title">Λήξη προηγμένου ξεκλειδώματος</string>
+    <string name="advanced_unlock_tap_delete">Πατήστε για διαγραφή προηγμένων κλειδιών ξεκλειδώματος</string>
+    <string name="content">Περιεχόμενα</string>
 </resources>
