@@ -65,9 +65,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
         val deviceCredential = PreferencesUtil.isDeviceCredentialUnlockEnable(this)
         val notificationBuilder =  buildNewNotification().apply {
             setSmallIcon(if (deviceCredential) {
-                R.drawable.bolt
+                R.drawable.notification_ic_device_unlock_24dp
             } else {
-                R.drawable.fingerprint
+                R.drawable.notification_ic_fingerprint_unlock_24dp
             })
             intent?.let {
                 setContentTitle(getString(R.string.advanced_unlock))
