@@ -522,4 +522,25 @@
     <string name="search_mode">Mode recherche</string>
     <string name="error_registration_read_only">L’enregistrement d’un nouvel élément n’est pas autorisé dans une base de données en lecture seule</string>
     <string name="error_field_name_already_exists">Le nom du champ existe déjà.</string>
+    <string name="advanced_unlock_delete_all_key_warning">Supprimer toutes les clés de chiffrement liées à la reconnaissance de déverrouillage avancée \?</string>
+    <string name="device_credential_unlock_enable_summary">Vous permet d\'utiliser les informations d\'identification de votre appareil pour ouvrir la base de données</string>
+    <string name="device_credential_unlock_enable_title">Déverrouillage par identifiants de l\'appareil</string>
+    <string name="device_credential">Déverouillage de l\'appareil</string>
+    <string name="credential_before_click_advanced_unlock_button">Tapez le mot de passe, puis cliquez sur le bouton \"Déverrouillage avancé\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">Impossible d\'initialiser l\'invite de déverrouillage avancé.</string>
+    <string name="advanced_unlock_scanning_error">Erreur de déverrouillage avancé : %1$s</string>
+    <string name="advanced_unlock_not_recognized">Impossible de reconnaître l\'empreinte de déverrouillage avancé</string>
+    <string name="advanced_unlock_invalid_key">Impossible de lire la clé de déverrouillage avancé. Veuillez la supprimer et répéter la procédure de reconnaissance de déverrouillage.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extraire les identifiants de la base de données avec des données de déverrouillage avancées</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance de déverrouillage avancée</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Attention : Vous devez toujours vous souvenir de votre mot de passe principal si vous utilisez la reconnaissance de déverrouillage avancée.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Reconnaissance de déverrouillage avancée</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Ouvrez l\'invite de déverrouillage avancé pour stocker les informations d\'identification</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Ouvrez l\'invite de déverrouillage avancé pour déverrouiller la base de données</string>
+    <string name="menu_keystore_remove_key">Supprimer la clé de déverrouillage avancé</string>
+    <string name="enter">Entrer</string>
+    <string name="backspace">Retour arrière</string>
+    <string name="select_entry">Sélection d\'une entrée</string>
+    <string name="back_to_previous_keyboard">Retour au clavier précédent</string>
+    <string name="custom_fields">Champs customisés</string>
 </resources>

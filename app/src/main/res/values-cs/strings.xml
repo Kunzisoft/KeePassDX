@@ -69,7 +69,7 @@
     <string name="error_pass_match">Zadaná hesla se neshodují.</string>
     <string name="error_rounds_too_large">Příliš vysoký „Počet průchodů“. Nastavuji na 2147483648.</string>
     <string name="error_string_key">Je třeba, aby každý řetězec měl název kolonky.</string>
-    <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
+    <string name="error_wrong_length">Do pole „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>
     <string name="file_browser">Správce souborů</string>
@@ -216,7 +216,7 @@
     <string name="biometric_unlock_enable_title">Biometrické odemčení</string>
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním biometrického údaje</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
-    <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s biometrickým rozlišením</string>
+    <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s rozpoznáním pokročilého odemknutí</string>
     <string name="unavailable_feature_text">Tuto funkci se nedaří spustit.</string>
     <string name="unavailable_feature_version">V zařízení je instalován Android %1$s, ale potřebná je verze %2$s a novější.</string>
     <string name="unavailable_feature_hardware">Hardware nebyl rozpoznán.</string>
@@ -235,7 +235,7 @@
     <string name="database_description_title">Popis databáze</string>
     <string name="database_version_title">Verze databáze</string>
     <string name="text_appearance">Text</string>
-    <string name="application_appearance">Aplikace</string>
+    <string name="application_appearance">Rozhraní</string>
     <string name="other">Ostatní</string>
     <string name="keyboard">Klávesnice</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -267,10 +267,10 @@
     <string name="education_entry_new_field_summary">Registrovat další kolonku, zadat hodnotu a volitelně ji ochránit.</string>
     <string name="education_unlock_title">Odemknout databázi</string>
     <string name="education_read_only_title">Ochraňte svou databázi před zápisem</string>
-    <string name="education_read_only_summary">Změnit režim otevírání pro dané sezení. 
-\n 
-\nV režimu pouze pro čtení zabráníte nechtěným změnám do databáze. 
-\n V režimu zápisu je možné přidávat, mazat nebo měnit všechny prvky dle libosti.</string>
+    <string name="education_read_only_summary">Změnit režim otevírání pro dané sezení.
+\n
+\nV režimu \"pouze pro čtení\" zabráníte nechtěným změnám do databáze.
+\nV režimu \"zápisu\" je možné přidávat, mazat nebo měnit všechny prvky podle libosti.</string>
     <string name="education_field_copy_title">Zkopírujte kolonku</string>
     <string name="education_field_copy_summary">Zkopírované kolonky lze vkládat kam chcete 
 \n 
@@ -291,7 +291,7 @@
     <string name="html_text_dev_feature_encourage">povzbudíte vývojáře k přidávání &lt;strong&gt;nových funkcí&lt;/strong&gt; a &lt;strong&gt;opravování chyb&lt;/strong&gt; dle vašich připomínek.</string>
     <string name="html_text_dev_feature_thanks">Mnohé díky za vaše přispění.</string>
     <string name="html_text_dev_feature_work_hard">Tvrdě pracujeme na brzkém vydání této funkce.</string>
-    <string name="html_text_dev_feature_upgrade">Nezapomeňte aplikaci aktualizovat instalováním nových verzí.</string>
+    <string name="html_text_dev_feature_upgrade">Pamatujte na aktualizaci aplikace instalováním nových verzí.</string>
     <string name="download">Stáhnout</string>
     <string name="contribute">Zapojit se</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -356,8 +356,8 @@
     <string name="error_create_database_file">Nelze vytvořit databázi s tímto heslem a klíčem ze souboru.</string>
     <string name="menu_advanced_unlock_settings">Pokročilé odemčení</string>
     <string name="biometric">Biometrika</string>
-    <string name="biometric_auto_open_prompt_title">Automaticky otevřít biometrickou pobídku</string>
-    <string name="biometric_auto_open_prompt_summary">Automaticky žádat biometriku, je-li databáze nastavena k jejímu použití</string>
+    <string name="biometric_auto_open_prompt_title">Automaticky otevřít pobídku</string>
+    <string name="biometric_auto_open_prompt_summary">Automaticky žádat pokročilé odemknutí, je-li databáze nastavena k jejímu použití</string>
     <string name="enable">Zapnout</string>
     <string name="disable">Vypnout</string>
     <string name="master_key">Hlavní klíč</string>
@@ -514,4 +514,25 @@
     <string name="search_mode">Režim vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno položky již existuje.</string>
     <string name="error_registration_read_only">Uložení nové položky v režimu databáze pouze pro čtení není povoleno</string>
+    <string name="enter">Enter</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Vybrat záznam</string>
+    <string name="back_to_previous_keyboard">Zpět na předchozí klávesnici</string>
+    <string name="custom_fields">Vlastní položky</string>
+    <string name="advanced_unlock_delete_all_key_warning">Smazat všechny šifrovací klíče související s rozpoznáním pokročilého odemknutí\?</string>
+    <string name="device_credential_unlock_enable_summary">Dovolí pro otevření databáze použít heslo Vašeho zařízení</string>
+    <string name="device_credential_unlock_enable_title">Odemknutí heslem zařízení</string>
+    <string name="device_credential">Heslo zařízení</string>
+    <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a klikněte na tlačítko \"Pokročilé odemknutí\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">Nelze inicializovat pobídku pro pokročilé odemknutí.</string>
+    <string name="advanced_unlock_scanning_error">Chyba při pokročilém odemknutí: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Otisk pro pokročilé odemknutí nebyl rozpoznán</string>
+    <string name="advanced_unlock_invalid_key">Nelze načíst klíč pokročilého odemknutí. Prosím, smažte jej a opakujte proces rozpoznání uzamknutí.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Načíst důvěrný údaj pomocí dat pokročilého odemknutí</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Otevřít databázi pomocí rozpoznání pokročilého odemknutí</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Varování: Pokud použijete rozpoznání pokročilého odemknutí, musíte si i nadále pamatovat hlavní heslo.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Rozpoznání pokročilého odemknutí</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Pro uložení důvěrných údajů otevřete pobídku pokročilého odemknutí</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Pro odemknutí databáze otevřete pobídku pokročilého odemknutí</string>
+    <string name="menu_keystore_remove_key">Smazat klíč pokročilého odemknutí</string>
 </resources>

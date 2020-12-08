@@ -472,9 +472,9 @@
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
-    <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen unterbunden wird</string>
+    <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen unterlassen wird</string>
     <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
-    <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen unterbunden wird</string>
+    <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_application_id_blocklist_title">Liste gesperrter Anwendungen</string>
     <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
@@ -525,4 +525,9 @@
     <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Warnung: Sie müssen sich immer noch an ihr Masterpasswort erinnern, wenn sie die erweiterte Entsperrerkennung verwenden.</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Öffne den erweiterten Entsperrdialog zum Speichern von Anmeldeinformationen</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Öffnen des erweiterten Entsperrdialogs zum Entsperren der Datenbank</string>
+    <string name="menu_keystore_remove_key">Löschen des Schlüssels zum erweiterten Entsperren</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Fortschrittliche Entsperrerkennung</string>
 </resources>
