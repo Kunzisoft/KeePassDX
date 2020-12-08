@@ -518,4 +518,13 @@
     <string name="select_entry">Girdi seç</string>
     <string name="back_to_previous_keyboard">Önceki klavyeye geri dön</string>
     <string name="custom_fields">Özel alanlar</string>
+    <string name="education_advanced_unlock_summary">Veri tabanınızın kilidini hızlı bir şekilde açmak için parolanızı taranmış biyometrik veya aygıt kimlik bilgilerinize bağlayın.</string>
+    <string name="education_advanced_unlock_title">Gelişmiş veri tabanı kilidi açma</string>
+    <string name="advanced_unlock_timeout">Gelişmiş kilit açma zaman aşımı</string>
+    <string name="temp_advanced_unlock_timeout_summary">İçeriğini silmeden önce gelişmiş kilit açma kullanımının süresi</string>
+    <string name="temp_advanced_unlock_timeout_title">Gelişmiş kilit açma süre sonu</string>
+    <string name="temp_advanced_unlock_enable_summary">Gelişmiş kilit açmayı kullanmak için herhangi bir şifrelenmiş içeriği saklama</string>
+    <string name="temp_advanced_unlock_enable_title">Geçici gelişmiş kilit açma</string>
+    <string name="advanced_unlock_tap_delete">Gelişmiş kilit açma anahtarlarını silmek için dokunun</string>
+    <string name="content">İçerik</string>
 </resources>
