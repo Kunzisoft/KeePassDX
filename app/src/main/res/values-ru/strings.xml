@@ -534,4 +534,13 @@
     <string name="custom_fields">Пользовательские поля</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Выберите запись</string>
+    <string name="education_advanced_unlock_title">Расширенная разблокировка базы</string>
+    <string name="advanced_unlock_timeout">Ожидание расширенной разблокировки</string>
+    <string name="education_advanced_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
+    <string name="temp_advanced_unlock_timeout_summary">Продолжительность использования содержимого расширенной разблокировки до его удаления</string>
+    <string name="temp_advanced_unlock_timeout_title">Срок действия расширенной разблокировки</string>
+    <string name="temp_advanced_unlock_enable_title">Временная расширенная разблокировка</string>
+    <string name="temp_advanced_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования расширенной разблокировки</string>
+    <string name="advanced_unlock_tap_delete">Нажмите, чтобы удалить ключи расширенной разблокировки</string>
+    <string name="content">Содержимое</string>
 </resources>
