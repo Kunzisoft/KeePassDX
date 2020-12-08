@@ -35,6 +35,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
@@ -71,12 +72,22 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
+    private val cipherDatabaseListener = object: CipherDatabaseAction.DatabaseListener {
+        override fun onDatabaseCleared() {
+            deleteEncryptedDatabaseKey()
+        }
+    }
+
     init {
         // Add a check listener to change fingerprint mode
         checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
             checkBiometricAvailability()
             // Add old listener to enable the button, only be call here because of onCheckedChange bug
             onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
+        }
+        cipherDatabaseAction.apply {
+            reloadPreferences()
+            registerDatabaseListener(cipherDatabaseListener)
         }
     }
 
@@ -180,13 +191,14 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                     Mode.STORE_CREDENTIAL -> {
                         // newly store the entered password in encrypted way
                         biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
+                        AdvancedUnlockNotificationService.startServiceForTimeout(context)
                     }
                     Mode.EXTRACT_CREDENTIAL -> {
                         // retrieve the encrypted value from preferences
-                        cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
-                            it?.encryptedValue?.let { value ->
+                        cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
+                            cipherDatabase?.encryptedValue?.let { value ->
                                 biometricUnlockDatabaseHelper?.decryptData(value)
-                            }
+                            } ?: deleteEncryptedDatabaseKey()
                         }
                     }
                 }
@@ -278,10 +290,9 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedMessageView("")
 
         if (biometricUnlockDatabaseHelper != null) {
-            cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
-
-                it?.specParameters?.let { specs ->
-                    biometricUnlockDatabaseHelper?.initDecryptData(specs) { biometricPrompt, cryptoObject, promptInfo ->
+            cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
+                cipherDatabase?.let {
+                    biometricUnlockDatabaseHelper?.initDecryptData(it.specParameters) { biometricPrompt, cryptoObject, promptInfo ->
 
                         // Set listener to open the biometric dialog and check credential
                         advancedUnlockInfoView?.setIconViewClickListener { _ ->
@@ -294,7 +305,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                             openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
                         }
                     }
-                }
+                } ?: deleteEncryptedDatabaseKey()
             }
         }
     }
@@ -335,6 +346,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
+        cipherDatabaseAction.unregisterDatabaseListener(cipherDatabaseListener)
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {

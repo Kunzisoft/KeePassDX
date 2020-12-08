@@ -43,6 +43,11 @@ data class CipherDatabaseEntity(
             parcel.readString()!!,
             parcel.readString()!!)
 
+    fun replaceContent(copy: CipherDatabaseEntity) {
+        this.encryptedValue = copy.encryptedValue
+        this.specParameters = copy.specParameters
+    }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(databaseUri)
         parcel.writeString(encryptedValue)
