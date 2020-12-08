@@ -195,7 +195,7 @@
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
-    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s prepoznavanjem naprednog otključavanja</string>
+    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja</string>
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="file_name">Ime datoteke</string>
     <string name="path">Putanja</string>
@@ -498,19 +498,19 @@
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s prepoznavanjem naprednog otključavanja\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja\?</string>
     <string name="credential_before_click_advanced_unlock_button">Upiši lozinku i zatim pritisni gumb „Napredno otključavanje”.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću prepoznavanja naprednog otključavanja</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću naprednog prepoznavanja otključavanja</string>
     <string name="advanced_unlock_prompt_store_credential_message">Upozorenje: Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
     <string name="menu_keystore_remove_key">Izbriši ključ naprednog otključavanja</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Prepoznavanje naprednog otključavanja</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Napredno prepoznavanje otključavanja</string>
     <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor naprednog otključavanja.</string>
     <string name="advanced_unlock_scanning_error">Greška naprednog otključavanja: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka naprednog otključavanja</string>
     <string name="open_advanced_unlock_prompt_store_credential">Otvori prozor naprednog otključavanja za spremanje podataka za prijavu</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Otvori prozor naprednog otključavanja za otključavanje baze podataka</string>
     <string name="advanced_unlock_not_recognized">Nije moguće prepoznati digitanlni otisak za napredno otključavanje</string>
-    <string name="advanced_unlock_invalid_key">Nije moguće pročitati napredni ključ za otključavanje. Izbriši ga i ponovi postupak prepoznavanja.</string>
+    <string name="advanced_unlock_invalid_key">Nije moguće pročitati ključ naprednog otključavanja. Izbriši ga i ponovi postupak prepoznavanja.</string>
     <string name="enter">Tipka Enter</string>
     <string name="backspace">Tipka Backspace</string>
     <string name="select_entry">Odaberi unos</string>
@@ -519,4 +519,11 @@
     <string name="device_credential_unlock_enable_summary">Omogućuje otvaranje baze podataka pomoću podataka za prijavu</string>
     <string name="device_credential_unlock_enable_title">Otključavanje s podacima za prijavu uređaja</string>
     <string name="device_credential">Podaci za prijavu uređaja</string>
+    <string name="advanced_unlock_tap_delete">Dodirni za brisanje ključeva naprednog otključavanja</string>
+    <string name="education_advanced_unlock_title">Napredno otključavanje baze podataka</string>
+    <string name="advanced_unlock_timeout">Vremensko ograničenje neprednog otključavanja</string>
+    <string name="temp_advanced_unlock_timeout_summary">Trajanje korištenja naprednog otključavanja prije brisanja sadržaja</string>
+    <string name="temp_advanced_unlock_timeout_title">Istek naprednog otključavanja</string>
+    <string name="temp_advanced_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za napredno otključavanje</string>
+    <string name="content">Sadržaj</string>
 </resources>
