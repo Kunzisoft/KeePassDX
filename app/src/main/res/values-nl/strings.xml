@@ -213,7 +213,7 @@
     <string name="list_password_generator_options_summary">Toegestane wachtwoordtekens instellen</string>
     <string name="clipboard">Klembord</string>
     <string name="clipboard_notifications_title">Klembordmeldingen</string>
-    <string name="clipboard_notifications_summary">Toon klembordmeldingen om velden te kopiëren bij het bekijken van een item</string>
+    <string name="clipboard_notifications_summary">Schakel klembordmeldingen in om velden te kopiëren bij het bekijken van een item</string>
     <string name="clipboard_warning">Als automatisch wissen van het klembord mislukt, doe dit dan handmatig.</string>
     <string name="lock">Vergrendelen</string>
     <string name="lock_database_screen_off_title">Schermvergrendeling</string>
@@ -222,9 +222,9 @@
     <string name="biometric_unlock_enable_title">Ontgrendelen met biometrie</string>
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
-    <string name="biometric_delete_all_key_summary">Alle sleutels voor biometrische herkenning verwijderen</string>
+    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot geavanceerde ontgrendelingsherkenning verwijderen</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
-    <string name="unavailable_feature_version">Het apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
+    <string name="unavailable_feature_version">Dit apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
     <string name="file_name">Bestandsnaam</string>
     <string name="path">Pad</string>
@@ -241,13 +241,13 @@
     <string name="database_description_title">Databaseomschrijving</string>
     <string name="database_version_title">Databaseversie</string>
     <string name="text_appearance">Tekst</string>
-    <string name="application_appearance">App</string>
+    <string name="application_appearance">Gebruikersomgeving</string>
     <string name="other">Overig</string>
     <string name="keyboard">Toetsenbord</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aangepast toetsenbord met je wachtwoorden en alle identiteitsvelden activeren</string>
     <string name="allow_no_password_title">Geen hoofdwachtwoord toestaan</string>
-    <string name="allow_no_password_summary">Maakt het mogelijk op de knop \"Openen\" te tikken als er geen inloggegevens zijn geselecteerd</string>
+    <string name="allow_no_password_summary">Schakel de knop \"Openen\" in als er geen referenties zijn geselecteerd</string>
     <string name="enable_read_only_title">Alleen-lezen</string>
     <string name="enable_read_only_summary">Open de database standaard alleen-lezen</string>
     <string name="enable_education_screens_title">Informatieve tips</string>
@@ -273,10 +273,10 @@
     <string name="education_entry_new_field_summary">Registreer een extra veld, voeg een waarde toe en bescherm dit desgewenst.</string>
     <string name="education_unlock_title">Ontgrendel je database</string>
     <string name="education_read_only_title">Database alleen-lezen</string>
-    <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie. 
-\n 
-\nIn alleen-lezenmodus kunnen geen onbedoelde wijzigingen worden gemaakt. 
-\nIn schrijfmodus kun je elementen toevoegen, verwijderen of aanpassen.</string>
+    <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie.
+\n
+\nIn alleen-lezenmodus kunnen geen onbedoelde wijzigingen worden gemaakt.
+\nIn schrijfmodus kun je naar wens elementen toevoegen, verwijderen of aanpassen.</string>
     <string name="education_field_copy_title">Veld kopiëren toestaan</string>
     <string name="education_field_copy_summary">Kopieer een veld en plak de inhoud waar je maar wilt.
 \n
@@ -297,7 +297,7 @@
     <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;problemen op te lossen&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Hartelijk bedankt voor je bijdrage.</string>
     <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergeet niet om je app up-to-date te houden door nieuwe versies te installeren.</string>
+    <string name="html_text_dev_feature_upgrade">Vergeet niet je app up-to-date te houden door nieuwe versies te installeren.</string>
     <string name="download">Downloaden</string>
     <string name="contribute">Bijdragen</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -329,7 +329,7 @@
     <string name="selection_mode">Selectiemodus</string>
     <string name="do_not_kill_app">App niet afsluiten…</string>
     <string name="lock_database_back_root_title">Druk \'Terug\' om te vergrendelen</string>
-    <string name="lock_database_back_root_summary">Vergrendel de database wanneer de gebruiker op de knop Terug in het hoofdscherm klikt</string>
+    <string name="lock_database_back_root_summary">Vergrendel de database wanneer de gebruiker in het hoofdscherm op de knop Terug klikt</string>
     <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
     <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer de duur van het klembord verloopt of de melding wordt gesloten nadat u deze bent gaan gebruiken</string>
     <string name="recycle_bin">Prullenmand</string>
@@ -362,8 +362,8 @@
     <string name="error_create_database_file">Kan geen database aanmaken met dit wachtwoord en sleutelbestand.</string>
     <string name="menu_advanced_unlock_settings">Geavanceerd ontgrendelen</string>
     <string name="biometric">Biometrie</string>
-    <string name="biometric_auto_open_prompt_title">Automatisch om biometrie vragen</string>
-    <string name="biometric_auto_open_prompt_summary">Automatisch om biometrie vragen als een database hiervoor is ingesteld</string>
+    <string name="biometric_auto_open_prompt_title">Auto-open suggestie</string>
+    <string name="biometric_auto_open_prompt_summary">Automatisch om geavanceerde ontgrendeling vragen als een database hiervoor is ingesteld</string>
     <string name="enable">Inschakelen</string>
     <string name="disable">Uitschakelen</string>
     <string name="master_key">Hoofdsleutel</string>
@@ -414,15 +414,15 @@
     <string name="enable_auto_save_database_summary">Sla de database op na elke belangrijke actie (in \"Schrijf\" modus)</string>
     <string name="education_setup_OTP_title">OTP instellen</string>
     <string name="remember_keyfile_locations_title">Locatie van sleutelbestanden opslaan</string>
-    <string name="remember_database_locations_title">Databaselocaties onthouden</string>
-    <string name="hide_expired_entries_summary">Verlopen items worden niet getoond</string>
+    <string name="remember_database_locations_title">Databaselocaties opslaan</string>
+    <string name="hide_expired_entries_summary">Verlopen items worden niet weergegeven</string>
     <string name="hide_expired_entries_title">Verberg verlopen items</string>
-    <string name="download_complete">Klaar!</string>
+    <string name="download_complete">Voltooid!</string>
     <string name="download_finalization">Voltooien…</string>
     <string name="download_progression">Voortgang: %1$d%%</string>
     <string name="download_initialization">Initialiseren…</string>
     <string name="download_attachment">Download %1$s</string>
-    <string name="education_setup_OTP_summary">Stel eenmalig wachtwoordbeheer (HOTP / TOTP) in om een token te genereren dat wordt gevraagd voor tweefactorauthenticatie (2FA).</string>
+    <string name="education_setup_OTP_summary">Stel eenmalig wachtwoordbeheer (HOTP / TOTP) in om een token te genereren voor tweefactorauthenticatie (2FA).</string>
     <string name="enable_auto_save_database_title">Automatisch opslaan</string>
     <string name="autofill_auto_search_summary">Automatisch zoekresultaten voorstellen vanuit het webdomein of de toepassings-ID</string>
     <string name="autofill_auto_search_title">Automatisch zoeken</string>
@@ -437,8 +437,8 @@
     <string name="command_execution">Opdracht uitvoeren…</string>
     <string name="hide_broken_locations_summary">Verberg gebroken links in de lijst met recente databases</string>
     <string name="hide_broken_locations_title">Verberg corrupte databasekoppelingen</string>
-    <string name="remember_keyfile_locations_summary">Onthoudt waar de databasesleutelbestanden zijn opgeslagen</string>
-    <string name="remember_database_locations_summary">Onthoudt waar de databases zijn opgeslagen</string>
+    <string name="remember_keyfile_locations_summary">Onthoud de locatie van databasesleutelbestanden</string>
+    <string name="remember_database_locations_summary">Onthoud de locatie van databases</string>
     <string name="auto_focus_search_summary">Zoekopdracht aanmaken bij het openen van een database</string>
     <string name="auto_focus_search_title">Snel zoeken</string>
     <string name="menu_delete_entry_history">Geschiedenis wissen</string>
@@ -471,19 +471,19 @@
     <string name="content_description_add_item">Item toevoegen</string>
     <string name="keyboard_auto_go_action_summary">\"Gaan\"-toetsactie na het indrukken van een \"Veld\"-toets</string>
     <string name="keyboard_auto_go_action_title">Automatische toetsactie</string>
-    <string name="keyboard_previous_fill_in_summary">Schakel automatisch terug naar het vorige toetsenbord na het uitvoeren van de Automatische toetsactie</string>
+    <string name="keyboard_previous_fill_in_summary">Schakel automatisch terug naar het vorige toetsenbord na het uitvoeren van de \"Automatische toetsactie\"</string>
     <string name="keyboard_previous_fill_in_title">Automatische toetsactie</string>
     <string name="keyboard_previous_database_credentials_summary">Schakel automatisch terug naar het vorige toetsenbord op het databasereferentiescherm</string>
     <string name="keyboard_previous_database_credentials_title">Scherm Databasereferenties</string>
     <string name="keyboard_change">Van toetsenbord wisselen</string>
-    <string name="upload_attachment">%1$s uploaden</string>
-    <string name="education_add_attachment_summary">Upload een bijlage bij dit item om belangrijke externe gegevens op te slaan.</string>
+    <string name="upload_attachment">Upload %1$s</string>
+    <string name="education_add_attachment_summary">Voeg een bijlage toe aan dit item om belangrijke externe gegevens op te slaan.</string>
     <string name="education_add_attachment_title">Bijlage toevoegen</string>
-    <string name="warning_sure_add_file">Toch het bestand toevoegen\?</string>
-    <string name="warning_file_too_big">Een KeePass-database mag alleen kleine hulpprogramma-bestanden bevatten (zoals PGP-sleutelbestanden).
+    <string name="warning_sure_add_file">Het bestand toch toevoegen\?</string>
+    <string name="warning_file_too_big">Een KeePass database is bedoeld om alleen kleine gebruiksbestanden te bevatten (zoals PGP sleutelbestanden).
 \n
-\nDe database kan erg groot worden en de prestaties kunnen verminderen bij deze upload.</string>
-    <string name="warning_replace_file">Als je dit bestand uploadt, wordt het bestaande vervangen.</string>
+\nMet deze upload kan de database erg groot worden en kunnen de prestaties verminderen.</string>
+    <string name="warning_replace_file">Uploaden van dit bestand zal het bestaande bestand vervangen.</string>
     <string name="content_description_credentials_information">Inloggegevens</string>
     <string name="warning_remove_unlinked_attachment">Het verwijderen van niet-gekoppelde gegevens kan de omvang van uw database verkleinen, maar kan ook gegevens verwijderen die voor KeePass-plug-ins worden gebruikt.</string>
     <string name="warning_sure_remove_data">Deze gegevens toch verwijderen\?</string>
@@ -514,4 +514,35 @@
     <string name="save_mode">Veilige modus</string>
     <string name="search_mode">Zoekmodus</string>
     <string name="error_registration_read_only">Het opslaan van een nieuw item is niet toegestaan in een alleen-lezen database</string>
+    <string name="education_advanced_unlock_summary">Koppel je wachtwoord aan je gescande biometrische gegevens of apparaatgegevens om je database snel te ontgrendelen.</string>
+    <string name="education_advanced_unlock_title">Geavanceerde database-ontgrendeling</string>
+    <string name="enter">Enter</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Item selecteren</string>
+    <string name="back_to_previous_keyboard">Terug naar vorig toetsenbord</string>
+    <string name="custom_fields">Aangepaste velden</string>
+    <string name="advanced_unlock_delete_all_key_warning">Alle coderingssleutels met betrekking tot geavanceerde ontgrendelingsherkenning verwijderen\?</string>
+    <string name="advanced_unlock_timeout">Time-out voor geavanceerd ontgrendelen</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duur van geavanceerd ontgrendelingsgebruik voordat de inhoud wordt verwijderd</string>
+    <string name="temp_advanced_unlock_timeout_title">Vervaltijd voor geavanceerde ontgrendeling</string>
+    <string name="temp_advanced_unlock_enable_summary">Sla geen versleutelde inhoud op om geavanceerde ontgrendeling te gebruiken</string>
+    <string name="temp_advanced_unlock_enable_title">Tijdelijke geavanceerde ontgrendeling</string>
+    <string name="device_credential_unlock_enable_summary">Hiermee kan je de apparaatreferentie gebruiken om de database te openen</string>
+    <string name="device_credential_unlock_enable_title">Ontgrendeling met apparaatreferenties</string>
+    <string name="advanced_unlock_tap_delete">Tik om geavanceerde ontgrendelingstoetsen te verwijderen</string>
+    <string name="content">Inhoud</string>
+    <string name="device_credential">Apparaatreferentie</string>
+    <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op de knop \"Geavanceerd ontgrendelen\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">Kan geavanceerde ontgrendelingsprompt niet initialiseren.</string>
+    <string name="advanced_unlock_scanning_error">Geavanceerde ontgrendelingsfout: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Kan geavanceerde ontgrendelingsafdruk niet herkennen</string>
+    <string name="advanced_unlock_invalid_key">Kan de geavanceerde ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met geavanceerde ontgrendelingsgegevens</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Open database met geavanceerde ontgrendelingsherkenning</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Waarschuwing: je moet nog steeds je hoofdwachtwoord onthouden als je geavanceerde ontgrendelingsherkenning gebruikt.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Geavanceerde ontgrendelingsherkenning</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Open de geavanceerde ontgrendelingsprompt om inloggegevens op te slaan</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Open de geavanceerde ontgrendelingsprompt om de database te ontgrendelen</string>
+    <string name="menu_keystore_remove_key">Geavanceerde ontgrendelingssleutel verwijderen</string>
+    <string name="error_field_name_already_exists">De veldnaam bestaat al.</string>
 </resources>
