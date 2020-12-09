@@ -526,4 +526,5 @@
     <string name="temp_advanced_unlock_timeout_title">Istek naprednog otključavanja</string>
     <string name="temp_advanced_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za napredno otključavanje</string>
     <string name="content">Sadržaj</string>
+    <string name="temp_advanced_unlock_enable_title">Privremeno napredno otključavanje</string>
 </resources>
