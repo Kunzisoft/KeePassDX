@@ -123,7 +123,6 @@
     <string name="menu_open">열기</string>
     <string name="menu_search">검색</string>
     <string name="menu_showpass">비밀번호 보이기</string>
-    <string name="menu_biometric_remove_key">저장된 지문 삭제됨</string>
     <string name="menu_url">링크로 가기</string>
     <string name="menu_file_selection_read_only">쓰기 보호됨</string>
     <string name="menu_open_file_read_and_write">수정 가능</string>

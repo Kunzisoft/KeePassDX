@@ -157,7 +157,7 @@
         <item>Média</item>
         <item>Grande</item>
     </string-array>
-    <string name="extended_ASCII">ASCII Estendido</string>
+    <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
     <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente descarregar o \"Uso de Memória\" do KDF.</string>
@@ -169,7 +169,6 @@
     <string name="menu_move">Mover</string>
     <string name="menu_paste">Colar</string>
     <string name="menu_cancel">Cancelar</string>
-    <string name="menu_biometric_remove_key">Apagar o biométrico gravado</string>
     <string name="menu_file_selection_read_only">Protegido contra escrita</string>
     <string name="menu_open_file_read_and_write">Pode ser modificado</string>
     <string name="create_keepass_file">Criar base de dados</string>
@@ -191,9 +190,6 @@
     <string name="warning_no_encryption_key">Continuar sem a chave de criptografia\?</string>
     <string name="build_label">Compilação %1$s</string>
     <string name="encrypted_value_stored">Palavra-passe encriptada armazenada</string>
-    <string name="biometric_not_recognized">Biométrico não reconhecido</string>
-    <string name="biometric_scanning_error">Problema do biométrico: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Use o biométrico para armazenar esta palavra-chave</string>
     <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
     <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
@@ -251,8 +247,6 @@
 \nGrupos (~pastas) organizam as suas entradas na sua base de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de utilizador ou outros campos para recuperar facilmente as suas palavras-passe.</string>
-    <string name="education_biometric_title">Desbloqueio da base de dados por biométricos</string>
-    <string name="education_biometric_summary">Ligue a sua palavra-passe e o seu biométrico gravado para rapidamente desbloquear a sua base de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Crie uma palavra-passe forte</string>
@@ -305,7 +299,7 @@
 \n 
 \n\"Somente leitura\" evita que faça alterações não intencionais na base de dados. 
 \n\"Gravação\" permite-o adicionar, apagar ou modificar todos os elementos.</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador em listas de entrada</string>
+    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador na lista entradas</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -360,14 +354,11 @@
     <string name="biometric_unlock_enable_summary">Permite que escaneie o seu biométrico para abrir a base de dados</string>
     <string name="advanced_unlock_explanation_summary">Usar desbloqueamento avançado para abrir a base de dados mais facilmente</string>
     <string name="database_opened">Base de dados aberta</string>
-    <string name="biometric_prompt_extract_credential_message">Extrair credenciais da base de dados com biométrico</string>
-    <string name="biometric_prompt_extract_credential_title">Abrir base de dados com biométrico</string>
     <string name="contains_duplicate_uuid">A base de dados contém UUIDs duplicados.</string>
     <string name="menu_save_database">Gravar base de dados</string>
     <string name="creating_database">A criar a base de dados…</string>
     <string name="error_save_database">Não foi possível gravar a base de dados.</string>
     <string name="error_create_database_file">Impossível de criar uma base de dados com essa palavra-passe e ficheiro-chave.</string>
-    <string name="biometric_prompt_store_credential_message">Aviso: apesar de usar o reconhecimento biométrico, ainda precisará de se lembrar da sua palavra-passe.</string>
     <string name="error_label_exists">Este rótulo já existe.</string>
     <string name="autofill_block_restart">Reinicie a app que contém o formulário para ativar o bloqueio.</string>
     <string name="autofill_block">Bloquear preenchimento automático</string>
@@ -387,7 +378,6 @@
     <string name="subdomain_search_title">Pesquisa de subdomínios</string>
     <string name="error_string_type">Este texto não corresponde ao item solicitado.</string>
     <string name="content_description_add_item">Adicionar item</string>
-    <string name="credential_before_click_biometric_button">Digite sua palavra-passe e depois clique no botão de \"Biométrico\".</string>
     <string name="error_otp_digits">O token deve conter de %1$d até %2$d dígitos.</string>
     <string name="max_history_items_title">Número máximo</string>
     <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
@@ -432,7 +422,6 @@
     <string name="download_attachment">Descarregar %1$s</string>
     <string name="warning_database_read_only">Conceder acesso de gravação de ficheiro para gravar alterações na base de dados</string>
     <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
-    <string name="biometric_prompt_store_credential_title">Gravar reconhecimento biométrico</string>
     <string name="otp_digits">Dígitos</string>
     <string name="discard_changes">Descartar alterações\?</string>
     <string name="keystore_not_accessible">A chave não foi propriamente inicializada.</string>
@@ -448,7 +437,6 @@
     <string name="lock_database_show_button_title">Mostrar botão de bloqueio</string>
     <string name="security">Segurança</string>
     <string name="hide_broken_locations_title">Esconder ligações quebradas de bases de dados</string>
-    <string name="open_biometric_prompt_unlock_database">Escaneamento do biométrico para abrir a base de dados</string>
     <string name="content_description_keyboard_close_fields">Fechar campos</string>
     <string name="biometric">Biométrico</string>
     <string name="error_create_database">Incapaz de criar o ficheiro de base de dados.</string>
@@ -462,7 +450,6 @@
     <string name="error_invalid_OTP">Segredo OTP inválido.</string>
     <string name="contact">Contato</string>
     <string name="otp_counter">Contador</string>
-    <string name="biometric_invalid_key">Não pôde ler a chave biométrica. Por favor, apague-a e repita o procedimento de reconhecimento biométrico.</string>
     <string name="menu_restore_entry_history">Restaurar histórico</string>
     <string name="entry_otp">OTP</string>
     <string name="compression_none">Nenhum</string>
@@ -485,7 +472,6 @@
     <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
     <string name="education_setup_OTP_summary">Configurar a gestão de palavra-passe única (HOTP / TOTP) para gerar um token solicitado para autenticação de dois fatores (2FA).</string>
     <string name="remember_keyfile_locations_title">Lembrar locais de ficheiros-chave</string>
-    <string name="biometric_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento biométrico\?</string>
     <string name="download_progression">Em progresso: %1$d%%</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o escaneamento de biomẽtrico</string>
     <string name="advanced_unlock">Desbloqueio avançado</string>

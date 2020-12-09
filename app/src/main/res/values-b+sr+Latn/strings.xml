@@ -24,7 +24,6 @@
     <string name="menu_open_file_read_and_write">Izmenjivo</string>
     <string name="menu_file_selection_read_only">Zaštićeno od upisivanja</string>
     <string name="menu_url">Idi na URL adresu</string>
-    <string name="menu_biometric_remove_key">Izbriši sačuvani biometrijski ključ</string>
     <string name="menu_showpass">Prikaži lozinku</string>
     <string name="menu_search">Traži</string>
     <string name="menu_open">Otvori</string>
@@ -194,7 +193,6 @@
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="unavailable_feature_version">Uređaj koristi Android verziju %1$s, ali potrebana verzija je %2$s ili novija.</string>
     <string name="unavailable_feature_text">Nije moguće pokrenuti ovu funkciju.</string>
-    <string name="biometric_delete_all_key_warning">Izbriši sve ključeve za šifrovanje koji se odnose na biometrijsko prepoznavanje\?</string>
     <string name="biometric_delete_all_key_summary">Izbriši sve ključeve za šifrovanje koji se odnose na biometrijsko prepoznavanje</string>
     <string name="biometric_delete_all_key_title">Brisanje ključeva za šifrovanje</string>
     <string name="biometric_auto_open_prompt_summary">Automatski zatraži biometriju ako je baza podataka podešena da je koristi</string>

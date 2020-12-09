@@ -96,8 +96,8 @@ class EntryInfo : Parcelable {
     }
 
     fun getGeneratedFieldValue(label: String): String {
-        otpModel?.let {
-            if (label == OTP_TOKEN_FIELD) {
+        if (label == OTP_TOKEN_FIELD) {
+            otpModel?.let {
                 return OtpElement(it).token
             }
         }

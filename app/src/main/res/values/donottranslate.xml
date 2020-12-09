@@ -94,8 +94,14 @@
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
+    <string name="device_credential_unlock_enable_key" translatable="false">device_credential_unlock_enable_key</string>
+    <bool name="device_credential_unlock_enable_default" translatable="false">false</bool>
     <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
     <bool name="biometric_auto_open_prompt_default" translatable="false">false</bool>
+    <string name="temp_advanced_unlock_enable_key" translatable="false">temp_advanced_unlock_enable_key</string>
+    <bool name="temp_advanced_unlock_enable_default" translatable="false">false</bool>
+    <string name="temp_advanced_unlock_timeout_key" translatable="false">temp_advanced_unlock_timeout_key</string>
+    <string name="temp_advanced_unlock_timeout_default" translatable="false">36000000</string>
     <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
 
     <!-- Form Filling Settings -->
@@ -284,6 +290,20 @@
         <item translatable="false">900000</item>
         <item translatable="false">1800000</item>
     	<item translatable="false">-1</item>
+    </string-array>
+    <string-array name="large_timeout_values">
+        <item translatable="false">300000</item>
+        <item translatable="false">900000</item>
+        <item translatable="false">1800000</item>
+        <item translatable="false">3600000</item>
+        <item translatable="false">7200000</item>
+        <item translatable="false">18000000</item>
+        <item translatable="false">36000000</item>
+        <item translatable="false">86400000</item>
+        <item translatable="false">172800000</item>
+        <item translatable="false">604800000</item>
+        <item translatable="false">2592000000</item>
+        <item translatable="false">-1</item>
     </string-array>
 
     <!-- Text Size -->

@@ -22,7 +22,7 @@
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Kontakt</string>
-    <string name="contribution">Beitrag</string>
+    <string name="contribution">Beiträge</string>
     <string name="feedback">Rückmeldung</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
@@ -43,9 +43,9 @@
     <string name="clipboard_timeout">Zwischenablage-Timeout</string>
     <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen…</string>
+    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte…</string>
+    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank verwenden</string>
     <string name="digits">Zahlen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
@@ -97,7 +97,7 @@
     <string name="length">Länge</string>
     <string name="list_size_title">Größe der Listenelemente</string>
     <string name="list_size_summary">Schriftgröße der Listenelemente</string>
-    <string name="loading_database">Datenbank wird geladen…</string>
+    <string name="loading_database">Datenbank wird geladen …</string>
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="hide_password_title">Passwort verstecken</string>
     <string name="hide_password_summary">Passwörter standardmäßig mit (***) maskieren</string>
@@ -118,12 +118,12 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
-    <string name="omit_backup_search_title">Papierkorb/Backup nicht durchsuchen</string>
-    <string name="omit_backup_search_summary">Die Gruppen „Backup“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
+    <string name="omit_backup_search_title">Papierkorb/Sicherung nicht durchsuchen</string>
+    <string name="omit_backup_search_summary">Die Gruppen „Sicherung“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
-    <string name="progress_create">Neue Datenbank anlegen…</string>
-    <string name="progress_title">Ausführen…</string>
+    <string name="progress_create">Neue Datenbank anlegen …</string>
+    <string name="progress_title">Ausführen …</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
@@ -132,7 +132,7 @@
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="saving_database">Datenbank wird gespeichert…</string>
+    <string name="saving_database">Datenbank wird gespeichert …</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
     <string name="sort_db">Natürliche Sortierung</string>
@@ -185,13 +185,9 @@
     <string name="lock">Sperren</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="open_biometric_prompt_unlock_database">Biometrie-Abfrage öffnen, um die Datenbank zu entsperren</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie ihn und wiederholen Sie den biometrischen Erkennungsprozess.</string>
-    <string name="biometric_scanning_error">Biometrischer Fehler: %1$s</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="open_biometric_prompt_store_credential">Biometrische Abfrage öffnen, um Anmeldedaten zu speichern.</string>
     <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
@@ -200,7 +196,6 @@
     <string name="error_autofill_enable_service">Dienst für automatisches Ausfüllen kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Formularausfüllung</string>
-    <string name="menu_biometric_remove_key">Gespeicherten biometrischen Schlüssel löschen</string>
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet.</string>
     <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
@@ -216,7 +211,6 @@
     <string name="sort_creation_time">Erstelldatum</string>
     <string name="sort_last_modify_time">Änderungsdatum</string>
     <string name="sort_last_access_time">Zugriffsdatum</string>
-    <string name="biometric_not_recognized">Biometrische Daten nicht erkannt</string>
     <string name="autofill">Automatisches Ausfüllen</string>
     <string name="autofill_service_name">KeePassDX autom. Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
@@ -225,7 +219,6 @@
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle mit der biometrischen Erkennung verbundenen Verschlüsselungsschlüssel löschen.</string>
-    <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle mit der biometrischen Erkennung verknüpften Schlüssel löschen möchten\?</string>
     <string name="unavailable_feature_version">Auf dem Gerät läuft Android %1$s, eine Version ab %2$s wäre aber nötig.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
     <string name="recycle_bin_title">Papierkorb-Nutzung</string>
@@ -256,8 +249,6 @@
 \nGruppen (wie Ordner) helfen, Einträge in der Datenbank zu ordnen.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben, um die Passwörter wiederzufinden.</string>
-    <string name="education_biometric_title">Biometrische Datenbank-Entsperrung</string>
-    <string name="education_biometric_summary">Verknüpft Ihr Passwort mit Ihrer gescannten Biometrie, um Ihre Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
@@ -285,7 +276,7 @@
     <string name="html_text_dev_feature_encourage">Sie ermutigen die Entwickler:innen, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß Ihren Anmerkungen &lt;strong&gt;Fehler zu beheben&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten, indem Sie neue Versionen installieren.</string>
+    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre Anwendung aktuell zu halten, indem Sie neue Versionen installieren.</string>
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -346,7 +337,7 @@
     <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Nicht funktionierende Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
-    <string name="do_not_kill_app">Nicht die App beenden…</string>
+    <string name="do_not_kill_app">Nicht die Anwendung beenden …</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm der Zurück-Button gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -357,7 +348,7 @@
     <string name="content_description_open_file">Datei öffnen</string>
     <string name="content_description_add_entry">Eintrag hinzufügen</string>
     <string name="content_description_add_group">Gruppe hinzufügen</string>
-    <string name="content_description_file_information">Datei-Info</string>
+    <string name="content_description_file_information">Dateiinformationen</string>
     <string name="content_description_entry_icon">Symbol für den Eintrag</string>
     <string name="entry_password_generator">Passwort-Generator</string>
     <string name="content_description_password_length">Passwortlänge</string>
@@ -380,13 +371,9 @@
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
     <string name="menu_advanced_unlock_settings">Erweitertes Entsperren</string>
-    <string name="biometric_prompt_store_credential_title">Biometrische Erkennung speichern</string>
-    <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrischer Erkennung öffnen</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
-    <string name="biometric_prompt_store_credential_message">Achtung: Wenn Sie die biometrische Erkennung verwenden, müssen Sie sich trotzdem Ihr Master-Passwort merken.</string>
-    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen aus biometrischen Daten extrahieren</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Abfrage automatisch öffnen</string>
     <string name="biometric_auto_open_prompt_summary">Automatisch nach Biometrie fragen, wenn die Datenbank dafür eingerichtet ist</string>
     <string name="master_key">Hauptschlüssel</string>
@@ -408,7 +395,7 @@
     <string name="error_otp_period">Zeitraum muss zwischen %1$d und %2$d Sekunden liegen.</string>
     <string name="error_otp_digits">Token muss %1$d bis %2$d Stellen enthalten.</string>
     <string name="invalid_db_same_uuid">%1$s mit derselben UUID %2$s existiert bereits.</string>
-    <string name="creating_database">Datenbank wird erstellt…</string>
+    <string name="creating_database">Datenbank wird erstellt …</string>
     <string name="menu_security_settings">Sicherheits-Einstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüssel-Einstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
@@ -437,22 +424,21 @@
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
     <string name="menu_save_database">Datenbank speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
-    <string name="command_execution">Befehl ausführen…</string>
+    <string name="command_execution">Befehl ausführen …</string>
     <string name="warning_permanently_delete_nodes">Sollen die ausgewählten Knoten wirklich gelöscht werden\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
-    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf die Biometrie-Schaltfläche.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
-    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>
+    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus „Bearbeiten“)</string>
     <string name="entry_attachments">Anhänge</string>
     <string name="menu_restore_entry_history">Historie wiederherstellen</string>
     <string name="menu_delete_entry_history">Historie löschen</string>
     <string name="keyboard_auto_go_action_title">Auto-Key-Aktion</string>
     <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
     <string name="download_attachment">%1$s herunterladen</string>
-    <string name="download_initialization">Initialisieren…</string>
+    <string name="download_initialization">Initialisieren …</string>
     <string name="download_progression">Fortschritt: %1$d%%</string>
-    <string name="download_finalization">Fertigstellen…</string>
+    <string name="download_finalization">Fertigstellen …</string>
     <string name="download_complete">Vollständig!</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden nicht angezeigt</string>
@@ -486,9 +472,9 @@
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
-    <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen unterbunden wird</string>
+    <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen unterlassen wird</string>
     <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
-    <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen unterbunden wird</string>
+    <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_application_id_blocklist_title">Liste gesperrter Anwendungen</string>
     <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
@@ -498,7 +484,7 @@
     <string name="keyboard_change">Tastatur wechseln</string>
     <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
-    <string name="keyboard_previous_fill_in_summary">Automatisches Zurückschalten auf die vorherige Tastatur nach Ausführung der automatischen Tastenaktion</string>
+    <string name="keyboard_previous_fill_in_summary">Nach Ausführung der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_database_credentials_summary">Automatisches Zurückschalten zur vorherigen Tastatur auf dem Datenbank-Anmeldebildschirm</string>
     <string name="education_add_attachment_summary">Laden Sie einen Anhang für Ihren Eintrag hoch, um wichtige externe Daten zu speichern.</string>
     <string name="content_description_credentials_information">Anmeldeinformationen</string>
@@ -524,7 +510,6 @@
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="crypto_object_not_initialized">Kryptoobjekt kann nicht abgerufen werden.</string>
-    <string name="biometric_prompt_not_initialized">Biometrische Eingabeaufforderung kann nicht initialisiert werden.</string>
     <string name="biometric_security_update_required">Biometrisches Sicherheitsupdate erforderlich.</string>
     <string name="configure_biometric">Es sind keine biometrischen oder Geräteanmeldeinformationen registriert.</string>
     <string name="registration_mode">Registrierungsmodus</string>
@@ -539,4 +524,10 @@
     <string name="keyboard_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
     <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
+    <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Warnung: Sie müssen sich immer noch an ihr Masterpasswort erinnern, wenn sie die erweiterte Entsperrerkennung verwenden.</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Öffne den erweiterten Entsperrdialog zum Speichern von Anmeldeinformationen</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Öffnen des erweiterten Entsperrdialogs zum Entsperren der Datenbank</string>
+    <string name="menu_keystore_remove_key">Löschen des Schlüssels zum erweiterten Entsperren</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Fortschrittliche Entsperrerkennung</string>
 </resources>

@@ -85,7 +85,6 @@
     <string name="menu_open_file_read_and_write">ਸੋਧ-ਯੋਗ</string>
     <string name="menu_file_selection_read_only">ਲਿਖਣ-ਤੋਂ-ਬਚਾਅ</string>
     <string name="menu_url">URL ਉੱਤੇ ਜਾਓ</string>
-    <string name="menu_biometric_remove_key">ਸੰਭਾਲੀ ਬਾਇਓਮੈਟਰਿਕ ਕੁੰਜੀ ਹਟਾਓ</string>
     <string name="menu_showpass">ਪਾਸਵਰਡ ਵਿਖਾਓ</string>
     <string name="menu_search">ਖੋਜੋ</string>
     <string name="menu_open">ਖੋਲ੍ਹੋ</string>
@@ -272,14 +271,6 @@
     <string name="lock_database_screen_off_summary">ਜਦੋਂ ਸਕਰੀਨ ਬੰਦ ਹੋ ਜਾਵੇ ਤਾਂ ਡਾਟਾਬੇਸ ਨੂੰ ਲਾਕ ਕਰੋ</string>
     <string name="clipboard_notifications_title">ਕਲਿੱਪਬੋਰਡ ਨੋਟੀਫਿਕੇਸ਼ਨ</string>
     <string name="set_autofill_service_title">ਮੂਲ ਆਪੇ-ਭਰਨ ਸੇਵਾ ਵਜੋਂ ਸੈੱਟ ਕਰੋ</string>
-    <string name="credential_before_click_biometric_button">ਪਾਸਵਰਡ ਲਿਖੋ ਅਤੇ ਤਦ \"ਬਾਇਓਮੈਟਰਿਕ\" ਬਟਨ ਨੂੰ ਕਲਿੱਕ ਕਰੋ।</string>
-    <string name="biometric_scanning_error">ਬਾਇਓਮੈਟਰਿਕ ਗ਼ਲਤੀ: %1$s</string>
-    <string name="biometric_not_recognized">ਬਾਇਓਮੈਟਰਿਕ ਪਛਾਣ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ</string>
-    <string name="biometric_prompt_extract_credential_title">ਬਾਇਓਮੈਟਰਿਕ ਪਛਾਣ ਨਾਲ ਡਾਟਾਬੇਸ ਖੋਲ੍ਹੋ</string>
-    <string name="biometric_prompt_store_credential_message">ਸਾਵਧਾਨ: ਜੇ ਤੁਸੀਂ ਬਾਇਓਮੈਟਰਿਕ ਪਛਾਣ ਵਰਤਣੀ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ ਤੁਹਾਨੂੰ ਹਾਲੇ ਵੀ ਆਪਣਾ ਮੁੱਖ ਪਾਸਵਰਡ ਯਾਦ ਰੱਖਣ ਦੀ ਲੋੜ ਹੈ।</string>
-    <string name="biometric_prompt_store_credential_title">ਬਾਇਓਮੈਟਰਿਕ ਪਛਾਣ ਨੂੰ ਸੰਭਾਲੋ</string>
-    <string name="open_biometric_prompt_store_credential">ਸਨਦਾਂ ਸੰਭਾਲਣ ਲਈ ਬਾਇਓਮੈਟਰਿਕ ਪੁੱਛਗਿੱਛ ਕਰੋ</string>
-    <string name="open_biometric_prompt_unlock_database">ਡਾਟਾਬੇਸ ਅਣ-ਲਾਕ ਕਰਨ ਲਈ ਬਾਇਮੈਟਰਿਕ ਪੁੱਛਗਿੱਛ ਖੋਲ੍ਹੋ</string>
     <string name="configure_biometric">ਕੋਈ ਬਾਇਓਮੈਟਰਿਕ ਜਾਂ ਡਿਵਾਈਸ ਸਨਦ ਦਾਖਲ ਨਹੀਂ ਕੀਤੀ ਹੈ।</string>
     <string name="warning_sure_remove_data">ਇਹ ਡਾਟਾ ਕਿਵੇਂ ਵੀ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="warning_sure_add_file">ਕਿਵੇਂ ਵੀ ਫ਼ਾਇਲ ਜੋੜਨੀ ਹੈ\?</string>
@@ -347,8 +338,6 @@
     <string name="autofill_close_database_title">ਡਾਟਾਬੇਸ ਬੰਦ ਕਰੋ</string>
     <string name="enable_read_only_title">ਲਿਖਣ ਤੋਂ ਸੁਰੱਖਿਅਤ</string>
     <string name="education_search_title">ਐਂਟਰੀਆਂ ਵਿੱਚੋਂ ਲੱਭੋ</string>
-    <string name="education_biometric_title">ਬਾਇਓਮੈਟਰਿਕ ਡਾਟਾਬੇਸ ਅਣ-ਲਾਕ ਕਰੋ</string>
-    <string name="education_biometric_summary">ਤੁਹਾਡੇ ਡਾਟਾਬੇਸ ਨੂੰ ਫ਼ੌਰੀ ਅਣ-ਲਾਕ ਕਰਨ ਲਈ ਆਪਣੇ ਪਾਸਵਰਡ ਨੂੰ ਆਪਣੇ ਸਕੈਨ ਕੀਤੇ ਬਾਇਮੈਟਰਿਕ ਨਾਲ ਲਿੰਕ ਕਰੋ।</string>
     <string name="education_entry_edit_title">ਐਂਟਰੀ ਨੂੰ ਸੋਧੋ</string>
     <string name="education_add_attachment_title">ਅਟੈਚਮੈਂਟ ਜੋੜੋ</string>
     <string name="education_add_attachment_summary">ਖ਼ਾਸ ਬਾਹਰੀ ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਤੁਹਾਡੀ ਐਂਟਰੀ ਲਈ ਅਟੈਚਮੈਂਟ ਅੱਪਲੋਡ ਕਰੋ।</string>

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.settings
 
+import android.app.backup.BackupManager
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
@@ -43,6 +44,7 @@ object PreferencesUtil {
             }
             apply()
         }
+        BackupManager(context).dataChanged()
     }
 
     fun getDefaultDatabasePath(context: Context): String? {
@@ -201,6 +203,13 @@ object PreferencesUtil {
                 ?: TimeoutHelper.DEFAULT_TIMEOUT
     }
 
+    fun getAdvancedUnlockTimeout(context: Context): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.temp_advanced_unlock_timeout_key),
+                context.getString(R.string.temp_advanced_unlock_timeout_default))?.toLong()
+                ?: TimeoutHelper.DEFAULT_TIMEOUT
+    }
+
     fun isLockDatabaseWhenScreenShutOffEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.lock_database_screen_off_key),
@@ -225,13 +234,29 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
+    fun isAdvancedUnlockEnable(context: Context): Boolean {
+        return isBiometricUnlockEnable(context) || isDeviceCredentialUnlockEnable(context)
+    }
+
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
     }
 
-    fun isBiometricPromptAutoOpenEnable(context: Context): Boolean {
+    fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.device_credential_unlock_enable_key),
+                context.resources.getBoolean(R.bool.device_credential_unlock_enable_default))
+    }
+
+    fun isTempAdvancedUnlockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.temp_advanced_unlock_enable_key),
+                context.resources.getBoolean(R.bool.temp_advanced_unlock_enable_default))
+    }
+
+    fun isAdvancedUnlockPromptAutoOpenEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_auto_open_prompt_key),
                 context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))

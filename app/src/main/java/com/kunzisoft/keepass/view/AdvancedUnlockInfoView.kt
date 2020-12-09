@@ -27,10 +27,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.biometric.FingerPrintAnimatedVector
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
                                                        attrs: AttributeSet? = null,
                                                        defStyle: Int = 0)
@@ -48,25 +50,25 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         inflater?.inflate(R.layout.view_advanced_unlock, this)
 
         unlockContainerView = findViewById(R.id.fingerprint_container)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            unlockTitleTextView = findViewById(R.id.biometric_title)
-            unlockMessageTextView = findViewById(R.id.biometric_message)
-            unlockIconImageView = findViewById(R.id.biometric_image)
-            // Init the fingerprint animation
-            unlockAnimatedVector = FingerPrintAnimatedVector(context, unlockIconImageView!!)
-        }
+        unlockTitleTextView = findViewById(R.id.biometric_title)
+        unlockMessageTextView = findViewById(R.id.biometric_message)
+        unlockIconImageView = findViewById(R.id.biometric_image)
     }
 
-    fun startIconViewAnimation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            unlockAnimatedVector?.startScan()
-        }
+    private fun startIconViewAnimation() {
+        unlockAnimatedVector?.startScan()
     }
 
-    fun stopIconViewAnimation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            unlockAnimatedVector?.stopScan()
+    private fun stopIconViewAnimation() {
+        unlockAnimatedVector?.stopScan()
+    }
+
+    fun setIconResource(iconId: Int) {
+        unlockIconImageView?.setImageResource(iconId)
+        // Init the fingerprint animation
+        unlockAnimatedVector = when (iconId) {
+            R.drawable.fingerprint -> FingerPrintAnimatedVector(context, unlockIconImageView!!)
+            else -> null
         }
     }
 

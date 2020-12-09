@@ -1,0 +1,6 @@
+ * Déverouillage de base de données avec identifiants de l'appareil (PIN/Password/Pattern) #779 #102
+ * Déverouillage avancé avec expiration #102 #437 #566
+ * Supprimer le parmètre de base de données par défaut quand le fichier n'est plus accessible #803
+ * Déplacer le bouton OTP vers le premier niveau de vue dans le Magiclavier #587
+ * Info-bulles pour le Magiclavier #586
+ * Correction petits bugs #805

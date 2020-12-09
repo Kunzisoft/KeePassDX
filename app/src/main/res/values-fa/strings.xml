@@ -2,18 +2,8 @@
 <resources>
     <string name="menu_appearance_settings">ظاهر</string>
     <string name="database_history">تاریخچه</string>
-    <string name="credential_before_click_biometric_button">رمز ورود را وارد کنید و سپس روی دکمه \"بیومتریک\" کلیک کنید.</string>
     <string name="no_credentials_stored">این پایگاه داده هنوز اطلاعات کاربری ذخیره نشده است.</string>
-    <string name="biometric_scanning_error">خطای بیومتریک:%1$s</string>
-    <string name="biometric_not_recognized">بایومتریک قابل تشخیص نیست</string>
-    <string name="biometric_invalid_key">"کلید بیومتریک را نمی توان خواند.  لطفاً آن را حذف کرده و روش شناخت بیومتریک را تکرار کنید."</string>
     <string name="encrypted_value_stored">رمز رمزگذاری شده ذخیره شده است</string>
-    <string name="biometric_prompt_extract_credential_message">استخراج اطلاعات کاربری پایگاه داده با داده های بیومتریک</string>
-    <string name="biometric_prompt_extract_credential_title">پایگاه داده را با تشخیص بیومتریک باز کنید</string>
-    <string name="biometric_prompt_store_credential_message">هشدار: اگر از تشخیص بیومتریک استفاده می کنید ، هنوز باید رمز عبور اصلی خود را به خاطر بسپارید.</string>
-    <string name="biometric_prompt_store_credential_title">تشخیص بیومتریک را ذخیره کنید</string>
-    <string name="open_biometric_prompt_store_credential">اعلان بیومتریک را برای ذخیره اعتبارنامه باز کنید</string>
-    <string name="open_biometric_prompt_unlock_database">برای باز کردن قفل پایگاه داده ، دستور بیومتریک را باز کنید</string>
     <string name="keystore_not_accessible">فروشگاه اصلی به درستی تنظیم نشده است.</string>
     <string name="build_label">%1$s را بسازید</string>
     <string name="version_label">نسخه %1$s</string>
@@ -88,7 +78,6 @@
     <string name="menu_open_file_read_and_write">قابل تغییر</string>
     <string name="menu_file_selection_read_only">نوشتن-محافظت شده</string>
     <string name="menu_url">رفتن به آدرس اینترنتی</string>
-    <string name="menu_biometric_remove_key">حذف کلید بیومتریک ذخیره شده</string>
     <string name="menu_showpass">نمایش رمز عبور</string>
     <string name="menu_search">جستجو</string>
     <string name="menu_open">باز</string>

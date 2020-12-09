@@ -123,7 +123,6 @@
     <string name="menu_open">Åpne</string>
     <string name="menu_search">Søk</string>
     <string name="menu_showpass">Vis passord</string>
-    <string name="menu_biometric_remove_key">Fjern fingeravtrykksnøkkelen</string>
     <string name="menu_url">Gå til nettadresse</string>
     <string name="menu_file_selection_read_only">Skrivebeskyttet</string>
     <string name="menu_open_file_read_and_write">Les og skriv</string>
@@ -173,12 +172,7 @@
     <string name="warning_empty_password">Ønsker du å fortsette uten passordbeskyttelse\?</string>
     <string name="warning_no_encryption_key">Ønsker du å fortsette uten en krypteringsnøkkel\?</string>
     <string name="version_label">Versjon %1$s</string>
-    <string name="open_biometric_prompt_unlock_database">Venter på fingeravtrykk</string>
     <string name="encrypted_value_stored">Kryptert passord lagret</string>
-    <string name="biometric_invalid_key">Kan ikke lese biometrisk nøkkel. Slett den og gjenta biometrisk gjenkjennelse.</string>
-    <string name="biometric_not_recognized">Fremmed fingeravtrykk</string>
-    <string name="biometric_scanning_error">Fingeravtrykksproblem: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
     <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
     <string name="database_history">Historikk</string>
     <string name="menu_appearance_settings">Utseende</string>
@@ -204,7 +198,6 @@
     <string name="biometric_unlock_enable_summary">Skru på fingeravtrykksåpning av database</string>
     <string name="biometric_delete_all_key_title">Slett krypteringsnøkler</string>
     <string name="biometric_delete_all_key_summary">Slett alle fingeravtrykksnøkler som har med fingeravtrykksgjenkjennelse å gjøre</string>
-    <string name="biometric_delete_all_key_warning">Er du sikker på at du vil slette alle nøklene som har med fingeravtrykk å gjøre?</string>
     <string name="unavailable_feature_text">Kunne ikke starte denne funksjonen.</string>
     <string name="unavailable_feature_version">Din Androidversjon %1$s oppfyller ikke minimumskravet, %2$s kreves.</string>
     <string name="unavailable_feature_hardware">Fant ikke maskinvaren.</string>
@@ -247,8 +240,6 @@
 \nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
     <string name="education_search_title">Søk i dine oppføringer</string>
     <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_biometric_title">Lås opp databasen din med fingeravtrykket ditt</string>
-    <string name="education_biometric_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord</string>
@@ -347,8 +338,6 @@
     <string name="content_description_keyboard_close_fields">Lukk felt</string>
     <string name="error_create_database_file">Kan ikke opprette database med dette passordet og nøkkelfilen.</string>
     <string name="menu_advanced_unlock_settings">Avansert opplåsing</string>
-    <string name="biometric_prompt_store_credential_title">Lagre biometrisk gjenkjennelse</string>
-    <string name="biometric_prompt_store_credential_message">Advarsel: Du vil fortsatt måtte huske hovedpassordet dersom du bruker biometrisk gjenkjenning.</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Skru av</string>
     <string name="content_description_entry_icon">Oppføringsikon</string>
@@ -424,9 +413,17 @@
     <string name="lock_database_show_button_title">Vis låseknapp</string>
     <string name="error_label_exists">Denne etiketten finnes allerede.</string>
     <string name="validate">Bekreft</string>
-    <string name="biometric_prompt_extract_credential_title">Åpne database med biometrisk gjenkjenning</string>
     <string name="warning_database_link_revoked">Tilgang til filen nektes av filbehandleren</string>
     <string name="warning_database_read_only">Innvilg skrivetilgang for å lagre databaseendringer</string>
     <string name="hide_broken_locations_summary">Skjul ødelagte lenker i listen over nylige databaser</string>
     <string name="hide_broken_locations_title">Skjul ødelagte databaselenker</string>
+    <string name="autofill_ask_to_save_data_title">Spør om lagring av data</string>
+    <string name="advanced_unlock_scanning_error">Avansert opplåsningsfeil:</string>
+    <string name="warning_empty_keyfile">Det anbefales ikke å legge til en tom nøkkelfil.</string>
+    <string name="warning_sure_add_file">Legg til filen uansett\?</string>
+    <string name="registration_mode">Registreringsmodus</string>
+    <string name="save_mode">Lagringsmodus</string>
+    <string name="search_mode">Søkemodus</string>
+    <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
+    <string name="content_description_add_item">Legg til element</string>
 </resources>

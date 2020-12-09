@@ -1,0 +1,6 @@
+ * Unlock database by device credentials (PIN/Password/Pattern) #779 #102
+ * Advanced unlock with timeout #102 #437 #566
+ * Remove default database parameter when the file is no longer accessible #803
+ * Move OTP button to the first view level in Magikeyboard #587
+ * Tooltips for Magikeyboard #586
+ * Fix small bugs #805
