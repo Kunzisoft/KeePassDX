@@ -534,4 +534,13 @@
     <string name="select_entry">选择条目</string>
     <string name="back_to_previous_keyboard">回到先前的键盘</string>
     <string name="custom_fields">自定义字段</string>
+    <string name="education_advanced_unlock_summary">将您的密码连接到您扫描的生物特征或设备凭据，以快速解锁您的数据库。</string>
+    <string name="education_advanced_unlock_title">高级数据库解锁</string>
+    <string name="advanced_unlock_timeout">高级解锁超时</string>
+    <string name="temp_advanced_unlock_timeout_summary">删除内容之前高级解锁使用的持续时间</string>
+    <string name="temp_advanced_unlock_timeout_title">高级解锁过期</string>
+    <string name="temp_advanced_unlock_enable_summary">不要存储任何加密内容来使用高级解锁</string>
+    <string name="temp_advanced_unlock_enable_title">临时性高级解锁</string>
+    <string name="advanced_unlock_tap_delete">点击删除高级解锁密钥</string>
+    <string name="content">内容</string>
 </resources>
