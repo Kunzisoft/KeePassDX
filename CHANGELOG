@@ -1,3 +1,7 @@
+KeePassDX(2.9.4)
+ * Fix small bugs #812
+ * Argon2ID implementation #791
+
 KeePassDX(2.9.3)
  * Unlock database by device credentials (PIN/Password/Pattern) #779 #102
  * Advanced unlock with timeout #102 #437 #566

@@ -129,7 +129,7 @@ void throwExceptionF(JNIEnv *env, jclass exception, const char *format, ...) {
 
 JNIEXPORT jbyteArray
 JNICALL Java_com_kunzisoft_keepass_crypto_keyDerivation_Argon2Native_nTransformMasterKey(JNIEnv *env,
-   jobject this, jbyteArray password, jbyteArray salt, jint parallelism, jint memory,
+   jobject this, jint type, jbyteArray password, jbyteArray salt, jint parallelism, jint memory,
    jint iterations, jbyteArray secretKey, jbyteArray associatedData, jint version) {
 
     argon2_context context;
@@ -169,7 +169,7 @@ JNICALL Java_com_kunzisoft_keepass_crypto_keyDerivation_Argon2Native_nTransformM
     context.flags = ARGON2_DEFAULT_FLAGS;
     context.version = (uint32_t) version;
 
-    int argonResult = argon2_ctx(&context, Argon2_d);
+    int argonResult = argon2_ctx(&context, (argon2_type) type);
 
     jbyteArray result;
     if (argonResult != ARGON2_OK) {
