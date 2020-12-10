@@ -21,5 +21,6 @@ package com.kunzisoft.keepass.crypto.keyDerivation
 
 object KdfFactory {
     var aesKdf = AesKdf()
-    var argon2Kdf = Argon2Kdf()
+    var argon2dKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_D)
+    var argon2idKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
 }

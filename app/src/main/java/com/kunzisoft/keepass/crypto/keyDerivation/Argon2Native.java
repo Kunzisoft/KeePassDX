@@ -26,12 +26,29 @@ import java.io.IOException;
 
 public class Argon2Native {
 
-    public static byte[] transformKey(byte[] password, byte[] salt, UnsignedInt parallelism,
+    enum CType {
+        ARGON2_D(0),
+        ARGON2_I(1),
+        ARGON2_ID(2);
+
+        int cValue = 0;
+
+        CType(int i) {
+            cValue = i;
+        }
+    }
+
+    public static byte[] transformKey(Argon2Kdf.Type type, byte[] password, byte[] salt, UnsignedInt parallelism,
                                       UnsignedInt memory, UnsignedInt iterations, byte[] secretKey,
                                       byte[] associatedData, UnsignedInt version) throws IOException {
         NativeLib.INSTANCE.init();
 
+        CType cType = CType.ARGON2_D;
+        if (type.equals(Argon2Kdf.Type.ARGON2_ID))
+            cType = CType.ARGON2_ID;
+
         return nTransformMasterKey(
+                cType.cValue,
                 password,
                 salt,
                 parallelism.toKotlinInt(),
@@ -42,7 +59,7 @@ public class Argon2Native {
                 version.toKotlinInt());
     }
 
-    private static native byte[] nTransformMasterKey(byte[] password, byte[] salt, int parallelism,
+    private static native byte[] nTransformMasterKey(int type, byte[] password, byte[] salt, int parallelism,
                                               int memory, int iterations, byte[] secretKey,
                                               byte[] associatedData, int version) throws IOException;
 }

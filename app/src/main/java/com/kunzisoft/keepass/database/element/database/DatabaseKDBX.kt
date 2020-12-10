@@ -113,7 +113,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     init {
         kdfList.add(KdfFactory.aesKdf)
-        kdfList.add(KdfFactory.argon2Kdf)
+        kdfList.add(KdfFactory.argon2dKdf)
+        kdfList.add(KdfFactory.argon2idKdf)
     }
 
     constructor()

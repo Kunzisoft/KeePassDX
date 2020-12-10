@@ -271,7 +271,6 @@
     <string name="icon_pack_choose_title">Набір піктограм</string>
     <string name="style_choose_summary">Тема застосунку</string>
     <string name="style_choose_title">Тема застосунку</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="download_complete">Готово!</string>
