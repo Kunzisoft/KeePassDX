@@ -505,7 +505,6 @@
     <string name="keyboard_save_search_info_summary">Probeer gedeelde informatie op te slaan bij een handmatige invoerselectie</string>
     <string name="keyboard_save_search_info_title">Gedeelde info opslaan</string>
     <string name="notification">Melding</string>
-    <string name="crypto_object_not_initialized">Kan crypto-object niet ophalen.</string>
     <string name="biometric_security_update_required">Biometrische beveiligingsupdate vereist.</string>
     <string name="configure_biometric">Geen biometrische gegevens of apparaatgegevens geregistreerd.</string>
     <string name="warning_empty_recycle_bin">Alles definitief uit de prullenbak verwijderen\?</string>

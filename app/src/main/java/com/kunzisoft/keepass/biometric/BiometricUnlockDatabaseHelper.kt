@@ -31,6 +31,7 @@ import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -46,19 +47,18 @@ import javax.crypto.spec.IvParameterSpec
 @RequiresApi(api = Build.VERSION_CODES.M)
 class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
 
-    private var biometricPrompt: BiometricPrompt? = null
-
     private var keyStore: KeyStore? = null
     private var keyGenerator: KeyGenerator? = null
     private var cipher: Cipher? = null
-    private var keyguardManager: KeyguardManager? = null
-    private var cryptoObject: BiometricPrompt.CryptoObject? = null
 
-    private var isKeyManagerInit = false
+    private var biometricPrompt: BiometricPrompt? = null
     var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
     var biometricUnlockCallback: BiometricUnlockCallback? = null
 
+    private var isKeyManagerInit = false
+
     private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(context)
+    private val biometricUnlockEnable = PreferencesUtil.isBiometricUnlockEnable(context)
 
     val isKeyManagerInitialized: Boolean
         get() {
@@ -68,17 +68,31 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             return isKeyManagerInit
         }
 
+    // Since Android 30, device credential is also a biometric operation
+    private fun isDeviceCredentialOperation(): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+                && deviceCredentialUnlockEnable
+    }
+
+    private fun isDeviceCredentialBiometricOperation(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && deviceCredentialUnlockEnable
+    }
+
+    private fun isBiometricOperation(): Boolean {
+        return biometricUnlockEnable || isDeviceCredentialBiometricOperation()
+    }
+
     init {
-        if (allowInitKeyStore(context)) {
-            this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
+        if (isDeviceSecure(context)
+                && (deviceCredentialUnlockEnable || biometricUnlockEnable)) {
             try {
-                this.keyStore = KeyStore.getInstance(BIOMETRIC_KEYSTORE)
-                this.keyGenerator = KeyGenerator.getInstance(BIOMETRIC_KEY_ALGORITHM, BIOMETRIC_KEYSTORE)
+                this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
+                this.keyGenerator = KeyGenerator.getInstance(ADVANCED_UNLOCK_KEY_ALGORITHM, ADVANCED_UNLOCK_KEYSTORE)
                 this.cipher = Cipher.getInstance(
-                        BIOMETRIC_KEY_ALGORITHM + "/"
-                                + BIOMETRIC_BLOCKS_MODES + "/"
-                                + BIOMETRIC_ENCRYPTION_PADDING)
-                this.cryptoObject = BiometricPrompt.CryptoObject(cipher!!)
+                        ADVANCED_UNLOCK_KEY_ALGORITHM + "/"
+                                + ADVANCED_UNLOCK_BLOCKS_MODES + "/"
+                                + ADVANCED_UNLOCK_ENCRYPTION_PADDING)
                 isKeyManagerInit = (keyStore != null
                         && keyGenerator != null
                         && cipher != null)
@@ -103,12 +117,12 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                 keyStore.load(null)
 
                 try {
-                    if (!keyStore.containsAlias(BIOMETRIC_KEYSTORE_KEY)) {
+                    if (!keyStore.containsAlias(ADVANCED_UNLOCK_KEYSTORE_KEY)) {
                         // Set the alias of the entry in Android KeyStore where the key will appear
                         // and the constrains (purposes) in the constructor of the Builder
                         keyGenerator?.init(
                                 KeyGenParameterSpec.Builder(
-                                        BIOMETRIC_KEYSTORE_KEY,
+                                        ADVANCED_UNLOCK_KEYSTORE_KEY,
                                         KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                                         .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                                         .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
@@ -116,8 +130,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                                         // of the key
                                         .setUserAuthenticationRequired(true)
                                         .apply {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                                                    && deviceCredentialUnlockEnable) {
+                                            if (isDeviceCredentialBiometricOperation()) {
                                                 setUserAuthenticationParameters(0, KeyProperties.AUTH_DEVICE_CREDENTIAL)
                                             }
                                         }
@@ -129,7 +142,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                     biometricUnlockCallback?.onBiometricException(e)
                 }
 
-                return keyStore.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey?
+                return keyStore.getKey(ADVANCED_UNLOCK_KEYSTORE_KEY, null) as SecretKey?
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to retrieve the key in keystore", e)
@@ -139,33 +152,24 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     }
 
     fun initEncryptData(actionIfCypherInit
-                        : (biometricPrompt: BiometricPrompt?,
-                           cryptoObject: BiometricPrompt.CryptoObject?,
-                           promptInfo: BiometricPrompt.PromptInfo) -> Unit) {
+                        : (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
             // TODO if (keyguardManager?.isDeviceSecure == true) {
             getSecretKey()?.let { secretKey ->
-                cipher?.init(Cipher.ENCRYPT_MODE, secretKey)
+                cipher?.let { cipher ->
+                    cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
-                initBiometricPrompt()
-
-                val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
-                    setTitle(context.getString(R.string.advanced_unlock_prompt_store_credential_title))
-                    setDescription(context.getString(R.string.advanced_unlock_prompt_store_credential_message))
-                    setConfirmationRequired(true)
-                    if (deviceCredentialUnlockEnable) {
-                        setAllowedAuthenticators(DEVICE_CREDENTIAL)
-                    } else {
-                        setNegativeButtonText(context.getString(android.R.string.cancel))
-                    }
-                }.build()
-
-                actionIfCypherInit.invoke(biometricPrompt,
-                        cryptoObject,
-                        promptInfoStoreCredential)
+                    actionIfCypherInit.invoke(
+                            AdvancedUnlockCryptoPrompt(
+                                    cipher,
+                                    R.string.advanced_unlock_prompt_store_credential_title,
+                                    R.string.advanced_unlock_prompt_store_credential_message,
+                                    isDeviceCredentialOperation(), isBiometricOperation())
+                    )
+                }
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
@@ -200,9 +204,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     }
 
     fun initDecryptData(ivSpecValue: String, actionIfCypherInit
-    : (biometricPrompt: BiometricPrompt?,
-       cryptoObject: BiometricPrompt.CryptoObject?,
-       promptInfo: BiometricPrompt.PromptInfo) -> Unit) {
+                        : (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -213,24 +215,17 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             val spec = IvParameterSpec(iv)
 
             getSecretKey()?.let { secretKey ->
-                cipher?.init(Cipher.DECRYPT_MODE, secretKey, spec)
+                cipher?.let { cipher ->
+                    cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
 
-                initBiometricPrompt()
-
-                val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
-                    setTitle(context.getString(R.string.advanced_unlock_prompt_extract_credential_title))
-                    //setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
-                    setConfirmationRequired(false)
-                    if (deviceCredentialUnlockEnable) {
-                        setAllowedAuthenticators(DEVICE_CREDENTIAL)
-                    } else {
-                        setNegativeButtonText(context.getString(android.R.string.cancel))
-                    }
-                }.build()
-
-                actionIfCypherInit.invoke(biometricPrompt,
-                        cryptoObject,
-                        promptInfoExtractCredential)
+                    actionIfCypherInit.invoke(
+                            AdvancedUnlockCryptoPrompt(
+                                    cipher,
+                                    R.string.advanced_unlock_prompt_extract_credential_title,
+                                    null,
+                                    isDeviceCredentialOperation(), isBiometricOperation())
+                    )
+                }
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
@@ -267,19 +262,51 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     fun deleteKeystoreKey() {
         try {
             keyStore?.load(null)
-            keyStore?.deleteEntry(BIOMETRIC_KEYSTORE_KEY)
+            keyStore?.deleteEntry(ADVANCED_UNLOCK_KEYSTORE_KEY)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to delete entry key in keystore", e)
             biometricUnlockCallback?.onBiometricException(e)
         }
     }
 
+    @Suppress("DEPRECATION")
     @Synchronized
-    fun initBiometricPrompt() {
+    fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
+        // Init advanced unlock prompt
         if (biometricPrompt == null) {
-            authenticationCallback?.let {
-                biometricPrompt = BiometricPrompt(context, Executors.newSingleThreadExecutor(), it)
+            authenticationCallback?.let { callback ->
+                biometricPrompt = BiometricPrompt(context, Executors.newSingleThreadExecutor(), callback)
             }
+        }
+
+        val promptTitle = context.getString(cryptoPrompt.promptTitleId)
+        val promptDescription = cryptoPrompt.promptDescriptionId?.let { descriptionId ->
+            context.getString(descriptionId)
+        } ?: ""
+
+        if (cryptoPrompt.isDeviceCredentialOperation) {
+            // TODO open intent keyguard for response
+            val keyGuardManager = ContextCompat.getSystemService(context, KeyguardManager::class.java)
+            context.startActivityForResult(
+                    keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription),
+                    REQUEST_DEVICE_CREDENTIAL)
+        }
+        else if (cryptoPrompt.isBiometricOperation) {
+            val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
+                setTitle(promptTitle)
+                if (promptDescription.isNotEmpty())
+                    setDescription(promptDescription)
+                setConfirmationRequired(false)
+                if (isDeviceCredentialBiometricOperation()) {
+                    setAllowedAuthenticators(DEVICE_CREDENTIAL)
+                } else {
+                    setNegativeButtonText(context.getString(android.R.string.cancel))
+                }
+            }.build()
+
+            biometricPrompt?.authenticate(
+                    promptInfoExtractCredential,
+                    BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
         }
     }
 
@@ -301,11 +328,13 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
 
         private val TAG = BiometricUnlockDatabaseHelper::class.java.name
 
-        private const val BIOMETRIC_KEYSTORE = "AndroidKeyStore"
-        private const val BIOMETRIC_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
-        private const val BIOMETRIC_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
-        private const val BIOMETRIC_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
-        private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
+        private const val ADVANCED_UNLOCK_KEYSTORE = "AndroidKeyStore"
+        private const val ADVANCED_UNLOCK_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
+        private const val ADVANCED_UNLOCK_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
+        private const val ADVANCED_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
+        private const val ADVANCED_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
+
+        private const val REQUEST_DEVICE_CREDENTIAL = 556
 
         @RequiresApi(api = Build.VERSION_CODES.M)
         fun canAuthenticate(context: Context): Int {
@@ -336,12 +365,14 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             }
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        fun allowInitKeyStore(context: Context): Boolean {
-            val biometricCanAuthenticate = canAuthenticate(context)
-            return (  biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
-                    )
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        fun isDeviceSecure(context: Context): Boolean {
+            val keyguardManager = ContextCompat.getSystemService(context, KeyguardManager::class.java)
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                keyguardManager?.isDeviceSecure ?: false
+            } else {
+                keyguardManager?.isKeyguardSecure ?: false
+            }
         }
 
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -365,15 +396,26 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             )
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.R)
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         fun deviceCredentialUnlockSupported(context: Context): Boolean {
-            val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate(DEVICE_CREDENTIAL)
-            return (biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate(DEVICE_CREDENTIAL)
+                return (biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
+                        )
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ContextCompat.getSystemService(context, KeyguardManager::class.java)?.apply {
+                    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        isDeviceSecure
+                    } else {
+                        isKeyguardSecure
+                    }
+                }
+            }
+            return false
         }
 
         /**

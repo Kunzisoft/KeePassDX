@@ -273,7 +273,6 @@
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
-    <string name="crypto_object_not_initialized">crypto オブジェクトを取得できません。</string>
     <string name="database_history">履歴</string>
     <string name="menu_appearance_settings">デザイン</string>
     <string name="biometric">生体認証</string>

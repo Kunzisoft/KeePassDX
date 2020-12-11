@@ -464,7 +464,6 @@
     <string name="database_data_remove_unlinked_attachments_summary">Eltávolítja azokat a mellékleteket, melyek az adatbázisban szerepelnek, de nem tartoznak bejegyzéshez</string>
     <string name="database_data_remove_unlinked_attachments_title">Nem összekapcsolt adatok eltávolítása</string>
     <string name="data">Adatok</string>
-    <string name="crypto_object_not_initialized">A titkosítási objektum nem kérhető le.</string>
     <string name="biometric_security_update_required">Biometrikus biztonsági frissítés szükséges.</string>
     <string name="configure_biometric">Nincs biometrikus vagy eszközazonosító beállítva.</string>
     <string name="warning_empty_keyfile_explanation">A kulcsfájl tartalmának sosem szabad megváltoznia, és a legjobb esetben véletlenszerűen előállított adatokat kellene tartalmaznia.</string>

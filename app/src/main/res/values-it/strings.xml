@@ -506,7 +506,6 @@
     <string name="keyboard_save_search_info_summary">Prova a salvare le informazioni condivise quando effettui una selezione di immissione manuale</string>
     <string name="keyboard_save_search_info_title">Salva le informazioni condivise</string>
     <string name="notification">Notifica</string>
-    <string name="crypto_object_not_initialized">Impossibile recuperare l\'oggetto crittografico.</string>
     <string name="biometric_security_update_required">È necessario un aggiornamento della sicurezza biometrica.</string>
     <string name="warning_empty_recycle_bin">Eliminare definitivamente tutti i nodi dal cestino\?</string>
     <string name="registration_mode">Modalità registrazione</string>

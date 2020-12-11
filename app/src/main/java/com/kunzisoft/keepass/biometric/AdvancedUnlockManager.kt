@@ -40,14 +40,14 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class AdvancedUnlockedManager(var context: FragmentActivity,
-                              var databaseFileUri: Uri,
-                              private var advancedUnlockInfoView: AdvancedUnlockInfoView?,
-                              private var checkboxPasswordView: CompoundButton?,
-                              private var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
-                              var passwordView: TextView?,
-                              private var loadDatabaseAfterRegisterCredentials: (encryptedPassword: String?, ivSpec: String?) -> Unit,
-                              private var loadDatabaseAfterRetrieveCredentials: (decryptedPassword: String?) -> Unit)
+class AdvancedUnlockManager(var context: FragmentActivity,
+                            var databaseFileUri: Uri,
+                            private var advancedUnlockInfoView: AdvancedUnlockInfoView?,
+                            private var checkboxPasswordView: CompoundButton?,
+                            private var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
+                            var passwordView: TextView?,
+                            private var loadDatabaseAfterRegisterCredentials: (encryptedPassword: String?, ivSpec: String?) -> Unit,
+                            private var loadDatabaseAfterRetrieveCredentials: (decryptedPassword: String?) -> Unit)
     : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
 
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
@@ -253,18 +253,13 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         }
     }
 
-    private fun openBiometricPrompt(biometricPrompt: BiometricPrompt?,
-                                    cryptoObject: BiometricPrompt.CryptoObject?,
-                                    promptInfo: BiometricPrompt.PromptInfo) {
+    private fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
         context.runOnUiThread {
             if (allowOpenBiometricPrompt) {
-                if (biometricPrompt != null) {
-                    if (cryptoObject != null) {
-                        biometricPrompt.authenticate(promptInfo, cryptoObject)
-                    } else  {
-                        setAdvancedUnlockedTitleView(R.string.crypto_object_not_initialized)
-                    }
-                } else  {
+                try {
+                    biometricUnlockDatabaseHelper?.openAdvancedUnlockPrompt(cryptoPrompt)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to open advanced unlock prompt", e)
                     setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
                 }
             }
@@ -276,10 +271,10 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_store_credential)
         setAdvancedUnlockedMessageView("")
 
-        biometricUnlockDatabaseHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
+        biometricUnlockDatabaseHelper?.initEncryptData { cryptoPrompt ->
             // Set listener to open the biometric dialog and save credential
             advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
+                openAdvancedUnlockPrompt(cryptoPrompt)
             }
         }
     }
@@ -292,17 +287,17 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         if (biometricUnlockDatabaseHelper != null) {
             cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
                 cipherDatabase?.let {
-                    biometricUnlockDatabaseHelper?.initDecryptData(it.specParameters) { biometricPrompt, cryptoObject, promptInfo ->
+                    biometricUnlockDatabaseHelper?.initDecryptData(it.specParameters) { cryptoPrompt ->
 
                         // Set listener to open the biometric dialog and check credential
                         advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                            openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
+                            openAdvancedUnlockPrompt(cryptoPrompt)
                         }
 
                         // Auto open the biometric prompt
                         if (isBiometricPromptAutoOpenEnable) {
                             isBiometricPromptAutoOpenEnable = false
-                            openBiometricPrompt(biometricPrompt, cryptoObject, promptInfo)
+                            openAdvancedUnlockPrompt(cryptoPrompt)
                         }
                     }
                 } ?: deleteEncryptedDatabaseKey()
@@ -417,6 +412,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     companion object {
 
-        private val TAG = AdvancedUnlockedManager::class.java.name
+        private val TAG = AdvancedUnlockManager::class.java.name
     }
 }

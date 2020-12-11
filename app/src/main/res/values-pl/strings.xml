@@ -503,7 +503,6 @@
     <string name="keyboard_save_search_info_summary">Spróbuj zapisać udostępnione informacje podczas ręcznego wybierania pozycji</string>
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
     <string name="notification">Powiadomienia</string>
-    <string name="crypto_object_not_initialized">Nie można pobrać obiektu kryptograficznego.</string>
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
     <string name="configure_biometric">Nie zarejestrowano żadnych danych biometrycznych ani danych urządzenia.</string>
     <string name="warning_empty_recycle_bin">Trwale usunąć wszystkie węzły z kosza\?</string>

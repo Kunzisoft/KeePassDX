@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
+import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
@@ -114,7 +114,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
     private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
-    private var advancedUnlockedManager: AdvancedUnlockedManager? = null
+    private var advancedUnlockManager: AdvancedUnlockManager? = null
     private var mAllowAutoOpenBiometricPrompt: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -210,7 +210,7 @@ open class PasswordActivity : SpecialModeActivity() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (PreferencesUtil.isAdvancedUnlockEnable(this@PasswordActivity)) {
                                 // Stay with the same mode and init it
-                                advancedUnlockedManager?.initAdvancedUnlockMode()
+                                advancedUnlockManager?.initAdvancedUnlockMode()
                             }
                         }
 
@@ -388,9 +388,9 @@ open class PasswordActivity : SpecialModeActivity() {
             // Init Biometric elements
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
-                    if (advancedUnlockedManager == null
+                    if (advancedUnlockManager == null
                             && databaseFileUri != null) {
-                        advancedUnlockedManager = AdvancedUnlockedManager(this,
+                        advancedUnlockManager = AdvancedUnlockManager(this,
                                 databaseFileUri,
                                 advancedUnlockInfoView,
                                 checkboxPasswordView,
@@ -415,16 +415,16 @@ open class PasswordActivity : SpecialModeActivity() {
                                     }
                                 })
                     }
-                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable =
+                    advancedUnlockManager?.isBiometricPromptAutoOpenEnable =
                             mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
-                    advancedUnlockedManager?.checkBiometricAvailability()
+                    advancedUnlockManager?.checkBiometricAvailability()
                 } else {
                     advancedUnlockInfoView?.visibility = View.GONE
-                    advancedUnlockedManager?.destroy()
-                    advancedUnlockedManager = null
+                    advancedUnlockManager?.destroy()
+                    advancedUnlockManager = null
                 }
             }
-            if (advancedUnlockedManager == null) {
+            if (advancedUnlockManager == null) {
                 checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
             }
             checkboxKeyFileView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
@@ -480,8 +480,8 @@ open class PasswordActivity : SpecialModeActivity() {
         mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockedManager?.destroy()
-            advancedUnlockedManager = null
+            advancedUnlockManager?.destroy()
+            advancedUnlockManager = null
         }
 
         // Reinit locking activity UI variable
@@ -594,7 +594,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // biometric menu
-            advancedUnlockedManager?.inflateOptionsMenu(inflater, menu)
+            advancedUnlockManager?.inflateOptionsMenu(inflater, menu)
         }
 
         super.onCreateOptionsMenu(menu)
@@ -709,7 +709,7 @@ open class PasswordActivity : SpecialModeActivity() {
                 changeOpenFileReadIcon(item)
             }
             R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                advancedUnlockedManager?.deleteEncryptedDatabaseKey()
+                advancedUnlockManager?.deleteEncryptedDatabaseKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }
@@ -724,6 +724,11 @@ open class PasswordActivity : SpecialModeActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         mAllowAutoOpenBiometricPrompt = false
+
+        // To get device credential unlock result
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // TODO Advanced unlock response
+        }
 
         // To get entry in result
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
