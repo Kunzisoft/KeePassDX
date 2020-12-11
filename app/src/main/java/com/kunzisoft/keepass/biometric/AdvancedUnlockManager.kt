@@ -48,9 +48,9 @@ class AdvancedUnlockManager(var context: FragmentActivity,
                             var passwordView: TextView?,
                             private var loadDatabaseAfterRegisterCredentials: (encryptedPassword: String?, ivSpec: String?) -> Unit,
                             private var loadDatabaseAfterRetrieveCredentials: (decryptedPassword: String?) -> Unit)
-    : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
+    : AdvancedUnlockHelper.AdvancedUnlockCallback {
 
-    private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
+    private var advancedUnlockHelper: AdvancedUnlockHelper? = null
     private var biometricMode: Mode = Mode.BIOMETRIC_UNAVAILABLE
 
     // Only to fix multiple fingerprint menu #332
@@ -104,7 +104,7 @@ class AdvancedUnlockManager(var context: FragmentActivity,
 
         // biometric not supported (by API level or hardware) so keep option hidden
         // or manually disable
-        val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(context)
+        val biometricCanAuthenticate = AdvancedUnlockHelper.canAuthenticate(context)
         allowOpenBiometricPrompt = true
 
         if (!PreferencesUtil.isAdvancedUnlockEnable(context)
@@ -120,14 +120,13 @@ class AdvancedUnlockManager(var context: FragmentActivity,
             } else {
                 // Check if fingerprint well init (be called the first time the fingerprint is configured
                 // and the activity still active)
-                if (biometricUnlockDatabaseHelper?.isKeyManagerInitialized != true) {
-                    biometricUnlockDatabaseHelper = BiometricUnlockDatabaseHelper(context)
+                if (advancedUnlockHelper?.isKeyManagerInitialized != true) {
+                    advancedUnlockHelper = AdvancedUnlockHelper(context)
                     // callback for fingerprint findings
-                    biometricUnlockDatabaseHelper?.biometricUnlockCallback = this
-                    biometricUnlockDatabaseHelper?.authenticationCallback = biometricAuthenticationCallback
+                    advancedUnlockHelper?.advancedUnlockCallback = this
                 }
                 // Recheck to change the mode
-                if (biometricUnlockDatabaseHelper?.isKeyManagerInitialized != true) {
+                if (advancedUnlockHelper?.isKeyManagerInitialized != true) {
                     toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
                 } else {
                     if (checkboxPasswordView?.isChecked == true) {
@@ -154,55 +153,6 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         if (newBiometricMode != biometricMode) {
             biometricMode = newBiometricMode
             initAdvancedUnlockMode()
-        }
-    }
-
-    private val biometricAuthenticationCallback = object : BiometricPrompt.AuthenticationCallback () {
-
-        override fun onAuthenticationError(
-                errorCode: Int,
-                errString: CharSequence) {
-            context.runOnUiThread {
-                Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
-                setAdvancedUnlockedMessageView(errString.toString())
-            }
-        }
-
-        override fun onAuthenticationFailed() {
-            context.runOnUiThread {
-                Log.e(TAG, "Biometric authentication failed, biometric not recognized")
-                setAdvancedUnlockedMessageView(R.string.advanced_unlock_not_recognized)
-            }
-        }
-
-        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            context.runOnUiThread {
-                when (biometricMode) {
-                    Mode.BIOMETRIC_UNAVAILABLE -> {
-                    }
-                    Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> {
-                    }
-                    Mode.BIOMETRIC_NOT_CONFIGURED -> {
-                    }
-                    Mode.KEY_MANAGER_UNAVAILABLE -> {
-                    }
-                    Mode.WAIT_CREDENTIAL -> {
-                    }
-                    Mode.STORE_CREDENTIAL -> {
-                        // newly store the entered password in encrypted way
-                        biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
-                        AdvancedUnlockNotificationService.startServiceForTimeout(context)
-                    }
-                    Mode.EXTRACT_CREDENTIAL -> {
-                        // retrieve the encrypted value from preferences
-                        cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
-                            cipherDatabase?.encryptedValue?.let { value ->
-                                biometricUnlockDatabaseHelper?.decryptData(value)
-                            } ?: deleteEncryptedDatabaseKey()
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -248,7 +198,7 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         setAdvancedUnlockedMessageView("")
 
         advancedUnlockInfoView?.setIconViewClickListener(false) {
-            biometricAuthenticationCallback.onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
+            onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
                     context.getString(R.string.credential_before_click_advanced_unlock_button))
         }
     }
@@ -257,7 +207,8 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         context.runOnUiThread {
             if (allowOpenBiometricPrompt) {
                 try {
-                    biometricUnlockDatabaseHelper?.openAdvancedUnlockPrompt(cryptoPrompt)
+                    advancedUnlockHelper
+                            ?.openAdvancedUnlockPrompt(cryptoPrompt)
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to open advanced unlock prompt", e)
                     setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
@@ -271,7 +222,7 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_store_credential)
         setAdvancedUnlockedMessageView("")
 
-        biometricUnlockDatabaseHelper?.initEncryptData { cryptoPrompt ->
+        advancedUnlockHelper?.initEncryptData { cryptoPrompt ->
             // Set listener to open the biometric dialog and save credential
             advancedUnlockInfoView?.setIconViewClickListener { _ ->
                 openAdvancedUnlockPrompt(cryptoPrompt)
@@ -284,10 +235,10 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_unlock_database)
         setAdvancedUnlockedMessageView("")
 
-        if (biometricUnlockDatabaseHelper != null) {
+        if (advancedUnlockHelper != null) {
             cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
                 cipherDatabase?.let {
-                    biometricUnlockDatabaseHelper?.initDecryptData(it.specParameters) { cryptoPrompt ->
+                    advancedUnlockHelper?.initDecryptData(it.specParameters) { cryptoPrompt ->
 
                         // Set listener to open the biometric dialog and check credential
                         advancedUnlockInfoView?.setIconViewClickListener { _ ->
@@ -338,7 +289,7 @@ class AdvancedUnlockManager(var context: FragmentActivity,
     fun destroy() {
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
-        biometricUnlockDatabaseHelper?.closeBiometricPrompt()
+        advancedUnlockHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
         cipherDatabaseAction.unregisterDatabaseListener(cipherDatabaseListener)
@@ -352,9 +303,57 @@ class AdvancedUnlockManager(var context: FragmentActivity,
     fun deleteEncryptedDatabaseKey() {
         allowOpenBiometricPrompt = false
         advancedUnlockInfoView?.setIconViewClickListener(false, null)
-        biometricUnlockDatabaseHelper?.closeBiometricPrompt()
+        advancedUnlockHelper?.closeBiometricPrompt()
         cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri) {
             checkBiometricAvailability()
+        }
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        advancedUnlockHelper?.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+        context.runOnUiThread {
+            Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+            setAdvancedUnlockedMessageView(errString.toString())
+        }
+    }
+
+    override fun onAuthenticationFailed() {
+        context.runOnUiThread {
+            Log.e(TAG, "Biometric authentication failed, biometric not recognized")
+            setAdvancedUnlockedMessageView(R.string.advanced_unlock_not_recognized)
+        }
+    }
+
+    override fun onAuthenticationSucceeded() {
+        context.runOnUiThread {
+            when (biometricMode) {
+                Mode.BIOMETRIC_UNAVAILABLE -> {
+                }
+                Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> {
+                }
+                Mode.BIOMETRIC_NOT_CONFIGURED -> {
+                }
+                Mode.KEY_MANAGER_UNAVAILABLE -> {
+                }
+                Mode.WAIT_CREDENTIAL -> {
+                }
+                Mode.STORE_CREDENTIAL -> {
+                    // newly store the entered password in encrypted way
+                    advancedUnlockHelper?.encryptData(passwordView?.text.toString())
+                    AdvancedUnlockNotificationService.startServiceForTimeout(context)
+                }
+                Mode.EXTRACT_CREDENTIAL -> {
+                    // retrieve the encrypted value from preferences
+                    cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
+                        cipherDatabase?.encryptedValue?.let { value ->
+                            advancedUnlockHelper?.decryptData(value)
+                        } ?: deleteEncryptedDatabaseKey()
+                    }
+                }
+            }
         }
     }
 
@@ -371,7 +370,7 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
     }
 
-    override fun onBiometricException(e: Exception) {
+    override fun onGenericException(e: Exception) {
         val errorMessage = e.cause?.localizedMessage ?: e.localizedMessage ?: ""
         setAdvancedUnlockedMessageView(errorMessage)
     }

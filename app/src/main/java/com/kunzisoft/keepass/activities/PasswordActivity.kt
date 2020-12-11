@@ -51,7 +51,7 @@ import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
-import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.biometric.AdvancedUnlockHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -674,7 +674,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && !readOnlyEducationPerformed) {
-                val biometricCanAuthenticate = BiometricUnlockDatabaseHelper.canAuthenticate(this)
+                val biometricCanAuthenticate = AdvancedUnlockHelper.canAuthenticate(this)
                 PreferencesUtil.isAdvancedUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                         && advancedUnlockInfoView != null && advancedUnlockInfoView?.visibility == View.VISIBLE
@@ -727,7 +727,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
         // To get device credential unlock result
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // TODO Advanced unlock response
+            advancedUnlockManager?.onActivityResult(requestCode, resultCode, data)
         }
 
         // To get entry in result

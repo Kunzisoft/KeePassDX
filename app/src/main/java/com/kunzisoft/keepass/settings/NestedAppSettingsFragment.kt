@@ -41,7 +41,7 @@ import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.biometric.AdvancedUnlockHelper
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
@@ -218,7 +218,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             val tempAdvancedUnlockPreference: SwitchPreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
 
             val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                BiometricUnlockDatabaseHelper.biometricUnlockSupported(activity)
+                AdvancedUnlockHelper.biometricUnlockSupported(activity)
             } else false
             biometricUnlockEnablePreference?.apply {
                 // False if under Marshmallow
@@ -259,7 +259,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             }
 
             val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                BiometricUnlockDatabaseHelper.deviceCredentialUnlockSupported(activity)
+                AdvancedUnlockHelper.deviceCredentialUnlockSupported(activity)
             } else false
             deviceCredentialUnlockEnablePreference?.apply {
                 if (!deviceCredentialUnlockSupported) {
@@ -337,9 +337,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     validate?.invoke()
                     deleteKeysAlertDialog?.setOnDismissListener(null)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        BiometricUnlockDatabaseHelper.deleteEntryKeyInKeystoreForBiometric(
+                        AdvancedUnlockHelper.deleteEntryKeyInKeystoreForBiometric(
                                 activity,
-                                object : BiometricUnlockDatabaseHelper.BiometricUnlockErrorCallback {
+                                object : AdvancedUnlockHelper.AdvancedUnlockErrorCallback {
                                     fun showException(e: Exception) {
                                         Toast.makeText(context,
                                                 getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
@@ -350,7 +350,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                         showException(e)
                                     }
 
-                                    override fun onBiometricException(e: Exception) {
+                                    override fun onGenericException(e: Exception) {
                                         showException(e)
                                     }
                                 })
