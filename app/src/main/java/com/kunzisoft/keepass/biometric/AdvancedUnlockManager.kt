@@ -27,31 +27,27 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.database.exception.IODatabaseException
 import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 class AdvancedUnlockManager(var context: FragmentActivity,
-                            var databaseFileUri: Uri,
-                            private var advancedUnlockInfoView: AdvancedUnlockInfoView?,
-                            private var checkboxPasswordView: CompoundButton?,
-                            private var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
-                            var passwordView: TextView?,
-                            private var loadDatabaseAfterRegisterCredentials: (encryptedPassword: String?, ivSpec: String?) -> Unit,
-                            private var loadDatabaseAfterRetrieveCredentials: (decryptedPassword: String?) -> Unit)
+                            private var advancedUnlockInfoView: AdvancedUnlockInfoView,
+                            private var builderListener: BuilderListener)
     : AdvancedUnlockHelper.AdvancedUnlockCallback {
 
     private var advancedUnlockHelper: AdvancedUnlockHelper? = null
     private var biometricMode: Mode = Mode.BIOMETRIC_UNAVAILABLE
+
+    private var databaseFileUri: Uri? = null
 
     // Only to fix multiple fingerprint menu #332
     private var mAllowAdvancedUnlockMenu = false
@@ -72,34 +68,18 @@ class AdvancedUnlockManager(var context: FragmentActivity,
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
-    private val cipherDatabaseListener = object: CipherDatabaseAction.DatabaseListener {
-        override fun onDatabaseCleared() {
-            deleteEncryptedDatabaseKey()
-        }
-    }
+    private var cipherDatabaseListener: CipherDatabaseAction.DatabaseListener? = null
 
-    init {
-        // Add a check listener to change fingerprint mode
-        checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-            checkBiometricAvailability()
-            // Add old listener to enable the button, only be call here because of onCheckedChange bug
-            onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
-        }
-        cipherDatabaseAction.apply {
-            reloadPreferences()
-            registerDatabaseListener(cipherDatabaseListener)
-        }
-    }
 
     /**
-     * Check biometric availability and change the current mode depending of device's state
+     * Check unlock availability and change the current mode depending of device's state
      */
-    fun checkBiometricAvailability() {
+    fun checkUnlockAvailability() {
 
         if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
-            advancedUnlockInfoView?.setIconResource(R.drawable.bolt)
+            advancedUnlockInfoView.setIconResource(R.drawable.bolt)
         } else if (PreferencesUtil.isBiometricUnlockEnable(context)) {
-            advancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
+            advancedUnlockInfoView.setIconResource(R.drawable.fingerprint)
         }
 
         // biometric not supported (by API level or hardware) so keep option hidden
@@ -129,20 +109,22 @@ class AdvancedUnlockManager(var context: FragmentActivity,
                 if (advancedUnlockHelper?.isKeyManagerInitialized != true) {
                     toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
                 } else {
-                    if (checkboxPasswordView?.isChecked == true) {
+                    if (builderListener.conditionToStoreCredential()) {
                         // listen for encryption
                         toggleMode(Mode.STORE_CREDENTIAL)
                     } else {
-                        cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
-                            // biometric available but no stored password found yet for this DB so show info don't listen
-                            toggleMode(if (containsCipher) {
-                                // listen for decryption
-                                Mode.EXTRACT_CREDENTIAL
-                            } else {
-                                // wait for typing
-                                Mode.WAIT_CREDENTIAL
-                            })
-                        }
+                        databaseFileUri?.let { databaseUri ->
+                            cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
+                                // biometric available but no stored password found yet for this DB so show info don't listen
+                                toggleMode(if (containsCipher) {
+                                    // listen for decryption
+                                    Mode.EXTRACT_CREDENTIAL
+                                } else {
+                                    // wait for typing
+                                    Mode.WAIT_CREDENTIAL
+                                })
+                            }
+                        } ?: throw IODatabaseException()
                     }
                 }
             }
@@ -159,12 +141,12 @@ class AdvancedUnlockManager(var context: FragmentActivity,
     private fun initNotAvailable() {
         showFingerPrintViews(false)
 
-        advancedUnlockInfoView?.setIconViewClickListener(false, null)
+        advancedUnlockInfoView.setIconViewClickListener(false, null)
     }
 
     @Suppress("DEPRECATION")
     private fun openBiometricSetting() {
-        advancedUnlockInfoView?.setIconViewClickListener(false) {
+        advancedUnlockInfoView.setIconViewClickListener(false) {
             // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
             context.startActivity(Intent(Settings.ACTION_SETTINGS))
         }
@@ -197,7 +179,7 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
         setAdvancedUnlockedMessageView("")
 
-        advancedUnlockInfoView?.setIconViewClickListener(false) {
+        advancedUnlockInfoView.setIconViewClickListener(false) {
             onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
                     context.getString(R.string.credential_before_click_advanced_unlock_button))
         }
@@ -224,10 +206,10 @@ class AdvancedUnlockManager(var context: FragmentActivity,
 
         advancedUnlockHelper?.initEncryptData { cryptoPrompt ->
             // Set listener to open the biometric dialog and save credential
-            advancedUnlockInfoView?.setIconViewClickListener { _ ->
+            advancedUnlockInfoView.setIconViewClickListener { _ ->
                 openAdvancedUnlockPrompt(cryptoPrompt)
             }
-        }
+        } ?: throw Exception("AdvancedUnlockHelper not initialized")
     }
 
     private fun initDecryptData() {
@@ -235,25 +217,27 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_unlock_database)
         setAdvancedUnlockedMessageView("")
 
-        if (advancedUnlockHelper != null) {
-            cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
-                cipherDatabase?.let {
-                    advancedUnlockHelper?.initDecryptData(it.specParameters) { cryptoPrompt ->
+        advancedUnlockHelper?.let { unlockHelper ->
+            databaseFileUri?.let { databaseUri ->
+                cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
+                    cipherDatabase?.let {
+                        unlockHelper.initDecryptData(it.specParameters) { cryptoPrompt ->
 
-                        // Set listener to open the biometric dialog and check credential
-                        advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                            openAdvancedUnlockPrompt(cryptoPrompt)
-                        }
+                            // Set listener to open the biometric dialog and check credential
+                            advancedUnlockInfoView.setIconViewClickListener { _ ->
+                                openAdvancedUnlockPrompt(cryptoPrompt)
+                            }
 
-                        // Auto open the biometric prompt
-                        if (isBiometricPromptAutoOpenEnable) {
-                            isBiometricPromptAutoOpenEnable = false
-                            openAdvancedUnlockPrompt(cryptoPrompt)
+                            // Auto open the biometric prompt
+                            if (isBiometricPromptAutoOpenEnable) {
+                                isBiometricPromptAutoOpenEnable = false
+                                openAdvancedUnlockPrompt(cryptoPrompt)
+                            }
                         }
-                    }
-                } ?: deleteEncryptedDatabaseKey()
-            }
-        }
+                    } ?: deleteEncryptedDatabaseKey()
+                }
+            } ?: throw IODatabaseException()
+        } ?: throw Exception("AdvancedUnlockHelper not initialized")
     }
 
     @Synchronized
@@ -276,23 +260,45 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         // Show fingerprint key deletion
         if (!mAddBiometricMenuInProgress) {
             mAddBiometricMenuInProgress = true
-            cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
-                mAllowAdvancedUnlockMenu = containsCipher
-                        && (biometricMode != Mode.BIOMETRIC_UNAVAILABLE
-                                && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
-                mAddBiometricMenuInProgress = false
-                context.invalidateOptionsMenu()
+            databaseFileUri?.let { databaseUri ->
+                cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
+                    mAllowAdvancedUnlockMenu = containsCipher
+                            && (biometricMode != Mode.BIOMETRIC_UNAVAILABLE
+                            && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
+                    mAddBiometricMenuInProgress = false
+                    context.invalidateOptionsMenu()
+                }
             }
         }
     }
 
-    fun destroy() {
+    fun connect(databaseUri: Uri) {
+        advancedUnlockInfoView.visibility = View.VISIBLE
+        this.databaseFileUri = databaseUri
+        cipherDatabaseListener = object: CipherDatabaseAction.DatabaseListener {
+            override fun onDatabaseCleared() {
+                deleteEncryptedDatabaseKey()
+            }
+        }
+        cipherDatabaseAction.apply {
+            reloadPreferences()
+            cipherDatabaseListener?.let {
+                registerDatabaseListener(it)
+            }
+        }
+        checkUnlockAvailability()
+    }
+
+    fun disconnect() {
+        this.databaseFileUri = null
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
         advancedUnlockHelper?.closeBiometricPrompt()
-        // Restore the checked listener
-        checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
-        cipherDatabaseAction.unregisterDatabaseListener(cipherDatabaseListener)
+        cipherDatabaseListener?.let {
+            cipherDatabaseAction.unregisterDatabaseListener(it)
+        }
+        cipherDatabaseListener = null
+        advancedUnlockInfoView.visibility = View.GONE
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
@@ -302,10 +308,12 @@ class AdvancedUnlockManager(var context: FragmentActivity,
 
     fun deleteEncryptedDatabaseKey() {
         allowOpenBiometricPrompt = false
-        advancedUnlockInfoView?.setIconViewClickListener(false, null)
+        advancedUnlockInfoView.setIconViewClickListener(false, null)
         advancedUnlockHelper?.closeBiometricPrompt()
-        cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri) {
-            checkBiometricAvailability()
+        databaseFileUri?.let { databaseUri ->
+            cipherDatabaseAction.deleteByDatabaseUri(databaseUri) {
+                checkUnlockAvailability()
+            }
         }
     }
 
@@ -342,28 +350,34 @@ class AdvancedUnlockManager(var context: FragmentActivity,
                 }
                 Mode.STORE_CREDENTIAL -> {
                     // newly store the entered password in encrypted way
-                    advancedUnlockHelper?.encryptData(passwordView?.text.toString())
+                    advancedUnlockHelper?.encryptData(builderListener.retrieveCredentialForEncryption())
                     AdvancedUnlockNotificationService.startServiceForTimeout(context)
                 }
                 Mode.EXTRACT_CREDENTIAL -> {
                     // retrieve the encrypted value from preferences
-                    cipherDatabaseAction.getCipherDatabase(databaseFileUri) { cipherDatabase ->
-                        cipherDatabase?.encryptedValue?.let { value ->
-                            advancedUnlockHelper?.decryptData(value)
-                        } ?: deleteEncryptedDatabaseKey()
-                    }
+                    databaseFileUri?.let { databaseUri ->
+                        cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
+                            cipherDatabase?.encryptedValue?.let { value ->
+                                advancedUnlockHelper?.decryptData(value)
+                            } ?: deleteEncryptedDatabaseKey()
+                        }
+                    } ?: throw IODatabaseException()
                 }
             }
         }
     }
 
     override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
-        loadDatabaseAfterRegisterCredentials.invoke(encryptedValue, ivSpec)
+        databaseFileUri?.let { databaseUri ->
+            builderListener.onCredentialEncrypted(databaseUri, encryptedValue, ivSpec)
+        }
     }
 
     override fun handleDecryptedResult(decryptedValue: String) {
         // Load database directly with password retrieve
-        loadDatabaseAfterRetrieveCredentials.invoke(decryptedValue)
+        databaseFileUri?.let {
+            builderListener.onCredentialDecrypted(it, decryptedValue)
+        }
     }
 
     override fun onInvalidKeyException(e: Exception) {
@@ -377,25 +391,25 @@ class AdvancedUnlockManager(var context: FragmentActivity,
 
     private fun showFingerPrintViews(show: Boolean) {
         context.runOnUiThread {
-            advancedUnlockInfoView?.visibility = if (show) View.VISIBLE else View.GONE
+            advancedUnlockInfoView.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
 
     private fun setAdvancedUnlockedTitleView(textId: Int) {
         context.runOnUiThread {
-            advancedUnlockInfoView?.setTitle(textId)
+            advancedUnlockInfoView.setTitle(textId)
         }
     }
 
     private fun setAdvancedUnlockedMessageView(textId: Int) {
         context.runOnUiThread {
-            advancedUnlockInfoView?.setMessage(textId)
+            advancedUnlockInfoView.setMessage(textId)
         }
     }
 
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         context.runOnUiThread {
-            advancedUnlockInfoView?.message = text
+            advancedUnlockInfoView.message = text
         }
     }
 
@@ -407,6 +421,13 @@ class AdvancedUnlockManager(var context: FragmentActivity,
         WAIT_CREDENTIAL,
         STORE_CREDENTIAL,
         EXTRACT_CREDENTIAL
+    }
+
+    interface BuilderListener {
+        fun retrieveCredentialForEncryption(): String
+        fun conditionToStoreCredential(): Boolean
+        fun onCredentialEncrypted(databaseUri: Uri, encryptedCredential: String, ivSpec: String)
+        fun onCredentialDecrypted(databaseUri: Uri, decryptedCredential: String)
     }
 
     companion object {

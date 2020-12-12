@@ -88,7 +88,6 @@ open class PasswordActivity : SpecialModeActivity() {
     private var checkboxKeyFileView: CompoundButton? = null
     private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
     private var infoContainerView: ViewGroup? = null
-    private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private val databaseFileViewModel: DatabaseFileViewModel by viewModels()
 
@@ -161,10 +160,6 @@ open class PasswordActivity : SpecialModeActivity() {
             }
         })
 
-        enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, _ ->
-            enableOrNotTheConfirmationButton()
-        }
-
         // If is a view intent
         getUriFromIntent(intent)
         if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
@@ -172,6 +167,51 @@ open class PasswordActivity : SpecialModeActivity() {
         }
         if (savedInstanceState?.containsKey(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT) == true) {
             mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
+        }
+
+        // Init Biometric elements
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
+                advancedUnlockManager = AdvancedUnlockManager(this, advancedUnlockInfoView!!,
+                        object: AdvancedUnlockManager.BuilderListener {
+
+                            override fun retrieveCredentialForEncryption(): String {
+                                return passwordView?.text?.toString() ?: ""
+                            }
+
+                            override fun conditionToStoreCredential(): Boolean {
+                                return checkboxPasswordView?.isChecked == true
+                            }
+
+                            override fun onCredentialEncrypted(databaseUri: Uri,
+                                                               encryptedCredential: String,
+                                                               ivSpec: String) {
+                                // Load the database if password is registered with biometric
+                                verifyCheckboxesAndLoadDatabase(
+                                        CipherDatabaseEntity(
+                                                databaseUri.toString(),
+                                                encryptedCredential,
+                                                ivSpec)
+                                )
+                            }
+
+                            override fun onCredentialDecrypted(databaseUri: Uri,
+                                                               decryptedCredential: String) {
+                                // Load the database if password is retrieve from biometric
+                                // Retrieve from biometric
+                                verifyKeyFileCheckboxAndLoadDatabase(decryptedCredential)
+                            }
+                        }
+                )
+            }
+        }
+
+        // Listen password checkbox to init advanced unlock and confirmation button
+        checkboxPasswordView?.setOnCheckedChangeListener { _, _ ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                advancedUnlockManager?.checkUnlockAvailability()
+            }
+            enableOrNotTheConfirmationButton()
         }
 
         // Observe if default database
@@ -387,47 +427,17 @@ open class PasswordActivity : SpecialModeActivity() {
         } else {
             // Init Biometric elements
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
-                    if (advancedUnlockManager == null
-                            && databaseFileUri != null) {
-                        advancedUnlockManager = AdvancedUnlockManager(this,
-                                databaseFileUri,
-                                advancedUnlockInfoView,
-                                checkboxPasswordView,
-                                enableButtonOnCheckedChangeListener,
-                                passwordView,
-                                { passwordEncrypted, ivSpec ->
-                                    // Load the database if password is registered with biometric
-                                    if (passwordEncrypted != null && ivSpec != null) {
-                                        verifyCheckboxesAndLoadDatabase(
-                                                CipherDatabaseEntity(
-                                                    databaseFileUri.toString(),
-                                                    passwordEncrypted,
-                                                    ivSpec)
-                                        )
-                                    }
-                                },
-                                { passwordDecrypted ->
-                                    // Load the database if password is retrieve from biometric
-                                    passwordDecrypted?.let {
-                                        // Retrieve from biometric
-                                        verifyKeyFileCheckboxAndLoadDatabase(it)
-                                    }
-                                })
+                databaseFileUri?.let { databaseUri ->
+                    if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
+                        advancedUnlockManager?.connect(databaseUri)
+                        advancedUnlockManager?.isBiometricPromptAutoOpenEnable =
+                                mAllowAutoOpenBiometricPrompt
+                                        && mProgressDatabaseTaskProvider?.isBinded() != true
+                    } else {
+                        advancedUnlockManager?.disconnect()
                     }
-                    advancedUnlockManager?.isBiometricPromptAutoOpenEnable =
-                            mAllowAutoOpenBiometricPrompt && mProgressDatabaseTaskProvider?.isBinded() != true
-                    advancedUnlockManager?.checkBiometricAvailability()
-                } else {
-                    advancedUnlockInfoView?.visibility = View.GONE
-                    advancedUnlockManager?.destroy()
-                    advancedUnlockManager = null
                 }
             }
-            if (advancedUnlockManager == null) {
-                checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
-            }
-            checkboxKeyFileView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
         }
 
         enableOrNotTheConfirmationButton()
@@ -480,8 +490,7 @@ open class PasswordActivity : SpecialModeActivity() {
         mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockManager?.destroy()
-            advancedUnlockManager = null
+            advancedUnlockManager?.disconnect()
         }
 
         // Reinit locking activity UI variable
@@ -489,6 +498,12 @@ open class PasswordActivity : SpecialModeActivity() {
         mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
+    }
+
+    override fun onDestroy() {
+        advancedUnlockManager = null
+
+        super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
