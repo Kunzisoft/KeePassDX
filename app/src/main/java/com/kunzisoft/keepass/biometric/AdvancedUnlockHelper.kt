@@ -212,9 +212,8 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
                 advancedUnlockCallback?.handleEncryptedResult(encryptedBase64, ivSpecValue)
             }
         } catch (e: Exception) {
-            val exception = Exception(context.getString(R.string.keystore_not_accessible), e)
             Log.e(TAG, "Unable to encrypt data", e)
-            advancedUnlockCallback?.onGenericException(exception)
+            advancedUnlockCallback?.onGenericException(e)
         }
     }
 
@@ -268,9 +267,8 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
             Log.e(TAG, "Unable to decrypt data", badPaddingException)
             advancedUnlockCallback?.onInvalidKeyException(badPaddingException)
         } catch (e: Exception) {
-            val exception = Exception(context.getString(R.string.keystore_not_accessible), e)
-            Log.e(TAG, "Unable to decrypt data", exception)
-            advancedUnlockCallback?.onGenericException(exception)
+            Log.e(TAG, "Unable to decrypt data", e)
+            advancedUnlockCallback?.onGenericException(e)
         }
     }
 
