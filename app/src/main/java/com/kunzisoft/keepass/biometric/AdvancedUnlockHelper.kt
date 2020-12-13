@@ -47,7 +47,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class AdvancedUnlockHelper(private val context: FragmentActivity) {
+class AdvancedUnlockHelper(private var retrieveContext: () -> FragmentActivity) {
 
     private var keyStore: KeyStore? = null
     private var keyGenerator: KeyGenerator? = null
@@ -72,8 +72,8 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
 
     private var isKeyManagerInit = false
 
-    private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(context)
-    private val biometricUnlockEnable = PreferencesUtil.isBiometricUnlockEnable(context)
+    private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(retrieveContext())
+    private val biometricUnlockEnable = PreferencesUtil.isBiometricUnlockEnable(retrieveContext())
 
     val isKeyManagerInitialized: Boolean
         get() {
@@ -99,7 +99,7 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
     }
 
     init {
-        if (isDeviceSecure(context)
+        if (isDeviceSecure(retrieveContext())
                 && (deviceCredentialUnlockEnable || biometricUnlockEnable)) {
             try {
                 this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
@@ -144,11 +144,6 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
                                         // Require the user to authenticate with a fingerprint to authorize every use
                                         // of the key
                                         .setUserAuthenticationRequired(true)
-                                        .apply {
-                                            if (isDeviceCredentialBiometricOperation()) {
-                                                setUserAuthenticationParameters(0, KeyProperties.AUTH_DEVICE_CREDENTIAL)
-                                            }
-                                        }
                                         .build())
                         keyGenerator?.generateKey()
                     }
@@ -287,20 +282,20 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
     fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
         // Init advanced unlock prompt
         if (biometricPrompt == null) {
-            biometricPrompt = BiometricPrompt(context,
+            biometricPrompt = BiometricPrompt(retrieveContext(),
                     Executors.newSingleThreadExecutor(),
                     authenticationCallback)
         }
 
-        val promptTitle = context.getString(cryptoPrompt.promptTitleId)
+        val promptTitle = retrieveContext().getString(cryptoPrompt.promptTitleId)
         val promptDescription = cryptoPrompt.promptDescriptionId?.let { descriptionId ->
-            context.getString(descriptionId)
+            retrieveContext().getString(descriptionId)
         } ?: ""
 
         if (cryptoPrompt.isDeviceCredentialOperation) {
             // TODO open intent keyguard for response
-            val keyGuardManager = ContextCompat.getSystemService(context, KeyguardManager::class.java)
-            context.startActivityForResult(
+            val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
+            retrieveContext().startActivityForResult(
                     keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription),
                     REQUEST_DEVICE_CREDENTIAL)
         }
@@ -313,7 +308,7 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
                 if (isDeviceCredentialBiometricOperation()) {
                     setAllowedAuthenticators(DEVICE_CREDENTIAL)
                 } else {
-                    setNegativeButtonText(context.getString(android.R.string.cancel))
+                    setNegativeButtonText(retrieveContext().getString(android.R.string.cancel))
                 }
             }.build()
 
@@ -449,9 +444,9 @@ class AdvancedUnlockHelper(private val context: FragmentActivity) {
          * Remove entry key in keystore
          */
         @RequiresApi(api = Build.VERSION_CODES.M)
-        fun deleteEntryKeyInKeystoreForBiometric(context: FragmentActivity,
+        fun deleteEntryKeyInKeystoreForBiometric(fragmentActivity: FragmentActivity,
                                                  advancedCallback: AdvancedUnlockErrorCallback) {
-            AdvancedUnlockHelper(context).apply {
+            AdvancedUnlockHelper{ fragmentActivity }.apply {
                 advancedUnlockCallback = object : AdvancedUnlockCallback {
                     override fun onAuthenticationSucceeded() {}
 
