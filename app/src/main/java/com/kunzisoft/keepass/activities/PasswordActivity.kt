@@ -51,7 +51,6 @@ import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
-import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -75,7 +74,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 
-open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockManager.BuilderListener {
+open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
     // Views
     private var toolbar: Toolbar? = null
