@@ -408,11 +408,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun disconnect() {
+    fun disconnect(closePrompt: Boolean = true) {
         this.databaseFileUri = null
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
-        advancedUnlockManager?.closeBiometricPrompt()
+        if (closePrompt)
+            advancedUnlockManager?.closeBiometricPrompt()
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
@@ -551,7 +552,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!keepConnection) {
-                disconnect()
+                disconnect(false)
                 advancedUnlockManager = null
             }
         }
