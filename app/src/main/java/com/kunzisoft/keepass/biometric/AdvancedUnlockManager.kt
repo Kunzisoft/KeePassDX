@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.biometric
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
@@ -142,8 +141,12 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                                         .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                                         .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
                                         // Require the user to authenticate with a fingerprint to authorize every use
-                                        // of the key
-                                        .setUserAuthenticationRequired(true)
+                                        // of the key, don't use it for device credential because it's the user authentication
+                                        .apply {
+                                            if (isBiometricOperation()) {
+                                                setUserAuthenticationRequired(true)
+                                            }
+                                        }
                                         .build())
                         keyGenerator?.generateKey()
                     }
@@ -293,7 +296,6 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         } ?: ""
 
         if (cryptoPrompt.isDeviceCredentialOperation) {
-            // TODO open intent keyguard for response
             val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
             retrieveContext().startActivityForResult(
                     keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription),
@@ -319,7 +321,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
     }
 
     @Synchronized
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == REQUEST_DEVICE_CREDENTIAL) {
             if (resultCode == Activity.RESULT_OK) {
                 advancedUnlockCallback?.onAuthenticationSucceeded()
@@ -387,14 +389,10 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             }
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.M)
         fun isDeviceSecure(context: Context): Boolean {
             val keyguardManager = ContextCompat.getSystemService(context, KeyguardManager::class.java)
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                keyguardManager?.isDeviceSecure ?: false
-            } else {
-                keyguardManager?.isKeyguardSecure ?: false
-            }
+            return keyguardManager?.isDeviceSecure ?: false
         }
 
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -418,7 +416,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             )
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.M)
         fun deviceCredentialUnlockSupported(context: Context): Boolean {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate(DEVICE_CREDENTIAL)
@@ -428,13 +426,9 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
                         )
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ContextCompat.getSystemService(context, KeyguardManager::class.java)?.apply {
-                    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        isDeviceSecure
-                    } else {
-                        isKeyguardSecure
-                    }
+                    return isDeviceSecure
                 }
             }
             return false

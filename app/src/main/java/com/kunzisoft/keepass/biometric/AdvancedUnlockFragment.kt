@@ -72,6 +72,9 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     private var mAllowAdvancedUnlockMenu = false
     private var mAddBiometricMenuInProgress = false
 
+    // Only keep connection when we request a device credential activity
+    private var keepConnection = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -113,6 +116,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // To wait resume
         activityResult = ActivityResult(requestCode, resultCode, data)
+        keepConnection = false
 
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -121,6 +125,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         super.onResume()
         mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(requireContext())
         mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())
+        keepConnection = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -148,7 +153,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             // To get device credential unlock result, only if same database uri
             activityResult?.let {
                 if (databaseUri != null) {
-                    advancedUnlockManager?.onActivityResult(it.requestCode, it.resultCode, it.data)
+                    advancedUnlockManager?.onActivityResult(it.requestCode, it.resultCode)
                 }
             } ?: run {
                 if (databaseUri != null && mAdvancedUnlockEnabled) {
@@ -167,58 +172,67 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
      */
     fun checkUnlockAvailability() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            allowOpenBiometricPrompt = true
             if (PreferencesUtil.isDeviceCredentialUnlockEnable(requireContext())) {
                 mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
+                if (AdvancedUnlockManager.isDeviceSecure(requireContext())) {
+                    selectMode()
+                } else {
+                    toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                }
             } else if (PreferencesUtil.isBiometricUnlockEnable(requireContext())) {
                 mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
-            }
 
-            // biometric not supported (by API level or hardware) so keep option hidden
-            // or manually disable
-            val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
-            allowOpenBiometricPrompt = true
-
-            if (!PreferencesUtil.isAdvancedUnlockEnable(requireContext())
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-                toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
-            } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
-                toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
-            } else {
-                // biometric is available but not configured, show icon but in disabled state with some information
-                if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-                    toggleMode(Mode.BIOMETRIC_NOT_CONFIGURED)
+                // biometric not supported (by API level or hardware) so keep option hidden
+                // or manually disable
+                val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
+                if (!PreferencesUtil.isAdvancedUnlockEnable(requireContext())
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                    toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
+                } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
+                    toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
                 } else {
-                    // Check if fingerprint well init (be called the first time the fingerprint is configured
-                    // and the activity still active)
-                    if (advancedUnlockManager?.isKeyManagerInitialized != true) {
-                        advancedUnlockManager = AdvancedUnlockManager { requireActivity() }
-                        // callback for fingerprint findings
-                        advancedUnlockManager?.advancedUnlockCallback = this
-                    }
-                    // Recheck to change the mode
-                    if (advancedUnlockManager?.isKeyManagerInitialized != true) {
-                        toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
+                    // biometric is available but not configured, show icon but in disabled state with some information
+                    if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
+                        toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                     } else {
-                        if (mBuilderListener?.conditionToStoreCredential() == true) {
-                            // listen for encryption
-                            toggleMode(Mode.STORE_CREDENTIAL)
-                        } else {
-                            databaseFileUri?.let { databaseUri ->
-                                cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
-                                    // biometric available but no stored password found yet for this DB so show info don't listen
-                                    toggleMode(if (containsCipher) {
-                                        // listen for decryption
-                                        Mode.EXTRACT_CREDENTIAL
-                                    } else {
-                                        // wait for typing
-                                        Mode.WAIT_CREDENTIAL
-                                    })
-                                }
-                            } ?: throw IODatabaseException()
-                        }
+                        selectMode()
                     }
                 }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun selectMode() {
+        // Check if fingerprint well init (be called the first time the fingerprint is configured
+        // and the activity still active)
+        if (advancedUnlockManager?.isKeyManagerInitialized != true) {
+            advancedUnlockManager = AdvancedUnlockManager { requireActivity() }
+            // callback for fingerprint findings
+            advancedUnlockManager?.advancedUnlockCallback = this
+        }
+        // Recheck to change the mode
+        if (advancedUnlockManager?.isKeyManagerInitialized != true) {
+            toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
+        } else {
+            if (mBuilderListener?.conditionToStoreCredential() == true) {
+                // listen for encryption
+                toggleMode(Mode.STORE_CREDENTIAL)
+            } else {
+                databaseFileUri?.let { databaseUri ->
+                    cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
+                        // biometric available but no stored password found yet for this DB so show info don't listen
+                        toggleMode(if (containsCipher) {
+                            // listen for decryption
+                            Mode.EXTRACT_CREDENTIAL
+                        } else {
+                            // wait for typing
+                            Mode.WAIT_CREDENTIAL
+                        })
+                    }
+                } ?: throw IODatabaseException()
             }
         }
     }
@@ -287,9 +301,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     private fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
         requireActivity().runOnUiThread {
             if (allowOpenBiometricPrompt) {
+                if (cryptoPrompt.isDeviceCredentialOperation)
+                    keepConnection = true
                 try {
-                    advancedUnlockManager
-                            ?.openAdvancedUnlockPrompt(cryptoPrompt)
+                    advancedUnlockManager?.openAdvancedUnlockPrompt(cryptoPrompt)
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to open advanced unlock prompt", e)
                     setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
@@ -348,13 +363,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             when (biometricMode) {
                 Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
                 Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
-                Mode.BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
+                Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
                 Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
                 Mode.WAIT_CREDENTIAL -> initWaitData()
                 Mode.STORE_CREDENTIAL -> initEncryptData()
                 Mode.EXTRACT_CREDENTIAL -> initDecryptData()
             }
-
             invalidateBiometricMenu()
         }
     }
@@ -402,7 +416,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
-        cipherDatabaseListener = null
         mAdvancedUnlockInfoView?.visibility = View.GONE
     }
 
@@ -441,7 +454,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                 }
                 Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> {
                 }
-                Mode.BIOMETRIC_NOT_CONFIGURED -> {
+                Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> {
                 }
                 Mode.KEY_MANAGER_UNAVAILABLE -> {
                 }
@@ -520,7 +533,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     enum class Mode {
         BIOMETRIC_UNAVAILABLE,
         BIOMETRIC_SECURITY_UPDATE_REQUIRED,
-        BIOMETRIC_NOT_CONFIGURED,
+        DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED,
         KEY_MANAGER_UNAVAILABLE,
         WAIT_CREDENTIAL,
         STORE_CREDENTIAL,
@@ -534,6 +547,15 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         fun onCredentialDecrypted(databaseUri: Uri, decryptedCredential: String)
     }
 
+    override fun onPause() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!keepConnection)
+                disconnect()
+        }
+
+        super.onPause()
+    }
+
     override fun onDestroyView() {
         mAdvancedUnlockInfoView = null
 
@@ -543,6 +565,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             disconnect()
+            advancedUnlockManager = null
             mBuilderListener = null
         }
 
@@ -551,7 +574,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onDetach() {
         mBuilderListener = null
-        biometricMode = Mode.BIOMETRIC_NOT_CONFIGURED
+        biometricMode = Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED
 
         super.onDetach()
     }
