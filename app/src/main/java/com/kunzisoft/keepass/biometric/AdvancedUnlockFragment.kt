@@ -131,7 +131,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // biometric menu
             if (mAllowAdvancedUnlockMenu)
                 inflater.inflate(R.menu.advanced_unlock, menu)
@@ -416,6 +416,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
+        biometricMode = Mode.BIOMETRIC_UNAVAILABLE
         mAdvancedUnlockInfoView?.visibility = View.GONE
     }
 
@@ -549,8 +550,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!keepConnection)
+            if (!keepConnection) {
                 disconnect()
+                advancedUnlockManager = null
+            }
         }
 
         super.onPause()
@@ -574,7 +577,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onDetach() {
         mBuilderListener = null
-        biometricMode = Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED
 
         super.onDetach()
     }
