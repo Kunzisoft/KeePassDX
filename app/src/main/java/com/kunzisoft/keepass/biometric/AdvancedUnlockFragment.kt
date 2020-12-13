@@ -247,7 +247,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initNotAvailable() {
-        showFingerPrintViews(false)
+        showViews(false)
 
         mAdvancedUnlockInfoView?.setIconViewClickListener(false, null)
     }
@@ -262,7 +262,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initSecurityUpdateRequired() {
-        showFingerPrintViews(true)
+        showViews(true)
         setAdvancedUnlockedTitleView(R.string.biometric_security_update_required)
 
         openBiometricSetting()
@@ -270,7 +270,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initNotConfigured() {
-        showFingerPrintViews(true)
+        showViews(true)
         setAdvancedUnlockedTitleView(R.string.configure_biometric)
         setAdvancedUnlockedMessageView("")
 
@@ -279,7 +279,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initKeyManagerNotAvailable() {
-        showFingerPrintViews(true)
+        showViews(true)
         setAdvancedUnlockedTitleView(R.string.keystore_not_accessible)
 
         openBiometricSetting()
@@ -287,7 +287,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initWaitData() {
-        showFingerPrintViews(true)
+        showViews(true)
         setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
         setAdvancedUnlockedMessageView("")
 
@@ -315,7 +315,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initEncryptData() {
-        showFingerPrintViews(true)
+        showViews(true)
         setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_store_credential)
         setAdvancedUnlockedMessageView("")
 
@@ -329,7 +329,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initDecryptData() {
-        showFingerPrintViews(true)
+        showViews(true)
         setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_unlock_database)
         setAdvancedUnlockedMessageView("")
 
@@ -391,7 +391,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun connect(databaseUri: Uri) {
-        mAdvancedUnlockInfoView?.visibility = View.VISIBLE
+        showViews(true)
         this.databaseFileUri = databaseUri
         cipherDatabaseListener = object: CipherDatabaseAction.DatabaseListener {
             override fun onDatabaseCleared() {
@@ -418,7 +418,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
         biometricMode = Mode.BIOMETRIC_UNAVAILABLE
-        mAdvancedUnlockInfoView?.visibility = View.GONE
+        showViews(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -506,9 +506,13 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         setAdvancedUnlockedMessageView(errorMessage)
     }
 
-    private fun showFingerPrintViews(show: Boolean) {
+    private fun showViews(show: Boolean) {
         requireActivity().runOnUiThread {
-            mAdvancedUnlockInfoView?.visibility = if (show) View.VISIBLE else View.GONE
+            mAdvancedUnlockInfoView?.visibility = if (show)
+                View.VISIBLE
+            else {
+                View.GONE
+            }
         }
     }
 
