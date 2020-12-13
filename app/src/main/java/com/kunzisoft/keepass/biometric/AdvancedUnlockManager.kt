@@ -143,7 +143,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                                         // Require the user to authenticate with a fingerprint to authorize every use
                                         // of the key, don't use it for device credential because it's the user authentication
                                         .apply {
-                                            if (isBiometricOperation()) {
+                                            if (biometricUnlockEnable) {
                                                 setUserAuthenticationRequired(true)
                                             }
                                         }
@@ -170,7 +170,6 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             return
         }
         try {
-            // TODO if (keyguardManager?.isDeviceSecure == true) {
             getSecretKey()?.let { secretKey ->
                 cipher?.let { cipher ->
                     cipher.init(Cipher.ENCRYPT_MODE, secretKey)
@@ -221,7 +220,6 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             return
         }
         try {
-            // TODO if (keyguardManager?.isDeviceSecure == true) {
             // important to restore spec here that was used for decryption
             val iv = Base64.decode(ivSpecValue, Base64.NO_WRAP)
             val spec = IvParameterSpec(iv)

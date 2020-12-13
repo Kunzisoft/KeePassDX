@@ -258,7 +258,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 }
             }
 
-            val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 AdvancedUnlockManager.deviceCredentialUnlockSupported(activity)
             } else false
             deviceCredentialUnlockEnablePreference?.apply {
@@ -266,7 +266,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
                         (preference as SwitchPreference).isChecked = false
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.LOLLIPOP)
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                 .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
                     }
