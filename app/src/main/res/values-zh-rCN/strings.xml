@@ -503,7 +503,6 @@
     <string name="keyboard_save_search_info_summary">手动选择条目时，尝试保存共享信息</string>
     <string name="keyboard_save_search_info_title">保存分享的信息</string>
     <string name="notification">通知</string>
-    <string name="crypto_object_not_initialized">无法检索加密对象。</string>
     <string name="biometric_security_update_required">需要生物识别安全更新。</string>
     <string name="configure_biometric">未登记生物识别或设备凭证。</string>
     <string name="warning_empty_recycle_bin">从回收站永久删除所有节点？</string>

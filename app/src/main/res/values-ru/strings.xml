@@ -494,7 +494,6 @@
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
     <string name="keyboard_save_search_info_summary">Сохранять общую информацию при ручном выборе записи</string>
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
-    <string name="crypto_object_not_initialized">Невозможно получить доступ к зашифрованному объекту.</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
     <string name="show_uuid_summary">Показывать UUID, связанный с записью</string>

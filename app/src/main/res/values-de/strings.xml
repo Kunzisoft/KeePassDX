@@ -508,7 +508,6 @@
     <string name="keyboard_previous_lock_summary">Automatisches Zurückschalten zur vorherigen Tastatur nach dem Sperren der Datenbank</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
-    <string name="crypto_object_not_initialized">Kryptoobjekt kann nicht abgerufen werden.</string>
     <string name="biometric_security_update_required">Biometrisches Sicherheitsupdate erforderlich.</string>
     <string name="configure_biometric">Es sind keine biometrischen oder Geräteanmeldeinformationen registriert.</string>
     <string name="registration_mode">Registrierungsmodus</string>

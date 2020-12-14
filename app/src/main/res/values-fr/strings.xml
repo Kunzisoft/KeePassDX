@@ -513,7 +513,6 @@
     <string name="keyboard_save_search_info_summary">Essayer d’enregistrer les informations partagées lors de la sélection manuelle d’une entrée</string>
     <string name="keyboard_save_search_info_title">Enregistrer les infos partagées</string>
     <string name="notification">Notification</string>
-    <string name="crypto_object_not_initialized">Impossible de récupérer l\'objet crypto.</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
     <string name="warning_empty_recycle_bin">Supprimer définitivement tous les nœuds de la corbeille \?</string>
     <string name="registration_mode">Mode enregistrement</string>

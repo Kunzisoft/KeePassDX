@@ -62,12 +62,12 @@ class AdvancedUnlockNotificationService : NotificationService() {
             action = ACTION_REMOVE_KEYS
         }
         val pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val deviceCredential = PreferencesUtil.isDeviceCredentialUnlockEnable(this)
+        val biometricUnlockEnabled = PreferencesUtil.isBiometricUnlockEnable(this)
         val notificationBuilder =  buildNewNotification().apply {
-            setSmallIcon(if (deviceCredential) {
-                R.drawable.notification_ic_device_unlock_24dp
-            } else {
+            setSmallIcon(if (biometricUnlockEnabled) {
                 R.drawable.notification_ic_fingerprint_unlock_24dp
+            } else {
+                R.drawable.notification_ic_device_unlock_24dp
             })
             intent?.let {
                 setContentTitle(getString(R.string.advanced_unlock))
