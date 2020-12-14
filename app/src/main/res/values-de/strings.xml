@@ -541,4 +541,18 @@
     <string name="advanced_unlock_tap_delete">Drücken um erweiterte Entsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Öffne Datenbank mit fortgeschriitener Entsperrungs-Erkennung</string>
+    <string name="enter">Eingabetaste</string>
+    <string name="backspace">Rücktaste</string>
+    <string name="select_entry">Wähle Eintrag</string>
+    <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
+    <string name="custom_fields">Benutzerdefinierte Felder</string>
+    <string name="advanced_unlock_delete_all_key_warning">Löschen aller Schlüssel in Zusammenhang mit Erkennung des erweiterterten Entsperrens\?</string>
+    <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
+    <string name="device_credential">Geräteanmeldedaten</string>
+    <string name="credential_before_click_advanced_unlock_button">Geben sie das Passwort ein, und dann klicken sie den \"Erweitertes Entsperren\" Knopf.</string>
+    <string name="advanced_unlock_prompt_not_initialized">Initialisieren des erweitertes Entsperren Dialogs fehlgeschlagen.</string>
+    <string name="advanced_unlock_scanning_error">Erweitertes Entsperren Fehler: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Konnte den Abdruck des erweiterten Entsperrens nicht erkennen</string>
+    <string name="advanced_unlock_invalid_key">Kann den Schlüssel zum erweiterten Entsperren nicht lesen. Bitte löschen sie ihn und wiederholen sie Prozedur zum Erkennen des Entsperrens</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extrahiere Datenbankanmeldedaten mit Daten aus erweitertem Entsperren</string>
 </resources>
