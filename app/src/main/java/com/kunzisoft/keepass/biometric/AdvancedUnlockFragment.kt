@@ -151,7 +151,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     fun loadDatabase(databaseUri: Uri?, autoOpenPrompt: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // To get device credential unlock result, only if same database uri
-            if (databaseUri != null && mAdvancedUnlockEnabled) {
+            if (databaseUri != null
+                    && mAdvancedUnlockEnabled) {
                 activityResult?.let {
                     if (databaseUri == databaseFileUri) {
                         advancedUnlockManager?.onActivityResult(it.requestCode, it.resultCode)
@@ -175,14 +176,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     fun checkUnlockAvailability() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             allowOpenBiometricPrompt = true
-            if (PreferencesUtil.isDeviceCredentialUnlockEnable(requireContext())) {
-                mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
-                if (AdvancedUnlockManager.isDeviceSecure(requireContext())) {
-                    selectMode()
-                } else {
-                    toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
-                }
-            } else if (PreferencesUtil.isBiometricUnlockEnable(requireContext())) {
+            if (PreferencesUtil.isBiometricUnlockEnable(requireContext())) {
                 mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
 
                 // biometric not supported (by API level or hardware) so keep option hidden
@@ -201,6 +195,13 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                     } else {
                         selectMode()
                     }
+                }
+            } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(requireContext())) {
+                mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
+                if (AdvancedUnlockManager.isDeviceSecure(requireContext())) {
+                    selectMode()
+                } else {
+                    toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                 }
             }
         }

@@ -71,8 +71,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
 
     private var isKeyManagerInit = false
 
-    private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(retrieveContext())
     private val biometricUnlockEnable = PreferencesUtil.isBiometricUnlockEnable(retrieveContext())
+    private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(retrieveContext())
 
     val isKeyManagerInitialized: Boolean
         get() {
@@ -81,6 +81,10 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             }
             return isKeyManagerInit
         }
+
+    private fun isBiometricOperation(): Boolean {
+        return biometricUnlockEnable || isDeviceCredentialBiometricOperation()
+    }
 
     // Since Android 30, device credential is also a biometric operation
     private fun isDeviceCredentialOperation(): Boolean {
@@ -93,13 +97,9 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                 && deviceCredentialUnlockEnable
     }
 
-    private fun isBiometricOperation(): Boolean {
-        return biometricUnlockEnable || isDeviceCredentialBiometricOperation()
-    }
-
     init {
         if (isDeviceSecure(retrieveContext())
-                && (deviceCredentialUnlockEnable || biometricUnlockEnable)) {
+                && (biometricUnlockEnable || deviceCredentialUnlockEnable)) {
             try {
                 this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
                 this.keyGenerator = KeyGenerator.getInstance(ADVANCED_UNLOCK_KEY_ALGORITHM, ADVANCED_UNLOCK_KEYSTORE)
@@ -293,13 +293,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             retrieveContext().getString(descriptionId)
         } ?: ""
 
-        if (cryptoPrompt.isDeviceCredentialOperation) {
-            val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
-            retrieveContext().startActivityForResult(
-                    keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription),
-                    REQUEST_DEVICE_CREDENTIAL)
-        }
-        else if (cryptoPrompt.isBiometricOperation) {
+        if (cryptoPrompt.isBiometricOperation) {
             val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
                 setTitle(promptTitle)
                 if (promptDescription.isNotEmpty())
@@ -311,10 +305,15 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                     setNegativeButtonText(retrieveContext().getString(android.R.string.cancel))
                 }
             }.build()
-
             biometricPrompt?.authenticate(
                     promptInfoExtractCredential,
                     BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
+        }
+        else if (cryptoPrompt.isDeviceCredentialOperation) {
+            val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
+            retrieveContext().startActivityForResult(
+                    keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription),
+                    REQUEST_DEVICE_CREDENTIAL)
         }
     }
 
