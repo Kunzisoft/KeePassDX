@@ -530,4 +530,15 @@
     <string name="open_advanced_unlock_prompt_unlock_database">Öffnen des erweiterten Entsperrdialogs zum Entsperren der Datenbank</string>
     <string name="menu_keystore_remove_key">Löschen des Schlüssels zum erweiterten Entsperren</string>
     <string name="advanced_unlock_prompt_store_credential_title">Fortschrittliche Entsperrerkennung</string>
+    <string name="education_advanced_unlock_summary">Ihr Passwort verbinden mit Ihrem gescannten biometrischen oder berechtigen Gerät um schnell Ihre Datenbank zu entsperren.</string>
+    <string name="education_advanced_unlock_title">Erweiterte Entsperrung der Datenbank</string>
+    <string name="advanced_unlock_timeout">Verfallzeit der erweiterten Entsperrung</string>
+    <string name="temp_advanced_unlock_timeout_summary">Dauer der erweiterten Entsperrung bevor sein Inhalt gelöscht wird</string>
+    <string name="temp_advanced_unlock_timeout_title">Verfall der erweiterten Entsperrung</string>
+    <string name="temp_advanced_unlock_enable_summary">Keinen verschlüsselten Inhalt speichern, um erweiterte Entsperrung zu benutzen</string>
+    <string name="temp_advanced_unlock_enable_title">Temporäre erweiterte Entsperrung</string>
+    <string name="device_credential_unlock_enable_summary">Erlaubt Ihnn die Geräteanmeldedaten zum Öffnen der Datenbank zu verwenden</string>
+    <string name="advanced_unlock_tap_delete">Drücken um erweiterte Entsperrschlüssel zu löschen</string>
+    <string name="content">Inhalt</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Öffne Datenbank mit fortgeschriitener Entsperrungs-Erkennung</string>
 </resources>
