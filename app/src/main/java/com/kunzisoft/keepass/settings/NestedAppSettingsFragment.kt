@@ -262,6 +262,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 AdvancedUnlockManager.deviceCredentialUnlockSupported(activity)
             } else false
             deviceCredentialUnlockEnablePreference?.apply {
+                // Biometric unlock already checked
+                if (biometricUnlockEnablePreference?.isChecked == true)
+                    isChecked = false
                 if (!deviceCredentialUnlockSupported) {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
