@@ -558,7 +558,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!keepConnection) {
-                disconnect(false)
+                // If close prompt, bug "user not authenticated in Android R"
+                disconnect()
                 advancedUnlockManager = null
             }
         }
