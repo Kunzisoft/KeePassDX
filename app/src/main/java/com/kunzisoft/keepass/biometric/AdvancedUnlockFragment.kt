@@ -151,17 +151,19 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     fun loadDatabase(databaseUri: Uri?, autoOpenPrompt: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // To get device credential unlock result, only if same database uri
-            activityResult?.let {
-                if (databaseUri != null) {
-                    advancedUnlockManager?.onActivityResult(it.requestCode, it.resultCode)
-                }
-            } ?: run {
-                if (databaseUri != null && mAdvancedUnlockEnabled) {
+            if (databaseUri != null && mAdvancedUnlockEnabled) {
+                activityResult?.let {
+                    if (databaseUri == databaseFileUri) {
+                        advancedUnlockManager?.onActivityResult(it.requestCode, it.resultCode)
+                    } else {
+                        disconnect()
+                    }
+                } ?: run {
                     connect(databaseUri)
                     this.mAutoOpenPrompt = autoOpenPrompt
-                } else {
-                    disconnect()
                 }
+            } else {
+                disconnect()
             }
             activityResult = null
         }
