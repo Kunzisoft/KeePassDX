@@ -1,1 +1,1 @@
- *
+ * Unlock database by device credentials (PIN/Password/Pattern) with Android M+ #102 #152 #811

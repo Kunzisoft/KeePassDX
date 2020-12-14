@@ -1,1 +1,1 @@
- *
+ * Déverouillage de base de données avec identifiants de l'appareil (PIN/Password/Pattern) pour Android M+ #102 #152 #811
