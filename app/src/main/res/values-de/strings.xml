@@ -553,6 +553,6 @@
     <string name="advanced_unlock_prompt_not_initialized">Initialisieren des erweitertes Entsperren Dialogs fehlgeschlagen.</string>
     <string name="advanced_unlock_scanning_error">Erweitertes Entsperren Fehler: %1$s</string>
     <string name="advanced_unlock_not_recognized">Konnte den Abdruck des erweiterten Entsperrens nicht erkennen</string>
-    <string name="advanced_unlock_invalid_key">Kann den Schlüssel zum erweiterten Entsperren nicht lesen. Bitte löschen sie ihn und wiederholen sie Prozedur zum Erkennen des Entsperrens</string>
+    <string name="advanced_unlock_invalid_key">Kann den Schlüssel zum erweiterten Entsperren nicht lesen. Bitte löschen sie ihn und wiederholen sie Prozedur zum Erkennen des Entsperrens.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extrahiere Datenbankanmeldedaten mit Daten aus erweitertem Entsperren</string>
 </resources>
