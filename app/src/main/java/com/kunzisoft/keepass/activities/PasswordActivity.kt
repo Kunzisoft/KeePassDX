@@ -654,25 +654,14 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                         performedNextEducation(passwordActivityEducation, menu)
                     })
 
-            // TODO Education
-            /*
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && !readOnlyEducationPerformed) {
-                val biometricCanAuthenticate = AdvancedUnlockHelper.canAuthenticate(this)
-                PreferencesUtil.isAdvancedUnlockEnable(applicationContext)
-                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                        && advancedUnlockFragment != null && advancedUnlockFragment?.visibility == View.VISIBLE
-                        && advancedUnlockFragment?.unlockIconImageView != null
-                        && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockFragment?.unlockIconImageView!!,
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        },
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        })
-            }
-
-             */
+            advancedUnlockFragment?.performEducation(passwordActivityEducation,
+                    readOnlyEducationPerformed,
+                    {
+                        performedNextEducation(passwordActivityEducation, menu)
+                    },
+                    {
+                        performedNextEducation(passwordActivityEducation, menu)
+                    })
         }
     }
 

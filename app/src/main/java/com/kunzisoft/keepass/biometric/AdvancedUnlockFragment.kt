@@ -30,10 +30,12 @@ import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import com.getkeepsafe.taptargetview.TapTargetView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.exception.IODatabaseException
+import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
@@ -536,6 +538,24 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         requireActivity().runOnUiThread {
             mAdvancedUnlockInfoView?.message = text
+        }
+    }
+
+    fun performEducation(passwordActivityEducation: PasswordActivityEducation,
+                         readOnlyEducationPerformed: Boolean,
+                         onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                         onOuterViewClick: ((TapTargetView?) -> Unit)? = null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && !readOnlyEducationPerformed) {
+            val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
+            PreferencesUtil.isAdvancedUnlockEnable(requireContext())
+                    && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                    && mAdvancedUnlockInfoView != null && mAdvancedUnlockInfoView?.visibility == View.VISIBLE
+                    && mAdvancedUnlockInfoView?.unlockIconImageView != null
+                    && passwordActivityEducation.checkAndPerformedBiometricEducation(mAdvancedUnlockInfoView!!.unlockIconImageView!!,
+                    onEducationViewClick,
+                    onOuterViewClick)
         }
     }
 
