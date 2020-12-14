@@ -413,7 +413,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun disconnect(closePrompt: Boolean = true) {
+    fun disconnect(hideViews: Boolean = true,
+                   closePrompt: Boolean = true) {
         this.databaseFileUri = null
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
@@ -423,7 +424,9 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
         biometricMode = Mode.BIOMETRIC_UNAVAILABLE
-        showViews(false)
+        if (hideViews) {
+            showViews(false)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -580,7 +583,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!keepConnection) {
                 // If close prompt, bug "user not authenticated in Android R"
-                disconnect()
+                disconnect(false)
                 advancedUnlockManager = null
             }
         }
