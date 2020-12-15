@@ -1,6 +1,7 @@
 KeePassDX(2.9.5)
  * Unlock database by device credentials (PIN/Password/Pattern) with Android M+ #102 #152 #811
  * Prevent auto switch back to previous keyboard if otp field exists #814
+ * Fix timeout reset #817
 
 KeePassDX(2.9.4)
  * Fix small bugs #812
