@@ -361,7 +361,7 @@ class EntryEditActivity : LockingActivity(),
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mDatabase?.let { database ->
-                AutofillHelper.buildResponse(this@EntryEditActivity,
+                AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
                         entry.getEntryInfo(database))
             }
         }

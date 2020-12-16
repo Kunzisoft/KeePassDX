@@ -660,7 +660,7 @@ class GroupActivity : LockingActivity(),
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
             mDatabase?.let { database ->
-                AutofillHelper.buildResponse(this,
+                AutofillHelper.buildResponseAndSetResult(this,
                         entry.getEntryInfo(database))
             }
         }
@@ -1427,7 +1427,7 @@ class GroupActivity : LockingActivity(),
                                     searchInfo,
                                     { items ->
                                         // Response is build
-                                        AutofillHelper.buildResponse(activity, items)
+                                        AutofillHelper.buildResponseAndSetResult(activity, items)
                                         onValidateSpecialMode()
                                     },
                                     {

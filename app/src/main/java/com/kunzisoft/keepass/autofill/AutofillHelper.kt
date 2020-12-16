@@ -19,18 +19,26 @@
  */
 package com.kunzisoft.keepass.autofill
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.autofill.Dataset
 import android.service.autofill.FillResponse
+import android.service.autofill.InlinePresentation
 import android.util.Log
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
+import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import androidx.autofill.inline.UiVersions
+import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -68,26 +76,10 @@ object AutofillHelper {
         return ""
     }
 
-    internal fun addHeader(responseBuilder: FillResponse.Builder,
-                           packageName: String,
-                           webDomain: String?,
-                           applicationId: String?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (webDomain != null) {
-                responseBuilder.setHeader(RemoteViews(packageName, R.layout.item_autofill_web_domain).apply {
-                    setTextViewText(R.id.autofill_web_domain_text, webDomain)
-                })
-            } else if (applicationId != null) {
-                responseBuilder.setHeader(RemoteViews(packageName, R.layout.item_autofill_app_id).apply {
-                    setTextViewText(R.id.autofill_app_id_text, applicationId)
-                })
-            }
-        }
-    }
-
-    internal fun buildDataset(context: Context,
+    private fun buildDataset(context: Context,
                               entryInfo: EntryInfo,
-                              struct: StructureParser.Result): Dataset? {
+                              struct: StructureParser.Result,
+                              inlinePresentation: InlinePresentation?): Dataset? {
         val title = makeEntryTitle(entryInfo)
         val views = newRemoteViews(context, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
@@ -100,6 +92,12 @@ object AutofillHelper {
             builder.setValue(password, AutofillValue.forText(entryInfo.password))
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            inlinePresentation?.let {
+                builder.setInlinePresentation(it)
+            }
+        }
+
         return try {
             builder.build()
         } catch (e: IllegalArgumentException) {
@@ -108,17 +106,81 @@ object AutofillHelper {
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    private fun buildInlinePresentation(context: Context,
+                                        inlineSuggestionsRequest: InlineSuggestionsRequest,
+                                        positionItem: Int,
+                                        entryInfo: EntryInfo): InlinePresentation? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+            val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
+
+            if (positionItem <= maxSuggestion-1
+                    && inlinePresentationSpecs.size > positionItem) {
+                val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
+
+                // Make sure that the IME spec claims support for v1 UI template.
+                val imeStyle = inlinePresentationSpec.style
+                if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+                    return null
+
+                // Build the content for IME UI
+                val pendingIntent = PendingIntent.getActivity(context, 4596, Intent(), 0)
+                return InlinePresentation(
+                        InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                            setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                            setTitle(entryInfo.title)
+                            setSubtitle(entryInfo.username)
+                            setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
+                                setTintBlendMode(BlendMode.DST)
+                            })
+                        }.build().slice, inlinePresentationSpec, false)
+            }
+        }
+        return null
+    }
+
+    fun buildResponse(context: Context,
+                      entriesInfo: List<EntryInfo>,
+                      parseResult: StructureParser.Result,
+                      inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse {
+        val responseBuilder = FillResponse.Builder()
+        // Add Header
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val packageName = context.packageName
+            parseResult.webDomain?.let { webDomain ->
+                responseBuilder.setHeader(RemoteViews(packageName, R.layout.item_autofill_web_domain).apply {
+                    setTextViewText(R.id.autofill_web_domain_text, webDomain)
+                })
+            } ?: kotlin.run {
+                parseResult.applicationId?.let { applicationId ->
+                    responseBuilder.setHeader(RemoteViews(packageName, R.layout.item_autofill_app_id).apply {
+                        setTextViewText(R.id.autofill_app_id_text, applicationId)
+                    })
+                }
+            }
+        }
+        // Add inline suggestion for new IME and dataset
+        entriesInfo.forEachIndexed { index, entryInfo ->
+            val inlinePresentation = inlineSuggestionsRequest?.let {
+                buildInlinePresentation(context, inlineSuggestionsRequest, index, entryInfo)
+            }
+            responseBuilder.addDataset(buildDataset(context, entryInfo, parseResult, inlinePresentation))
+        }
+        return responseBuilder.build()
+    }
+
     /**
      * Build the Autofill response for one entry
      */
-    fun buildResponse(activity: Activity, entryInfo: EntryInfo) {
-        buildResponse(activity, ArrayList<EntryInfo>().apply { add(entryInfo) })
+    fun buildResponseAndSetResult(activity: Activity, entryInfo: EntryInfo) {
+        buildResponseAndSetResult(activity, ArrayList<EntryInfo>().apply { add(entryInfo) })
     }
 
     /**
      * Build the Autofill response for many entry
      */
-    fun buildResponse(activity: Activity, entriesInfo: List<EntryInfo>) {
+    fun buildResponseAndSetResult(activity: Activity, entriesInfo: List<EntryInfo>) {
         if (entriesInfo.isEmpty()) {
             activity.setResult(Activity.RESULT_CANCELED)
         } else {
@@ -128,15 +190,14 @@ object AutofillHelper {
                     activity.intent?.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)?.let { structure ->
                         StructureParser(structure).parse()?.let { result ->
                             // New Response
-                            val responseBuilder = FillResponse.Builder()
-                            entriesInfo.forEach {
-                                responseBuilder.addDataset(buildDataset(activity, it, result))
-                            }
+                            // TODO inline suggestion
+                            val inlineSuggestionsRequest: InlineSuggestionsRequest? = null
+                            val response = buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
                             val mReplyIntent = Intent()
                             Log.d(activity.javaClass.name, "Successed Autofill auth.")
                             mReplyIntent.putExtra(
                                     AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                                    responseBuilder.build())
+                                    response)
                             setResultOk = true
                             activity.setResult(Activity.RESULT_OK, mReplyIntent)
                         }

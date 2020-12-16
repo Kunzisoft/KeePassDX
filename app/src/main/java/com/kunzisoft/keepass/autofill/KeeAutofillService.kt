@@ -24,6 +24,7 @@ import android.os.CancellationSignal
 import android.service.autofill.*
 import android.util.Log
 import android.view.autofill.AutofillId
+import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
@@ -33,8 +34,8 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
 import java.util.concurrent.atomic.AtomicBoolean
+
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
@@ -75,7 +76,15 @@ class KeeAutofillService : AutofillService() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
                         searchInfo.webDomain = webDomainWithoutSubDomain
-                        launchSelection(searchInfo, parseResult, callback)
+                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            request.inlineSuggestionsRequest
+                        } else {
+                            null
+                        }
+                        launchSelection(searchInfo,
+                                parseResult,
+                                inlineSuggestionsRequest,
+                                callback)
                     }
                 }
             }
@@ -84,18 +93,16 @@ class KeeAutofillService : AutofillService() {
 
     private fun launchSelection(searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
+                                inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                 callback: FillCallback) {
         SearchHelper.checkAutoSearchInfo(this,
                 Database.getInstance(),
                 searchInfo,
                 { items ->
-                    val responseBuilder = FillResponse.Builder()
-                    AutofillHelper.addHeader(responseBuilder, packageName,
-                            parseResult.webDomain, parseResult.applicationId)
-                    items.forEach {
-                        responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
-                    }
-                    callback.onSuccess(responseBuilder.build())
+                    callback.onSuccess(
+                            AutofillHelper.buildResponse(this,
+                                    items, parseResult, inlineSuggestionsRequest)
+                    )
                 },
                 {
                     // Show UI if no search result
