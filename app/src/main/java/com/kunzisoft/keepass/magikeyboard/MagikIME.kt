@@ -244,7 +244,8 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 if (entryInfoKey != null) {
                     currentInputConnection.commitText(entryInfoKey!!.password, 1)
                 }
-                actionGoAutomatically()
+                val otpFieldExists = entryInfoKey?.containsCustomField(OTP_TOKEN_FIELD) ?: false
+                actionGoAutomatically(!otpFieldExists)
             }
             KEY_OTP -> {
                 if (entryInfoKey != null) {
@@ -280,10 +281,11 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             currentInputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB))
     }
 
-    private fun actionGoAutomatically() {
+    private fun actionGoAutomatically(switchToPreviousKeyboardIfAllowed: Boolean = true) {
         if (PreferencesUtil.isAutoGoActionEnable(this)) {
             currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
-            if (PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
+            if (switchToPreviousKeyboardIfAllowed
+                    && PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
                 switchToPreviousKeyboard()
             }
         }

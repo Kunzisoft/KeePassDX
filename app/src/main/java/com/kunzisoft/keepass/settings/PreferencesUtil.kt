@@ -26,6 +26,7 @@ import android.net.Uri
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import java.util.*
@@ -240,14 +241,23 @@ object PreferencesUtil {
 
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val biometricSupported = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            AdvancedUnlockManager.biometricUnlockSupported(context)
+        } else {
+            false
+        }
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
+                && biometricSupported
     }
 
     fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        // Priority to biometric unlock
+        val biometricAlreadySupported = isBiometricUnlockEnable(context)
         return prefs.getBoolean(context.getString(R.string.device_credential_unlock_enable_key),
                 context.resources.getBoolean(R.bool.device_credential_unlock_enable_default))
+                && !biometricAlreadySupported
     }
 
     fun isTempAdvancedUnlockEnable(context: Context): Boolean {

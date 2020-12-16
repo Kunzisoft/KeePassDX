@@ -1,0 +1,3 @@
+ * Déverouillage de base de données avec identifiants de l'appareil (PIN/Password/Pattern) pour Android M+ #102 #152 #811
+ * Empêcher le retour automatique au clavier précédent si le champ otp existe #814
+ * Correction de la réinitialisation du timer #817

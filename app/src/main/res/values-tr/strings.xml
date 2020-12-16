@@ -486,7 +486,6 @@
     <string name="keyboard_save_search_info_summary">Elle girdi seçimi yaparken paylaşılan bilgileri kaydetmeyi dene</string>
     <string name="keyboard_save_search_info_title">Paylaşılan bilgileri kaydet</string>
     <string name="notification">Bildirim</string>
-    <string name="crypto_object_not_initialized">Şifreleme nesnesi alınamıyor.</string>
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
     <string name="configure_biometric">Biyometrik bilgiler veya aygıt kimlik doğrulama bilgileri kaydedilmedi.</string>
     <string name="warning_empty_recycle_bin">Geri dönüşüm kutusundaki tüm düğümler kalıcı olarak silinsin mi\?</string>

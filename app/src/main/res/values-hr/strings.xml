@@ -490,7 +490,6 @@
     <string name="keyboard_save_search_info_summary">Pokušaj spremiti dijeljene informacije prilikom odabira ručnog unosa</string>
     <string name="keyboard_save_search_info_title">Spremi dijeljene informacije</string>
     <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
-    <string name="crypto_object_not_initialized">Nije moguće dohvatiti kripto objekt.</string>
     <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>
     <string name="configure_biometric">Ne postoji biometrijski ključ niti podaci za prijavu uređaja.</string>
     <string name="registration_mode">Modus registracije</string>

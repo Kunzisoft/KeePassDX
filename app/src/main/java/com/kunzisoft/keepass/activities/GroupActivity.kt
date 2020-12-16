@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
@@ -153,7 +154,7 @@ class GroupActivity : LockingActivity(),
         taTextColor.recycle()
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(rootContainerView)
+        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {

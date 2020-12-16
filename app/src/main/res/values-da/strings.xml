@@ -491,7 +491,6 @@
     <string name="database_data_remove_unlinked_attachments_summary">Fjerner vedhæftede filer indeholdt i databasen, men ikke knyttet til en post</string>
     <string name="database_data_remove_unlinked_attachments_title">Fjern ikke-sammenkædede data</string>
     <string name="data">Data</string>
-    <string name="crypto_object_not_initialized">Kryptoobjektet kunne ikke hentes.</string>
     <string name="biometric_security_update_required">Biometrisk sikkerhedsopdatering påkrævet.</string>
     <string name="warning_empty_keyfile_explanation">Indholdet af nøglefilen bør aldrig ændres og bør i bedste fald indeholde tilfældigt genererede data.</string>
     <string name="warning_empty_keyfile">Det anbefales ikke at tilføje en tom nøglefil.</string>

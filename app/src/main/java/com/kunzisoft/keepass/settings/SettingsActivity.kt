@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionError
@@ -81,7 +82,7 @@ open class SettingsActivity
         }
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

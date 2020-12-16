@@ -37,6 +37,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
@@ -147,6 +148,8 @@ class EntryEditFragment: StylishFragment() {
         val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
         taIconColor?.recycle()
+
+        rootView?.resetAppTimeoutWhenViewFocusedOrChanged(requireContext())
 
         // Retrieve the new entry after an orientation change
         if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)

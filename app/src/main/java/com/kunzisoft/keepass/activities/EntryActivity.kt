@@ -40,6 +40,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -133,7 +134,7 @@ class EntryActivity : LockingActivity() {
         }
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)

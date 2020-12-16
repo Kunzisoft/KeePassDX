@@ -434,8 +434,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         when (item.itemId) {
             android.R.id.home -> UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
         }
-
-        return MenuUtil.onDefaultMenuOptionsItemSelected(this, item) && super.onOptionsItemSelected(item)
+        MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
