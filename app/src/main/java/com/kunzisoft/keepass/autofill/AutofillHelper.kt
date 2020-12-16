@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.icons.createIconFromDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 
@@ -134,6 +135,11 @@ object AutofillHelper {
                             setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
+                            buildIconFromEntry(context, entryInfo)?.let { icon ->
+                                setEndIcon(icon.apply {
+                                    setTintBlendMode(BlendMode.DST)
+                                })
+                            }
                         }.build().slice, inlinePresentationSpec, false)
             }
         }
@@ -252,5 +258,12 @@ object AutofillHelper {
                     ContextCompat.getColor(context, R.color.green))
         }
         return presentation
+    }
+
+    private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
+        return createIconFromDatabaseIcon(context,
+                Database.getInstance().drawFactory,
+                entryInfo.icon,
+                ContextCompat.getColor(context, R.color.green))
     }
 }
