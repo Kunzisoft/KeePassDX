@@ -228,7 +228,7 @@
     <string name="create_keepass_file">Utwórz nową bazę danych</string>
     <string name="recycle_bin_title">Wykorzystaj kosz</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
-    <string name="monospace_font_fields_enable_title">Krój pisma pola</string>
+    <string name="monospace_font_fields_enable_title">Czcionka pola</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalanie na kopiowanie hasła wejściowego i chronionych pól do schowka</string>
@@ -527,4 +527,12 @@
     <string name="advanced_unlock_prompt_store_credential_message">Ostrzeżenie: Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać hasło główne.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Zaawansowane rozpoznawanie odblokowania</string>
     <string name="menu_keystore_remove_key">Usuń zaawansowany klucz odblokowujący</string>
+    <string name="education_advanced_unlock_summary">Połącz swoje hasło ze zeskanowanymi danymi biometrycznymi lub danymi logowania urządzenia, aby szybko odblokować bazę danych.</string>
+    <string name="education_advanced_unlock_title">Zaawansowane odblokowywanie bazy danych</string>
+    <string name="advanced_unlock_timeout">Zaawansowany limit czasu odblokowania</string>
+    <string name="temp_advanced_unlock_timeout_summary">Czas trwania zaawansowanego odblokowywania przed usunięciem jego zawartości</string>
+    <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie zaawansowanego odblokowania</string>
+    <string name="temp_advanced_unlock_enable_summary">Nie przechowuj żadnych zaszyfrowanych treści, aby korzystać z zaawansowanego odblokowywania</string>
+    <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
+    <string name="content">Zawartość</string>
 </resources>
