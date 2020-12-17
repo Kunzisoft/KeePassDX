@@ -237,7 +237,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             Mode.WAIT_CREDENTIAL
                         })
                     }
-                } ?: throw IODatabaseException()
+                }
             }
         }
     }
