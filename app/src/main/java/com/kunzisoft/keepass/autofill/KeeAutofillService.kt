@@ -19,6 +19,10 @@
  */
 package com.kunzisoft.keepass.autofill
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.CancellationSignal
 import android.service.autofill.*
@@ -27,6 +31,8 @@ import android.view.autofill.AutofillId
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import androidx.autofill.inline.UiVersions
+import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -106,17 +112,20 @@ class KeeAutofillService : AutofillService() {
                 },
                 {
                     // Show UI if no search result
-                    showUIForEntrySelection(parseResult, searchInfo, callback)
+                    showUIForEntrySelection(parseResult,
+                            searchInfo, inlineSuggestionsRequest, callback)
                 },
                 {
                     // Show UI if database not open
-                    showUIForEntrySelection(parseResult, searchInfo, callback)
+                    showUIForEntrySelection(parseResult,
+                            searchInfo, inlineSuggestionsRequest, callback)
                 }
         )
     }
 
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
                                         searchInfo: SearchInfo,
+                                        inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                         callback: FillCallback) {
         parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
@@ -156,8 +165,41 @@ class KeeAutofillService : AutofillService() {
                         )
                     }
                 }
+
+                // Build inline presentation
+                var inlinePresentation: InlinePresentation? = null
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    inlineSuggestionsRequest?.let {
+                        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+                        if (inlineSuggestionsRequest.maxSuggestionCount > 0
+                                && inlinePresentationSpecs.size > 0) {
+                            val inlinePresentationSpec = inlinePresentationSpecs[0]
+
+                            // Make sure that the IME spec claims support for v1 UI template.
+                            val imeStyle = inlinePresentationSpec.style
+                            if (UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1)) {
+                                // Build the content for IME UI
+                                inlinePresentation = InlinePresentation(
+                                        // TODO Intent for long press
+                                        InlineSuggestionUi.newContentBuilder(
+                                                PendingIntent.getActivity(this, 4596, Intent(), 0)).apply {
+                                            setContentDescription(getString(R.string.autofill_sign_in_prompt))
+                                            setTitle(getString(R.string.autofill_sign_in_prompt))
+                                            setStartIcon(Icon.createWithResource(this@KeeAutofillService, R.mipmap.ic_launcher_round).apply {
+                                                setTintBlendMode(BlendMode.DST)
+                                            })
+                                        }.build().slice, inlinePresentationSpec, false)
+                            }
+                        }
+                    }
+                }
+
                 // Build response
-                responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                } else {
+                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
+                }
                 callback.onSuccess(responseBuilder.build())
             }
         }

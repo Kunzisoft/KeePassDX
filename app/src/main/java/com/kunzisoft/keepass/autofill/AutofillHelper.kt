@@ -107,41 +107,41 @@ object AutofillHelper {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
-    private fun buildInlinePresentation(context: Context,
-                                        inlineSuggestionsRequest: InlineSuggestionsRequest,
-                                        positionItem: Int,
-                                        entryInfo: EntryInfo): InlinePresentation? {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
-            val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
+    private fun buildInlinePresentationForEntry(context: Context,
+                                                inlineSuggestionsRequest: InlineSuggestionsRequest,
+                                                positionItem: Int,
+                                                entryInfo: EntryInfo): InlinePresentation? {
+        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+        val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
 
-            if (positionItem <= maxSuggestion-1
-                    && inlinePresentationSpecs.size > positionItem) {
-                val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
+        if (positionItem <= maxSuggestion-1
+                && inlinePresentationSpecs.size > positionItem) {
+            val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
 
-                // Make sure that the IME spec claims support for v1 UI template.
-                val imeStyle = inlinePresentationSpec.style
-                if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
-                    return null
+            // Make sure that the IME spec claims support for v1 UI template.
+            val imeStyle = inlinePresentationSpec.style
+            if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+                return null
 
-                // Build the content for IME UI
-                val pendingIntent = PendingIntent.getActivity(context, 4596, Intent(), 0)
-                return InlinePresentation(
-                        InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
-                            setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
-                            setTitle(entryInfo.title)
-                            setSubtitle(entryInfo.username)
-                            setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
+            // Build the content for IME UI
+            // TODO Intent for long press
+            val pendingIntent = PendingIntent.getActivity(context, 4596, Intent(), 0)
+            return InlinePresentation(
+                    InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                        setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                        setTitle(entryInfo.title)
+                        setSubtitle(entryInfo.username)
+                        setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
+                            setTintBlendMode(BlendMode.DST)
+                        })
+                        buildIconFromEntry(context, entryInfo)?.let { icon ->
+                            setEndIcon(icon.apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
-                            buildIconFromEntry(context, entryInfo)?.let { icon ->
-                                setEndIcon(icon.apply {
-                                    setTintBlendMode(BlendMode.DST)
-                                })
-                            }
-                        }.build().slice, inlinePresentationSpec, false)
-            }
+                        }
+                    }.build().slice, inlinePresentationSpec, false)
         }
         return null
     }
@@ -169,7 +169,11 @@ object AutofillHelper {
         // Add inline suggestion for new IME and dataset
         entriesInfo.forEachIndexed { index, entryInfo ->
             val inlinePresentation = inlineSuggestionsRequest?.let {
-                buildInlinePresentation(context, inlineSuggestionsRequest, index, entryInfo)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    buildInlinePresentationForEntry(context, inlineSuggestionsRequest, index, entryInfo)
+                } else {
+                    null
+                }
             }
             responseBuilder.addDataset(buildDataset(context, entryInfo, parseResult, inlinePresentation))
         }
