@@ -1,5 +1,5 @@
 KeePassDX(2.9.6)
- *
+ * Fix KeyFile bug #820
 
 KeePassDX(2.9.5)
  * Unlock database by device credentials (PIN/Password/Pattern) with Android M+ #102 #152 #811
