@@ -117,10 +117,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // To wait resume
-        activityResult = ActivityResult(requestCode, resultCode, data)
+        if (keepConnection) {
+            activityResult = ActivityResult(requestCode, resultCode, data)
+        }
         keepConnection = false
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onResume() {
@@ -237,7 +237,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             Mode.WAIT_CREDENTIAL
                         })
                     }
-                } ?: throw IODatabaseException()
+                }
             }
         }
     }
