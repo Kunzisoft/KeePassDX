@@ -365,14 +365,18 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     fun initAdvancedUnlockMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mAllowAdvancedUnlockMenu = false
-            when (biometricMode) {
-                Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
-                Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
-                Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
-                Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
-                Mode.WAIT_CREDENTIAL -> initWaitData()
-                Mode.STORE_CREDENTIAL -> initEncryptData()
-                Mode.EXTRACT_CREDENTIAL -> initDecryptData()
+            try {
+                when (biometricMode) {
+                    Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
+                    Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
+                    Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
+                    Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
+                    Mode.WAIT_CREDENTIAL -> initWaitData()
+                    Mode.STORE_CREDENTIAL -> initEncryptData()
+                    Mode.EXTRACT_CREDENTIAL -> initDecryptData()
+                }
+            } catch (e: Exception) {
+                onGenericException(e)
             }
             invalidateBiometricMenu()
         }
