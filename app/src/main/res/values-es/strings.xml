@@ -19,7 +19,7 @@
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
 --><resources>
-    <string name="feedback">Commentario</string>
+    <string name="feedback">Comentarios</string>
     <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
     <string name="accept">Aceptar</string>
@@ -31,7 +31,7 @@
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
-    <string name="file_manager_install_description">Explora ficheros con OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Se requiere un administrador de archivos que acepte la acciones de intención ACTION_CREATE_DOCUMENT y ACTION_OPEN_DOCUMENT para crear, abrir y guardar los archivos de la base de datos.</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
     <string name="clipboard_timeout_summary">Duración del almacenamiento en el portapapeles (si lo admite el dispositivo)</string>
@@ -68,7 +68,7 @@
     <string name="error_pass_gen_type">Debe seleccionar al menos un tipo de generación de contraseñas.</string>
     <string name="error_pass_match">Las contraseñas no coinciden.</string>
     <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
-    <string name="error_wrong_length">Proporcione un número entero positivo en el campo «Longitud».</string>
+    <string name="error_wrong_length">Introduzca un número entero positivo en el campo \"Longitud\".</string>
     <string name="file_browser">Explorador de archivos</string>
     <string name="generate_password">Generar contraseña</string>
     <string name="hint_conf_pass">Confirmar contraseña</string>
@@ -78,7 +78,7 @@
     <string name="hint_length">Longitud</string>
     <string name="password">Contraseña</string>
     <string name="hint_pass">Contraseña</string>
-    <string name="invalid_credentials">Contraseña o archivo de clave no válido.</string>
+    <string name="invalid_credentials">No se pudieron leer las credenciales.</string>
     <string name="invalid_db_sig">No se pudo reconocer el formato de la base de datos.</string>
     <string name="length">Longitud</string>
     <string name="list_size_title">Tamaño de los elementos de la lista</string>
@@ -203,9 +203,9 @@
     <string name="lock_database_screen_off_summary">Bloquear la base de datos cuando la pantalla esté apagada</string>
     <string name="advanced_unlock">Desbloqueo avanzado</string>
     <string name="biometric_unlock_enable_title">Desbloqueo biométrico</string>
-    <string name="biometric_unlock_enable_summary">Le permite escanear su huella dactilar u otro dato biométrico para abrir la base de datos</string>
+    <string name="biometric_unlock_enable_summary">Le permite escanear sus datos biométricos para abrir la base de datos</string>
     <string name="biometric_delete_all_key_title">Eliminar claves de cifrado</string>
-    <string name="biometric_delete_all_key_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento biométrico</string>
+    <string name="biometric_delete_all_key_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento de desbloqueo avanzado</string>
     <string name="unavailable_feature_text">No se pudo iniciar esta funcionalidad.</string>
     <string name="unavailable_feature_version">La versión de Android del dispositivo es %1$s, pero es necesaria la %2$s o posterior.</string>
     <string name="unavailable_feature_hardware">No se encontró el hardware correspondiente.</string>
@@ -319,7 +319,7 @@
     <string name="keyboard_key_sound_title">Emitir sonido al pulsar</string>
     <string name="selection_mode">Modo de selección</string>
     <string name="do_not_kill_app">No cierre la aplicación…</string>
-    <string name="lock_database_back_root_summary">Bloquear la base de datos cuando se pulsa el botón Atrás en la pantalla inicial</string>
+    <string name="lock_database_back_root_summary">Bloquear la base de datos cuando el usuario pulse el botón atrás en la pantalla inicial</string>
     <string name="clear_clipboard_notification_title">Vaciar al cerrar</string>
     <string name="clear_clipboard_notification_summary">Bloquear la base de datos cuando la duración del portapapeles expire o la notificación sea cerrada</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
@@ -332,7 +332,7 @@
     <string name="content_description_add_node">Añadir nodo</string>
     <string name="content_description_add_entry">Añadir entrada</string>
     <string name="content_description_add_group">Añadir grupo</string>
-    <string name="content_description_file_information">Información de archivo</string>
+    <string name="content_description_file_information">Información del archivo</string>
     <string name="content_description_password_checkbox">Casilla de contraseña</string>
     <string name="content_description_keyfile_checkbox">Casilla de archivo de clave</string>
     <string name="content_description_entry_icon">Icono de entrada</string>
@@ -348,23 +348,23 @@
     <string name="content_description_background">Fondo</string>
     <string name="content_description_update_from_list">Actualizar</string>
     <string name="content_description_keyboard_close_fields">Cerrar campos</string>
-    <string name="error_create_database_file">No se puede crear la base de datos con esta contraseña y este archivo de clave.</string>
+    <string name="error_create_database_file">No se puede crear la base de datos con esta contraseña y este archivo clave.</string>
     <string name="menu_advanced_unlock_settings">Desbloqueo avanzado</string>
     <string name="biometric">Biometría</string>
-    <string name="biometric_auto_open_prompt_title">Abrir petición de datos biométricos automáticamente</string>
-    <string name="biometric_auto_open_prompt_summary">Abrir automáticamente la petición de datos biométricos cuando se define una clave biométrica para una base de datos</string>
+    <string name="biometric_auto_open_prompt_title">Abrir petición automáticamente</string>
+    <string name="biometric_auto_open_prompt_summary">Solicitar automáticamente el desbloqueo avanzado si la base de datos está configurada para utilizarlo</string>
     <string name="enable">Activar</string>
     <string name="disable">Desactivar</string>
     <string name="education_read_only_summary">Cambiar el modo de apertura de la sesión.
 \n
 \n\"Protegido contra escritura\" evita cambios no deseados en la base de datos.
 \n\"Modificable\" le permite agregar, eliminar o modificar todos los elementos.</string>
-    <string name="lock_database_back_root_title">Presione hacia atrás en la raíz para bloquear</string>
+    <string name="lock_database_back_root_title">Presione \'Atrás\' para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
     <string name="master_key">Llave maestra</string>
     <string name="security">Seguridad</string>
     <string name="entry_history">Historial</string>
-    <string name="entry_setup_otp">Configuración de contraseña de un solo uso</string>
+    <string name="entry_setup_otp">Establecer una contraseña de una sola vez</string>
     <string name="otp_type">Tipo de contraseña de un solo uso</string>
     <string name="otp_secret">Secreto</string>
     <string name="otp_period">Período (segundos)</string>
@@ -400,7 +400,7 @@
     <string name="settings_database_force_changing_master_key_summary">Requerir un cambio de contraseña maestra (días)</string>
     <string name="settings_database_force_changing_master_key_title">Forzar renovación</string>
     <string name="max_history_size_title">Tamaño máximo</string>
-    <string name="advanced_unlock_explanation_summary">Usar desbloqueo avanzado para abrir una base de datos de manera más fácil</string>
+    <string name="advanced_unlock_explanation_summary">Usar el desbloqueo avanzado para abrir una base de datos más fácilmente</string>
     <string name="lock_database_show_button_summary">Muestra el botón de bloqueo en la interfaz</string>
     <string name="lock_database_show_button_title">Mostrar botón de bloqueo</string>
     <string name="autofill_preference_title">Configuración de autocompletado</string>
@@ -409,8 +409,8 @@
     <string name="warning_database_read_only">Otorga acceso de escritura para guardar cambios en la base de datos</string>
     <string name="show_recent_files_summary">Mostrar ubicaciones de bases de datos recientes</string>
     <string name="show_recent_files_title">Mostrar archivos recientes</string>
-    <string name="remember_database_locations_summary">Recordar la ubicación de las bases de datos</string>
-    <string name="remember_database_locations_title">Guardar ubicaciones de bases de datos</string>
+    <string name="remember_database_locations_summary">Lleva un registro de los lugares donde se almacenan las bases de datos</string>
+    <string name="remember_database_locations_title">Recordar las ubicaciones de las bases de datos</string>
     <string name="contains_duplicate_uuid">La base de datos contiene UUIDs duplicados.</string>
     <string name="menu_restore_entry_history">Restaurar historial</string>
     <string name="menu_empty_recycle_bin">Vaciar papelera de reciclaje</string>
@@ -424,7 +424,7 @@
     <string name="contribution">Contribución</string>
     <string name="contact">Contactar</string>
     <string name="error_otp_period">Período debe estar entre %1$d y %2$d segundos.</string>
-    <string name="error_copy_group_here">No se puede copiar un grupo aquí.</string>
+    <string name="error_copy_group_here">No puede copiar un grupo aquí.</string>
     <string name="database_data_compression_summary">La compresión de datos reduce el tamaño de la base de datos</string>
     <string name="database_data_compression_title">Compresión de datos</string>
     <string name="warning_empty_keyfile">No se recomienda agregar un archivo de claves vacío.</string>
@@ -457,4 +457,42 @@
 \nLa base de datos puede volverse muy grande y reducir su rendimiento con esta subida.</string>
     <string name="recycle_bin_group_title">Grupo de papelera de reciclaje</string>
     <string name="filter">Filtrar</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Elimina los archivos adjuntos contenidos en la base de datos pero no vinculados a una entrada</string>
+    <string name="database_data_remove_unlinked_attachments_title">Eliminar los datos no vinculados</string>
+    <string name="data">Datos</string>
+    <string name="advanced_unlock_delete_all_key_warning">¿Borrar todas las claves de encriptación relacionadas con el reconocimiento de desbloqueo avanzado\?</string>
+    <string name="advanced_unlock_timeout">Tiempo límite de desbloqueo avanzado</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duración del uso de desbloqueo avanzado antes de borrar su contenido</string>
+    <string name="temp_advanced_unlock_timeout_title">Expiración de desbloqueo avanzado</string>
+    <string name="temp_advanced_unlock_enable_summary">No almacenar ningún contenido encriptado para utilizar el desbloqueo avanzado</string>
+    <string name="temp_advanced_unlock_enable_title">Desbloqueo avanzado temporal</string>
+    <string name="device_credential_unlock_enable_summary">Le permite usar la credenciales de su dispositivo para abrir la base de datos</string>
+    <string name="device_credential_unlock_enable_title">Desbloqueo de las credenciales del dispositivo</string>
+    <string name="advanced_unlock_tap_delete">Toque para eliminar las teclas de desbloqueo avanzadas</string>
+    <string name="content">Contenido</string>
+    <string name="clipboard_explanation_summary">Copiar los campos de entrada usando el portapapeles de su dispositivo</string>
+    <string name="device_credential">Credenciales del dispositivo</string>
+    <string name="credential_before_click_advanced_unlock_button">Introduzca la contraseña y luego haga clic en el botón \"Desbloqueo avanzado\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">No se pudo inicializar el indicador de desbloqueo avanzado.</string>
+    <string name="advanced_unlock_scanning_error">Error de desbloqueo avanzado: %1$s</string>
+    <string name="advanced_unlock_not_recognized">No se pudo reconocer la impresión de desbloqueo avanzado</string>
+    <string name="advanced_unlock_invalid_key">No se pudo leer la llave de desbloqueo avanzada. Por favor, bórrela y repita el procedimiento de reconocimiento de desbloqueo.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extraer la credencial de la base de datos con datos de desbloqueo avanzado</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Abrir la base de datos con reconocimiento de desbloqueo avanzado</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Advertencia: Aún debes recordar tu contraseña maestra si usas el reconocimiento de desbloqueo avanzado.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Reconocimiento de desbloqueo avanzado</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Abrir el indicador de desbloqueo avanzado para almacenar las credenciales</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Abrir el aviso de desbloqueo avanzado para desbloquear la base de datos</string>
+    <string name="keystore_not_accessible">El almacén de claves no está debidamente inicializado.</string>
+    <string name="biometric_security_update_required">Se requiere una actualización de la seguridad biométrica.</string>
+    <string name="configure_biometric">No se ha inscrito ninguna credencial biométrica o del dispositivo.</string>
+    <string name="warning_empty_keyfile_explanation">El contenido del archivo clave nunca debe modificarse y, en el mejor de los casos, debe contener datos generados al azar.</string>
+    <string name="warning_empty_recycle_bin">¿Borrar permanentemente todos los nodos de la papelera de reciclaje\?</string>
+    <string name="registration_mode">Modo de registro</string>
+    <string name="save_mode">Modo de guardado</string>
+    <string name="search_mode">Modo de búsqueda</string>
+    <string name="contains_duplicate_uuid_procedure">¿Resolver el problema generando nuevos UUID para que los duplicados continúen\?</string>
+    <string name="menu_keystore_remove_key">Borrar la clave de desbloqueo avanzado</string>
+    <string name="error_field_name_already_exists">El nombre del campo ya existe.</string>
+    <string name="error_registration_read_only">Guardar un nuevo elemento no está permitido en una base de datos de sólo lectura</string>
 </resources>
