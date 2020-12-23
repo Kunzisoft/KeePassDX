@@ -34,7 +34,7 @@
     <string name="file_manager_install_description">Se requiere un administrador de archivos que acepte la acciones de intención ACTION_CREATE_DOCUMENT y ACTION_OPEN_DOCUMENT para crear, abrir y guardar los archivos de la base de datos.</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
-    <string name="clipboard_timeout_summary">Duración del almacenamiento en el portapapeles (si lo admite el dispositivo)</string>
+    <string name="clipboard_timeout_summary">Duración del almacenamiento en el portapapeles (si lo admite su dispositivo)</string>
     <string name="select_to_copy">Seleccionar para copiar %1$s en el portapapeles</string>
     <string name="retrieving_db_key">Creando clave de la base de datos…</string>
     <string name="database">Base de datos</string>
@@ -328,7 +328,7 @@
     <string name="delete_entered_password_title">Eliminar contraseña</string>
     <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una bse de datos</string>
     <string name="content_description_open_file">Abrir archivo</string>
-    <string name="content_description_node_children">Elementos secundarios del nodo</string>
+    <string name="content_description_node_children">Nodos hijo</string>
     <string name="content_description_add_node">Añadir nodo</string>
     <string name="content_description_add_entry">Añadir entrada</string>
     <string name="content_description_add_group">Añadir grupo</string>
@@ -339,7 +339,7 @@
     <string name="entry_password_generator">Generador de contraseñas</string>
     <string name="content_description_password_length">Longitud de contraseña</string>
     <string name="entry_add_field">Añadir campo</string>
-    <string name="content_description_remove_field">Eliminar campo</string>
+    <string name="content_description_remove_field">Eliminar el campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">No se puede mover una entrada aquí.</string>
     <string name="error_copy_entry_here">No se puede copiar una entrada aquí.</string>
@@ -361,7 +361,7 @@
 \n\"Modificable\" le permite agregar, eliminar o modificar todos los elementos como desee.</string>
     <string name="lock_database_back_root_title">Presione \'Atrás\' para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
-    <string name="master_key">Llave maestra</string>
+    <string name="master_key">Clave maestra</string>
     <string name="security">Seguridad</string>
     <string name="entry_history">Historial</string>
     <string name="entry_setup_otp">Establecer una contraseña de una sola vez</string>
@@ -422,7 +422,7 @@
     <string name="discard_changes">¿Descartar cambios\?</string>
     <string name="validate">Validar</string>
     <string name="contribution">Contribución</string>
-    <string name="contact">Contactar</string>
+    <string name="contact">Contacto</string>
     <string name="error_otp_period">Período debe estar entre %1$d y %2$d segundos.</string>
     <string name="error_copy_group_here">No puede copiar un grupo aquí.</string>
     <string name="database_data_compression_summary">La compresión de datos reduce el tamaño de la base de datos</string>
@@ -445,7 +445,7 @@
     <string name="menu_delete_entry_history">Borrar historial</string>
     <string name="error_otp_digits">El token debe tener de %1$d a %2$d dígitos.</string>
     <string name="entry_attachments">Archivos adjuntos</string>
-    <string name="entry_add_attachment">Adjuntar</string>
+    <string name="entry_add_attachment">Añadir el archivo adjunto</string>
     <string name="content_description_credentials_information">Información de credenciales</string>
     <string name="database_opened">Base de datos abierta</string>
     <string name="education_add_attachment_title">Adjuntar</string>
@@ -503,7 +503,7 @@
     <string name="database_custom_color_title">Color personalizado de la base de datos</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar cambiar la contraseña maestra (días)</string>
     <string name="notification">Notificación</string>
-    <string name="hide_expired_entries_title">Ocultar entradas expiradas</string>
+    <string name="hide_expired_entries_title">Ocultar las entradas expiradas</string>
     <string name="keyboard_search_share_title">Buscar información compartida</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
@@ -541,4 +541,6 @@
     <string name="keyboard_save_search_info_summary">Intentar guardar la información compartida cuando hagas una selección de entrada manual</string>
     <string name="keyboard_save_search_info_title">Guardar información compartida</string>
     <string name="keyboard_search_share_summary">Buscar automáticamente la información compartida para llenar el teclado</string>
+    <string name="show_uuid_summary">Muestra el UUID vinculado a una entrada</string>
+    <string name="show_uuid_title">Mostrar UUID</string>
 </resources>
