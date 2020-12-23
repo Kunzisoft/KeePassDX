@@ -499,4 +499,7 @@
     <string name="max_history_size_summary">Limitar el tamaño del historial (en bytes) por entrada</string>
     <string name="max_history_items_summary">Limitar el número de elementos del historial por entrada</string>
     <string name="max_history_items_title">Número máximo</string>
+    <string name="device_keyboard_setting_title">Configuración de teclado del sistema</string>
+    <string name="database_custom_color_title">Color personalizado de la base de datos</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Recomendar cambiar la contraseña maestra (días)</string>
 </resources>
