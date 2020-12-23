@@ -153,7 +153,7 @@
     <string name="field_name">Nombre del campo</string>
     <string name="field_value">Valor del campo</string>
     <string name="file_not_found_content">No se pudo encontrar el archivo. Intente volver a abrirlo en el explorador de archivos.</string>
-    <string name="invalid_algorithm">El algoritmo es incorrecto.</string>
+    <string name="invalid_algorithm">Algoritmo incorrecto.</string>
     <string name="keyfile_is_empty">El archivo de clave está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
     <string name="menu_form_filling_settings">Llenado de formulario</string>
@@ -343,8 +343,8 @@
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">No puede mover una entrada aquí.</string>
     <string name="error_copy_entry_here">No puede copiar una entrada aquí.</string>
-    <string name="list_groups_show_number_entries_title">Mostrar cantidad de entradas</string>
-    <string name="list_groups_show_number_entries_summary">Mostrar la cantidad de entradas en un grupo</string>
+    <string name="list_groups_show_number_entries_title">Mostrar el número de entradas</string>
+    <string name="list_groups_show_number_entries_summary">Mostrar el número de entradas en un grupo</string>
     <string name="content_description_background">Fondo</string>
     <string name="content_description_update_from_list">Actualizar</string>
     <string name="content_description_keyboard_close_fields">Cerrar campos</string>
@@ -377,7 +377,7 @@
     <string name="error_otp_secret_key">Clave secreta debe estar en formato Base32.</string>
     <string name="error_otp_counter">Contador debe estar entre %1$d y %2$d.</string>
     <string name="error_save_database">No se puede guardar la base de datos.</string>
-    <string name="error_string_type">El texto no encaja con el elemento requerido.</string>
+    <string name="error_string_type">Este texto no coincide con el elemento requerido.</string>
     <string name="error_create_database">No fue posible crear el archivo de base de datos.</string>
     <string name="html_about_contribution">Parar lograr <strong>mantener nuestra libertad</strong>, <strong>corregir errores</strong>, <strong>agregar características</strong> y <strong>estar siempre activos</strong>, contamos con tu <strong>contribución</strong>.</string>
     <string name="content_description_add_item">Añadir elemento</string>
