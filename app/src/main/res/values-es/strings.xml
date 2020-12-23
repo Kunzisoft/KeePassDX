@@ -442,7 +442,7 @@
     <string name="subdomain_search_title">Búsqueda de subdominio</string>
     <string name="auto_focus_search_summary">Solicite una búsqueda al abrir una base de datos</string>
     <string name="auto_focus_search_title">Búsqueda rápida</string>
-    <string name="menu_delete_entry_history">Borrar historial</string>
+    <string name="menu_delete_entry_history">Eliminar historial</string>
     <string name="error_otp_digits">El token debe contener de %1$d a %2$d dígitos.</string>
     <string name="entry_attachments">Archivos adjuntos</string>
     <string name="entry_add_attachment">Añadir el archivo adjunto</string>
