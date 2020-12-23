@@ -377,7 +377,7 @@
     <string name="error_otp_secret_key">Clave secreta debe estar en formato Base32.</string>
     <string name="error_otp_counter">Contador debe estar entre %1$d y %2$d.</string>
     <string name="error_save_database">No se puede guardar la base de datos.</string>
-    <string name="error_string_type">Este texto no encaja con la información requerida.</string>
+    <string name="error_string_type">El texto no encaja con el elemento requerido.</string>
     <string name="error_create_database">No fue posible crear el archivo de base de datos.</string>
     <string name="html_about_contribution">Parar lograr <strong>mantener la libertad</strong>, <strong>corregir errores</strong>, <strong>agregar características</strong> y <strong>estar siempre activos</strong>, contamos con tu <strong>contribución</strong>.</string>
     <string name="content_description_add_item">Añadir elemento</string>
@@ -443,7 +443,7 @@
     <string name="auto_focus_search_summary">Solicite una búsqueda al abrir una base de datos</string>
     <string name="auto_focus_search_title">Búsqueda rápida</string>
     <string name="menu_delete_entry_history">Borrar historial</string>
-    <string name="error_otp_digits">El token debe tener de %1$d a %2$d dígitos.</string>
+    <string name="error_otp_digits">El token debe contener de %1$d a %2$d dígitos.</string>
     <string name="entry_attachments">Archivos adjuntos</string>
     <string name="entry_add_attachment">Añadir el archivo adjunto</string>
     <string name="content_description_credentials_information">Información de credenciales</string>
