@@ -455,4 +455,6 @@
     <string name="warning_file_too_big">Se supone que una base de datos KeePass contiene solo pequeños archivos de utilidad (como archivos de clave PGP).
 \n
 \nLa base de datos puede volverse muy grande y reducir su rendimiento con esta subida.</string>
+    <string name="recycle_bin_group_title">Grupo de papelera de reciclaje</string>
+    <string name="filter">Filtrar</string>
 </resources>
