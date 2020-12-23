@@ -215,7 +215,7 @@
     <string name="create_keepass_file">Crear base de datos nueva</string>
     <string name="recycle_bin_title">Uso de la papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueve los grupos y las entradas al grupo \"Papelera de reciclaje\" antes de eliminarlos</string>
-    <string name="monospace_font_fields_enable_title">Fuente de los campos</string>
+    <string name="monospace_font_fields_enable_title">Tipografía del campo</string>
     <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
     <string name="allow_copy_password_title">Portapapeles de confianza</string>
     <string name="allow_copy_password_summary">Permitir copiar la contraseña de entrada y los campos protegidos al portapapeles</string>
@@ -223,7 +223,7 @@
     <string name="database_description_title">Descripción de la base de datos</string>
     <string name="database_version_title">Versión de la base de datos</string>
     <string name="text_appearance">Texto</string>
-    <string name="application_appearance">Aplicación</string>
+    <string name="application_appearance">Interfaz</string>
     <string name="other">Otro</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Teclado mágico</string>
@@ -291,7 +291,7 @@
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="build_label">Compilación %1$s</string>
     <string name="clipboard_warning">Si la eliminación del cortapapeles falla, elimine su historial manualmente.</string>
-    <string name="allow_copy_password_warning">ATENCIÓN: todas las aplicaciones comparten el portapapeles. Si copia datos confidenciales, otros programas podrían recuperarlos.</string>
+    <string name="allow_copy_password_warning">Advertencia: El portapapeles es compartido por todas las aplicaciones. Si se copian datos sensibles, otros programas pueden recuperarlos.</string>
     <string name="allow_no_password_title">No permitir claves maestras</string>
     <string name="allow_no_password_summary">Activar el botón «Abrir» si no se selecciona ninguna credencial</string>
     <string name="enable_education_screens_title">Pantallas didácticas</string>
@@ -321,7 +321,7 @@
     <string name="do_not_kill_app">No cierre la aplicación…</string>
     <string name="lock_database_back_root_summary">Bloquear la base de datos cuando el usuario pulse el botón atrás en la pantalla inicial</string>
     <string name="clear_clipboard_notification_title">Vaciar al cerrar</string>
-    <string name="clear_clipboard_notification_summary">Bloquear la base de datos cuando la duración del portapapeles expire o la notificación sea cerrada</string>
+    <string name="clear_clipboard_notification_summary">Bloquear la base de datos cuando expire la duración del portapapeles o cuando se cierre la notificación después de empezar a utilizarla</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
     <string name="keyboard_selection_entry_title">Selección de entrada</string>
     <string name="keyboard_selection_entry_summary">Mostrar campos de entrada en el Teclado mágico al ver una entrada</string>
@@ -395,9 +395,9 @@
     <string name="compression_none">Ninguna</string>
     <string name="compression">Compresión</string>
     <string name="database_default_username_title">Nombre de usuario predeterminado</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Requerir cambiar la contraseña maestra la próxima vez (una sola vez)</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Requerir cambiar la contraseña maestra la próxima vez (una vez)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Forzar renovación la próxima vez</string>
-    <string name="settings_database_force_changing_master_key_summary">Requerir un cambio de contraseña maestra (días)</string>
+    <string name="settings_database_force_changing_master_key_summary">Requerir un cambio de la contraseña maestra (días)</string>
     <string name="settings_database_force_changing_master_key_title">Forzar renovación</string>
     <string name="max_history_size_title">Tamaño máximo</string>
     <string name="advanced_unlock_explanation_summary">Usar el desbloqueo avanzado para abrir una base de datos más fácilmente</string>
@@ -495,11 +495,12 @@
     <string name="menu_keystore_remove_key">Borrar la clave de desbloqueo avanzado</string>
     <string name="error_field_name_already_exists">El nombre del campo ya existe.</string>
     <string name="error_registration_read_only">Guardar un nuevo elemento no está permitido en una base de datos de sólo lectura</string>
-    <string name="settings_database_recommend_changing_master_key_title">Recomendar renovación</string>
+    <string name="settings_database_recommend_changing_master_key_title">Recomendar la renovación</string>
     <string name="max_history_size_summary">Limitar el tamaño del historial (en bytes) por entrada</string>
     <string name="max_history_items_summary">Limitar el número de elementos del historial por entrada</string>
     <string name="max_history_items_title">Número máximo</string>
     <string name="device_keyboard_setting_title">Configuración de teclado del sistema</string>
     <string name="database_custom_color_title">Color personalizado de la base de datos</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar cambiar la contraseña maestra (días)</string>
+    <string name="notification">Notificación</string>
 </resources>
