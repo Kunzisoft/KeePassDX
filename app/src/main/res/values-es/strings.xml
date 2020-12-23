@@ -495,4 +495,5 @@
     <string name="menu_keystore_remove_key">Borrar la clave de desbloqueo avanzado</string>
     <string name="error_field_name_already_exists">El nombre del campo ya existe.</string>
     <string name="error_registration_read_only">Guardar un nuevo elemento no está permitido en una base de datos de sólo lectura</string>
+    <string name="settings_database_recommend_changing_master_key_title">Recomendar renovación</string>
 </resources>
