@@ -503,4 +503,6 @@
     <string name="database_custom_color_title">Color personalizado de la base de datos</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar cambiar la contraseña maestra (días)</string>
     <string name="notification">Notificación</string>
+    <string name="hide_expired_entries_title">Ocultar entradas expiradas</string>
+    <string name="keyboard_search_share_title">Buscar información compartida</string>
 </resources>
