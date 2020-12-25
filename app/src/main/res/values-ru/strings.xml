@@ -519,10 +519,10 @@
     <string name="advanced_unlock_not_recognized">Невозможно распознать расширенную разблокировку</string>
     <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ расширенной разблокировки. Удалите его и повторите процедуру распознавания разблокировки.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием расширенной разблокировки</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Открывать базу с расширенным распознаванием разблокировки</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Открыть базу с расширенным распознаванием разблокировки</string>
     <string name="advanced_unlock_prompt_store_credential_message">Предупреждение: даже при использовании расширенной разблокировки вам всё равно необходимо помнить главный пароль.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Открывать запрос расширенной разблокировки для сохранения учётных данных</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Открывать запрос расширенной разблокировки для разблокировки базы</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Открыть запрос расширенной разблокировки для сохранения учётных данных</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Открыть запрос расширенной разблокировки для разблокировки базы</string>
     <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки\?</string>
     <string name="advanced_unlock_scanning_error">Ошибка расширенной разблокировки: %1$s</string>
     <string name="advanced_unlock_prompt_store_credential_title">Распознавание расширенной разблокировки</string>
