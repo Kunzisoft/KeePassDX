@@ -401,9 +401,9 @@
     <string name="hide_broken_locations_title">Nascondi i collegamenti dei database corrotti</string>
     <string name="show_recent_files_summary">Mostra le posizioni dei database recenti</string>
     <string name="show_recent_files_title">Mostra file recenti</string>
-    <string name="remember_keyfile_locations_title">Ricorda la posizione dei file chiave</string>
+    <string name="remember_keyfile_locations_title">Ricorda posizione file chiave</string>
     <string name="remember_database_locations_summary">Ricorda la posizione dei database</string>
-    <string name="remember_database_locations_title">Ricorda la posizione dei database</string>
+    <string name="remember_database_locations_title">Ricorda posizione database</string>
     <string name="contains_duplicate_uuid_procedure">Per continuare, risolvi il problema generando nuovi UUID per i duplicati\?</string>
     <string name="error_create_database">Impossibile creare il file del database.</string>
     <string name="entry_add_attachment">Aggiungi allegato</string>
@@ -540,8 +540,10 @@
     <string name="device_credential">Credenziali del dispositivo</string>
     <string name="credential_before_click_advanced_unlock_button">Inserisci la password, quindi clicca sull\'icona \"Sblocco avanzato\".</string>
     <string name="advanced_unlock_scanning_error">Errore sblocco avanzato: %1$s</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Apri il database autenticando con lo sblocco avanzato</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Apri il database con lo sblocco avanzato</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Autentica con lo sblocco avanzato per sbloccare il database</string>
     <string name="open_advanced_unlock_prompt_store_credential">Autentica con lo sblocco avanzato per salvare le credenziali</string>
     <string name="menu_keystore_remove_key">Elimina chiave di sblocco avanzato</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
 </resources>
