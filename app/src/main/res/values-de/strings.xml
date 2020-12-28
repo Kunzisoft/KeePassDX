@@ -538,7 +538,7 @@
     <string name="device_credential_unlock_enable_summary">Erlaubt Ihnn die Geräteanmeldedaten zum Öffnen der Datenbank zu verwenden</string>
     <string name="advanced_unlock_tap_delete">Drücken um erweiterte Entsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Öffne Datenbank mit fortgeschriitener Entsperrungs-Erkennung</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Öffne Datenbank mit fortgeschrittener Entsperrungs-Erkennung</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Wähle Eintrag</string>
