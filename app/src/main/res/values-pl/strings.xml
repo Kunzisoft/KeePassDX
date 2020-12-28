@@ -529,11 +529,14 @@
     <string name="menu_keystore_remove_key">Usuń zaawansowany klucz odblokowujący</string>
     <string name="education_advanced_unlock_summary">Połącz swoje hasło ze zeskanowanymi danymi biometrycznymi lub danymi logowania urządzenia, aby szybko odblokować bazę danych.</string>
     <string name="education_advanced_unlock_title">Zaawansowane odblokowywanie bazy danych</string>
-    <string name="advanced_unlock_timeout">Zaawansowany limit czasu odblokowania</string>
+    <string name="advanced_unlock_timeout">Limit czasu zaawansowanego odblokowywania</string>
     <string name="temp_advanced_unlock_timeout_summary">Czas trwania zaawansowanego odblokowywania przed usunięciem jego zawartości</string>
     <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie zaawansowanego odblokowania</string>
     <string name="temp_advanced_unlock_enable_summary">Nie przechowuj żadnych zaszyfrowanych treści, aby korzystać z zaawansowanego odblokowywania</string>
     <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
     <string name="content">Zawartość</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otwórz bazę danych z zaawansowanym rozpoznawaniem odblokowania</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="advanced_unlock_scanning_error">Błąd zaawansowanego odblokowywania: %1$s</string>
 </resources>
