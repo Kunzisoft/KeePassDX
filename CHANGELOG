@@ -1,5 +1,6 @@
 KeePassDX(2.9.7)
- *
+ * Fix small bugs
+ * Remove write permission since Android 10
 
 KeePassDX(2.9.6)
  * Fix KeyFile bug #820
