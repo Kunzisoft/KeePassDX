@@ -41,8 +41,8 @@
     <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
     <string name="default_checkbox">Utilizar como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft es de <strong>código abierto</strong> y <strong>sin publicidad</strong>.
-\nSe proporciona tal cual, bajo licencia <strong>GPLv3</strong>, sin ninguna garantía.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft es de &lt;strong&gt;código abierto&lt;/strong&gt; y &lt;strong&gt;sin publicidad&lt;/strong&gt;.
+\nSe proporciona tal cual, bajo licencia &lt;strong&gt;GPLv3&lt;/strong&gt;, sin ninguna garantía.</string>
     <string name="select_database_file">Abrir base de datos existente</string>
     <string name="entry_accessed">Accedido</string>
     <string name="entry_cancel">Cancelar</string>
@@ -261,13 +261,13 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
     <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta es &lt;strong&gt;sin publicidad&lt;/strong&gt;, &lt;strong&gt;software libre con copyleft&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
-    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso al <strong>estilo visual </strong>y ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
-    <string name="html_text_feature_generosity">Este <strong>estilo visual </strong>está disponible gracias a tu generosidad.</string>
+    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso al &lt;strong&gt;estilo visual &lt;/strong&gt;y ayudará especialmente a &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual &lt;/strong&gt;está disponible gracias a tu generosidad.</string>
     <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu &lt;strong&gt;contribución.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
     <string name="html_text_dev_feature_buy_pro">Al comprar la versión &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Al &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">anima a los desarrolladores a crear <strong>nuevas funciones</strong> y a <strong>corregir errores</strong> de acuerdo con sus comentarios.</string>
+    <string name="html_text_dev_feature_encourage">anima a los desarrolladores a crear &lt;strong&gt;nuevas funciones&lt;/strong&gt; y a &lt;strong&gt;corregir errores&lt;/strong&gt; de acuerdo con sus comentarios.</string>
     <string name="html_text_dev_feature_thanks">Muchas gracias por tu contribución.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
     <string name="html_text_dev_feature_upgrade">Recuerde mantener su aplicación actualizada instalando nuevas versiones.</string>
@@ -381,7 +381,7 @@
     <string name="error_save_database">No se puede guardar la base de datos.</string>
     <string name="error_string_type">Este texto no coincide con el elemento requerido.</string>
     <string name="error_create_database">No fue posible crear el archivo de base de datos.</string>
-    <string name="html_about_contribution">Parar lograr <strong>mantener nuestra libertad</strong>, <strong>corregir errores</strong>, <strong>agregar características</strong> y <strong>estar siempre activos</strong>, contamos con tu <strong>contribución</strong>.</string>
+    <string name="html_about_contribution">Parar lograr &lt;strong&gt;mantener nuestra libertad&lt;/strong&gt;, &lt;strong&gt;corregir errores&lt;/strong&gt;, &lt;strong&gt;agregar características&lt;/strong&gt; y &lt;strong&gt;estar siempre activos&lt;/strong&gt;, contamos con tu &lt;strong&gt;contribución&lt;/strong&gt;.</string>
     <string name="content_description_add_item">Añadir elemento</string>
     <string name="download_complete">¡Completado!</string>
     <string name="download_finalization">Finalizando…</string>
