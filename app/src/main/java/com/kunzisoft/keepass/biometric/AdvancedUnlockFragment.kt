@@ -304,7 +304,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             if (allowOpenBiometricPrompt) {
                 if (cryptoPrompt.isDeviceCredentialOperation)
                     keepConnection = true
@@ -392,7 +392,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             && (biometricMode != Mode.BIOMETRIC_UNAVAILABLE
                             && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
                     mAddBiometricMenuInProgress = false
-                    requireActivity().invalidateOptionsMenu()
+                    activity?.invalidateOptionsMenu()
                 }
             }
         }
@@ -446,7 +446,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
             setAdvancedUnlockedMessageView(errString.toString())
         }
@@ -454,7 +454,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationFailed() {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             Log.e(TAG, "Biometric authentication failed, biometric not recognized")
             setAdvancedUnlockedMessageView(R.string.advanced_unlock_not_recognized)
         }
@@ -462,7 +462,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationSucceeded() {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             when (biometricMode) {
                 Mode.BIOMETRIC_UNAVAILABLE -> {
                 }
@@ -521,7 +521,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     private fun showViews(show: Boolean) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.visibility = if (show)
                 View.VISIBLE
             else {
@@ -532,20 +532,20 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedTitleView(textId: Int) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.setTitle(textId)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(textId: Int) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.setMessage(textId)
         }
     }
 
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.message = text
         }
     }
