@@ -329,7 +329,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             mAdvancedUnlockInfoView?.setIconViewClickListener { _ ->
                 openAdvancedUnlockPrompt(cryptoPrompt)
             }
-        } ?: throw Exception("AdvancedUnlockHelper not initialized")
+        } ?: throw Exception("AdvancedUnlockManager not initialized")
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -358,7 +358,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                     } ?: deleteEncryptedDatabaseKey()
                 }
             } ?: throw IODatabaseException()
-        } ?: throw Exception("AdvancedUnlockHelper not initialized")
+        } ?: throw Exception("AdvancedUnlockManager not initialized")
     }
 
     @Synchronized
@@ -489,7 +489,9 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                                 advancedUnlockManager?.decryptData(value)
                             } ?: deleteEncryptedDatabaseKey()
                         }
-                    } ?: throw IODatabaseException()
+                    } ?: run {
+                        onAuthenticationError(-1, getString(R.string.error_database_uri_null))
+                    }
                 }
             }
         }
