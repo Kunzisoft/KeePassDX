@@ -317,7 +317,12 @@ class GroupActivity : LockingActivity(),
                         if (result.isSuccess) {
 
                             // Rebuild all the list to avoid bug when delete node from sort
-                            mListNodesFragment?.rebuildList()
+                            try {
+                                mListNodesFragment?.rebuildList()
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Unable to rebuild the list after deletion")
+                                e.printStackTrace()
+                            }
 
                             // Add trash in views list if it doesn't exists
                             if (database.isRecycleBinEnabled) {
@@ -1125,7 +1130,16 @@ class GroupActivity : LockingActivity(),
     private fun rebuildListNodes() {
         mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
         // to refresh fragment
-        mListNodesFragment?.rebuildList()
+        try {
+            mListNodesFragment?.rebuildList()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            coordinatorLayout?.let { coordinatorLayout ->
+                Snackbar.make(coordinatorLayout,
+                        R.string.error_rebuild_list,
+                        Snackbar.LENGTH_LONG).asError().show()
+            }
+        }
         mCurrentGroup = mListNodesFragment?.mainGroup
         // Remove search in intent
         deletePreviousSearchGroup()

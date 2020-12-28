@@ -22,30 +22,24 @@ package com.kunzisoft.keepass.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.*
+import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.view.ActionMode
-
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.adapters.NodeAdapter
-import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.stylish.StylishFragment
+import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
@@ -197,7 +191,12 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
 
         // Refresh data
-        rebuildList()
+        try {
+            rebuildList()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to rebuild the list during resume")
+            e.printStackTrace()
+        }
 
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
@@ -209,10 +208,12 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
+    @Throws(IllegalArgumentException::class)
     fun rebuildList() {
         // Add elements to the list
         mainGroup?.let { mainGroup ->
             mAdapter?.apply {
+                // Thrown an exception when sort cannot be performed
                 rebuildList(mainGroup)
                 // To visually change the elements
                 if (PreferencesUtil.APPEARANCE_CHANGED) {
@@ -231,8 +232,13 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
 
         // Tell the adapter to refresh it's list
-        mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
-        rebuildList()
+        try {
+            mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
+            rebuildList()
+        } catch (e:Exception) {
+            Log.e(TAG, "Unable to rebuild the list with the sort")
+            e.printStackTrace()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
