@@ -541,6 +541,6 @@
     <string name="temp_advanced_unlock_enable_title">临时性高级解锁</string>
     <string name="advanced_unlock_tap_delete">点击删除高级解锁密钥</string>
     <string name="content">内容</string>
-    <string name="kdf_Argon2id">Argon2id 基于密码的密钥推导函数</string>
-    <string name="kdf_Argon2d">Argon2d 密钥推导函数</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
 </resources>
