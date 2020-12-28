@@ -543,4 +543,6 @@
     <string name="content">Вміст</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Не вдалося належним чином відновити список.</string>
+    <string name="error_database_uri_null">Неможливо отримати URI бази даних.</string>
 </resources>
