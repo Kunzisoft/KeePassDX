@@ -546,4 +546,6 @@
     <string name="menu_keystore_remove_key">Elimina chiave di sblocco avanzato</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>
+    <string name="error_database_uri_null">Non è stato recuperato l\'indirizzo del database.</string>
 </resources>
