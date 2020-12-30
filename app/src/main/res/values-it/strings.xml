@@ -428,7 +428,7 @@
     <string name="settings_database_recommend_changing_master_key_title">Rinnovo raccomandato</string>
     <string name="hide_expired_entries_summary">Le voci scadute non sono mostrate</string>
     <string name="hide_expired_entries_title">Nascondi le voci scadute</string>
-    <string name="education_setup_OTP_summary">Imposta la gestione della password \"usa e getta\" (HOTP / TOTP) per generare un token richiesto per l\'autenticazione a due fattori 2FA.</string>
+    <string name="education_setup_OTP_summary">Imposta la gestione della password usa e getta (HOTP/TOTP) per generare un token richiesto per l\'autenticazione a due fattori.</string>
     <string name="download_complete">Completato!</string>
     <string name="download_finalization">Finalizzazione…</string>
     <string name="download_progression">Avanzamento %1$d%%</string>
