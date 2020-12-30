@@ -541,4 +541,6 @@
     <string name="temp_advanced_unlock_enable_title">Тимчасове розширене розблокування</string>
     <string name="advanced_unlock_tap_delete">Торкнутися, щоб видалити клавіші розширеного розблокування</string>
     <string name="content">Вміст</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
 </resources>

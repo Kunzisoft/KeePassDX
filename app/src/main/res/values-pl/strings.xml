@@ -535,4 +535,5 @@
     <string name="temp_advanced_unlock_enable_summary">Nie przechowuj żadnych zaszyfrowanych treści, aby korzystać z zaawansowanego odblokowywania</string>
     <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
     <string name="content">Zawartość</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Otwórz bazę danych z zaawansowanym rozpoznawaniem odblokowania</string>
 </resources>
