@@ -92,7 +92,7 @@ android {
     }
 }
 
-def room_version = "2.2.5"
+def room_version = "2.2.6"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
