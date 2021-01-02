@@ -25,9 +25,10 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -37,7 +38,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -185,10 +185,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 loadInnerHeader(inputStreamXml, header)
             }
 
-            randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
-
-            if (randomStream == null) {
-                throw ArcFourDatabaseException()
+            try {
+                randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+            } catch (e: Exception) {
+                throw LoadDatabaseException(e)
             }
 
             readDocumentStreamed(createPullParser(inputStreamXml))

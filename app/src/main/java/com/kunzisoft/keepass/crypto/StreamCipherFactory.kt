@@ -29,11 +29,12 @@ object StreamCipherFactory {
 
     private val SALSA_IV = byteArrayOf(0xE8.toByte(), 0x30, 0x09, 0x4B, 0x97.toByte(), 0x20, 0x5D, 0x2A)
 
-    fun getInstance(alg: CrsAlgorithm?, key: ByteArray): StreamCipher? {
+    @Throws(Exception::class)
+    fun getInstance(alg: CrsAlgorithm?, key: ByteArray): StreamCipher {
         return when {
             alg === CrsAlgorithm.Salsa20 -> getSalsa20(key)
             alg === CrsAlgorithm.ChaCha20 -> getChaCha20(key)
-            else -> null
+            else -> throw Exception("Invalid random cipher")
         }
     }
 

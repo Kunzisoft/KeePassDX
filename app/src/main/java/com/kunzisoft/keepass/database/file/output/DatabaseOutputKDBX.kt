@@ -281,9 +281,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
         random.nextBytes(header.innerRandomStreamKey)
 
-        randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
-        if (randomStream == null) {
-            throw DatabaseOutputException("Invalid random cipher")
+        try {
+            randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+        } catch (e: Exception) {
+            throw DatabaseOutputException(e)
         }
 
         if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
