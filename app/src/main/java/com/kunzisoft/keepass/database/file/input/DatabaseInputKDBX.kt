@@ -958,7 +958,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
                     binaryRetrieve = mDatabase.buildNewBinary(cacheDirectory,
-                            compression = false, protection = true, binaryPoolId = id)
+                            compression = false, protection = false, binaryPoolId = id)
                 }
                 return binaryRetrieve
             }
@@ -1024,29 +1024,20 @@ class DatabaseInputKDBX(cacheDirectory: File,
         return xpp.safeNextText()
     }
 
-    @Throws(XmlPullParserException::class, IOException::class)
-    private fun readBase64String(xpp: XmlPullParser): ByteArray {
-
-        //readNextNode = false;
-        Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { data ->
-            val plainText = ByteArray(data.size)
-            randomStream?.processBytes(data, 0, data.size, plainText, 0)
-            return plainText
-        }
-        return ByteArray(0)
-    }
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun readProtectedBase64String(xpp: XmlPullParser): ByteArray? {
-        //(xpp.getEventType() == XmlPullParser.START_TAG);
-
         if (xpp.attributeCount > 0) {
             val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
             if (protect != null && protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)) {
-                return readBase64String(xpp)
+                Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { data ->
+                    val plainText = ByteArray(data.size)
+                    randomStream?.processBytes(data, 0, data.size, plainText, 0)
+                    return plainText
+                }
+                return ByteArray(0)
             }
         }
-
         return null
     }
 
