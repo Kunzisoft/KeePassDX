@@ -1,0 +1,2 @@
+ * Fix specific attachments with kdbx3.1 databases #828
+ * Fix small bugs
