@@ -25,6 +25,7 @@ import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
@@ -101,6 +102,15 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
         }
     }
 
+    private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
+        override fun onDatabaseInfoChanged(previousDatabaseInfo: DatabaseTaskNotificationService.SnapFileDatabaseInfo,
+                                           newDatabaseInfo: DatabaseTaskNotificationService.SnapFileDatabaseInfo) {
+            activity.runOnUiThread {
+                Toast.makeText(activity, "Database changed $previousDatabaseInfo to $newDatabaseInfo", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun startDialog(titleId: Int? = null,
                             messageId: Int? = null,
                             warningId: Int? = null) {
@@ -140,11 +150,14 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
                         addActionTaskListener(actionTaskListener)
+                        addDatabaseFileInfoListener(databaseInfoListener)
                         getService().checkAction()
+                        getService().checkDatabaseInfo()
                     }
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
+                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
                     mBinder?.removeActionTaskListener(actionTaskListener)
                     mBinder = null
                 }

@@ -22,9 +22,8 @@ package com.kunzisoft.keepass.notifications
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
-import android.os.Binder
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
+import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -47,7 +46,9 @@ import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
+import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
@@ -64,6 +65,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mAllowFinishAction = AtomicBoolean()
     private var mActionRunning = false
+
+    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -93,12 +97,53 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 mAllowFinishAction.set(false)
             }
         }
+
+        fun addDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
+            mDatabaseInfoListeners.add(databaseInfoListener)
+        }
+
+        fun removeDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
+            mDatabaseInfoListeners.remove(databaseInfoListener)
+        }
+    }
+
+    /**
+     * Utility data class to get FileDatabaseInfo at a `t` time
+     */
+    data class SnapFileDatabaseInfo(var fileUri: Uri?,
+                                    var exists: Boolean,
+                                    var lastModification: Long?,
+                                    var size: Long?) {
+
+        override fun toString(): String {
+            val lastModificationString = DateFormat.getDateTimeInstance()
+                    .format(Date(lastModification ?: 0))
+            return "SnapFileDatabaseInfo(fileUri=${fileUri?.host}, " +
+                    "exists=$exists, " +
+                    "lastModification=$lastModificationString, " +
+                    "size=$size)"
+        }
+
+        companion object {
+            fun fromFileDatabaseInfo(fileDatabaseInfo: FileDatabaseInfo): SnapFileDatabaseInfo {
+                return SnapFileDatabaseInfo(
+                        fileDatabaseInfo.fileUri,
+                        fileDatabaseInfo.exists,
+                        fileDatabaseInfo.getLastModification(),
+                        fileDatabaseInfo.getSize())
+            }
+        }
     }
 
     interface ActionTaskListener {
         fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
+    }
+
+    interface DatabaseInfoListener {
+        fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
+                                  newDatabaseInfo: SnapFileDatabaseInfo)
     }
 
     /**
@@ -108,6 +153,27 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         if (mActionRunning) {
             mActionTaskListeners.forEach { actionTaskListener ->
                 actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
+            }
+        }
+    }
+
+    fun checkDatabaseInfo() {
+        mDatabase.fileUri?.let {
+            val previousDatabaseInfo = mSnapFileDatabaseInfo
+            val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                    FileDatabaseInfo(applicationContext, it))
+            if (previousDatabaseInfo != null) {
+                if (previousDatabaseInfo != lastFileDatabaseInfo) {
+                    Log.e(TAG, "Database file modified " +
+                            "$previousDatabaseInfo != $lastFileDatabaseInfo ")
+                    // Call listener to indicate a change in database info
+                    mDatabaseInfoListeners.forEach { listener ->
+                        listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
+                    }
+                } else {
+                    Log.w(TAG, "Database file NOT modified " +
+                            "$previousDatabaseInfo == $lastFileDatabaseInfo ")
+                }
             }
         }
     }
@@ -193,6 +259,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 removeIntentData(intent)
+                                // Save the current database info
+                                mDatabase.fileUri?.let {
+                                    mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                                            FileDatabaseInfo(applicationContext, it))
+                                }
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!mDatabase.loaded) {
@@ -342,9 +413,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      * Execute action with a coroutine
       */
     private suspend fun executeAction(progressTaskUpdater: ProgressTaskUpdater,
-                                     onPreExecute: () -> Unit,
-                                     onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
-                                     onPostExecute: (result: ActionRunnable.Result) -> Unit) {
+                                      onPreExecute: () -> Unit,
+                                      onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
+                                      onPostExecute: (result: ActionRunnable.Result) -> Unit) {
         mAllowFinishAction.set(false)
 
         TimeoutHelper.temporarilyDisableTimeout()
