@@ -51,7 +51,8 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
         database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
             val protectedBinary = keyBinary.binary
             // Force decompression to add binary in header
-            protectedBinary.decompress()
+            val binaryCipherKey = database.loadedCipherKey
+            protectedBinary.decompress(binaryCipherKey)
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
@@ -63,7 +64,7 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
             }
             dataOutputStream.writeByte(flag)
 
-            protectedBinary.getInputDataStream().use { inputStream ->
+            protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
                 inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
                     dataOutputStream.write(buffer)
                 }

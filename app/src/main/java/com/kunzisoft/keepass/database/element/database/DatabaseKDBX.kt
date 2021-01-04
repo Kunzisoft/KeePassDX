@@ -209,7 +209,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         binaryPool.doForEachBinary { binary ->
             try {
                 // To compress, create a new binary with file
-                binary.compress(BUFFER_SIZE_BYTES)
+                binary.compress(loadedCipherKey, BUFFER_SIZE_BYTES)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to compress $binary", e)
             }
@@ -219,7 +219,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun decompressAllBinaries() {
         binaryPool.doForEachBinary { binary ->
             try {
-                binary.decompress(BUFFER_SIZE_BYTES)
+                binary.decompress(loadedCipherKey, BUFFER_SIZE_BYTES)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to decompress $binary", e)
             }

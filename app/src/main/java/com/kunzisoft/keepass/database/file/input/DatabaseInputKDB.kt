@@ -282,7 +282,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                             if (fieldSize > 0) {
                                 val binaryAttachment = mDatabaseToOpen.buildNewBinary(cacheDirectory)
                                 entry.binaryData = binaryAttachment
-                                BufferedOutputStream(binaryAttachment.getOutputDataStream()).use { outputStream ->
+                                BufferedOutputStream(binaryAttachment.getOutputDataStream(mDatabaseToOpen.loadedCipherKey)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize,
                                             DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
                                         outputStream.write(buffer)

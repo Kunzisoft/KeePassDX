@@ -29,6 +29,7 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -345,7 +346,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                             }
                         }
                     } catch (e: Exception) {
-                        Log.e(TAG, "Unable to upload or download file", e)
+                        e.printStackTrace()
                         progressResult = false
                     }
                     progressResult
@@ -374,7 +375,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataDownloaded = 0L
             val fileSize = binaryAttachment.length()
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
-                binaryAttachment.getUnGzipInputDataStream().use { inputStream ->
+                val binaryCipherKey = Database.getInstance().loadedCipherKey
+                binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
                     inputStream.readBytes(bufferSize) { buffer ->
                         outputStream.write(buffer)
                         dataDownloaded += buffer.size
@@ -397,7 +399,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
             UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
-                binaryAttachment.getGzipOutputDataStream().use { outputStream ->
+                val binaryCipherKey = Database.getInstance().loadedCipherKey
+                binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
                     BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
                         attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)

@@ -23,8 +23,12 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.stream.readBytes
 import java.io.*
+import java.security.Key
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
+import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
+import javax.crypto.CipherOutputStream
 
 class BinaryAttachment : Parcelable {
 
@@ -34,6 +38,8 @@ class BinaryAttachment : Parcelable {
     var isProtected: Boolean = false
         private set
     var isCorrupted: Boolean = false
+    // Cipher to encrypt temp file
+    private var cipher: Cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
 
     fun length(): Long {
         return dataFile?.length() ?: 0
@@ -60,46 +66,52 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun getInputDataStream(): InputStream {
+    fun getInputDataStream(cipherKey: Key): InputStream {
         return when {
-            length() > 0 -> FileInputStream(dataFile!!)
+            length() > 0 -> {
+                cipher.init(Cipher.DECRYPT_MODE, cipherKey)
+                CipherInputStream(FileInputStream(dataFile!!), cipher)
+            }
             else -> ByteArrayInputStream(ByteArray(0))
         }
     }
 
     @Throws(IOException::class)
-    fun getUnGzipInputDataStream(): InputStream {
+    fun getUnGzipInputDataStream(cipherKey: Key): InputStream {
         return if (isCompressed)
-            GZIPInputStream(getInputDataStream())
+            GZIPInputStream(getInputDataStream(cipherKey))
         else
-            getInputDataStream()
+            getInputDataStream(cipherKey)
     }
 
     @Throws(IOException::class)
-    fun getOutputDataStream(): OutputStream {
+    fun getOutputDataStream(cipherKey: Key): OutputStream {
         return when {
-            dataFile != null -> FileOutputStream(dataFile!!)
+            dataFile != null -> {
+                cipher.init(Cipher.ENCRYPT_MODE, cipherKey)
+                CipherOutputStream(FileOutputStream(dataFile!!), cipher)
+            }
             else -> throw IOException("Unable to write in an unknown file")
         }
     }
 
     @Throws(IOException::class)
-    fun getGzipOutputDataStream(): OutputStream {
+    fun getGzipOutputDataStream(cipherKey: Key): OutputStream {
         return if (isCompressed) {
-            GZIPOutputStream(getOutputDataStream())
+            GZIPOutputStream(getOutputDataStream(cipherKey))
         } else {
-            getOutputDataStream()
+            getOutputDataStream(cipherKey)
         }
     }
 
     @Throws(IOException::class)
-    fun compress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    fun compress(cipherKey: Key, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 GZIPOutputStream(FileOutputStream(fileBinaryCompress)).use { outputStream ->
-                    getInputDataStream().use { inputStream ->
+                    getInputDataStream(cipherKey).use { inputStream ->
                         inputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                         }
@@ -117,12 +129,12 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun decompress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    fun decompress(cipherKey: Key, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             if (isCompressed) {
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 FileOutputStream(fileBinaryDecompress).use { outputStream ->
-                    getUnGzipInputDataStream().use { inputStream ->
+                    getUnGzipInputDataStream(cipherKey).use { inputStream ->
                         inputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                         }

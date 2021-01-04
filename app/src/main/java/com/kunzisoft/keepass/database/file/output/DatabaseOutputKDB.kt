@@ -197,15 +197,15 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
     @Suppress("CAST_NEVER_SUCCEEDS")
     @Throws(DatabaseOutputException::class)
-    fun outputPlanGroupAndEntries(os: OutputStream) {
-        val los = LittleEndianDataOutputStream(os)
+    fun outputPlanGroupAndEntries(outputStream: OutputStream) {
+        val littleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
 
         // useHeaderHash
         if (headerHashBlock != null) {
             try {
-                los.writeUShort(0x0000)
-                los.writeInt(headerHashBlock!!.size)
-                los.write(headerHashBlock!!)
+                littleEndianDataOutputStream.writeUShort(0x0000)
+                littleEndianDataOutputStream.writeInt(headerHashBlock!!.size)
+                littleEndianDataOutputStream.write(headerHashBlock!!)
             } catch (e: IOException) {
                 throw DatabaseOutputException("Failed to output header hash.", e)
             }
@@ -213,20 +213,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         // Groups
         mDatabaseKDB.doForEachGroupInIndex { group ->
-            val pgo = GroupOutputKDB(group, os)
-            try {
-                pgo.output()
-            } catch (e: IOException) {
-                throw DatabaseOutputException("Failed to output a tree", e)
-            }
+            GroupOutputKDB.write(outputStream, group)
         }
         mDatabaseKDB.doForEachEntryInIndex { entry ->
-            val peo = EntryOutputKDB(entry, os)
-            try {
-                peo.output()
-            } catch (e: IOException) {
-                throw DatabaseOutputException("Failed to output an entry.", e)
-            }
+            EntryOutputKDB.writeEntry(outputStream, entry, mDatabaseKDB.loadedCipherKey)
         }
     }
 

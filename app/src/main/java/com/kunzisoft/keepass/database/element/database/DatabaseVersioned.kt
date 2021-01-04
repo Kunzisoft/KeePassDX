@@ -28,9 +28,11 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import java.io.*
+import java.security.Key
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import javax.crypto.KeyGenerator
 
 abstract class DatabaseVersioned<
         GroupId,
@@ -386,11 +388,21 @@ abstract class DatabaseVersioned<
         return true
     }
 
+    /**
+     * Cipher key generated when the database is loaded, and destroyed when the database is closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: Key = generateLoadedCipherKey()
+
     companion object {
 
         private const val TAG = "DatabaseVersioned"
 
         val UUID_ZERO = UUID(0, 0)
+
+        fun generateLoadedCipherKey(): Key {
+            return KeyGenerator.getInstance("AES").generateKey()
+        }
 
         fun hexStringToByteArray(s: String): ByteArray {
             val len = s.length

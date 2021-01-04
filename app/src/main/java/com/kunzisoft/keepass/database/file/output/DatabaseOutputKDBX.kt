@@ -463,7 +463,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }
                 // Write the XML
-                binary.getInputDataStream().use { inputStream ->
+                binary.getInputDataStream(mDatabaseKDBX.loadedCipherKey).use { inputStream ->
                     inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }

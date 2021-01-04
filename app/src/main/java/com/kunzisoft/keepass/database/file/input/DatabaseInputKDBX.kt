@@ -257,7 +257,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val byteLength = size - 1
                 // No compression at this level
                 val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, false, protectedFlag)
-                protectedBinary.getOutputDataStream().use { outputStream ->
+                protectedBinary.getOutputDataStream(mDatabase.loadedCipherKey).use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
                     }
@@ -996,13 +996,13 @@ class DatabaseInputKDBX(cacheDirectory: File,
         // Build the new binary and compress
         val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, compressed, protected, binaryId)
         try {
-            binaryAttachment.getOutputDataStream().use { outputStream ->
+            binaryAttachment.getOutputDataStream(mDatabase.loadedCipherKey).use { outputStream ->
                 outputStream.write(Base64.decode(base64, BASE_64_FLAG))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to read base 64 attachment", e)
             binaryAttachment.isCorrupted = true
-            binaryAttachment.getOutputDataStream().use { outputStream ->
+            binaryAttachment.getOutputDataStream(mDatabase.loadedCipherKey).use { outputStream ->
                 outputStream.write(base64.toByteArray())
             }
         }

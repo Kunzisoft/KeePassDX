@@ -49,7 +49,9 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
+import java.security.Key
 import java.util.*
+import javax.crypto.KeyGenerator
 import kotlin.collections.ArrayList
 
 
@@ -72,10 +74,25 @@ class Database {
         set(value) {
             field = value
             loadTimestamp = if (field) System.currentTimeMillis() else null
+            loadedCipherKey = DatabaseVersioned.generateLoadedCipherKey()
         }
 
     var loadTimestamp: Long? = null
         private set
+
+    /**
+     * Cipher key regenerated when the database is loaded and closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: Key
+        private set(value) {
+            mDatabaseKDB?.loadedCipherKey = value
+            mDatabaseKDBX?.loadedCipherKey = value
+        }
+        get() {
+            return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
+            ?: DatabaseVersioned.generateLoadedCipherKey()
+        }
 
     val iconFactory: IconImageFactory
         get() {
