@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -48,7 +49,6 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
-import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
@@ -107,34 +107,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    /**
-     * Utility data class to get FileDatabaseInfo at a `t` time
-     */
-    data class SnapFileDatabaseInfo(var fileUri: Uri?,
-                                    var exists: Boolean,
-                                    var lastModification: Long?,
-                                    var size: Long?) {
-
-        override fun toString(): String {
-            val lastModificationString = DateFormat.getDateTimeInstance()
-                    .format(Date(lastModification ?: 0))
-            return "SnapFileDatabaseInfo(fileUri=${fileUri?.host}, " +
-                    "exists=$exists, " +
-                    "lastModification=$lastModificationString, " +
-                    "size=$size)"
-        }
-
-        companion object {
-            fun fromFileDatabaseInfo(fileDatabaseInfo: FileDatabaseInfo): SnapFileDatabaseInfo {
-                return SnapFileDatabaseInfo(
-                        fileDatabaseInfo.fileUri,
-                        fileDatabaseInfo.exists,
-                        fileDatabaseInfo.getLastModification(),
-                        fileDatabaseInfo.getSize())
-            }
-        }
-    }
-
     interface ActionTaskListener {
         fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
@@ -175,6 +147,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             "$previousDatabaseInfo == $lastFileDatabaseInfo ")
                 }
             }
+        }
+    }
+
+    fun saveDatabaseInfo() {
+        mDatabase.fileUri?.let {
+            mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                    FileDatabaseInfo(applicationContext, it))
         }
     }
 
@@ -259,11 +238,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 removeIntentData(intent)
-                                // Save the current database info
-                                mDatabase.fileUri?.let {
-                                    mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                                            FileDatabaseInfo(applicationContext, it))
-                                }
+                                // Save the database info after performing action
+                                saveDatabaseInfo()
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!mDatabase.loaded) {

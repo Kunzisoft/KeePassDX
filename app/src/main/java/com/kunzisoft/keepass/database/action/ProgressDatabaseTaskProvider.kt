@@ -25,8 +25,9 @@ import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
@@ -36,6 +37,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
@@ -85,6 +87,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private var serviceConnection: ServiceConnection? = null
 
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
+    private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
@@ -102,11 +105,24 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
         }
     }
 
+    private val mActionDatabaseListener = object: DatabaseChangedDialogFragment.ActionDatabaseChangedListener {
+        override fun validateDatabaseChanged() {
+            mBinder?.getService()?.saveDatabaseInfo()
+        }
+    }
+
     private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
-        override fun onDatabaseInfoChanged(previousDatabaseInfo: DatabaseTaskNotificationService.SnapFileDatabaseInfo,
-                                           newDatabaseInfo: DatabaseTaskNotificationService.SnapFileDatabaseInfo) {
-            activity.runOnUiThread {
-                Toast.makeText(activity, "Database changed $previousDatabaseInfo to $newDatabaseInfo", Toast.LENGTH_SHORT).show()
+        override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
+                                           newDatabaseInfo: SnapFileDatabaseInfo) {
+            if (databaseChangedDialogFragment == null) {
+                databaseChangedDialogFragment = activity.supportFragmentManager
+                        .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
+                databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
+            }
+            if (progressTaskDialogFragment == null) {
+                databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(previousDatabaseInfo, newDatabaseInfo)
+                databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
+                databaseChangedDialogFragment?.show(activity.supportFragmentManager, DATABASE_CHANGED_DIALOG_TAG)
             }
         }
     }
@@ -219,6 +235,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     fun unregisterProgressTask() {
         stopDialog()
 
+        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
         mBinder?.removeActionTaskListener(actionTaskListener)
         mBinder = null
 
