@@ -1,9 +1,13 @@
-KeePassDX(2.9.8)
+KeePassDX(2.9.9)
  *
 
-KeePassDX(2.9.7)
+KeePassDX(2.9.8)
+ * Fix specific attachments with kdbx3.1 databases #828
  * Fix small bugs
- * Remove write permission since Android 10
+
+KeePassDX(2.9.7)
+ * Remove write permission since Android 10 #823
+ * Fix small bugs
 
 KeePassDX(2.9.6)
  * Fix KeyFile bug #820
