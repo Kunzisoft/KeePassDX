@@ -136,15 +136,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     FileDatabaseInfo(applicationContext, it))
             if (previousDatabaseInfo != null) {
                 if (previousDatabaseInfo != lastFileDatabaseInfo) {
-                    Log.e(TAG, "Database file modified " +
+                    Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
                     // Call listener to indicate a change in database info
                     mDatabaseInfoListeners.forEach { listener ->
                         listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
                     }
-                } else {
-                    Log.w(TAG, "Database file NOT modified " +
-                            "$previousDatabaseInfo == $lastFileDatabaseInfo ")
                 }
             }
         }
