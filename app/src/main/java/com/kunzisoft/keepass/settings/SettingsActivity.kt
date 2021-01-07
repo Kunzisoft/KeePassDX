@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings
 
 import android.app.Activity
 import android.app.backup.BackupManager
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -98,8 +97,10 @@ open class SettingsActivity
         mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
-                    // Close the current activity
+                    // Reload the current activity
+                    startActivity(intent)
                     finish()
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
                 else -> {
                     // Call result in fragment
@@ -108,6 +109,13 @@ open class SettingsActivity
                             ?.onProgressDialogThreadResult(actionTask, result)
                     coordinatorLayout?.showActionError(result)
                 }
+            }
+        }
+
+        // To reload the current screen
+        if (intent.extras?.containsKey(FRAGMENT_ARG) == true) {
+            intent.extras?.getString(FRAGMENT_ARG)?.let { fragmentScreenName ->
+                onNestedPreferenceSelected(NestedSettingsFragment.Screen.valueOf(fragmentScreenName), true)
             }
         }
     }
@@ -201,25 +209,33 @@ open class SettingsActivity
         hideOrShowLockButton(NestedSettingsFragment.Screen.APPLICATION)
     }
 
-    private fun replaceFragment(key: NestedSettingsFragment.Screen) {
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+    private fun replaceFragment(key: NestedSettingsFragment.Screen, reload: Boolean) {
+        supportFragmentManager.beginTransaction().apply {
+            if (reload) {
+                setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                         R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, mReadOnly), TAG_NESTED)
-                .addToBackStack(TAG_NESTED)
-                .commit()
+            } else {
+                setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right)
+            }
+            replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, mReadOnly), TAG_NESTED)
+            addToBackStack(TAG_NESTED)
+            commit()
+        }
 
         toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
+        // To reload the current screen
+        intent.putExtra(FRAGMENT_ARG, key.name)
         hideOrShowLockButton(key)
     }
 
-    override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen) {
+    override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
         if (mTimeoutEnable)
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
-                replaceFragment(key)
+                replaceFragment(key, reload)
             }
         else
-            replaceFragment(key)
+            replaceFragment(key, reload)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -234,6 +250,7 @@ open class SettingsActivity
         private const val SHOW_LOCK = "SHOW_LOCK"
         private const val TITLE_KEY = "TITLE_KEY"
         private const val TAG_NESTED = "TAG_NESTED"
+        private const val FRAGMENT_ARG = "FRAGMENT_ARG"
 
         fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
             val intent = Intent(activity, SettingsActivity::class.java)

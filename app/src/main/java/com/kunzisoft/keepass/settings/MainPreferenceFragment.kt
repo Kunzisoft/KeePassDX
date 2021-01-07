@@ -103,6 +103,6 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
     }
 
     interface Callback {
-        fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen)
+        fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean = false)
     }
 }
