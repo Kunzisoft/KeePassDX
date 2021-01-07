@@ -1,1 +1,1 @@
- *
+ * Détection des changements de fichiers et rechargement de base de données #794

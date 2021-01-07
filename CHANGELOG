@@ -1,5 +1,5 @@
 KeePassDX(2.9.9)
- *
+ * Detect file changes and reload database #794
 
 KeePassDX(2.9.8)
  * Fix specific attachments with kdbx3.1 databases #828
