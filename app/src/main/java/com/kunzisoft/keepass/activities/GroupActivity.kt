@@ -70,6 +70,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
@@ -341,6 +342,12 @@ class GroupActivity : LockingActivity(),
                                 }
                             }
                         }
+                    }
+                    ACTION_DATABASE_RELOAD_TASK -> {
+                        // Reload the current activity
+                        startActivity(intent)
+                        finish()
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     }
                 }
 
@@ -878,6 +885,8 @@ class GroupActivity : LockingActivity(),
         }
         if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
+        } else {
+            menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
 
         // Menu for recycle bin
@@ -1001,6 +1010,10 @@ class GroupActivity : LockingActivity(),
                 return true
             R.id.menu_save_database -> {
                 mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+                return true
+            }
+            R.id.menu_reload_database -> {
+                mProgressDatabaseTaskProvider?.startDatabaseReload(false)
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
