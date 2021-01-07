@@ -396,31 +396,31 @@ class Database {
             keyfile?.let {
                 keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
             }
-
-            // Read database stream for the first time
-            readDatabaseStream(contentResolver, uri,
-                    { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory)
-                                .openDatabase(databaseInputStream,
-                                    password,
-                                    keyFileInputStream,
-                                    fixDuplicateUUID,
-                                    progressTaskUpdater)
-                    },
-                    { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory)
-                                .openDatabase(databaseInputStream,
-                                        password,
-                                        keyFileInputStream,
-                                        fixDuplicateUUID,
-                                        progressTaskUpdater)
-                    }
-            )
         } catch (e: Exception) {
             throw FileNotFoundDatabaseException()
         } finally {
             keyFileInputStream?.close()
         }
+
+        // Read database stream for the first time
+        readDatabaseStream(contentResolver, uri,
+                { databaseInputStream ->
+                    DatabaseInputKDB(cacheDirectory)
+                            .openDatabase(databaseInputStream,
+                                password,
+                                keyFileInputStream,
+                                fixDuplicateUUID,
+                                progressTaskUpdater)
+                },
+                { databaseInputStream ->
+                    DatabaseInputKDBX(cacheDirectory)
+                            .openDatabase(databaseInputStream,
+                                    password,
+                                    keyFileInputStream,
+                                    fixDuplicateUUID,
+                                    progressTaskUpdater)
+                }
+        )
     }
 
     @Throws(LoadDatabaseException::class)
