@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionError
 
@@ -95,12 +96,19 @@ open class SettingsActivity
         backupManager = BackupManager(this)
 
         mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-            // Call result in fragment
-            (supportFragmentManager
-                    .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
-                    ?.onProgressDialogThreadResult(actionTask, result)
-
-            coordinatorLayout?.showActionError(result)
+            when (actionTask) {
+                DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
+                    // Close the current activity
+                    finish()
+                }
+                else -> {
+                    // Call result in fragment
+                    (supportFragmentManager
+                            .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
+                            ?.onProgressDialogThreadResult(actionTask, result)
+                    coordinatorLayout?.showActionError(result)
+                }
+            }
         }
     }
 

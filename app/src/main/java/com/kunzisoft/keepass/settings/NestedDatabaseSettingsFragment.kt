@@ -552,6 +552,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                 settingActivity?.mProgressDatabaseTaskProvider?.startDatabaseSave(!mDatabaseReadOnly)
                 true
             }
+            R.id.menu_reload_database -> {
+                settingActivity?.mProgressDatabaseTaskProvider?.startDatabaseReload(false)
+                return true
+            }
 
             else -> {
                 // Check the time lock before launching settings

@@ -63,8 +63,7 @@ import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import kotlin.math.min
 
-class DatabaseInputKDBX(cacheDirectory: File,
-                        private val fixDuplicateUUID: Boolean = false)
+class DatabaseInputKDBX(cacheDirectory: File)
     : DatabaseInput<DatabaseKDBX>(cacheDirectory) {
 
     private var randomStream: StreamCipher? = null
@@ -98,12 +97,30 @@ class DatabaseInputKDBX(cacheDirectory: File,
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
+                              fixDuplicateUUID: Boolean,
                               progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+        return openDatabase(databaseInputStream, fixDuplicateUUID, progressTaskUpdater) { header ->
+            mDatabase.retrieveMasterKey(password, keyInputStream)
+        }
+    }
 
+    @Throws(LoadDatabaseException::class)
+    override fun openDatabase(databaseInputStream: InputStream,
+                              masterKey: ByteArray,
+                              fixDuplicateUUID: Boolean,
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+        return openDatabase(databaseInputStream, fixDuplicateUUID, progressTaskUpdater) {
+            mDatabase.masterKey = masterKey
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
+    private fun openDatabase(databaseInputStream: InputStream,
+                             fixDuplicateUUID: Boolean,
+                             progressTaskUpdater: ProgressTaskUpdater?,
+                             assignMasterKey: ((header: DatabaseHeaderKDBX) -> Unit)? = null): DatabaseKDBX {
         try {
-            // TODO performance
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
-
             mDatabase = DatabaseKDBX()
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
@@ -116,9 +133,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            mDatabase.retrieveMasterKey(password, keyInputStream)
+            assignMasterKey?.invoke(header)
             mDatabase.makeFinalKey(header.masterSeed)
-            // TODO performance
 
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
             val engine: CipherEngine

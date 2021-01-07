@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
@@ -292,6 +293,13 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
                 , ACTION_DATABASE_LOAD_TASK)
+    }
+
+    fun startDatabaseReload(fixDuplicateUuid: Boolean) {
+        start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
+        }
+                , ACTION_DATABASE_RELOAD_TASK)
     }
 
     fun startDatabaseAssignPassword(databaseUri: Uri,

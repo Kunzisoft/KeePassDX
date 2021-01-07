@@ -180,6 +180,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
+            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(intent)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent)
             ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent)
@@ -258,7 +259,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         return when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK, null -> {
+            ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_RELOAD_TASK,
+            null -> {
                 START_STICKY
             }
             else -> {
@@ -292,7 +295,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             else -> {
                 when (intentAction) {
                     ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-                    ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
+                    ACTION_DATABASE_LOAD_TASK,
+                    ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
                     ACTION_DATABASE_SAVE -> R.string.saving_database
                     else -> {
                         R.string.command_execution
@@ -302,13 +306,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         mMessageId = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK -> null
+            ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_RELOAD_TASK -> null
             else -> null
         }
 
         mWarningId =
                 if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK)
+                        || intentAction == ACTION_DATABASE_LOAD_TASK
+                        || intentAction == ACTION_DATABASE_RELOAD_TASK)
                     null
                 else
                     R.string.do_not_kill_app
@@ -506,6 +512,23 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         } else {
             return null
+        }
+    }
+
+    private fun buildDatabaseReloadActionTask(intent: Intent): ActionRunnable? {
+
+        return if (intent.hasExtra(FIX_DUPLICATE_UUID_KEY)) {
+            ReloadDatabaseRunnable(
+                    this,
+                    mDatabase,
+                    intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
+                    this
+            ) { result ->
+                // No need to add each info to reload database
+                result.data = Bundle()
+            }
+        } else {
+            null
         }
     }
 
@@ -814,6 +837,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
+        const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_PASSWORD_TASK = "ACTION_DATABASE_ASSIGN_PASSWORD_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"
         const val ACTION_DATABASE_UPDATE_GROUP_TASK = "ACTION_DATABASE_UPDATE_GROUP_TASK"

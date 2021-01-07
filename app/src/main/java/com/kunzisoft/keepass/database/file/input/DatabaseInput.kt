@@ -41,6 +41,13 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
     abstract fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
+                              fixDuplicateUUID: Boolean,
                               progressTaskUpdater: ProgressTaskUpdater?): PwDb
 
+
+    @Throws(LoadDatabaseException::class)
+    abstract fun openDatabase(databaseInputStream: InputStream,
+                              masterKey: ByteArray,
+                              fixDuplicateUUID: Boolean,
+                              progressTaskUpdater: ProgressTaskUpdater?): PwDb
 }

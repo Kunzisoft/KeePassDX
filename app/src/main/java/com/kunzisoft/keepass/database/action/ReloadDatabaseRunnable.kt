@@ -20,10 +20,6 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.Context
-import android.net.Uri
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
-import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
@@ -32,28 +28,21 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.UriUtil
 
-class LoadDatabaseRunnable(private val context: Context,
-                           private val mDatabase: Database,
-                           private val mUri: Uri,
-                           private val mPass: String?,
-                           private val mKey: Uri?,
-                           private val mReadonly: Boolean,
-                           private val mCipherEntity: CipherDatabaseEntity?,
-                           private val mFixDuplicateUUID: Boolean,
-                           private val progressTaskUpdater: ProgressTaskUpdater?,
-                           private val mLoadDatabaseResult: ((Result) -> Unit)?)
+class ReloadDatabaseRunnable(private val context: Context,
+                             private val mDatabase: Database,
+                             private val mFixDuplicateUUID: Boolean,
+                             private val progressTaskUpdater: ProgressTaskUpdater?,
+                             private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
 
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
+        mDatabase.clear(UriUtil.getBinaryDir(context))
     }
 
     override fun onActionRun() {
         try {
-            mDatabase.loadData(mUri, mPass, mKey,
-                    mReadonly,
-                    context.contentResolver,
+            mDatabase.reloadData(context.contentResolver,
                     UriUtil.getBinaryDir(context),
                     mFixDuplicateUUID,
                     progressTaskUpdater)
@@ -66,19 +55,6 @@ class LoadDatabaseRunnable(private val context: Context,
         }
 
         if (result.isSuccess) {
-            // Save keyFile in app database
-            if (PreferencesUtil.rememberDatabaseLocations(context)) {
-                FileDatabaseHistoryAction.getInstance(context)
-                        .addOrUpdateDatabaseUri(mUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKey else null)
-            }
-
-            // Register the biometric
-            mCipherEntity?.let { cipherDatabaseEntity ->
-                CipherDatabaseAction.getInstance(context)
-                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) // return value not called
-            }
-
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
