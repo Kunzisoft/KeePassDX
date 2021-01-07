@@ -274,7 +274,7 @@
     <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
-    <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or close it and re-enter your main credentials to reload the information with the latest changes.</string>
+    <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or reload it with the latest changes.</string>
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
