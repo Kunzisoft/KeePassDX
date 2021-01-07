@@ -39,6 +39,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Attachment
@@ -412,6 +413,9 @@ class EntryActivity : LockingActivity() {
         if (mIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
+        }
+        if (mSpecialMode != SpecialMode.DEFAULT) {
+            menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
 
         val gotoUrl = menu.findItem(R.id.menu_goto_url)

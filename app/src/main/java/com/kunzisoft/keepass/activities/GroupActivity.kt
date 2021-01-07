@@ -885,6 +885,8 @@ class GroupActivity : LockingActivity(),
         }
         if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
+        } else {
+            menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
 
         // Menu for recycle bin

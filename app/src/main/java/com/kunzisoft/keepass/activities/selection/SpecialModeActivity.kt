@@ -18,7 +18,7 @@ import com.kunzisoft.keepass.view.SpecialModeView
 abstract class SpecialModeActivity : StylishActivity() {
 
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
-    protected var mTypeMode: TypeMode = TypeMode.DEFAULT
+    private var mTypeMode: TypeMode = TypeMode.DEFAULT
 
     private var mSpecialModeView: SpecialModeView? = null
 
