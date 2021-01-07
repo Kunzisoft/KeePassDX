@@ -407,18 +407,18 @@ class Database {
                 { databaseInputStream ->
                     DatabaseInputKDB(cacheDirectory)
                             .openDatabase(databaseInputStream,
-                                password,
-                                keyFileInputStream,
-                                fixDuplicateUUID,
-                                progressTaskUpdater)
+                                    password,
+                                    keyFileInputStream,
+                                    progressTaskUpdater,
+                                    fixDuplicateUUID)
                 },
                 { databaseInputStream ->
                     DatabaseInputKDBX(cacheDirectory)
                             .openDatabase(databaseInputStream,
                                     password,
                                     keyFileInputStream,
-                                    fixDuplicateUUID,
-                                    progressTaskUpdater)
+                                    progressTaskUpdater,
+                                    fixDuplicateUUID)
                 }
         )
     }
@@ -426,7 +426,6 @@ class Database {
     @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
                    cacheDirectory: File,
-                   fixDuplicateUUID: Boolean,
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
         // Retrieve the stream from the old database URI
@@ -436,14 +435,12 @@ class Database {
                         DatabaseInputKDB(cacheDirectory)
                                 .openDatabase(databaseInputStream,
                                         masterKey,
-                                        fixDuplicateUUID,
                                         progressTaskUpdater)
                     },
                     { databaseInputStream ->
                         DatabaseInputKDBX(cacheDirectory)
                                 .openDatabase(databaseInputStream,
                                         masterKey,
-                                        fixDuplicateUUID,
                                         progressTaskUpdater)
                     }
             )

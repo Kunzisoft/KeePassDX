@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.utils.UriUtil
 
 class ReloadDatabaseRunnable(private val context: Context,
                              private val mDatabase: Database,
-                             private val mFixDuplicateUUID: Boolean,
                              private val progressTaskUpdater: ProgressTaskUpdater?,
                              private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
@@ -44,11 +43,7 @@ class ReloadDatabaseRunnable(private val context: Context,
         try {
             mDatabase.reloadData(context.contentResolver,
                     UriUtil.getBinaryDir(context),
-                    mFixDuplicateUUID,
                     progressTaskUpdater)
-        }
-        catch (e: DuplicateUuidDatabaseException) {
-            setError(e)
         }
         catch (e: LoadDatabaseException) {
             setError(e)

@@ -58,9 +58,6 @@ class LoadDatabaseRunnable(private val context: Context,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }
-        catch (e: DuplicateUuidDatabaseException) {
-            setError(e)
-        }
         catch (e: LoadDatabaseException) {
             setError(e)
         }

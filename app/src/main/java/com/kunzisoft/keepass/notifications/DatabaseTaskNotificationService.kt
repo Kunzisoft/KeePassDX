@@ -180,7 +180,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
-            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(intent)
+            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask()
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent)
             ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent)
@@ -515,21 +515,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseReloadActionTask(intent: Intent): ActionRunnable? {
-
-        return if (intent.hasExtra(FIX_DUPLICATE_UUID_KEY)) {
-            ReloadDatabaseRunnable(
+    private fun buildDatabaseReloadActionTask(): ActionRunnable {
+        return ReloadDatabaseRunnable(
                     this,
                     mDatabase,
-                    intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                     this
             ) { result ->
                 // No need to add each info to reload database
                 result.data = Bundle()
             }
-        } else {
-            null
-        }
     }
 
     private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {

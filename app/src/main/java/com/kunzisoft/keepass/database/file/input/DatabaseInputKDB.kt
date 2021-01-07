@@ -54,9 +54,9 @@ class DatabaseInputKDB(cacheDirectory: File)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
-                              fixDuplicateUUID: Boolean,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
-        return openDatabase(databaseInputStream, fixDuplicateUUID, progressTaskUpdater) {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
             mDatabaseToOpen.retrieveMasterKey(password, keyInputStream)
         }
     }
@@ -64,18 +64,18 @@ class DatabaseInputKDB(cacheDirectory: File)
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              fixDuplicateUUID: Boolean,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
-        return openDatabase(databaseInputStream, fixDuplicateUUID, progressTaskUpdater) {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
             mDatabaseToOpen.masterKey = masterKey
         }
     }
 
     @Throws(LoadDatabaseException::class)
     private fun openDatabase(databaseInputStream: InputStream,
-                              fixDuplicateUUID: Boolean,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
+                             progressTaskUpdater: ProgressTaskUpdater?,
+                             fixDuplicateUUID: Boolean,
+                             assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
 
         try {
             // Load entire file, most of it's encrypted.

@@ -97,9 +97,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
-                              fixDuplicateUUID: Boolean,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
-        return openDatabase(databaseInputStream, fixDuplicateUUID, progressTaskUpdater) { header ->
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) { header ->
             mDatabase.retrieveMasterKey(password, keyInputStream)
         }
     }
@@ -107,17 +107,17 @@ class DatabaseInputKDBX(cacheDirectory: File)
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              fixDuplicateUUID: Boolean,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
-        return openDatabase(databaseInputStream, fixDuplicateUUID, progressTaskUpdater) {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
             mDatabase.masterKey = masterKey
         }
     }
 
     @Throws(LoadDatabaseException::class)
     private fun openDatabase(databaseInputStream: InputStream,
-                             fixDuplicateUUID: Boolean,
                              progressTaskUpdater: ProgressTaskUpdater?,
+                             fixDuplicateUUID: Boolean,
                              assignMasterKey: ((header: DatabaseHeaderKDBX) -> Unit)? = null): DatabaseKDBX {
         try {
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
