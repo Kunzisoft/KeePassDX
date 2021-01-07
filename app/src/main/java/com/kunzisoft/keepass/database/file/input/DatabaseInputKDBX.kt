@@ -99,7 +99,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                               keyInputStream: InputStream?,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) { header ->
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
             mDatabase.retrieveMasterKey(password, keyInputStream)
         }
     }
@@ -118,7 +118,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     private fun openDatabase(databaseInputStream: InputStream,
                              progressTaskUpdater: ProgressTaskUpdater?,
                              fixDuplicateUUID: Boolean,
-                             assignMasterKey: ((header: DatabaseHeaderKDBX) -> Unit)? = null): DatabaseKDBX {
+                             assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabase = DatabaseKDBX()
@@ -133,7 +133,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            assignMasterKey?.invoke(header)
+            assignMasterKey?.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
 
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
