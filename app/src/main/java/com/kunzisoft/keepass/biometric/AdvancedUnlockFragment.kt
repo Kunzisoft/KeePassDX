@@ -117,10 +117,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // To wait resume
-        activityResult = ActivityResult(requestCode, resultCode, data)
+        if (keepConnection) {
+            activityResult = ActivityResult(requestCode, resultCode, data)
+        }
         keepConnection = false
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onResume() {
@@ -237,7 +237,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             Mode.WAIT_CREDENTIAL
                         })
                     }
-                } ?: throw IODatabaseException()
+                }
             }
         }
     }
@@ -304,7 +304,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             if (allowOpenBiometricPrompt) {
                 if (cryptoPrompt.isDeviceCredentialOperation)
                     keepConnection = true
@@ -329,7 +329,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             mAdvancedUnlockInfoView?.setIconViewClickListener { _ ->
                 openAdvancedUnlockPrompt(cryptoPrompt)
             }
-        } ?: throw Exception("AdvancedUnlockHelper not initialized")
+        } ?: throw Exception("AdvancedUnlockManager not initialized")
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -358,21 +358,25 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                     } ?: deleteEncryptedDatabaseKey()
                 }
             } ?: throw IODatabaseException()
-        } ?: throw Exception("AdvancedUnlockHelper not initialized")
+        } ?: throw Exception("AdvancedUnlockManager not initialized")
     }
 
     @Synchronized
     fun initAdvancedUnlockMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mAllowAdvancedUnlockMenu = false
-            when (biometricMode) {
-                Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
-                Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
-                Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
-                Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
-                Mode.WAIT_CREDENTIAL -> initWaitData()
-                Mode.STORE_CREDENTIAL -> initEncryptData()
-                Mode.EXTRACT_CREDENTIAL -> initDecryptData()
+            try {
+                when (biometricMode) {
+                    Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
+                    Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
+                    Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
+                    Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
+                    Mode.WAIT_CREDENTIAL -> initWaitData()
+                    Mode.STORE_CREDENTIAL -> initEncryptData()
+                    Mode.EXTRACT_CREDENTIAL -> initDecryptData()
+                }
+            } catch (e: Exception) {
+                onGenericException(e)
             }
             invalidateBiometricMenu()
         }
@@ -388,7 +392,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             && (biometricMode != Mode.BIOMETRIC_UNAVAILABLE
                             && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
                     mAddBiometricMenuInProgress = false
-                    requireActivity().invalidateOptionsMenu()
+                    activity?.invalidateOptionsMenu()
                 }
             }
         }
@@ -442,7 +446,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
             setAdvancedUnlockedMessageView(errString.toString())
         }
@@ -450,7 +454,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationFailed() {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             Log.e(TAG, "Biometric authentication failed, biometric not recognized")
             setAdvancedUnlockedMessageView(R.string.advanced_unlock_not_recognized)
         }
@@ -458,7 +462,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationSucceeded() {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             when (biometricMode) {
                 Mode.BIOMETRIC_UNAVAILABLE -> {
                 }
@@ -485,7 +489,9 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                                 advancedUnlockManager?.decryptData(value)
                             } ?: deleteEncryptedDatabaseKey()
                         }
-                    } ?: throw IODatabaseException()
+                    } ?: run {
+                        onAuthenticationError(-1, getString(R.string.error_database_uri_null))
+                    }
                 }
             }
         }
@@ -515,7 +521,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     private fun showViews(show: Boolean) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.visibility = if (show)
                 View.VISIBLE
             else {
@@ -526,20 +532,20 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedTitleView(textId: Int) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.setTitle(textId)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(textId: Int) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.setMessage(textId)
         }
     }
 
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
-        requireActivity().runOnUiThread {
+        activity?.runOnUiThread {
             mAdvancedUnlockInfoView?.message = text
         }
     }
@@ -548,18 +554,20 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                          readOnlyEducationPerformed: Boolean,
                          onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                          onOuterViewClick: ((TapTargetView?) -> Unit)? = null) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && !readOnlyEducationPerformed) {
-            val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
-            PreferencesUtil.isAdvancedUnlockEnable(requireContext())
-                    && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                    && mAdvancedUnlockInfoView != null && mAdvancedUnlockInfoView?.visibility == View.VISIBLE
-                    && mAdvancedUnlockInfoView?.unlockIconImageView != null
-                    && passwordActivityEducation.checkAndPerformedBiometricEducation(mAdvancedUnlockInfoView!!.unlockIconImageView!!,
-                    onEducationViewClick,
-                    onOuterViewClick)
-        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !readOnlyEducationPerformed) {
+                val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
+                PreferencesUtil.isAdvancedUnlockEnable(requireContext())
+                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                        && mAdvancedUnlockInfoView != null && mAdvancedUnlockInfoView?.visibility == View.VISIBLE
+                        && mAdvancedUnlockInfoView?.unlockIconImageView != null
+                        && passwordActivityEducation.checkAndPerformedBiometricEducation(mAdvancedUnlockInfoView!!.unlockIconImageView!!,
+                        onEducationViewClick,
+                        onOuterViewClick)
+            }
+        } catch (ignored: Exception) {}
     }
 
     enum class Mode {

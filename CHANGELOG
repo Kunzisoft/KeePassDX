@@ -1,5 +1,16 @@
+KeePassDX(2.9.9)
+ * Detect file changes and reload database #794
+
+KeePassDX(2.9.8)
+ * Fix specific attachments with kdbx3.1 databases #828
+ * Fix small bugs
+
+KeePassDX(2.9.7)
+ * Remove write permission since Android 10 #823
+ * Fix small bugs
+
 KeePassDX(2.9.6)
- *
+ * Fix KeyFile bug #820
 
 KeePassDX(2.9.5)
  * Unlock database by device credentials (PIN/Password/Pattern) with Android M+ #102 #152 #811

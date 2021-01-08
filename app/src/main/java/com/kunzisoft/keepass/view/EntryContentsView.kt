@@ -48,8 +48,8 @@ import java.util.*
 
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
-                                                  var attrs: AttributeSet? = null,
-                                                  var defStyle: Int = 0)
+                                                  attrs: AttributeSet? = null,
+                                                  defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
     private var fontInVisibility: Boolean = false
@@ -306,7 +306,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                       allowCopy: Boolean,
                       onCopyButtonClickListener: OnClickListener?) {
 
-        val entryCustomField: EntryField? = EntryField(context, attrs, defStyle)
+        val entryCustomField: EntryField? = EntryField(context)
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)

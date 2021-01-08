@@ -1,0 +1,1 @@
+ * Detect file changes and reload database #794

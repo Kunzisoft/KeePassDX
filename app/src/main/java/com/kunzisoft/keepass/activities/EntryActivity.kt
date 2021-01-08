@@ -39,6 +39,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Attachment
@@ -53,6 +54,7 @@ import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
@@ -150,6 +152,10 @@ class EntryActivity : LockingActivity() {
                     // Close the current activity after an history action
                     if (result.isSuccess)
                         finish()
+                }
+                ACTION_DATABASE_RELOAD_TASK -> {
+                    // Close the current activity
+                    finish()
                 }
             }
             coordinatorLayout?.showActionError(result)
@@ -408,6 +414,9 @@ class EntryActivity : LockingActivity() {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
+        if (mSpecialMode != SpecialMode.DEFAULT) {
+            menu.findItem(R.id.menu_reload_database)?.isVisible = false
+        }
 
         val gotoUrl = menu.findItem(R.id.menu_goto_url)
         gotoUrl?.apply {
@@ -500,6 +509,9 @@ class EntryActivity : LockingActivity() {
             }
             R.id.menu_save_database -> {
                 mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+            }
+            R.id.menu_reload_database -> {
+                mProgressDatabaseTaskProvider?.startDatabaseReload(false)
             }
             android.R.id.home -> finish() // close this activity and return to preview activity (if there is any)
         }

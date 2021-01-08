@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpElement
@@ -334,6 +335,10 @@ class EntryEditActivity : LockingActivity(),
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to retrieve entry after database action", e)
                     }
+                }
+                ACTION_DATABASE_RELOAD_TASK -> {
+                    // Close the current activity
+                    finish()
                 }
             }
             coordinatorLayout?.showActionError(result)
@@ -610,13 +615,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-
-        val inflater = menuInflater
-        inflater.inflate(R.menu.database, menu)
-        // Save database not needed here
-        menu.findItem(R.id.menu_save_database)?.isVisible = false
-        MenuUtil.contributionMenuInflater(inflater, menu)
-
+        MenuUtil.contributionMenuInflater(menuInflater, menu)
         return true
     }
 
@@ -673,9 +672,6 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_save_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
-            }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
                 return true

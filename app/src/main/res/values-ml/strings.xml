@@ -388,4 +388,12 @@
     <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
     <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല</string>
+    <string name="education_advanced_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>
+    <string name="select_entry">എൻ‌ട്രി തിരഞ്ഞെടുക്കുക</string>
+    <string name="custom_fields">ഇഷ്‌ടാനുസൃത ഫീൽഡുകൾ</string>
+    <string name="keyboard_keys_category">കീകൾ</string>
+    <string name="notification">അറിയിപ്പ്</string>
+    <string name="settings_database_recommend_changing_master_key_title">പുതുക്കൽ ശുപാർശ ചെയ്യുക</string>
+    <string name="content">ഉള്ളടക്കം</string>
+    <string name="device_credential">ഉപകരണ ക്രെഡൻഷ്യൽ</string>
 </resources>

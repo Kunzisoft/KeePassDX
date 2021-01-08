@@ -23,7 +23,6 @@ import android.content.Context
 import android.net.Uri
 import android.text.format.Formatter
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.Serializable
 import java.text.DateFormat
@@ -58,7 +57,11 @@ class FileDatabaseInfo : Serializable {
         }
         private set
 
-    fun getModificationString(): String? {
+    fun getLastModification(): Long? {
+        return documentFile?.lastModified()
+    }
+
+    fun getLastModificationString(): String? {
         return documentFile?.lastModified()?.let {
             if (it != 0L) {
                 DateFormat.getDateTimeInstance()
@@ -67,6 +70,10 @@ class FileDatabaseInfo : Serializable {
                 null
             }
         }
+    }
+
+    fun getSize(): Long? {
+        return documentFile?.length()
     }
 
     fun getSizeString(): String? {

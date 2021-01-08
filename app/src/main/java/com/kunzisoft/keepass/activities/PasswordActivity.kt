@@ -588,13 +588,13 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
 
     // Check permission
     private fun checkPermission() {
-        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        val permissions = arrayOf(writePermission)
-        if (Build.VERSION.SDK_INT >= 23
+        if (Build.VERSION.SDK_INT in 23..28
                 && !readOnly
                 && !mPermissionAsked) {
             mPermissionAsked = true
             // Check self permission to show or not the dialog
+            val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            val permissions = arrayOf(writePermission)
             if (toolbar != null
                     && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
@@ -720,7 +720,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    Database.getInstance().closeAndClear(UriUtil.getBinaryDir(this))
+                    Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()

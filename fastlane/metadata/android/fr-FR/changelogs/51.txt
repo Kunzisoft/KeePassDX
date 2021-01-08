@@ -1,0 +1,2 @@
+ * Correction de petits bugs
+ * Suppression des permissions d'écriture à partir d'Android 10

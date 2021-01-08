@@ -22,9 +22,8 @@ package com.kunzisoft.keepass.notifications
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
-import android.os.Binder
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
+import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -40,6 +39,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -64,6 +65,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mAllowFinishAction = AtomicBoolean()
     private var mActionRunning = false
+
+    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -93,12 +97,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 mAllowFinishAction.set(false)
             }
         }
+
+        fun addDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
+            mDatabaseInfoListeners.add(databaseInfoListener)
+        }
+
+        fun removeDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
+            mDatabaseInfoListeners.remove(databaseInfoListener)
+        }
     }
 
     interface ActionTaskListener {
         fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
+    }
+
+    interface DatabaseInfoListener {
+        fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
+                                  newDatabaseInfo: SnapFileDatabaseInfo)
     }
 
     /**
@@ -109,6 +126,31 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             mActionTaskListeners.forEach { actionTaskListener ->
                 actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
             }
+        }
+    }
+
+    fun checkDatabaseInfo() {
+        mDatabase.fileUri?.let {
+            val previousDatabaseInfo = mSnapFileDatabaseInfo
+            val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                    FileDatabaseInfo(applicationContext, it))
+            if (previousDatabaseInfo != null) {
+                if (previousDatabaseInfo != lastFileDatabaseInfo) {
+                    Log.i(TAG, "Database file modified " +
+                            "$previousDatabaseInfo != $lastFileDatabaseInfo ")
+                    // Call listener to indicate a change in database info
+                    mDatabaseInfoListeners.forEach { listener ->
+                        listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
+                    }
+                }
+            }
+        }
+    }
+
+    fun saveDatabaseInfo() {
+        mDatabase.fileUri?.let {
+            mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                    FileDatabaseInfo(applicationContext, it))
         }
     }
 
@@ -138,6 +180,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
+            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask()
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent)
             ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent)
@@ -193,6 +236,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 removeIntentData(intent)
+                                // Save the database info after performing action
+                                saveDatabaseInfo()
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!mDatabase.loaded) {
@@ -214,7 +259,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         return when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK, null -> {
+            ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_RELOAD_TASK,
+            null -> {
                 START_STICKY
             }
             else -> {
@@ -248,7 +295,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             else -> {
                 when (intentAction) {
                     ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-                    ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
+                    ACTION_DATABASE_LOAD_TASK,
+                    ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
                     ACTION_DATABASE_SAVE -> R.string.saving_database
                     else -> {
                         R.string.command_execution
@@ -258,13 +306,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         mMessageId = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK -> null
+            ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_RELOAD_TASK -> null
             else -> null
         }
 
         mWarningId =
                 if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK)
+                        || intentAction == ACTION_DATABASE_LOAD_TASK
+                        || intentAction == ACTION_DATABASE_RELOAD_TASK)
                     null
                 else
                     R.string.do_not_kill_app
@@ -342,9 +392,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      * Execute action with a coroutine
       */
     private suspend fun executeAction(progressTaskUpdater: ProgressTaskUpdater,
-                                     onPreExecute: () -> Unit,
-                                     onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
-                                     onPostExecute: (result: ActionRunnable.Result) -> Unit) {
+                                      onPreExecute: () -> Unit,
+                                      onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
+                                      onPostExecute: (result: ActionRunnable.Result) -> Unit) {
         mAllowFinishAction.set(false)
 
         TimeoutHelper.temporarilyDisableTimeout()
@@ -463,6 +513,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         } else {
             return null
         }
+    }
+
+    private fun buildDatabaseReloadActionTask(): ActionRunnable {
+        return ReloadDatabaseRunnable(
+                    this,
+                    mDatabase,
+                    this
+            ) { result ->
+                // No need to add each info to reload database
+                result.data = Bundle()
+            }
     }
 
     private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {
@@ -770,6 +831,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
+        const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_PASSWORD_TASK = "ACTION_DATABASE_ASSIGN_PASSWORD_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"
         const val ACTION_DATABASE_UPDATE_GROUP_TASK = "ACTION_DATABASE_UPDATE_GROUP_TASK"
