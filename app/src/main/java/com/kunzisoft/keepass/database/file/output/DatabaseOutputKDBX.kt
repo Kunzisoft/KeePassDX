@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.utils.UnsignedInt
 import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
@@ -57,6 +58,7 @@ import java.util.*
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
+import kotlin.experimental.or
 
 
 class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
@@ -80,20 +82,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 throw DatabaseOutputException("No such cipher", e)
             }
 
-            header = outputHeader(mOS)
+            header = outputHeader(mOutputStream)
 
             val osPlain: OutputStream
             osPlain = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
-                val cos = attachStreamEncryptor(header!!, mOS)
+                val cos = attachStreamEncryptor(header!!, mOutputStream)
                 cos.write(header!!.streamStartBytes)
 
                 HashedBlockOutputStream(cos)
             } else {
-                mOS.write(hashOfHeader!!)
-                mOS.write(headerHmac!!)
+                mOutputStream.write(hashOfHeader!!)
+                mOutputStream.write(headerHmac!!)
 
-
-                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOS, mDatabaseKDBX.hmacKey!!))
+                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOutputStream, mDatabaseKDBX.hmacKey!!))
             }
 
             val osXml: OutputStream
@@ -104,8 +105,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 }
 
                 if (header!!.version.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
-                    val ihOut = DatabaseInnerHeaderOutputKDBX(mDatabaseKDBX, header!!, osXml)
-                    ihOut.output()
+                    outputInnerHeader(mDatabaseKDBX, header!!, osXml)
                 }
 
                 outputDatabase(osXml)
@@ -119,6 +119,49 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         } catch (e: IOException) {
             throw DatabaseOutputException(e)
         }
+    }
+
+    @Throws(IOException::class)
+    private fun outputInnerHeader(database: DatabaseKDBX,
+                                  header: DatabaseHeaderKDBX,
+                                  outputStream: OutputStream) {
+        val dataOutputStream = LittleEndianDataOutputStream(outputStream)
+
+        dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID)
+        dataOutputStream.writeInt(4)
+        if (header.innerRandomStream == null)
+            throw IOException("Can't write innerRandomStream")
+        dataOutputStream.writeUInt(header.innerRandomStream!!.id)
+
+        val streamKeySize = header.innerRandomStreamKey.size
+        dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey)
+        dataOutputStream.writeInt(streamKeySize)
+        dataOutputStream.write(header.innerRandomStreamKey)
+
+        database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
+            val protectedBinary = keyBinary.binary
+            // Force decompression to add binary in header
+            protectedBinary.decompress()
+            // Write type binary
+            dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
+            // Write size
+            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(protectedBinary.length() + 1))
+            // Write protected flag
+            var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
+            if (protectedBinary.isProtected) {
+                flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
+            }
+            dataOutputStream.writeByte(flag)
+
+            protectedBinary.getInputDataStream().use { inputStream ->
+                inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    dataOutputStream.write(buffer)
+                }
+            }
+        }
+
+        dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader)
+        dataOutputStream.writeInt(0)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
