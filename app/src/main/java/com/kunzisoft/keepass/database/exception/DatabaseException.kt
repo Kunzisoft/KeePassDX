@@ -67,7 +67,6 @@ class FileNotFoundDatabaseException : LoadDatabaseException {
 class InvalidAlgorithmDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_algorithm
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
