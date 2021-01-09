@@ -36,6 +36,7 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
@@ -204,6 +205,9 @@ object AutofillHelper {
                     // New Response
                     val inlineSuggestionsRequest = activity.intent?.getParcelableExtra<InlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
                     val response = buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
+                    if (inlineSuggestionsRequest != null) {
+                        Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_LONG).show()
+                    }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")
                     mReplyIntent.putExtra(

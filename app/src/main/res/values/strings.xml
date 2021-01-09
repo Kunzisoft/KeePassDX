@@ -445,6 +445,7 @@
     <string name="autofill_block">Block autofill</string>
     <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
     <string name="autofill_read_only_save">Data save is not allowed for a database opened as read-only.</string>
+    <string name="autofill_inline_suggestions_keyboard">Inline autofill suggestions has been added to your keyboard.</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
