@@ -26,6 +26,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
 import android.os.Bundle
+import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -40,7 +42,6 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
-import com.kunzisoft.keepass.utils.UriUtil
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : AppCompatActivity() {
@@ -84,9 +85,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
     private fun launchSelection(searchInfo: SearchInfo) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
+        val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
 
-        if (assistStructure == null) {
+        if (autofillComponent == null) {
             setResult(Activity.RESULT_CANCELED)
             finish()
         } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
@@ -105,21 +106,21 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     searchInfo,
                     { items ->
                         // Items found
-                        AutofillHelper.buildResponse(this, items)
+                        AutofillHelper.buildResponseAndSetResult(this, items)
                         finish()
                     },
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
                                 readOnly,
-                                assistStructure,
+                                autofillComponent,
                                 searchInfo,
                                 false)
                     },
                     {
                         // If database not open
                         FileDatabaseSelectActivity.launchForAutofillResult(this,
-                                assistStructure,
+                                autofillComponent,
                                 searchInfo)
                     }
             )
@@ -196,7 +197,8 @@ class AutofillLauncherActivity : AppCompatActivity() {
         private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
 
         fun getAuthIntentSenderForSelection(context: Context,
-                                            searchInfo: SearchInfo? = null): IntentSender {
+                                            searchInfo: SearchInfo? = null,
+                                            inlineSuggestionsRequest: InlineSuggestionsRequest? = null): IntentSender {
             return PendingIntent.getActivity(context, 0,
                     // Doesn't work with Parcelable (don't know why?)
                     Intent(context, AutofillLauncherActivity::class.java).apply {
@@ -204,6 +206,11 @@ class AutofillLauncherActivity : AppCompatActivity() {
                             putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
                             putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
                             putExtra(KEY_SEARCH_SCHEME, it.webScheme)
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            inlineSuggestionsRequest?.let {
+                                putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+                            }
                         }
                     },
                     PendingIntent.FLAG_CANCEL_CURRENT).intentSender

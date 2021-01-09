@@ -26,9 +26,12 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.util.Log
 import android.widget.ImageView
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
@@ -85,6 +88,22 @@ class IconDrawableFactory {
             })
         }
         remoteViews.setImageViewBitmap(imageId, bitmap)
+    }
+
+    /**
+     * Utility method to assign a drawable to a icon and tint it
+     */
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun assignDrawableToIcon(superDrawable: SuperDrawable,
+                             tintColor: Int = Color.BLACK): Icon {
+        val bitmap = superDrawable.drawable.toBitmap()
+        // Tint bitmap if it's not a custom icon
+        if (superDrawable.tintable && bitmap.isMutable) {
+            Canvas(bitmap).drawBitmap(bitmap, 0.0F, 0.0F, Paint().apply {
+                colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+            })
+        }
+        return Icon.createWithBitmap(bitmap)
     }
 
     /**
@@ -308,4 +327,23 @@ fun RemoteViews.assignDatabaseIcon(context: Context,
     } catch (e: Exception) {
         Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.M)
+fun createIconFromDatabaseIcon(context: Context,
+                               iconFactory: IconDrawableFactory,
+                               icon: IconImage,
+                               tintColor: Int = Color.BLACK): Icon? {
+    try {
+        return iconFactory.assignDrawableToIcon(
+                iconFactory.getIconSuperDrawable(context,
+                        icon,
+                        24,
+                        true,
+                        tintColor),
+                tintColor)
+    } catch (e: Exception) {
+        Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+    }
+    return null
 }

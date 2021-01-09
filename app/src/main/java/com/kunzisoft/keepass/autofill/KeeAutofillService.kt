@@ -19,22 +19,30 @@
  */
 package com.kunzisoft.keepass.autofill
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.CancellationSignal
 import android.service.autofill.*
 import android.util.Log
 import android.view.autofill.AutofillId
+import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import androidx.autofill.inline.UiVersions
+import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
 import java.util.concurrent.atomic.AtomicBoolean
+
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
@@ -46,10 +54,13 @@ class KeeAutofillService : AutofillService() {
 
     override fun onCreate() {
         super.onCreate()
+        getPreferences()
+    }
 
+    private fun getPreferences() {
         applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
         webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
-        askToSaveData = PreferencesUtil.askToSaveAutofillData(this) // TODO apply when changed
+        askToSaveData = PreferencesUtil.askToSaveAutofillData(this)
     }
 
     override fun onFillRequest(request: FillRequest,
@@ -75,7 +86,16 @@ class KeeAutofillService : AutofillService() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
                         searchInfo.webDomain = webDomainWithoutSubDomain
-                        launchSelection(searchInfo, parseResult, callback)
+                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                                && PreferencesUtil.isAutofillInlineSuggestionsEnable(this)) {
+                            request.inlineSuggestionsRequest
+                        } else {
+                            null
+                        }
+                        launchSelection(searchInfo,
+                                parseResult,
+                                inlineSuggestionsRequest,
+                                callback)
                     }
                 }
             }
@@ -84,39 +104,40 @@ class KeeAutofillService : AutofillService() {
 
     private fun launchSelection(searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
+                                inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                 callback: FillCallback) {
         SearchHelper.checkAutoSearchInfo(this,
                 Database.getInstance(),
                 searchInfo,
                 { items ->
-                    val responseBuilder = FillResponse.Builder()
-                    AutofillHelper.addHeader(responseBuilder, packageName,
-                            parseResult.webDomain, parseResult.applicationId)
-                    items.forEach {
-                        responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
-                    }
-                    callback.onSuccess(responseBuilder.build())
+                    callback.onSuccess(
+                            AutofillHelper.buildResponse(this,
+                                    items, parseResult, inlineSuggestionsRequest)
+                    )
                 },
                 {
                     // Show UI if no search result
-                    showUIForEntrySelection(parseResult, searchInfo, callback)
+                    showUIForEntrySelection(parseResult,
+                            searchInfo, inlineSuggestionsRequest, callback)
                 },
                 {
                     // Show UI if database not open
-                    showUIForEntrySelection(parseResult, searchInfo, callback)
+                    showUIForEntrySelection(parseResult,
+                            searchInfo, inlineSuggestionsRequest, callback)
                 }
         )
     }
 
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
                                         searchInfo: SearchInfo,
+                                        inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                         callback: FillCallback) {
         parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
                 val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(this,
-                        searchInfo)
+                        searchInfo, inlineSuggestionsRequest)
                 val responseBuilder = FillResponse.Builder()
                 val remoteViewsUnlock: RemoteViews = if (!parseResult.webDomain.isNullOrEmpty()) {
                     RemoteViews(packageName, R.layout.item_autofill_unlock_web_domain).apply {
@@ -149,8 +170,45 @@ class KeeAutofillService : AutofillService() {
                         )
                     }
                 }
+
+                // Build inline presentation
+                var inlinePresentation: InlinePresentation? = null
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                        && PreferencesUtil.isAutofillInlineSuggestionsEnable(this)) {
+                    inlineSuggestionsRequest?.let {
+                        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+                        if (inlineSuggestionsRequest.maxSuggestionCount > 0
+                                && inlinePresentationSpecs.size > 0) {
+                            val inlinePresentationSpec = inlinePresentationSpecs[0]
+
+                            // Make sure that the IME spec claims support for v1 UI template.
+                            val imeStyle = inlinePresentationSpec.style
+                            if (UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1)) {
+                                // Build the content for IME UI
+                                inlinePresentation = InlinePresentation(
+                                        InlineSuggestionUi.newContentBuilder(
+                                                PendingIntent.getActivity(this,
+                                                        0,
+                                                        Intent(this, AutofillSettingsActivity::class.java),
+                                                        0)
+                                        ).apply {
+                                            setContentDescription(getString(R.string.autofill_sign_in_prompt))
+                                            setTitle(getString(R.string.autofill_sign_in_prompt))
+                                            setStartIcon(Icon.createWithResource(this@KeeAutofillService, R.mipmap.ic_launcher_round).apply {
+                                                setTintBlendMode(BlendMode.DST)
+                                            })
+                                        }.build().slice, inlinePresentationSpec, false)
+                            }
+                        }
+                    }
+                }
+
                 // Build response
-                responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                } else {
+                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
+                }
                 callback.onSuccess(responseBuilder.build())
             }
         }
@@ -190,6 +248,7 @@ class KeeAutofillService : AutofillService() {
 
     override fun onConnected() {
         Log.d(TAG, "onConnected")
+        getPreferences()
     }
 
     override fun onDisconnected() {

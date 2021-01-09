@@ -432,6 +432,8 @@
     <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_inline_suggestions_title">Inline suggestions</string>
+    <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
@@ -443,6 +445,7 @@
     <string name="autofill_block">Block autofill</string>
     <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
     <string name="autofill_read_only_save">Data save is not allowed for a database opened as read-only.</string>
+    <string name="autofill_inline_suggestions_keyboard">Inline autofill suggestions has been added to your keyboard.</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
