@@ -384,10 +384,6 @@ class Database {
 
         // Check if the file is writable
         this.isReadOnly = readOnly
-        if (uri.scheme == "file") {
-            val file = File(uri.path!!)
-            isReadOnly = !file.canWrite()
-        }
 
         // Pass KeyFile Uri as InputStreams
         var keyFileInputStream: InputStream? = null
