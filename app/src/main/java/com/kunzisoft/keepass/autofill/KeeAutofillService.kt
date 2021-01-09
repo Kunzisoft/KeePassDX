@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -182,9 +183,12 @@ class KeeAutofillService : AutofillService() {
                             if (UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1)) {
                                 // Build the content for IME UI
                                 inlinePresentation = InlinePresentation(
-                                        // TODO Intent for long press
                                         InlineSuggestionUi.newContentBuilder(
-                                                PendingIntent.getActivity(this, 4596, Intent(), 0)).apply {
+                                                PendingIntent.getActivity(this,
+                                                        0,
+                                                        Intent(this, AutofillSettingsActivity::class.java),
+                                                        0)
+                                        ).apply {
                                             setContentDescription(getString(R.string.autofill_sign_in_prompt))
                                             setTitle(getString(R.string.autofill_sign_in_prompt))
                                             setStartIcon(Icon.createWithResource(this@KeeAutofillService, R.mipmap.ic_launcher_round).apply {

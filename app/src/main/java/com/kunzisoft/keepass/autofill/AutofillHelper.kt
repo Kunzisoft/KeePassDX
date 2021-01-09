@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.createIconFromDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
@@ -130,8 +131,10 @@ object AutofillHelper {
                 return null
 
             // Build the content for IME UI
-            // TODO Intent for long press
-            val pendingIntent = PendingIntent.getActivity(context, 4596, Intent(), 0)
+            val pendingIntent = PendingIntent.getActivity(context,
+                    0,
+                    Intent(context, AutofillSettingsActivity::class.java),
+                    0)
             return InlinePresentation(
                     InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
                         setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
