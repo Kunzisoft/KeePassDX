@@ -54,10 +54,13 @@ class KeeAutofillService : AutofillService() {
 
     override fun onCreate() {
         super.onCreate()
+        getPreferences()
+    }
 
+    private fun getPreferences() {
         applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
         webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
-        askToSaveData = PreferencesUtil.askToSaveAutofillData(this) // TODO apply when changed
+        askToSaveData = PreferencesUtil.askToSaveAutofillData(this)
     }
 
     override fun onFillRequest(request: FillRequest,
@@ -245,6 +248,7 @@ class KeeAutofillService : AutofillService() {
 
     override fun onConnected() {
         Log.d(TAG, "onConnected")
+        getPreferences()
     }
 
     override fun onDisconnected() {
