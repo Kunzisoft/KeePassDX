@@ -392,31 +392,36 @@ class Database {
             keyfile?.let {
                 keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
             }
-        } catch (e: Exception) {
+
+            // Read database stream for the first time
+            readDatabaseStream(contentResolver, uri,
+                    { databaseInputStream ->
+                        DatabaseInputKDB(cacheDirectory)
+                                .openDatabase(databaseInputStream,
+                                        password,
+                                        keyFileInputStream,
+                                        progressTaskUpdater,
+                                        fixDuplicateUUID)
+                    },
+                    { databaseInputStream ->
+                        DatabaseInputKDBX(cacheDirectory)
+                                .openDatabase(databaseInputStream,
+                                        password,
+                                        keyFileInputStream,
+                                        progressTaskUpdater,
+                                        fixDuplicateUUID)
+                    }
+            )
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "Unable to load keyfile", e)
             throw FileNotFoundDatabaseException()
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         } finally {
             keyFileInputStream?.close()
         }
-
-        // Read database stream for the first time
-        readDatabaseStream(contentResolver, uri,
-                { databaseInputStream ->
-                    DatabaseInputKDB(cacheDirectory)
-                            .openDatabase(databaseInputStream,
-                                    password,
-                                    keyFileInputStream,
-                                    progressTaskUpdater,
-                                    fixDuplicateUUID)
-                },
-                { databaseInputStream ->
-                    DatabaseInputKDBX(cacheDirectory)
-                            .openDatabase(databaseInputStream,
-                                    password,
-                                    keyFileInputStream,
-                                    progressTaskUpdater,
-                                    fixDuplicateUUID)
-                }
-        )
     }
 
     @Throws(LoadDatabaseException::class)
@@ -440,7 +445,10 @@ class Database {
                                         progressTaskUpdater)
                     }
             )
-        } ?: throw IODatabaseException()
+        } ?: run {
+            Log.e(TAG, "Database URI is null, database cannot be reloaded")
+            throw IODatabaseException()
+        }
     }
 
     fun isGroupSearchable(group: Group, omitBackup: Boolean): Boolean {
