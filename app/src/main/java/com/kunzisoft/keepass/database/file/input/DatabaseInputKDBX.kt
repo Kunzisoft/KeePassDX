@@ -452,8 +452,6 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 val strData = readString(xpp)
                 if (strData.isNotEmpty()) {
                     customIconData = Base64.decode(strData, BASE_64_FLAG)
-                } else {
-                    assert(false)
                 }
             } else {
                 readUnknown(xpp)
