@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.createIconFromDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -171,7 +172,8 @@ object AutofillHelper {
         // Add inline suggestion for new IME and dataset
         entriesInfo.forEachIndexed { index, entryInfo ->
             val inlinePresentation = inlineSuggestionsRequest?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                        && PreferencesUtil.isAutofillInlineSuggestionsEnable(context)) {
                     buildInlinePresentationForEntry(context, inlineSuggestionsRequest, index, entryInfo)
                 } else {
                     null
@@ -227,7 +229,8 @@ object AutofillHelper {
                                        searchInfo: SearchInfo?) {
         EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.SELECTION)
         intent.putExtra(EXTRA_ASSIST_STRUCTURE, autofillComponent.assistStructure)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && PreferencesUtil.isAutofillInlineSuggestionsEnable(activity)) {
             autofillComponent.inlineSuggestionsRequest?.let {
                 intent.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
             }

@@ -82,7 +82,8 @@ class KeeAutofillService : AutofillService() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
                         searchInfo.webDomain = webDomainWithoutSubDomain
-                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                                && PreferencesUtil.isAutofillInlineSuggestionsEnable(this)) {
                             request.inlineSuggestionsRequest
                         } else {
                             null
@@ -168,7 +169,8 @@ class KeeAutofillService : AutofillService() {
 
                 // Build inline presentation
                 var inlinePresentation: InlinePresentation? = null
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                        && PreferencesUtil.isAutofillInlineSuggestionsEnable(this)) {
                     inlineSuggestionsRequest?.let {
                         val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
                         if (inlineSuggestionsRequest.maxSuggestionCount > 0
