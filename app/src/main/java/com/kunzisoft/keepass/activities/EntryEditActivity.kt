@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -49,6 +48,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -905,7 +905,7 @@ class EntryEditActivity : LockingActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     group: Group,
                                     searchInfo: SearchInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
@@ -913,7 +913,7 @@ class EntryEditActivity : LockingActivity(),
                 intent.putExtra(KEY_PARENT, group.nodeId)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }

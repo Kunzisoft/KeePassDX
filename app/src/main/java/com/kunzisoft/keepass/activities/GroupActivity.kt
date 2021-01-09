@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.app.SearchManager
-import android.app.assist.AssistStructure
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -52,6 +51,7 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -229,10 +229,10 @@ class GroupActivity : LockingActivity(),
                                     currentGroup, searchInfo)
                             onLaunchActivitySpecialMode()
                         },
-                        { searchInfo, assistStructure ->
+                        { searchInfo, autofillComponent ->
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 EntryEditActivity.launchForAutofillResult(this@GroupActivity,
-                                        assistStructure,
+                                        autofillComponent,
                                         currentGroup, searchInfo)
                                 onLaunchActivitySpecialMode()
                             } else {
@@ -1323,14 +1323,14 @@ class GroupActivity : LockingActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     readOnly: Boolean,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }
@@ -1447,7 +1447,7 @@ class GroupActivity : LockingActivity(),
                                 }
                         )
                     },
-                    { searchInfo, assistStructure ->
+                    { searchInfo, autofillComponent ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     Database.getInstance(),
@@ -1461,7 +1461,7 @@ class GroupActivity : LockingActivity(),
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
                                                 readOnly,
-                                                assistStructure,
+                                                autofillComponent,
                                                 searchInfo,
                                                 false)
                                         onLaunchActivitySpecialMode()

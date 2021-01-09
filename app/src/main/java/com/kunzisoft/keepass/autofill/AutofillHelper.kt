@@ -56,11 +56,13 @@ object AutofillHelper {
 
     private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
-    private const val ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
+    private const val EXTRA_ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
+    const val EXTRA_INLINE_SUGGESTIONS_REQUEST = "com.kunzisoft.keepass.autofill.INLINE_SUGGESTIONS_REQUEST"
 
-    fun retrieveAssistStructure(intent: Intent?): AssistStructure? {
-        intent?.let {
-            return it.getParcelableExtra(ASSIST_STRUCTURE)
+    fun retrieveAutofillComponent(intent: Intent?): AutofillComponent? {
+        intent?.getParcelableExtra<AssistStructure?>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
+            return AutofillComponent(assistStructure,
+                              intent.getParcelableExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST))
         }
         return null
     }
@@ -195,28 +197,23 @@ object AutofillHelper {
             activity.setResult(Activity.RESULT_CANCELED)
         } else {
             var setResultOk = false
-            activity.intent?.extras?.let { extras ->
-                if (extras.containsKey(ASSIST_STRUCTURE)) {
-                    activity.intent?.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)?.let { structure ->
-                        StructureParser(structure).parse()?.let { result ->
-                            // New Response
-                            // TODO inline suggestion
-                            val inlineSuggestionsRequest: InlineSuggestionsRequest? = null
-                            val response = buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
-                            val mReplyIntent = Intent()
-                            Log.d(activity.javaClass.name, "Successed Autofill auth.")
-                            mReplyIntent.putExtra(
-                                    AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                                    response)
-                            setResultOk = true
-                            activity.setResult(Activity.RESULT_OK, mReplyIntent)
-                        }
-                    }
+            activity.intent?.getParcelableExtra<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
+                StructureParser(structure).parse()?.let { result ->
+                    // New Response
+                    val inlineSuggestionsRequest = activity.intent?.getParcelableExtra<InlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                    val response = buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
+                    val mReplyIntent = Intent()
+                    Log.d(activity.javaClass.name, "Successed Autofill auth.")
+                    mReplyIntent.putExtra(
+                            AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                            response)
+                    setResultOk = true
+                    activity.setResult(Activity.RESULT_OK, mReplyIntent)
                 }
-                if (!setResultOk) {
-                    Log.w(activity.javaClass.name, "Failed Autofill auth.")
-                    activity.setResult(Activity.RESULT_CANCELED)
-                }
+            }
+            if (!setResultOk) {
+                Log.w(activity.javaClass.name, "Failed Autofill auth.")
+                activity.setResult(Activity.RESULT_CANCELED)
             }
         }
     }
@@ -226,10 +223,15 @@ object AutofillHelper {
      */
     fun startActivityForAutofillResult(activity: Activity,
                                        intent: Intent,
-                                       assistStructure: AssistStructure,
+                                       autofillComponent: AutofillComponent,
                                        searchInfo: SearchInfo?) {
         EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.SELECTION)
-        intent.putExtra(ASSIST_STRUCTURE, assistStructure)
+        intent.putExtra(EXTRA_ASSIST_STRUCTURE, autofillComponent.assistStructure)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            autofillComponent.inlineSuggestionsRequest?.let {
+                intent.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+            }
+        }
         EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
         activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
     }
