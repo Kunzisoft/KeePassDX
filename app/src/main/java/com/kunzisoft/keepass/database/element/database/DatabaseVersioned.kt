@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.utils.StringUtil.hexStringToByteArray
 import java.io.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -129,15 +130,15 @@ abstract class DatabaseVersioned<
         val keyData = keyByteArrayOutputStream.toByteArray()
 
         val keyByteArrayInputStream = ByteArrayInputStream(keyData)
-        val key = loadXmlKeyFile(keyByteArrayInputStream)
-        if (key != null) {
-            return key
+        val xmlKeyByteArray = loadXmlKeyFile(keyByteArrayInputStream)
+        if (xmlKeyByteArray != null) {
+            return xmlKeyByteArray
         }
 
         when (keyData.size.toLong()) {
             32L -> return keyData
             64L -> try {
-                return hexStringToByteArray(String(keyData))
+                return String(keyData).hexStringToByteArray()
             } catch (e: IndexOutOfBoundsException) {
                 // Key is not base 64, treat it as binary data
             }
@@ -391,16 +392,5 @@ abstract class DatabaseVersioned<
         private const val TAG = "DatabaseVersioned"
 
         val UUID_ZERO = UUID(0, 0)
-
-        fun hexStringToByteArray(s: String): ByteArray {
-            val len = s.length
-            val data = ByteArray(len / 2)
-            var i = 0
-            while (i < len) {
-                data[i / 2] = ((Character.digit(s[i], 16) shl 4) + Character.digit(s[i + 1], 16)).toByte()
-                i += 2
-            }
-            return data
-        }
     }
 }
