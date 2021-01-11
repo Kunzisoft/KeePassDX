@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.otp
 
 import com.kunzisoft.keepass.model.OtpModel
+import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import org.apache.commons.codec.binary.Base32
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.binary.Hex
@@ -216,17 +217,9 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             return secret.isNotEmpty() && checkBase64Secret(secret)
         }
 
-        fun removeLineChars(parameter: String): String {
-            return parameter.replace("[\\r|\\n|\\t|\\u00A0]+".toRegex(), "")
-        }
-
-        fun removeSpaceChars(parameter: String): String {
-            return parameter.replace("[\\r|\\n|\\t|\\s|\\u00A0]+".toRegex(), "")
-        }
-
         fun replaceBase32Chars(parameter: String): String {
             // Add 'A' at end if not Base32 length
-            var parameterNewSize = removeSpaceChars(parameter.toUpperCase(Locale.ENGLISH))
+            var parameterNewSize = parameter.toUpperCase(Locale.ENGLISH).removeSpaceChars()
             while (parameterNewSize.length % 8 != 0) {
                 parameterNewSize += 'A'
             }

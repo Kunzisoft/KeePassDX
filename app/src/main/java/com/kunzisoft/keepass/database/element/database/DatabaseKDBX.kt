@@ -43,10 +43,10 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
-import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -385,29 +385,27 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             val doc = documentBuilder.parse(keyInputStream)
 
             val docElement = doc.documentElement
-            if (docElement == null || !docElement.nodeName.equals(RootElementName, ignoreCase = true)) {
+            val keyFileChildNodes = docElement.childNodes
+            // Root node must be unique and "KeyFile"
+            if (docElement == null
+                    || !docElement.nodeName.equals(XML_NODE_ROOT_NAME, ignoreCase = true)
+                    || keyFileChildNodes.length < 2) {
                 return null
             }
 
-            val children = docElement.childNodes
-            if (children.length < 2) {
-                return null
-            }
-
-            for (i in 0 until children.length) {
-                val child = children.item(i)
-
-                if (child.nodeName.equals(KeyElementName, ignoreCase = true)) {
-                    val keyChildren = child.childNodes
-                    for (j in 0 until keyChildren.length) {
-                        val keyChild = keyChildren.item(j)
-                        if (keyChild.nodeName.equals(KeyDataElementName, ignoreCase = true)) {
-                            val children2 = keyChild.childNodes
-                            for (k in 0 until children2.length) {
-                                val text = children2.item(k)
-                                if (text.nodeType == Node.TEXT_NODE) {
-                                    val txt = text as Text
-                                    return Base64.decode(txt.nodeValue, BASE_64_FLAG)
+            for (keyFileChildPosition in 0 until keyFileChildNodes.length) {
+                val keyFileChildNode = keyFileChildNodes.item(keyFileChildPosition)
+                if (keyFileChildNode.nodeName.equals(XML_NODE_KEY_NAME, ignoreCase = true)) {
+                    val keyChildNodes = keyFileChildNode.childNodes
+                    for (keyChildPosition in 0 until keyChildNodes.length) {
+                        val keyChildNode = keyChildNodes.item(keyChildPosition)
+                        if (keyChildNode.nodeName.equals(XML_NODE_DATA_NAME, ignoreCase = true)) {
+                            val dataChildNodes = keyChildNode.childNodes
+                            for (dataChildPosition in 0 until dataChildNodes.length) {
+                                val dataChildNode = dataChildNodes.item(dataChildPosition)
+                                if (dataChildNode.nodeType == Node.TEXT_NODE) {
+                                    return Base64.decode(dataChildNode.textContent.removeSpaceChars(),
+                                            BASE_64_FLAG)
                                 }
                             }
                         }
@@ -634,11 +632,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val DEFAULT_HISTORY_MAX_ITEMS = 10 // -1 unlimited
         private const val DEFAULT_HISTORY_MAX_SIZE = (6 * 1024 * 1024).toLong() // -1 unlimited
 
-        private const val RootElementName = "KeyFile"
-        //private const val MetaElementName = "Meta";
-        //private const val VersionElementName = "Version";
-        private const val KeyElementName = "Key"
-        private const val KeyDataElementName = "Data"
+        private const val XML_NODE_ROOT_NAME = "KeyFile"
+        private const val XML_NODE_META_NAME = "Meta";
+        private const val XML_NODE_VERSION_NAME = "Version";
+        private const val XML_NODE_KEY_NAME = "Key"
+        private const val XML_NODE_DATA_NAME = "Data"
 
         const val BASE_64_FLAG = Base64.NO_WRAP
 
