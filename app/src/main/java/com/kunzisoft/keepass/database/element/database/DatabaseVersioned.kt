@@ -27,8 +27,10 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import com.kunzisoft.keepass.utils.StringUtil.hexStringToByteArray
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -125,39 +127,25 @@ abstract class DatabaseVersioned<
     @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
-        val keyByteArrayOutputStream = ByteArrayOutputStream()
-        keyInputStream.copyTo(keyByteArrayOutputStream)
-        val keyData = keyByteArrayOutputStream.toByteArray()
+        val keyData = keyInputStream.readBytes()
 
-        val keyByteArrayInputStream = ByteArrayInputStream(keyData)
-        val xmlKeyByteArray = loadXmlKeyFile(keyByteArrayInputStream)
+        // Check 32 bits key file
+        if (keyData.size == 32) {
+            return keyData
+        }
+
+        // Check XML key file
+        val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
         if (xmlKeyByteArray != null) {
             return xmlKeyByteArray
         }
 
-        when (keyData.size.toLong()) {
-            32L -> return keyData
-            64L -> try {
-                return String(keyData).hexStringToByteArray()
-            } catch (e: IndexOutOfBoundsException) {
-                // Key is not base 64, treat it as binary data
-            }
-        }
-
-        val messageDigest: MessageDigest
+        // Hash file as binary data
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
+            return MessageDigest.getInstance("SHA-256").digest(keyData)
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("SHA-256 not supported")
         }
-
-        try {
-            messageDigest.update(keyData)
-        } catch (e: Exception) {
-            println(e.toString())
-        }
-
-        return messageDigest.digest()
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
