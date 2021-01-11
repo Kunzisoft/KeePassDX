@@ -478,7 +478,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             val dataDigest = digest.digest(data.hexStringToByteArray())
                     .copyOfRange(0, 4)
                     .toHexString()
-            Log.d(TAG, "Digest $dataDigest compared to hash $hash")
             success = dataDigest == hash
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
