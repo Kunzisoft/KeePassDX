@@ -176,8 +176,7 @@ object AutofillHelper {
         // Add inline suggestion for new IME and dataset
         entriesInfo.forEachIndexed { index, entryInfo ->
             val inlinePresentation = inlineSuggestionsRequest?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                        && PreferencesUtil.isAutofillInlineSuggestionsEnable(context)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     buildInlinePresentationForEntry(context, inlineSuggestionsRequest, index, entryInfo)
                 } else {
                     null
@@ -209,7 +208,7 @@ object AutofillHelper {
                     val inlineSuggestionsRequest = activity.intent?.getParcelableExtra<InlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
                     val response = buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
                     if (inlineSuggestionsRequest != null) {
-                        Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                     }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")
