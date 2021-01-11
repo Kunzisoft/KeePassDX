@@ -160,7 +160,9 @@ abstract class DatabaseVersioned<
         return messageDigest.digest()
     }
 
-    protected abstract fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray?
+    protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
+        return null
+    }
 
     open fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
         if (password == null && !containsKeyFile)
