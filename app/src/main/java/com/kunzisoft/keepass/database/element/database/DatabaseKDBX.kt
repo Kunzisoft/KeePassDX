@@ -431,18 +431,24 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                         val keyChildNode = keyChildNodes.item(keyChildPosition)
                         // <Data>
                         if (keyChildNode.nodeName.equals(XML_NODE_DATA_NAME, ignoreCase = true)) {
-                            val dataNodeAttributes = keyChildNode.attributes
-                            val hashString = dataNodeAttributes
-                                    .getNamedItem(XML_ATTRIBUTE_DATA_HASH).nodeValue
+                            var hashString : String? = null
+                            if (keyChildNode.hasAttributes()) {
+                                val dataNodeAttributes = keyChildNode.attributes
+                                hashString = dataNodeAttributes
+                                        .getNamedItem(XML_ATTRIBUTE_DATA_HASH).nodeValue
+                            }
                             val dataChildNodes = keyChildNode.childNodes
                             for (dataChildPosition in 0 until dataChildNodes.length) {
                                 val dataChildNode = dataChildNodes.item(dataChildPosition)
                                 if (dataChildNode.nodeType == Node.TEXT_NODE) {
                                     val dataString = dataChildNode.textContent.removeSpaceChars()
                                     when (xmlKeyFileVersion) {
-                                        1F -> {}
+                                        1F -> {
+                                            // No hash in KeyFile XML version 1
+                                        }
                                         2F -> {
-                                            if (checkKeyFileHash(dataString, hashString))
+                                            if (hashString != null
+                                                    && checkKeyFileHash(dataString, hashString))
                                                 Log.i(TAG, "Successful key file hash check.")
                                             else
                                                 Log.e(TAG, "Unable to check the hash of the key file.")
