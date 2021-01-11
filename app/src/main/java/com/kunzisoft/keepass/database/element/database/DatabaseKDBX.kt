@@ -462,7 +462,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Unable to read XML keyfile", e)
             return null
         }
         return null
