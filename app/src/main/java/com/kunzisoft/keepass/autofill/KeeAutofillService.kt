@@ -50,6 +50,7 @@ class KeeAutofillService : AutofillService() {
     var applicationIdBlocklist: Set<String>? = null
     var webDomainBlocklist: Set<String>? = null
     var askToSaveData: Boolean = false
+    var autofillInlineSuggestionsEnabled: Boolean = false
     private var mLock = AtomicBoolean()
 
     override fun onCreate() {
@@ -61,6 +62,7 @@ class KeeAutofillService : AutofillService() {
         applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
         webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
         askToSaveData = PreferencesUtil.askToSaveAutofillData(this)
+        autofillInlineSuggestionsEnabled = PreferencesUtil.isAutofillInlineSuggestionsEnable(this)
     }
 
     override fun onFillRequest(request: FillRequest,
@@ -87,7 +89,7 @@ class KeeAutofillService : AutofillService() {
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
                         searchInfo.webDomain = webDomainWithoutSubDomain
                         val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                                && PreferencesUtil.isAutofillInlineSuggestionsEnable(this)) {
+                                && autofillInlineSuggestionsEnabled) {
                             request.inlineSuggestionsRequest
                         } else {
                             null
@@ -174,7 +176,7 @@ class KeeAutofillService : AutofillService() {
                 // Build inline presentation
                 var inlinePresentation: InlinePresentation? = null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                        && PreferencesUtil.isAutofillInlineSuggestionsEnable(this)) {
+                        && autofillInlineSuggestionsEnabled) {
                     inlineSuggestionsRequest?.let {
                         val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
                         if (inlineSuggestionsRequest.maxSuggestionCount > 0
