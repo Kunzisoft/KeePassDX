@@ -469,7 +469,7 @@ class Database {
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
                 searchInfoString, SearchParameters().apply {
-            searchInTitles = false
+            searchInTitles = true
             searchInUserNames = false
             searchInPasswords = false
             searchInUrls = true
