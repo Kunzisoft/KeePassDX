@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -49,6 +48,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpElement
@@ -335,6 +336,10 @@ class EntryEditActivity : LockingActivity(),
                         Log.e(TAG, "Unable to retrieve entry after database action", e)
                     }
                 }
+                ACTION_DATABASE_RELOAD_TASK -> {
+                    // Close the current activity
+                    finish()
+                }
             }
             coordinatorLayout?.showActionError(result)
         }
@@ -361,7 +366,7 @@ class EntryEditActivity : LockingActivity(),
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mDatabase?.let { database ->
-                AutofillHelper.buildResponse(this@EntryEditActivity,
+                AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
                         entry.getEntryInfo(database))
             }
         }
@@ -610,13 +615,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-
-        val inflater = menuInflater
-        inflater.inflate(R.menu.database, menu)
-        // Save database not needed here
-        menu.findItem(R.id.menu_save_database)?.isVisible = false
-        MenuUtil.contributionMenuInflater(inflater, menu)
-
+        MenuUtil.contributionMenuInflater(menuInflater, menu)
         return true
     }
 
@@ -673,9 +672,6 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_save_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
-            }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
                 return true
@@ -909,7 +905,7 @@ class EntryEditActivity : LockingActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     group: Group,
                                     searchInfo: SearchInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
@@ -917,7 +913,7 @@ class EntryEditActivity : LockingActivity(),
                 intent.putExtra(KEY_PARENT, group.nodeId)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }

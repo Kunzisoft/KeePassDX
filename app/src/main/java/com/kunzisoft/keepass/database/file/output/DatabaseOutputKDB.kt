@@ -63,7 +63,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
         sortGroupsForOutput()
 
-        val header = outputHeader(mOS)
+        val header = outputHeader(mOutputStream)
 
         val finalKey = getFinalKey(header)
 
@@ -85,7 +85,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
             cipher.init(Cipher.ENCRYPT_MODE,
                     SecretKeySpec(finalKey, "AES"),
                     IvParameterSpec(header.encryptionIV))
-            val cos = CipherOutputStream(mOS, cipher)
+            val cos = CipherOutputStream(mOutputStream, cipher)
             val bos = BufferedOutputStream(cos)
             outputPlanGroupAndEntries(bos)
             bos.flush()

@@ -185,6 +185,7 @@
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
     <string name="menu_save_database">Save database</string>
+    <string name="menu_reload_database">Reload database</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
@@ -272,6 +273,9 @@
     <string name="warning_sure_remove_data">Remove this data anyway?</string>
     <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
+    <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
+    <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or reload it with the latest changes.</string>
+    <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>
@@ -428,6 +432,8 @@
     <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_inline_suggestions_title">Inline suggestions</string>
+    <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
@@ -439,6 +445,7 @@
     <string name="autofill_block">Block autofill</string>
     <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
     <string name="autofill_read_only_save">Data save is not allowed for a database opened as read-only.</string>
+    <string name="autofill_inline_suggestions_keyboard">Autofill suggestions added.</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>

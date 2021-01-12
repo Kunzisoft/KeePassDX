@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.app.SearchManager
-import android.app.assist.AssistStructure
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -52,6 +51,7 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -70,6 +70,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
@@ -228,10 +229,10 @@ class GroupActivity : LockingActivity(),
                                     currentGroup, searchInfo)
                             onLaunchActivitySpecialMode()
                         },
-                        { searchInfo, assistStructure ->
+                        { searchInfo, autofillComponent ->
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 EntryEditActivity.launchForAutofillResult(this@GroupActivity,
-                                        assistStructure,
+                                        autofillComponent,
                                         currentGroup, searchInfo)
                                 onLaunchActivitySpecialMode()
                             } else {
@@ -341,6 +342,12 @@ class GroupActivity : LockingActivity(),
                                 }
                             }
                         }
+                    }
+                    ACTION_DATABASE_RELOAD_TASK -> {
+                        // Reload the current activity
+                        startActivity(intent)
+                        finish()
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     }
                 }
 
@@ -665,7 +672,7 @@ class GroupActivity : LockingActivity(),
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
             mDatabase?.let { database ->
-                AutofillHelper.buildResponse(this,
+                AutofillHelper.buildResponseAndSetResult(this,
                         entry.getEntryInfo(database))
             }
         }
@@ -878,6 +885,8 @@ class GroupActivity : LockingActivity(),
         }
         if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
+        } else {
+            menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
 
         // Menu for recycle bin
@@ -1001,6 +1010,10 @@ class GroupActivity : LockingActivity(),
                 return true
             R.id.menu_save_database -> {
                 mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+                return true
+            }
+            R.id.menu_reload_database -> {
+                mProgressDatabaseTaskProvider?.startDatabaseReload(false)
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
@@ -1310,14 +1323,14 @@ class GroupActivity : LockingActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     readOnly: Boolean,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }
@@ -1434,21 +1447,21 @@ class GroupActivity : LockingActivity(),
                                 }
                         )
                     },
-                    { searchInfo, assistStructure ->
+                    { searchInfo, autofillComponent ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     Database.getInstance(),
                                     searchInfo,
                                     { items ->
                                         // Response is build
-                                        AutofillHelper.buildResponse(activity, items)
+                                        AutofillHelper.buildResponseAndSetResult(activity, items)
                                         onValidateSpecialMode()
                                     },
                                     {
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
                                                 readOnly,
-                                                assistStructure,
+                                                autofillComponent,
                                                 searchInfo,
                                                 false)
                                         onLaunchActivitySpecialMode()

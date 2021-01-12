@@ -1,1 +1,4 @@
- *
+ * Détection des changements de fichiers et rechargement de base de données #794
+ * Remplissage automatique avec suggestions en ligne (Android R) (Android R) #827
+ * Ajout du fichier de clé XML version 2 #844
+ * Correction des binaires de 64 Octets #835

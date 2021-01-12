@@ -47,7 +47,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                             UriUtil.decode(fileDatabaseHistoryEntity?.databaseUri),
                             fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias ?: ""),
                             fileDatabaseInfo.exists,
-                            fileDatabaseInfo.getModificationString(),
+                            fileDatabaseInfo.getLastModificationString(),
                             fileDatabaseInfo.getSizeString()
                     )
                 },
@@ -90,7 +90,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                             UriUtil.decode(fileDatabaseHistoryEntity.databaseUri),
                                             fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
                                             fileDatabaseInfo.exists,
-                                            fileDatabaseInfo.getModificationString(),
+                                            fileDatabaseInfo.getLastModificationString(),
                                             fileDatabaseInfo.getSizeString()
                                     )
                             )
@@ -152,7 +152,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                 UriUtil.decode(fileDatabaseHistory.databaseUri),
                                 fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
                                 fileDatabaseInfo.exists,
-                                fileDatabaseInfo.getModificationString(),
+                                fileDatabaseInfo.getLastModificationString(),
                                 fileDatabaseInfo.getSizeString()
                         )
                     }

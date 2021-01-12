@@ -63,8 +63,7 @@ import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import kotlin.math.min
 
-class DatabaseInputKDBX(cacheDirectory: File,
-                        private val fixDuplicateUUID: Boolean = false)
+class DatabaseInputKDBX(cacheDirectory: File)
     : DatabaseInput<DatabaseKDBX>(cacheDirectory) {
 
     private var randomStream: StreamCipher? = null
@@ -98,12 +97,30 @@ class DatabaseInputKDBX(cacheDirectory: File,
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.retrieveMasterKey(password, keyInputStream)
+        }
+    }
 
+    @Throws(LoadDatabaseException::class)
+    override fun openDatabase(databaseInputStream: InputStream,
+                              masterKey: ByteArray,
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.masterKey = masterKey
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
+    private fun openDatabase(databaseInputStream: InputStream,
+                             progressTaskUpdater: ProgressTaskUpdater?,
+                             fixDuplicateUUID: Boolean,
+                             assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
-            // TODO performance
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
-
             mDatabase = DatabaseKDBX()
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
@@ -116,9 +133,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            mDatabase.retrieveMasterKey(password, keyInputStream)
+            assignMasterKey?.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
-            // TODO performance
 
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
             val engine: CipherEngine
@@ -436,8 +452,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val strData = readString(xpp)
                 if (strData.isNotEmpty()) {
                     customIconData = Base64.decode(strData, BASE_64_FLAG)
-                } else {
-                    assert(false)
                 }
             } else {
                 readUnknown(xpp)

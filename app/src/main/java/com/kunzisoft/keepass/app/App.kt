@@ -34,7 +34,7 @@ class App : MultiDexApplication() {
     }
 
     override fun onTerminate() {
-        Database.getInstance().closeAndClear(UriUtil.getBinaryDir(this))
+        Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
         super.onTerminate()
     }
 }

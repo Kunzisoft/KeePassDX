@@ -40,12 +40,15 @@ import javax.crypto.spec.SecretKeySpec
 class DatabaseHeaderOutputKDBX @Throws(DatabaseOutputException::class)
 constructor(private val databaseKDBX: DatabaseKDBX,
             private val header: DatabaseHeaderKDBX,
-            outputStream: OutputStream) : DatabaseHeaderOutput() {
+            outputStream: OutputStream) {
 
     private val los: LittleEndianDataOutputStream
     private val mos: MacOutputStream
     private val dos: DigestOutputStream
     lateinit var headerHmac: ByteArray
+
+    var hashOfHeader: ByteArray? = null
+        private set
 
     init {
 
