@@ -382,7 +382,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             try {
                 documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
             } catch (e : ParserConfigurationException) {
-                Log.e(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)", e)
+                Log.w(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)")
             }
 
             val documentBuilder = documentBuilderFactory.newDocumentBuilder()
