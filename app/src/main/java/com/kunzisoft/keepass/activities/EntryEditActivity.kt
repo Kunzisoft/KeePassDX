@@ -484,8 +484,12 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        verifyNameField(newField) {
+        if (oldField.name.equals(newField.name, true)) {
             entryEditFragment?.replaceExtraField(oldField, newField)
+        } else {
+            verifyNameField(newField) {
+                entryEditFragment?.replaceExtraField(oldField, newField)
+            }
         }
     }
 
