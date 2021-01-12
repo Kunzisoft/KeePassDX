@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import java.util.*
 
 /**
@@ -54,6 +55,7 @@ class ClipboardEntryNotificationField : Parcelable {
             NotificationFieldId.UNKNOWN -> ""
             NotificationFieldId.USERNAME -> entryInfo?.username ?: ""
             NotificationFieldId.PASSWORD -> entryInfo?.password ?: ""
+            NotificationFieldId.OTP -> entryInfo?.getGeneratedFieldValue(OTP_TOKEN_FIELD) ?: ""
             NotificationFieldId.FIELD_A,
             NotificationFieldId.FIELD_B,
             NotificationFieldId.FIELD_C -> entryInfo?.getGeneratedFieldValue(label) ?: ""
@@ -81,7 +83,7 @@ class ClipboardEntryNotificationField : Parcelable {
     }
 
     enum class NotificationFieldId {
-        UNKNOWN, USERNAME, PASSWORD, FIELD_A, FIELD_B, FIELD_C;
+        UNKNOWN, USERNAME, PASSWORD, OTP, FIELD_A, FIELD_B, FIELD_C;
 
         companion object {
             val anonymousFieldId: Array<NotificationFieldId>
