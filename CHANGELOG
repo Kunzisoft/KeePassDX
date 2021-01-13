@@ -5,6 +5,7 @@ KeePassDX(2.9.9)
  * Fix binaries of 64 bytes #835
  * Special search in title fields #830
  * Priority to OTP button in notifications #845
+ * Fix OTP generation for long secret key #848
  * Fix small bugs #849
 
 KeePassDX(2.9.8)
