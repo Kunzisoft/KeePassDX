@@ -247,8 +247,9 @@ object OtpEntryFields {
                     encodeParameter(username)
                 else
                     encodeParameter(otpElement.name)
+        val secret = encodeParameter(otpElement.getBase32Secret())
         val uriString = StringBuilder("otpauth://$otpAuthority/$issuer%3A$accountName" +
-                "?$SECRET_URL_PARAM=${otpElement.getBase32Secret()}" +
+                "?$SECRET_URL_PARAM=${secret}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
                 "&$DIGITS_URL_PARAM=${otpElement.digits}" +
                 "&$ISSUER_URL_PARAM=$issuer")

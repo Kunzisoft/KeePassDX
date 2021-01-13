@@ -123,7 +123,7 @@ dependencies {
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.2'
     // Apache Commons Codec
-    implementation 'commons-codec:commons-codec:1.14'
+    implementation 'commons-codec:commons-codec:1.15'
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
