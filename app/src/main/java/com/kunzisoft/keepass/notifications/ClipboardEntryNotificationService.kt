@@ -25,6 +25,7 @@ import android.content.Intent
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
@@ -250,6 +251,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             val containsUsernameToCopy = entry.username.isNotEmpty()
             val containsPasswordToCopy = entry.password.isNotEmpty()
                     && PreferencesUtil.allowCopyPasswordAndProtectedFields(context)
+            val containsOTPToCopy = entry.containsCustomField(OTP_TOKEN_FIELD)
             val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
                     && (entry.containsCustomFieldsNotProtected()
                         ||
@@ -262,7 +264,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             // If notifications enabled in settings
             // Don't if application timeout
             if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
-                if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+                if (containsUsernameToCopy
+                        || containsPasswordToCopy
+                        || containsOTPToCopy
+                        || containsExtraFieldToCopy) {
 
                     // username already copied, waiting for user's action before copy password.
                     intent.action = ACTION_NEW_NOTIFICATION
@@ -282,14 +287,22 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                                         ClipboardEntryNotificationField.NotificationFieldId.PASSWORD,
                                         context.getString(R.string.entry_password)))
                     }
+                    // Add OTP
+                    if (containsOTPToCopy) {
+                        notificationFields.add(
+                                ClipboardEntryNotificationField(
+                                        ClipboardEntryNotificationField.NotificationFieldId.OTP,
+                                        OTP_TOKEN_FIELD))
+                    }
                     // Add extra fields
                     if (containsExtraFieldToCopy) {
                         try {
                             var anonymousFieldNumber = 0
                             entry.customFields.forEach { field ->
                                 //If value is not protected or allowed
-                                if (!field.protectedValue.isProtected
-                                        || PreferencesUtil.allowCopyPasswordAndProtectedFields(context)) {
+                                if ((!field.protectedValue.isProtected
+                                        || PreferencesUtil.allowCopyPasswordAndProtectedFields(context))
+                                     && field.name != OTP_TOKEN_FIELD) {
                                     notificationFields.add(
                                             ClipboardEntryNotificationField(
                                                     ClipboardEntryNotificationField.NotificationFieldId.anonymousFieldId[anonymousFieldNumber],

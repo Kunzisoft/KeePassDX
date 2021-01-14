@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feedback">Обратна връзка</string>
+    <string name="encryption_algorithm">Алгоритъм за криптиране</string>
+    <string name="encryption">Криптиране</string>
+    <string name="security">Сигурност</string>
+    <string name="master_key">Главен ключ</string>
+    <string name="add_group">Добави група</string>
+    <string name="edit_entry">Редактирай</string>
+    <string name="add_entry">Добави</string>
+    <string name="accept">Приемам</string>
+</resources>

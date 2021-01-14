@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.activities.helpers
 
-import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -106,7 +106,7 @@ object EntrySelectionHelper {
 
     fun retrieveSpecialModeFromIntent(intent: Intent): SpecialMode {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (AutofillHelper.retrieveAssistStructure(intent) != null)
+            if (AutofillHelper.retrieveAutofillComponent(intent) != null)
                 return SpecialMode.SELECTION
         }
         return intent.getSerializableExtra(KEY_SPECIAL_MODE) as SpecialMode?
@@ -119,7 +119,7 @@ object EntrySelectionHelper {
 
     fun retrieveTypeModeFromIntent(intent: Intent): TypeMode {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (AutofillHelper.retrieveAssistStructure(intent) != null)
+            if (AutofillHelper.retrieveAutofillComponent(intent) != null)
                 return TypeMode.AUTOFILL
         }
         return intent.getSerializableExtra(KEY_TYPE_MODE) as TypeMode? ?: TypeMode.DEFAULT
@@ -136,7 +136,7 @@ object EntrySelectionHelper {
                         saveAction: (searchInfo: SearchInfo) -> Unit,
                         keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
                         autofillSelectionAction: (searchInfo: SearchInfo?,
-                                                  assistStructure: AssistStructure) -> Unit,
+                                                  autofillComponent: AutofillComponent) -> Unit,
                         autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit) {
 
         when (retrieveSpecialModeFromIntent(intent)) {
@@ -167,14 +167,14 @@ object EntrySelectionHelper {
             }
             SpecialMode.SELECTION -> {
                 val searchInfo: SearchInfo? = retrieveSearchInfoFromIntent(intent)
-                var assistStructureInit = false
+                var autofillComponentInit = false
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    AutofillHelper.retrieveAssistStructure(intent)?.let { assistStructure ->
-                        autofillSelectionAction.invoke(searchInfo, assistStructure)
-                        assistStructureInit = true
+                    AutofillHelper.retrieveAutofillComponent(intent)?.let { autofillComponent ->
+                        autofillSelectionAction.invoke(searchInfo, autofillComponent)
+                        autofillComponentInit = true
                     }
                 }
-                if (!assistStructureInit) {
+                if (!autofillComponentInit) {
                     if (intent.getSerializableExtra(KEY_SPECIAL_MODE) != null) {
                         when (retrieveTypeModeFromIntent(intent)) {
                             TypeMode.DEFAULT -> {

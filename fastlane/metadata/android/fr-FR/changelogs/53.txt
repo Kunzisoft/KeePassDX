@@ -1,0 +1,8 @@
+ * Détection des changements de fichiers et rechargement de base de données #794
+ * Remplissage automatique avec suggestions en ligne (Android R) (Android R) #827
+ * Ajout du fichier de clé XML version 2 #844
+ * Correction des binaires de 64 Octets #835
+ * Recherche spéciale dans les champs de recherche #830
+ * Priorité au bouton OTP dans les notifications #845
+ * Correction de génération OTP pour longue clé secrère #848
+ * Correction de petits bugs #849

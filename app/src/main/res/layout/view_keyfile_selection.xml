@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/keyfile_open_button">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/keyfile_name"
@@ -33,16 +33,4 @@
             android:imeOptions="actionDone"
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/keyfile_open_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/content_description_open_file"
-        android:focusable="true"
-        android:background="@drawable/background_item_selection"
-        android:src="@drawable/ic_folder_white_24dp"
-        style="@style/KeepassDXStyle.ImageButton.Simple" />
 </androidx.constraintlayout.widget.ConstraintLayout>

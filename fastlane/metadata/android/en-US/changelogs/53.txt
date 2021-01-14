@@ -1,0 +1,8 @@
+ * Detect file changes and reload database #794
+ * Inline suggestions autofill with compatible keyboard (Android R) #827
+ * Add Keyfile XML version 2 #844
+ * Fix binaries of 64 bytes #835
+ * Special search in title fields #830
+ * Priority to OTP button in notifications #845
+ * Fix OTP generation for long secret key #848
+ * Fix small bugs #849

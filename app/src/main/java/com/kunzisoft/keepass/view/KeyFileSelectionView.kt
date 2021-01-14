@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.documentfile.provider.DocumentFile
@@ -20,7 +19,6 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
 
     private val keyFileNameInputLayout: TextInputLayout
     private val keyFileNameView: TextView
-    private val keyFileOpenView: ImageView
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -28,7 +26,6 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
 
         keyFileNameInputLayout = findViewById(R.id.input_entry_keyfile)
         keyFileNameView = findViewById(R.id.keyfile_name)
-        keyFileOpenView = findViewById(R.id.keyfile_open_button)
     }
 
     override fun setOnClickListener(l: OnClickListener?) {

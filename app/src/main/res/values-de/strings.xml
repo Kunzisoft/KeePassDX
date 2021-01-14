@@ -555,4 +555,6 @@
     <string name="advanced_unlock_prompt_extract_credential_message">Extrahiere Datenbankanmeldedaten mit Daten aus erweitertem Entsperren</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
+    <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
 </resources>

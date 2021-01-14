@@ -25,9 +25,10 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -37,7 +38,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -63,8 +63,7 @@ import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import kotlin.math.min
 
-class DatabaseInputKDBX(cacheDirectory: File,
-                        private val fixDuplicateUUID: Boolean = false)
+class DatabaseInputKDBX(cacheDirectory: File)
     : DatabaseInput<DatabaseKDBX>(cacheDirectory) {
 
     private var randomStream: StreamCipher? = null
@@ -98,12 +97,30 @@ class DatabaseInputKDBX(cacheDirectory: File,
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.retrieveMasterKey(password, keyInputStream)
+        }
+    }
 
+    @Throws(LoadDatabaseException::class)
+    override fun openDatabase(databaseInputStream: InputStream,
+                              masterKey: ByteArray,
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.masterKey = masterKey
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
+    private fun openDatabase(databaseInputStream: InputStream,
+                             progressTaskUpdater: ProgressTaskUpdater?,
+                             fixDuplicateUUID: Boolean,
+                             assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
-            // TODO performance
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
-
             mDatabase = DatabaseKDBX()
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
@@ -116,9 +133,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            mDatabase.retrieveMasterKey(password, keyInputStream)
+            assignMasterKey?.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
-            // TODO performance
 
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
             val engine: CipherEngine
@@ -185,10 +201,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 loadInnerHeader(inputStreamXml, header)
             }
 
-            randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
-
-            if (randomStream == null) {
-                throw ArcFourDatabaseException()
+            try {
+                randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+            } catch (e: Exception) {
+                throw LoadDatabaseException(e)
             }
 
             readDocumentStreamed(createPullParser(inputStreamXml))
@@ -436,8 +452,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val strData = readString(xpp)
                 if (strData.isNotEmpty()) {
                     customIconData = Base64.decode(strData, BASE_64_FLAG)
-                } else {
-                    assert(false)
                 }
             } else {
                 readUnknown(xpp)
