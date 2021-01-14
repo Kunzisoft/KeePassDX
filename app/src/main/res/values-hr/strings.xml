@@ -527,4 +527,6 @@
     <string name="temp_advanced_unlock_enable_title">Privremeno napredno otključavanje</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Nije moguće ispravno obnoviti popis.</string>
+    <string name="error_database_uri_null">URI baze podataka nije moguće dobiti.</string>
 </resources>

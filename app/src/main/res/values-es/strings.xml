@@ -275,7 +275,7 @@
     <string name="contribute">Contribuir</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="style_choose_title">Tema de aplicación</string>
+    <string name="style_choose_title">Tema de la aplicación</string>
     <string name="style_choose_summary">Tema utilizado en la aplicación</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
     <string name="icon_pack_choose_summary">Cambiar el paquete de iconos en la aplicación</string>
@@ -545,4 +545,6 @@
     <string name="keyboard_search_share_summary">Buscar automáticamente la información compartida para llenar el teclado</string>
     <string name="show_uuid_summary">Muestra el UUID vinculado a una entrada</string>
     <string name="show_uuid_title">Mostrar UUID</string>
+    <string name="error_rebuild_list">No es posible reconstruir adecuadamente la lista.</string>
+    <string name="error_database_uri_null">La URI de la base de datos no puede ser recuperada.</string>
 </resources>

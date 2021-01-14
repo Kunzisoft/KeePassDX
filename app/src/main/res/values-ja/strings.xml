@@ -541,4 +541,7 @@
     <string name="temp_advanced_unlock_enable_title">一時的な高度なロック解除</string>
     <string name="advanced_unlock_tap_delete">タップして高度なロック解除用の鍵を削除する</string>
     <string name="content">コンテンツ</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_database_uri_null">データベースのURIが見つかりません。</string>
 </resources>
