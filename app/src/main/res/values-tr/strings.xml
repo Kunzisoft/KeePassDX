@@ -529,4 +529,11 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Liste düzgün şekilde yeniden oluşturulamıyor.</string>
     <string name="error_database_uri_null">Veri tabanı URI\'si alınamıyor.</string>
+    <string name="autofill_inline_suggestions_keyboard">Otomatik doldurma önerileri eklendi.</string>
+    <string name="autofill_inline_suggestions_summary">Doğrudan uyumlu bir klavyeden otomatik doldurma önerileri görüntülemeye çalış</string>
+    <string name="autofill_inline_suggestions_title">Satır içi öneriler</string>
+    <string name="warning_database_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi, veri tabanını kapatın ve bulunduğu yerden yeniden açın.</string>
+    <string name="warning_database_info_changed_options">Veri tabanını kaydederek veya en son değişikliklerle yeniden yükleyerek harici değişikliklerin üzerine yazın.</string>
+    <string name="warning_database_info_changed">Veri tabanı dosyanızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
+    <string name="menu_reload_database">Veri tabanını yeniden yükle</string>
 </resources>
