@@ -1,3 +1,6 @@
+KeePassDX(2.9.10)
+ *
+
 KeePassDX(2.9.9)
  * Detect file changes and reload database #794
  * Inline suggestions autofill with compatible keyboard (Android R) #827
