@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -205,8 +206,7 @@ class EntryActivity : LockingActivity() {
             // Refresh Menu
             invalidateOptionsMenu()
 
-            val entryInfo = entry.getEntryInfo(Database.getInstance())
-
+            val entryInfo = entry.getEntryInfo(mDatabase)
             // Manage entry copy to start notification if allowed
             if (mFirstLaunchOfActivity) {
                 // Manage entry to launch copying notification if allowed
@@ -238,23 +238,21 @@ class EntryActivity : LockingActivity() {
 
     private fun fillEntryDataInContentsView(entry: Entry) {
 
-        val database = Database.getInstance()
-        database.startManageEntry(entry)
+        val entryInfo = entry.getEntryInfo(mDatabase)
+
         // Assign title icon
-        titleIconView?.assignDatabaseIcon(database.drawFactory, entry.icon, iconColor)
+        titleIconView?.assignDatabaseIcon(mDatabase!!.drawFactory, entryInfo.icon, iconColor)
 
         // Assign title text
-        val entryTitle = entry.title
+        val entryTitle = entryInfo.title
         collapsingToolbarLayout?.title = entryTitle
         toolbar?.title = entryTitle
 
         // Assign basic fields
-        entryContentsView?.assignUserName(entry.username) {
-            database.startManageEntry(entry)
-            clipboardHelper?.timeoutCopyToClipboard(entry.username,
+        entryContentsView?.assignUserName(entryInfo.username) {
+            clipboardHelper?.timeoutCopyToClipboard(entryInfo.username,
                     getString(R.string.copy_field,
                             getString(R.string.entry_user_name)))
-            database.stopManageEntry(entry)
         }
 
         val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
@@ -284,11 +282,9 @@ class EntryActivity : LockingActivity() {
 
         val onPasswordCopyClickListener: View.OnClickListener? = if (allowCopyPasswordAndProtectedFields) {
             View.OnClickListener {
-                database.startManageEntry(entry)
-                clipboardHelper?.timeoutCopyToClipboard(entry.password,
+                clipboardHelper?.timeoutCopyToClipboard(entryInfo.password,
                         getString(R.string.copy_field,
                                 getString(R.string.entry_password)))
-                database.stopManageEntry(entry)
             }
         } else {
             // If dialog not already shown
@@ -298,44 +294,46 @@ class EntryActivity : LockingActivity() {
                 null
             }
         }
-        entryContentsView?.assignPassword(entry.password,
+        entryContentsView?.assignPassword(entryInfo.password,
                 allowCopyPasswordAndProtectedFields,
                 onPasswordCopyClickListener)
 
         //Assign OTP field
-        entryContentsView?.assignOtp(entry.getOtpElement(), entryProgress,
-                View.OnClickListener {
-                    entry.getOtpElement()?.let { otpElement ->
-                        clipboardHelper?.timeoutCopyToClipboard(
-                                otpElement.token,
-                                getString(R.string.copy_field, getString(R.string.entry_otp))
-                        )
-                    }
-        })
+        entry.getOtpElement()?.let { otpElement ->
+            entryContentsView?.assignOtp(otpElement, entryProgress) {
+                clipboardHelper?.timeoutCopyToClipboard(
+                        otpElement.token,
+                        getString(R.string.copy_field, getString(R.string.entry_otp))
+                )
+            }
+        }
 
-        entryContentsView?.assignURL(entry.url)
-        entryContentsView?.assignNotes(entry.notes)
+        entryContentsView?.assignURL(entryInfo.url)
+        entryContentsView?.assignNotes(entryInfo.notes)
 
         // Assign custom fields
         if (mDatabase?.allowEntryCustomFields() == true) {
             entryContentsView?.clearExtraFields()
-            entry.getExtraFields().forEach { field ->
+            entryInfo.customFields.forEach { field ->
                 val label = field.name
-                val value = field.protectedValue
-                val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
-                if (allowCopyProtectedField) {
-                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
-                        clipboardHelper?.timeoutCopyToClipboard(
-                                value.toString(),
-                                getString(R.string.copy_field, label)
-                        )
-                    }
-                } else {
-                    // If dialog not already shown
-                    if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
-                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField, showWarningClipboardDialogOnClickListener)
+                // OTP field is already managed in dedicated view
+                if (label != OtpEntryFields.OTP_TOKEN_FIELD) {
+                    val value = field.protectedValue
+                    val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
+                    if (allowCopyProtectedField) {
+                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
+                            clipboardHelper?.timeoutCopyToClipboard(
+                                    value.toString(),
+                                    getString(R.string.copy_field, label)
+                            )
+                        }
                     } else {
-                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField, null)
+                        // If dialog not already shown
+                        if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                            entryContentsView?.addExtraField(label, value, allowCopyProtectedField, showWarningClipboardDialogOnClickListener)
+                        } else {
+                            entryContentsView?.addExtraField(label, value, allowCopyProtectedField, null)
+                        }
                     }
                 }
             }
@@ -343,24 +341,16 @@ class EntryActivity : LockingActivity() {
         entryContentsView?.setHiddenProtectedValue(!mShowPassword)
 
         // Manage attachments
-        mDatabase?.binaryPool?.let { binaryPool ->
-            entryContentsView?.assignAttachments(entry.getAttachments(binaryPool).toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->
-                createDocument(this, attachmentItem.name)?.let { requestCode ->
-                    mAttachmentsToDownload[requestCode] = attachmentItem
-                }
+        entryContentsView?.assignAttachments(entryInfo.attachments.toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->
+            createDocument(this, attachmentItem.name)?.let { requestCode ->
+                mAttachmentsToDownload[requestCode] = attachmentItem
             }
         }
 
         // Assign dates
-        entryContentsView?.assignCreationDate(entry.creationTime)
-        entryContentsView?.assignModificationDate(entry.lastModificationTime)
-        entryContentsView?.assignLastAccessDate(entry.lastAccessTime)
-        entryContentsView?.setExpires(entry.isCurrentlyExpires)
-        if (entry.expires) {
-            entryContentsView?.assignExpiresDate(entry.expiryTime)
-        } else {
-            entryContentsView?.assignExpiresDate(getString(R.string.never))
-        }
+        entryContentsView?.assignCreationDate(entryInfo.creationTime)
+        entryContentsView?.assignModificationDate(entryInfo.modificationTime)
+        entryContentsView?.setExpires(entryInfo.expires, entryInfo.expiryTime)
 
         // Manage history
         historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
@@ -375,8 +365,6 @@ class EntryActivity : LockingActivity() {
 
         // Assign special data
         entryContentsView?.assignUUID(entry.nodeId.id)
-
-        database.stopManageEntry(entry)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
