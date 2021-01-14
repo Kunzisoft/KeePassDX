@@ -197,7 +197,7 @@
     <string name="autofill_service_name">Autocompletamento di KeePassDX</string>
     <string name="autofill_sign_in_prompt">Accedi con KeePassDX</string>
     <string name="set_autofill_service_title">Imposta servizio predefinito di autocompletamento</string>
-    <string name="autofill_explanation_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
+    <string name="autofill_explanation_summary">Attiva l\'autocompletamento per riempire velocemente i campi in altre app</string>
     <string name="password_size_title">Dimensione password generata</string>
     <string name="password_size_summary">Imposta la dimensione predefinita delle password generate</string>
     <string name="list_password_generator_options_title">Caratteri password</string>
@@ -235,7 +235,7 @@
     <string name="other">Altro</string>
     <string name="keyboard">Tastiera</string>
     <string name="magic_keyboard_title">Magitastiera</string>
-    <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
+    <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che inserisce le tue password e i campi di identità</string>
     <string name="allow_no_password_title">Non consentire nessuna chiave principale</string>
     <string name="allow_no_password_summary">Permetti di toccare il pulsante \"Apri\" se non sono selezionate credenziali</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
@@ -548,4 +548,11 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>
     <string name="error_database_uri_null">Non è stato recuperato l\'indirizzo del database.</string>
+    <string name="autofill_inline_suggestions_keyboard">Suggerimento di riempimento aggiunto.</string>
+    <string name="autofill_inline_suggestions_summary">Mostra i suggerimenti di riempimento campi in una tastiera compatibile</string>
+    <string name="autofill_inline_suggestions_title">Suggerimenti in linea</string>
+    <string name="warning_database_revoked">L\'accesso al file è stato revocato dal file manager, chiudi il database e riaprilo dalla sua posizione originale.</string>
+    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvano il database o ricaricalo con gli ultimi cambiamenti.</string>
+    <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
+    <string name="menu_reload_database">Ricarica database</string>
 </resources>
