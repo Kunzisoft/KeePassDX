@@ -1,5 +1,5 @@
 KeePassDX(2.9.10)
- *
+ * Try to fix autofill #852
 
 KeePassDX(2.9.9)
  * Detect file changes and reload database #794

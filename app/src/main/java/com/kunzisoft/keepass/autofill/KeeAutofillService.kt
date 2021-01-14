@@ -174,9 +174,9 @@ class KeeAutofillService : AutofillService() {
                 }
 
                 // Build inline presentation
-                var inlinePresentation: InlinePresentation? = null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                         && autofillInlineSuggestionsEnabled) {
+                    var inlinePresentation: InlinePresentation? = null
                     inlineSuggestionsRequest?.let {
                         val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
                         if (inlineSuggestionsRequest.maxSuggestionCount > 0
@@ -203,14 +203,10 @@ class KeeAutofillService : AutofillService() {
                             }
                         }
                     }
-                }
-
-                // Build response
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    // Build response
                     responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
-                } else {
-                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 }
+                responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 callback.onSuccess(responseBuilder.build())
             }
         }
