@@ -1,3 +1,6 @@
+KeePassDX(2.9.11)
+ *
+
 KeePassDX(2.9.10)
  * Try to fix autofill #852
  * Fix database change dialog displayed too often #853
