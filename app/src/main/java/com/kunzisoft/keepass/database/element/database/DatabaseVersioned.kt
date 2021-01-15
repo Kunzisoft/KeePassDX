@@ -129,15 +129,15 @@ abstract class DatabaseVersioned<
 
         val keyData = keyInputStream.readBytes()
 
-        // Check 32 bits key file
-        if (keyData.size == 32) {
-            return keyData
-        }
-
         // Check XML key file
         val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
         if (xmlKeyByteArray != null) {
             return xmlKeyByteArray
+        }
+
+        // Check 32 bits key file
+        if (keyData.size == 32) {
+            return keyData
         }
 
         // Hash file as binary data
