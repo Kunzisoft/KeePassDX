@@ -66,7 +66,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mAllowFinishAction = AtomicBoolean()
     private var mActionRunning = false
 
-    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
     private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
@@ -134,15 +133,28 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val previousDatabaseInfo = mSnapFileDatabaseInfo
             val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                     FileDatabaseInfo(applicationContext, it))
-            if (previousDatabaseInfo != null) {
-                if (previousDatabaseInfo != lastFileDatabaseInfo) {
-                    Log.i(TAG, "Database file modified " +
-                            "$previousDatabaseInfo != $lastFileDatabaseInfo ")
-                    // Call listener to indicate a change in database info
+
+            val oldDatabaseModification = previousDatabaseInfo?.lastModification
+            val newDatabaseModification = lastFileDatabaseInfo.lastModification
+
+            val conditionExists = previousDatabaseInfo != null
+                    && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
+            // To prevent dialog opening too often
+            val conditionLastModification = (oldDatabaseModification != null && newDatabaseModification != null
+                    && oldDatabaseModification < newDatabaseModification
+                    && mLastLocalSaveTime + 5000 < newDatabaseModification)
+
+            if (conditionExists || conditionLastModification) {
+                // Show the dialog only if it's real new info and not a delay after a save
+                Log.i(TAG, "Database file modified " +
+                        "$previousDatabaseInfo != $lastFileDatabaseInfo ")
+                // Call listener to indicate a change in database info
+                if (previousDatabaseInfo != null) {
                     mDatabaseInfoListeners.forEach { listener ->
                         listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
                     }
                 }
+                mSnapFileDatabaseInfo = lastFileDatabaseInfo
             }
         }
     }
@@ -151,6 +163,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mDatabase.fileUri?.let {
             mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                     FileDatabaseInfo(applicationContext, it))
+            Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
         }
     }
 
@@ -235,9 +248,21 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     actionTaskListener.onStopAction(intentAction!!, result)
                                 }
                             } finally {
+                                // Save the database info before performing action
+                                if (intentAction == ACTION_DATABASE_LOAD_TASK) {
+                                    saveDatabaseInfo()
+                                }
+                                // Save the database info after performing save action
+                                if (intentAction == ACTION_DATABASE_SAVE
+                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true) {
+                                    mDatabase.fileUri?.let {
+                                        val newSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                                                FileDatabaseInfo(applicationContext, it))
+                                        mLastLocalSaveTime = System.currentTimeMillis()
+                                        mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                    }
+                                }
                                 removeIntentData(intent)
-                                // Save the database info after performing action
-                                saveDatabaseInfo()
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!mDatabase.loaded) {
@@ -883,6 +908,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
+
+        private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+        private var mLastLocalSaveTime: Long = 0
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()
