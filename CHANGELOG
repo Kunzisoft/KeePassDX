@@ -1,3 +1,7 @@
+KeePassDX(2.9.10)
+ * Try to fix autofill #852
+ * Fix database change dialog displayed too often #853
+
 KeePassDX(2.9.9)
  * Detect file changes and reload database #794
  * Inline suggestions autofill with compatible keyboard (Android R) #827

@@ -64,8 +64,12 @@ object AutofillHelper {
 
     fun retrieveAutofillComponent(intent: Intent?): AutofillComponent? {
         intent?.getParcelableExtra<AssistStructure?>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
-            return AutofillComponent(assistStructure,
-                              intent.getParcelableExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                AutofillComponent(assistStructure,
+                        intent.getParcelableExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+            } else {
+                AutofillComponent(assistStructure, null)
+            }
         }
         return null
     }
@@ -205,10 +209,14 @@ object AutofillHelper {
             activity.intent?.getParcelableExtra<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
                 StructureParser(structure).parse()?.let { result ->
                     // New Response
-                    val inlineSuggestionsRequest = activity.intent?.getParcelableExtra<InlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
-                    val response = buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
-                    if (inlineSuggestionsRequest != null) {
-                        Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
+                    val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        val inlineSuggestionsRequest = activity.intent?.getParcelableExtra<InlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                        if (inlineSuggestionsRequest != null) {
+                            Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
+                        }
+                        buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
+                    } else {
+                        buildResponse(activity, entriesInfo, result, null)
                     }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")

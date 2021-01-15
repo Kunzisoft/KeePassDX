@@ -42,6 +42,26 @@ data class SnapFileDatabaseInfo(var fileUri: Uri?,
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SnapFileDatabaseInfo) return false
+
+        if (fileUri != other.fileUri) return false
+        if (exists != other.exists) return false
+        if (lastModification != other.lastModification) return false
+        if (size != other.size) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = fileUri?.hashCode() ?: 0
+        result = 31 * result + exists.hashCode()
+        result = 31 * result + (lastModification?.hashCode() ?: 0)
+        result = 31 * result + (size?.hashCode() ?: 0)
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<SnapFileDatabaseInfo> {
         override fun createFromParcel(parcel: Parcel): SnapFileDatabaseInfo {
             return SnapFileDatabaseInfo(parcel)
