@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
-import com.kunzisoft.keepass.utils.StringUtil.hexStringToByteArray
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -478,7 +477,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             digest = MessageDigest.getInstance("SHA-256")
             digest?.reset()
             // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-            val dataDigest = digest.digest(data.hexStringToByteArray())
+            val dataDigest = digest.digest(Hex.decodeHex(data))
                     .copyOfRange(0, 4)
                     .toHexString()
             success = dataDigest == hash
