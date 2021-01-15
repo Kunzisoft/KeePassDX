@@ -1,1 +1,1 @@
- *
+ * Add Keyfile XML version 2 (fix hex) #844
