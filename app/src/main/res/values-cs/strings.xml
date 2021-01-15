@@ -546,4 +546,11 @@
     <string name="content">Obsah</string>
     <string name="error_rebuild_list">Seznam nelze řádně sestavit.</string>
     <string name="error_database_uri_null">URI databáze nelze načíst.</string>
+    <string name="autofill_inline_suggestions_keyboard">Návrhy samovyplnění přidány.</string>
+    <string name="autofill_inline_suggestions_title">Návrhy inline</string>
+    <string name="autofill_inline_suggestions_summary">Pokusí ze zobrazit návrhy samovyplnění přímo z kompatibilní klávesnice</string>
+    <string name="warning_database_revoked">Přístup k souboru odebrán správcem souborů, uzavřete databázi a nově ji otevřete z jejího adresáře.</string>
+    <string name="menu_reload_database">Databázi nově načíst</string>
+    <string name="warning_database_info_changed_options">Přepsat externí změny uložením databáze nebo databázi včetně posledních změn nově načíst.</string>
+    <string name="warning_database_info_changed">Informace obsažená ve Vašem databázovém souboru by změněna mimo aplikaci.</string>
 </resources>
