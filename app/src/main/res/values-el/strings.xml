@@ -545,4 +545,11 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Δεν είναι δυνατή η σωστή αναδημιουργία της λίστας.</string>
     <string name="error_database_uri_null">Δεν είναι δυνατή η ανάκτηση του URI βάσης δεδομένων.</string>
+    <string name="autofill_inline_suggestions_keyboard">Προστέθηκαν προτάσεις αυτόματης συμπλήρωσης.</string>
+    <string name="autofill_inline_suggestions_summary">Απόπειρα εμφάνισης προτάσεων αυτόματης συμπλήρωσης απευθείας από ένα συμβατό πληκτρολόγιο</string>
+    <string name="autofill_inline_suggestions_title">Προτάσεις στην ίδια γραμμή</string>
+    <string name="warning_database_revoked">Πρόσβαση στο αρχείο που ανακλήθηκε από το διαχειριστή αρχείων, κλείστε τη βάση δεδομένων και ανοίξτε το ξανά από τη θέση του.</string>
+    <string name="warning_database_info_changed_options">Αντικαταστήστε τις εξωτερικές τροποποιήσεις αποθηκεύοντας τη βάση δεδομένων ή φορτώστε την ξανά με τις πιο πρόσφατες αλλαγές.</string>
+    <string name="warning_database_info_changed">Οι πληροφορίες που περιέχονται στο αρχείο της βάσης δεδομένων σας έχουν τροποποιηθεί εκτός της εφαρμογής.</string>
+    <string name="menu_reload_database">Επαναφόρτωση βάσης δεδομένων</string>
 </resources>
