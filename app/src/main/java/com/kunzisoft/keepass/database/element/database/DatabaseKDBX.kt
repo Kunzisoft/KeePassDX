@@ -43,11 +43,11 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
-import com.kunzisoft.keepass.utils.StringUtil.hexStringToByteArray
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
+import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
 import java.io.File
 import java.io.IOException
@@ -445,16 +445,19 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                                     when (xmlKeyFileVersion) {
                                         1F -> {
                                             // No hash in KeyFile XML version 1
+                                            return Base64.decode(dataString, BASE_64_FLAG)
                                         }
                                         2F -> {
-                                            if (hashString != null
-                                                    && checkKeyFileHash(dataString, hashString))
+                                            return if (hashString != null
+                                                    && checkKeyFileHash(dataString, hashString)) {
                                                 Log.i(TAG, "Successful key file hash check.")
-                                            else
+                                                Hex.decodeHex(dataString)
+                                            } else {
                                                 Log.e(TAG, "Unable to check the hash of the key file.")
+                                                null
+                                            }
                                         }
                                     }
-                                    return Base64.decode(dataString, BASE_64_FLAG)
                                 }
                             }
                         }
@@ -474,7 +477,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             digest = MessageDigest.getInstance("SHA-256")
             digest?.reset()
             // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-            val dataDigest = digest.digest(data.hexStringToByteArray())
+            val dataDigest = digest.digest(Hex.decodeHex(data))
                     .copyOfRange(0, 4)
                     .toHexString()
             success = dataDigest == hash
@@ -698,8 +701,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val DEFAULT_HISTORY_MAX_SIZE = (6 * 1024 * 1024).toLong() // -1 unlimited
 
         private const val XML_NODE_ROOT_NAME = "KeyFile"
-        private const val XML_NODE_META_NAME = "Meta";
-        private const val XML_NODE_VERSION_NAME = "Version";
+        private const val XML_NODE_META_NAME = "Meta"
+        private const val XML_NODE_VERSION_NAME = "Version"
         private const val XML_NODE_KEY_NAME = "Key"
         private const val XML_NODE_DATA_NAME = "Data"
         private const val XML_ATTRIBUTE_DATA_HASH = "Hash"

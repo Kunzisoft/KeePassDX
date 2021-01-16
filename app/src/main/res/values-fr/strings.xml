@@ -554,4 +554,11 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Impossible de reconstruire correctement la liste.</string>
     <string name="error_database_uri_null">L\'URI de la base de données ne peut pas être récupéré.</string>
+    <string name="autofill_inline_suggestions_keyboard">Suggestions de remplissage automatique ajoutées.</string>
+    <string name="autofill_inline_suggestions_summary">Tente d\'afficher des suggestions de remplissage automatique directement à partir d\'un clavier compatible</string>
+    <string name="autofill_inline_suggestions_title">Suggestions en ligne</string>
+    <string name="warning_database_info_changed_options">Écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
+    <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
+    <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
+    <string name="menu_reload_database">Recharger la base de données</string>
 </resources>

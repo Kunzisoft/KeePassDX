@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import org.apache.commons.codec.binary.Hex
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
@@ -135,9 +136,14 @@ abstract class DatabaseVersioned<
             return xmlKeyByteArray
         }
 
-        // Check 32 bits key file
-        if (keyData.size == 32) {
-            return keyData
+        // Check 32 bytes key file
+        when (keyData.size) {
+            32 -> return keyData
+            64 -> try {
+                return Hex.decodeHex(String(keyData))
+            } catch (ignoredException: Exception) {
+                // Key is not base 64, treat it as binary data
+            }
         }
 
         // Hash file as binary data

@@ -545,4 +545,11 @@
     <string name="kdf_Argon2d">Argon2D</string>
     <string name="error_database_uri_null">Невозможно получить URI базы.</string>
     <string name="error_rebuild_list">Невозможно правильно перестроить список.</string>
+    <string name="autofill_inline_suggestions_keyboard">Предложения автозаполнения добавлены.</string>
+    <string name="autofill_inline_suggestions_summary">Показывать предложения автозаполнения непосредственно в совместимой клавиатуре</string>
+    <string name="autofill_inline_suggestions_title">Встроенные предложения</string>
+    <string name="warning_database_revoked">Доступ к файлу отозван файловым менеджером, закройте базу и снова откройте.</string>
+    <string name="warning_database_info_changed_options">Сохранить базу, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
+    <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
+    <string name="menu_reload_database">Перезагрузить базу</string>
 </resources>

@@ -545,4 +545,11 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">无法正确地重建列表。</string>
     <string name="error_database_uri_null">无法检索数据库 URI 。</string>
+    <string name="autofill_inline_suggestions_keyboard">已添加自动填充建议。</string>
+    <string name="autofill_inline_suggestions_summary">尝试直接从兼容的键盘显示自动填充建议</string>
+    <string name="autofill_inline_suggestions_title">内联建议</string>
+    <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
+    <string name="warning_database_info_changed_options">通过保存数据库或用最新的更改重新加载数据库来覆盖外部修改。</string>
+    <string name="warning_database_info_changed">数据库文件中包含的信息已在应用程序之外被修改。</string>
+    <string name="menu_reload_database">重新加载数据库</string>
 </resources>
