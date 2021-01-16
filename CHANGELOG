@@ -1,5 +1,6 @@
 KeePassDX(2.9.11)
  * Add Keyfile XML version 2 (fix hex) #844
+ * Fix hex Keyfile #861
 
 KeePassDX(2.9.10)
  * Try to fix autofill #852
