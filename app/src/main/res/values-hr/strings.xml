@@ -529,4 +529,11 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Nije moguće ispravno obnoviti popis.</string>
     <string name="error_database_uri_null">URI baze podataka nije moguće dobiti.</string>
+    <string name="autofill_inline_suggestions_title">Umetnuti prijedlozi</string>
+    <string name="autofill_inline_suggestions_keyboard">Prijedlozi za automatsko popunjavanje su dodani.</string>
+    <string name="autofill_inline_suggestions_summary">Pokušaj prikazivanja prijedloga za automatsko popunjavanje izravno s kompatibilne tipkovnice</string>
+    <string name="warning_database_revoked">Pristup datoteci koju je opozvao upravljač datoteka. Zatvori bazu podataka i ponovo je otvori s njezinog mjesta.</string>
+    <string name="warning_database_info_changed_options">Prepiši vanjske promjene spremanjem baze podataka ili je ponovo učitaj s najnovijim promjenama.</string>
+    <string name="warning_database_info_changed">Podaci u datoteci tvoje baze podataka izmijenjeni su izvan programa.</string>
+    <string name="menu_reload_database">Ponovo učitaj bazu podataka</string>
 </resources>
