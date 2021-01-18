@@ -1,1 +1,1 @@
- *
+ * Correction du type de token OTP #863

@@ -131,6 +131,7 @@
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
+    <string name="error_otp_type">The existing OTP type is not recognized by this form, its validation may no longer correctly generate the token.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
     <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="error_field_name_already_exists">The field name already exists.</string>

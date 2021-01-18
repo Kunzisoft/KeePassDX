@@ -1,5 +1,5 @@
 KeePassDX(2.9.12)
- *
+ * Fix OTP token type #863
 
 KeePassDX(2.9.11)
  * Add Keyfile XML version 2 (fix hex) #844
