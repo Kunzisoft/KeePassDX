@@ -94,7 +94,7 @@
     <string name="entry_keyfile">Rakto failas</string>
     <string name="search">Įrašo pavadinimas/aprašymas</string>
     <string name="menu_change_key_settings">Pakeisti master raktą</string>
-    <string name="entry_accessed">Naudota:</string>
+    <string name="entry_accessed">Naudota</string>
     <string name="hide_password_title">Maskuoti slaptažodį</string>
     <string name="space">Tarpas</string>
     <string name="special">Specialus</string>
