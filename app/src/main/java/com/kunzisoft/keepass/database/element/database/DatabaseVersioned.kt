@@ -140,7 +140,7 @@ abstract class DatabaseVersioned<
         when (keyData.size) {
             32 -> return keyData
             64 -> try {
-                return Hex.decodeHex(String(keyData))
+                return Hex.decodeHex(String(keyData).toCharArray())
             } catch (ignoredException: Exception) {
                 // Key is not base 64, treat it as binary data
             }
