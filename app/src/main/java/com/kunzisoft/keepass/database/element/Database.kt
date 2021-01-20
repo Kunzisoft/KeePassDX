@@ -366,6 +366,8 @@ class Database {
             loaded = true
         } catch (e: LoadDatabaseException) {
             throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         } finally {
             databaseInputStream?.close()
         }
