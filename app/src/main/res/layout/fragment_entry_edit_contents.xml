@@ -106,6 +106,7 @@
 						android:inputType="textPassword|textMultiLine"
 						android:importantForAccessibility="no"
 						android:importantForAutofill="no"
+						android:imeOptions="flagNoPersonalizedLearning"
 						android:ems="10"
 						android:maxLines="10"
 						android:hint="@string/entry_password"/>
