@@ -1,1 +1,2 @@
  * Fix OTP token type #863
+ * Fix auto open biometric prompt #862

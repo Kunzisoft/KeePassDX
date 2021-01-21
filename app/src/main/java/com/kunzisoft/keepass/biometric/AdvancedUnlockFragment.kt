@@ -162,8 +162,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                         disconnect()
                     }
                 } ?: run {
-                    connect(databaseUri)
                     this.mAutoOpenPrompt = autoOpenPrompt
+                    connect(databaseUri)
                 }
             } else {
                 disconnect()

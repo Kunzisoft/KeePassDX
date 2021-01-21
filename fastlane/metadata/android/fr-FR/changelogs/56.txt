@@ -1,1 +1,2 @@
  * Correction du type de token OTP #863
+ * Correction de l'ouverture automatique de l'invite biométrique #862
