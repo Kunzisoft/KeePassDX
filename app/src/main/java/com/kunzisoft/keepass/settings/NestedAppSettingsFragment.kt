@@ -386,7 +386,12 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     }
                 if (styleEnabled) {
                     Stylish.assignStyle(styleIdString)
-                    activity.recreate()
+                    // Relaunch the current activity to redraw theme
+                    activity.apply {
+                        startActivity(intent)
+                        finish()
+                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    }
                 }
                 styleEnabled
             }
