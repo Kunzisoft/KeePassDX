@@ -129,41 +129,49 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     fun checkDatabaseInfo() {
-        mDatabase.fileUri?.let {
-            val previousDatabaseInfo = mSnapFileDatabaseInfo
-            val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                    FileDatabaseInfo(applicationContext, it))
+        try {
+            mDatabase.fileUri?.let {
+                val previousDatabaseInfo = mSnapFileDatabaseInfo
+                val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                        FileDatabaseInfo(applicationContext, it))
 
-            val oldDatabaseModification = previousDatabaseInfo?.lastModification
-            val newDatabaseModification = lastFileDatabaseInfo.lastModification
+                val oldDatabaseModification = previousDatabaseInfo?.lastModification
+                val newDatabaseModification = lastFileDatabaseInfo.lastModification
 
-            val conditionExists = previousDatabaseInfo != null
-                    && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
-            // To prevent dialog opening too often
-            val conditionLastModification = (oldDatabaseModification != null && newDatabaseModification != null
-                    && oldDatabaseModification < newDatabaseModification
-                    && mLastLocalSaveTime + 5000 < newDatabaseModification)
+                val conditionExists = previousDatabaseInfo != null
+                        && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
+                // To prevent dialog opening too often
+                val conditionLastModification = (oldDatabaseModification != null && newDatabaseModification != null
+                        && oldDatabaseModification < newDatabaseModification
+                        && mLastLocalSaveTime + 5000 < newDatabaseModification)
 
-            if (conditionExists || conditionLastModification) {
-                // Show the dialog only if it's real new info and not a delay after a save
-                Log.i(TAG, "Database file modified " +
-                        "$previousDatabaseInfo != $lastFileDatabaseInfo ")
-                // Call listener to indicate a change in database info
-                if (previousDatabaseInfo != null) {
-                    mDatabaseInfoListeners.forEach { listener ->
-                        listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
+                if (conditionExists || conditionLastModification) {
+                    // Show the dialog only if it's real new info and not a delay after a save
+                    Log.i(TAG, "Database file modified " +
+                            "$previousDatabaseInfo != $lastFileDatabaseInfo ")
+                    // Call listener to indicate a change in database info
+                    if (previousDatabaseInfo != null) {
+                        mDatabaseInfoListeners.forEach { listener ->
+                            listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
+                        }
                     }
+                    mSnapFileDatabaseInfo = lastFileDatabaseInfo
                 }
-                mSnapFileDatabaseInfo = lastFileDatabaseInfo
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to check database info", e)
         }
     }
 
     fun saveDatabaseInfo() {
-        mDatabase.fileUri?.let {
-            mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                    FileDatabaseInfo(applicationContext, it))
-            Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
+        try {
+            mDatabase.fileUri?.let {
+                mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                        FileDatabaseInfo(applicationContext, it))
+                Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to check database info", e)
         }
     }
 
