@@ -130,7 +130,7 @@
     <string name="saving_database">A gravar a base de dados…</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
-    <string name="memory_usage_explanation">Quantidade de memória (em bytes) a ser usada pela função de derivação de chave.</string>
+    <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e gravar mais lentos.</string>
     <string name="rounds">Rodadas de criptografia</string>
@@ -302,7 +302,7 @@
     <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar mudança da chave mestre (em dias)</string>
     <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
-    <string name="max_history_size_summary">Limitar o tamanho do histórico (em bytes) por entrada</string>
+    <string name="max_history_size_summary">Limitar o tamanho do histórico por entrada</string>
     <string name="max_history_size_title">Tamanho máximo</string>
     <string name="max_history_items_summary">Limitar a quantidade de itens do histórico por entrada</string>
     <string name="max_history_items_title">Número máximo</string>

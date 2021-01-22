@@ -174,7 +174,7 @@
     <string name="encryption_explanation">Databasekrypteringsalgoritme anvendt for alle data.</string>
     <string name="kdf_explanation">For at generere nøglen til krypteringsalgoritmen, omdannes hovednøglen ved hjælp af en tilfældigt saltet nøgleafledningsfunktion.</string>
     <string name="memory_usage">Hukommelsesforbrug</string>
-    <string name="memory_usage_explanation">Hukommelse (i bytes), som anvendes af nøgleafledningsfunktion.</string>
+    <string name="memory_usage_explanation">Hukommelse, som anvendes af nøgleafledningsfunktion.</string>
     <string name="parallelism">Parallelitet</string>
     <string name="parallelism_explanation">Grad af parallelitet (dvs. antallet af tråde), som anvendes af nøgleafledningsfunktion.</string>
     <string name="sort_menu">Sorter</string>
@@ -391,7 +391,7 @@
     <string name="max_history_items_title">Max. antal</string>
     <string name="max_history_items_summary">Begræns antallet af historikposter pr. indtastning</string>
     <string name="max_history_size_title">Max. størrelse</string>
-    <string name="max_history_size_summary">Begræns historikstørrelsen (i bytes) pr. post</string>
+    <string name="max_history_size_summary">Begræns historikstørrelsen pr. post</string>
     <string name="settings_database_recommend_changing_master_key_title">Anbefalet fornyelse</string>
     <string name="settings_database_recommend_changing_master_key_summary">Anbefal ændring af hovednøglen (dage)</string>
     <string name="settings_database_force_changing_master_key_title">Gennemtving fornyelse</string>

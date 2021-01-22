@@ -377,7 +377,7 @@
     <string name="settings_database_force_changing_master_key_title">Примусова зміна</string>
     <string name="settings_database_recommend_changing_master_key_summary">Рекомендувати змінити головний ключ (днів)</string>
     <string name="settings_database_recommend_changing_master_key_title">Рекомендувати змінити</string>
-    <string name="max_history_size_summary">Обмежити об\'єм історії (в байтах) кожного запису</string>
+    <string name="max_history_size_summary">Обмежити об\'єм історії кожного запису</string>
     <string name="max_history_size_title">Максимальний об\'єм</string>
     <string name="max_history_items_summary">Обмежити кількість елементів історії кожного запису</string>
     <string name="max_history_items_title">Максимальна кількість</string>
@@ -447,7 +447,7 @@
     <string name="sort_groups_before">Спочатку групи</string>
     <string name="sort_ascending">За зростанням ↓</string>
     <string name="sort_menu">Впорядкувати</string>
-    <string name="memory_usage_explanation">Об\'єм пам\'яті (у байтах), необхідний для функції створення ключа.</string>
+    <string name="memory_usage_explanation">Об\'єм пам\'яті, необхідний для функції створення ключа.</string>
     <string name="kdf_explanation">Для створення ключа алгоритму шифрування, головний ключ перетворюється за допомогою функції створення випадково приготованого ключа.</string>
     <string name="do_not_kill_app">Не закривайте застосунок…</string>
     <string name="command_execution">Виконання команди…</string>

@@ -180,7 +180,7 @@
     <string name="encryption_explanation">Database-encryptie-algoritme dat voor alle gegevens wordt gebruikt.</string>
     <string name="kdf_explanation">Om de sleutel voor het algoritme te kunnen genereren, wordt de hoofdsleutel getransformeerd middels een willekeurige afleidingsfunctie.</string>
     <string name="memory_usage">Geheugengebruik</string>
-    <string name="memory_usage_explanation">De hoeveelheid geheugen (bytes) dat de afleidingsfunctie mag gebruiken.</string>
+    <string name="memory_usage_explanation">De hoeveelheid geheugen dat de afleidingsfunctie mag gebruiken.</string>
     <string name="parallelism">Parallellen</string>
     <string name="parallelism_explanation">Het aantal parallellen (aantal threads) dat de afleidingsfunctie mag gebruiken.</string>
     <string name="sort_menu">Sorteren</string>
@@ -397,7 +397,7 @@
     <string name="max_history_items_title">Maximum aantal</string>
     <string name="max_history_items_summary">Beperk het aantal geschiedenisitems per item</string>
     <string name="max_history_size_title">Maximum</string>
-    <string name="max_history_size_summary">Geschiedenis (bytes) per item beperken</string>
+    <string name="max_history_size_summary">Geschiedenis per item beperken</string>
     <string name="settings_database_recommend_changing_master_key_title">Vernieuwing aanbevelen</string>
     <string name="settings_database_recommend_changing_master_key_summary">Aanbeveling de hoofdsleutel te wijzigen (dagen)</string>
     <string name="settings_database_force_changing_master_key_title">Vernieuwing afdwingen</string>

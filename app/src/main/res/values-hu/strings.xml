@@ -182,7 +182,7 @@
     <string name="encryption_explanation">Az összes adathoz használt adatbázis-titkosítási algoritmus.</string>
     <string name="kdf_explanation">A kulcs előállításához a titkosítási algoritmushoz, a mesterkulcs átalakításra került egy véletlenszerűen sózott kulcselőállítási függvénnyel.</string>
     <string name="memory_usage">Memóriahasználat</string>
-    <string name="memory_usage_explanation">A kulcselőállítási függvényhez használt memóriamennyiség (bájtban).</string>
+    <string name="memory_usage_explanation">A kulcselőállítási függvényhez használt memóriamennyiség.</string>
     <string name="parallelism">Párhuzamosság</string>
     <string name="parallelism_explanation">A kulcselőállítási függvény párhuzamosságának mértéke (azaz a szálak száma).</string>
     <string name="sort_menu">Rendezés</string>
@@ -398,7 +398,7 @@
     <string name="settings_database_force_changing_master_key_title">Megújítás kényszerítése</string>
     <string name="settings_database_recommend_changing_master_key_summary">A mesterkulcs módosításának javaslata (napban)</string>
     <string name="settings_database_recommend_changing_master_key_title">Javasolt megújítás</string>
-    <string name="max_history_size_summary">Korlátozza az előzmények méretét bejegyzésenként (bájtban)</string>
+    <string name="max_history_size_summary">Korlátozza az előzmények méretét bejegyzésenként</string>
     <string name="max_history_size_title">Maximális méret</string>
     <string name="max_history_items_summary">Korlátozza az előzmények számát bejegyzésenként</string>
     <string name="max_history_items_title">Maximális szám</string>

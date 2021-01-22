@@ -145,7 +145,7 @@
     <string name="rounds">Krypteringsomganger</string>
     <string name="rounds_explanation">Flere krypteringsomganger gir ytterligere beskyttelse mot råmaktsangrep, men kan virkelig sakke ned innlasting og lagring.</string>
     <string name="memory_usage">Minnebruk</string>
-    <string name="memory_usage_explanation">Mengden minne (i byte) brukt til nøkkelutledelsesfunksjonen.</string>
+    <string name="memory_usage_explanation">Mengden minne brukt til nøkkelutledelsesfunksjonen.</string>
     <string name="parallelism">Parallellitet</string>
     <string name="parallelism_explanation">Graden av parallellitet (dvs. antallet tråder) brukt av nøkkelutledingsfunksjonen.</string>
     <string name="saving_database">Lagrer database…</string>

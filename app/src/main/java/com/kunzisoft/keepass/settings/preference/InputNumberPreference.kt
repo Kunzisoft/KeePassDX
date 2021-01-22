@@ -36,7 +36,7 @@ open class InputNumberPreference @JvmOverloads constructor(context: Context,
 
     override fun setSummary(summary: CharSequence) {
         if (summary == INFINITE_VALUE_STRING) {
-            super.setSummary("")
+            super.setSummary("∞")
         } else {
             super.setSummary(summary)
         }

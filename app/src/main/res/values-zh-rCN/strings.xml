@@ -178,7 +178,7 @@
     <string name="encryption_explanation">加密所有数据时采用的算法。</string>
     <string name="kdf_explanation">将迭代主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
     <string name="memory_usage">内存使用量</string>
-    <string name="memory_usage_explanation">密钥推导算法使用的内存（以二进制字节计）。</string>
+    <string name="memory_usage_explanation">密钥推导算法使用的内存。</string>
     <string name="parallelism">并行</string>
     <string name="parallelism_explanation">密钥推导算法使用的并行运行程度（即线程数量）。</string>
     <string name="sort_menu">排序</string>
@@ -395,7 +395,7 @@
     <string name="max_history_items_title">最大数量</string>
     <string name="max_history_items_summary">限制每个条目的历史记录条数</string>
     <string name="max_history_size_title">最大大小</string>
-    <string name="max_history_size_summary">限制每个条目的历史记录大小（以字节为单位）</string>
+    <string name="max_history_size_summary">限制每个条目的历史记录大小</string>
     <string name="settings_database_recommend_changing_master_key_title">建议修改</string>
     <string name="settings_database_recommend_changing_master_key_summary">建议修改主密钥（以天为单位）</string>
     <string name="settings_database_force_changing_master_key_title">强制修改</string>

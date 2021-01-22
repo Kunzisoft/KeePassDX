@@ -165,7 +165,7 @@
     <string name="encryption_explanation">Algoritmo de cifrado utilizado para todos los datos.</string>
     <string name="kdf_explanation">Para generar la clave del algoritmo de cifrado, la clave maestra se transforma mediante una función de derivación de claves con una sal aleatoria.</string>
     <string name="memory_usage">Uso de memoria</string>
-    <string name="memory_usage_explanation">Cantidad de memoria (en bytes) que usará la función de derivación de clave.</string>
+    <string name="memory_usage_explanation">Cantidad de memoria que usará la función de derivación de clave.</string>
     <string name="parallelism">Paralelismo</string>
     <string name="parallelism_explanation">Grado de paralelismo (p. ej. número de hilos) usados por la función de derivación de clave.</string>
     <string name="sort_menu">Ordenar</string>
@@ -498,7 +498,7 @@
     <string name="error_field_name_already_exists">El nombre del campo ya existe.</string>
     <string name="error_registration_read_only">Guardar un nuevo elemento no está permitido en una base de datos de sólo lectura</string>
     <string name="settings_database_recommend_changing_master_key_title">Recomendar la renovación</string>
-    <string name="max_history_size_summary">Limitar el tamaño del historial (en bytes) por entrada</string>
+    <string name="max_history_size_summary">Limitar el tamaño del historial por entrada</string>
     <string name="max_history_items_summary">Limitar el número de elementos del historial por entrada</string>
     <string name="max_history_items_title">Número máximo</string>
     <string name="device_keyboard_setting_title">Configuración del teclado del dispositivo</string>

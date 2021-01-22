@@ -248,7 +248,7 @@
     <string name="content_description_background">الخلفية</string>
     <string name="rounds">دورات التحويل</string>
     <string name="rounds_explanation">توفر الدورات الاضافية ضد هجوم توليد التركيبات ،لكنها تبطئ التحميل والحفظ.</string>
-    <string name="memory_usage_explanation">مقدار الذاكرة (بالبايت) لاستخدامها في دالة اشتقاق المفتاح.</string>
+    <string name="memory_usage_explanation">مقدار الذاكرة لاستخدامها في دالة اشتقاق المفتاح.</string>
     <string name="parallelism_explanation">درجة التوازي (عدد العمليات) لدالة اشتقاق المفتاح.</string>
     <string name="sort_groups_before">مجموعات قبل</string>
     <string name="selection_mode">نمط التحديد</string>
@@ -404,7 +404,7 @@
     <string name="settings_database_force_changing_master_key_summary">يطالبك بتغيير المفتاح الرئيسي (بالأيام)</string>
     <string name="settings_database_recommend_changing_master_key_summary">اقترح تجديد المفتاح الرئيسي (بالأيام)</string>
     <string name="settings_database_recommend_changing_master_key_title">اقترح التجديد</string>
-    <string name="max_history_size_summary">حجم التأريخ ( بالبايت) لكل مدخل</string>
+    <string name="max_history_size_summary">حجم التأريخ لكل مدخل</string>
     <string name="max_history_size_title">الحجم الأقصى</string>
     <string name="max_history_items_summary">عدد عناصر التأريخ لكل مدخل</string>
     <string name="education_generate_password_title">أنشئ كلمة سر قوية</string>
