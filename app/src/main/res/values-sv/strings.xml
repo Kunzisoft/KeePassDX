@@ -184,7 +184,7 @@
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen.</string>
     <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelderivatsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>
-    <string name="memory_usage_explanation">Mängd minne (i bytes) som ska användas av nyckelderivatsfunktionen.</string>
+    <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelderivatsfunktionen.</string>
     <string name="parallelism">Parallellism</string>
     <string name="parallelism_explanation">Grad av parallellism (dvs. antal trådar) som används av nyckelderivatsfuntionen.</string>
     <string name="sort_menu">Sortera</string>
@@ -392,7 +392,7 @@
     <string name="max_history_items_title">Max. historikobjekt</string>
     <string name="max_history_items_summary">Begränsar antalet historikobjekt per post</string>
     <string name="max_history_size_title">Max. historikstorlek</string>
-    <string name="max_history_size_summary">Begränsa historikens storlek per post (i bytes)</string>
+    <string name="max_history_size_summary">Begränsa historikens storlek per post</string>
     <string name="settings_database_recommend_changing_master_key_title">Rekommenderas att ändra</string>
     <string name="settings_database_recommend_changing_master_key_summary">Rekommenderas att ändra huvudnyckeln (dagar)</string>
     <string name="settings_database_force_changing_master_key_title">Tvingad ändring</string>

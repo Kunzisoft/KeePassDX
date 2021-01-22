@@ -145,7 +145,7 @@
     <string name="rounds">Dönüşüm turları</string>
     <string name="rounds_explanation">Ek şifreleme turları, kaba kuvvet saldırılarına karşı daha yüksek koruma sağlar, ancak yükleme ve kaydetmeyi gerçekten yavaşlatabilir.</string>
     <string name="memory_usage">Hafıza kullanımı</string>
-    <string name="memory_usage_explanation">Anahtar türetme işlevi tarafından kullanılacak bellek miktarı (bayt olarak).</string>
+    <string name="memory_usage_explanation">Anahtar türetme işlevi tarafından kullanılacak bellek miktarı.</string>
     <string name="parallelism">Paralellik</string>
     <string name="parallelism_explanation">Anahtar türev fonksiyonu tarafından kullanılan paralellik derecesi (yani iplik sayısı).</string>
     <string name="saving_database">Veri tabanı kaydediliyor…</string>
@@ -376,7 +376,7 @@
     <string name="max_history_items_title">Azami sayı</string>
     <string name="max_history_items_summary">Girdi başına geçmiş ögelerinin sayısını sınırla</string>
     <string name="max_history_size_title">Azami boyut</string>
-    <string name="max_history_size_summary">Girdi başına geçmiş boyutunu (bayt olarak) sınırla</string>
+    <string name="max_history_size_summary">Girdi başına geçmiş boyutunu sınırla</string>
     <string name="settings_database_recommend_changing_master_key_title">Yenilemeyi öner</string>
     <string name="settings_database_recommend_changing_master_key_summary">Ana anahtarın değiştirilmesini öner (gün)</string>
     <string name="settings_database_force_changing_master_key_title">Yenilemeyi zorla</string>

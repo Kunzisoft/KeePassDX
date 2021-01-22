@@ -266,7 +266,7 @@
     <string name="read_only_warning">Ovisno o upravitelju datoteka, KeePassDX možda neće moći pisati u tvoje spremište.</string>
     <string name="contains_duplicate_uuid_procedure">Riješiti problem generiranjem novih UUID-ova za duplikate\?</string>
     <string name="root">Korijen</string>
-    <string name="memory_usage_explanation">Količina memorije (u bajtovima) koju će koristiti funkcija za generiranje ključeva.</string>
+    <string name="memory_usage_explanation">Količina memorije koju će koristiti funkcija za generiranje ključeva.</string>
     <string name="do_not_kill_app">Ne zatvaraj aplikaciju …</string>
     <string name="sort_last_access_time">Zadnji pristup</string>
     <string name="special">Posebni znakovi</string>
@@ -286,7 +286,7 @@
     <string name="recycle_bin_summary">Premijesti grupe i unose u koš za smeće prije brisanja</string>
     <string name="recycle_bin_group_title">Grupa koša za smeće</string>
     <string name="max_history_items_summary">Ograniči broj spremljenih povijesti po unosu</string>
-    <string name="max_history_size_summary">Ograniči veličinu povijesti (u bajtovima) po unosu</string>
+    <string name="max_history_size_summary">Ograniči veličinu povijesti po unosu</string>
     <string name="allow_copy_password_title">Povjerenje međuspremniku</string>
     <string name="allow_copy_password_summary">Dozvoli kopiranje lozinke i zaštićenih polja u međuspremnik</string>
     <string name="allow_copy_password_warning">Upozorenje: Međuspremnik dijele sve aplikacije. Ako se kopiraju osjetljivi podaci, druga aplikacija ih može vidjeti.</string>

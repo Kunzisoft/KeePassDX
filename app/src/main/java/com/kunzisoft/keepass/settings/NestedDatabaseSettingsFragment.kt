@@ -58,7 +58,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
     private var mKeyDerivationPref: DialogListExplanationPreference? = null
     private var mRoundPref: InputKdfNumberPreference? = null
-    private var mMemoryPref: InputKdfNumberPreference? = null
+    private var mMemoryPref: InputKdfSizePreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
@@ -231,7 +231,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             }
 
             // Memory Usage
-            mMemoryPref = findPreference<InputKdfNumberPreference>(getString(R.string.memory_usage_key))?.apply {
+            mMemoryPref = findPreference<InputKdfSizePreference>(getString(R.string.memory_usage_key))?.apply {
                 summary = mDatabase.memoryUsage.toString()
             }
 

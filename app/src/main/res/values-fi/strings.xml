@@ -249,7 +249,7 @@
     <string name="list_password_generator_options_title">Salasanamerkit</string>
     <string name="password_size_summary">Asettaa oletuspituuden generoiduille salasanoille</string>
     <string name="parallelism">Rinnakkaisuus</string>
-    <string name="memory_usage_explanation">Avaimen johtamisfunktion käyttämän muistin (tavuina) määrä.</string>
+    <string name="memory_usage_explanation">Avaimen johtamisfunktion käyttämän muistin määrä.</string>
     <string name="memory_usage">Muistin käyttö</string>
     <string name="kdf_explanation">Pääavain muunnetaan käyttäen satunnaista suolattua avaimen johtamisfunktiota, jotta salausalgoritmin avain voidaan generoida.</string>
     <string name="encryption_explanation">Salasanatietokannan salausalgoritmi, jota käytetään kaikelle datalle.</string>

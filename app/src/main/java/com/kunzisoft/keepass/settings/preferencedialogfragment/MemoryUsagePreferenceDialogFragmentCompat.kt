@@ -22,33 +22,46 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.utils.DataByte
 
 class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+
+    private var dataByte = DataByte(MIN_MEMORY_USAGE, DataByte.ByteFormat.BYTE)
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         setExplanationText(R.string.memory_usage_explanation)
-        inputText = database?.memoryUsage?.toString()?: MIN_MEMORY_USAGE.toString()
+
+        val memoryBytes = database?.memoryUsage ?: MIN_MEMORY_USAGE
+        dataByte = DataByte(memoryBytes, DataByte.ByteFormat.BYTE)
+                .toBetterByteFormat()
+        inputText = dataByte.number.toString()
+        setUnitText(dataByte.format.stringId)
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             database?.let { database ->
-                var memoryUsage: Long = try {
+                var newMemoryUsage: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
                     MIN_MEMORY_USAGE
                 }
-                if (memoryUsage < MIN_MEMORY_USAGE) {
-                    memoryUsage = MIN_MEMORY_USAGE
+                if (newMemoryUsage < MIN_MEMORY_USAGE) {
+                    newMemoryUsage = MIN_MEMORY_USAGE
                 }
-                // TODO Max Memory
+                // To transform in bytes
+                dataByte.number = newMemoryUsage
+                var numberOfBytes = dataByte.toBytes()
+                if (numberOfBytes > Long.MAX_VALUE) {
+                    numberOfBytes = Long.MAX_VALUE
+                }
 
                 val oldMemoryUsage = database.memoryUsage
-                database.memoryUsage = memoryUsage
+                database.memoryUsage = numberOfBytes
 
-                mProgressDatabaseTaskProvider?.startDatabaseSaveMemoryUsage(oldMemoryUsage, memoryUsage, mDatabaseAutoSaveEnable)
+                mProgressDatabaseTaskProvider?.startDatabaseSaveMemoryUsage(oldMemoryUsage, numberOfBytes, mDatabaseAutoSaveEnable)
             }
         }
     }

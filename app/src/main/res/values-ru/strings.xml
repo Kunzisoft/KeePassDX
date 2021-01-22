@@ -168,7 +168,7 @@
     <string name="encryption_explanation">Алгоритм шифрования базы для всех данных.</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
     <string name="memory_usage">Использование памяти</string>
-    <string name="memory_usage_explanation">Объём памяти (в байтах), который будет использоваться функцией формирования ключа.</string>
+    <string name="memory_usage_explanation">Объём памяти, который будет использоваться функцией формирования ключа.</string>
     <string name="parallelism">Уровень параллелизма</string>
     <string name="parallelism_explanation">Уровень параллелизма (т.е. количество потоков), используемый функцией формирования ключа.</string>
     <string name="sort_menu">Сортировка</string>
@@ -393,7 +393,7 @@
     <string name="max_history_items_title">Максимум записей</string>
     <string name="max_history_items_summary">Ограничение числа элементов истории каждой записи</string>
     <string name="max_history_size_title">Максимальный размер</string>
-    <string name="max_history_size_summary">Ограничение размера истории каждой записи (в байтах)</string>
+    <string name="max_history_size_summary">Ограничение размера истории каждой записи</string>
     <string name="settings_database_recommend_changing_master_key_title">Рекомендуемая смена</string>
     <string name="settings_database_recommend_changing_master_key_summary">Рекомендовать менять главный пароль (в днях)</string>
     <string name="settings_database_force_changing_master_key_title">Принудительная смена</string>

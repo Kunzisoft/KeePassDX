@@ -21,31 +21,29 @@ package com.kunzisoft.keepass.settings.preference
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.preference.DialogPreference
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.utils.DataByte
 
-open class InputKdfNumberPreference @JvmOverloads constructor(context: Context,
+open class InputSizePreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,
                                                          defStyleAttr: Int = R.attr.dialogPreferenceStyle,
                                                          defStyleRes: Int = defStyleAttr)
-    : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
-
-    override fun getDialogLayoutResource(): Int {
-        return R.layout.pref_dialog_input_numbers
-    }
+    : InputNumberPreference(context, attrs, defStyleAttr, defStyleRes) {
 
     override fun setSummary(summary: CharSequence) {
-        if (summary == UNKNOWN_VALUE_STRING) {
-            isEnabled = false
-            super.setSummary("")
-        } else {
-            isEnabled = true
-            super.setSummary(summary)
+        var summaryString = summary
+        try {
+            val memorySize = summary.toString().toLong()
+            summaryString = if (memorySize >= 0) {
+                // To convert bytes to mebibytes
+                DataByte(memorySize, DataByte.ByteFormat.BYTE)
+                        .toBetterByteFormat().toString(context)
+            } else {
+                memorySize.toString()
+            }
+        } catch (e: Exception) {
+        } finally {
+            super.setSummary(summaryString)
         }
-    }
-
-    companion object {
-        const val UNKNOWN_VALUE_STRING = KdfEngine.UNKNOWN_VALUE.toString()
     }
 }

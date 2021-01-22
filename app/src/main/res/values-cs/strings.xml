@@ -175,7 +175,7 @@
     <string name="encryption_explanation">Algoritmus šifrování databáze použit pro všechna data.</string>
     <string name="kdf_explanation">Klíč pro šifrovací algoritmus je vytvořen transformací hlavního klíče pomocí funkce odvození klíče s náhodně přidanou složkou, tzv. solí.</string>
     <string name="memory_usage">Využití paměti</string>
-    <string name="memory_usage_explanation">Množství paměti (v bajtech) použitých funkcí pro odvození klíče.</string>
+    <string name="memory_usage_explanation">Množství paměti použitých funkcí pro odvození klíče.</string>
     <string name="parallelism">Souběžné zpracovávání</string>
     <string name="parallelism_explanation">Stupeň souběžného zpracovávání (počet vláken) použitý funkcí pro odvození klíče.</string>
     <string name="sort_menu">Seřadit</string>
@@ -391,7 +391,7 @@
     <string name="max_history_items_title">Maximální počet</string>
     <string name="max_history_items_summary">Omezit počet položek v historii záznamu</string>
     <string name="max_history_size_title">Maximální velikost</string>
-    <string name="max_history_size_summary">Omezit velikost historie na záznam (v bajtech)</string>
+    <string name="max_history_size_summary">Omezit velikost historie na záznam</string>
     <string name="settings_database_recommend_changing_master_key_title">Doporučit změnu</string>
     <string name="settings_database_recommend_changing_master_key_summary">Dporučit změnu hlavního klíče (dny)</string>
     <string name="settings_database_force_changing_master_key_title">Vynutit změnu</string>

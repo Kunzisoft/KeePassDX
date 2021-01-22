@@ -300,7 +300,7 @@
     <string name="sort_groups_before">മുമ്പുള്ള ഗ്രൂപ്പുകൾ</string>
     <string name="sort_ascending">ആദ്യത്തേത് ഏറ്റവും കുറഞ്ഞത്↓</string>
     <string name="parallelism_explanation">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ ഉപയോഗിക്കുന്ന സമാന്തരതയുടെ ബിരുദം (അതായത് ത്രെഡുകളുടെ എണ്ണം).</string>
-    <string name="memory_usage_explanation">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ ഉപയോഗിക്കുന്ന മെമ്മറിയുടെ അളവ് (ബൈറ്റുകളിൽ).</string>
+    <string name="memory_usage_explanation">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ ഉപയോഗിക്കുന്ന മെമ്മറിയുടെ അളവ് .</string>
     <string name="encryption_explanation">എല്ലാ ഡാറ്റയ്ക്കും ഉപയോഗിക്കുന്ന ഡാറ്റാബേസ് എൻ‌ക്രിപ്ഷൻ അൽ‌ഗോരിതം.</string>
     <string name="hide_broken_locations_summary">സമീപകാല ഡാറ്റാബേസുകളുടെ പട്ടികയിൽ‌ നിന്ന് തകർന്ന ലിങ്കുകൾ‌ മറയ്‌ക്കുക</string>
     <string name="hide_broken_locations_title">തകർന്ന ഡാറ്റാബേസ് ലിങ്കുകൾ മറയ്‌ക്കുക</string>

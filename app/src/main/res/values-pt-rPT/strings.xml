@@ -174,7 +174,7 @@
     <string name="create_keepass_file">Criar base de dados</string>
     <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre comprimida (SHA-256) é transformada usando uma função de derivação de chave (com um salt aleatório).</string>
     <string name="memory_usage">Uso de memória</string>
-    <string name="memory_usage_explanation">Quantidade de memória (em bytes) a ser usada pela função de derivação de chave.</string>
+    <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
     <string name="sort_menu">Ordenar</string>
@@ -399,7 +399,7 @@
     <string name="menu_security_settings">Configurações de segurança</string>
     <string name="disable">Desativar</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqueio na interface do utilizador</string>
-    <string name="max_history_size_summary">Limitar o tamanho do histórico (em bytes) por entrada</string>
+    <string name="max_history_size_summary">Limitar o tamanho do histórico por entrada</string>
     <string name="error_otp_secret_key">A chave secreta deve estar em formato Base32.</string>
     <string name="enable">Ativar</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
