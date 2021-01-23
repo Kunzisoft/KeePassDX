@@ -138,7 +138,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     @Throws(IllegalArgumentException::class)
     fun setHexSecret(secret: String) {
         if (secret.isNotEmpty())
-            otpModel.secret = Hex.decodeHex(secret)
+            otpModel.secret = Hex.decodeHex(secret.toCharArray())
         else
             throw IllegalArgumentException()
     }

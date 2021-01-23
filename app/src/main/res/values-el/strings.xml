@@ -165,7 +165,7 @@
     <string name="encryption_explanation">Αλγόριθμος κρυπτογράφησης βάσης δεδομένων που χρησιμοποιείται για όλα τα δεδομένα.</string>
     <string name="kdf_explanation">Για να δημιουργηθεί το κλειδί για τον αλγόριθμο κρυπτογράφησης, το κύριο κλειδί μετασχηματίζεται χρησιμοποιώντας μια τυχαία αλατισμένη λειτουργία εξαγωγής κλειδιών.</string>
     <string name="memory_usage">Χρήση μνήμης</string>
-    <string name="memory_usage_explanation">Ποσότητα μνήμης (σε bytes) που θα χρησιμοποιηθεί από τη λειτουργία εξαγωγής κλειδιών.</string>
+    <string name="memory_usage_explanation">Ποσότητα μνήμης που θα χρησιμοποιηθεί από τη λειτουργία εξαγωγής κλειδιών.</string>
     <string name="parallelism">Παραλληλισμός</string>
     <string name="parallelism_explanation">Βαθμός παραλληλισμού (δηλ. Αριθμός νημάτων) που χρησιμοποιείται από τη συνάρτηση εξαγωγής κλειδιών.</string>
     <string name="sort_menu">Ταξινόμηση</string>
@@ -392,7 +392,7 @@
     <string name="max_history_items_title">Μέγιστος αριθμός</string>
     <string name="max_history_items_summary">Περιορίστε τον αριθμό των στοιχείων ιστορικού ανά καταχώριση</string>
     <string name="max_history_size_title">Μέγιστο μέγεθος</string>
-    <string name="max_history_size_summary">Περιορίστε το μέγεθος ιστορικού (σε bytes) ανά καταχώριση</string>
+    <string name="max_history_size_summary">Περιορίστε το μέγεθος ιστορικού ανά καταχώριση</string>
     <string name="settings_database_recommend_changing_master_key_title">Συστήστε ανανέωση</string>
     <string name="settings_database_recommend_changing_master_key_summary">Προτεινόμενη αλλαγή του κύριου κλειδιού (ημέρες)</string>
     <string name="settings_database_force_changing_master_key_title">Εξαναγκαστική ανανέωση</string>

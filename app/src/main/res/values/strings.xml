@@ -131,6 +131,7 @@
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
+    <string name="error_otp_type">The existing OTP type is not recognized by this form, its validation may no longer correctly generate the token.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
     <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="error_field_name_already_exists">The field name already exists.</string>
@@ -233,7 +234,7 @@
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="memory_usage">Memory usage</string>
-    <string name="memory_usage_explanation">Amount of memory (in bytes) to be used by the key derivation function.</string>
+    <string name="memory_usage_explanation">Amount of memory to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
@@ -357,7 +358,7 @@
     <string name="max_history_items_title">Maximum number</string>
     <string name="max_history_items_summary">Limit the number of history items per entry</string>
     <string name="max_history_size_title">Maximum size</string>
-    <string name="max_history_size_summary">Limit the history size (in bytes) per entry</string>
+    <string name="max_history_size_summary">Limit the history size per entry</string>
     <string name="settings_database_recommend_changing_master_key_title">Recommend renewal</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recommend changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_title">Force renewal</string>
@@ -519,6 +520,10 @@
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="kdf_Argon2id">Argon2id</string>
+    <string name="unit_byte">B</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_gibibyte">GiB</string>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

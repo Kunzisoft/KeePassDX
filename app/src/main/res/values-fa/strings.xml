@@ -37,7 +37,7 @@
     <string name="saving_database">در حال ذخیره پایگاه داده</string>
     <string name="parallelism_explanation">درجه موازی سازی (یعنی تعداد موضوعات) که توسط عملکرد مشتق کلیدی استفاده می شود.</string>
     <string name="parallelism">موازی کاری</string>
-    <string name="memory_usage_explanation">مقدار حافظه (در بایت) که توسط تابع مشتق کلید مورد استفاده قرار گیرد.</string>
+    <string name="memory_usage_explanation">مقدار حافظه که توسط تابع مشتق کلید مورد استفاده قرار گیرد.</string>
     <string name="memory_usage">استفاده از حافظه</string>
     <string name="rounds_explanation">دورهای رمزگذاری اضافی محافظت بالاتری در برابر حملات نیروی وحشی ایجاد می کنند ، اما در واقع می توانند سرعت و بارگذاری را کاهش دهند.</string>
     <string name="rounds">دور تحول</string>

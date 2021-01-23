@@ -181,7 +181,7 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
     <bool name="hide_expired_entries_default" translatable="false">false</bool>
-    <string name="show_uuid_key" translatable="false">hide_expired_entries_key</string>
+    <string name="show_uuid_key" translatable="false">show_uuid_key</string>
     <bool name="show_uuid_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <bool name="enable_education_screens_default" translatable="false">true</bool>

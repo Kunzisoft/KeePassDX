@@ -202,7 +202,7 @@
     <string name="rounds">Rundele de transformare</string>
     <string name="rounds_explanation">Rundele suplimentare de criptare oferă o protecție mai mare împotriva atacurilor de forță brută, dar pot încetini cu adevărat încărcarea și economisirea.</string>
     <string name="memory_usage">Utilizarea memoriei</string>
-    <string name="memory_usage_explanation">Cantitatea de memorie (în octeți) care trebuie utilizată de funcția de derivare a cheilor.</string>
+    <string name="memory_usage_explanation">Cantitatea de memorie care trebuie utilizată de funcția de derivare a cheilor.</string>
     <string name="parallelism">Paralelism</string>
     <string name="parallelism_explanation">Gradul de paralelism (adică numărul de fire) utilizat de funcția de derivare a cheilor.</string>
     <string name="saving_database">Salvarea bazei de date …</string>
@@ -282,7 +282,7 @@
     <string name="max_history_items_title">Număr maxim</string>
     <string name="max_history_items_summary">Limitați numărul de articole istorice pe intrare</string>
     <string name="max_history_size_title">Dimensiune maximă</string>
-    <string name="max_history_size_summary">Limitați dimensiunea istoricului (în octeți) pe intrare</string>
+    <string name="max_history_size_summary">Limitați dimensiunea istoricului pe intrare</string>
     <string name="settings_database_recommend_changing_master_key_title">Recomandă reînnoirea</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomandă schimbarea cheii master (zile)</string>
     <string name="settings_database_force_changing_master_key_title">Forteaza reinoirea</string>

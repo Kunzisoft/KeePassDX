@@ -34,7 +34,12 @@ class IOActionTask<T>(
         mainScope.launch {
             withContext(Dispatchers.IO) {
                 val asyncResult: Deferred<T?> = async {
-                    action.invoke()
+                        try {
+                            action.invoke()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            null
+                        }
                 }
                 withContext(Dispatchers.Main) {
                     afterActionDatabaseListener?.invoke(asyncResult.await())

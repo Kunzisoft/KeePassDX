@@ -1,0 +1,6 @@
+ * Fix OTP token type #863
+ * Fix auto open biometric prompt #862
+ * Fix back appearance setting #865
+ * Fix orientation change in settings #872
+ * Change memory unit to MiB #851
+ * Small changes #642

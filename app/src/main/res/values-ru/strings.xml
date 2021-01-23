@@ -95,7 +95,7 @@
     <string name="lowercase">Строчные</string>
     <string name="hide_password_title">Скрывать пароли</string>
     <string name="hide_password_summary">Скрывать пароли за (***) по умолчанию</string>
-    <string name="about">Сведения</string>
+    <string name="about">О программе</string>
     <string name="menu_change_key_settings">Изменить главный пароль</string>
     <string name="settings">Настройки</string>
     <string name="menu_database_settings">Настройки базы</string>
@@ -168,7 +168,7 @@
     <string name="encryption_explanation">Алгоритм шифрования базы для всех данных.</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
     <string name="memory_usage">Использование памяти</string>
-    <string name="memory_usage_explanation">Объём памяти (в байтах), который будет использоваться функцией формирования ключа.</string>
+    <string name="memory_usage_explanation">Объём памяти, который будет использоваться функцией формирования ключа.</string>
     <string name="parallelism">Уровень параллелизма</string>
     <string name="parallelism_explanation">Уровень параллелизма (т.е. количество потоков), используемый функцией формирования ключа.</string>
     <string name="sort_menu">Сортировка</string>
@@ -295,7 +295,7 @@
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Содействие</string>
+    <string name="contribute">Помочь проекту</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="style_choose_title">Тема приложения</string>
@@ -393,7 +393,7 @@
     <string name="max_history_items_title">Максимум записей</string>
     <string name="max_history_items_summary">Ограничение числа элементов истории каждой записи</string>
     <string name="max_history_size_title">Максимальный размер</string>
-    <string name="max_history_size_summary">Ограничение размера истории каждой записи (в байтах)</string>
+    <string name="max_history_size_summary">Ограничение размера истории каждой записи</string>
     <string name="settings_database_recommend_changing_master_key_title">Рекомендуемая смена</string>
     <string name="settings_database_recommend_changing_master_key_summary">Рекомендовать менять главный пароль (в днях)</string>
     <string name="settings_database_force_changing_master_key_title">Принудительная смена</string>

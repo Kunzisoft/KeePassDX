@@ -133,7 +133,7 @@
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Des tours de chiffrement supplémentaires fournissent une protection plus élevée contre les attaques par force brute, mais cela peut considérablement ralentir les opérations de chargement et d’enregistrement.</string>
     <string name="memory_usage">Utilisation de la mémoire</string>
-    <string name="memory_usage_explanation">Quantité de mémoire (en octets) à utiliser par la fonction de dérivation de clé.</string>
+    <string name="memory_usage_explanation">Quantité de mémoire à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
@@ -408,7 +408,7 @@
     <string name="max_history_items_title">Nombre maximum</string>
     <string name="max_history_items_summary">Limite le nombre d’éléments de l’historique par entrée</string>
     <string name="max_history_size_title">Taille maximum</string>
-    <string name="max_history_size_summary">Limite la taille de l’historique (en octets) par entrée</string>
+    <string name="max_history_size_summary">Limite la taille de l’historique par entrée</string>
     <string name="settings_database_recommend_changing_master_key_title">Recommander le renouvellement</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recommande le changement de la clé principale (jours)</string>
     <string name="settings_database_force_changing_master_key_title">Forcer le renouvellement</string>

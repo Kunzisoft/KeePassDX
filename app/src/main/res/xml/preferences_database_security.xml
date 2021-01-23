@@ -45,7 +45,7 @@
             custom:explanations="@string/rounds_explanation"
             android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
-        <com.kunzisoft.keepass.settings.preference.InputKdfNumberPreference
+        <com.kunzisoft.keepass.settings.preference.InputKdfSizePreference
             android:key="@string/memory_usage_key"
             android:persistent="false"
             android:title="@string/memory_usage"

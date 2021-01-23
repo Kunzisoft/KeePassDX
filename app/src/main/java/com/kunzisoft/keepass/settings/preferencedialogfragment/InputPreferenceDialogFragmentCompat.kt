@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.R
 abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCompat() {
 
     private var inputTextView: EditText? = null
+    private var textUnitView: TextView? = null
     private var textExplanationView: TextView? = null
     private var switchElementView: CompoundButton? = null
 
@@ -47,12 +48,38 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
             }
         }
 
+    fun setInoutText(@StringRes inputTextId: Int) {
+        inputText = getString(inputTextId)
+    }
+
+    fun showInputText(show: Boolean) {
+        inputTextView?.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
     fun setInputTextError(error: CharSequence) {
         this.inputTextView?.error = error
     }
 
     fun setOnInputTextEditorActionListener(onEditorActionListener: TextView.OnEditorActionListener) {
         this.mOnInputTextEditorActionListener = onEditorActionListener
+    }
+
+    var unitText: String?
+        get() = textUnitView?.text?.toString() ?: ""
+        set(unitText) {
+            textUnitView?.apply {
+                if (unitText != null && unitText.isNotEmpty()) {
+                    text = unitText
+                    visibility = View.VISIBLE
+                } else {
+                    text = ""
+                    visibility = View.GONE
+                }
+            }
+        }
+
+    fun setUnitText(@StringRes unitTextId: Int) {
+        unitText = getString(unitTextId)
     }
 
     var explanationText: String?
@@ -68,6 +95,10 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
                 }
             }
         }
+
+    fun setExplanationText(@StringRes explanationTextId: Int) {
+        explanationText = getString(explanationTextId)
+    }
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -93,6 +124,8 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
                 }
             }
         }
+        textUnitView = view.findViewById(R.id.input_text_unit)
+        textUnitView?.visibility = View.GONE
         textExplanationView = view.findViewById(R.id.explanation_text)
         textExplanationView?.visibility = View.GONE
         switchElementView = view.findViewById(R.id.switch_element)
@@ -111,18 +144,6 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
             }
         }
         return false
-    }
-
-    fun setInoutText(@StringRes inputTextId: Int) {
-        inputText = getString(inputTextId)
-    }
-
-    fun showInputText(show: Boolean) {
-        inputTextView?.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
-    fun setExplanationText(@StringRes explanationTextId: Int) {
-        explanationText = getString(explanationTextId)
     }
 
     fun setSwitchAction(onCheckedChange: ((isChecked: Boolean)-> Unit)?, defaultChecked: Boolean) {

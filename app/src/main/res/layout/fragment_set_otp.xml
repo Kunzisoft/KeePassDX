@@ -29,6 +29,18 @@
         android:layout_height="wrap_content"
         android:importantForAutofill="noExcludeDescendants"
         tools:targetApi="o">
+
+        <TextView
+            android:id="@+id/setup_otp_type_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_view_margin"
+            android:layout_marginLeft="@dimen/card_view_margin"
+            android:layout_marginEnd="@dimen/card_view_margin"
+            android:layout_marginRight="@dimen/card_view_margin"
+            android:text="@string/error_otp_type"
+            style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"/>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_otp_selection"
             android:layout_margin="4dp"

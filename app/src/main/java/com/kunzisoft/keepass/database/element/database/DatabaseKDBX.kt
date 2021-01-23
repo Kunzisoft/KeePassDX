@@ -451,7 +451,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                                             return if (hashString != null
                                                     && checkKeyFileHash(dataString, hashString)) {
                                                 Log.i(TAG, "Successful key file hash check.")
-                                                Hex.decodeHex(dataString)
+                                                Hex.decodeHex(dataString.toCharArray())
                                             } else {
                                                 Log.e(TAG, "Unable to check the hash of the key file.")
                                                 null
@@ -477,7 +477,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             digest = MessageDigest.getInstance("SHA-256")
             digest?.reset()
             // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-            val dataDigest = digest.digest(Hex.decodeHex(data))
+            val dataDigest = digest.digest(Hex.decodeHex(data.toCharArray()))
                     .copyOfRange(0, 4)
                     .toHexString()
             success = dataDigest == hash
