@@ -552,4 +552,9 @@
     <string name="warning_database_info_changed_options">Αντικαταστήστε τις εξωτερικές τροποποιήσεις αποθηκεύοντας τη βάση δεδομένων ή φορτώστε την ξανά με τις πιο πρόσφατες αλλαγές.</string>
     <string name="warning_database_info_changed">Οι πληροφορίες που περιέχονται στο αρχείο της βάσης δεδομένων σας έχουν τροποποιηθεί εκτός της εφαρμογής.</string>
     <string name="menu_reload_database">Επαναφόρτωση βάσης δεδομένων</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="error_otp_type">Ο υπάρχων τύπος OTP δεν αναγνωρίζεται από αυτήν τη φόρμα, η επικύρωσή του ενδέχεται να μην δημιουργεί πλέον σωστά το token.</string>
 </resources>
