@@ -553,7 +553,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                 true
             }
             R.id.menu_reload_database -> {
-                settingActivity?.mProgressDatabaseTaskProvider?.startDatabaseReload(false)
+                settingActivity?.apply {
+                    keepCurrentScreen()
+                    mProgressDatabaseTaskProvider?.startDatabaseReload(false)
+                }
                 return true
             }
 
