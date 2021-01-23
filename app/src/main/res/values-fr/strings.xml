@@ -561,4 +561,9 @@
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
     <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
     <string name="menu_reload_database">Recharger la base de données</string>
+    <string name="unit_gibibyte">Gibioctets</string>
+    <string name="unit_mebibyte">Mébioctets</string>
+    <string name="unit_kibibyte">Kibioctets</string>
+    <string name="unit_byte">Octets</string>
+    <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, sa validation peut ne plus générer correctement le jeton.</string>
 </resources>
