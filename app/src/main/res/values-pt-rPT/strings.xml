@@ -453,7 +453,7 @@
     <string name="entry_otp">OTP</string>
     <string name="compression_none">Nenhum</string>
     <string name="enable_auto_save_database_summary">Gravar a base de dados automaticamente depois de uma ação importante (somente no modo \"Modificável\")</string>
-    <string name="error_copy_group_here">Mão pode copiar um grupo aqui.</string>
+    <string name="error_copy_group_here">Não pode copiar um grupo aqui.</string>
     <string name="menu_delete_entry_history">Apagar histórico</string>
     <string name="error_disallow_no_credentials">Ao menos uma credencial deve ser definida.</string>
     <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>
@@ -491,4 +491,31 @@
 \n
 \nA sua base de dados pode se tornar muito grande e reduzir o desempenho com este envio.</string>
     <string name="content_description_credentials_information">Informações sobre credenciais</string>
+    <string name="device_credential">Credencial do dispositivo</string>
+    <string name="credential_before_click_advanced_unlock_button">Digite a palavra-chave, e depois clique no botão \"Desbloqueio avançado\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">Incapaz de inicializar o desbloqueio antecipado.</string>
+    <string name="advanced_unlock_scanning_error">Erro de desbloqueio avançado: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Não conseguia reconhecer impressão de desbloqueio avançado</string>
+    <string name="advanced_unlock_invalid_key">Não consegue ler a chave de desbloqueio avançada. Por favor, apague-a e repita o procedimento de desbloqueio de reconhecimento.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extrair credencial de base de dados com dados de desbloqueio avançados</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Base de dados aberta com reconhecimento avançado de desbloqueio</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Advertência: Ainda precisa de se lembrar da sua palavra-passe principal se usar o reconhecimento avançado de desbloqueio.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento avançado de desbloqueio</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Abrir o alerta de desbloqueio avançado para armazenar as credenciais</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Abrir o alerta de desbloqueio avançado para desbloquear a base de dados</string>
+    <string name="biometric_security_update_required">É necessária uma actualização de segurança biométrica.</string>
+    <string name="configure_biometric">O escaneamento biométrico é suportado, mas não configurado.</string>
+    <string name="warning_database_revoked">Acesso ao ficheiro revogado pelo gestor do ficheiro, fechar a base de dados e reabri-la a partir da sua localização.</string>
+    <string name="warning_database_info_changed_options">Sobregravar as modificações externas, guardando a base de dados ou recarregando-a com as últimas alterações.</string>
+    <string name="warning_database_info_changed">A informação contida no seu ficheiro de base de dados foi modificada fora da aplicação.</string>
+    <string name="warning_empty_recycle_bin">Apagar permanentemente todos os nós do caixote do lixo da reciclagem\?</string>
+    <string name="registration_mode">Modo de registo</string>
+    <string name="save_mode">Modo Guardar</string>
+    <string name="search_mode">Modo de pesquisa</string>
+    <string name="menu_keystore_remove_key">Apagar chave de desbloqueio avançada</string>
+    <string name="menu_reload_database">Recarregar base de dados</string>
+    <string name="error_rebuild_list">Incapaz de reconstruir adequadamente a lista.</string>
+    <string name="error_database_uri_null">O URI da base de dados não pode ser recuperado.</string>
+    <string name="error_field_name_already_exists">O nome do campo já existe.</string>
+    <string name="error_registration_read_only">Salvar um novo item não é permitido numa base de dados só de leitura</string>
 </resources>
