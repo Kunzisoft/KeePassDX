@@ -1,1 +1,2 @@
  * Correction des paramètres des plugins TOTP #878
+ * Autoriser les Emoji #796
