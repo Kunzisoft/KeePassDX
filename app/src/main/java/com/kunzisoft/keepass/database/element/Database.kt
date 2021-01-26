@@ -432,24 +432,33 @@ class Database {
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
         // Retrieve the stream from the old database URI
-        fileUri?.let { oldDatabaseUri ->
-            readDatabaseStream(contentResolver, oldDatabaseUri,
-                    { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory)
-                                .openDatabase(databaseInputStream,
-                                        masterKey,
-                                        progressTaskUpdater)
-                    },
-                    { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory)
-                                .openDatabase(databaseInputStream,
-                                        masterKey,
-                                        progressTaskUpdater)
-                    }
-            )
-        } ?: run {
-            Log.e(TAG, "Database URI is null, database cannot be reloaded")
-            throw IODatabaseException()
+        try {
+            fileUri?.let { oldDatabaseUri ->
+                readDatabaseStream(contentResolver, oldDatabaseUri,
+                        { databaseInputStream ->
+                            DatabaseInputKDB(cacheDirectory)
+                                    .openDatabase(databaseInputStream,
+                                            masterKey,
+                                            progressTaskUpdater)
+                        },
+                        { databaseInputStream ->
+                            DatabaseInputKDBX(cacheDirectory)
+                                    .openDatabase(databaseInputStream,
+                                            masterKey,
+                                            progressTaskUpdater)
+                        }
+                )
+            } ?: run {
+                Log.e(TAG, "Database URI is null, database cannot be reloaded")
+                throw IODatabaseException()
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "Unable to load keyfile", e)
+            throw FileNotFoundDatabaseException()
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         }
     }
 

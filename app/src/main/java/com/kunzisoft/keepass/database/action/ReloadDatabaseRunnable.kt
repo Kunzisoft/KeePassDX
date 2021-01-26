@@ -43,8 +43,7 @@ class ReloadDatabaseRunnable(private val context: Context,
             mDatabase.reloadData(context.contentResolver,
                     UriUtil.getBinaryDir(context),
                     progressTaskUpdater)
-        }
-        catch (e: LoadDatabaseException) {
+        } catch (e: LoadDatabaseException) {
             setError(e)
         }
 
