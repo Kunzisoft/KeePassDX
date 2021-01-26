@@ -354,9 +354,15 @@ object OtpEntryFields {
                     return false
                 }
                 otpElement.period = matcher.group(1)?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
-                otpElement.tokenType = matcher.group(2)?.let {
-                    OtpTokenType.getFromString(it)
-                } ?: OtpTokenType.RFC6238
+                matcher.group(2)?.let { secondMatcher ->
+                    try {
+                        otpElement.digits = secondMatcher.toInt()
+                    } catch (e: NumberFormatException) {
+                        otpElement.digits = OTP_DEFAULT_DIGITS
+                        otpElement.tokenType = OtpTokenType.getFromString(secondMatcher)
+                    }
+                }
+
             }
         } catch (exception: Exception) {
             return false
