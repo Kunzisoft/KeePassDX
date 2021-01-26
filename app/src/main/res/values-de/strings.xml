@@ -557,4 +557,5 @@
     <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
+    <string name="menu_reload_database">Datenbank neu laden</string>
 </resources>

@@ -545,9 +545,9 @@
     <string name="autofill_inline_suggestions_title">Sugestie wbudowane</string>
     <string name="autofill_inline_suggestions_summary">Spróbuj wyświetlić sugestie autouzupełniania bezpośrednio z kompatybilnej klawiatury</string>
     <string name="temp_advanced_unlock_enable_title">Zaawansowane odblokowywanie tymczasowe</string>
-    <string name="advanced_unlock_prompt_not_initialized">Nie można zainicjować zaawansowanego monitu o odblokowanie.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Otwórz zaawansowany monit o odblokowanie, aby zapisać poświadczenia</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Otwórz zaawansowany monit o odblokowanie, aby odblokować bazę danych</string>
+    <string name="advanced_unlock_prompt_not_initialized">Nie można zainicjować monitu odblokowania zaawansowanego.</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
     <string name="warning_database_info_changed_options">Nadpisz zewnętrzne modyfikacje, zapisując bazę danych lub przeładuj ją z najnowszymi zmianami.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>

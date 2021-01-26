@@ -29,9 +29,9 @@ class DataByte(var number: Long, var format: ByteFormat) {
         return when (this.format) {
             ByteFormat.BYTE -> {
                 when {
-                    this.number % GIBIBYTES == 0L -> {
-                        DataByte((this.number / GIBIBYTES), ByteFormat.GIBIBYTE)
-                    }
+                    //this.number % GIBIBYTES == 0L -> {
+                    //    DataByte((this.number / GIBIBYTES), ByteFormat.GIBIBYTE)
+                    //}
                     this.number % MEBIBYTES == 0L -> {
                         DataByte((this.number / MEBIBYTES), ByteFormat.MEBIBYTE)
                     }
@@ -57,7 +57,7 @@ class DataByte(var number: Long, var format: ByteFormat) {
             ByteFormat.BYTE -> this.number
             ByteFormat.KIBIBYTE -> this.number * KIBIBYTES
             ByteFormat.MEBIBYTE -> this.number * MEBIBYTES
-            ByteFormat.GIBIBYTE -> this.number * GIBIBYTES
+            //ByteFormat.GIBIBYTE -> this.number * GIBIBYTES
         }
     }
 
@@ -72,8 +72,8 @@ class DataByte(var number: Long, var format: ByteFormat) {
     enum class ByteFormat(@StringRes var stringId: Int) {
         BYTE(R.string.unit_byte),
         KIBIBYTE(R.string.unit_kibibyte),
-        MEBIBYTE(R.string.unit_mebibyte),
-        GIBIBYTE(R.string.unit_gibibyte)
+        MEBIBYTE(R.string.unit_mebibyte)
+        //GIBIBYTE(R.string.unit_gibibyte)
     }
 
     companion object {

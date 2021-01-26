@@ -117,6 +117,8 @@ open class SettingsActivity
             intent.extras?.getString(FRAGMENT_ARG)?.let { fragmentScreenName ->
                 onNestedPreferenceSelected(NestedSettingsFragment.Screen.valueOf(fragmentScreenName), true)
             }
+            // Eat state
+            intent.removeExtra(FRAGMENT_ARG)
         }
     }
 
@@ -224,9 +226,17 @@ open class SettingsActivity
         }
 
         toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
-        // To reload the current screen
-        intent.putExtra(FRAGMENT_ARG, key.name)
         hideOrShowLockButton(key)
+    }
+
+    /**
+     * To keep the current screen when activity is reloaded
+      */
+    fun keepCurrentScreen() {
+        (supportFragmentManager.findFragmentByTag(TAG_NESTED) as? NestedSettingsFragment?)
+                ?.getScreen()?.let { fragmentKey ->
+            intent.putExtra(FRAGMENT_ARG, fragmentKey.name)
+        }
     }
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
