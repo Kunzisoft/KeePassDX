@@ -207,7 +207,7 @@
     <string name="command_execution">S\'executa l\'ordre…</string>
     <string name="parallelism_explanation">Grau de paral·lelisme (és a dir, nombre de fils) fets servir per la funció de derivació de la clau.</string>
     <string name="parallelism">Paral·lelisme</string>
-    <string name="memory_usage_explanation">Quantitat de memòria (en bytes) usada per la funció de derivació de la clau.</string>
+    <string name="memory_usage_explanation">Quantitat de memòria usada per la funció de derivació de la clau.</string>
     <string name="memory_usage">Ús de la memòria</string>
     <string name="hide_broken_locations_summary">Amaga els enllaços trencats en la llista de bases de dades recents</string>
     <string name="show_recent_files_summary">Mostra la ubicació de les bases de dades recents</string>

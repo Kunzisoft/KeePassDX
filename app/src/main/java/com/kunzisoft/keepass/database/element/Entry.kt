@@ -426,6 +426,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryInfo.icon = icon
         entryInfo.username = username
         entryInfo.password = password
+        entryInfo.creationTime = creationTime
+        entryInfo.modificationTime = lastModificationTime
         entryInfo.expires = expires
         entryInfo.expiryTime = expiryTime
         entryInfo.url = url
@@ -456,6 +458,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         icon = newEntryInfo.icon
         username = newEntryInfo.username
         password = newEntryInfo.password
+        // Update date time, creation time stay as is
+        lastModificationTime = DateInstant()
+        lastAccessTime = DateInstant()
         expires = newEntryInfo.expires
         expiryTime = newEntryInfo.expiryTime
         url = newEntryInfo.url
@@ -464,9 +469,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
         database?.binaryPool?.let { binaryPool ->
             addAttachments(binaryPool, newEntryInfo.attachments)
         }
-        // Update date time
-        lastAccessTime = DateInstant()
-        lastModificationTime = DateInstant()
 
         database?.stopManageEntry(this)
     }

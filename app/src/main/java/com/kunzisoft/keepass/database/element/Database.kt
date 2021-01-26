@@ -31,10 +31,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
+import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
@@ -347,29 +344,11 @@ class Database {
     }
 
     @Throws(LoadDatabaseException::class)
-    fun loadData(uri: Uri, password: String?, keyfile: Uri?,
-                 readOnly: Boolean,
-                 contentResolver: ContentResolver,
-                 cacheDirectory: File,
-                 fixDuplicateUUID: Boolean,
-                 progressTaskUpdater: ProgressTaskUpdater?) {
-
-        this.fileUri = uri
-        isReadOnly = readOnly
-        if (uri.scheme == "file") {
-            val file = File(uri.path!!)
-            isReadOnly = !file.canWrite()
-        }
-
-        // Pass KeyFile Uri as InputStreams
+    private fun readDatabaseStream(contentResolver: ContentResolver, uri: Uri,
+                                   openDatabaseKDB: (InputStream) -> DatabaseKDB,
+                                   openDatabaseKDBX: (InputStream) -> DatabaseKDBX) {
         var databaseInputStream: InputStream? = null
-        var keyFileInputStream: InputStream? = null
         try {
-            // Get keyFile inputStream
-            keyfile?.let {
-                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
-            }
-
             // Load Data, pass Uris as InputStreams
             val databaseStream = UriUtil.getUriInputStream(contentResolver, uri)
                     ?: throw IOException("Database input stream cannot be retrieve")
@@ -391,22 +370,10 @@ class Database {
 
             when {
                 // Header of database KDB
-                DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB(
-                        cacheDirectory,
-                        fixDuplicateUUID)
-                        .openDatabase(databaseInputStream,
-                                password,
-                                keyFileInputStream,
-                                progressTaskUpdater))
+                DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(openDatabaseKDB(databaseInputStream))
 
                 // Header of database KDBX
-                DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
-                        cacheDirectory,
-                        fixDuplicateUUID)
-                        .openDatabase(databaseInputStream,
-                                password,
-                                keyFileInputStream,
-                                progressTaskUpdater))
+                DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(openDatabaseKDBX(databaseInputStream))
 
                 // Header not recognized
                 else -> throw SignatureDatabaseException()
@@ -414,14 +381,101 @@ class Database {
 
             this.mSearchHelper = SearchHelper()
             loaded = true
-
         } catch (e: LoadDatabaseException) {
             throw e
         } catch (e: Exception) {
+            throw LoadDatabaseException(e)
+        } finally {
+            databaseInputStream?.close()
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
+    fun loadData(uri: Uri, password: String?, keyfile: Uri?,
+                 readOnly: Boolean,
+                 contentResolver: ContentResolver,
+                 cacheDirectory: File,
+                 fixDuplicateUUID: Boolean,
+                 progressTaskUpdater: ProgressTaskUpdater?) {
+
+        // Save database URI
+        this.fileUri = uri
+
+        // Check if the file is writable
+        this.isReadOnly = readOnly
+
+        // Pass KeyFile Uri as InputStreams
+        var keyFileInputStream: InputStream? = null
+        try {
+            // Get keyFile inputStream
+            keyfile?.let {
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
+            }
+
+            // Read database stream for the first time
+            readDatabaseStream(contentResolver, uri,
+                    { databaseInputStream ->
+                        DatabaseInputKDB(cacheDirectory)
+                                .openDatabase(databaseInputStream,
+                                        password,
+                                        keyFileInputStream,
+                                        progressTaskUpdater,
+                                        fixDuplicateUUID)
+                    },
+                    { databaseInputStream ->
+                        DatabaseInputKDBX(cacheDirectory)
+                                .openDatabase(databaseInputStream,
+                                        password,
+                                        keyFileInputStream,
+                                        progressTaskUpdater,
+                                        fixDuplicateUUID)
+                    }
+            )
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "Unable to load keyfile", e)
             throw FileNotFoundDatabaseException()
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         } finally {
             keyFileInputStream?.close()
-            databaseInputStream?.close()
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
+    fun reloadData(contentResolver: ContentResolver,
+                   cacheDirectory: File,
+                   progressTaskUpdater: ProgressTaskUpdater?) {
+
+        // Retrieve the stream from the old database URI
+        try {
+            fileUri?.let { oldDatabaseUri ->
+                readDatabaseStream(contentResolver, oldDatabaseUri,
+                        { databaseInputStream ->
+                            DatabaseInputKDB(cacheDirectory)
+                                    .openDatabase(databaseInputStream,
+                                            masterKey,
+                                            progressTaskUpdater)
+                        },
+                        { databaseInputStream ->
+                            DatabaseInputKDBX(cacheDirectory)
+                                    .openDatabase(databaseInputStream,
+                                            masterKey,
+                                            progressTaskUpdater)
+                        }
+                )
+            } ?: run {
+                Log.e(TAG, "Database URI is null, database cannot be reloaded")
+                throw IODatabaseException()
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "Unable to load keyfile", e)
+            throw FileNotFoundDatabaseException()
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         }
     }
 
@@ -443,7 +497,7 @@ class Database {
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
                 searchInfoString, SearchParameters().apply {
-            searchInTitles = false
+            searchInTitles = true
             searchInUserNames = false
             searchInPasswords = false
             searchInUrls = true
@@ -548,7 +602,7 @@ class Database {
         this.fileUri = uri
     }
 
-    fun closeAndClear(filesDirectory: File? = null) {
+    fun clear(filesDirectory: File? = null) {
         drawFactory.clearCache()
         // Delete the cache of the database if present
         mDatabaseKDB?.clearCache()
@@ -561,7 +615,10 @@ class Database {
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
+    }
 
+    fun clearAndClose(filesDirectory: File? = null) {
+        clear(filesDirectory)
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null

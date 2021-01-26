@@ -27,7 +27,11 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import java.io.*
+import org.apache.commons.codec.binary.Hex
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
 import java.security.Key
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -126,42 +130,35 @@ abstract class DatabaseVersioned<
     @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
-        val keyByteArrayOutputStream = ByteArrayOutputStream()
-        keyInputStream.copyTo(keyByteArrayOutputStream)
-        val keyData = keyByteArrayOutputStream.toByteArray()
+        val keyData = keyInputStream.readBytes()
 
-        val keyByteArrayInputStream = ByteArrayInputStream(keyData)
-        val key = loadXmlKeyFile(keyByteArrayInputStream)
-        if (key != null) {
-            return key
+        // Check XML key file
+        val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
+        if (xmlKeyByteArray != null) {
+            return xmlKeyByteArray
         }
 
-        when (keyData.size.toLong()) {
-            32L -> return keyData
-            64L -> try {
-                return hexStringToByteArray(String(keyData))
-            } catch (e: IndexOutOfBoundsException) {
+        // Check 32 bytes key file
+        when (keyData.size) {
+            32 -> return keyData
+            64 -> try {
+                return Hex.decodeHex(String(keyData).toCharArray())
+            } catch (ignoredException: Exception) {
                 // Key is not base 64, treat it as binary data
             }
         }
 
-        val messageDigest: MessageDigest
+        // Hash file as binary data
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
+            return MessageDigest.getInstance("SHA-256").digest(keyData)
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("SHA-256 not supported")
         }
-
-        try {
-            messageDigest.update(keyData)
-        } catch (e: Exception) {
-            println(e.toString())
-        }
-
-        return messageDigest.digest()
     }
 
-    protected abstract fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray?
+    protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
+        return null
+    }
 
     open fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
         if (password == null && !containsKeyFile)
@@ -402,17 +399,6 @@ abstract class DatabaseVersioned<
 
         fun generateLoadedCipherKey(): Key {
             return KeyGenerator.getInstance("AES").generateKey()
-        }
-
-        fun hexStringToByteArray(s: String): ByteArray {
-            val len = s.length
-            val data = ByteArray(len / 2)
-            var i = 0
-            while (i < len) {
-                data[i / 2] = ((Character.digit(s[i], 16) shl 4) + Character.digit(s[i + 1], 16)).toByte()
-                i += 2
-            }
-            return data
         }
     }
 }

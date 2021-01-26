@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.R
 
 class ToolbarAction @JvmOverloads constructor(context: Context,
                                               attrs: AttributeSet? = null,
-                                              defStyle: Int = androidx.appcompat.R.attr.toolbarStyle)
+                                              defStyle: Int = R.attr.actionToolbarAppearance)
     : Toolbar(context, attrs, defStyle) {
 
     private var mActionModeCallback: ActionMode.Callback? = null
@@ -39,7 +39,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
     private var isOpen = false
 
     init {
-        visibility = View.GONE
+        setNavigationIcon(R.drawable.ic_close_white_24dp)
     }
 
     fun startSupportActionMode(actionModeCallback: ActionMode.Callback): ActionMode {
@@ -54,8 +54,6 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
         setNavigationOnClickListener{
             actionMode.finish()
         }
-
-        setNavigationIcon(R.drawable.ic_close_white_24dp)
 
         open()
 

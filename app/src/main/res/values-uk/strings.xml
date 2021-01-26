@@ -377,7 +377,7 @@
     <string name="settings_database_force_changing_master_key_title">Примусова зміна</string>
     <string name="settings_database_recommend_changing_master_key_summary">Рекомендувати змінити головний ключ (днів)</string>
     <string name="settings_database_recommend_changing_master_key_title">Рекомендувати змінити</string>
-    <string name="max_history_size_summary">Обмежити об\'єм історії (в байтах) кожного запису</string>
+    <string name="max_history_size_summary">Обмежити об\'єм історії кожного запису</string>
     <string name="max_history_size_title">Максимальний об\'єм</string>
     <string name="max_history_items_summary">Обмежити кількість елементів історії кожного запису</string>
     <string name="max_history_items_title">Максимальна кількість</string>
@@ -447,7 +447,7 @@
     <string name="sort_groups_before">Спочатку групи</string>
     <string name="sort_ascending">За зростанням ↓</string>
     <string name="sort_menu">Впорядкувати</string>
-    <string name="memory_usage_explanation">Об\'єм пам\'яті (у байтах), необхідний для функції створення ключа.</string>
+    <string name="memory_usage_explanation">Об\'єм пам\'яті, необхідний для функції створення ключа.</string>
     <string name="kdf_explanation">Для створення ключа алгоритму шифрування, головний ключ перетворюється за допомогою функції створення випадково приготованого ключа.</string>
     <string name="do_not_kill_app">Не закривайте застосунок…</string>
     <string name="command_execution">Виконання команди…</string>
@@ -543,4 +543,13 @@
     <string name="content">Вміст</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Не вдалося належним чином відновити список.</string>
+    <string name="error_database_uri_null">Неможливо отримати URI бази даних.</string>
+    <string name="autofill_inline_suggestions_keyboard">Додано пропозиції автозаповнення.</string>
+    <string name="autofill_inline_suggestions_summary">Спробувати показ пропозицій автозаповнення безпосередньо з сумісної клавіатури</string>
+    <string name="autofill_inline_suggestions_title">Вбудовані пропозиції</string>
+    <string name="warning_database_revoked">Доступ до файлу скасовано менеджером файлів, закрийте базу даних і знову відкрийте її з її розташування.</string>
+    <string name="warning_database_info_changed_options">Перезаписати зовнішні зміни, зберігши базу даних або перезавантажте її з найновішими змінами.</string>
+    <string name="warning_database_info_changed">Відомості, що містяться у файлі бази даних, змінено за межами застосунку.</string>
+    <string name="menu_reload_database">Перезавантажити базу даних</string>
 </resources>

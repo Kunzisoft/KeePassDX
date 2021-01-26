@@ -226,7 +226,7 @@
     <string name="rounds">変換ラウンド</string>
     <string name="rounds_explanation">変換ラウンドを増やすことでブルート フォース攻撃に対する保護が強化されますが、読み込みと保存が本当に遅くなる可能性があります。</string>
     <string name="memory_usage">メモリ使用量</string>
-    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）です。</string>
+    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量です。</string>
     <string name="parallelism">並列処理</string>
     <string name="parallelism_explanation">鍵導出関数が使用する並列処理のレベル（スレッド数）です。</string>
     <string name="saving_database">データベースを保存しています…</string>
@@ -325,7 +325,7 @@
     <string name="max_history_items_title">最大値</string>
     <string name="max_history_items_summary">エントリーあたりの履歴項目の数を制限します</string>
     <string name="max_history_size_title">最大サイズ</string>
-    <string name="max_history_size_summary">エントリーあたりの履歴のサイズ（バイト単位）を制限します</string>
+    <string name="max_history_size_summary">エントリーあたりの履歴のサイズを制限します</string>
     <string name="settings_database_recommend_changing_master_key_title">更新を推奨</string>
     <string name="settings_database_recommend_changing_master_key_summary">マスターキーの変更を推奨します（日数）</string>
     <string name="settings_database_force_changing_master_key_title">更新を強制</string>
@@ -541,4 +541,15 @@
     <string name="temp_advanced_unlock_enable_title">一時的な高度なロック解除</string>
     <string name="advanced_unlock_tap_delete">タップして高度なロック解除用の鍵を削除する</string>
     <string name="content">コンテンツ</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_database_uri_null">データベースの URI が取得できません。</string>
+    <string name="autofill_inline_suggestions_keyboard">自動入力候補が追加されました。</string>
+    <string name="autofill_inline_suggestions_summary">自動入力候補を互換性のあるキーボード上に直接表示することを試みます</string>
+    <string name="autofill_inline_suggestions_title">インライン自動入力</string>
+    <string name="warning_database_revoked">ファイルへのアクセス権がファイル マネージャーによって取り消されました。データベースを閉じて、ファイルの場所から再度開いてください。</string>
+    <string name="warning_database_info_changed_options">データベースを保存して外部の変更を上書きするか、再度読み込んで最新の変更を反映させてください。</string>
+    <string name="warning_database_info_changed">データベース ファイルに含まれる情報は、アプリの外部で変更されています。</string>
+    <string name="menu_reload_database">データベースを再度読み込む</string>
+    <string name="error_rebuild_list">リストを正しく再構築できません。</string>
 </resources>

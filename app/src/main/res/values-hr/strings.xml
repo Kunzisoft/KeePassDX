@@ -266,7 +266,7 @@
     <string name="read_only_warning">Ovisno o upravitelju datoteka, KeePassDX možda neće moći pisati u tvoje spremište.</string>
     <string name="contains_duplicate_uuid_procedure">Riješiti problem generiranjem novih UUID-ova za duplikate\?</string>
     <string name="root">Korijen</string>
-    <string name="memory_usage_explanation">Količina memorije (u bajtovima) koju će koristiti funkcija za generiranje ključeva.</string>
+    <string name="memory_usage_explanation">Količina memorije koju će koristiti funkcija za generiranje ključeva.</string>
     <string name="do_not_kill_app">Ne zatvaraj aplikaciju …</string>
     <string name="sort_last_access_time">Zadnji pristup</string>
     <string name="special">Posebni znakovi</string>
@@ -286,7 +286,7 @@
     <string name="recycle_bin_summary">Premijesti grupe i unose u koš za smeće prije brisanja</string>
     <string name="recycle_bin_group_title">Grupa koša za smeće</string>
     <string name="max_history_items_summary">Ograniči broj spremljenih povijesti po unosu</string>
-    <string name="max_history_size_summary">Ograniči veličinu povijesti (u bajtovima) po unosu</string>
+    <string name="max_history_size_summary">Ograniči veličinu povijesti po unosu</string>
     <string name="allow_copy_password_title">Povjerenje međuspremniku</string>
     <string name="allow_copy_password_summary">Dozvoli kopiranje lozinke i zaštićenih polja u međuspremnik</string>
     <string name="allow_copy_password_warning">Upozorenje: Međuspremnik dijele sve aplikacije. Ako se kopiraju osjetljivi podaci, druga aplikacija ih može vidjeti.</string>
@@ -527,4 +527,13 @@
     <string name="temp_advanced_unlock_enable_title">Privremeno napredno otključavanje</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Nije moguće ispravno obnoviti popis.</string>
+    <string name="error_database_uri_null">URI baze podataka nije moguće dobiti.</string>
+    <string name="autofill_inline_suggestions_title">Umetnuti prijedlozi</string>
+    <string name="autofill_inline_suggestions_keyboard">Prijedlozi za automatsko popunjavanje su dodani.</string>
+    <string name="autofill_inline_suggestions_summary">Pokušaj prikazivanja prijedloga za automatsko popunjavanje izravno s kompatibilne tipkovnice</string>
+    <string name="warning_database_revoked">Pristup datoteci koju je opozvao upravljač datoteka. Zatvori bazu podataka i ponovo je otvori s njezinog mjesta.</string>
+    <string name="warning_database_info_changed_options">Prepiši vanjske promjene spremanjem baze podataka ili je ponovo učitaj s najnovijim promjenama.</string>
+    <string name="warning_database_info_changed">Podaci u datoteci tvoje baze podataka izmijenjeni su izvan programa.</string>
+    <string name="menu_reload_database">Ponovo učitaj bazu podataka</string>
 </resources>

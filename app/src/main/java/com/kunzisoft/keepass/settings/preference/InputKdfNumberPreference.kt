@@ -25,7 +25,7 @@ import androidx.preference.DialogPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 
-class InputKdfNumberPreference @JvmOverloads constructor(context: Context,
+open class InputKdfNumberPreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,
                                                          defStyleAttr: Int = R.attr.dialogPreferenceStyle,
                                                          defStyleRes: Int = defStyleAttr)

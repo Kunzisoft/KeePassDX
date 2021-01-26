@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -58,7 +58,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
     private var mKeyDerivationPref: DialogListExplanationPreference? = null
     private var mRoundPref: InputKdfNumberPreference? = null
-    private var mMemoryPref: InputKdfNumberPreference? = null
+    private var mMemoryPref: InputKdfSizePreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
@@ -231,7 +231,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             }
 
             // Memory Usage
-            mMemoryPref = findPreference<InputKdfNumberPreference>(getString(R.string.memory_usage_key))?.apply {
+            mMemoryPref = findPreference<InputKdfSizePreference>(getString(R.string.memory_usage_key))?.apply {
                 summary = mDatabase.memoryUsage.toString()
             }
 
@@ -551,6 +551,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             R.id.menu_save_database -> {
                 settingActivity?.mProgressDatabaseTaskProvider?.startDatabaseSave(!mDatabaseReadOnly)
                 true
+            }
+            R.id.menu_reload_database -> {
+                settingActivity?.apply {
+                    keepCurrentScreen()
+                    mProgressDatabaseTaskProvider?.startDatabaseReload(false)
+                }
+                return true
             }
 
             else -> {

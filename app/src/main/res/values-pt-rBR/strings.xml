@@ -173,7 +173,7 @@
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
     <string name="kdf_explanation">Para gerar a chave para o algoritmo de criptografia, a chave mestra é transformada usando uma função de derivação de chave com sal aleatoriamente.</string>
     <string name="memory_usage">Uso de memória</string>
-    <string name="memory_usage_explanation">Quantidade de memória (in bytes) a ser usada pela função de derivação de chave.</string>
+    <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
     <string name="sort_menu">Ordenar</string>
@@ -395,7 +395,7 @@
     <string name="max_history_items_title">Número máximo</string>
     <string name="max_history_items_summary">Limitar o número de itens do histórico por entrada</string>
     <string name="max_history_size_title">Tamanho máximo</string>
-    <string name="max_history_size_summary">Limitar o tamanho do histórico (em bytes) por entrada</string>
+    <string name="max_history_size_summary">Limitar o tamanho do histórico por entrada</string>
     <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomende a mudança da chave mestra (em dias)</string>
     <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>

@@ -178,7 +178,7 @@
     <string name="encryption_explanation">加密所有数据时采用的算法。</string>
     <string name="kdf_explanation">将迭代主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
     <string name="memory_usage">内存使用量</string>
-    <string name="memory_usage_explanation">密钥推导算法使用的内存（以二进制字节计）。</string>
+    <string name="memory_usage_explanation">密钥推导算法使用的内存。</string>
     <string name="parallelism">并行</string>
     <string name="parallelism_explanation">密钥推导算法使用的并行运行程度（即线程数量）。</string>
     <string name="sort_menu">排序</string>
@@ -395,7 +395,7 @@
     <string name="max_history_items_title">最大数量</string>
     <string name="max_history_items_summary">限制每个条目的历史记录条数</string>
     <string name="max_history_size_title">最大大小</string>
-    <string name="max_history_size_summary">限制每个条目的历史记录大小（以字节为单位）</string>
+    <string name="max_history_size_summary">限制每个条目的历史记录大小</string>
     <string name="settings_database_recommend_changing_master_key_title">建议修改</string>
     <string name="settings_database_recommend_changing_master_key_summary">建议修改主密钥（以天为单位）</string>
     <string name="settings_database_force_changing_master_key_title">强制修改</string>
@@ -543,4 +543,13 @@
     <string name="content">内容</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">无法正确地重建列表。</string>
+    <string name="error_database_uri_null">无法检索数据库 URI 。</string>
+    <string name="autofill_inline_suggestions_keyboard">已添加自动填充建议。</string>
+    <string name="autofill_inline_suggestions_summary">尝试直接从兼容的键盘显示自动填充建议</string>
+    <string name="autofill_inline_suggestions_title">内联建议</string>
+    <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
+    <string name="warning_database_info_changed_options">通过保存数据库或用最新的更改重新加载数据库来覆盖外部修改。</string>
+    <string name="warning_database_info_changed">数据库文件中包含的信息已在应用程序之外被修改。</string>
+    <string name="menu_reload_database">重新加载数据库</string>
 </resources>

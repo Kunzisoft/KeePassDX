@@ -101,7 +101,7 @@
             android:title="@string/max_history_items_title"
             android:positiveButtonText="@string/save"
             android:negativeButtonText="@string/entry_cancel"/>
-        <com.kunzisoft.keepass.settings.preference.InputNumberPreference
+        <com.kunzisoft.keepass.settings.preference.InputSizePreference
             android:key="@string/max_history_size_key"
             android:persistent="false"
             android:title="@string/max_history_size_title"

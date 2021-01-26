@@ -175,7 +175,7 @@
     <string name="encryption_explanation">Algorytm szyfrowania bazy danych używany dla wszystkich danych.</string>
     <string name="kdf_explanation">Aby wygenerować klucz dla algorytmu szyfrowania, klucz główny jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
     <string name="memory_usage">Użycie pamięci</string>
-    <string name="memory_usage_explanation">Ilość pamięci (w bajtach) do użycia przez funkcję wyprowadzania klucza.</string>
+    <string name="memory_usage_explanation">Ilość pamięci do użycia przez funkcję wyprowadzania klucza.</string>
     <string name="parallelism">Równoległy</string>
     <string name="parallelism_explanation">Stopień równoległości (tj. Liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
     <string name="sort_menu">Sortuj</string>
@@ -402,7 +402,7 @@
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych</string>
     <string name="max_history_items_title">Maksymalna liczba</string>
-    <string name="max_history_size_summary">Ogranicz rozmiar historii (w bajtach) na wpis</string>
+    <string name="max_history_size_summary">Ogranicz rozmiar historii na wpis</string>
     <string name="settings_database_force_changing_master_key_title">Wymuś odnowienie</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Wymuś odnowienie następnym razem</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Wymagaj zmiany klucza głównego następnym razem (raz)</string>
@@ -529,11 +529,27 @@
     <string name="menu_keystore_remove_key">Usuń zaawansowany klucz odblokowujący</string>
     <string name="education_advanced_unlock_summary">Połącz swoje hasło ze zeskanowanymi danymi biometrycznymi lub danymi logowania urządzenia, aby szybko odblokować bazę danych.</string>
     <string name="education_advanced_unlock_title">Zaawansowane odblokowywanie bazy danych</string>
-    <string name="advanced_unlock_timeout">Zaawansowany limit czasu odblokowania</string>
+    <string name="advanced_unlock_timeout">Limit czasu zaawansowanego odblokowywania</string>
     <string name="temp_advanced_unlock_timeout_summary">Czas trwania zaawansowanego odblokowywania przed usunięciem jego zawartości</string>
     <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie zaawansowanego odblokowania</string>
     <string name="temp_advanced_unlock_enable_summary">Nie przechowuj żadnych zaszyfrowanych treści, aby korzystać z zaawansowanego odblokowywania</string>
     <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
     <string name="content">Zawartość</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otwórz bazę danych z zaawansowanym rozpoznawaniem odblokowania</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="advanced_unlock_scanning_error">Błąd zaawansowanego odblokowywania: %1$s</string>
+    <string name="error_rebuild_list">Nie można poprawnie odbudować listy.</string>
+    <string name="error_database_uri_null">Nie można pobrać identyfikatora URI bazy danych.</string>
+    <string name="autofill_inline_suggestions_keyboard">Dodano sugestie autouzupełniania.</string>
+    <string name="autofill_inline_suggestions_title">Sugestie wbudowane</string>
+    <string name="autofill_inline_suggestions_summary">Spróbuj wyświetlić sugestie autouzupełniania bezpośrednio z kompatybilnej klawiatury</string>
+    <string name="temp_advanced_unlock_enable_title">Zaawansowane odblokowywanie tymczasowe</string>
+    <string name="advanced_unlock_prompt_not_initialized">Nie można zainicjować monitu odblokowania zaawansowanego.</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
+    <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
+    <string name="warning_database_info_changed_options">Nadpisz zewnętrzne modyfikacje, zapisując bazę danych lub przeładuj ją z najnowszymi zmianami.</string>
+    <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
+    <string name="menu_reload_database">Załaduj ponownie bazę danych</string>
 </resources>

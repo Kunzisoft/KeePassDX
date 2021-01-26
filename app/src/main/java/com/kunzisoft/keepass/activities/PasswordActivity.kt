@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.app.assist.AssistStructure
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -49,6 +48,7 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
@@ -58,12 +58,12 @@ import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -720,7 +720,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    Database.getInstance().closeAndClear(UriUtil.getBinaryDir(this))
+                    Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()
@@ -838,13 +838,13 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         fun launchForAutofillResult(activity: Activity,
                                     databaseFile: Uri,
                                     keyFile: Uri?,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 AutofillHelper.startActivityForAutofillResult(
                         activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }
@@ -902,11 +902,11 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                                     searchInfo)
                             onLaunchActivitySpecialMode()
                         },
-                        { searchInfo, assistStructure -> // Autofill Selection Action
+                        { searchInfo, autofillComponent -> // Autofill Selection Action
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 PasswordActivity.launchForAutofillResult(activity,
                                         databaseUri, keyFile,
-                                        assistStructure,
+                                        autofillComponent,
                                         searchInfo)
                                 onLaunchActivitySpecialMode()
                             } else {

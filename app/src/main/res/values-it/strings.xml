@@ -176,7 +176,7 @@
     <string name="encryption_explanation">Algoritmo di cifratura del database usato per tutti i dati.</string>
     <string name="kdf_explanation">Per generare la chiave per l\'algoritmo di cifratura, la chiave principale viene trasformata usando una funzione di derivazione della chiave (con un sale casuale).</string>
     <string name="memory_usage">Utilizzo di memoria</string>
-    <string name="memory_usage_explanation">Quantità di memoria (in byte) utilizzabili dalla funzione di derivazione della chiave.</string>
+    <string name="memory_usage_explanation">Quantità di memoria utilizzabili dalla funzione di derivazione della chiave.</string>
     <string name="parallelism">Parallelismo</string>
     <string name="parallelism_explanation">Grado di parallelismo (cioè numero di thread) usato dalla funzione di derivazione della chiave.</string>
     <string name="sort_menu">Ordina</string>
@@ -197,7 +197,7 @@
     <string name="autofill_service_name">Autocompletamento di KeePassDX</string>
     <string name="autofill_sign_in_prompt">Accedi con KeePassDX</string>
     <string name="set_autofill_service_title">Imposta servizio predefinito di autocompletamento</string>
-    <string name="autofill_explanation_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
+    <string name="autofill_explanation_summary">Attiva l\'autocompletamento per riempire velocemente i campi in altre app</string>
     <string name="password_size_title">Dimensione password generata</string>
     <string name="password_size_summary">Imposta la dimensione predefinita delle password generate</string>
     <string name="list_password_generator_options_title">Caratteri password</string>
@@ -235,7 +235,7 @@
     <string name="other">Altro</string>
     <string name="keyboard">Tastiera</string>
     <string name="magic_keyboard_title">Magitastiera</string>
-    <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
+    <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che inserisce le tue password e i campi di identità</string>
     <string name="allow_no_password_title">Non consentire nessuna chiave principale</string>
     <string name="allow_no_password_summary">Permetti di toccare il pulsante \"Apri\" se non sono selezionate credenziali</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
@@ -404,7 +404,7 @@
     <string name="remember_keyfile_locations_title">Ricorda posizione file chiave</string>
     <string name="remember_database_locations_summary">Ricorda la posizione dei database</string>
     <string name="remember_database_locations_title">Ricorda posizione database</string>
-    <string name="contains_duplicate_uuid_procedure">Per continuare, risolvi il problema generando nuovi UUID per i duplicati\?</string>
+    <string name="contains_duplicate_uuid_procedure">Risolvi il problema generando nuovi UUID per i duplicati per continuare\?</string>
     <string name="error_create_database">Impossibile creare il file del database.</string>
     <string name="entry_add_attachment">Aggiungi allegato</string>
     <string name="discard">Scarta</string>
@@ -413,7 +413,7 @@
     <string name="max_history_size_title">Dimensione massima</string>
     <string name="max_history_items_title">Numero massimo</string>
     <string name="biometric_auto_open_prompt_title">Apri automaticamente la richiesta</string>
-    <string name="max_history_size_summary">Limita la dimensione (in byte) della cronologia per voce</string>
+    <string name="max_history_size_summary">Limita la dimensione della cronologia per voce</string>
     <string name="max_history_items_summary">Limita il numero di elementi della cronologia per voce</string>
     <string name="recycle_bin_group_title">Gruppo cestino</string>
     <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database</string>
@@ -428,7 +428,7 @@
     <string name="settings_database_recommend_changing_master_key_title">Rinnovo raccomandato</string>
     <string name="hide_expired_entries_summary">Le voci scadute non sono mostrate</string>
     <string name="hide_expired_entries_title">Nascondi le voci scadute</string>
-    <string name="education_setup_OTP_summary">Imposta la gestione delle OTP (HOTP / TOTP) per generare un token richiesto per la 2FA.</string>
+    <string name="education_setup_OTP_summary">Imposta la gestione della password usa e getta (HOTP/TOTP) per generare un token richiesto per l\'autenticazione a due fattori.</string>
     <string name="download_complete">Completato!</string>
     <string name="download_finalization">Finalizzazione…</string>
     <string name="download_progression">Avanzamento %1$d%%</string>
@@ -451,7 +451,7 @@
     <string name="enable">Abilita</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Richiedi il cambio della chiave principale la prossima volta (una volta)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Forza il rinnovo la prossima volta</string>
-    <string name="settings_database_force_changing_master_key_summary">Richiedi il cambio della master key (giorni)</string>
+    <string name="settings_database_force_changing_master_key_summary">Richiedi la modifica della chiave principale (giorni)</string>
     <string name="lock_database_show_button_summary">Mostra il bottone di blocco nell\'interfaccia utente</string>
     <string name="lock_database_show_button_title">Mostra il bottone di blocco</string>
     <string name="autofill_preference_title">Impostazioni dell\'autocompletamento</string>
@@ -546,4 +546,13 @@
     <string name="menu_keystore_remove_key">Elimina chiave di sblocco avanzato</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>
+    <string name="error_database_uri_null">Non è stato recuperato l\'indirizzo del database.</string>
+    <string name="autofill_inline_suggestions_keyboard">Suggerimento di riempimento aggiunto.</string>
+    <string name="autofill_inline_suggestions_summary">Mostra i suggerimenti di riempimento campi in una tastiera compatibile</string>
+    <string name="autofill_inline_suggestions_title">Suggerimenti in linea</string>
+    <string name="warning_database_revoked">L\'accesso al file è stato revocato dal file manager, chiudi il database e riaprilo dalla sua posizione originale.</string>
+    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvano il database o ricaricalo con gli ultimi cambiamenti.</string>
+    <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
+    <string name="menu_reload_database">Ricarica database</string>
 </resources>

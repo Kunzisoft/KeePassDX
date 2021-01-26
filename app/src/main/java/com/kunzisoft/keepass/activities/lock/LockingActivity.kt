@@ -60,6 +60,9 @@ abstract class LockingActivity : SpecialModeActivity() {
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
+
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null
@@ -84,8 +87,6 @@ abstract class LockingActivity : SpecialModeActivity() {
         }
 
         mExitLock = false
-
-        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

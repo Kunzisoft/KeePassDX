@@ -32,8 +32,8 @@ import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
@@ -138,5 +138,5 @@ fun Context.closeDatabase() {
         cancelAll()
     }
     // Clear data
-    Database.getInstance().closeAndClear(UriUtil.getBinaryDir(this))
+    Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
 }

@@ -199,7 +199,7 @@
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet.</string>
     <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
-    <string name="memory_usage_explanation">Größe des Speichers (in Bytes) der für die Schlüsselableitung genutzt wird.</string>
+    <string name="memory_usage_explanation">Größe des Speichers der für die Schlüsselableitung genutzt wird.</string>
     <string name="parallelism">Parallelismus</string>
     <string name="parallelism_explanation">Grad des Parallelismus (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
@@ -407,7 +407,7 @@
     <string name="max_history_items_title">Maximale Anzahl</string>
     <string name="max_history_items_summary">Anzahl der Verlaufseinträge pro Eintrag begrenzen</string>
     <string name="max_history_size_title">Maximale Größe</string>
-    <string name="max_history_size_summary">Verlaufsumfang (in Bytes) pro Eintrag begrenzen</string>
+    <string name="max_history_size_summary">Verlaufsumfang pro Eintrag begrenzen</string>
     <string name="settings_database_recommend_changing_master_key_title">Erneuerung empfehlen</string>
     <string name="settings_database_recommend_changing_master_key_summary">(Nach Tagen) Änderung des Hauptschlüssels empfehlen</string>
     <string name="settings_database_force_changing_master_key_title">Erneuerung erzwingen</string>
@@ -555,4 +555,7 @@
     <string name="advanced_unlock_prompt_extract_credential_message">Extrahiere Datenbankanmeldedaten mit Daten aus erweitertem Entsperren</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
+    <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
+    <string name="menu_reload_database">Datenbank neu laden</string>
 </resources>

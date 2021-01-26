@@ -163,10 +163,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         finalKey = messageDigest.digest()
     }
 
-    override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
-        return null
-    }
-
     override fun createGroup(): GroupKDB {
         return GroupKDB()
     }

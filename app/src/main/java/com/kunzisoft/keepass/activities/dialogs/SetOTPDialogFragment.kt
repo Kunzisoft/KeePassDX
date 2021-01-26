@@ -29,10 +29,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
@@ -57,6 +54,7 @@ class SetOTPDialogFragment : DialogFragment() {
 
     private var mOtpElement: OtpElement = OtpElement()
 
+    private var otpTypeMessage: TextView? = null
     private var otpTypeSpinner: Spinner? = null
     private var otpTokenTypeSpinner: Spinner? = null
     private var otpSecretContainer: TextInputLayout? = null
@@ -74,6 +72,8 @@ class SetOTPDialogFragment : DialogFragment() {
     private var totpTokenTypeAdapter: ArrayAdapter<OtpTokenType>? = null
     private var hotpTokenTypeAdapter: ArrayAdapter<OtpTokenType>? = null
     private var otpAlgorithmAdapter: ArrayAdapter<TokenCalculator.HashAlgorithm>? = null
+    private var mHotpTokenTypeArray: Array<OtpTokenType>? = null
+    private var mTotpTokenTypeArray: Array<OtpTokenType>? = null
 
     private var mManualEvent = false
     private var mOnFocusChangeListener = View.OnFocusChangeListener { _, isFocus ->
@@ -134,6 +134,7 @@ class SetOTPDialogFragment : DialogFragment() {
 
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_set_otp, null) as ViewGroup?
+            otpTypeMessage = root?.findViewById(R.id.setup_otp_type_message)
             otpTypeSpinner = root?.findViewById(R.id.setup_otp_type)
             otpTokenTypeSpinner = root?.findViewById(R.id.setup_otp_token_type)
             otpSecretContainer = root?.findViewById(R.id.setup_otp_secret_label)
@@ -183,23 +184,23 @@ class SetOTPDialogFragment : DialogFragment() {
 
             // HOTP / TOTP Type selection
             val otpTypeArray = OtpType.values()
-            otpTypeAdapter = ArrayAdapter<OtpType>(activity,
+            otpTypeAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, otpTypeArray).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
             otpTypeSpinner?.adapter = otpTypeAdapter
 
             // Otp Token type selection
-            val hotpTokenTypeArray = OtpTokenType.getHotpTokenTypeValues()
+            mHotpTokenTypeArray = OtpTokenType.getHotpTokenTypeValues()
             hotpTokenTypeAdapter = ArrayAdapter(activity,
-                    android.R.layout.simple_spinner_item, hotpTokenTypeArray).apply {
+                    android.R.layout.simple_spinner_item, mHotpTokenTypeArray!!).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
             // Proprietary only on closed and full version
-            val totpTokenTypeArray = OtpTokenType.getTotpTokenTypeValues(
+            mTotpTokenTypeArray = OtpTokenType.getTotpTokenTypeValues(
                     BuildConfig.CLOSED_STORE && BuildConfig.FULL_VERSION)
             totpTokenTypeAdapter = ArrayAdapter(activity,
-                    android.R.layout.simple_spinner_item, totpTokenTypeArray).apply {
+                    android.R.layout.simple_spinner_item, mTotpTokenTypeArray!!).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
             otpTokenTypeAdapter = hotpTokenTypeAdapter
@@ -207,7 +208,7 @@ class SetOTPDialogFragment : DialogFragment() {
 
             // OTP Algorithm
             val otpAlgorithmArray = TokenCalculator.HashAlgorithm.values()
-            otpAlgorithmAdapter = ArrayAdapter<TokenCalculator.HashAlgorithm>(activity,
+            otpAlgorithmAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, otpAlgorithmArray).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
@@ -372,22 +373,38 @@ class SetOTPDialogFragment : DialogFragment() {
     }
 
     private fun upgradeTokenType() {
+        val tokenType = mOtpElement.tokenType
         when (mOtpElement.type) {
             OtpType.HOTP -> {
                 otpPeriodContainer?.visibility = View.GONE
                 otpCounterContainer?.visibility = View.VISIBLE
                 otpTokenTypeSpinner?.adapter = hotpTokenTypeAdapter
-                otpTokenTypeSpinner?.setSelection(OtpTokenType
-                        .getHotpTokenTypeValues().indexOf(mOtpElement.tokenType))
+                mHotpTokenTypeArray?.let { otpTokenTypeArray ->
+                    defineOtpTokenTypeSpinner(otpTokenTypeArray, tokenType, OtpTokenType.RFC4226)
+                }
             }
             OtpType.TOTP -> {
                 otpPeriodContainer?.visibility = View.VISIBLE
                 otpCounterContainer?.visibility = View.GONE
                 otpTokenTypeSpinner?.adapter = totpTokenTypeAdapter
-                otpTokenTypeSpinner?.setSelection(OtpTokenType
-                        .getTotpTokenTypeValues().indexOf(mOtpElement.tokenType))
+                mTotpTokenTypeArray?.let { otpTokenTypeArray ->
+                    defineOtpTokenTypeSpinner(otpTokenTypeArray, tokenType, OtpTokenType.RFC6238)
+                }
             }
         }
+    }
+
+    private fun defineOtpTokenTypeSpinner(otpTokenTypeArray: Array<OtpTokenType>,
+                                          tokenType: OtpTokenType,
+                                          defaultTokenType: OtpTokenType) {
+        val formTokenType = if (otpTokenTypeArray.contains(tokenType)) {
+            otpTypeMessage?.visibility = View.GONE
+            tokenType
+        } else {
+            otpTypeMessage?.visibility = View.VISIBLE
+            defaultTokenType
+        }
+        otpTokenTypeSpinner?.setSelection(otpTokenTypeArray.indexOf(formTokenType))
     }
 
     private fun upgradeParameters() {

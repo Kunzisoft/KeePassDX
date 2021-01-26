@@ -133,7 +133,7 @@
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Des tours de chiffrement supplémentaires fournissent une protection plus élevée contre les attaques par force brute, mais cela peut considérablement ralentir les opérations de chargement et d’enregistrement.</string>
     <string name="memory_usage">Utilisation de la mémoire</string>
-    <string name="memory_usage_explanation">Quantité de mémoire (en octets) à utiliser par la fonction de dérivation de clé.</string>
+    <string name="memory_usage_explanation">Quantité de mémoire à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
@@ -408,7 +408,7 @@
     <string name="max_history_items_title">Nombre maximum</string>
     <string name="max_history_items_summary">Limite le nombre d’éléments de l’historique par entrée</string>
     <string name="max_history_size_title">Taille maximum</string>
-    <string name="max_history_size_summary">Limite la taille de l’historique (en octets) par entrée</string>
+    <string name="max_history_size_summary">Limite la taille de l’historique par entrée</string>
     <string name="settings_database_recommend_changing_master_key_title">Recommander le renouvellement</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recommande le changement de la clé principale (jours)</string>
     <string name="settings_database_force_changing_master_key_title">Forcer le renouvellement</string>
@@ -552,4 +552,13 @@
     <string name="content">Contenu</string>
     <string name="kdf_Argon2id">Argon2id</string>
     <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_rebuild_list">Impossible de reconstruire correctement la liste.</string>
+    <string name="error_database_uri_null">L\'URI de la base de données ne peut pas être récupéré.</string>
+    <string name="autofill_inline_suggestions_keyboard">Suggestions de remplissage automatique ajoutées.</string>
+    <string name="autofill_inline_suggestions_summary">Tente d\'afficher des suggestions de remplissage automatique directement à partir d\'un clavier compatible</string>
+    <string name="autofill_inline_suggestions_title">Suggestions en ligne</string>
+    <string name="warning_database_info_changed_options">Écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
+    <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
+    <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
+    <string name="menu_reload_database">Recharger la base de données</string>
 </resources>

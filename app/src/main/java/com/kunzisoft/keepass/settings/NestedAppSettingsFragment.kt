@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
-import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
+import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.utils.UriUtil
 
@@ -386,7 +386,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     }
                 if (styleEnabled) {
                     Stylish.assignStyle(styleIdString)
-                    activity.recreate()
+                    // Relaunch the current activity to redraw theme
+                    (activity as? SettingsActivity?)?.apply {
+                        keepCurrentScreen()
+                        startActivity(intent)
+                        finish()
+                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    }
                 }
                 styleEnabled
             }
