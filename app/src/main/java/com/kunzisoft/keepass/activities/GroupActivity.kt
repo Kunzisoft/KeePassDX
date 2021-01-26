@@ -345,13 +345,18 @@ class GroupActivity : LockingActivity(),
                     }
                     ACTION_DATABASE_RELOAD_TASK -> {
                         // Reload the current activity
-                        startActivity(intent)
-                        finish()
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        if (result.isSuccess) {
+                            startActivity(intent)
+                            finish()
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        } else {
+                            this.showActionErrorIfNeeded(result)
+                            finish()
+                        }
                     }
                 }
 
-                coordinatorLayout?.showActionError(result)
+                coordinatorLayout?.showActionErrorIfNeeded(result)
 
                 finishNodeAction()
 

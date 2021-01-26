@@ -51,22 +51,19 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
-import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.createDocument
-import com.kunzisoft.keepass.utils.onCreateDocumentResult
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.EntryContentsView
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -156,10 +153,11 @@ class EntryActivity : LockingActivity() {
                 }
                 ACTION_DATABASE_RELOAD_TASK -> {
                     // Close the current activity
+                    this.showActionErrorIfNeeded(result)
                     finish()
                 }
             }
-            coordinatorLayout?.showActionError(result)
+            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
     }
 

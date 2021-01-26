@@ -57,6 +57,8 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -64,15 +66,13 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
-import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
@@ -338,10 +338,11 @@ class EntryEditActivity : LockingActivity(),
                 }
                 ACTION_DATABASE_RELOAD_TASK -> {
                     // Close the current activity
+                    this.showActionErrorIfNeeded(result)
                     finish()
                 }
             }
-            coordinatorLayout?.showActionError(result)
+            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
     }
 
