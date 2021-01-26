@@ -1,3 +1,6 @@
+KeePassDX(2.9.13)
+ * Fix TOTP plugin settings #878
+
 KeePassDX(2.9.12)
  * Fix OTP token type #863
  * Fix auto open biometric prompt #862

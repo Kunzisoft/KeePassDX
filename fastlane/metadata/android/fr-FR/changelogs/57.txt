@@ -1,0 +1,1 @@
+ * Correction des paramètres des plugins TOTP #878
