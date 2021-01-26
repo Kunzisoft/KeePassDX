@@ -155,9 +155,9 @@
         android:id="@+id/toolbar_action"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="?attr/actionToolbarAppearance" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <include
         layout="@layout/view_button_lock"

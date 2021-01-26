@@ -36,7 +36,6 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -69,8 +68,8 @@ import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
@@ -99,7 +98,7 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var entryEditFragment: EntryEditFragment? = null
-    private var entryEditAddToolBar: Toolbar? = null
+    private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
     private var lockView: View? = null
 
@@ -119,11 +118,12 @@ class EntryEditActivity : LockingActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_edit)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp)
+        // Bottom Bar
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        setSupportActionBar(entryEditAddToolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
 
@@ -234,51 +234,6 @@ class EntryEditActivity : LockingActivity(),
         // Retrieve temp attachments in case of deletion
         if (savedInstanceState?.containsKey(TEMP_ATTACHMENTS) == true) {
             mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
-        }
-
-        // Assign title
-        title = if (mIsNew) getString(R.string.add_entry) else getString(R.string.edit_entry)
-
-        // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
-        entryEditAddToolBar?.apply {
-            menuInflater.inflate(R.menu.entry_edit, menu)
-
-            menu.findItem(R.id.menu_add_field).apply {
-                val allowCustomField = mDatabase?.allowEntryCustomFields() == true
-                isEnabled = allowCustomField
-                isVisible = allowCustomField
-            }
-
-            // Attachment not compatible below KitKat
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                menu.findItem(R.id.menu_add_attachment).isVisible = false
-            }
-
-            menu.findItem(R.id.menu_add_otp).apply {
-                val allowOTP = mDatabase?.allowOTP == true
-                isEnabled = allowOTP
-                // OTP not compatible below KitKat
-                isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-            }
-
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.menu_add_field -> {
-                        addNewCustomField()
-                        true
-                    }
-                    R.id.menu_add_attachment -> {
-                        addNewAttachment(item)
-                        true
-                    }
-                    R.id.menu_add_otp -> {
-                        setupOTP()
-                        true
-                    }
-                    else -> true
-                }
-            }
         }
 
         // To retrieve attachment
@@ -620,12 +575,30 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        MenuUtil.contributionMenuInflater(menuInflater, menu)
+        menuInflater.inflate(R.menu.entry_edit, menu)
         return true
     }
 
-
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+
+        menu?.findItem(R.id.menu_add_field)?.apply {
+            val allowCustomField = mDatabase?.allowEntryCustomFields() == true
+            isEnabled = allowCustomField
+            isVisible = allowCustomField
+        }
+
+        // Attachment not compatible below KitKat
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            menu?.findItem(R.id.menu_add_attachment)?.isVisible = false
+        }
+
+        menu?.findItem(R.id.menu_add_otp)?.apply {
+            val allowOTP = mDatabase?.allowOTP == true
+            isEnabled = allowOTP
+            // OTP not compatible below KitKat
+            isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        }
+
         entryEditActivityEducation?.let {
             Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
@@ -677,8 +650,16 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> {
-                MenuUtil.onContributionItemSelected(this)
+            R.id.menu_add_field -> {
+                addNewCustomField()
+                return true
+            }
+            R.id.menu_add_attachment -> {
+                addNewAttachment(item)
+                return true
+            }
+            R.id.menu_add_otp -> {
+                setupOTP()
                 return true
             }
             android.R.id.home -> {

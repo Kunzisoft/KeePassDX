@@ -1,6 +1,7 @@
 KeePassDX(2.9.13)
  * Fix TOTP plugin settings #878
  * Allow Emoji #796
+ * Scroll and better UI in entry edition screen #876
 
 KeePassDX(2.9.12)
  * Fix OTP token type #863
