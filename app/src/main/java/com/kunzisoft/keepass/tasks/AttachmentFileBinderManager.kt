@@ -31,10 +31,10 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_REMOVE
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_REMOVE
 
 class AttachmentFileBinderManager(private val activity: FragmentActivity) {
 
