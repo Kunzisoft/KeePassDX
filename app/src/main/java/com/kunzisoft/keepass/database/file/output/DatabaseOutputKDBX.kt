@@ -589,7 +589,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
             }
         } else {
-            xml.text(safeXmlString(value.toString()))
+            xml.text(value.toString())
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemValue)
@@ -718,17 +718,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (text.isEmpty()) {
             return text
         }
-
         val stringBuilder = StringBuilder()
-        var ch: Char
+        var character: Char
         for (element in text) {
-            ch = element
+            character = element
+            val hexChar = character.toInt()
             if (
-                ch.toInt() in 0x20..0xD7FF ||
-                ch.toInt() == 0x9 || ch.toInt() == 0xA || ch.toInt() == 0xD ||
-                ch.toInt() in 0xE000..0xFFFD
+                    hexChar in 0x20..0xD7FF ||
+                    hexChar == 0x9 ||
+                    hexChar == 0xA ||
+                    hexChar == 0xD ||
+                    hexChar in 0xE000..0xFFFD
             ) {
-                stringBuilder.append(ch)
+                stringBuilder.append(character)
             }
         }
         return stringBuilder.toString()
