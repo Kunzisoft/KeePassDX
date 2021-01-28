@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -28,7 +29,6 @@ import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset
-import java.security.Key
 
 /**
  * Output the GroupKDB to the stream
@@ -39,7 +39,7 @@ class EntryOutputKDB {
         @Throws(DatabaseOutputException::class)
         fun writeEntry(mOutputStream: OutputStream,
                        mEntry: EntryKDB,
-                       binaryCipherKey: Key) {
+                       binaryCipherKey: Database.LoadedKey) {
             //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
             try {
                 // UUID

@@ -375,16 +375,17 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataDownloaded = 0L
             val fileSize = binaryAttachment.length()
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
-                val binaryCipherKey = Database.getInstance().loadedCipherKey
-                binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        outputStream.write(buffer)
-                        dataDownloaded += buffer.size
-                        try {
-                            val percentDownload = (100 * dataDownloaded / fileSize).toInt()
-                            update?.invoke(percentDownload)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "", e)
+                Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
+                    binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
+                        inputStream.readBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
+                            dataDownloaded += buffer.size
+                            try {
+                                val percentDownload = (100 * dataDownloaded / fileSize).toInt()
+                                update?.invoke(percentDownload)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "", e)
+                            }
                         }
                     }
                 }
@@ -399,17 +400,18 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
             UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
-                val binaryCipherKey = Database.getInstance().loadedCipherKey
-                binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
-                    BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
-                        attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
-                            outputStream.write(buffer)
-                            dataUploaded += buffer.size
-                            try {
-                                val percentDownload = (100 * dataUploaded / fileSize).toInt()
-                                update?.invoke(percentDownload)
-                            } catch (e: Exception) {
-                                Log.e(TAG, "", e)
+                Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
+                        binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
+                        BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
+                            attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
+                                outputStream.write(buffer)
+                                dataUploaded += buffer.size
+                                try {
+                                    val percentDownload = (100 * dataUploaded / fileSize).toInt()
+                                    update?.invoke(percentDownload)
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "", e)
+                                }
                             }
                         }
                     }

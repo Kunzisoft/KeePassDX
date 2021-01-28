@@ -140,8 +140,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
             val protectedBinary = keyBinary.binary
+            val binaryCipherKey = database.loadedCipherKey
+                    ?: throw IOException("Unable to retrieve cipher key to write binaries")
             // Force decompression to add binary in header
-            protectedBinary.decompress()
+            protectedBinary.decompress(binaryCipherKey)
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
@@ -153,7 +155,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             }
             dataOutputStream.writeByte(flag)
 
-            protectedBinary.getInputDataStream().use { inputStream ->
+            protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
                 inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
                     dataOutputStream.write(buffer)
                 }
@@ -507,7 +509,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }
                 // Write the XML
-                binary.getInputDataStream(mDatabaseKDBX.loadedCipherKey).use { inputStream ->
+                val binaryCipherKey = mDatabaseKDBX.loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to write binaries")
+                binary.getInputDataStream(binaryCipherKey).use { inputStream ->
                     inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }

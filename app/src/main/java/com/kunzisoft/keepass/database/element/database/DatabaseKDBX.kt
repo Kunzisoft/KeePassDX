@@ -212,8 +212,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun compressAllBinaries() {
         binaryPool.doForEachBinary { binary ->
             try {
+                val cipherKey = loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to compress binaries")
                 // To compress, create a new binary with file
-                binary.compress(loadedCipherKey, BUFFER_SIZE_BYTES)
+                binary.compress(cipherKey, BUFFER_SIZE_BYTES)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to compress $binary", e)
             }
@@ -223,7 +225,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun decompressAllBinaries() {
         binaryPool.doForEachBinary { binary ->
             try {
-                binary.decompress(loadedCipherKey, BUFFER_SIZE_BYTES)
+                val cipherKey = loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to decompress binaries")
+                binary.decompress(cipherKey, BUFFER_SIZE_BYTES)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to decompress $binary", e)
             }

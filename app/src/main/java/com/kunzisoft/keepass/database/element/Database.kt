@@ -47,8 +47,10 @@ import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
 import java.security.Key
+import java.security.SecureRandom
 import java.util.*
 import javax.crypto.KeyGenerator
+import javax.crypto.spec.IvParameterSpec
 import kotlin.collections.ArrayList
 
 
@@ -71,7 +73,6 @@ class Database {
         set(value) {
             field = value
             loadTimestamp = if (field) System.currentTimeMillis() else null
-            loadedCipherKey = DatabaseVersioned.generateLoadedCipherKey()
         }
 
     var loadTimestamp: Long? = null
@@ -81,14 +82,13 @@ class Database {
      * Cipher key regenerated when the database is loaded and closed
      * Can be used to temporarily store database elements
      */
-    var loadedCipherKey: Key
+    var loadedCipherKey: LoadedKey?
         private set(value) {
             mDatabaseKDB?.loadedCipherKey = value
             mDatabaseKDBX?.loadedCipherKey = value
         }
         get() {
             return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
-            ?: DatabaseVersioned.generateLoadedCipherKey()
         }
 
     val iconFactory: IconImageFactory
@@ -337,11 +337,21 @@ class Database {
     }
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
-        setDatabaseKDBX(DatabaseKDBX(databaseName, rootName))
+        val newDatabase = DatabaseKDBX(databaseName, rootName)
+        newDatabase.loadedCipherKey = generateNewLoadedCipherKey()
+        setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
     }
+
+    private fun generateNewLoadedCipherKey(): LoadedKey {
+        val iv = ByteArray(16)
+        SecureRandom().nextBytes(iv)
+        return LoadedKey(KeyGenerator.getInstance("AES").generateKey(), IvParameterSpec(iv))
+    }
+
+    class LoadedKey(val key: Key, val iv: IvParameterSpec)
 
     @Throws(LoadDatabaseException::class)
     private fun readDatabaseStream(contentResolver: ContentResolver, uri: Uri,
@@ -419,6 +429,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         password,
                                         keyFileInputStream,
+                                        generateNewLoadedCipherKey(),
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     },
@@ -427,6 +438,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         password,
                                         keyFileInputStream,
+                                        generateNewLoadedCipherKey(),
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     }

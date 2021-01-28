@@ -21,9 +21,9 @@ package com.kunzisoft.keepass.database.element.database
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readBytes
 import java.io.*
-import java.security.Key
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
@@ -39,7 +39,8 @@ class BinaryAttachment : Parcelable {
         private set
     var isCorrupted: Boolean = false
     // Cipher to encrypt temp file
-    private var cipher: Cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
+    private var cipherEncryption: Cipher = Cipher.getInstance("AES/CFB8/NoPadding")
+    private var cipherDecryption: Cipher = Cipher.getInstance("AES/CFB8/NoPadding")
 
     fun length(): Long {
         return dataFile?.length() ?: 0
@@ -66,18 +67,18 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun getInputDataStream(cipherKey: Key): InputStream {
+    fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
         return when {
             length() > 0 -> {
-                cipher.init(Cipher.DECRYPT_MODE, cipherKey)
-                CipherInputStream(FileInputStream(dataFile!!), cipher)
+                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, cipherKey.iv)
+                CipherInputStream(FileInputStream(dataFile!!), cipherDecryption)
             }
             else -> ByteArrayInputStream(ByteArray(0))
         }
     }
 
     @Throws(IOException::class)
-    fun getUnGzipInputDataStream(cipherKey: Key): InputStream {
+    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
         return if (isCompressed)
             GZIPInputStream(getInputDataStream(cipherKey))
         else
@@ -85,18 +86,18 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun getOutputDataStream(cipherKey: Key): OutputStream {
+    fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
         return when {
             dataFile != null -> {
-                cipher.init(Cipher.ENCRYPT_MODE, cipherKey)
-                CipherOutputStream(FileOutputStream(dataFile!!), cipher)
+                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
+                CipherOutputStream(FileOutputStream(dataFile!!), cipherEncryption)
             }
             else -> throw IOException("Unable to write in an unknown file")
         }
     }
 
     @Throws(IOException::class)
-    fun getGzipOutputDataStream(cipherKey: Key): OutputStream {
+    fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
         return if (isCompressed) {
             GZIPOutputStream(getOutputDataStream(cipherKey))
         } else {
@@ -105,19 +106,21 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun compress(cipherKey: Key, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    fun compress(cipherKey: Database.LoadedKey, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
+                // Encrypt the new gzipped temp file
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                GZIPOutputStream(FileOutputStream(fileBinaryCompress)).use { outputStream ->
+                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
+                GZIPOutputStream(CipherOutputStream(FileOutputStream(fileBinaryCompress), cipherEncryption)).use { outputStream ->
                     getInputDataStream(cipherKey).use { inputStream ->
                         inputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                         }
                     }
                 }
-                // Remove unGzip file
+                // Remove ungzip file
                 if (concreteDataFile.delete()) {
                     if (fileBinaryCompress.renameTo(concreteDataFile)) {
                         // Harmonize with database compression
@@ -129,11 +132,13 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun decompress(cipherKey: Key, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    fun decompress(cipherKey: Database.LoadedKey, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             if (isCompressed) {
+                // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                FileOutputStream(fileBinaryDecompress).use { outputStream ->
+                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
+                CipherOutputStream(FileOutputStream(fileBinaryDecompress), cipherEncryption).use { outputStream ->
                     getUnGzipInputDataStream(cipherKey).use { inputStream ->
                         inputStream.readBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
