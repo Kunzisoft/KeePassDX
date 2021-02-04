@@ -38,7 +38,7 @@
     <string name="clipboard_timeout_summary">Διάρκεια αποθήκευσης στο πρόχειρο</string>
     <string name="select_to_copy">Επιλέξτε για αντιγραφή %1$s στο πρόχειρο</string>
     <string name="retrieving_db_key">Ανάκτηση κλειδιού βάσης δεδομένων…</string>
-    <string name="database">Βάση Δεδομένων</string>
+    <string name="database">Βάση δεδομένων</string>
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένου βάσης δεδομένων …</string>
     <string name="default_checkbox">Χρήση ως προεπιλεγμένης βάσης δεδομένων</string>
     <string name="digits">Ψηφία</string>
