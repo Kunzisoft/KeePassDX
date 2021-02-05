@@ -346,12 +346,13 @@ class Database {
     }
 
     class LoadedKey(val key: Key, val iv: IvParameterSpec) {
-
         companion object {
+            const val BINARY_CIPHER = "Blowfish/CBC/PKCS5Padding"
+
             fun generateNewCipherKey(): LoadedKey {
-                val iv = ByteArray(16)
+                val iv = ByteArray(8)
                 SecureRandom().nextBytes(iv)
-                return LoadedKey(KeyGenerator.getInstance("AES").generateKey(), IvParameterSpec(iv))
+                return LoadedKey(KeyGenerator.getInstance("Blowfish").generateKey(), IvParameterSpec(iv))
             }
         }
     }

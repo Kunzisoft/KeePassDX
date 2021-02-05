@@ -30,19 +30,9 @@ import java.util.*
  * Read all data of stream and invoke [readBytes] each time the buffer is full or no more data to read.
  */
 @Throws(IOException::class)
-fun InputStream.readBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
-    val buffer = ByteArray(bufferSize)
-    var read = 0
-    while (read != -1) {
-        read = this.read(buffer, 0, buffer.size)
-        if (read != -1) {
-            val optimizedBuffer: ByteArray = if (buffer.size == read) {
-                buffer
-            } else {
-                buffer.copyOf(read)
-            }
-            readBytes.invoke(optimizedBuffer)
-        }
+fun InputStream.readAllBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
+    this.buffered(bufferSize).use { bufferedInputStream ->
+        readBytes.invoke(bufferedInputStream.readBytes())
     }
 }
 

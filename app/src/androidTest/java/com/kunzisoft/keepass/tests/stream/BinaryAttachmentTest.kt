@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.BinaryAttachment
-import com.kunzisoft.keepass.stream.readBytes
+import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
@@ -30,7 +30,7 @@ class BinaryAttachmentTest {
     private fun saveBinary(asset: String, binaryAttachment: BinaryAttachment) {
         context.assets.open(asset).use { assetInputStream ->
             binaryAttachment.getOutputDataStream(loadedKey).use { binaryOutputStream ->
-                assetInputStream.readBytes(DEFAULT_BUFFER_SIZE) { buffer ->
+                assetInputStream.readAllBytes(DEFAULT_BUFFER_SIZE) { buffer ->
                     binaryOutputStream.write(buffer)
                 }
             }

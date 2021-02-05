@@ -156,7 +156,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             dataOutputStream.writeByte(flag)
 
             protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
-                inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                inputStream.readAllBytes(BUFFER_SIZE_BYTES) { buffer ->
                     dataOutputStream.write(buffer)
                 }
             }
@@ -512,7 +512,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 val binaryCipherKey = mDatabaseKDBX.loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to write binaries")
                 binary.getInputDataStream(binaryCipherKey).use { inputStream ->
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readAllBytes(BUFFER_SIZE_BYTES) { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }
                 }

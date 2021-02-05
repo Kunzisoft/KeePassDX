@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.stream.readBytes
+import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
@@ -377,7 +377,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
                 Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
                     binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
-                        inputStream.readBytes(bufferSize) { buffer ->
+                        inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                             dataDownloaded += buffer.size
                             try {
@@ -403,7 +403,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
                         binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
                         BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
-                            attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
+                            attachmentBufferedInputStream.readAllBytes(bufferSize) { buffer ->
                                 outputStream.write(buffer)
                                 dataUploaded += buffer.size
                                 try {

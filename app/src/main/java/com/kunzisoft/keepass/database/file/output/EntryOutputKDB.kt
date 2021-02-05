@@ -103,7 +103,7 @@ class EntryOutputKDB {
                 // Write data
                 if (binaryDataLength > 0) {
                     binaryData?.getInputDataStream(binaryCipherKey).use { inputStream ->
-                        inputStream?.readBytes(DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
+                        inputStream?.readAllBytes(DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
                             mOutputStream.write(buffer)
                         }
                         inputStream?.close()

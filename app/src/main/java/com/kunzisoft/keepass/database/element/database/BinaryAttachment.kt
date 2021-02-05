@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element.database
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.stream.readBytes
+import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
@@ -39,8 +39,8 @@ class BinaryAttachment : Parcelable {
         private set
     var isCorrupted: Boolean = false
     // Cipher to encrypt temp file
-    private var cipherEncryption: Cipher = Cipher.getInstance("AES/CFB8/NoPadding")
-    private var cipherDecryption: Cipher = Cipher.getInstance("AES/CFB8/NoPadding")
+    private var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
+    private var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
 
     fun length(): Long {
         return dataFile?.length() ?: 0
@@ -115,7 +115,7 @@ class BinaryAttachment : Parcelable {
                 cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
                 GZIPOutputStream(CipherOutputStream(FileOutputStream(fileBinaryCompress), cipherEncryption)).use { outputStream ->
                     getInputDataStream(cipherKey).use { inputStream ->
-                        inputStream.readBytes(bufferSize) { buffer ->
+                        inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                         }
                     }
@@ -140,7 +140,7 @@ class BinaryAttachment : Parcelable {
                 cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
                 CipherOutputStream(FileOutputStream(fileBinaryDecompress), cipherEncryption).use { outputStream ->
                     getUnGzipInputDataStream(cipherKey).use { inputStream ->
-                        inputStream.readBytes(bufferSize) { buffer ->
+                        inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                         }
                     }
