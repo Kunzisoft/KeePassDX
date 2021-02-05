@@ -17,7 +17,7 @@ android {
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
-        testInstrumentationRunner = "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
         manifestPlaceholders = [ googleAndroidBackupAPIKey:"unused" ]
@@ -82,6 +82,10 @@ android {
         free.res.srcDir 'src/free/res'
     }
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -129,5 +133,6 @@ dependencies {
     implementation project(path: ':icon-pack-material')
 
     // Tests
-    androidTestImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
 }
