@@ -14,7 +14,7 @@ import java.io.InputStream
 import java.lang.Exception
 import java.security.MessageDigest
 
-class BinaryAttachment {
+class BinaryAttachmentTest {
 
     private val context: Context by lazy {
         InstrumentationRegistry.getInstrumentation().context
