@@ -338,20 +338,23 @@ class Database {
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
         val newDatabase = DatabaseKDBX(databaseName, rootName)
-        newDatabase.loadedCipherKey = generateNewLoadedCipherKey()
+        newDatabase.loadedCipherKey = LoadedKey.generateNewCipherKey()
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
     }
 
-    private fun generateNewLoadedCipherKey(): LoadedKey {
-        val iv = ByteArray(16)
-        SecureRandom().nextBytes(iv)
-        return LoadedKey(KeyGenerator.getInstance("AES").generateKey(), IvParameterSpec(iv))
-    }
+    class LoadedKey(val key: Key, val iv: IvParameterSpec) {
 
-    class LoadedKey(val key: Key, val iv: IvParameterSpec)
+        companion object {
+            fun generateNewCipherKey(): LoadedKey {
+                val iv = ByteArray(16)
+                SecureRandom().nextBytes(iv)
+                return LoadedKey(KeyGenerator.getInstance("AES").generateKey(), IvParameterSpec(iv))
+            }
+        }
+    }
 
     @Throws(LoadDatabaseException::class)
     private fun readDatabaseStream(contentResolver: ContentResolver, uri: Uri,
@@ -429,7 +432,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         password,
                                         keyFileInputStream,
-                                        generateNewLoadedCipherKey(),
+                                        LoadedKey.generateNewCipherKey(),
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     },
@@ -438,7 +441,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         password,
                                         keyFileInputStream,
-                                        generateNewLoadedCipherKey(),
+                                        LoadedKey.generateNewCipherKey(),
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     }
