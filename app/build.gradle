@@ -124,9 +124,9 @@ dependencies {
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.4'
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
-    // Apache Commons Collections
+    // Apache Commons
     implementation 'commons-collections:commons-collections:3.2.2'
-    // Apache Commons Codec
+    implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
     // Icon pack
     implementation project(path: ':icon-pack-classic')

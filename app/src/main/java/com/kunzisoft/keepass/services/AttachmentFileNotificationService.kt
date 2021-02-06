@@ -373,7 +373,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                  bufferSize: Int = DEFAULT_BUFFER_SIZE,
                                  update: ((percent: Int)->Unit)? = null) {
             var dataDownloaded = 0L
-            val fileSize = binaryAttachment.length()
+            val fileSize = binaryAttachment.length
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
                 Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
                     binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->

@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
+import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
@@ -33,6 +34,8 @@ import javax.crypto.CipherOutputStream
 class BinaryAttachment : Parcelable {
 
     private var dataFile: File? = null
+    var length: Long = 0
+        private set
     var isCompressed: Boolean = false
         private set
     var isProtected: Boolean = false
@@ -42,10 +45,6 @@ class BinaryAttachment : Parcelable {
     private var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
     private var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
 
-    fun length(): Long {
-        return dataFile?.length() ?: 0
-    }
-
     /**
      * Empty protected binary
      */
@@ -53,6 +52,7 @@ class BinaryAttachment : Parcelable {
 
     constructor(dataFile: File, compressed: Boolean = false, protected: Boolean = false) {
         this.dataFile = dataFile
+        this.length = 0
         this.isCompressed = compressed
         this.isProtected = protected
     }
@@ -61,6 +61,7 @@ class BinaryAttachment : Parcelable {
         parcel.readString()?.let {
             dataFile = File(it)
         }
+        length = parcel.readLong()
         isCompressed = parcel.readByte().toInt() != 0
         isProtected = parcel.readByte().toInt() != 0
         isCorrupted = parcel.readByte().toInt() != 0
@@ -68,31 +69,20 @@ class BinaryAttachment : Parcelable {
 
     @Throws(IOException::class)
     fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return when {
-            length() > 0 -> {
-                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, cipherKey.iv)
-                CipherInputStream(FileInputStream(dataFile!!), cipherDecryption)
-            }
-            else -> ByteArrayInputStream(ByteArray(0))
-        }
-    }
-
-    @Throws(IOException::class)
-    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return if (isCompressed)
-            GZIPInputStream(getInputDataStream(cipherKey))
-        else
-            getInputDataStream(cipherKey)
+        return buildInputStream(dataFile!!, cipherKey)
     }
 
     @Throws(IOException::class)
     fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return when {
-            dataFile != null -> {
-                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
-                CipherOutputStream(FileOutputStream(dataFile!!), cipherEncryption)
-            }
-            else -> throw IOException("Unable to write in an unknown file")
+        return buildOutputStream(dataFile!!, cipherKey)
+    }
+
+    @Throws(IOException::class)
+    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
+        return if (isCompressed) {
+            GZIPInputStream(getInputDataStream(cipherKey))
+        } else {
+            getInputDataStream(cipherKey)
         }
     }
 
@@ -106,14 +96,35 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
+    private fun buildInputStream(file: File?, cipherKey: Database.LoadedKey): InputStream {
+        return when {
+            file != null && file.length() > 0 -> {
+                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, cipherKey.iv)
+                CipherInputStream(FileInputStream(file), cipherDecryption)
+            }
+            else -> ByteArrayInputStream(ByteArray(0))
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun buildOutputStream(file: File?, cipherKey: Database.LoadedKey): OutputStream {
+        return when {
+            file != null -> {
+                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
+                BinaryCountingOutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption))
+            }
+            else -> throw IOException("Unable to write in an unknown file")
+        }
+    }
+
+    @Throws(IOException::class)
     fun compress(cipherKey: Database.LoadedKey, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
                 // Encrypt the new gzipped temp file
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
-                GZIPOutputStream(CipherOutputStream(FileOutputStream(fileBinaryCompress), cipherEncryption)).use { outputStream ->
+                GZIPOutputStream(buildOutputStream(fileBinaryCompress, cipherKey)).use { outputStream ->
                     getInputDataStream(cipherKey).use { inputStream ->
                         inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
@@ -137,8 +148,7 @@ class BinaryAttachment : Parcelable {
             if (isCompressed) {
                 // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
-                CipherOutputStream(FileOutputStream(fileBinaryDecompress), cipherEncryption).use { outputStream ->
+                buildOutputStream(fileBinaryDecompress, cipherKey).use { outputStream ->
                     getUnGzipInputDataStream(cipherKey).use { inputStream ->
                         inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
@@ -171,7 +181,8 @@ class BinaryAttachment : Parcelable {
             return false
 
         var sameData = false
-        if (dataFile != null && dataFile == other.dataFile)
+        if (dataFile != null && dataFile == other.dataFile
+                && length == other.length)
             sameData = true
 
         return isCompressed == other.isCompressed
@@ -187,6 +198,7 @@ class BinaryAttachment : Parcelable {
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + if (isCorrupted) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
+        result = 31 * result + length.hashCode()
         return result
     }
 
@@ -200,9 +212,23 @@ class BinaryAttachment : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(dataFile?.absolutePath)
+        dest.writeLong(length)
         dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeByte((if (isCorrupted) 1 else 0).toByte())
+    }
+
+    /**
+     * Custom OutputStream to calculate the size of binary file
+     */
+    private inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
+        init {
+            length = 0
+        }
+        override fun close() {
+            super.close()
+            length = byteCount
+        }
     }
 
     companion object {
