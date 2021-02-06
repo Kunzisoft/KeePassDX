@@ -156,9 +156,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             dataOutputStream.writeByte(flag)
 
             protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
-                inputStream.readAllBytes(BUFFER_SIZE_BYTES) { buffer ->
-                    dataOutputStream.write(buffer)
-                }
+                inputStream.copyTo(dataOutputStream)
             }
         }
 

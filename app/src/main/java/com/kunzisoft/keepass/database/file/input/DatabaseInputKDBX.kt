@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -302,9 +303,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 val cipherKey = mDatabase.loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to load binaries")
                 protectedBinary.getOutputDataStream(cipherKey).use { outputStream ->
-                    dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
-                        outputStream.write(buffer)
-                    }
+                    dataInputStream.copyPartTo(outputStream, byteLength)
                 }
             }
         }

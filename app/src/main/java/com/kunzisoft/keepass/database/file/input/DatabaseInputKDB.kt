@@ -332,10 +332,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                                 val cipherKey = mDatabase.loadedCipherKey
                                         ?: throw IOException("Unable to retrieve cipher key to load binaries")
                                 BufferedOutputStream(binaryAttachment.getOutputDataStream(cipherKey)).use { outputStream ->
-                                    cipherInputStream.readBytes(fieldSize,
-                                            DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
-                                        outputStream.write(buffer)
-                                    }
+                                    cipherInputStream.copyPartTo(outputStream, fieldSize)
                                 }
                             }
                         }
