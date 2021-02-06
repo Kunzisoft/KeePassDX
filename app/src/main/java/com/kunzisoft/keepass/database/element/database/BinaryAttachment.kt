@@ -124,11 +124,9 @@ class BinaryAttachment : Parcelable {
             if (!isCompressed) {
                 // Encrypt the new gzipped temp file
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                GZIPOutputStream(buildOutputStream(fileBinaryCompress, cipherKey)).use { outputStream ->
-                    getInputDataStream(cipherKey).use { inputStream ->
-                        inputStream.readAllBytes(bufferSize) { buffer ->
-                            outputStream.write(buffer)
-                        }
+                getInputDataStream(cipherKey).use { inputStream ->
+                    GZIPOutputStream(buildOutputStream(fileBinaryCompress, cipherKey)).use { outputStream ->
+                        inputStream.copyTo(outputStream, bufferSize)
                     }
                 }
                 // Remove ungzip file
@@ -148,11 +146,9 @@ class BinaryAttachment : Parcelable {
             if (isCompressed) {
                 // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                buildOutputStream(fileBinaryDecompress, cipherKey).use { outputStream ->
-                    getUnGzipInputDataStream(cipherKey).use { inputStream ->
-                        inputStream.readAllBytes(bufferSize) { buffer ->
-                            outputStream.write(buffer)
-                        }
+                getUnGzipInputDataStream(cipherKey).use { inputStream ->
+                    buildOutputStream(fileBinaryDecompress, cipherKey).use { outputStream ->
+                        inputStream.copyTo(outputStream, bufferSize)
                     }
                 }
                 // Remove gzip file
@@ -225,6 +221,12 @@ class BinaryAttachment : Parcelable {
         init {
             length = 0
         }
+
+        override fun beforeWrite(n: Int) {
+            super.beforeWrite(n)
+            length = byteCount
+        }
+
         override fun close() {
             super.close()
             length = byteCount

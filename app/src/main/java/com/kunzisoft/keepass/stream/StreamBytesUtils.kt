@@ -32,7 +32,19 @@ import java.util.*
  */
 @Throws(IOException::class)
 fun InputStream.readAllBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
-    readBytes.invoke(readBytes(bufferSize))
+    val buffer = ByteArray(bufferSize)
+    var read = 0
+    while (read != -1) {
+        read = this.read(buffer, 0, buffer.size)
+        if (read != -1) {
+            val optimizedBuffer: ByteArray = if (buffer.size == read) {
+                buffer
+            } else {
+                buffer.copyOf(read)
+            }
+            readBytes.invoke(optimizedBuffer)
+        }
+    }
 }
 
 /**

@@ -400,9 +400,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
             UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
-                Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
+                BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
+                    Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
                         binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
-                        BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
                             attachmentBufferedInputStream.readAllBytes(bufferSize) { buffer ->
                                 outputStream.write(buffer)
                                 dataUploaded += buffer.size
