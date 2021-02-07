@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.app.SearchManager
-import android.app.assist.AssistStructure
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -50,7 +49,9 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -65,15 +66,16 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -153,7 +155,7 @@ class GroupActivity : LockingActivity(),
         taTextColor.recycle()
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(rootContainerView)
+        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
@@ -227,10 +229,10 @@ class GroupActivity : LockingActivity(),
                                     currentGroup, searchInfo)
                             onLaunchActivitySpecialMode()
                         },
-                        { searchInfo, assistStructure ->
+                        { searchInfo, autofillComponent ->
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 EntryEditActivity.launchForAutofillResult(this@GroupActivity,
-                                        assistStructure,
+                                        autofillComponent,
                                         currentGroup, searchInfo)
                                 onLaunchActivitySpecialMode()
                             } else {
@@ -316,7 +318,12 @@ class GroupActivity : LockingActivity(),
                         if (result.isSuccess) {
 
                             // Rebuild all the list to avoid bug when delete node from sort
-                            mListNodesFragment?.rebuildList()
+                            try {
+                                mListNodesFragment?.rebuildList()
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Unable to rebuild the list after deletion")
+                                e.printStackTrace()
+                            }
 
                             // Add trash in views list if it doesn't exists
                             if (database.isRecycleBinEnabled) {
@@ -336,9 +343,20 @@ class GroupActivity : LockingActivity(),
                             }
                         }
                     }
+                    ACTION_DATABASE_RELOAD_TASK -> {
+                        // Reload the current activity
+                        if (result.isSuccess) {
+                            startActivity(intent)
+                            finish()
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        } else {
+                            this.showActionErrorIfNeeded(result)
+                            finish()
+                        }
+                    }
                 }
 
-                coordinatorLayout?.showActionError(result)
+                coordinatorLayout?.showActionErrorIfNeeded(result)
 
                 finishNodeAction()
 
@@ -659,7 +677,7 @@ class GroupActivity : LockingActivity(),
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
             mDatabase?.let { database ->
-                AutofillHelper.buildResponse(this,
+                AutofillHelper.buildResponseAndSetResult(this,
                         entry.getEntryInfo(database))
             }
         }
@@ -872,6 +890,8 @@ class GroupActivity : LockingActivity(),
         }
         if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
+        } else {
+            menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
 
         // Menu for recycle bin
@@ -995,6 +1015,10 @@ class GroupActivity : LockingActivity(),
                 return true
             R.id.menu_save_database -> {
                 mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+                return true
+            }
+            R.id.menu_reload_database -> {
+                mProgressDatabaseTaskProvider?.startDatabaseReload(false)
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
@@ -1124,7 +1148,16 @@ class GroupActivity : LockingActivity(),
     private fun rebuildListNodes() {
         mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
         // to refresh fragment
-        mListNodesFragment?.rebuildList()
+        try {
+            mListNodesFragment?.rebuildList()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            coordinatorLayout?.let { coordinatorLayout ->
+                Snackbar.make(coordinatorLayout,
+                        R.string.error_rebuild_list,
+                        Snackbar.LENGTH_LONG).asError().show()
+            }
+        }
         mCurrentGroup = mListNodesFragment?.mainGroup
         // Remove search in intent
         deletePreviousSearchGroup()
@@ -1295,14 +1328,14 @@ class GroupActivity : LockingActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     readOnly: Boolean,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }
@@ -1419,21 +1452,21 @@ class GroupActivity : LockingActivity(),
                                 }
                         )
                     },
-                    { searchInfo, assistStructure ->
+                    { searchInfo, autofillComponent ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     Database.getInstance(),
                                     searchInfo,
                                     { items ->
                                         // Response is build
-                                        AutofillHelper.buildResponse(activity, items)
+                                        AutofillHelper.buildResponseAndSetResult(activity, items)
                                         onValidateSpecialMode()
                                     },
                                     {
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
                                                 readOnly,
-                                                assistStructure,
+                                                autofillComponent,
                                                 searchInfo,
                                                 false)
                                         onLaunchActivitySpecialMode()

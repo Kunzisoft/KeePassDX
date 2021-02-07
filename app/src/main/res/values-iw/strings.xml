@@ -17,8 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     translated by Arthur Zamarin<arthurzam@gmail.com>
--->
-<resources>
+--><resources>
     <string name="feedback">משוב</string>
     <string name="homepage">דף הבית</string>
     <string name="about_description">KeePassDX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
@@ -27,7 +26,7 @@
     <string name="add_group">הוסף קבוצה</string>
     <string name="encryption_algorithm">אלגוריתם</string>
     <string name="app_timeout">פסק זמן ליישום</string>
-    <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
+    <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל</string>
     <string name="application">יישום</string>
     <string name="menu_app_settings">הגדרות יישום</string>
     <string name="brackets">סוגריים</string>

@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -37,7 +36,6 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -48,6 +46,8 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -56,21 +56,22 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
-import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
@@ -97,7 +98,7 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var entryEditFragment: EntryEditFragment? = null
-    private var entryEditAddToolBar: Toolbar? = null
+    private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
     private var lockView: View? = null
 
@@ -117,11 +118,12 @@ class EntryEditActivity : LockingActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_edit)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp)
+        // Bottom Bar
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        setSupportActionBar(entryEditAddToolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
 
@@ -134,7 +136,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -234,51 +236,6 @@ class EntryEditActivity : LockingActivity(),
             mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
         }
 
-        // Assign title
-        title = if (mIsNew) getString(R.string.add_entry) else getString(R.string.edit_entry)
-
-        // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
-        entryEditAddToolBar?.apply {
-            menuInflater.inflate(R.menu.entry_edit, menu)
-
-            menu.findItem(R.id.menu_add_field).apply {
-                val allowCustomField = mDatabase?.allowEntryCustomFields() == true
-                isEnabled = allowCustomField
-                isVisible = allowCustomField
-            }
-
-            // Attachment not compatible below KitKat
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                menu.findItem(R.id.menu_add_attachment).isVisible = false
-            }
-
-            menu.findItem(R.id.menu_add_otp).apply {
-                val allowOTP = mDatabase?.allowOTP == true
-                isEnabled = allowOTP
-                // OTP not compatible below KitKat
-                isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-            }
-
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.menu_add_field -> {
-                        addNewCustomField()
-                        true
-                    }
-                    R.id.menu_add_attachment -> {
-                        addNewAttachment(item)
-                        true
-                    }
-                    R.id.menu_add_otp -> {
-                        setupOTP()
-                        true
-                    }
-                    else -> true
-                }
-            }
-        }
-
         // To retrieve attachment
         mSelectFileHelper = SelectFileHelper(this)
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
@@ -334,8 +291,13 @@ class EntryEditActivity : LockingActivity(),
                         Log.e(TAG, "Unable to retrieve entry after database action", e)
                     }
                 }
+                ACTION_DATABASE_RELOAD_TASK -> {
+                    // Close the current activity
+                    this.showActionErrorIfNeeded(result)
+                    finish()
+                }
             }
-            coordinatorLayout?.showActionError(result)
+            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
     }
 
@@ -360,7 +322,7 @@ class EntryEditActivity : LockingActivity(),
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mDatabase?.let { database ->
-                AutofillHelper.buildResponse(this@EntryEditActivity,
+                AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
                         entry.getEntryInfo(database))
             }
         }
@@ -478,8 +440,12 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        verifyNameField(newField) {
+        if (oldField.name.equals(newField.name, true)) {
             entryEditFragment?.replaceExtraField(oldField, newField)
+        } else {
+            verifyNameField(newField) {
+                entryEditFragment?.replaceExtraField(oldField, newField)
+            }
         }
     }
 
@@ -609,18 +575,30 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-
-        val inflater = menuInflater
-        inflater.inflate(R.menu.database, menu)
-        // Save database not needed here
-        menu.findItem(R.id.menu_save_database)?.isVisible = false
-        MenuUtil.contributionMenuInflater(inflater, menu)
-
+        menuInflater.inflate(R.menu.entry_edit, menu)
         return true
     }
 
-
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+
+        menu?.findItem(R.id.menu_add_field)?.apply {
+            val allowCustomField = mDatabase?.allowEntryCustomFields() == true
+            isEnabled = allowCustomField
+            isVisible = allowCustomField
+        }
+
+        // Attachment not compatible below KitKat
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            menu?.findItem(R.id.menu_add_attachment)?.isVisible = false
+        }
+
+        menu?.findItem(R.id.menu_add_otp)?.apply {
+            val allowOTP = mDatabase?.allowOTP == true
+            isEnabled = allowOTP
+            // OTP not compatible below KitKat
+            isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        }
+
         entryEditActivityEducation?.let {
             Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
@@ -672,11 +650,16 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_save_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+            R.id.menu_add_field -> {
+                addNewCustomField()
+                return true
             }
-            R.id.menu_contribute -> {
-                MenuUtil.onContributionItemSelected(this)
+            R.id.menu_add_attachment -> {
+                addNewAttachment(item)
+                return true
+            }
+            R.id.menu_add_otp -> {
+                setupOTP()
                 return true
             }
             android.R.id.home -> {
@@ -908,7 +891,7 @@ class EntryEditActivity : LockingActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     group: Group,
                                     searchInfo: SearchInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
@@ -916,7 +899,7 @@ class EntryEditActivity : LockingActivity(),
                 intent.putExtra(KEY_PARENT, group.nodeId)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
-                        assistStructure,
+                        autofillComponent,
                         searchInfo)
             }
         }

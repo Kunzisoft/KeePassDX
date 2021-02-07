@@ -48,8 +48,8 @@ import java.util.*
 
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
-                                                  var attrs: AttributeSet? = null,
-                                                  var defStyle: Int = 0)
+                                                  attrs: AttributeSet? = null,
+                                                  defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
     private var fontInVisibility: Boolean = false
@@ -67,7 +67,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val creationDateView: TextView
     private val modificationDateView: TextView
-    private val lastAccessDateView: TextView
     private val expiresImageView: ImageView
     private val expiresDateView: TextView
 
@@ -117,7 +116,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
         creationDateView = findViewById(R.id.entry_created)
         modificationDateView = findViewById(R.id.entry_modified)
-        lastAccessDateView = findViewById(R.id.entry_accessed)
         expiresImageView = findViewById(R.id.entry_expires_image)
         expiresDateView = findViewById(R.id.entry_expires_date)
 
@@ -258,27 +256,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         modificationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignLastAccessDate(date: DateInstant) {
-        lastAccessDateView.text = date.getDateTimeString(resources)
-    }
-
-    fun setExpires(isExpires: Boolean) {
+    fun setExpires(isExpires: Boolean, expiryTime: DateInstant) {
         expiresImageView.visibility = if (isExpires) View.VISIBLE else View.GONE
-    }
-
-    fun assignExpiresDate(date: DateInstant) {
-        assignExpiresDate(date.getDateTimeString(resources))
-    }
-
-    fun assignExpiresDate(constString: String) {
-        expiresDateView.text = constString
+        expiresDateView.text = if (isExpires) {
+            expiryTime.getDateTimeString(resources)
+        } else {
+            resources.getString(R.string.never)
+        }
     }
 
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
         uuidReferenceView.text = UuidUtil.toHexString(uuid)
     }
-
 
     fun setHiddenProtectedValue(hiddenProtectedValue: Boolean) {
         passwordFieldView.hiddenProtectedValue = hiddenProtectedValue
@@ -306,7 +296,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                       allowCopy: Boolean,
                       onCopyButtonClickListener: OnClickListener?) {
 
-        val entryCustomField: EntryField? = EntryField(context, attrs, defStyle)
+        val entryCustomField: EntryField? = EntryField(context)
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)

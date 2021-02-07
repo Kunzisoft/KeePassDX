@@ -1,7 +1,7 @@
 <b>Multi-format KeePass password manager</b>, the app allows saving and using passwords, keys and digital identities in a secure way, by integrating the Android design standards.
 
 This pro version is under development, buying it encourages <b>faster development</b>, <b>better service</b>, and you contribute to the creation of <b>open source softwares without advertising</b>.
-<i>Currently, the application has the same features as the free version with the themes unlocked but is intended to integrate the elements of connection and synchronization facilitated for sites and services commonly used.</i>
+<i>Currently, the application has the same features as the free version with the themes unlocked but is intended to integrate elements related to non-free sites and services commonly used.</i>
 
 <b>Features</b>
  - Create database files / entries and groups.

@@ -173,7 +173,7 @@
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
     <string name="kdf_explanation">Para gerar a chave para o algoritmo de criptografia, a chave mestra é transformada usando uma função de derivação de chave com sal aleatoriamente.</string>
     <string name="memory_usage">Uso de memória</string>
-    <string name="memory_usage_explanation">Quantidade de memória (in bytes) a ser usada pela função de derivação de chave.</string>
+    <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
     <string name="sort_menu">Ordenar</string>
@@ -257,8 +257,6 @@
 \nGrupos (~pastas) organizam suas entradas e sua base de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas senhas.</string>
-    <string name="education_biometric_title">Desbloqueio do banco de dados por Impressão digital</string>
-    <string name="education_biometric_summary">Faça o link entre sua senha e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Criar uma senha forte</string>
@@ -296,7 +294,6 @@
     <string name="contribute">Contribuir</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Tema do aplicativo</string>
     <string name="style_choose_summary">Tema usado no aplicativo</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
@@ -398,7 +395,7 @@
     <string name="max_history_items_title">Número máximo</string>
     <string name="max_history_items_summary">Limitar o número de itens do histórico por entrada</string>
     <string name="max_history_size_title">Tamanho máximo</string>
-    <string name="max_history_size_summary">Limitar o tamanho do histórico (em bytes) por entrada</string>
+    <string name="max_history_size_summary">Limitar o tamanho do histórico por entrada</string>
     <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomende a mudança da chave mestra (em dias)</string>
     <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>

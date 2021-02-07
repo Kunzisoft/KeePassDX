@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
-import android.app.backup.BackupManager
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -42,11 +41,8 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun setDefaultDatabase(databaseFile: DatabaseFile?) {
         IOActionTask(
                 {
-                    val context = getApplication<App>().applicationContext
-                    UriUtil.parse(PreferencesUtil.getDefaultDatabasePath(context))
-                    PreferencesUtil.saveDefaultDatabasePath(context, databaseFile?.databaseUri)
-                    val backupManager = BackupManager(context)
-                    backupManager.dataChanged()
+                    PreferencesUtil.saveDefaultDatabasePath(getApplication<App>().applicationContext,
+                            databaseFile?.databaseUri)
                 },
                 {
                     checkDefaultDatabase()

@@ -192,7 +192,6 @@
     <string name="extended_ASCII">വിപുലീകരിച്ച ASCII</string>
     <string name="icon_pack_choose_summary">ആപ്പിൽ ഉപയോഗിച്ചിരിക്കുന്ന ഐക്കൺ പാക്ക്</string>
     <string name="style_choose_title">അപ്പ്ലിക്കേഷന്റെ തീം</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="download_finalization">അന്തിമമാക്കുന്നു. . .</string>
     <string name="html_text_dev_feature_thanks">നിങ്ങളുടെ സംഭാവനയ്ക്ക് ഒരുപാട് നന്ദി.</string>
     <string name="education_unlock_title">ഡാറ്റാബേസ് തുറക്കുക</string>
@@ -301,7 +300,7 @@
     <string name="sort_groups_before">മുമ്പുള്ള ഗ്രൂപ്പുകൾ</string>
     <string name="sort_ascending">ആദ്യത്തേത് ഏറ്റവും കുറഞ്ഞത്↓</string>
     <string name="parallelism_explanation">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ ഉപയോഗിക്കുന്ന സമാന്തരതയുടെ ബിരുദം (അതായത് ത്രെഡുകളുടെ എണ്ണം).</string>
-    <string name="memory_usage_explanation">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ ഉപയോഗിക്കുന്ന മെമ്മറിയുടെ അളവ് (ബൈറ്റുകളിൽ).</string>
+    <string name="memory_usage_explanation">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ ഉപയോഗിക്കുന്ന മെമ്മറിയുടെ അളവ് .</string>
     <string name="encryption_explanation">എല്ലാ ഡാറ്റയ്ക്കും ഉപയോഗിക്കുന്ന ഡാറ്റാബേസ് എൻ‌ക്രിപ്ഷൻ അൽ‌ഗോരിതം.</string>
     <string name="hide_broken_locations_summary">സമീപകാല ഡാറ്റാബേസുകളുടെ പട്ടികയിൽ‌ നിന്ന് തകർന്ന ലിങ്കുകൾ‌ മറയ്‌ക്കുക</string>
     <string name="hide_broken_locations_title">തകർന്ന ഡാറ്റാബേസ് ലിങ്കുകൾ മറയ്‌ക്കുക</string>
@@ -369,7 +368,6 @@
     <string name="keyboard_notification_entry_title">അറിയിപ്പ് വിവരം</string>
     <string name="education_sort_summary">എൻ‌ട്രികളും ഗ്രൂപ്പുകളും എങ്ങനെ അടുക്കുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</string>
     <string name="education_sort_title">ഇനം തരംതിരിക്കൽ</string>
-    <string name="education_biometric_title">ബയോമെട്രിക് ഡാറ്റാബേസ് അൺലോക്കുചെയ്യൽ</string>
     <string name="keyboard_entry_timeout_title">ടൈം ഔട്ട്</string>
     <string name="monospace_font_fields_enable_title">ഫീൽഡിന്റെ ഫോണ്ട്</string>
     <string name="data">ഡാറ്റ</string>
@@ -390,4 +388,12 @@
     <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
     <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല</string>
+    <string name="education_advanced_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>
+    <string name="select_entry">എൻ‌ട്രി തിരഞ്ഞെടുക്കുക</string>
+    <string name="custom_fields">ഇഷ്‌ടാനുസൃത ഫീൽഡുകൾ</string>
+    <string name="keyboard_keys_category">കീകൾ</string>
+    <string name="notification">അറിയിപ്പ്</string>
+    <string name="settings_database_recommend_changing_master_key_title">പുതുക്കൽ ശുപാർശ ചെയ്യുക</string>
+    <string name="content">ഉള്ളടക്കം</string>
+    <string name="device_credential">ഉപകരണ ക്രെഡൻഷ്യൽ</string>
 </resources>

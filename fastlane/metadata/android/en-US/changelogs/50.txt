@@ -1,0 +1,1 @@
+ * Fix KeyFile bug #820

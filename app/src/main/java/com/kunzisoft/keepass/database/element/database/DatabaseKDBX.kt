@@ -43,10 +43,12 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
+import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
+import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
-import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -113,7 +115,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     init {
         kdfList.add(KdfFactory.aesKdf)
-        kdfList.add(KdfFactory.argon2Kdf)
+        kdfList.add(KdfFactory.argon2dKdf)
+        kdfList.add(KdfFactory.argon2idKdf)
     }
 
     constructor()
@@ -123,6 +126,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     constructor(databaseName: String, rootName: String) {
         name = databaseName
+        kdbxVersion = FILE_VERSION_32_3
         val group = createGroup().apply {
             title = rootName
             icon = iconFactory.folderIcon
@@ -179,7 +183,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         when (oldCompression) {
             CompressionAlgorithm.None -> {
                 when (newCompression) {
-                    CompressionAlgorithm.None -> {}
+                    CompressionAlgorithm.None -> {
+                    }
                     CompressionAlgorithm.GZip -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
                         if (kdbxVersion.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
@@ -197,7 +202,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                         CompressionAlgorithm.None -> {
                             decompressAllBinaries()
                         }
-                        CompressionAlgorithm.GZip -> {}
+                        CompressionAlgorithm.GZip -> {
+                        }
                     }
                 }
             }
@@ -377,36 +383,82 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             try {
                 documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
             } catch (e : ParserConfigurationException) {
-                Log.e(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)", e)
+                Log.w(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)")
             }
 
             val documentBuilder = documentBuilderFactory.newDocumentBuilder()
             val doc = documentBuilder.parse(keyInputStream)
 
+            var xmlKeyFileVersion = 1F
+
             val docElement = doc.documentElement
-            if (docElement == null || !docElement.nodeName.equals(RootElementName, ignoreCase = true)) {
+            val keyFileChildNodes = docElement.childNodes
+            // <KeyFile> Root node
+            if (docElement == null
+                    || !docElement.nodeName.equals(XML_NODE_ROOT_NAME, ignoreCase = true)) {
                 return null
             }
-
-            val children = docElement.childNodes
-            if (children.length < 2) {
+            if (keyFileChildNodes.length < 2)
                 return null
-            }
-
-            for (i in 0 until children.length) {
-                val child = children.item(i)
-
-                if (child.nodeName.equals(KeyElementName, ignoreCase = true)) {
-                    val keyChildren = child.childNodes
-                    for (j in 0 until keyChildren.length) {
-                        val keyChild = keyChildren.item(j)
-                        if (keyChild.nodeName.equals(KeyDataElementName, ignoreCase = true)) {
-                            val children2 = keyChild.childNodes
-                            for (k in 0 until children2.length) {
-                                val text = children2.item(k)
-                                if (text.nodeType == Node.TEXT_NODE) {
-                                    val txt = text as Text
-                                    return Base64.decode(txt.nodeValue, BASE_64_FLAG)
+            for (keyFileChildPosition in 0 until keyFileChildNodes.length) {
+                val keyFileChildNode = keyFileChildNodes.item(keyFileChildPosition)
+                // <Meta>
+                if (keyFileChildNode.nodeName.equals(XML_NODE_META_NAME, ignoreCase = true)) {
+                    val metaChildNodes = keyFileChildNode.childNodes
+                    for (metaChildPosition in 0 until metaChildNodes.length) {
+                        val metaChildNode = metaChildNodes.item(metaChildPosition)
+                        // <Version>
+                        if (metaChildNode.nodeName.equals(XML_NODE_VERSION_NAME, ignoreCase = true)) {
+                            val versionChildNodes = metaChildNode.childNodes
+                            for (versionChildPosition in 0 until versionChildNodes.length) {
+                                val versionChildNode = versionChildNodes.item(versionChildPosition)
+                                if (versionChildNode.nodeType == Node.TEXT_NODE) {
+                                    val versionText = versionChildNode.textContent.removeSpaceChars()
+                                    try {
+                                        xmlKeyFileVersion = versionText.toFloat()
+                                        Log.i(TAG, "Reading XML KeyFile version : $xmlKeyFileVersion")
+                                    } catch (e: Exception) {
+                                        Log.e(TAG, "XML Keyfile version cannot be read : $versionText")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                // <Key>
+                if (keyFileChildNode.nodeName.equals(XML_NODE_KEY_NAME, ignoreCase = true)) {
+                    val keyChildNodes = keyFileChildNode.childNodes
+                    for (keyChildPosition in 0 until keyChildNodes.length) {
+                        val keyChildNode = keyChildNodes.item(keyChildPosition)
+                        // <Data>
+                        if (keyChildNode.nodeName.equals(XML_NODE_DATA_NAME, ignoreCase = true)) {
+                            var hashString : String? = null
+                            if (keyChildNode.hasAttributes()) {
+                                val dataNodeAttributes = keyChildNode.attributes
+                                hashString = dataNodeAttributes
+                                        .getNamedItem(XML_ATTRIBUTE_DATA_HASH).nodeValue
+                            }
+                            val dataChildNodes = keyChildNode.childNodes
+                            for (dataChildPosition in 0 until dataChildNodes.length) {
+                                val dataChildNode = dataChildNodes.item(dataChildPosition)
+                                if (dataChildNode.nodeType == Node.TEXT_NODE) {
+                                    val dataString = dataChildNode.textContent.removeSpaceChars()
+                                    when (xmlKeyFileVersion) {
+                                        1F -> {
+                                            // No hash in KeyFile XML version 1
+                                            return Base64.decode(dataString, BASE_64_FLAG)
+                                        }
+                                        2F -> {
+                                            return if (hashString != null
+                                                    && checkKeyFileHash(dataString, hashString)) {
+                                                Log.i(TAG, "Successful key file hash check.")
+                                                Hex.decodeHex(dataString.toCharArray())
+                                            } else {
+                                                Log.e(TAG, "Unable to check the hash of the key file.")
+                                                null
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -416,8 +468,24 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         } catch (e: Exception) {
             return null
         }
-
         return null
+    }
+
+    private fun checkKeyFileHash(data: String, hash: String): Boolean {
+        val digest: MessageDigest?
+        var success = false
+        try {
+            digest = MessageDigest.getInstance("SHA-256")
+            digest?.reset()
+            // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
+            val dataDigest = digest.digest(Hex.decodeHex(data.toCharArray()))
+                    .copyOfRange(0, 4)
+                    .toHexString()
+            success = dataDigest == hash
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
+        }
+        return success
     }
 
     override fun newGroupId(): NodeIdUUID {
@@ -633,11 +701,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val DEFAULT_HISTORY_MAX_ITEMS = 10 // -1 unlimited
         private const val DEFAULT_HISTORY_MAX_SIZE = (6 * 1024 * 1024).toLong() // -1 unlimited
 
-        private const val RootElementName = "KeyFile"
-        //private const val MetaElementName = "Meta";
-        //private const val VersionElementName = "Version";
-        private const val KeyElementName = "Key"
-        private const val KeyDataElementName = "Data"
+        private const val XML_NODE_ROOT_NAME = "KeyFile"
+        private const val XML_NODE_META_NAME = "Meta"
+        private const val XML_NODE_VERSION_NAME = "Version"
+        private const val XML_NODE_KEY_NAME = "Key"
+        private const val XML_NODE_DATA_NAME = "Data"
+        private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
         const val BASE_64_FLAG = Base64.NO_WRAP
 

@@ -175,7 +175,7 @@
     <string name="encryption_explanation">Algorytm szyfrowania bazy danych używany dla wszystkich danych.</string>
     <string name="kdf_explanation">Aby wygenerować klucz dla algorytmu szyfrowania, klucz główny jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
     <string name="memory_usage">Użycie pamięci</string>
-    <string name="memory_usage_explanation">Ilość pamięci (w bajtach) do użycia przez funkcję wyprowadzania klucza.</string>
+    <string name="memory_usage_explanation">Ilość pamięci do użycia przez funkcję wyprowadzania klucza.</string>
     <string name="parallelism">Równoległy</string>
     <string name="parallelism_explanation">Stopień równoległości (tj. Liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
     <string name="sort_menu">Sortuj</string>
@@ -218,7 +218,7 @@
     <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
-    <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem linii papilarnych</string>
+    <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrujące związane z zaawansowanym rozpoznawaniem odblokowania</string>
     <string name="unavailable_feature_text">Nie można uruchomić tej funkcji.</string>
     <string name="unavailable_feature_version">Urządzenie pracuje na systemie Android %1$s, ale wymaga wersji %2$s lub nowszej.</string>
     <string name="unavailable_feature_hardware">Nie można znaleźć odpowiedniego sprzętu.</string>
@@ -228,7 +228,7 @@
     <string name="create_keepass_file">Utwórz nową bazę danych</string>
     <string name="recycle_bin_title">Wykorzystaj kosz</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
-    <string name="monospace_font_fields_enable_title">Pole czcionka</string>
+    <string name="monospace_font_fields_enable_title">Czcionka pola</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalanie na kopiowanie hasła wejściowego i chronionych pól do schowka</string>
@@ -237,7 +237,7 @@
     <string name="database_description_title">Opis bazy danych</string>
     <string name="database_version_title">Wersja bazy danych</string>
     <string name="text_appearance">Tekst</string>
-    <string name="application_appearance">Aplikacja</string>
+    <string name="application_appearance">Wygląd</string>
     <string name="other">Inne</string>
     <string name="keyboard">Klawiatura</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -261,8 +261,6 @@
 \nGrupy (~ foldery) organizują wpisy w bazie danych.</string>
     <string name="education_search_title">Przeszukuj wpisy</string>
     <string name="education_search_summary">Wprowadź tytuł, nazwę użytkownika lub zawartość innych pól, aby odzyskać swoje hasła.</string>
-    <string name="education_biometric_title">Biometryczne odblokowanie bazy danych</string>
-    <string name="education_biometric_summary">Połącz swoje hasło z zeskanowanym odciskiem palca, aby szybko odblokować bazę danych.</string>
     <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
     <string name="education_generate_password_title">Utwórz silne hasło</string>
@@ -273,8 +271,8 @@
     <string name="education_read_only_title">Zapisz ochronę swojej bazy danych</string>
     <string name="education_read_only_summary">Zmień tryb otwierania sesji.
 \n
-\n„Zabezpieczony przed zapisem” zapobiega niezamierzonym zmianom w bazie danych.
-\n„Modyfikowalne” pozwala dodawać, usuwać lub modyfikować wszystkie elementy.</string>
+\n\"Ochrona przed zapisem\" zapobiega niezamierzonych zmian w bazie danych.
+\n\"Modyfikowalne\" pozwala dodawać, usuwać lub modyfikować wszystkie elementy, jak chcesz.</string>
     <string name="education_field_copy_title">Skopiuj pole</string>
     <string name="education_field_copy_summary">Skopiowane pola można wkleić w dowolnym miejscu.
 \n
@@ -295,12 +293,11 @@
     <string name="html_text_dev_feature_encourage">zachęcasz programistów do tworzenia &lt;strong&gt;nowych funkcji&lt;/strong&gt; i &lt;strong&gt;naprawy błędów&lt;/strong&gt; zgodnie z Twoimi uwagami.</string>
     <string name="html_text_dev_feature_thanks">Wielkie dzięki za twój wkład.</string>
     <string name="html_text_dev_feature_work_hard">Ciężko pracujemy, aby szybko udostępnić tę funkcję.</string>
-    <string name="html_text_dev_feature_upgrade">Nie zapomnij o aktualizacji aplikacji, instalując nowe wersje.</string>
+    <string name="html_text_dev_feature_upgrade">Pamiętaj, aby aktualizować swoją aplikację, instalując nowe wersje.</string>
     <string name="download">Pobieranie</string>
     <string name="contribute">Przyczyń się</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Motyw aplikacji</string>
     <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
@@ -359,10 +356,10 @@
     <string name="error_create_database_file">Nie można utworzyć bazy danych przy użyciu tego hasła i pliku klucza.</string>
     <string name="menu_advanced_unlock_settings">Zaawansowane odblokowywanie</string>
     <string name="biometric">Biometryczne</string>
-    <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie monitu biometrycznego</string>
+    <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie</string>
     <string name="enable">Włącz</string>
     <string name="disable">Wyłącz</string>
-    <string name="biometric_auto_open_prompt_summary">Automatycznie pytaj o dane biometryczne, jeśli baza danych jest ustawiona do korzystania z nich</string>
+    <string name="biometric_auto_open_prompt_summary">Automatyczne żądanie zaawansowanego odblokowania, jeśli baza danych jest skonfigurowana do korzystania z niej</string>
     <string name="content_description_node_children">Węzły podrzędne</string>
     <string name="master_key">Klucz główny</string>
     <string name="security">Zabezpieczenia</string>
@@ -375,7 +372,7 @@
     <string name="otp_digits">Cyfry</string>
     <string name="otp_algorithm">Algorytm</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_copy_group_here">Nie można tutaj skopiować wpisu.</string>
+    <string name="error_copy_group_here">Tutaj nie można skopiować grupy.</string>
     <string name="creating_database">Tworzenie bazy danych…</string>
     <string name="menu_security_settings">Ustawienia zabezpieczeń</string>
     <string name="menu_master_key_settings">Ustawienia klucza głównego</string>
@@ -405,7 +402,7 @@
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych</string>
     <string name="max_history_items_title">Maksymalna liczba</string>
-    <string name="max_history_size_summary">Ogranicz rozmiar historii (w bajtach) na wpis</string>
+    <string name="max_history_size_summary">Ogranicz rozmiar historii na wpis</string>
     <string name="settings_database_force_changing_master_key_title">Wymuś odnowienie</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Wymuś odnowienie następnym razem</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Wymagaj zmiany klucza głównego następnym razem (raz)</string>
@@ -506,7 +503,6 @@
     <string name="keyboard_save_search_info_summary">Spróbuj zapisać udostępnione informacje podczas ręcznego wybierania pozycji</string>
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
     <string name="notification">Powiadomienia</string>
-    <string name="crypto_object_not_initialized">Nie można pobrać obiektu kryptograficznego.</string>
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
     <string name="configure_biometric">Nie zarejestrowano żadnych danych biometrycznych ani danych urządzenia.</string>
     <string name="warning_empty_recycle_bin">Trwale usunąć wszystkie węzły z kosza\?</string>
@@ -514,4 +510,46 @@
     <string name="save_mode">Tryb zapisywania</string>
     <string name="search_mode">Tryb wyszukiwania</string>
     <string name="error_registration_read_only">Zapisywanie nowego elementu nie jest dozwolone w bazie danych tylko do odczytu</string>
+    <string name="error_field_name_already_exists">Nazwa pola już istnieje.</string>
+    <string name="enter">Enter</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Wybierz pozycję</string>
+    <string name="back_to_previous_keyboard">Wróć do poprzedniej klawiatury</string>
+    <string name="custom_fields">Pola niestandardowe</string>
+    <string name="advanced_unlock_delete_all_key_warning">Czy usunąć wszystkie klucze szyfrowania związane z zaawansowanym rozpoznawaniem odblokowania\?</string>
+    <string name="device_credential_unlock_enable_summary">Umożliwia otwieranie bazy danych za pomocą poświadczeń urządzenia</string>
+    <string name="device_credential_unlock_enable_title">Odblokowanie uwierzytelniające urządzenia</string>
+    <string name="device_credential">Uwierzytelnienie urządzenia</string>
+    <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij przycisk \"Zaawansowane odblokowanie\".</string>
+    <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
+    <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowuj. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Ostrzeżenie: Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać hasło główne.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Zaawansowane rozpoznawanie odblokowania</string>
+    <string name="menu_keystore_remove_key">Usuń zaawansowany klucz odblokowujący</string>
+    <string name="education_advanced_unlock_summary">Połącz swoje hasło ze zeskanowanymi danymi biometrycznymi lub danymi logowania urządzenia, aby szybko odblokować bazę danych.</string>
+    <string name="education_advanced_unlock_title">Zaawansowane odblokowywanie bazy danych</string>
+    <string name="advanced_unlock_timeout">Limit czasu zaawansowanego odblokowywania</string>
+    <string name="temp_advanced_unlock_timeout_summary">Czas trwania zaawansowanego odblokowywania przed usunięciem jego zawartości</string>
+    <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie zaawansowanego odblokowania</string>
+    <string name="temp_advanced_unlock_enable_summary">Nie przechowuj żadnych zaszyfrowanych treści, aby korzystać z zaawansowanego odblokowywania</string>
+    <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
+    <string name="content">Zawartość</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Otwórz bazę danych z zaawansowanym rozpoznawaniem odblokowania</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="advanced_unlock_scanning_error">Błąd zaawansowanego odblokowywania: %1$s</string>
+    <string name="error_rebuild_list">Nie można poprawnie odbudować listy.</string>
+    <string name="error_database_uri_null">Nie można pobrać identyfikatora URI bazy danych.</string>
+    <string name="autofill_inline_suggestions_keyboard">Dodano sugestie autouzupełniania.</string>
+    <string name="autofill_inline_suggestions_title">Sugestie wbudowane</string>
+    <string name="autofill_inline_suggestions_summary">Spróbuj wyświetlić sugestie autouzupełniania bezpośrednio z kompatybilnej klawiatury</string>
+    <string name="temp_advanced_unlock_enable_title">Zaawansowane odblokowywanie tymczasowe</string>
+    <string name="advanced_unlock_prompt_not_initialized">Nie można zainicjować monitu odblokowania zaawansowanego.</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
+    <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
+    <string name="warning_database_info_changed_options">Nadpisz zewnętrzne modyfikacje, zapisując bazę danych lub przeładuj ją z najnowszymi zmianami.</string>
+    <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
+    <string name="menu_reload_database">Załaduj ponownie bazę danych</string>
 </resources>

@@ -26,6 +26,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
+import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
@@ -35,34 +37,37 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COMPRESSION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ITERATIONS_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
+import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COMPRESSION_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ITERATIONS_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
@@ -84,6 +89,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private var serviceConnection: ServiceConnection? = null
 
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
+    private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
@@ -98,6 +104,28 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             onActionFinish?.invoke(actionTask, result)
             // Remove the progress task
             stopDialog()
+        }
+    }
+
+    private val mActionDatabaseListener = object: DatabaseChangedDialogFragment.ActionDatabaseChangedListener {
+        override fun validateDatabaseChanged() {
+            mBinder?.getService()?.saveDatabaseInfo()
+        }
+    }
+
+    private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
+        override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
+                                           newDatabaseInfo: SnapFileDatabaseInfo) {
+            if (databaseChangedDialogFragment == null) {
+                databaseChangedDialogFragment = activity.supportFragmentManager
+                        .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
+                databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
+            }
+            if (progressTaskDialogFragment == null) {
+                databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(previousDatabaseInfo, newDatabaseInfo)
+                databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
+                databaseChangedDialogFragment?.show(activity.supportFragmentManager, DATABASE_CHANGED_DIALOG_TAG)
+            }
         }
     }
 
@@ -140,11 +168,14 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
                         addActionTaskListener(actionTaskListener)
+                        addDatabaseFileInfoListener(databaseInfoListener)
                         getService().checkAction()
+                        getService().checkDatabaseInfo()
                     }
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
+                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
                     mBinder?.removeActionTaskListener(actionTaskListener)
                     mBinder = null
                 }
@@ -206,6 +237,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     fun unregisterProgressTask() {
         stopDialog()
 
+        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
         mBinder?.removeActionTaskListener(actionTaskListener)
         mBinder = null
 
@@ -233,30 +265,22 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     */
 
     fun startDatabaseCreate(databaseUri: Uri,
-                            masterPasswordChecked: Boolean,
-                            masterPassword: String?,
-                            keyFileChecked: Boolean,
-                            keyFile: Uri?) {
+                            mainCredential: MainCredential) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
-            putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
-            putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
                 , ACTION_DATABASE_CREATE_TASK)
     }
 
     fun startDatabaseLoad(databaseUri: Uri,
-                          masterPassword: String?,
-                          keyFile: Uri?,
+                          mainCredential: MainCredential,
                           readOnly: Boolean,
                           cipherEntity: CipherDatabaseEntity?,
                           fixDuplicateUuid: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
-            putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
             putBoolean(DatabaseTaskNotificationService.READ_ONLY_KEY, readOnly)
             putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
@@ -264,18 +288,19 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
+    fun startDatabaseReload(fixDuplicateUuid: Boolean) {
+        start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
+        }
+                , ACTION_DATABASE_RELOAD_TASK)
+    }
+
     fun startDatabaseAssignPassword(databaseUri: Uri,
-                                    masterPasswordChecked: Boolean,
-                                    masterPassword: String?,
-                                    keyFileChecked: Boolean,
-                                    keyFile: Uri?) {
+                                    mainCredential: MainCredential) {
 
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
-            putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
-            putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
                 , ACTION_DATABASE_ASSIGN_PASSWORD_TASK)
     }

@@ -14,10 +14,15 @@
         android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission
         android:name="android.permission.VIBRATE"/>
+    <!-- Write permission until Android 10 -->
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:ignore="ScopedStorage" />
+    <!-- Open apps from links -->
     <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"/>
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <application
         android:label="@string/app_name"
@@ -129,7 +134,7 @@
             android:configChanges="keyboardHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustResize" />
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
@@ -173,15 +178,19 @@
         </activity>
 
         <service
-            android:name="com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService"
+            android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".notifications.AttachmentFileNotificationService"
+            android:name="com.kunzisoft.keepass.services.AttachmentFileNotificationService"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService"
+            android:name="com.kunzisoft.keepass.services.ClipboardEntryNotificationService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.kunzisoft.keepass.services.AdvancedUnlockNotificationService"
             android:enabled="true"
             android:exported="false" />
         <!-- Receiver for Autofill -->
@@ -207,7 +216,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService"
+            android:name="com.kunzisoft.keepass.services.KeyboardEntryNotificationService"
             android:enabled="true"
             android:exported="false" />
 

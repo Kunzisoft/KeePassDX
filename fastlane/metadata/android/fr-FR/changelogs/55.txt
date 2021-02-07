@@ -1,0 +1,2 @@
+ * Ajout de fichier de clé XML version 2 (correction hex) #844
+ * Correction de fichier de clé hex #861

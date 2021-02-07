@@ -175,7 +175,7 @@
     <string name="settings_database_force_changing_master_key_title">Forsiraj obnovu</string>
     <string name="settings_database_recommend_changing_master_key_summary">Preporučiti promenu glavnog ključa (u danima)</string>
     <string name="settings_database_recommend_changing_master_key_title">Preporučiti obnavljanje</string>
-    <string name="max_history_size_summary">Ograniči veličinu istorije (u bajtovima) po unosu</string>
+    <string name="max_history_size_summary">Ograniči veličinu istorije po unosu</string>
     <string name="max_history_size_title">Maksimalna veličina</string>
     <string name="max_history_items_summary">Ograniči broja stavki istorije po unosu</string>
     <string name="max_history_items_title">Maksimalan broj</string>

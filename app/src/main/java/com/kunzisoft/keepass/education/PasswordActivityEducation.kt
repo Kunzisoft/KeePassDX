@@ -86,8 +86,8 @@ class PasswordActivityEducation(activity: Activity)
                                             onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
         return checkAndPerformedEducation(!isEducationBiometricPerformed(activity),
                 TapTarget.forView(educationView,
-                        activity.getString(R.string.education_biometric_title),
-                        activity.getString(R.string.education_biometric_summary))
+                        activity.getString(R.string.education_advanced_unlock_title),
+                        activity.getString(R.string.education_advanced_unlock_summary))
                         .textColorInt(Color.WHITE)
                         .tintTarget(false)
                         .cancelable(true),

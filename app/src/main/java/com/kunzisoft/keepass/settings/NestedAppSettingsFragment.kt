@@ -41,9 +41,10 @@ import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
+import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.utils.UriUtil
 
@@ -214,9 +215,10 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
             val deviceCredentialUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.device_credential_unlock_enable_key))
             val autoOpenPromptPreference: SwitchPreference? = findPreference(getString(R.string.biometric_auto_open_prompt_key))
+            val tempAdvancedUnlockPreference: SwitchPreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
 
             val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                BiometricUnlockDatabaseHelper.biometricUnlockSupported(activity)
+                AdvancedUnlockManager.biometricUnlockSupported(activity)
             } else false
             biometricUnlockEnablePreference?.apply {
                 // False if under Marshmallow
@@ -237,6 +239,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                             deleteKeysMessage(activity) {
                                 biometricUnlockEnablePreference.isChecked = false
                                 autoOpenPromptPreference?.isEnabled = deviceCredentialChecked
+                                tempAdvancedUnlockPreference?.isEnabled = deviceCredentialChecked
                             }
                         } else {
                             if (deviceCredentialChecked) {
@@ -247,6 +250,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                 }
                             } else {
                                 autoOpenPromptPreference?.isEnabled = true
+                                tempAdvancedUnlockPreference?.isEnabled = true
                             }
                         }
                         true
@@ -254,15 +258,18 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 }
             }
 
-            val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                BiometricUnlockDatabaseHelper.deviceCredentialUnlockSupported(activity)
+            val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                AdvancedUnlockManager.deviceCredentialUnlockSupported(activity)
             } else false
             deviceCredentialUnlockEnablePreference?.apply {
+                // Biometric unlock already checked
+                if (biometricUnlockEnablePreference?.isChecked == true)
+                    isChecked = false
                 if (!deviceCredentialUnlockSupported) {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
                         (preference as SwitchPreference).isChecked = false
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.R)
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                 .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
                     }
@@ -275,6 +282,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                             deleteKeysMessage(activity) {
                                 deviceCredentialUnlockEnablePreference.isChecked = false
                                 autoOpenPromptPreference?.isEnabled = biometricChecked
+                                tempAdvancedUnlockPreference?.isEnabled = biometricChecked
                             }
                         } else {
                             if (biometricChecked) {
@@ -285,6 +293,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                 }
                             } else {
                                 autoOpenPromptPreference?.isEnabled = true
+                                tempAdvancedUnlockPreference?.isEnabled = true
                             }
                         }
                         true
@@ -294,6 +303,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
             autoOpenPromptPreference?.isEnabled = biometricUnlockEnablePreference?.isChecked == true
                         || deviceCredentialUnlockEnablePreference?.isChecked == true
+            tempAdvancedUnlockPreference?.isEnabled = biometricUnlockEnablePreference?.isChecked == true
+                    || deviceCredentialUnlockEnablePreference?.isChecked == true
+
+            tempAdvancedUnlockPreference?.setOnPreferenceClickListener {
+                tempAdvancedUnlockPreference.isChecked = !tempAdvancedUnlockPreference.isChecked
+                deleteKeysMessage(activity) {
+                    tempAdvancedUnlockPreference.isChecked = !tempAdvancedUnlockPreference.isChecked
+                }
+                true
+            }
 
             val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
             if (biometricUnlockSupported || deviceCredentialUnlockSupported) {
@@ -321,9 +340,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     validate?.invoke()
                     deleteKeysAlertDialog?.setOnDismissListener(null)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        BiometricUnlockDatabaseHelper.deleteEntryKeyInKeystoreForBiometric(
+                        AdvancedUnlockManager.deleteEntryKeyInKeystoreForBiometric(
                                 activity,
-                                object : BiometricUnlockDatabaseHelper.BiometricUnlockErrorCallback {
+                                object : AdvancedUnlockManager.AdvancedUnlockErrorCallback {
                                     fun showException(e: Exception) {
                                         Toast.makeText(context,
                                                 getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
@@ -334,11 +353,12 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                         showException(e)
                                     }
 
-                                    override fun onBiometricException(e: Exception) {
+                                    override fun onGenericException(e: Exception) {
                                         showException(e)
                                     }
                                 })
                     }
+                    AdvancedUnlockNotificationService.stopService(activity.applicationContext)
                     CipherDatabaseAction.getInstance(activity.applicationContext).deleteAll()
                 }
                 .setNegativeButton(resources.getString(android.R.string.cancel)
@@ -366,7 +386,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     }
                 if (styleEnabled) {
                     Stylish.assignStyle(styleIdString)
-                    activity.recreate()
+                    // Relaunch the current activity to redraw theme
+                    (activity as? SettingsActivity?)?.apply {
+                        keepCurrentScreen()
+                        startActivity(intent)
+                        finish()
+                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    }
                 }
                 styleEnabled
             }

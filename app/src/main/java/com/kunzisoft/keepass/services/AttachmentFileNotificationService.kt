@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.notifications
+package com.kunzisoft.keepass.services
 
 import android.app.PendingIntent
 import android.content.ContentResolver

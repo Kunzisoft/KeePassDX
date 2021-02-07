@@ -1,0 +1,2 @@
+ * Fix small bugs
+ * Remove write permission since Android 10

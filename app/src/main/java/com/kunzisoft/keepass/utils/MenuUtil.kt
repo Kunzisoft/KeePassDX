@@ -53,23 +53,19 @@ object MenuUtil {
     fun onDefaultMenuOptionsItemSelected(activity: Activity,
                                          item: MenuItem,
                                          readOnly: Boolean = READ_ONLY_DEFAULT,
-                                         timeoutEnable: Boolean = false): Boolean {
+                                         timeoutEnable: Boolean = false) {
         when (item.itemId) {
             R.id.menu_contribute -> {
                 onContributionItemSelected(activity)
-                return true
             }
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity
                 SettingsActivity.launch(activity, readOnly, timeoutEnable)
-                return true
             }
             R.id.menu_about -> {
                 val intent = Intent(activity, AboutActivity::class.java)
                 activity.startActivity(intent)
-                return true
             }
-            else -> return true
         }
     }
 }

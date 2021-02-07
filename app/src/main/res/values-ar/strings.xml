@@ -103,7 +103,6 @@
     <string name="warning_no_encryption_key">هل أنت متأكد من أنك لا تريد استخدام أي مفتاح تشفير ؟</string>
     <string name="version_label">الإصدار %1$s</string>
     <string name="education_new_node_title">أضف عناصر جديدة إلى قاعدتك</string>
-    <string name="education_biometric_title">قم بفتح قاعدة بياناتك ببصمتك</string>
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
@@ -114,7 +113,7 @@
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
-    <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
+    <string name="file_manager_install_description">المحرر الذي يقبل هاذا الفعل ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانتاج, فتح وحفض ملفات قاعدة البيانات.</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة(إذا كان جهازك يدعمها)</string>
@@ -249,7 +248,7 @@
     <string name="content_description_background">الخلفية</string>
     <string name="rounds">دورات التحويل</string>
     <string name="rounds_explanation">توفر الدورات الاضافية ضد هجوم توليد التركيبات ،لكنها تبطئ التحميل والحفظ.</string>
-    <string name="memory_usage_explanation">مقدار الذاكرة (بالبايت) لاستخدامها في دالة اشتقاق المفتاح.</string>
+    <string name="memory_usage_explanation">مقدار الذاكرة لاستخدامها في دالة اشتقاق المفتاح.</string>
     <string name="parallelism_explanation">درجة التوازي (عدد العمليات) لدالة اشتقاق المفتاح.</string>
     <string name="sort_groups_before">مجموعات قبل</string>
     <string name="selection_mode">نمط التحديد</string>
@@ -286,7 +285,7 @@
     <string name="otp_algorithm">الخوارزمية</string>
     <string name="otp_digits">أرقام</string>
     <string name="otp_counter">العداد</string>
-    <string name="entry_setup_otp">عين كلمة المرور للمرة الواحدة</string>
+    <string name="entry_setup_otp">كلمة المرور للمرة الواحدة</string>
     <string name="entry_UUID">UUID</string>
     <string name="html_about_contribution">من أجل &lt;strong&gt;حماية خصوصيتا&lt;/strong&gt;٫&lt;strong&gt; إصلاح العلل&lt;/strong&gt;٫ &lt;strong&gt;إضافة مميزات&lt;/strong&gt; &lt;strong&gt;وجعلنا نشطاء دائما&lt;/strong&gt;٫ نحن نعتمد على &lt;strong&gt;مساهمتك&lt;/strong&gt;.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>
@@ -351,7 +350,7 @@
     <string name="database_opened">قاعدة البيانات مفتوحة</string>
     <string name="autofill_preference_title">إعدادات الملء التلقائي</string>
     <string name="education_entry_edit_title">حرر المدخلة</string>
-    <string name="education_biometric_summary">لفتح قاعدة البيانات بسرعة اربط كلمة المرور بالبصمة.</string>
+    <string name="education_advanced_unlock_summary">لفتح قاعدة البيانات بسرعة اربط كلمة المرور بالبصمة.</string>
     <string name="education_search_summary">لإيجاد كلمة المرور، أدخل العنوان أو اسم المستخدم أو محتوى أحد الحقول.</string>
     <string name="education_new_node_summary">المدخلات لإدارة معرفاتك الرقمية.
 \n
@@ -405,7 +404,7 @@
     <string name="settings_database_force_changing_master_key_summary">يطالبك بتغيير المفتاح الرئيسي (بالأيام)</string>
     <string name="settings_database_recommend_changing_master_key_summary">اقترح تجديد المفتاح الرئيسي (بالأيام)</string>
     <string name="settings_database_recommend_changing_master_key_title">اقترح التجديد</string>
-    <string name="max_history_size_summary">حجم التأريخ ( بالبايت) لكل مدخل</string>
+    <string name="max_history_size_summary">حجم التأريخ لكل مدخل</string>
     <string name="max_history_size_title">الحجم الأقصى</string>
     <string name="max_history_items_summary">عدد عناصر التأريخ لكل مدخل</string>
     <string name="education_generate_password_title">أنشئ كلمة سر قوية</string>

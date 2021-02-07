@@ -43,18 +43,10 @@ abstract class DatabaseException : Exception {
 }
 
 open class LoadDatabaseException : DatabaseException {
-
     @StringRes
     override var errorId: Int = R.string.error_load_database
     constructor() : super()
     constructor(throwable: Throwable) : super(throwable)
-}
-
-class ArcFourDatabaseException : LoadDatabaseException {
-    @StringRes
-    override var errorId: Int = R.string.error_arc4
-    constructor() : super()
-    constructor(exception: Throwable) : super(exception)
 }
 
 class FileNotFoundDatabaseException : LoadDatabaseException {
@@ -67,7 +59,6 @@ class FileNotFoundDatabaseException : LoadDatabaseException {
 class InvalidAlgorithmDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_algorithm
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }

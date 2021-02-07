@@ -20,7 +20,6 @@
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="style_choose_summary">Tema usado na app</string>
     <string name="style_choose_title">Tema da app</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="encryption_twofish">Twofish</string>
@@ -131,7 +130,7 @@
     <string name="saving_database">A gravar a base de dados…</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
-    <string name="memory_usage_explanation">Quantidade de memória (em bytes) a ser usada pela função de derivação de chave.</string>
+    <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e gravar mais lentos.</string>
     <string name="rounds">Rodadas de criptografia</string>
@@ -194,7 +193,6 @@
     <string name="education_setup_OTP_title">Configurar OTP</string>
     <string name="education_add_attachment_summary">Envie um anexo à sua entrada para gravar dados externos importantes.</string>
     <string name="education_add_attachment_title">Adicionar anexo</string>
-    <string name="education_biometric_title">Desbloqueio da base de dados por biométricos</string>
     <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" se nenhumas credenciais estiverem selecionadas</string>
     <string name="database_data_remove_unlinked_attachments_summary">Remove anexos contidos na base de dados, mas não ligados a uma entrada</string>
     <string name="database_data_remove_unlinked_attachments_title">Remover dados não ligados</string>
@@ -290,7 +288,7 @@
     <string name="menu_empty_recycle_bin">Esvaziar cesto da reciclagem</string>
     <string name="menu_save_database">Gravar base de dados</string>
     <string name="error_save_database">Não foi possível gravar a base de dados.</string>
-    <string name="education_biometric_summary">Ligue a sua palavra-passe e o seu biométrico gravado para rapidamente desbloquear a sua base de dados.</string>
+    <string name="education_advanced_unlock_summary">Ligue a sua palavra-passe e o seu biométrico gravado para rapidamente desbloquear a sua base de dados.</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
     <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
     <string name="compression_gzip">Gzip</string>
@@ -304,7 +302,7 @@
     <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar mudança da chave mestre (em dias)</string>
     <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
-    <string name="max_history_size_summary">Limitar o tamanho do histórico (em bytes) por entrada</string>
+    <string name="max_history_size_summary">Limitar o tamanho do histórico por entrada</string>
     <string name="max_history_size_title">Tamanho máximo</string>
     <string name="max_history_items_summary">Limitar a quantidade de itens do histórico por entrada</string>
     <string name="max_history_items_title">Número máximo</string>

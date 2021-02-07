@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.notifications
+package com.kunzisoft.keepass.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

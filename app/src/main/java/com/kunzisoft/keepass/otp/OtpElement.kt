@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.otp
 
 import com.kunzisoft.keepass.model.OtpModel
+import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import org.apache.commons.codec.binary.Base32
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.binary.Hex
@@ -137,7 +138,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     @Throws(IllegalArgumentException::class)
     fun setHexSecret(secret: String) {
         if (secret.isNotEmpty())
-            otpModel.secret = Hex.decodeHex(secret)
+            otpModel.secret = Hex.decodeHex(secret.toCharArray())
         else
             throw IllegalArgumentException()
     }
@@ -150,16 +151,16 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     @Throws(IllegalArgumentException::class)
     fun setBase32Secret(secret: String) {
-        if (isValidBase32(secret))
-            otpModel.secret = Base32().decode(replaceBase32Chars(secret).toByteArray())
-        else
+        if (isValidBase32(secret)) {
+            otpModel.secret = Base32().decode(replaceBase32Chars(secret))
+        } else
             throw IllegalArgumentException()
     }
 
     @Throws(IllegalArgumentException::class)
     fun setBase64Secret(secret: String) {
         if (isValidBase64(secret))
-            otpModel.secret = Base64().decode(secret.toByteArray())
+            otpModel.secret = Base64().decode(secret)
         else
             throw IllegalArgumentException()
     }
@@ -208,37 +209,23 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
         fun isValidBase32(secret: String): Boolean {
             val secretChars = replaceBase32Chars(secret)
-            return secretChars.isNotEmpty() && checkBase32Secret(secretChars)
+            return secret.isNotEmpty()
+                    && (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$", secretChars))
         }
 
         fun isValidBase64(secret: String): Boolean {
             // TODO replace base 64 chars
-            return secret.isNotEmpty() && checkBase64Secret(secret)
-        }
-
-        fun removeLineChars(parameter: String): String {
-            return parameter.replace("[\\r|\\n|\\t|\\u00A0]+".toRegex(), "")
-        }
-
-        fun removeSpaceChars(parameter: String): String {
-            return parameter.replace("[\\r|\\n|\\t|\\s|\\u00A0]+".toRegex(), "")
+            return secret.isNotEmpty()
+                    && (Pattern.matches("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", secret))
         }
 
         fun replaceBase32Chars(parameter: String): String {
-            // Add 'A' at end if not Base32 length
-            var parameterNewSize = removeSpaceChars(parameter.toUpperCase(Locale.ENGLISH))
+            // Add padding '=' at end if not Base32 length
+            var parameterNewSize = parameter.toUpperCase(Locale.ENGLISH).removeSpaceChars()
             while (parameterNewSize.length % 8 != 0) {
-                parameterNewSize += 'A'
+                parameterNewSize += '='
             }
             return parameterNewSize
-        }
-
-        fun checkBase32Secret(secret: String): Boolean {
-            return (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$", secret))
-        }
-
-        fun checkBase64Secret(secret: String): Boolean {
-            return (Pattern.matches("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", secret))
         }
     }
 }

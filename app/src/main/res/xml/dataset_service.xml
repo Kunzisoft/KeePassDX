@@ -23,7 +23,9 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
 <autofill-service xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:targetApi="p"
-    android:settingsActivity="com.kunzisoft.keepass.settings.AutofillSettingsActivity" >
+    android:settingsActivity="com.kunzisoft.keepass.settings.AutofillSettingsActivity"
+    android:supportsInlineSuggestions="true"
+    tools:ignore="UnusedAttribute">
     <compatibility-package
         android:name="com.amazon.cloud9"
         android:maxLongVersionCode="10000000000"/>

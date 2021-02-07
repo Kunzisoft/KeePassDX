@@ -338,8 +338,6 @@
     <string name="autofill_close_database_title">ਡਾਟਾਬੇਸ ਬੰਦ ਕਰੋ</string>
     <string name="enable_read_only_title">ਲਿਖਣ ਤੋਂ ਸੁਰੱਖਿਅਤ</string>
     <string name="education_search_title">ਐਂਟਰੀਆਂ ਵਿੱਚੋਂ ਲੱਭੋ</string>
-    <string name="education_biometric_title">ਬਾਇਓਮੈਟਰਿਕ ਡਾਟਾਬੇਸ ਅਣ-ਲਾਕ ਕਰੋ</string>
-    <string name="education_biometric_summary">ਤੁਹਾਡੇ ਡਾਟਾਬੇਸ ਨੂੰ ਫ਼ੌਰੀ ਅਣ-ਲਾਕ ਕਰਨ ਲਈ ਆਪਣੇ ਪਾਸਵਰਡ ਨੂੰ ਆਪਣੇ ਸਕੈਨ ਕੀਤੇ ਬਾਇਮੈਟਰਿਕ ਨਾਲ ਲਿੰਕ ਕਰੋ।</string>
     <string name="education_entry_edit_title">ਐਂਟਰੀ ਨੂੰ ਸੋਧੋ</string>
     <string name="education_add_attachment_title">ਅਟੈਚਮੈਂਟ ਜੋੜੋ</string>
     <string name="education_add_attachment_summary">ਖ਼ਾਸ ਬਾਹਰੀ ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਤੁਹਾਡੀ ਐਂਟਰੀ ਲਈ ਅਟੈਚਮੈਂਟ ਅੱਪਲੋਡ ਕਰੋ।</string>

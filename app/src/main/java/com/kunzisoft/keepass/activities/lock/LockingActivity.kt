@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.activities.lock
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
@@ -59,6 +60,9 @@ abstract class LockingActivity : SpecialModeActivity() {
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
+
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null
@@ -83,8 +87,6 @@ abstract class LockingActivity : SpecialModeActivity() {
         }
 
         mExitLock = false
-
-        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -163,35 +165,6 @@ abstract class LockingActivity : SpecialModeActivity() {
         sendBroadcast(Intent(LOCK_ACTION))
     }
 
-    /**
-     * To reset the app timeout when a view is focused or changed
-     */
-    @SuppressLint("ClickableViewAccessibility")
-    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View?) {
-        views.forEach {
-            it?.setOnTouchListener { _, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        // Log.d(TAG, "View touched, try to reset app timeout")
-                        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
-                    }
-                }
-                false
-            }
-            it?.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    // Log.d(TAG, "View focused, try to reset app timeout")
-                    TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
-                }
-            }
-            if (it is ViewGroup) {
-                for (i in 0..it.childCount) {
-                    resetAppTimeoutWhenViewFocusedOrChanged(it.getChildAt(i))
-                }
-            }
-        }
-    }
-
     override fun onBackPressed() {
         if (mTimeoutEnable) {
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
@@ -204,7 +177,7 @@ abstract class LockingActivity : SpecialModeActivity() {
 
     companion object {
 
-        private const val TAG = "LockingActivity"
+        const val TAG = "LockingActivity"
 
         const val RESULT_EXIT_LOCK = 1450
 
@@ -213,5 +186,30 @@ abstract class LockingActivity : SpecialModeActivity() {
 
         private var LOCKING_ACTIVITY_UI_VISIBLE = false
         var LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK: Boolean? = null
+    }
+}
+
+/**
+ * To reset the app timeout when a view is focused or changed
+ */
+@SuppressLint("ClickableViewAccessibility")
+fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context) {
+    setOnTouchListener { _, event ->
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                //Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
+                TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context)
+            }
+        }
+        false
+    }
+    setOnFocusChangeListener { _, _ ->
+        //Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context)
+    }
+    if (this is ViewGroup) {
+        for (i in 0..childCount) {
+            getChildAt(i)?.resetAppTimeoutWhenViewFocusedOrChanged(context)
+        }
     }
 }

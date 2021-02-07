@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
@@ -37,7 +36,7 @@
     <string name="application">App</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
-    <string name="file_manager_install_description">A file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT is needed to create, open and save database files.</string>
+    <string name="file_manager_install_description">A file manager that accepts the ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT intent action is required to create, open, and save database files.</string>
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
@@ -119,12 +118,12 @@
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
     <string name="error_label_exists">This label already exists.</string>
-    <string name="error_wrong_length">Enter a positive whole number in the \"Length\" field.</string>
+    <string name="error_wrong_length">Enter a positive integer number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
     <string name="error_move_folder_in_itself">You can not move a group into itself.</string>
     <string name="error_move_entry_here">You can not move an entry here.</string>
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
-    <string name="error_copy_group_here">You can not copy a group here.</string>
+    <string name="error_copy_group_here">You cannot copy a group here.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
     <string name="error_save_database">Could not save database.</string>
@@ -132,9 +131,12 @@
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
+    <string name="error_otp_type">The existing OTP type is not recognized by this form, its validation may no longer correctly generate the token.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
     <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="error_field_name_already_exists">The field name already exists.</string>
+    <string name="error_database_uri_null">Database URI cannot be retrieved.</string>
+    <string name="error_rebuild_list">Unable to properly rebuild the list.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -184,6 +186,7 @@
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
     <string name="menu_save_database">Save database</string>
+    <string name="menu_reload_database">Reload database</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
@@ -231,7 +234,7 @@
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
     <string name="memory_usage">Memory usage</string>
-    <string name="memory_usage_explanation">Amount of memory (in bytes) to be used by the key derivation function.</string>
+    <string name="memory_usage_explanation">Amount of memory to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
@@ -271,6 +274,9 @@
     <string name="warning_sure_remove_data">Remove this data anyway?</string>
     <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
+    <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
+    <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or reload it with the latest changes.</string>
+    <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>
@@ -288,7 +294,6 @@
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
-    <string name="crypto_object_not_initialized">Unable to retrieve crypto object.</string>
     <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click the \"Advanced unlock\" button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
@@ -318,7 +323,9 @@
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
+    <string name="content">Content</string>
     <string name="advanced_unlock">Advanced unlock</string>
+    <string name="advanced_unlock_tap_delete">Tap to delete advanced unlocking keys</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
@@ -326,6 +333,11 @@
     <string name="device_credential_unlock_enable_summary">Lets you use your device credential to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto-open prompt</string>
     <string name="biometric_auto_open_prompt_summary">Automatically request advanced unlock if the database is set up to use it</string>
+    <string name="temp_advanced_unlock_enable_title">Temp advanced unlocking</string>
+    <string name="temp_advanced_unlock_enable_summary">Do not store any encrypted content to use advanced unlocking</string>
+    <string name="temp_advanced_unlock_timeout_title">Advanced unlocking expiration</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duration of advanced unlocking usage before deleting its content</string>
+    <string name="advanced_unlock_timeout">Advanced unlocking timeout</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to advanced unlock recognition</string>
     <string name="advanced_unlock_delete_all_key_warning">Delete all encryption keys related to advanced unlock recognition?</string>
@@ -346,14 +358,14 @@
     <string name="max_history_items_title">Maximum number</string>
     <string name="max_history_items_summary">Limit the number of history items per entry</string>
     <string name="max_history_size_title">Maximum size</string>
-    <string name="max_history_size_summary">Limit the history size (in bytes) per entry</string>
+    <string name="max_history_size_summary">Limit the history size per entry</string>
     <string name="settings_database_recommend_changing_master_key_title">Recommend renewal</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recommend changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_title">Force renewal</string>
     <string name="settings_database_force_changing_master_key_summary">Require changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Force renewal next time</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Require changing the master key the next time (once)</string>
-    <string name="monospace_font_fields_enable_title">Field font</string>
+    <string name="monospace_font_fields_enable_title">Field typeface</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow copying the entry password and protected fields to the clipboard</string>
@@ -369,7 +381,7 @@
     <string name="database_custom_color_title">Custom database color</string>
     <string name="database_version_title">Database version</string>
     <string name="text_appearance">Text</string>
-    <string name="application_appearance">App</string>
+    <string name="application_appearance">Interface</string>
     <string name="other">Other</string>
     <string name="compression">Compression</string>
     <string name="compression_none">None</string>
@@ -412,10 +424,17 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
+    <string name="custom_fields">Custom fields</string>
+    <string name="back_to_previous_keyboard">Back to previous keyboard</string>
+    <string name="select_entry">Select entry</string>
+    <string name="backspace">Backspace</string>
+    <string name="enter">Enter</string>
     <string name="autofill_close_database_title">Close database</string>
     <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_inline_suggestions_title">Inline suggestions</string>
+    <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
@@ -427,6 +446,7 @@
     <string name="autofill_block">Block autofill</string>
     <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
     <string name="autofill_read_only_save">Data save is not allowed for a database opened as read-only.</string>
+    <string name="autofill_inline_suggestions_keyboard">Autofill suggestions added.</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
@@ -448,8 +468,8 @@
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
     <string name="education_search_summary">Enter title, username or content of other fields to retrieve your passwords.</string>
-    <string name="education_biometric_title">Biometric database unlocking</string>
-    <string name="education_biometric_summary">Link your password to your scanned biometric to quickly unlock your database.</string>
+    <string name="education_advanced_unlock_title">Advanced database unlocking</string>
+    <string name="education_advanced_unlock_summary">Link your password to your scanned biometric or device credential to quickly unlock your database.</string>
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password</string>
@@ -463,7 +483,10 @@
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter the password and/or keyfile to unlock your database.\n\nBackup your database file in a safe place after each change.</string>
     <string name="education_read_only_title">Write protect your database</string>
-    <string name="education_read_only_summary">Change opening mode for the session.\n\n\"Write-protected\" prevents unintended changes to the database.\n\"Modifiable\" lets you add, delete, or modify all elements.</string>
+    <string name="education_read_only_summary">Change opening mode for the session.
+\n
+\n\"Write-protected\" prevents unintended changes to the database.
+\n\"Modifiable\" lets you add, delete, or modify all the elements as you wish.</string>
     <string name="education_field_copy_title">Copy a field</string>
     <string name="education_field_copy_summary">Copied fields can be pasted anywhere.\n\nUse the form filling method you prefer.</string>
     <string name="education_lock_title">Lock the database</string>
@@ -482,7 +505,7 @@
     <string name="html_text_dev_feature_encourage">you are encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
     <string name="html_text_dev_feature_thanks">Thanks a lot for your contribution.</string>
     <string name="html_text_dev_feature_work_hard">We are working hard to release this feature quickly.</string>
-    <string name="html_text_dev_feature_upgrade">Do not forget to keep your app up to date by installing new versions.</string>
+    <string name="html_text_dev_feature_upgrade">Remember to keep your app up to date by installing new versions.</string>
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
     <string name="download_attachment">Download %1$s</string>
@@ -495,7 +518,12 @@
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="unit_byte">B</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_gibibyte">GiB</string>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>
@@ -505,6 +533,20 @@
         <item>5 minutes</item>
         <item>15 minutes</item>
         <item>30 minutes</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="large_timeout_options">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>5 hours</item>
+        <item>10 hours</item>
+        <item>24 hours</item>
+        <item>48 hours</item>
+        <item>1 week</item>
+        <item>1 month</item>
         <item>Never</item>
     </string-array>
     <string-array name="list_size_options">

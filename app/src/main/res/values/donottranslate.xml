@@ -94,11 +94,15 @@
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
-    <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
-    <bool name="biometric_auto_open_prompt_default" translatable="false">false</bool>
-    <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
     <string name="device_credential_unlock_enable_key" translatable="false">device_credential_unlock_enable_key</string>
     <bool name="device_credential_unlock_enable_default" translatable="false">false</bool>
+    <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
+    <bool name="biometric_auto_open_prompt_default" translatable="false">false</bool>
+    <string name="temp_advanced_unlock_enable_key" translatable="false">temp_advanced_unlock_enable_key</string>
+    <bool name="temp_advanced_unlock_enable_default" translatable="false">false</bool>
+    <string name="temp_advanced_unlock_timeout_key" translatable="false">temp_advanced_unlock_timeout_key</string>
+    <string name="temp_advanced_unlock_timeout_default" translatable="false">36000000</string>
+    <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
 
     <!-- Form Filling Settings -->
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
@@ -147,6 +151,8 @@
     <bool name="autofill_close_database_default" translatable="false">false</bool>
     <string name="autofill_auto_search_key" translatable="false">autofill_auto_search_key</string>
     <bool name="autofill_auto_search_default" translatable="false">true</bool>
+    <string name="autofill_inline_suggestions_key" translatable="false">autofill_inline_suggestions_key</string>
+    <bool name="autofill_inline_suggestions_default" translatable="false">false</bool>
     <string name="autofill_save_search_info_key" translatable="false">autofill_save_search_info_key</string>
     <bool name="autofill_save_search_info_default" translatable="false">true</bool>
     <string name="autofill_ask_to_save_data_key" translatable="false">autofill_ask_to_save_data_key</string>
@@ -175,7 +181,7 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
     <bool name="hide_expired_entries_default" translatable="false">false</bool>
-    <string name="show_uuid_key" translatable="false">hide_expired_entries_key</string>
+    <string name="show_uuid_key" translatable="false">show_uuid_key</string>
     <bool name="show_uuid_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
@@ -286,6 +292,20 @@
         <item translatable="false">900000</item>
         <item translatable="false">1800000</item>
     	<item translatable="false">-1</item>
+    </string-array>
+    <string-array name="large_timeout_values">
+        <item translatable="false">300000</item>
+        <item translatable="false">900000</item>
+        <item translatable="false">1800000</item>
+        <item translatable="false">3600000</item>
+        <item translatable="false">7200000</item>
+        <item translatable="false">18000000</item>
+        <item translatable="false">36000000</item>
+        <item translatable="false">86400000</item>
+        <item translatable="false">172800000</item>
+        <item translatable="false">604800000</item>
+        <item translatable="false">2592000000</item>
+        <item translatable="false">-1</item>
     </string-array>
 
     <!-- Text Size -->

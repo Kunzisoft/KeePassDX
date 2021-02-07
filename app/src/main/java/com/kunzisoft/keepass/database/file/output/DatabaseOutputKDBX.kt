@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -47,6 +46,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.utils.UnsignedInt
 import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
@@ -58,6 +58,7 @@ import java.util.*
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
+import kotlin.experimental.or
 
 
 class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
@@ -81,20 +82,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 throw DatabaseOutputException("No such cipher", e)
             }
 
-            header = outputHeader(mOS)
+            header = outputHeader(mOutputStream)
 
             val osPlain: OutputStream
             osPlain = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
-                val cos = attachStreamEncryptor(header!!, mOS)
+                val cos = attachStreamEncryptor(header!!, mOutputStream)
                 cos.write(header!!.streamStartBytes)
 
                 HashedBlockOutputStream(cos)
             } else {
-                mOS.write(hashOfHeader!!)
-                mOS.write(headerHmac!!)
+                mOutputStream.write(hashOfHeader!!)
+                mOutputStream.write(headerHmac!!)
 
-
-                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOS, mDatabaseKDBX.hmacKey!!))
+                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOutputStream, mDatabaseKDBX.hmacKey!!))
             }
 
             val osXml: OutputStream
@@ -105,8 +105,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 }
 
                 if (header!!.version.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
-                    val ihOut = DatabaseInnerHeaderOutputKDBX(mDatabaseKDBX, header!!, osXml)
-                    ihOut.output()
+                    outputInnerHeader(mDatabaseKDBX, header!!, osXml)
                 }
 
                 outputDatabase(osXml)
@@ -120,6 +119,49 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         } catch (e: IOException) {
             throw DatabaseOutputException(e)
         }
+    }
+
+    @Throws(IOException::class)
+    private fun outputInnerHeader(database: DatabaseKDBX,
+                                  header: DatabaseHeaderKDBX,
+                                  outputStream: OutputStream) {
+        val dataOutputStream = LittleEndianDataOutputStream(outputStream)
+
+        dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID)
+        dataOutputStream.writeInt(4)
+        if (header.innerRandomStream == null)
+            throw IOException("Can't write innerRandomStream")
+        dataOutputStream.writeUInt(header.innerRandomStream!!.id)
+
+        val streamKeySize = header.innerRandomStreamKey.size
+        dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey)
+        dataOutputStream.writeInt(streamKeySize)
+        dataOutputStream.write(header.innerRandomStreamKey)
+
+        database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
+            val protectedBinary = keyBinary.binary
+            // Force decompression to add binary in header
+            protectedBinary.decompress()
+            // Write type binary
+            dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
+            // Write size
+            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(protectedBinary.length() + 1))
+            // Write protected flag
+            var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
+            if (protectedBinary.isProtected) {
+                flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
+            }
+            dataOutputStream.writeByte(flag)
+
+            protectedBinary.getInputDataStream().use { inputStream ->
+                inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    dataOutputStream.write(buffer)
+                }
+            }
+        }
+
+        dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader)
+        dataOutputStream.writeInt(0)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -282,9 +324,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
         random.nextBytes(header.innerRandomStreamKey)
 
-        randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
-        if (randomStream == null) {
-            throw DatabaseOutputException("Invalid random cipher")
+        try {
+            randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+        } catch (e: Exception) {
+            throw DatabaseOutputException(e)
         }
 
         if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
@@ -420,41 +463,56 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(name, String(Base64.encode(data, BASE_64_FLAG)))
     }
 
+    /*
+    // Normally used by a single entry but obsolete because binaries are in meta tag with kdbx3.1-
+    // or in file header with kdbx4
+    // binary.isProtected attribute is not used to create the XML
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeBinary(binary : BinaryAttachment) {
-        val binaryLength = binary.length()
-        if (binaryLength > 0) {
+    private fun writeEntryBinary(binary : BinaryAttachment) {
+        if (binary.length() > 0) {
             if (binary.isProtected) {
                 xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
-
-                binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                    val encoded = ByteArray(buffer.size)
-                    randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
-                    val charArray = String(Base64.encode(encoded, BASE_64_FLAG)).toCharArray()
-                    xml.text(charArray, 0, charArray.size)
+                binary.getInputDataStream().use { inputStream ->
+                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                        val encoded = ByteArray(buffer.size)
+                        randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
+                        xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
+                    }
                 }
             } else {
-                if (binary.isCompressed) {
-                    xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
-                }
                 // Write the XML
-                binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                    val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
-                    xml.text(charArray, 0, charArray.size)
+                binary.getInputDataStream().use { inputStream ->
+                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                        xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+                    }
                 }
             }
         }
     }
+    */
 
+    // Only uses with kdbx3.1 to write binaries in meta tag
+    // With kdbx4, don't use this method because binaries are in header file
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeMetaBinaries() {
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
-        // Use indexes because necessarily in DatabaseV4 (binary header ref is the order)
+        // Use indexes because necessarily (binary header ref is the order)
         mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, keyBinary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
-            writeBinary(keyBinary.binary)
+            val binary = keyBinary.binary
+            if (binary.length() > 0) {
+                if (binary.isCompressed) {
+                    xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
+                }
+                // Write the XML
+                binary.getInputDataStream().use { inputStream ->
+                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                        xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+                    }
+                }
+            }
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)
         }
 
@@ -523,17 +581,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         if (protect) {
             xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
-
-            val data = value.toString().toByteArray(charset("UTF-8"))
-            val valLength = data.size
-
-            if (valLength > 0) {
-                val encoded = ByteArray(valLength)
-                randomStream!!.processBytes(data, 0, valLength, encoded, 0)
+            val data = value.toString().toByteArray()
+            val dataLength = data.size
+            if (data.isNotEmpty()) {
+                val encoded = ByteArray(dataLength)
+                randomStream!!.processBytes(data, 0, dataLength, encoded, 0)
                 xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
             }
         } else {
-            xml.text(safeXmlString(value.toString()))
+            xml.text(value.toString())
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemValue)
@@ -662,17 +718,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (text.isEmpty()) {
             return text
         }
-
         val stringBuilder = StringBuilder()
-        var ch: Char
+        var character: Char
         for (element in text) {
-            ch = element
+            character = element
+            val hexChar = character.toInt()
             if (
-                ch.toInt() in 0x20..0xD7FF ||
-                ch.toInt() == 0x9 || ch.toInt() == 0xA || ch.toInt() == 0xD ||
-                ch.toInt() in 0xE000..0xFFFD
+                    hexChar in 0x20..0xD7FF ||
+                    hexChar == 0x9 ||
+                    hexChar == 0xA ||
+                    hexChar == 0xD ||
+                    hexChar in 0xE000..0xFFFD
             ) {
-                stringBuilder.append(ch)
+                stringBuilder.append(character)
             }
         }
         return stringBuilder.toString()

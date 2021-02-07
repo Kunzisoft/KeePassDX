@@ -1,0 +1,2 @@
+ * Try to fix autofill #852
+ * Fix database change dialog displayed too often #853

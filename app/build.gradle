@@ -5,22 +5,22 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '30.0.3'
     ndkVersion '21.3.6528147'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode = 47
-        versionName = "2.9.3"
+        versionCode = 57
+        versionName = "2.9.13"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
-        manifestPlaceholders = [ googleAndroidBackupAPIKey:"" ]
+        manifestPlaceholders = [ googleAndroidBackupAPIKey:"unused" ]
 
         kapt {
             arguments {
@@ -92,7 +92,7 @@ android {
     }
 }
 
-def room_version = "2.2.5"
+def room_version = "2.2.6"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -110,6 +110,8 @@ dependencies {
     // Database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    // Autofill
+    implementation "androidx.autofill:autofill:1.1.0-rc01"
     // Crypto
     implementation 'org.bouncycastle:bcprov-jdk15on:1.65.01'
     // Time
@@ -121,7 +123,7 @@ dependencies {
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.2'
     // Apache Commons Codec
-    implementation 'commons-codec:commons-codec:1.14'
+    implementation 'commons-codec:commons-codec:1.15'
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')

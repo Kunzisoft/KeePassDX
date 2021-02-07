@@ -95,7 +95,7 @@
     <string name="lowercase">Строчные</string>
     <string name="hide_password_title">Скрывать пароли</string>
     <string name="hide_password_summary">Скрывать пароли за (***) по умолчанию</string>
-    <string name="about">Сведения</string>
+    <string name="about">О программе</string>
     <string name="menu_change_key_settings">Изменить главный пароль</string>
     <string name="settings">Настройки</string>
     <string name="menu_database_settings">Настройки базы</string>
@@ -168,7 +168,7 @@
     <string name="encryption_explanation">Алгоритм шифрования базы для всех данных.</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
     <string name="memory_usage">Использование памяти</string>
-    <string name="memory_usage_explanation">Объём памяти (в байтах), который будет использоваться функцией формирования ключа.</string>
+    <string name="memory_usage_explanation">Объём памяти, который будет использоваться функцией формирования ключа.</string>
     <string name="parallelism">Уровень параллелизма</string>
     <string name="parallelism_explanation">Уровень параллелизма (т.е. количество потоков), используемый функцией формирования ключа.</string>
     <string name="sort_menu">Сортировка</string>
@@ -214,13 +214,13 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
-    <string name="advanced_unlock">Дополнительная разблокировка</string>
-    <string name="biometric_unlock_enable_title">Сканирование биометрического ключа</string>
+    <string name="advanced_unlock">Расширенная разблокировка</string>
+    <string name="biometric_unlock_enable_title">Биометрическая разблокировка</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
-    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием биометрического ключа</string>
-    <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
-    <string name="unavailable_feature_version">Ваша версия Android %1$s, но требуется %2$s.</string>
+    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки</string>
+    <string name="unavailable_feature_text">Невозможно использовать эту функцию.</string>
+    <string name="unavailable_feature_version">Ваша версия Android %1$s, требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
@@ -228,8 +228,8 @@
     <string name="create_keepass_file">Создать новую базу</string>
     <string name="recycle_bin_title">Использовать \"корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
-    <string name="monospace_font_fields_enable_title">Особый шрифт</string>
-    <string name="monospace_font_fields_enable_summary">Использовать в полях особый шрифт для лучшей читаемости</string>
+    <string name="monospace_font_fields_enable_title">Особый шрифт полей</string>
+    <string name="monospace_font_fields_enable_summary">Использовать в полях специальный шрифт для лучшей читаемости</string>
     <string name="allow_copy_password_title">Доверять буферу обмена</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищённых полей в буфер обмена</string>
     <string name="allow_copy_password_warning">Внимание: буфер обмена доступен всем приложениям. Если копируются чувствительные данные, другие программы могут их перехватить.</string>
@@ -237,7 +237,7 @@
     <string name="database_description_title">Описание базы</string>
     <string name="database_version_title">Версия базы</string>
     <string name="text_appearance">Текст</string>
-    <string name="application_appearance">Приложение</string>
+    <string name="application_appearance">Внешний вид</string>
     <string name="other">Прочее</string>
     <string name="keyboard">Клавиатура</string>
     <string name="magic_keyboard_title">Настройки Magikeyboard</string>
@@ -260,21 +260,19 @@
 \n
 \nДобавляйте группы (аналог папок) для организации записей и баз.</string>
     <string name="education_search_title">Легко находите ваши записи</string>
-    <string name="education_biometric_title">Биометрическая разблокировка базы</string>
-    <string name="education_biometric_summary">Установите взаимосвязь между паролем и биометрическим ключом для быстрой разблокировки базы.</string>
     <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
-    <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Возможны перекрёстные ссылки между полями разных записей.</string>
+    <string name="education_entry_edit_summary">Редактируйте записи с пользовательскими полями. Возможны перекрёстные ссылки между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надёжный пароль</string>
     <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
-    <string name="education_entry_new_field_title">Добавляйте настраиваемые поля</string>
+    <string name="education_entry_new_field_title">Добавляйте пользовательские поля</string>
     <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
     <string name="education_read_only_title">База только для чтения</string>
     <string name="education_read_only_summary">Изменяйте режим открытия в сессии.
 \n
 \nВ \"режиме только для чтения\" можно предотвратить непреднамеренные изменения в базе.
-\nВ \"режиме записи\" вы можете добавлять, удалять или изменять любые элементы.</string>
+\nВ \"режиме записи\" можно добавлять, удалять или изменять любые элементы.</string>
     <string name="education_field_copy_title">Копируйте поля</string>
     <string name="education_field_copy_summary">Скопированные поля можно вставить в любом месте.
 \n
@@ -297,10 +295,9 @@
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Содействие</string>
+    <string name="contribute">Помочь проекту</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Тема приложения</string>
     <string name="style_choose_summary">Тема, используемая в приложении</string>
     <string name="icon_pack_choose_title">Набор значков</string>
@@ -326,7 +323,7 @@
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
     <string name="do_not_kill_app">Не убивайте приложение…</string>
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
-    <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
+    <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
     <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления после использования или истечения времени ожидания</string>
     <string name="recycle_bin">Корзина</string>
@@ -357,10 +354,10 @@
     <string name="content_description_update_from_list">Обновить</string>
     <string name="content_description_keyboard_close_fields">Закрыть поля</string>
     <string name="error_create_database_file">Невозможно создать базу с этим паролем и ключевым файлом.</string>
-    <string name="menu_advanced_unlock_settings">Дополнительная разблокировка</string>
+    <string name="menu_advanced_unlock_settings">Расширенная разблокировка</string>
     <string name="biometric">Биометрический ключ</string>
-    <string name="biometric_auto_open_prompt_title">Автозапрос биометрического ключа</string>
-    <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать биометрический ключ, если он установлен для базы</string>
+    <string name="biometric_auto_open_prompt_title">Автозапрос ключа</string>
+    <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать расширенную разблокировку, если она установлена для базы</string>
     <string name="enable">Включить</string>
     <string name="disable">Отключить</string>
     <string name="selection_mode">Режим выбора</string>
@@ -390,13 +387,13 @@
     <string name="contains_duplicate_uuid_procedure">Исправить проблему путём создания новых UUID для дубликатов и продолжить работу\?</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
-    <string name="advanced_unlock_explanation_summary">Использовать дополнительную разблокировку для более лёгкого открытия базы данных</string>
+    <string name="advanced_unlock_explanation_summary">Использовать расширенную разблокировку для более лёгкого открытия базы данных</string>
     <string name="database_data_compression_title">Сжатие данных</string>
     <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы</string>
     <string name="max_history_items_title">Максимум записей</string>
     <string name="max_history_items_summary">Ограничение числа элементов истории каждой записи</string>
     <string name="max_history_size_title">Максимальный размер</string>
-    <string name="max_history_size_summary">Ограничение размера истории каждой записи (в байтах)</string>
+    <string name="max_history_size_summary">Ограничение размера истории каждой записи</string>
     <string name="settings_database_recommend_changing_master_key_title">Рекомендуемая смена</string>
     <string name="settings_database_recommend_changing_master_key_summary">Рекомендовать менять главный пароль (в днях)</string>
     <string name="settings_database_force_changing_master_key_title">Принудительная смена</string>
@@ -497,7 +494,6 @@
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
     <string name="keyboard_save_search_info_summary">Сохранять общую информацию при ручном выборе записи</string>
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
-    <string name="crypto_object_not_initialized">Невозможно получить доступ к зашифрованному объекту.</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
     <string name="show_uuid_summary">Показывать UUID, связанный с записью</string>
@@ -514,4 +510,46 @@
     <string name="save_mode">Режим записи</string>
     <string name="search_mode">Режим поиска</string>
     <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения</string>
+    <string name="error_field_name_already_exists">Поле с таким именем уже существует.</string>
+    <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
+    <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
+    <string name="device_credential">Учётные данные устройства</string>
+    <string name="credential_before_click_advanced_unlock_button">Введите пароль и нажмите кнопку \"Расширенная разблокировка\".</string>
+    <string name="advanced_unlock_prompt_not_initialized">Невозможно инициализировать запрос расширенной разблокировки.</string>
+    <string name="advanced_unlock_not_recognized">Невозможно распознать расширенную разблокировку</string>
+    <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ расширенной разблокировки. Удалите его и повторите процедуру распознавания разблокировки.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием расширенной разблокировки</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Открыть базу с расширенным распознаванием разблокировки</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Предупреждение: даже при использовании расширенной разблокировки вам всё равно необходимо помнить главный пароль.</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Открыть запрос расширенной разблокировки для сохранения учётных данных</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Открыть запрос расширенной разблокировки для разблокировки базы</string>
+    <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки\?</string>
+    <string name="advanced_unlock_scanning_error">Ошибка расширенной разблокировки: %1$s</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Распознавание расширенной разблокировки</string>
+    <string name="menu_keystore_remove_key">Удалить ключ расширенной разблокировки</string>
+    <string name="enter">Ввод</string>
+    <string name="back_to_previous_keyboard">Возврат к предыдущей клавиатуре</string>
+    <string name="custom_fields">Пользовательские поля</string>
+    <string name="backspace">Backspace</string>
+    <string name="select_entry">Выберите запись</string>
+    <string name="education_advanced_unlock_title">Расширенная разблокировка базы</string>
+    <string name="advanced_unlock_timeout">Срок действия расширенной разблокировки</string>
+    <string name="education_advanced_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
+    <string name="temp_advanced_unlock_timeout_summary">Продолжительность использования содержимого расширенной разблокировки до его удаления</string>
+    <string name="temp_advanced_unlock_timeout_title">Время действия</string>
+    <string name="temp_advanced_unlock_enable_title">Временная расширенная разблокировка</string>
+    <string name="temp_advanced_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования расширенной разблокировки</string>
+    <string name="advanced_unlock_tap_delete">Нажмите, чтобы удалить ключи расширенной разблокировки</string>
+    <string name="content">Содержимое</string>
+    <string name="kdf_Argon2id">Argon2ID</string>
+    <string name="kdf_Argon2d">Argon2D</string>
+    <string name="error_database_uri_null">Невозможно получить URI базы.</string>
+    <string name="error_rebuild_list">Невозможно правильно перестроить список.</string>
+    <string name="autofill_inline_suggestions_keyboard">Предложения автозаполнения добавлены.</string>
+    <string name="autofill_inline_suggestions_summary">Показывать предложения автозаполнения непосредственно в совместимой клавиатуре</string>
+    <string name="autofill_inline_suggestions_title">Встроенные предложения</string>
+    <string name="warning_database_revoked">Доступ к файлу отозван файловым менеджером, закройте базу и снова откройте.</string>
+    <string name="warning_database_info_changed_options">Сохранить базу, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
+    <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
+    <string name="menu_reload_database">Перезагрузить базу</string>
 </resources>

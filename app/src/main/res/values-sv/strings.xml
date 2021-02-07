@@ -184,7 +184,7 @@
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen.</string>
     <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelderivatsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>
-    <string name="memory_usage_explanation">Mängd minne (i bytes) som ska användas av nyckelderivatsfunktionen.</string>
+    <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelderivatsfunktionen.</string>
     <string name="parallelism">Parallellism</string>
     <string name="parallelism_explanation">Grad av parallellism (dvs. antal trådar) som används av nyckelderivatsfuntionen.</string>
     <string name="sort_menu">Sortera</string>
@@ -281,7 +281,6 @@
     <string name="contribute">Bidra</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Apptema</string>
     <string name="style_choose_summary">Tema som används i appen</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>
@@ -393,7 +392,7 @@
     <string name="max_history_items_title">Max. historikobjekt</string>
     <string name="max_history_items_summary">Begränsar antalet historikobjekt per post</string>
     <string name="max_history_size_title">Max. historikstorlek</string>
-    <string name="max_history_size_summary">Begränsa historikens storlek per post (i bytes)</string>
+    <string name="max_history_size_summary">Begränsa historikens storlek per post</string>
     <string name="settings_database_recommend_changing_master_key_title">Rekommenderas att ändra</string>
     <string name="settings_database_recommend_changing_master_key_summary">Rekommenderas att ändra huvudnyckeln (dagar)</string>
     <string name="settings_database_force_changing_master_key_title">Tvingad ändring</string>
@@ -407,8 +406,6 @@
     <string name="compression_gzip">Gzip</string>
     <string name="magic_keyboard_explanation_summary">Aktivera ett anpassat tangentbord som innehåller dina lösenord och alla identitetsfält</string>
     <string name="device_keyboard_setting_title">Enhetens tangentbordsinställningar</string>
-    <string name="education_biometric_title">Lås upp databasen med biometrik</string>
-    <string name="education_biometric_summary">Länka dina lösenord till din skannande biometrik för att snabbt låsa upp din databas.</string>
     <string name="error_save_database">Kunde inte spara databas.</string>
     <string name="menu_save_database">Spara databas</string>
     <string name="menu_empty_recycle_bin">Töm papperskorgen</string>

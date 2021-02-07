@@ -17,14 +17,13 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.notifications
+package com.kunzisoft.keepass.services
 
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
-import android.os.Binder
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
+import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -40,6 +39,8 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -47,6 +48,7 @@ import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -64,6 +66,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mAllowFinishAction = AtomicBoolean()
     private var mActionRunning = false
+
+    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -93,12 +97,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 mAllowFinishAction.set(false)
             }
         }
+
+        fun addDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
+            mDatabaseInfoListeners.add(databaseInfoListener)
+        }
+
+        fun removeDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
+            mDatabaseInfoListeners.remove(databaseInfoListener)
+        }
     }
 
     interface ActionTaskListener {
         fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
+    }
+
+    interface DatabaseInfoListener {
+        fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
+                                  newDatabaseInfo: SnapFileDatabaseInfo)
     }
 
     /**
@@ -109,6 +126,53 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             mActionTaskListeners.forEach { actionTaskListener ->
                 actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
             }
+        }
+    }
+
+    fun checkDatabaseInfo() {
+        try {
+            mDatabase.fileUri?.let {
+                val previousDatabaseInfo = mSnapFileDatabaseInfo
+                val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                        FileDatabaseInfo(applicationContext, it))
+
+                val oldDatabaseModification = previousDatabaseInfo?.lastModification
+                val newDatabaseModification = lastFileDatabaseInfo.lastModification
+
+                val conditionExists = previousDatabaseInfo != null
+                        && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
+                // To prevent dialog opening too often
+                val conditionLastModification = (oldDatabaseModification != null && newDatabaseModification != null
+                        && oldDatabaseModification < newDatabaseModification
+                        && mLastLocalSaveTime + 5000 < newDatabaseModification)
+
+                if (conditionExists || conditionLastModification) {
+                    // Show the dialog only if it's real new info and not a delay after a save
+                    Log.i(TAG, "Database file modified " +
+                            "$previousDatabaseInfo != $lastFileDatabaseInfo ")
+                    // Call listener to indicate a change in database info
+                    if (previousDatabaseInfo != null) {
+                        mDatabaseInfoListeners.forEach { listener ->
+                            listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
+                        }
+                    }
+                    mSnapFileDatabaseInfo = lastFileDatabaseInfo
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to check database info", e)
+        }
+    }
+
+    fun saveDatabaseInfo() {
+        try {
+            mDatabase.fileUri?.let {
+                mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                        FileDatabaseInfo(applicationContext, it))
+                Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to check database info", e)
         }
     }
 
@@ -138,6 +202,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
+            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask()
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent)
             ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent)
@@ -192,6 +257,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     actionTaskListener.onStopAction(intentAction!!, result)
                                 }
                             } finally {
+                                // Save the database info before performing action
+                                if (intentAction == ACTION_DATABASE_LOAD_TASK) {
+                                    saveDatabaseInfo()
+                                }
+                                // Save the database info after performing save action
+                                if (intentAction == ACTION_DATABASE_SAVE
+                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true) {
+                                    mDatabase.fileUri?.let {
+                                        val newSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                                                FileDatabaseInfo(applicationContext, it))
+                                        mLastLocalSaveTime = System.currentTimeMillis()
+                                        mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                    }
+                                }
                                 removeIntentData(intent)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
@@ -214,7 +293,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         return when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK, null -> {
+            ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_RELOAD_TASK,
+            null -> {
                 START_STICKY
             }
             else -> {
@@ -248,7 +329,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             else -> {
                 when (intentAction) {
                     ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-                    ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
+                    ACTION_DATABASE_LOAD_TASK,
+                    ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
                     ACTION_DATABASE_SAVE -> R.string.saving_database
                     else -> {
                         R.string.command_execution
@@ -258,13 +340,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         mMessageId = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK -> null
+            ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_RELOAD_TASK -> null
             else -> null
         }
 
         mWarningId =
                 if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK)
+                        || intentAction == ACTION_DATABASE_LOAD_TASK
+                        || intentAction == ACTION_DATABASE_RELOAD_TASK)
                     null
                 else
                     R.string.do_not_kill_app
@@ -316,10 +400,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent?.removeExtra(DATABASE_TASK_WARNING_KEY)
 
         intent?.removeExtra(DATABASE_URI_KEY)
-        intent?.removeExtra(MASTER_PASSWORD_CHECKED_KEY)
-        intent?.removeExtra(MASTER_PASSWORD_KEY)
-        intent?.removeExtra(KEY_FILE_CHECKED_KEY)
-        intent?.removeExtra(KEY_FILE_URI_KEY)
+        intent?.removeExtra(MAIN_CREDENTIAL_KEY)
         intent?.removeExtra(READ_ONLY_KEY)
         intent?.removeExtra(CIPHER_ENTITY_KEY)
         intent?.removeExtra(FIX_DUPLICATE_UUID_KEY)
@@ -342,9 +423,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      * Execute action with a coroutine
       */
     private suspend fun executeAction(progressTaskUpdater: ProgressTaskUpdater,
-                                     onPreExecute: () -> Unit,
-                                     onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
-                                     onPostExecute: (result: ActionRunnable.Result) -> Unit) {
+                                      onPreExecute: () -> Unit,
+                                      onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
+                                      onPostExecute: (result: ActionRunnable.Result) -> Unit) {
         mAllowFinishAction.set(false)
 
         TimeoutHelper.temporarilyDisableTimeout()
@@ -391,13 +472,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private fun buildDatabaseCreateActionTask(intent: Intent): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_CHECKED_KEY)
-                && intent.hasExtra(KEY_FILE_URI_KEY)
+                && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
-            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_URI_KEY)
+            val mainCredential: MainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
 
             if (databaseUri == null)
                 return null
@@ -407,14 +485,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     databaseUri,
                     getString(R.string.database_default_name),
                     getString(R.string.database),
-                    intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
-                    intent.getStringExtra(MASTER_PASSWORD_KEY),
-                    intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    keyFileUri
+                    mainCredential
             ) { result ->
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
-                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
+                    putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
                 }
             }
         } else {
@@ -425,15 +500,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private fun buildDatabaseLoadActionTask(intent: Intent): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_URI_KEY)
+                && intent.hasExtra(MAIN_CREDENTIAL_KEY)
                 && intent.hasExtra(READ_ONLY_KEY)
                 && intent.hasExtra(CIPHER_ENTITY_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
-            val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
-            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_URI_KEY)
+            val mainCredential: MainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
             val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
 
@@ -444,8 +517,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     this,
                     mDatabase,
                     databaseUri,
-                    masterPassword,
-                    keyFileUri,
+                    mainCredential,
                     readOnly,
                     cipherEntity,
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
@@ -454,8 +526,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 // Add each info to reload database after thrown duplicate UUID exception
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
-                    putString(MASTER_PASSWORD_KEY, masterPassword)
-                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
+                    putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
                     putBoolean(READ_ONLY_KEY, readOnly)
                     putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
                 }
@@ -465,21 +536,26 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
+    private fun buildDatabaseReloadActionTask(): ActionRunnable {
+        return ReloadDatabaseRunnable(
+                    this,
+                    mDatabase,
+                    this
+            ) { result ->
+                // No need to add each info to reload database
+                result.data = Bundle()
+            }
+    }
+
     private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_CHECKED_KEY)
-                && intent.hasExtra(KEY_FILE_URI_KEY)
+                && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
             AssignPasswordInDatabaseRunnable(this,
                     mDatabase,
                     databaseUri,
-                    intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
-                    intent.getStringExtra(MASTER_PASSWORD_KEY),
-                    intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    intent.getParcelableExtra(KEY_FILE_URI_KEY)
+                    intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             )
         } else {
             null
@@ -770,6 +846,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
+        const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_PASSWORD_TASK = "ACTION_DATABASE_ASSIGN_PASSWORD_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"
         const val ACTION_DATABASE_UPDATE_GROUP_TASK = "ACTION_DATABASE_UPDATE_GROUP_TASK"
@@ -801,10 +878,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
-        const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
-        const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
-        const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
-        const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
+        const val MAIN_CREDENTIAL_KEY = "MAIN_CREDENTIAL_KEY"
         const val READ_ONLY_KEY = "READ_ONLY_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"
@@ -821,6 +895,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
+
+        private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+        private var mLastLocalSaveTime: Long = 0
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()

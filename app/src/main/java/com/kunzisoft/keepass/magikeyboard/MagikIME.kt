@@ -41,7 +41,8 @@ import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 
@@ -243,6 +244,14 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 if (entryInfoKey != null) {
                     currentInputConnection.commitText(entryInfoKey!!.password, 1)
                 }
+                val otpFieldExists = entryInfoKey?.containsCustomField(OTP_TOKEN_FIELD) ?: false
+                actionGoAutomatically(!otpFieldExists)
+            }
+            KEY_OTP -> {
+                if (entryInfoKey != null) {
+                    currentInputConnection.commitText(
+                            entryInfoKey!!.getGeneratedFieldValue(OTP_TOKEN_FIELD), 1)
+                }
                 actionGoAutomatically()
             }
             KEY_URL -> {
@@ -254,7 +263,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             KEY_FIELDS -> {
                 if (entryInfoKey != null) {
                     fieldsAdapter?.apply {
-                        setFields(entryInfoKey!!.customFields)
+                        setFields(entryInfoKey!!.customFields.filter { it.name != OTP_TOKEN_FIELD})
                         notifyDataSetChanged()
                     }
                 }
@@ -272,10 +281,11 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             currentInputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB))
     }
 
-    private fun actionGoAutomatically() {
+    private fun actionGoAutomatically(switchToPreviousKeyboardIfAllowed: Boolean = true) {
         if (PreferencesUtil.isAutoGoActionEnable(this)) {
             currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
-            if (PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
+            if (switchToPreviousKeyboardIfAllowed
+                    && PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
                 switchToPreviousKeyboard()
             }
         }
@@ -326,6 +336,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         private const val KEY_ENTRY = 620
         private const val KEY_USERNAME = 500
         private const val KEY_PASSWORD = 510
+        private const val KEY_OTP = 515
         private const val KEY_URL = 520
         private const val KEY_FIELDS = 530
 

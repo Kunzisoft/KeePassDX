@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.crypto.keyDerivation
 
 import android.content.res.Resources
+import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.stream.bytes16ToUuid
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -27,7 +28,11 @@ import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
 
-class Argon2Kdf internal constructor() : KdfEngine() {
+class Argon2Kdf(private val type: Type) : KdfEngine() {
+
+    init {
+        uuid = type.CIPHER_UUID
+    }
 
     override val defaultParameters: KdfParameters
         get() {
@@ -45,12 +50,8 @@ class Argon2Kdf internal constructor() : KdfEngine() {
     override val defaultKeyRounds: Long
         get() = DEFAULT_ITERATIONS
 
-    init {
-        uuid = CIPHER_UUID
-    }
-
     override fun getName(resources: Resources): String {
-        return resources.getString(R.string.kdf_Argon2)
+        return resources.getString(type.nameId)
     }
 
     @Throws(IOException::class)
@@ -72,7 +73,9 @@ class Argon2Kdf internal constructor() : KdfEngine() {
         val secretKey = kdfParameters.getByteArray(PARAM_SECRET_KEY)
         val assocData = kdfParameters.getByteArray(PARAM_ASSOC_DATA)
 
-        return Argon2Native.transformKey(masterKey,
+        return Argon2Native.transformKey(
+                type,
+                masterKey,
                 salt,
                 parallelism,
                 memory,
@@ -141,9 +144,8 @@ class Argon2Kdf internal constructor() : KdfEngine() {
     override val maxParallelism: Long
         get() = MAX_PARALLELISM
 
-    companion object {
-
-        val CIPHER_UUID: UUID = bytes16ToUuid(
+    enum class Type(val CIPHER_UUID: UUID, @StringRes val nameId: Int) {
+        ARGON2_D(bytes16ToUuid(
                 byteArrayOf(0xEF.toByte(),
                         0x63.toByte(),
                         0x6D.toByte(),
@@ -159,7 +161,27 @@ class Argon2Kdf internal constructor() : KdfEngine() {
                         0x03.toByte(),
                         0xE3.toByte(),
                         0x0A.toByte(),
-                        0x0C.toByte()))
+                        0x0C.toByte())), R.string.kdf_Argon2d),
+        ARGON2_ID(bytes16ToUuid(
+                byteArrayOf(0x9E.toByte(),
+                        0x29.toByte(),
+                        0x8B.toByte(),
+                        0x19.toByte(),
+                        0x56.toByte(),
+                        0xDB.toByte(),
+                        0x47.toByte(),
+                        0x73.toByte(),
+                        0xB2.toByte(),
+                        0x3D.toByte(),
+                        0xFC.toByte(),
+                        0x3E.toByte(),
+                        0xC6.toByte(),
+                        0xF0.toByte(),
+                        0xA1.toByte(),
+                        0xE6.toByte())), R.string.kdf_Argon2id);
+    }
+
+    companion object {
 
         private const val PARAM_SALT = "S" // byte[]
         private const val PARAM_PARALLELISM = "P" // UInt32

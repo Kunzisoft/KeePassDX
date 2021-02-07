@@ -226,7 +226,7 @@
     <string name="rounds">変換ラウンド</string>
     <string name="rounds_explanation">変換ラウンドを増やすことでブルート フォース攻撃に対する保護が強化されますが、読み込みと保存が本当に遅くなる可能性があります。</string>
     <string name="memory_usage">メモリ使用量</string>
-    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）です。</string>
+    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量です。</string>
     <string name="parallelism">並列処理</string>
     <string name="parallelism_explanation">鍵導出関数が使用する並列処理のレベル（スレッド数）です。</string>
     <string name="saving_database">データベースを保存しています…</string>
@@ -273,7 +273,6 @@
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
-    <string name="crypto_object_not_initialized">crypto オブジェクトを取得できません。</string>
     <string name="database_history">履歴</string>
     <string name="menu_appearance_settings">デザイン</string>
     <string name="biometric">生体認証</string>
@@ -305,10 +304,10 @@
     <string name="advanced_unlock_explanation_summary">高度なロック解除を使用して、データベースをより簡単に開きます</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
     <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができるようにします</string>
-    <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動で開く</string>
-    <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に求めます</string>
+    <string name="biometric_auto_open_prompt_title">プロンプトを自動で開く</string>
+    <string name="biometric_auto_open_prompt_summary">データベースに設定されている場合、高度なロック解除を自動的に要求します</string>
     <string name="biometric_delete_all_key_title">暗号鍵を削除</string>
-    <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号鍵を削除します</string>
+    <string name="biometric_delete_all_key_summary">高度なロック解除に関するすべての暗号鍵を削除します</string>
     <string name="unavailable_feature_text">この機能を起動できませんでした。</string>
     <string name="unavailable_feature_version">デバイスは Android %1$s を実行していますが、%2$s 以降が必要です。</string>
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>
@@ -326,14 +325,14 @@
     <string name="max_history_items_title">最大値</string>
     <string name="max_history_items_summary">エントリーあたりの履歴項目の数を制限します</string>
     <string name="max_history_size_title">最大サイズ</string>
-    <string name="max_history_size_summary">エントリーあたりの履歴のサイズ（バイト単位）を制限します</string>
+    <string name="max_history_size_summary">エントリーあたりの履歴のサイズを制限します</string>
     <string name="settings_database_recommend_changing_master_key_title">更新を推奨</string>
     <string name="settings_database_recommend_changing_master_key_summary">マスターキーの変更を推奨します（日数）</string>
     <string name="settings_database_force_changing_master_key_title">更新を強制</string>
     <string name="settings_database_force_changing_master_key_summary">マスターキーの変更を必須にします（日数）</string>
     <string name="settings_database_force_changing_master_key_next_time_title">次回更新を強制</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
-    <string name="monospace_font_fields_enable_title">フィールド フォント</string>
+    <string name="monospace_font_fields_enable_title">フィールド書体</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して、文字を見やすくします</string>
     <string name="allow_copy_password_title">クリップボードの信頼</string>
     <string name="allow_copy_password_summary">エントリーのパスワードと保護されたフィールドを、クリップボードにコピーすることを許可します</string>
@@ -349,7 +348,7 @@
     <string name="database_custom_color_title">カスタムカラー</string>
     <string name="database_version_title">データベースのバージョン</string>
     <string name="text_appearance">テキスト</string>
-    <string name="application_appearance">アプリ</string>
+    <string name="application_appearance">インターフェース</string>
     <string name="other">その他</string>
     <string name="compression">圧縮</string>
     <string name="compression_none">なし</string>
@@ -389,7 +388,7 @@
     <string name="keyboard_previous_database_credentials_title">データベース認証情報の画面</string>
     <string name="keyboard_previous_database_credentials_summary">データベース認証情報の画面で、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
-    <string name="keyboard_previous_fill_in_summary">自動キーアクションの実行後、切り替え前のキーボードへ自動的に戻します</string>
+    <string name="keyboard_previous_fill_in_summary">[自動キーアクション] の実行後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_lock_title">データベースをロック</string>
     <string name="keyboard_previous_lock_summary">データベースのロック後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="autofill_close_database_title">データベースを閉じる</string>
@@ -427,8 +426,6 @@
     <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
     <string name="education_search_title">エントリーを検索</string>
     <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
-    <string name="education_biometric_title">生体認証によるロック解除</string>
-    <string name="education_biometric_summary">スキャンした生体情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_entry_edit_summary">エントリーをカスタム フィールドとともに編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_generate_password_title">強力なパスワードを作成</string>
@@ -442,7 +439,10 @@
     <string name="education_unlock_title">データベースのロックを解除</string>
     <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、またはその両方を入力します。\n\nデータベース ファイルは変更するたびに安全な場所へバックアップしてください。</string>
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
-    <string name="education_read_only_summary">セッションのロック解除モードを変更します。\n\n[書き込み禁止] では、データベースに対する意図しない変更を防ぐことができます。\n[変更可能] では、すべての要素を追加、削除、変更できます。</string>
+    <string name="education_read_only_summary">セッションのロック解除モードを変更します。
+\n
+\n[書き込み禁止] では、データベースに対する意図しない変更を防ぐことができます。
+\n[変更可能] では、すべての要素を必要に応じて追加、削除、変更できます。</string>
     <string name="education_field_copy_title">フィールドをコピー</string>
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。\n\nお好みのフォーム入力方法を使用してください。</string>
     <string name="education_lock_title">データベースをロック</string>
@@ -474,7 +474,6 @@
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string-array name="timeout_options">
         <item>5秒</item>
         <item>10秒</item>
@@ -511,4 +510,46 @@
     <string name="autofill_read_only_save">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
+    <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>
+    <string name="menu_keystore_remove_key">高度なロック解除用の鍵を削除</string>
+    <string name="advanced_unlock_not_recognized">高度なロック解除を使って認証できませんでした</string>
+    <string name="enter">エンター</string>
+    <string name="backspace">バックスペース</string>
+    <string name="back_to_previous_keyboard">前のキーボードに戻る</string>
+    <string name="custom_fields">カスタム フィールド</string>
+    <string name="advanced_unlock_delete_all_key_warning">高度なロック解除に関する暗号鍵をすべて削除しますか？</string>
+    <string name="device_credential_unlock_enable_summary">デバイス認証情報を使用してデータベースを開くことができるようにします</string>
+    <string name="device_credential_unlock_enable_title">デバイス認証情報によるロック解除</string>
+    <string name="device_credential">デバイス認証情報</string>
+    <string name="credential_before_click_advanced_unlock_button">パスワードを入力し、[高度なロック解除] ボタンをタップします。</string>
+    <string name="advanced_unlock_prompt_not_initialized">高度なロック解除プロンプトを初期化できません。</string>
+    <string name="advanced_unlock_scanning_error">高度なロック解除のエラー：%1$s</string>
+    <string name="advanced_unlock_invalid_key">高度なロック解除用の鍵が読み取れません。削除してロック解除の手順をやり直してください。</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">高度なロック解除を使ってデータベース認証情報を取り出します</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">高度なロック解除を使ってデータベースを開く</string>
+    <string name="advanced_unlock_prompt_store_credential_message">警告：高度なロック解除を使用する場合も、マスター パスワードを記憶する必要があります。</string>
+    <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
+    <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて認証情報を保存する</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いてロックを解除する</string>
+    <string name="select_entry">エントリーを選択</string>
+    <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
+    <string name="education_advanced_unlock_title">データベースの高度なロック解除</string>
+    <string name="advanced_unlock_timeout">高度なロック解除のタイムアウト</string>
+    <string name="temp_advanced_unlock_timeout_summary">コンテンツを削除して高度なロック解除を終了するまでの期間</string>
+    <string name="temp_advanced_unlock_timeout_title">高度なロック解除の有効期限</string>
+    <string name="temp_advanced_unlock_enable_summary">高度なロック解除に使用する暗号化コンテンツを保存しません</string>
+    <string name="temp_advanced_unlock_enable_title">一時的な高度なロック解除</string>
+    <string name="advanced_unlock_tap_delete">タップして高度なロック解除用の鍵を削除する</string>
+    <string name="content">コンテンツ</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="error_database_uri_null">データベースの URI が取得できません。</string>
+    <string name="autofill_inline_suggestions_keyboard">自動入力候補が追加されました。</string>
+    <string name="autofill_inline_suggestions_summary">自動入力候補を互換性のあるキーボード上に直接表示することを試みます</string>
+    <string name="autofill_inline_suggestions_title">インライン自動入力</string>
+    <string name="warning_database_revoked">ファイルへのアクセス権がファイル マネージャーによって取り消されました。データベースを閉じて、ファイルの場所から再度開いてください。</string>
+    <string name="warning_database_info_changed_options">データベースを保存して外部の変更を上書きするか、再度読み込んで最新の変更を反映させてください。</string>
+    <string name="warning_database_info_changed">データベース ファイルに含まれる情報は、アプリの外部で変更されています。</string>
+    <string name="menu_reload_database">データベースを再度読み込む</string>
+    <string name="error_rebuild_list">リストを正しく再構築できません。</string>
 </resources>

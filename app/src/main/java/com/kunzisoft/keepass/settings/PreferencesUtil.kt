@@ -19,12 +19,14 @@
  */
 package com.kunzisoft.keepass.settings
 
+import android.app.backup.BackupManager
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import java.util.*
@@ -43,6 +45,7 @@ object PreferencesUtil {
             }
             apply()
         }
+        BackupManager(context).dataChanged()
     }
 
     fun getDefaultDatabasePath(context: Context): String? {
@@ -201,6 +204,13 @@ object PreferencesUtil {
                 ?: TimeoutHelper.DEFAULT_TIMEOUT
     }
 
+    fun getAdvancedUnlockTimeout(context: Context): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.temp_advanced_unlock_timeout_key),
+                context.getString(R.string.temp_advanced_unlock_timeout_default))?.toLong()
+                ?: TimeoutHelper.DEFAULT_TIMEOUT
+    }
+
     fun isLockDatabaseWhenScreenShutOffEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.lock_database_screen_off_key),
@@ -231,20 +241,35 @@ object PreferencesUtil {
 
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val biometricSupported = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            AdvancedUnlockManager.biometricUnlockSupported(context)
+        } else {
+            false
+        }
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
+                && biometricSupported
+    }
+
+    fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        // Priority to biometric unlock
+        val biometricAlreadySupported = isBiometricUnlockEnable(context)
+        return prefs.getBoolean(context.getString(R.string.device_credential_unlock_enable_key),
+                context.resources.getBoolean(R.bool.device_credential_unlock_enable_default))
+                && !biometricAlreadySupported
+    }
+
+    fun isTempAdvancedUnlockEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.temp_advanced_unlock_enable_key),
+                context.resources.getBoolean(R.bool.temp_advanced_unlock_enable_default))
     }
 
     fun isAdvancedUnlockPromptAutoOpenEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_auto_open_prompt_key),
                 context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))
-    }
-
-    fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.device_credential_unlock_enable_key),
-                context.resources.getBoolean(R.bool.device_credential_unlock_enable_default))
     }
 
     fun getListSort(context: Context): SortNodeEnum {
@@ -411,11 +436,16 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.autofill_close_database_default))
     }
 
-
     fun isAutofillAutoSearchEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
                 context.resources.getBoolean(R.bool.autofill_auto_search_default))
+    }
+
+    fun isAutofillInlineSuggestionsEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_inline_suggestions_key),
+                context.resources.getBoolean(R.bool.autofill_inline_suggestions_default))
     }
 
     fun isAutofillSaveSearchInfoEnable(context: Context): Boolean {

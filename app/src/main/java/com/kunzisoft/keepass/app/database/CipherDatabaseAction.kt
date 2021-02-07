@@ -19,27 +19,96 @@
  */
 package com.kunzisoft.keepass.app.database
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
+import android.os.IBinder
+import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
+import java.util.*
 
-class CipherDatabaseAction(applicationContext: Context) {
+class CipherDatabaseAction(context: Context) {
 
+    private val applicationContext = context.applicationContext
     private val cipherDatabaseDao =
             AppDatabase
                     .getDatabase(applicationContext)
                     .cipherDatabaseDao()
 
+    // Temp DAO to easily remove content if object no longer in memory
+    private var useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
+
+    private val mIntentAdvancedUnlockService = Intent(applicationContext,
+            AdvancedUnlockNotificationService::class.java)
+    private var mBinder: AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
+    private var mServiceConnection: ServiceConnection? = null
+
+    private var mDatabaseListeners = LinkedList<DatabaseListener>()
+
+    fun reloadPreferences() {
+        useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
+    }
+
+    @Synchronized
+    private fun attachService(performedAction: () -> Unit) {
+        // Check if a service is currently running else do nothing
+        if (mBinder != null) {
+            performedAction.invoke()
+        } else if (mServiceConnection == null) {
+            mServiceConnection = object : ServiceConnection {
+                override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
+                    mBinder = (serviceBinder as AdvancedUnlockNotificationService.AdvancedUnlockBinder)
+                    performedAction.invoke()
+                }
+
+                override fun onServiceDisconnected(name: ComponentName?) {
+                    mBinder = null
+                    mServiceConnection = null
+                    mDatabaseListeners.forEach {
+                        it.onDatabaseCleared()
+                    }
+                }
+            }
+            applicationContext.bindService(mIntentAdvancedUnlockService,
+                    mServiceConnection!!,
+                    Context.BIND_ABOVE_CLIENT)
+            if (mBinder == null) {
+                applicationContext.startService(mIntentAdvancedUnlockService)
+            }
+        }
+    }
+
+    fun registerDatabaseListener(listener: DatabaseListener) {
+        mDatabaseListeners.add(listener)
+    }
+
+    fun unregisterDatabaseListener(listener: DatabaseListener) {
+        mDatabaseListeners.remove(listener)
+    }
+
+    interface DatabaseListener {
+        fun onDatabaseCleared()
+    }
+
     fun getCipherDatabase(databaseUri: Uri,
                           cipherDatabaseResultListener: (CipherDatabaseEntity?) -> Unit) {
-        IOActionTask(
-                {
-                    cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
-                },
-                {
-                    cipherDatabaseResultListener.invoke(it)
-                }
-        ).execute()
+        if (useTempDao) {
+            attachService {
+                cipherDatabaseResultListener.invoke(mBinder?.getCipherDatabase(databaseUri))
+            }
+        } else {
+            IOActionTask(
+                    {
+                        cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
+                    },
+                    {
+                        cipherDatabaseResultListener.invoke(it)
+                    }
+            ).execute()
+        }
     }
 
     fun containsCipherDatabase(databaseUri: Uri,
@@ -51,36 +120,52 @@ class CipherDatabaseAction(applicationContext: Context) {
 
     fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity,
                                   cipherDatabaseResultListener: (() -> Unit)? = null) {
-        IOActionTask(
-                {
-                    val cipherDatabaseRetrieve = cipherDatabaseDao.getByDatabaseUri(cipherDatabaseEntity.databaseUri)
-
-                    // Update values if element not yet in the database
-                    if (cipherDatabaseRetrieve == null) {
-                        cipherDatabaseDao.add(cipherDatabaseEntity)
-                    } else {
-                        cipherDatabaseDao.update(cipherDatabaseEntity)
+        if (useTempDao) {
+            attachService {
+                mBinder?.addOrUpdateCipherDatabase(cipherDatabaseEntity)
+                cipherDatabaseResultListener?.invoke()
+            }
+        } else {
+            IOActionTask(
+                    {
+                        val cipherDatabaseRetrieve = cipherDatabaseDao.getByDatabaseUri(cipherDatabaseEntity.databaseUri)
+                        // Update values if element not yet in the database
+                        if (cipherDatabaseRetrieve == null) {
+                            cipherDatabaseDao.add(cipherDatabaseEntity)
+                        } else {
+                            cipherDatabaseDao.update(cipherDatabaseEntity)
+                        }
+                    },
+                    {
+                        cipherDatabaseResultListener?.invoke()
                     }
-                },
-                {
-                    cipherDatabaseResultListener?.invoke()
-                }
-        ).execute()
+            ).execute()
+        }
     }
 
     fun deleteByDatabaseUri(databaseUri: Uri,
                             cipherDatabaseResultListener: (() -> Unit)? = null) {
-        IOActionTask(
-                {
-                    cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
-                },
-                {
-                    cipherDatabaseResultListener?.invoke()
-                }
-        ).execute()
+        if (useTempDao) {
+            attachService {
+                mBinder?.deleteByDatabaseUri(databaseUri)
+                cipherDatabaseResultListener?.invoke()
+            }
+        } else {
+            IOActionTask(
+                    {
+                        cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
+                    },
+                    {
+                        cipherDatabaseResultListener?.invoke()
+                    }
+            ).execute()
+        }
     }
 
     fun deleteAll() {
+        attachService {
+            mBinder?.deleteAll()
+        }
         IOActionTask(
                 {
                     cipherDatabaseDao.deleteAll()

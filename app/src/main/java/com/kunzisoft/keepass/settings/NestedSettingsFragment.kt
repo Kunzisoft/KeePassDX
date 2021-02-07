@@ -35,9 +35,13 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
         APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY
     }
 
+    fun getScreen(): Screen {
+        return Screen.values()[requireArguments().getInt(TAG_KEY)]
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         onCreateScreenPreference(
-                Screen.values()[requireArguments().getInt(TAG_KEY)],
+                getScreen(),
                 savedInstanceState,
                 rootKey)
     }

@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
+            android:imeOptions="flagNoPersonalizedLearning"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:importantForAccessibility="no"
@@ -46,9 +47,9 @@
         android:id="@+id/entry_extra_field_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/entry_extra_field_value_container"
         android:src="@drawable/ic_more_white_24dp"
         android:contentDescription="@string/menu_edit"
         style="@style/KeepassDXStyle.ImageButton.Simple"/>

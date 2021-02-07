@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -36,7 +35,6 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -49,16 +47,18 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
@@ -162,7 +162,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         }
 
         // Observe list of databases
-        databaseFilesViewModel.databaseFilesLoaded.observe(this, Observer { databaseFiles ->
+        databaseFilesViewModel.databaseFilesLoaded.observe(this) { databaseFiles ->
             when (databaseFiles.databaseFileAction) {
                 DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
                     mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
@@ -186,13 +186,13 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 }
             }
             databaseFilesViewModel.consumeAction()
-        })
+        }
 
         // Observe default database
-        databaseFilesViewModel.defaultDatabase.observe(this, Observer {
+        databaseFilesViewModel.defaultDatabase.observe(this) {
             // Retrieve settings for default database
             mAdapterDatabaseHistory?.setDefaultDatabase(it)
-        })
+        }
 
         // Attach the dialog thread to this activity
         mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
@@ -200,8 +200,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 when (actionTask) {
                     ACTION_DATABASE_CREATE_TASK -> {
                         result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
-                            val keyFileUri = result.data?.getParcelable<Uri?>(KEY_FILE_URI_KEY)
-                            databaseFilesViewModel.addDatabaseFile(databaseUri, keyFileUri)
+                            val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
+                            databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
                         }
                     }
                     ACTION_DATABASE_LOAD_TASK -> {
@@ -237,10 +237,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
         val error = getString(R.string.file_not_found_content)
+        Log.e(TAG, error, e)
         coordinatorLayout?.let {
             Snackbar.make(it, error, Snackbar.LENGTH_LONG).asError().show()
         }
-        Log.e(TAG, error, e)
     }
 
     private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
@@ -331,9 +331,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
     }
 
-    override fun onAssignKeyDialogPositiveClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
+    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
 
         try {
             mDatabaseFileUri?.let { databaseUri ->
@@ -341,10 +339,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 // Create the new database
                 mProgressDatabaseTaskProvider?.startDatabaseCreate(
                         databaseUri,
-                        masterPasswordChecked,
-                        masterPassword,
-                        keyFileChecked,
-                        keyFile
+                        mainCredential
                 )
             }
         } catch (e: Exception) {
@@ -354,11 +349,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         }
     }
 
-    override fun onAssignKeyDialogNegativeClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
-
-    }
+    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -435,8 +426,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         when (item.itemId) {
             android.R.id.home -> UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
         }
-
-        return MenuUtil.onDefaultMenuOptionsItemSelected(this, item) && super.onOptionsItemSelected(item)
+        MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
@@ -502,11 +493,11 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
-                                    assistStructure: AssistStructure,
+                                    autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
-                    assistStructure,
+                    autofillComponent,
                     searchInfo)
         }
 

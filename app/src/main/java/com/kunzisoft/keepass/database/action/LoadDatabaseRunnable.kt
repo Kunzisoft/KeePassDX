@@ -25,19 +25,17 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.closeDatabase
 
 class LoadDatabaseRunnable(private val context: Context,
                            private val mDatabase: Database,
                            private val mUri: Uri,
-                           private val mPass: String?,
-                           private val mKey: Uri?,
+                           private val mMainCredential: MainCredential,
                            private val mReadonly: Boolean,
                            private val mCipherEntity: CipherDatabaseEntity?,
                            private val mFixDuplicateUUID: Boolean,
@@ -47,20 +45,18 @@ class LoadDatabaseRunnable(private val context: Context,
 
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.closeAndClear(UriUtil.getBinaryDir(context))
+        mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
     }
 
     override fun onActionRun() {
         try {
-            mDatabase.loadData(mUri, mPass, mKey,
+            mDatabase.loadData(mUri,
+                    mMainCredential,
                     mReadonly,
                     context.contentResolver,
                     UriUtil.getBinaryDir(context),
                     mFixDuplicateUUID,
                     progressTaskUpdater)
-        }
-        catch (e: DuplicateUuidDatabaseException) {
-            setError(e)
         }
         catch (e: LoadDatabaseException) {
             setError(e)
@@ -71,7 +67,7 @@ class LoadDatabaseRunnable(private val context: Context,
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context)
                         .addOrUpdateDatabaseUri(mUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKey else null)
+                                if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null)
             }
 
             // Register the biometric
@@ -83,7 +79,7 @@ class LoadDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.closeAndClear(UriUtil.getBinaryDir(context))
+            mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
         }
     }
 

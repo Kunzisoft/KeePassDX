@@ -145,7 +145,7 @@
     <string name="rounds">Krypteringsomganger</string>
     <string name="rounds_explanation">Flere krypteringsomganger gir ytterligere beskyttelse mot råmaktsangrep, men kan virkelig sakke ned innlasting og lagring.</string>
     <string name="memory_usage">Minnebruk</string>
-    <string name="memory_usage_explanation">Mengden minne (i byte) brukt til nøkkelutledelsesfunksjonen.</string>
+    <string name="memory_usage_explanation">Mengden minne brukt til nøkkelutledelsesfunksjonen.</string>
     <string name="parallelism">Parallellitet</string>
     <string name="parallelism_explanation">Graden av parallellitet (dvs. antallet tråder) brukt av nøkkelutledingsfunksjonen.</string>
     <string name="saving_database">Lagrer database…</string>
@@ -240,8 +240,6 @@
 \nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
     <string name="education_search_title">Søk i dine oppføringer</string>
     <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_biometric_title">Lås opp databasen din med fingeravtrykket ditt</string>
-    <string name="education_biometric_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord</string>
@@ -286,7 +284,6 @@
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
-    <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Velg en drakt</string>
     <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
@@ -419,4 +416,13 @@
     <string name="warning_database_read_only">Innvilg skrivetilgang for å lagre databaseendringer</string>
     <string name="hide_broken_locations_summary">Skjul ødelagte lenker i listen over nylige databaser</string>
     <string name="hide_broken_locations_title">Skjul ødelagte databaselenker</string>
+    <string name="autofill_ask_to_save_data_title">Spør om lagring av data</string>
+    <string name="advanced_unlock_scanning_error">Avansert opplåsningsfeil: %1$s</string>
+    <string name="warning_empty_keyfile">Det anbefales ikke å legge til en tom nøkkelfil.</string>
+    <string name="warning_sure_add_file">Legg til filen uansett\?</string>
+    <string name="registration_mode">Registreringsmodus</string>
+    <string name="save_mode">Lagringsmodus</string>
+    <string name="search_mode">Søkemodus</string>
+    <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
+    <string name="content_description_add_item">Legg til element</string>
 </resources>

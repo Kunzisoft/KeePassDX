@@ -1,0 +1,2 @@
+ * Correction des pièces jointes spécifiques avec les bases kdbx3.1 #828
+ * Correction de petits bugs

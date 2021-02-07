@@ -30,7 +30,7 @@
     <string name="menu_app_settings">Ohjelman asetukset</string>
     <string name="brackets">Hakasulkeet</string>
     <string name="file_manager_install_description">Tietokantojen avaamista, luomista ja tallentamista varten tarvitaan tiedostonhallintaohjelma, joka tukee ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT Intent-toimintoja.</string>
-    <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
+    <string name="clipboard_cleared">Leikepöytä tyhjennetty</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
     <string name="clipboard_error">Jotkin laitteet eivät anna sovellusten käyttää leikepöytää.</string>
     <string name="clipboard_error_clear">Leikepöytää ei voitu tyhjentää</string>
@@ -71,7 +71,7 @@
     <string name="error_pass_match">Salasanat eivät täsmää.</string>
     <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
     <string name="error_string_key">Jokaisella tekstillä tulee olla kentässä nimi.</string>
-    <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
+    <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään.</string>
     <string name="field_name">Kentän nimi</string>
     <string name="field_value">Kentän arvo</string>
     <string name="file_browser">Tiedostoselain</string>
@@ -161,7 +161,7 @@
     <string name="security">Turvallisuus</string>
     <string name="edit_entry">Muokkaa merkintää</string>
     <string name="error_disallow_no_credentials">Ainakin yksi pääsytieto tulee olla asetettuna.</string>
-    <string name="error_load_database_KDF_memory">Avainta ei pystytty lataamaan. Kokeile vähentää KDF \"Muistin käyttöä\".</string>
+    <string name="error_load_database_KDF_memory">Avainta ei pystytty lataamaan. Kokeile vähentää KDF ”Muistin käyttöä”.</string>
     <string name="error_load_database">Tietokantaa ei pystytty avaamaan.</string>
     <string name="error_invalid_OTP">Virheellinen OTP salaisuus.</string>
     <string name="entry_otp">OTP</string>
@@ -232,7 +232,7 @@
     <string name="allow_copy_password_title">Luota leikepöytään</string>
     <string name="monospace_font_fields_enable_summary">Vaihda fontti, jota käytetään kentissä parantaaksesi merkkien näkyvyyttä</string>
     <string name="monospace_font_fields_enable_title">Kenttäfontti</string>
-    <string name="recycle_bin_summary">Siirrä ryhmät ja tietueet \"Roskakori\" ryhmään ennen poistamista</string>
+    <string name="recycle_bin_summary">Siirrä ryhmät ja tietueet ”Roskakori” ryhmään ennen poistamista</string>
     <string name="recycle_bin_title">Roskakorin käyttö</string>
     <string name="assign_master_key">Aseta pääavain</string>
     <string name="path">Polku</string>
@@ -249,7 +249,7 @@
     <string name="list_password_generator_options_title">Salasanamerkit</string>
     <string name="password_size_summary">Asettaa oletuspituuden generoiduille salasanoille</string>
     <string name="parallelism">Rinnakkaisuus</string>
-    <string name="memory_usage_explanation">Avaimen johtamisfunktion käyttämän muistin (tavuina) määrä.</string>
+    <string name="memory_usage_explanation">Avaimen johtamisfunktion käyttämän muistin määrä.</string>
     <string name="memory_usage">Muistin käyttö</string>
     <string name="kdf_explanation">Pääavain muunnetaan käyttäen satunnaista suolattua avaimen johtamisfunktiota, jotta salausalgoritmin avain voidaan generoida.</string>
     <string name="encryption_explanation">Salasanatietokannan salausalgoritmi, jota käytetään kaikelle datalle.</string>
