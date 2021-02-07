@@ -54,11 +54,11 @@
     <string name="entry_keyfile">Αρχείο-Κλειδί</string>
     <string name="entry_modified">Τροποποιήθηκε</string>
     <string name="entry_not_found">Δεν ήταν δυνατή η εύρεση δεδομένων εισόδου.</string>
-    <string name="entry_password">Κωδικός Πρόσβασης</string>
+    <string name="entry_password">Κωδικός πρόσβασης</string>
     <string name="save">Αποθήκευση</string>
     <string name="entry_title">Τίτλος</string>
     <string name="entry_url">Διεύθυνση URL</string>
-    <string name="entry_user_name">Όνομα Χρήστη</string>
+    <string name="entry_user_name">Όνομα χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης Arcfour δεν υποστηρίζεται.</string>
     <string name="error_can_not_handle_uri">Το KeePassDX δε μπορεί να χειριστεί αυτή τη διεύθυνση URI.</string>
     <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου</string>
@@ -82,7 +82,7 @@
     <string name="hint_keyfile">Αρχείο κλειδί</string>
     <string name="hint_length">Μήκος</string>
     <string name="hint_pass">Κωδικός</string>
-    <string name="password">Κωδικός Πρόσβασης</string>
+    <string name="password">Κωδικός πρόσβασης</string>
     <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων.</string>
     <string name="invalid_algorithm">Λάθος αλγόριθμος.</string>
     <string name="invalid_db_sig">Δεν ήταν δυνατή η αναγνώριση της μορφής της βάσης δεδομένων.</string>
@@ -258,7 +258,7 @@
     <string name="html_text_dev_feature_thanks">Ευχαριστούμε πολύ για τη συνεισφορά σας.</string>
     <string name="html_text_dev_feature_work_hard">Εργαζόμαστε σκληρά για να διαθέσουμε αυτό το χαρακτηριστικό γρήγορα.</string>
     <string name="html_text_dev_feature_upgrade">Θυμηθείτε να ενημερώνετε την εφαρμογή σας, εγκαθιστώντας νέες εκδόσεις.</string>
-    <string name="download">Download</string>
+    <string name="download">Λήψη</string>
     <string name="contribute">Συνεισφορά</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
