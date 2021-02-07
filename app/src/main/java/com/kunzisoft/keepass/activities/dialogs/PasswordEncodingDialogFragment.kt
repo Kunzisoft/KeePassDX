@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.model.MainCredential
 
 class PasswordEncodingDialogFragment : DialogFragment() {
 
@@ -49,10 +50,7 @@ class PasswordEncodingDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val databaseUri: Uri? = savedInstanceState?.getParcelable(DATABASE_URI_KEY)
-        val masterPasswordChecked: Boolean = savedInstanceState?.getBoolean(MASTER_PASSWORD_CHECKED_KEY) ?: false
-        val masterPassword: String? = savedInstanceState?.getString(MASTER_PASSWORD_KEY)
-        val keyFileChecked: Boolean = savedInstanceState?.getBoolean(KEY_FILE_CHECKED_KEY) ?: false
-        val keyFile: Uri? = savedInstanceState?.getParcelable(KEY_FILE_URI_KEY)
+        val mainCredential: MainCredential = savedInstanceState?.getParcelable(MAIN_CREDENTIAL) ?: MainCredential()
 
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
@@ -60,10 +58,7 @@ class PasswordEncodingDialogFragment : DialogFragment() {
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mListener?.onPasswordEncodingValidateListener(
                         databaseUri,
-                        masterPasswordChecked,
-                        masterPassword,
-                        keyFileChecked,
-                        keyFile
+                        mainCredential
                 )
             }
             builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
@@ -75,32 +70,20 @@ class PasswordEncodingDialogFragment : DialogFragment() {
 
     interface Listener {
         fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                               masterPasswordChecked: Boolean,
-                                               masterPassword: String?,
-                                               keyFileChecked: Boolean,
-                                               keyFile: Uri?)
+                                               mainCredential: MainCredential)
     }
 
     companion object {
 
         private const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
-        private const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
-        private const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
-        private const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
-        private const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
+        private const val MAIN_CREDENTIAL = "MAIN_CREDENTIAL"
 
         fun getInstance(databaseUri: Uri,
-                        masterPasswordChecked: Boolean,
-                        masterPassword: String?,
-                        keyFileChecked: Boolean,
-                        keyFile: Uri?): SortDialogFragment {
+                        mainCredential: MainCredential): SortDialogFragment {
             val fragment = SortDialogFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(DATABASE_URI_KEY, databaseUri)
-                putBoolean(MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
-                putString(MASTER_PASSWORD_KEY, masterPassword)
-                putBoolean(KEY_FILE_CHECKED_KEY, keyFileChecked)
-                putParcelable(KEY_FILE_URI_KEY, keyFile)
+                putParcelable(MAIN_CREDENTIAL, mainCredential)
             }
             return fragment
         }

@@ -52,12 +52,13 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
@@ -199,8 +200,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 when (actionTask) {
                     ACTION_DATABASE_CREATE_TASK -> {
                         result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
-                            val keyFileUri = result.data?.getParcelable<Uri?>(KEY_FILE_URI_KEY)
-                            databaseFilesViewModel.addDatabaseFile(databaseUri, keyFileUri)
+                            val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
+                            databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
                         }
                     }
                     ACTION_DATABASE_LOAD_TASK -> {
@@ -330,9 +331,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
     }
 
-    override fun onAssignKeyDialogPositiveClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
+    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
 
         try {
             mDatabaseFileUri?.let { databaseUri ->
@@ -340,10 +339,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 // Create the new database
                 mProgressDatabaseTaskProvider?.startDatabaseCreate(
                         databaseUri,
-                        masterPasswordChecked,
-                        masterPassword,
-                        keyFileChecked,
-                        keyFile
+                        mainCredential
                 )
             }
         } catch (e: Exception) {
@@ -353,11 +349,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         }
     }
 
-    override fun onAssignKeyDialogNegativeClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
-
-    }
+    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
