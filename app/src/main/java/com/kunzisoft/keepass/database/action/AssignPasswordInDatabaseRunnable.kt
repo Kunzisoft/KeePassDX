@@ -24,39 +24,26 @@ import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 
 open class AssignPasswordInDatabaseRunnable (
         context: Context,
         database: Database,
         protected val mDatabaseUri: Uri,
-        withMasterPassword: Boolean,
-        masterPassword: String?,
-        withKeyFile: Boolean,
-        keyFile: Uri?)
+        protected val mMainCredential: MainCredential)
     : SaveDatabaseRunnable(context, database, true) {
 
-    private var mMasterPassword: String? = null
-    protected var mKeyFileUri: Uri? = null
-
     private var mBackupKey: ByteArray? = null
-
-    init {
-        if (withMasterPassword)
-            this.mMasterPassword = masterPassword
-        if (withKeyFile)
-            this.mKeyFileUri = keyFile
-    }
 
     override fun onStartRun() {
         // Set key
         try {
-            // TODO move master key methods
             mBackupKey = ByteArray(database.masterKey.size)
             System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 
-            val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mKeyFileUri)
-            database.retrieveMasterKey(mMasterPassword, uriInputStream)
+            val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mMainCredential.keyFileUri)
+            database.retrieveMasterKey(mMainCredential.masterPassword, uriInputStream)
         } catch (e: Exception) {
             erase(mBackupKey)
             setError(e)
