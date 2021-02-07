@@ -43,7 +43,8 @@ class BinaryAttachmentTest {
         val binaryB = BinaryAttachment(fileB)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         saveBinary(TEST_TEXT_ASSET, binaryB)
-        assertEquals("Save text binary failed.", binaryA.md5(), binaryB.md5())
+        assertEquals("Save text binary length failed.", binaryA.length, binaryB.length)
+        assertEquals("Save text binary MD5 failed.", binaryA.md5(), binaryB.md5())
     }
 
     @Test
@@ -52,6 +53,7 @@ class BinaryAttachmentTest {
         val binaryB = BinaryAttachment(fileB)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         saveBinary(TEST_IMAGE_ASSET, binaryB)
+        assertEquals("Save image binary length failed.", binaryA.length, binaryB.length)
         assertEquals("Save image binary failed.", binaryA.md5(), binaryB.md5())
     }
 
@@ -65,9 +67,11 @@ class BinaryAttachmentTest {
         saveBinary(TEST_TEXT_ASSET, binaryC)
         binaryA.compress(loadedKey)
         binaryB.compress(loadedKey)
-        assertEquals("Compress text failed.", binaryA.md5(), binaryB.md5())
+        assertEquals("Compress text length failed.", binaryA.length, binaryB.length)
+        assertEquals("Compress text MD5 failed.", binaryA.md5(), binaryB.md5())
         binaryB.decompress(loadedKey)
-        assertEquals("Decompress text failed.", binaryB.md5(), binaryC.md5())
+        assertEquals("Decompress text length failed.", binaryB.length, binaryC.length)
+        assertEquals("Decompress text MD5 failed.", binaryB.md5(), binaryC.md5())
     }
 
     @Test
@@ -80,9 +84,11 @@ class BinaryAttachmentTest {
         saveBinary(TEST_IMAGE_ASSET, binaryC)
         binaryA.compress(loadedKey)
         binaryB.compress(loadedKey)
-        assertEquals("Compress image failed.", binaryA.md5(), binaryB.md5())
+        assertEquals("Compress image length failed.", binaryA.length, binaryA.length)
+        assertEquals("Compress image failed.", binaryA.md5(), binaryA.md5())
         binaryB = BinaryAttachment(fileB, true)
         binaryB.decompress(loadedKey)
+        assertEquals("Decompress image length failed.", binaryB.length, binaryC.length)
         assertEquals("Decompress image failed.", binaryB.md5(), binaryC.md5())
     }
 
