@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -374,7 +375,8 @@ class Database {
     }
 
     @Throws(LoadDatabaseException::class)
-    fun loadData(uri: Uri, password: String?, keyfile: Uri?,
+    fun loadData(uri: Uri,
+                 mainCredential: MainCredential,
                  readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
@@ -391,8 +393,8 @@ class Database {
         var keyFileInputStream: InputStream? = null
         try {
             // Get keyFile inputStream
-            keyfile?.let {
-                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
+            mainCredential.keyFileUri?.let { keyFile ->
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyFile)
             }
 
             // Read database stream for the first time
@@ -400,7 +402,7 @@ class Database {
                     { databaseInputStream ->
                         DatabaseInputKDB(cacheDirectory)
                                 .openDatabase(databaseInputStream,
-                                        password,
+                                        mainCredential.masterPassword,
                                         keyFileInputStream,
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
@@ -408,7 +410,7 @@ class Database {
                     { databaseInputStream ->
                         DatabaseInputKDBX(cacheDirectory)
                                 .openDatabase(databaseInputStream,
-                                        password,
+                                        mainCredential.masterPassword,
                                         keyFileInputStream,
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
@@ -619,7 +621,9 @@ class Database {
         }
     }
 
-    fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+    fun validatePasswordEncoding(mainCredential: MainCredential): Boolean {
+        val password = mainCredential.masterPassword
+        val containsKeyFile = mainCredential.keyFileUri != null
         return mDatabaseKDB?.validatePasswordEncoding(password, containsKeyFile)
                 ?: mDatabaseKDBX?.validatePasswordEncoding(password, containsKeyFile)
                 ?: false

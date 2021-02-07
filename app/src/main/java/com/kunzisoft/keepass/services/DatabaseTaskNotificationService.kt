@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -399,8 +400,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent?.removeExtra(DATABASE_TASK_WARNING_KEY)
 
         intent?.removeExtra(DATABASE_URI_KEY)
-        intent?.removeExtra(MASTER_PASSWORD_KEY)
-        intent?.removeExtra(KEY_FILE_URI_KEY)
+        intent?.removeExtra(MAIN_CREDENTIAL_KEY)
         intent?.removeExtra(READ_ONLY_KEY)
         intent?.removeExtra(CIPHER_ENTITY_KEY)
         intent?.removeExtra(FIX_DUPLICATE_UUID_KEY)
@@ -472,11 +472,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private fun buildDatabaseCreateActionTask(intent: Intent): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_URI_KEY)
+                && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
-            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_URI_KEY)
+            val mainCredential: MainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
 
             if (databaseUri == null)
                 return null
@@ -486,12 +485,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     databaseUri,
                     getString(R.string.database_default_name),
                     getString(R.string.database),
-                    intent.getStringExtra(MASTER_PASSWORD_KEY),
-                    keyFileUri
+                    mainCredential
             ) { result ->
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
-                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
+                    putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
                 }
             }
         } else {
@@ -502,15 +500,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private fun buildDatabaseLoadActionTask(intent: Intent): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_URI_KEY)
+                && intent.hasExtra(MAIN_CREDENTIAL_KEY)
                 && intent.hasExtra(READ_ONLY_KEY)
                 && intent.hasExtra(CIPHER_ENTITY_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
-            val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
-            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_URI_KEY)
+            val mainCredential: MainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
             val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
 
@@ -521,8 +517,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     this,
                     mDatabase,
                     databaseUri,
-                    masterPassword,
-                    keyFileUri,
+                    mainCredential,
                     readOnly,
                     cipherEntity,
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
@@ -531,8 +526,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 // Add each info to reload database after thrown duplicate UUID exception
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
-                    putString(MASTER_PASSWORD_KEY, masterPassword)
-                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
+                    putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
                     putBoolean(READ_ONLY_KEY, readOnly)
                     putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
                 }
@@ -555,15 +549,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_URI_KEY)
+                && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
             AssignPasswordInDatabaseRunnable(this,
                     mDatabase,
                     databaseUri,
-                    intent.getStringExtra(MASTER_PASSWORD_KEY),
-                    intent.getParcelableExtra(KEY_FILE_URI_KEY)
+                    intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             )
         } else {
             null
@@ -886,8 +878,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
-        const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
-        const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
+        const val MAIN_CREDENTIAL_KEY = "MAIN_CREDENTIAL_KEY"
         const val READ_ONLY_KEY = "READ_ONLY_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"

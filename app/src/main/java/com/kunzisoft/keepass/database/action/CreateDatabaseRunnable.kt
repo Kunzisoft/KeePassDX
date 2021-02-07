@@ -24,6 +24,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil
 
@@ -32,10 +33,9 @@ class CreateDatabaseRunnable(context: Context,
                              databaseUri: Uri,
                              private val databaseName: String,
                              private val rootName: String,
-                             masterPassword: String?,
-                             keyFile: Uri?,
+                             mainCredential: MainCredential,
                              private val createDatabaseResult: ((Result) -> Unit)?)
-    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, masterPassword, keyFile) {
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential) {
 
     override fun onStartRun() {
         try {
@@ -59,7 +59,7 @@ class CreateDatabaseRunnable(context: Context,
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context.applicationContext)
                         .addOrUpdateDatabaseUri(mDatabaseUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKeyFileUri else null)
+                                if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null)
             }
 
             // Register the current time to init the lock timer

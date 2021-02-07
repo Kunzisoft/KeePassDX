@@ -4,7 +4,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 
-data class MainCredential(var masterPassword: String? = null, var keyFile: Uri? = null): Parcelable {
+data class MainCredential(var masterPassword: String? = null, var keyFileUri: Uri? = null): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -13,7 +13,7 @@ data class MainCredential(var masterPassword: String? = null, var keyFile: Uri? 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(masterPassword)
-        parcel.writeParcelable(keyFile, flags)
+        parcel.writeParcelable(keyFileUri, flags)
     }
 
     override fun describeContents(): Int {

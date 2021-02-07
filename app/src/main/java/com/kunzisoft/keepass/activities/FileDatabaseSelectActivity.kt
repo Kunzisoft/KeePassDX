@@ -55,10 +55,10 @@ import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
@@ -200,8 +200,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 when (actionTask) {
                     ACTION_DATABASE_CREATE_TASK -> {
                         result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
-                            val keyFileUri = result.data?.getParcelable<Uri?>(KEY_FILE_URI_KEY)
-                            databaseFilesViewModel.addDatabaseFile(databaseUri, keyFileUri)
+                            val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
+                            databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
                         }
                     }
                     ACTION_DATABASE_LOAD_TASK -> {
@@ -339,8 +339,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 // Create the new database
                 mProgressDatabaseTaskProvider?.startDatabaseCreate(
                         databaseUri,
-                        mainCredential.masterPassword,
-                        mainCredential.keyFile
+                        mainCredential
                 )
             }
         } catch (e: Exception) {

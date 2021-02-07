@@ -146,8 +146,7 @@ open class SettingsActivity
         databaseUri?.let {
             mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                     databaseUri,
-                    mainCredential.masterPassword,
-                    mainCredential.keyFile
+                    mainCredential
             )
         }
     }
@@ -156,11 +155,10 @@ open class SettingsActivity
         Database.getInstance().let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(mainCredential.masterPassword, mainCredential.keyFile != null)) {
+                if (database.validatePasswordEncoding(mainCredential)) {
                     mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                             databaseUri,
-                            mainCredential.masterPassword,
-                            mainCredential.keyFile
+                            mainCredential
                     )
                 } else {
                     PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
