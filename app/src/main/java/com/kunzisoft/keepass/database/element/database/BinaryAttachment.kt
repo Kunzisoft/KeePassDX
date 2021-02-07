@@ -179,8 +179,7 @@ class BinaryAttachment : Parcelable {
             return false
 
         var sameData = false
-        if (dataFile != null && dataFile == other.dataFile
-                && length == other.length)
+        if (dataFile != null && dataFile == other.dataFile)
             sameData = true
 
         return isCompressed == other.isCompressed
