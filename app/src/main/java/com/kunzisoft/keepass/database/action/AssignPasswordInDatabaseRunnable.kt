@@ -39,7 +39,6 @@ open class AssignPasswordInDatabaseRunnable (
     override fun onStartRun() {
         // Set key
         try {
-            // TODO move master key methods
             mBackupKey = ByteArray(database.masterKey.size)
             System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 

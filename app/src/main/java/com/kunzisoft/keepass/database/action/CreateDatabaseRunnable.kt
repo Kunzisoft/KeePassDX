@@ -67,20 +67,6 @@ class CreateDatabaseRunnable(context: Context,
         } else {
             Log.e("CreateDatabaseRunnable", "Unable to create the database")
         }
-
-        /*
-        TODO Load after creation
-        LoadDatabaseRunnable(context,
-                mDatabase,
-                mDatabaseUri,
-                mMasterPassword,
-                mKeyFileUri,
-                false,
-                null,
-                false,
-                null,
-                null)
-         */
     }
 
     override fun onFinishRun() {
