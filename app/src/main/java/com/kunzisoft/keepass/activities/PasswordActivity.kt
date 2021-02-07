@@ -56,13 +56,13 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
@@ -236,15 +236,13 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                                         showLoadDatabaseDuplicateUuidMessage {
 
                                             var databaseUri: Uri? = null
-                                            var masterPassword: String? = null
-                                            var keyFileUri: Uri? = null
+                                            var mainCredential: MainCredential = MainCredential()
                                             var readOnly = true
                                             var cipherEntity: CipherDatabaseEntity? = null
 
                                             result.data?.let { resultData ->
                                                 databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                                masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
-                                                keyFileUri = resultData.getParcelable(KEY_FILE_URI_KEY)
+                                                mainCredential = resultData.getParcelable(MAIN_CREDENTIAL_KEY) ?: mainCredential
                                                 readOnly = resultData.getBoolean(READ_ONLY_KEY)
                                                 cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
                                             }
@@ -252,8 +250,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                                             databaseUri?.let { databaseFileUri ->
                                                 showProgressDialogAndLoadDatabase(
                                                         databaseFileUri,
-                                                        masterPassword,
-                                                        keyFileUri,
+                                                        mainCredential,
                                                         readOnly,
                                                         cipherEntity,
                                                         true)
@@ -534,8 +531,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                 // Show the progress dialog and load the database
                 showProgressDialogAndLoadDatabase(
                         databaseUri,
-                        password,
-                        keyFileUri,
+                        MainCredential(password, keyFileUri),
                         readOnly,
                         cipherDatabaseEntity,
                         false)
@@ -544,15 +540,13 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     }
 
     private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
-                                                  password: String?,
-                                                  keyFile: Uri?,
+                                                  mainCredential: MainCredential,
                                                   readOnly: Boolean,
                                                   cipherDatabaseEntity: CipherDatabaseEntity?,
                                                   fixDuplicateUUID: Boolean) {
         mProgressDatabaseTaskProvider?.startDatabaseLoad(
                 databaseUri,
-                password,
-                keyFile,
+                mainCredential,
                 readOnly,
                 cipherDatabaseEntity,
                 fixDuplicateUUID
