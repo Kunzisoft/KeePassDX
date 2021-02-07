@@ -10,7 +10,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:contentDescription="@string/entry_attachments"
-        android:scaleType="fitCenter"
-        android:src="@drawable/keepassdx_logo"/>
+        android:contentDescription="@string/entry_attachments" />
 </FrameLayout>

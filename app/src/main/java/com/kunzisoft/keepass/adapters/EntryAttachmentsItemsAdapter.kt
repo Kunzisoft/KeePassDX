@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.TypedArray
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.text.format.Formatter
 import android.util.TypedValue
@@ -65,10 +65,14 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileThumbnail.apply {
-            setOnClickListener {
-                context.startActivity(Intent(context, ImageViewerActivity::class.java).apply {
-
-                })
+            BitmapFactory.decodeStream(entryAttachmentState.attachment.binaryAttachment.getUnGzipInputDataStream())?.let { imageBitmap ->
+                setImageBitmap(imageBitmap)
+                setOnClickListener {
+                    ImageViewerActivity.getInstance(context, entryAttachmentState.attachment)
+                }
+                visibility = View.VISIBLE
+            } ?: run {
+                visibility = View.GONE
             }
         }
         holder.binaryFileBroken.apply {

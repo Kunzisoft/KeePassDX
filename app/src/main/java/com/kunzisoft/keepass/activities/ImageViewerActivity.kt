@@ -19,11 +19,16 @@
  */
 package com.kunzisoft.keepass.activities
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.database.element.Attachment
 import kotlinx.android.synthetic.main.activity_image_viewer.*
 
 class ImageViewerActivity : LockingActivity() {
@@ -32,8 +37,20 @@ class ImageViewerActivity : LockingActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_image_viewer)
+        val imageView: ImageView = findViewById(R.id.image_viewer_image)
 
-        Loupe.create(image_viewer_image, image_viewer_container) {
+        try {
+            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
+                BitmapFactory.decodeStream(attachment.binaryAttachment.getUnGzipInputDataStream())?.let { imageBitmap ->
+                    imageView.setImageBitmap(imageBitmap)
+                } ?: finish()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to view the binary", e)
+            finish()
+        }
+
+        Loupe.create(imageView, image_viewer_container) {
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
 
                 override fun onStart(view: ImageView) {
@@ -53,6 +70,19 @@ class ImageViewerActivity : LockingActivity() {
                     finish()
                 }
             }
+        }
+    }
+
+    companion object {
+
+        private val TAG = ImageViewerActivity::class.simpleName
+
+        private const val IMAGE_ATTACHMENT_TAG = "IMAGE_ATTACHMENT_TAG"
+
+        fun getInstance(context: Context, imageAttachment: Attachment) {
+            context.startActivity(Intent(context, ImageViewerActivity::class.java).apply {
+                putExtra(IMAGE_ATTACHMENT_TAG, imageAttachment)
+            })
         }
     }
 }
