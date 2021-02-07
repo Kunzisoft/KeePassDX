@@ -399,9 +399,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent?.removeExtra(DATABASE_TASK_WARNING_KEY)
 
         intent?.removeExtra(DATABASE_URI_KEY)
-        intent?.removeExtra(MASTER_PASSWORD_CHECKED_KEY)
         intent?.removeExtra(MASTER_PASSWORD_KEY)
-        intent?.removeExtra(KEY_FILE_CHECKED_KEY)
         intent?.removeExtra(KEY_FILE_URI_KEY)
         intent?.removeExtra(READ_ONLY_KEY)
         intent?.removeExtra(CIPHER_ENTITY_KEY)
@@ -474,9 +472,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private fun buildDatabaseCreateActionTask(intent: Intent): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_CHECKED_KEY)
                 && intent.hasExtra(KEY_FILE_URI_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
@@ -490,9 +486,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     databaseUri,
                     getString(R.string.database_default_name),
                     getString(R.string.database),
-                    intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
-                    intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
                     keyFileUri
             ) { result ->
                 result.data = Bundle().apply {
@@ -561,18 +555,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(DATABASE_URI_KEY)
-                && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_CHECKED_KEY)
                 && intent.hasExtra(KEY_FILE_URI_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
             AssignPasswordInDatabaseRunnable(this,
                     mDatabase,
                     databaseUri,
-                    intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
-                    intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
                     intent.getParcelableExtra(KEY_FILE_URI_KEY)
             )
         } else {
@@ -896,9 +886,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
-        const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
         const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
-        const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
         const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
         const val READ_ONLY_KEY = "READ_ONLY_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"

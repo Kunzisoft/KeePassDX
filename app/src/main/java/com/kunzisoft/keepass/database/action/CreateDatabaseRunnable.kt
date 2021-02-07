@@ -32,12 +32,10 @@ class CreateDatabaseRunnable(context: Context,
                              databaseUri: Uri,
                              private val databaseName: String,
                              private val rootName: String,
-                             withMasterPassword: Boolean,
                              masterPassword: String?,
-                             withKeyFile: Boolean,
                              keyFile: Uri?,
                              private val createDatabaseResult: ((Result) -> Unit)?)
-    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile) {
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, masterPassword, keyFile) {
 
     override fun onStartRun() {
         try {
@@ -69,6 +67,20 @@ class CreateDatabaseRunnable(context: Context,
         } else {
             Log.e("CreateDatabaseRunnable", "Unable to create the database")
         }
+
+        /*
+        TODO Load after creation
+        LoadDatabaseRunnable(context,
+                mDatabase,
+                mDatabaseUri,
+                mMasterPassword,
+                mKeyFileUri,
+                false,
+                null,
+                false,
+                null,
+                null)
+         */
     }
 
     override fun onFinishRun() {

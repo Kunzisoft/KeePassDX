@@ -30,23 +30,11 @@ open class AssignPasswordInDatabaseRunnable (
         context: Context,
         database: Database,
         protected val mDatabaseUri: Uri,
-        withMasterPassword: Boolean,
-        masterPassword: String?,
-        withKeyFile: Boolean,
-        keyFile: Uri?)
+        protected val mMasterPassword: String?,
+        protected val mKeyFileUri: Uri?)
     : SaveDatabaseRunnable(context, database, true) {
 
-    private var mMasterPassword: String? = null
-    protected var mKeyFileUri: Uri? = null
-
     private var mBackupKey: ByteArray? = null
-
-    init {
-        if (withMasterPassword)
-            this.mMasterPassword = masterPassword
-        if (withKeyFile)
-            this.mKeyFileUri = keyFile
-    }
 
     override fun onStartRun() {
         // Set key

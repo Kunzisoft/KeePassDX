@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
@@ -330,9 +331,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
     }
 
-    override fun onAssignKeyDialogPositiveClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
+    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
 
         try {
             mDatabaseFileUri?.let { databaseUri ->
@@ -340,10 +339,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 // Create the new database
                 mProgressDatabaseTaskProvider?.startDatabaseCreate(
                         databaseUri,
-                        masterPasswordChecked,
-                        masterPassword,
-                        keyFileChecked,
-                        keyFile
+                        mainCredential.masterPassword,
+                        mainCredential.keyFile
                 )
             }
         } catch (e: Exception) {
@@ -353,11 +350,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         }
     }
 
-    override fun onAssignKeyDialogNegativeClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
-
-    }
+    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

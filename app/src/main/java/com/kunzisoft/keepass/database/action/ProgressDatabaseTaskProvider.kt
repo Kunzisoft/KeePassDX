@@ -264,15 +264,11 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     */
 
     fun startDatabaseCreate(databaseUri: Uri,
-                            masterPasswordChecked: Boolean,
                             masterPassword: String?,
-                            keyFileChecked: Boolean,
                             keyFile: Uri?) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
-            putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
             putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
         }
                 , ACTION_DATABASE_CREATE_TASK)
@@ -303,16 +299,12 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     }
 
     fun startDatabaseAssignPassword(databaseUri: Uri,
-                                    masterPasswordChecked: Boolean,
                                     masterPassword: String?,
-                                    keyFileChecked: Boolean,
                                     keyFile: Uri?) {
 
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
-            putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
             putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
         }
                 , ACTION_DATABASE_ASSIGN_PASSWORD_TASK)

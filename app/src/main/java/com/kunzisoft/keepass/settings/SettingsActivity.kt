@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -141,52 +142,35 @@ open class SettingsActivity
     }
 
     override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                                    masterPasswordChecked: Boolean,
-                                                    masterPassword: String?,
-                                                    keyFileChecked: Boolean,
-                                                    keyFile: Uri?) {
+                                                    mainCredential: MainCredential) {
         databaseUri?.let {
             mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                     databaseUri,
-                    masterPasswordChecked,
-                    masterPassword,
-                    keyFileChecked,
-                    keyFile
+                    mainCredential.masterPassword,
+                    mainCredential.keyFile
             )
         }
     }
 
-    override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean,
-                                                masterPassword: String?,
-                                                keyFileChecked: Boolean,
-                                                keyFile: Uri?) {
+    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
         Database.getInstance().let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
+                if (database.validatePasswordEncoding(mainCredential.masterPassword, mainCredential.keyFile != null)) {
                     mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                             databaseUri,
-                            masterPasswordChecked,
-                            masterPassword,
-                            keyFileChecked,
-                            keyFile
+                            mainCredential.masterPassword,
+                            mainCredential.keyFile
                     )
                 } else {
-                    PasswordEncodingDialogFragment.getInstance(databaseUri,
-                            masterPasswordChecked,
-                            masterPassword,
-                            keyFileChecked,
-                            keyFile
-                    ).show(supportFragmentManager, "passwordEncodingTag")
+                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
+                            .show(supportFragmentManager, "passwordEncodingTag")
                 }
             }
         }
     }
 
-    override fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean,
-                                                masterPassword: String?,
-                                                keyFileChecked: Boolean,
-                                                keyFile: Uri?) {}
+    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
         if (PreferencesUtil.showLockDatabaseButton(this)) {
