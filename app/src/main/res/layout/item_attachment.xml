@@ -26,15 +26,7 @@
     android:focusable="false"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="160dp">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/item_attachment_thumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_above="@+id/constraintLayout"
-        android:scaleType="centerCrop" />
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -43,13 +35,22 @@
         android:layout_alignParentBottom="true">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_attachment_thumbnail"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/material_00_32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/entry_attachments"
             android:src="@drawable/ic_attach_file_broken_white_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_attachment_thumbnail"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
