@@ -126,6 +126,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     constructor(databaseName: String, rootName: String) {
         name = databaseName
+        kdbxVersion = FILE_VERSION_32_3
         val group = createGroup().apply {
             title = rootName
             icon = iconFactory.folderIcon
