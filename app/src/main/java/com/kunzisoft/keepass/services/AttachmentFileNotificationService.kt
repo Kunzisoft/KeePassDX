@@ -399,19 +399,17 @@ class AttachmentFileNotificationService: LockNotificationService() {
                              update: ((percent: Int)->Unit)? = null) {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
-            UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
-                BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
-                    Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
-                        binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
-                            attachmentBufferedInputStream.readAllBytes(bufferSize) { buffer ->
-                                outputStream.write(buffer)
-                                dataUploaded += buffer.size
-                                try {
-                                    val percentDownload = (100 * dataUploaded / fileSize).toInt()
-                                    update?.invoke(percentDownload)
-                                } catch (e: Exception) {
-                                    Log.e(TAG, "", e)
-                                }
+            UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.use { inputStream ->
+                Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
+                    binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
+                        inputStream.readAllBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
+                            dataUploaded += buffer.size
+                            try {
+                                val percentDownload = (100 * dataUploaded / fileSize).toInt()
+                                update?.invoke(percentDownload)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "", e)
                             }
                         }
                     }
