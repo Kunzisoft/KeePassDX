@@ -71,10 +71,12 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileThumbnail.apply {
+            visibility = View.GONE
             // Show the bitmap image if loaded
             if (imageBinariesSet.containsKey(position)) {
                 if (imageBinariesSet[position] != null) {
                     setImageBitmap(imageBinariesSet[position])
+                    visibility = View.VISIBLE
                 }
             } else {
                 imageBinariesSet[position] = null
@@ -84,14 +86,8 @@ class EntryAttachmentsItemsAdapter(context: Context)
                     notifyItemChanged(position)
                 }
             }
-            setOnClickListener {
+            this.setOnClickListener {
                 ImageViewerActivity.getInstance(context, entryAttachmentState.attachment)
-            }
-            visibility = if (imageBinariesSet.containsKey(position)) {
-                setImageBitmap(imageBinariesSet[position])
-                View.VISIBLE
-            } else {
-                View.GONE
             }
         }
         holder.binaryFileBroken.apply {

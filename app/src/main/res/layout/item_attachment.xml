@@ -28,10 +28,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_attachment_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="96dp"
+        android:layout_marginBottom="12dp"
+        android:layout_below="@+id/item_attachment_info"
+        android:scaleType="centerCrop" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_attachment_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"
@@ -48,23 +56,15 @@
             style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/item_attachment_broken"
-            app:layout_constraintEnd_toStartOf="@+id/item_attachment_thumbnail"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="BinaryFile.attach" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/item_attachment_thumbnail"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:scaleType="centerCrop"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_attachment_size_container"
-            app:layout_constraintStart_toEndOf="@+id/item_attachment_title"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/item_attachment_broken"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="BinaryFile.attach" />
 
         <LinearLayout
             android:id="@+id/item_attachment_size_container"
