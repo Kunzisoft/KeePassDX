@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.model
 
+import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
@@ -29,19 +30,25 @@ import com.kunzisoft.keepass.utils.writeEnum
 data class EntryAttachmentState(var attachment: Attachment,
                                 var streamDirection: StreamDirection,
                                 var downloadState: AttachmentState = AttachmentState.NULL,
-                                var downloadProgression: Int = 0) : Parcelable {
+                                var downloadProgression: Int = 0,
+                                var previewItem: Bitmap? = null,
+                                var previewItemState: AttachmentState = AttachmentState.NULL) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readParcelable(Attachment::class.java.classLoader) ?: Attachment("", BinaryAttachment()),
             parcel.readEnum<StreamDirection>() ?: StreamDirection.DOWNLOAD,
             parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
-            parcel.readInt())
+            parcel.readInt(),
+            parcel.readParcelable(Bitmap::class.java.classLoader),
+            parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(attachment, flags)
         parcel.writeEnum(streamDirection)
         parcel.writeEnum(downloadState)
         parcel.writeInt(downloadProgression)
+        parcel.writeParcelable(previewItem, flags)
+        parcel.writeEnum(previewItemState)
     }
 
     override fun describeContents(): Int {

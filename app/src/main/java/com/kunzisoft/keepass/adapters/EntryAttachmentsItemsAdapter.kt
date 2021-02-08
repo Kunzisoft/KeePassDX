@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.text.format.Formatter
 import android.util.TypedValue
@@ -47,9 +46,6 @@ class EntryAttachmentsItemsAdapter(context: Context)
     var binaryCipherKey: Database.LoadedKey? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
 
-    // To manage image preview loading
-    private val imageBinariesSet = HashMap<Int, Bitmap?>()
-
     private var mTitleColor: Int
 
     init {
@@ -71,19 +67,32 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileThumbnail.apply {
-            visibility = View.GONE
             // Show the bitmap image if loaded
-            if (imageBinariesSet.containsKey(position)) {
-                if (imageBinariesSet[position] != null) {
-                    setImageBitmap(imageBinariesSet[position])
+            when (entryAttachmentState.previewItemState) {
+                AttachmentState.NULL -> {
+                    visibility = View.GONE
+                    entryAttachmentState.previewItemState = AttachmentState.IN_PROGRESS
+                    // Load the bitmap image
+                    Attachment.loadBitmap(entryAttachmentState.attachment, binaryCipherKey) { imageLoaded ->
+                        entryAttachmentState.previewItem = imageLoaded
+                        if (imageLoaded == null) {
+                            entryAttachmentState.previewItemState = AttachmentState.ERROR
+                        } else {
+                            entryAttachmentState.previewItemState = AttachmentState.COMPLETE
+                        }
+                        notifyItemChanged(position)
+                    }
+                }
+                AttachmentState.IN_PROGRESS,
+                AttachmentState.START -> {
+                    // Do nothing if in progress
+                }
+                AttachmentState.COMPLETE -> {
+                    setImageBitmap(entryAttachmentState.previewItem)
                     visibility = View.VISIBLE
                 }
-            } else {
-                imageBinariesSet[position] = null
-                // Load the bitmap image
-                Attachment.loadBitmap(entryAttachmentState.attachment, binaryCipherKey) { imageLoaded ->
-                    imageBinariesSet[position] = imageLoaded
-                    notifyItemChanged(position)
+                AttachmentState.ERROR -> {
+                    visibility = View.GONE
                 }
             }
             this.setOnClickListener {
