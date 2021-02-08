@@ -77,8 +77,11 @@ data class Attachment(var name: String,
                     val asyncResult: Deferred<Bitmap?> = async {
                         runCatching {
                             binaryCipherKey?.let { binaryKey ->
-                                BitmapFactory.decodeStream(attachment.binaryAttachment
-                                        .getUnGzipInputDataStream(binaryKey))
+                                var bitmap: Bitmap?
+                                attachment.binaryAttachment.getUnGzipInputDataStream(binaryKey).use { bitmapInputStream ->
+                                    bitmap = BitmapFactory.decodeStream(bitmapInputStream)
+                                }
+                                bitmap
                             }
                         }.getOrNull()
                     }
