@@ -55,6 +55,7 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
         <item name="android:windowBackground">@color/background_light</item>
+        <item name="cardBackgroundTransparentColor">#DDFFFFFF</item>
 
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>
@@ -112,6 +113,7 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
         <item name="android:windowBackground">@color/background_night</item>
+        <item name="cardBackgroundTransparentColor">@color/grey_dark_transparent</item>
 
         <item name="android:textColor">@color/text_color_night</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>

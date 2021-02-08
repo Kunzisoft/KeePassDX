@@ -35,6 +35,7 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Dark</item>
+        <item name="cardBackgroundTransparentColor">@color/dark_transparent</item>
     </style>
     <!-- Toolbar Style Dark -->
     <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">

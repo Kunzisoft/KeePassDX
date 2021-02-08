@@ -36,6 +36,7 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple</item>
+        <item name="cardBackgroundTransparentColor">@color/background_purple_light_transparent</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
