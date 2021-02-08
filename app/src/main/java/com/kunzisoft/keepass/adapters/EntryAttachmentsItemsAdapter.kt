@@ -90,9 +90,11 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 AttachmentState.COMPLETE -> {
                     setImageBitmap(entryAttachmentState.previewItem)
                     visibility = View.VISIBLE
+                    entryAttachmentState.previewItemState = AttachmentState.NULL
                 }
                 AttachmentState.ERROR -> {
                     visibility = View.GONE
+                    entryAttachmentState.previewItemState = AttachmentState.NULL
                 }
             }
             this.setOnClickListener {
