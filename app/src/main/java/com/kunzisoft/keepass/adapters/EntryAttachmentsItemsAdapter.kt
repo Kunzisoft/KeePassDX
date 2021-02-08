@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.view.expand
 
 
 class EntryAttachmentsItemsAdapter(context: Context)
@@ -45,6 +46,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
     var binaryCipherKey: Database.LoadedKey? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
+    var onBinaryPreviewLoaded: ((item: EntryAttachmentState) -> Unit)? = null
 
     private var mTitleColor: Int
 
@@ -67,34 +69,26 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileThumbnail.apply {
-            // Show the bitmap image if loaded
-            when (entryAttachmentState.previewItemState) {
-                AttachmentState.NULL -> {
-                    visibility = View.GONE
-                    entryAttachmentState.previewItemState = AttachmentState.IN_PROGRESS
+            // Perform image loading only if upload is finished
+            if (entryAttachmentState.downloadState != AttachmentState.START
+                    && entryAttachmentState.downloadState != AttachmentState.IN_PROGRESS) {
+                // Show the bitmap image if loaded
+                if (entryAttachmentState.previewState == AttachmentState.NULL) {
+                    entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
                     // Load the bitmap image
                     Attachment.loadBitmap(entryAttachmentState.attachment, binaryCipherKey) { imageLoaded ->
-                        entryAttachmentState.previewItem = imageLoaded
                         if (imageLoaded == null) {
-                            entryAttachmentState.previewItemState = AttachmentState.ERROR
+                            entryAttachmentState.previewState = AttachmentState.ERROR
+                            visibility = View.GONE
+                            onBinaryPreviewLoaded?.invoke(entryAttachmentState)
                         } else {
-                            entryAttachmentState.previewItemState = AttachmentState.COMPLETE
+                            entryAttachmentState.previewState = AttachmentState.COMPLETE
+                            setImageBitmap(imageLoaded)
+                            expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
+                                onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                            }
                         }
-                        notifyItemChanged(position)
                     }
-                }
-                AttachmentState.IN_PROGRESS,
-                AttachmentState.START -> {
-                    // Do nothing if in progress
-                }
-                AttachmentState.COMPLETE -> {
-                    setImageBitmap(entryAttachmentState.previewItem)
-                    visibility = View.VISIBLE
-                    entryAttachmentState.previewItemState = AttachmentState.NULL
-                }
-                AttachmentState.ERROR -> {
-                    visibility = View.GONE
-                    entryAttachmentState.previewItemState = AttachmentState.NULL
                 }
             }
             this.setOnClickListener {

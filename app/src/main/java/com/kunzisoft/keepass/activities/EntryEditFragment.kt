@@ -505,9 +505,13 @@ class EntryEditFragment: StylishFragment() {
         return attachmentsAdapter.contains(attachment)
     }
 
-    fun putAttachment(attachment: EntryAttachmentState) {
+    fun putAttachment(attachment: EntryAttachmentState,
+                      onPreviewLoaded: (()-> Unit)? = null) {
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter.putItem(attachment)
+        attachmentsAdapter.onBinaryPreviewLoaded = {
+            onPreviewLoaded?.invoke()
+        }
     }
 
     fun removeAttachment(attachment: EntryAttachmentState) {

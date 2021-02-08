@@ -369,10 +369,8 @@ class EntryEditActivity : LockingActivity(),
                             entryEditFragment?.putAttachment(entryAttachmentState)
                         }
                         AttachmentState.COMPLETE -> {
-                            entryEditFragment?.apply {
-                                putAttachment(entryAttachmentState)
-                                // Scroll to the attachment position
-                                getAttachmentViewPosition(entryAttachmentState) {
+                            entryEditFragment?.putAttachment(entryAttachmentState) {
+                                entryEditFragment?.getAttachmentViewPosition(entryAttachmentState) {
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
                             }

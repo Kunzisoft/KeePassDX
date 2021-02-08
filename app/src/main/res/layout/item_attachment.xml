@@ -34,6 +34,7 @@
         android:layout_height="144dp"
         android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
         android:background="?android:attr/windowBackground"
         android:scaleType="fitStart" />
 
