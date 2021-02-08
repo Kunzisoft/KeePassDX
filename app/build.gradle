@@ -17,7 +17,7 @@ android {
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
-        testInstrumentationRunner = "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
         manifestPlaceholders = [ googleAndroidBackupAPIKey:"unused" ]
@@ -82,6 +82,10 @@ android {
         free.res.srcDir 'src/free/res'
     }
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -120,14 +124,15 @@ dependencies {
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.4'
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
-    // Apache Commons Collections
+    // Apache Commons
     implementation 'commons-collections:commons-collections:3.2.2'
-    // Apache Commons Codec
+    implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
 
     // Tests
-    androidTestImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
 }

@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.stream.dateTo5Bytes
 import com.kunzisoft.keepass.stream.uIntTo4Bytes
 import com.kunzisoft.keepass.stream.uShortTo2Bytes
@@ -31,79 +32,83 @@ import java.io.OutputStream
 /**
  * Output the GroupKDB to the stream
  */
-class GroupOutputKDB (private val mGroup: GroupKDB, private val mOutputStream: OutputStream) {
-
-    @Throws(IOException::class)
-    fun output() {
-        //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int, but most values can't be greater than 2^31, so it probably doesn't matter.
-
-        // Group ID
-        mOutputStream.write(GROUPID_FIELD_TYPE)
-        mOutputStream.write(GROUPID_FIELD_SIZE)
-        mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.id)))
-
-        // Name
-        mOutputStream.write(NAME_FIELD_TYPE)
-        StringDatabaseKDBUtils.writeStringToBytes(mGroup.title, mOutputStream)
-
-        // Create date
-        mOutputStream.write(CREATE_FIELD_TYPE)
-        mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(dateTo5Bytes(mGroup.creationTime.date))
-
-        // Modification date
-        mOutputStream.write(MOD_FIELD_TYPE)
-        mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(dateTo5Bytes(mGroup.lastModificationTime.date))
-
-        // Access date
-        mOutputStream.write(ACCESS_FIELD_TYPE)
-        mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(dateTo5Bytes(mGroup.lastAccessTime.date))
-
-        // Expiration date
-        mOutputStream.write(EXPIRE_FIELD_TYPE)
-        mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(dateTo5Bytes(mGroup.expiryTime.date))
-
-        // Image ID
-        mOutputStream.write(IMAGEID_FIELD_TYPE)
-        mOutputStream.write(IMAGEID_FIELD_SIZE)
-        mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.icon.iconId)))
-
-        // Level
-        mOutputStream.write(LEVEL_FIELD_TYPE)
-        mOutputStream.write(LEVEL_FIELD_SIZE)
-        mOutputStream.write(uShortTo2Bytes(mGroup.level))
-
-        // Flags
-        mOutputStream.write(FLAGS_FIELD_TYPE)
-        mOutputStream.write(FLAGS_FIELD_SIZE)
-        mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.groupFlags)))
-
-        // End
-        mOutputStream.write(END_FIELD_TYPE)
-        mOutputStream.write(ZERO_FIELD_SIZE)
-    }
+class GroupOutputKDB {
 
     companion object {
-        // Constants
-        val GROUPID_FIELD_TYPE: ByteArray = uShortTo2Bytes(1)
-        val NAME_FIELD_TYPE:ByteArray = uShortTo2Bytes(2)
-        val CREATE_FIELD_TYPE:ByteArray = uShortTo2Bytes(3)
-        val MOD_FIELD_TYPE:ByteArray = uShortTo2Bytes(4)
-        val ACCESS_FIELD_TYPE:ByteArray = uShortTo2Bytes(5)
-        val EXPIRE_FIELD_TYPE:ByteArray = uShortTo2Bytes(6)
-        val IMAGEID_FIELD_TYPE:ByteArray = uShortTo2Bytes(7)
-        val LEVEL_FIELD_TYPE:ByteArray = uShortTo2Bytes(8)
-        val FLAGS_FIELD_TYPE:ByteArray = uShortTo2Bytes(9)
-        val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
+        @Throws(DatabaseOutputException::class)
+        fun write(mOutputStream: OutputStream,
+                  mGroup: GroupKDB) {
+            //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int, but most values can't be greater than 2^31, so it probably doesn't matter.
+            try {
+                // Group ID
+                mOutputStream.write(GROUPID_FIELD_TYPE)
+                mOutputStream.write(GROUPID_FIELD_SIZE)
+                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.id)))
 
-        val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(5))
-        val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        val LEVEL_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(2))
-        val FLAGS_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(0))
+                // Name
+                mOutputStream.write(NAME_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToBytes(mGroup.title, mOutputStream)
+
+                // Create date
+                mOutputStream.write(CREATE_FIELD_TYPE)
+                mOutputStream.write(DATE_FIELD_SIZE)
+                mOutputStream.write(dateTo5Bytes(mGroup.creationTime.date))
+
+                // Modification date
+                mOutputStream.write(MOD_FIELD_TYPE)
+                mOutputStream.write(DATE_FIELD_SIZE)
+                mOutputStream.write(dateTo5Bytes(mGroup.lastModificationTime.date))
+
+                // Access date
+                mOutputStream.write(ACCESS_FIELD_TYPE)
+                mOutputStream.write(DATE_FIELD_SIZE)
+                mOutputStream.write(dateTo5Bytes(mGroup.lastAccessTime.date))
+
+                // Expiration date
+                mOutputStream.write(EXPIRE_FIELD_TYPE)
+                mOutputStream.write(DATE_FIELD_SIZE)
+                mOutputStream.write(dateTo5Bytes(mGroup.expiryTime.date))
+
+                // Image ID
+                mOutputStream.write(IMAGEID_FIELD_TYPE)
+                mOutputStream.write(IMAGEID_FIELD_SIZE)
+                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.icon.iconId)))
+
+                // Level
+                mOutputStream.write(LEVEL_FIELD_TYPE)
+                mOutputStream.write(LEVEL_FIELD_SIZE)
+                mOutputStream.write(uShortTo2Bytes(mGroup.level))
+
+                // Flags
+                mOutputStream.write(FLAGS_FIELD_TYPE)
+                mOutputStream.write(FLAGS_FIELD_SIZE)
+                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.groupFlags)))
+
+                // End
+                mOutputStream.write(END_FIELD_TYPE)
+                mOutputStream.write(ZERO_FIELD_SIZE)
+            } catch (e: IOException) {
+                throw DatabaseOutputException("Failed to output a group", e)
+            }
+        }
+
+        // Constants
+        private val GROUPID_FIELD_TYPE: ByteArray = uShortTo2Bytes(1)
+        private val NAME_FIELD_TYPE:ByteArray = uShortTo2Bytes(2)
+        private val CREATE_FIELD_TYPE:ByteArray = uShortTo2Bytes(3)
+        private val MOD_FIELD_TYPE:ByteArray = uShortTo2Bytes(4)
+        private val ACCESS_FIELD_TYPE:ByteArray = uShortTo2Bytes(5)
+        private val EXPIRE_FIELD_TYPE:ByteArray = uShortTo2Bytes(6)
+        private val IMAGEID_FIELD_TYPE:ByteArray = uShortTo2Bytes(7)
+        private val LEVEL_FIELD_TYPE:ByteArray = uShortTo2Bytes(8)
+        private val FLAGS_FIELD_TYPE:ByteArray = uShortTo2Bytes(9)
+        private val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
+
+        private val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        private val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(5))
+        private val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        private val LEVEL_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(2))
+        private val FLAGS_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        private val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(0))
     }
 }

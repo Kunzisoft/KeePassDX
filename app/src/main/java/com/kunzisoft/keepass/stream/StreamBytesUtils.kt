@@ -24,13 +24,14 @@ import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils.bytesToString
 import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
+import java.io.OutputStream
 import java.util.*
 
 /**
  * Read all data of stream and invoke [readBytes] each time the buffer is full or no more data to read.
  */
 @Throws(IOException::class)
-fun InputStream.readBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
+fun InputStream.readAllBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
     val buffer = ByteArray(bufferSize)
     var read = 0
     while (read != -1) {
@@ -47,32 +48,17 @@ fun InputStream.readBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> 
 }
 
 /**
- * Read number of bytes defined by [length] and invoke [readBytes] each time the buffer is full or no more data to read.
+ * Read number of bytes defined by [length] and copy the content in [outputStream]
  */
 @Throws(IOException::class)
-fun InputStream.readBytes(length: Int, bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
-    var bufferLength = bufferSize
-    var buffer = ByteArray(bufferLength)
-
-    var offset = 0
-    var read = 0
-    while (offset < length && read != -1) {
-
-        // To reduce the buffer for the last bytes reads
-        if (length - offset < bufferLength) {
-            bufferLength = length - offset
-            buffer = ByteArray(bufferLength)
-        }
-        read = this.read(buffer, 0, bufferLength)
-
-        // To get only the bytes read
-        val optimizedBuffer: ByteArray = if (read >= 0 && buffer.size > read) {
-            buffer.copyOf(read)
-        } else {
-            buffer
-        }
-        readBytes.invoke(optimizedBuffer)
-        offset += read
+fun InputStream.copyPartTo(outputStream: OutputStream, length: Int, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    var bytesCopied: Long = 0
+    val buffer = ByteArray(bufferSize)
+    var bytesRead = read(buffer)
+    while (bytesRead >= 0 && bytesCopied <= length) {
+        outputStream.write(buffer, 0, bytesRead)
+        bytesCopied += bytesRead
+        bytesRead = read(buffer)
     }
 }
 

@@ -29,11 +29,12 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.stream.readBytes
+import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
@@ -345,7 +346,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                             }
                         }
                     } catch (e: Exception) {
-                        Log.e(TAG, "Unable to upload or download file", e)
+                        e.printStackTrace()
                         progressResult = false
                     }
                     progressResult
@@ -372,17 +373,19 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                  bufferSize: Int = DEFAULT_BUFFER_SIZE,
                                  update: ((percent: Int)->Unit)? = null) {
             var dataDownloaded = 0L
-            val fileSize = binaryAttachment.length()
+            val fileSize = binaryAttachment.length
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
-                binaryAttachment.getUnGzipInputDataStream().use { inputStream ->
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        outputStream.write(buffer)
-                        dataDownloaded += buffer.size
-                        try {
-                            val percentDownload = (100 * dataDownloaded / fileSize).toInt()
-                            update?.invoke(percentDownload)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "", e)
+                Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
+                    binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
+                        inputStream.readAllBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
+                            dataDownloaded += buffer.size
+                            try {
+                                val percentDownload = (100 * dataDownloaded / fileSize).toInt()
+                                update?.invoke(percentDownload)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "", e)
+                            }
                         }
                     }
                 }
@@ -396,10 +399,10 @@ class AttachmentFileNotificationService: LockNotificationService() {
                              update: ((percent: Int)->Unit)? = null) {
             var dataUploaded = 0L
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
-            UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.let { inputStream ->
-                binaryAttachment.getGzipOutputDataStream().use { outputStream ->
-                    BufferedInputStream(inputStream).use { attachmentBufferedInputStream ->
-                        attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
+            UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.use { inputStream ->
+                Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
+                    binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
+                        inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                             dataUploaded += buffer.size
                             try {

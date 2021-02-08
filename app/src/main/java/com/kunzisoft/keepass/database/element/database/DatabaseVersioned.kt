@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImageFactory
@@ -84,13 +85,13 @@ abstract class DatabaseVersioned<
     protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
 
     @Throws(IOException::class)
-    fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
-        masterKey = getMasterKey(key, keyInputStream)
+    fun retrieveMasterKey(key: String?, keyfileInputStream: InputStream?) {
+        masterKey = getMasterKey(key, keyfileInputStream)
     }
 
     @Throws(IOException::class)
-    protected fun getCompositeKey(key: String, keyInputStream: InputStream): ByteArray {
-        val fileKey = getFileKey(keyInputStream)
+    protected fun getCompositeKey(key: String, keyfileInputStream: InputStream): ByteArray {
+        val fileKey = getFileKey(keyfileInputStream)
         val passwordKey = getPasswordKey(key)
 
         val messageDigest: MessageDigest
@@ -382,6 +383,12 @@ abstract class DatabaseVersioned<
             return false
         return true
     }
+
+    /**
+     * Cipher key generated when the database is loaded, and destroyed when the database is closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: Database.LoadedKey? = null
 
     companion object {
 
