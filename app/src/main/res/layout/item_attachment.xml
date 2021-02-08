@@ -30,16 +30,17 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_attachment_thumbnail"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="96dp"
         android:layout_marginBottom="12dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/item_attachment_info"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerInside" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_attachment_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"
@@ -56,10 +57,6 @@
             style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_attachment_size_container"
             app:layout_constraintStart_toEndOf="@+id/item_attachment_broken"
@@ -82,8 +79,6 @@
                 android:layout_height="wrap_content"
                 android:firstBaselineToTopHeight="0dp"
                 android:includeFontPadding="false"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
                 tools:text="1.2 Mb" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -95,6 +90,8 @@
                 android:includeFontPadding="false"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 tools:text="GZip" />
         </LinearLayout>
 
