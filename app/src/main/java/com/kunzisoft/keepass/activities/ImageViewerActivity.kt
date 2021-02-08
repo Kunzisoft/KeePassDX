@@ -22,9 +22,12 @@ package com.kunzisoft.keepass.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.Formatter
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -38,12 +41,22 @@ class ImageViewerActivity : LockingActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_image_viewer)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
         val imageView: ImageView = findViewById(R.id.image_viewer_image)
         val progressView: View = findViewById(R.id.image_viewer_progress)
 
         try {
             progressView.visibility = View.VISIBLE
             intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
+
+                supportActionBar?.title = attachment.name
+                supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryAttachment.length)
+
                 Attachment.loadBitmap(attachment, Database.getInstance().loadedCipherKey) { bitmapLoaded ->
                     if (bitmapLoaded == null) {
                         finish()
@@ -79,6 +92,13 @@ class ImageViewerActivity : LockingActivity() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
