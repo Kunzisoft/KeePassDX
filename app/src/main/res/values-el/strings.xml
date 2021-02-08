@@ -46,7 +46,7 @@
 \nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
     <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
     <string name="entry_accessed">Πρόσβαση</string>
-    <string name="entry_cancel">Ακύρωση</string>
+    <string name="entry_cancel">Άκυρο</string>
     <string name="entry_notes">Σημειώσεις</string>
     <string name="entry_confpassword">Επιβεβαίωση κωδικού</string>
     <string name="entry_created">Δημιουργήθηκε</string>
@@ -270,7 +270,7 @@
     <string name="menu_copy">Αντιγραφή</string>
     <string name="menu_move">Μετακίνηση</string>
     <string name="menu_paste">Επικόλληση</string>
-    <string name="menu_cancel">Ακύρωση</string>
+    <string name="menu_cancel">Άκυρο</string>
     <string name="clipboard_warning">Εάν αποτύχει η αυτόματη διαγραφή του προχείρου, διαγράψτε το ιστορικό του χειροκίνητα.</string>
     <string name="allow_copy_password_warning">Προειδοποίηση: Το πρόχειρο μοιράζεται από όλες τις εφαρμογές. Αν αντιγράφονται ευαίσθητα δεδομένα, άλλο λογισμικό μπορεί να το ανακτήσει.</string>
     <string name="allow_no_password_title">Να μην επιτρέπεται κανένα κύριο κλειδί</string>
