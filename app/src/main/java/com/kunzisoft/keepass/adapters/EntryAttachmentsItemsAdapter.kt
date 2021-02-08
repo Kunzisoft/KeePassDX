@@ -153,7 +153,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                         }
                     }
                 }
-                holder.itemView.setOnClickListener(null)
+                holder.binaryFileInfo.setOnClickListener(null)
             }
             StreamDirection.DOWNLOAD -> {
                 holder.binaryFileProgressIcon.isActivated = false
@@ -166,7 +166,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                     }
                     progress = entryAttachmentState.downloadProgression
                 }
-                holder.itemView.setOnClickListener {
+                holder.binaryFileInfo.setOnClickListener {
                     onItemClickListener?.invoke(entryAttachmentState)
                 }
             }
@@ -176,6 +176,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var binaryFileThumbnail: ImageView = itemView.findViewById(R.id.item_attachment_thumbnail)
+        var binaryFileInfo: View = itemView.findViewById(R.id.item_attachment_info)
         var binaryFileBroken: ImageView = itemView.findViewById(R.id.item_attachment_broken)
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)
