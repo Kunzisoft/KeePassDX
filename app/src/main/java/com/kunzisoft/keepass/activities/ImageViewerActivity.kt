@@ -21,14 +21,15 @@ package com.kunzisoft.keepass.activities
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import kotlinx.android.synthetic.main.activity_image_viewer.*
 
 class ImageViewerActivity : LockingActivity() {
@@ -38,13 +39,20 @@ class ImageViewerActivity : LockingActivity() {
 
         setContentView(R.layout.activity_image_viewer)
         val imageView: ImageView = findViewById(R.id.image_viewer_image)
+        val progressView: View = findViewById(R.id.image_viewer_progress)
 
         try {
+            progressView.visibility = View.VISIBLE
             intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
-                BitmapFactory.decodeStream(attachment.binaryAttachment.getUnGzipInputDataStream())?.let { imageBitmap ->
-                    imageView.setImageBitmap(imageBitmap)
-                } ?: finish()
-            }
+                Attachment.loadBitmap(attachment, Database.getInstance().loadedCipherKey) { bitmapLoaded ->
+                    if (bitmapLoaded == null) {
+                        finish()
+                    } else {
+                        progressView.visibility = View.GONE
+                        imageView.setImageBitmap(bitmapLoaded)
+                    }
+                }
+            } ?: finish()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to view the binary", e)
             finish()

@@ -32,6 +32,7 @@ import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
+import javax.crypto.spec.IvParameterSpec
 
 class BinaryAttachment : Parcelable {
 
@@ -101,7 +102,7 @@ class BinaryAttachment : Parcelable {
     private fun buildInputStream(file: File?, cipherKey: Database.LoadedKey): InputStream {
         return when {
             file != null && file.length() > 0 -> {
-                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, cipherKey.iv)
+                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
                 Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), Base64.NO_WRAP)
             }
             else -> ByteArrayInputStream(ByteArray(0))
@@ -112,7 +113,7 @@ class BinaryAttachment : Parcelable {
     private fun buildOutputStream(file: File?, cipherKey: Database.LoadedKey): OutputStream {
         return when {
             file != null -> {
-                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, cipherKey.iv)
+                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
                 BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), Base64.NO_WRAP))
             }
             else -> throw IOException("Unable to write in an unknown file")

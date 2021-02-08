@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground">
+    <ProgressBar
+        android:id="@+id/image_viewer_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
     <ImageView
         android:id="@+id/image_viewer_image"
         android:layout_width="match_parent"

@@ -198,7 +198,7 @@ class EntryEditActivity : LockingActivity(),
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo)
+            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mDatabase?.loadedCipherKey)
         }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)

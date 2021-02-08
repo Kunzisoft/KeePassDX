@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.text.format.Formatter
 import android.util.TypedValue
@@ -33,6 +33,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ImageViewerActivity
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -42,7 +44,11 @@ import com.kunzisoft.keepass.model.StreamDirection
 class EntryAttachmentsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
+    var binaryCipherKey: Database.LoadedKey? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
+
+    // To manage image preview loading
+    private val imageBinariesSet = HashMap<Int, Bitmap?>()
 
     private var mTitleColor: Int
 
@@ -65,14 +71,27 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileThumbnail.apply {
-            BitmapFactory.decodeStream(entryAttachmentState.attachment.binaryAttachment.getUnGzipInputDataStream())?.let { imageBitmap ->
-                setImageBitmap(imageBitmap)
-                setOnClickListener {
-                    ImageViewerActivity.getInstance(context, entryAttachmentState.attachment)
+            // Show the bitmap image if loaded
+            if (imageBinariesSet.containsKey(position)) {
+                if (imageBinariesSet[position] != null) {
+                    setImageBitmap(imageBinariesSet[position])
                 }
-                visibility = View.VISIBLE
-            } ?: run {
-                visibility = View.GONE
+            } else {
+                imageBinariesSet[position] = null
+                // Load the bitmap image
+                Attachment.loadBitmap(entryAttachmentState.attachment, binaryCipherKey) { imageLoaded ->
+                    imageBinariesSet[position] = imageLoaded
+                    notifyItemChanged(position)
+                }
+            }
+            setOnClickListener {
+                ImageViewerActivity.getInstance(context, entryAttachmentState.attachment)
+            }
+            visibility = if (imageBinariesSet.containsKey(position)) {
+                setImageBitmap(imageBinariesSet[position])
+                View.VISIBLE
+            } else {
+                View.GONE
             }
         }
         holder.binaryFileBroken.apply {
