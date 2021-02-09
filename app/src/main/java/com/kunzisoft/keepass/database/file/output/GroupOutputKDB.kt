@@ -36,57 +36,57 @@ class GroupOutputKDB {
 
     companion object {
         @Throws(DatabaseOutputException::class)
-        fun write(mOutputStream: OutputStream,
-                  mGroup: GroupKDB) {
+        fun write(outputStream: OutputStream,
+                  group: GroupKDB) {
             //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int, but most values can't be greater than 2^31, so it probably doesn't matter.
             try {
                 // Group ID
-                mOutputStream.write(GROUPID_FIELD_TYPE)
-                mOutputStream.write(GROUPID_FIELD_SIZE)
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.id)))
+                outputStream.write(GROUPID_FIELD_TYPE)
+                outputStream.write(GROUPID_FIELD_SIZE)
+                outputStream.write(uIntTo4Bytes(UnsignedInt(group.id)))
 
                 // Name
-                mOutputStream.write(NAME_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mGroup.title, mOutputStream)
+                outputStream.write(NAME_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToStream(outputStream, group.title)
 
                 // Create date
-                mOutputStream.write(CREATE_FIELD_TYPE)
-                mOutputStream.write(DATE_FIELD_SIZE)
-                mOutputStream.write(dateTo5Bytes(mGroup.creationTime.date))
+                outputStream.write(CREATE_FIELD_TYPE)
+                outputStream.write(DATE_FIELD_SIZE)
+                outputStream.write(dateTo5Bytes(group.creationTime.date))
 
                 // Modification date
-                mOutputStream.write(MOD_FIELD_TYPE)
-                mOutputStream.write(DATE_FIELD_SIZE)
-                mOutputStream.write(dateTo5Bytes(mGroup.lastModificationTime.date))
+                outputStream.write(MOD_FIELD_TYPE)
+                outputStream.write(DATE_FIELD_SIZE)
+                outputStream.write(dateTo5Bytes(group.lastModificationTime.date))
 
                 // Access date
-                mOutputStream.write(ACCESS_FIELD_TYPE)
-                mOutputStream.write(DATE_FIELD_SIZE)
-                mOutputStream.write(dateTo5Bytes(mGroup.lastAccessTime.date))
+                outputStream.write(ACCESS_FIELD_TYPE)
+                outputStream.write(DATE_FIELD_SIZE)
+                outputStream.write(dateTo5Bytes(group.lastAccessTime.date))
 
                 // Expiration date
-                mOutputStream.write(EXPIRE_FIELD_TYPE)
-                mOutputStream.write(DATE_FIELD_SIZE)
-                mOutputStream.write(dateTo5Bytes(mGroup.expiryTime.date))
+                outputStream.write(EXPIRE_FIELD_TYPE)
+                outputStream.write(DATE_FIELD_SIZE)
+                outputStream.write(dateTo5Bytes(group.expiryTime.date))
 
                 // Image ID
-                mOutputStream.write(IMAGEID_FIELD_TYPE)
-                mOutputStream.write(IMAGEID_FIELD_SIZE)
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.icon.iconId)))
+                outputStream.write(IMAGEID_FIELD_TYPE)
+                outputStream.write(IMAGEID_FIELD_SIZE)
+                outputStream.write(uIntTo4Bytes(UnsignedInt(group.icon.iconId)))
 
                 // Level
-                mOutputStream.write(LEVEL_FIELD_TYPE)
-                mOutputStream.write(LEVEL_FIELD_SIZE)
-                mOutputStream.write(uShortTo2Bytes(mGroup.level))
+                outputStream.write(LEVEL_FIELD_TYPE)
+                outputStream.write(LEVEL_FIELD_SIZE)
+                outputStream.write(uShortTo2Bytes(group.level))
 
                 // Flags
-                mOutputStream.write(FLAGS_FIELD_TYPE)
-                mOutputStream.write(FLAGS_FIELD_SIZE)
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.groupFlags)))
+                outputStream.write(FLAGS_FIELD_TYPE)
+                outputStream.write(FLAGS_FIELD_SIZE)
+                outputStream.write(uIntTo4Bytes(UnsignedInt(group.groupFlags)))
 
                 // End
-                mOutputStream.write(END_FIELD_TYPE)
-                mOutputStream.write(ZERO_FIELD_SIZE)
+                outputStream.write(END_FIELD_TYPE)
+                outputStream.write(ZERO_FIELD_SIZE)
             } catch (e: IOException) {
                 throw DatabaseOutputException("Failed to output a group", e)
             }

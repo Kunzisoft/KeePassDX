@@ -36,81 +36,80 @@ class EntryOutputKDB {
 
     companion object {
         @Throws(DatabaseOutputException::class)
-        fun writeEntry(mOutputStream: OutputStream,
-                       mEntry: EntryKDB,
-                       binaryCipherKey: Database.LoadedKey) {
+        fun write(outputStream: OutputStream,
+                  entry: EntryKDB,
+                  binaryCipherKey: Database.LoadedKey) {
             //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
             try {
                 // UUID
-                mOutputStream.write(UUID_FIELD_TYPE)
-                mOutputStream.write(UUID_FIELD_SIZE)
-                mOutputStream.write(uuidTo16Bytes(mEntry.id))
+                outputStream.write(UUID_FIELD_TYPE)
+                outputStream.write(UUID_FIELD_SIZE)
+                outputStream.write(uuidTo16Bytes(entry.id))
 
                 // Group ID
-                mOutputStream.write(GROUPID_FIELD_TYPE)
-                mOutputStream.write(GROUPID_FIELD_SIZE)
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.parent!!.id)))
+                outputStream.write(GROUPID_FIELD_TYPE)
+                outputStream.write(GROUPID_FIELD_SIZE)
+                outputStream.write(uIntTo4Bytes(UnsignedInt(entry.parent!!.id)))
 
                 // Image ID
-                mOutputStream.write(IMAGEID_FIELD_TYPE)
-                mOutputStream.write(IMAGEID_FIELD_SIZE)
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.icon.iconId)))
+                outputStream.write(IMAGEID_FIELD_TYPE)
+                outputStream.write(IMAGEID_FIELD_SIZE)
+                outputStream.write(uIntTo4Bytes(UnsignedInt(entry.icon.iconId)))
 
                 // Title
-                //byte[] title = mEntry.title.getBytes("UTF-8");
-                mOutputStream.write(TITLE_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.title, mOutputStream)
+                outputStream.write(TITLE_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.title)
 
                 // URL
-                mOutputStream.write(URL_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.url, mOutputStream)
+                outputStream.write(URL_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.url)
 
                 // Username
-                mOutputStream.write(USERNAME_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.username, mOutputStream)
+                outputStream.write(USERNAME_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.username)
 
                 // Password
-                mOutputStream.write(PASSWORD_FIELD_TYPE)
-                writePassword(mOutputStream, mEntry.password)
+                outputStream.write(PASSWORD_FIELD_TYPE)
+                writePassword(outputStream, entry.password)
 
                 // Additional
-                mOutputStream.write(ADDITIONAL_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.notes, mOutputStream)
+                outputStream.write(ADDITIONAL_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.notes)
 
                 // Create date
-                writeDate(mOutputStream, CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime.date))
+                writeDate(outputStream, CREATE_FIELD_TYPE, dateTo5Bytes(entry.creationTime.date))
 
                 // Modification date
-                writeDate(mOutputStream, MOD_FIELD_TYPE, dateTo5Bytes(mEntry.lastModificationTime.date))
+                writeDate(outputStream, MOD_FIELD_TYPE, dateTo5Bytes(entry.lastModificationTime.date))
 
                 // Access date
-                writeDate(mOutputStream, ACCESS_FIELD_TYPE, dateTo5Bytes(mEntry.lastAccessTime.date))
+                writeDate(outputStream, ACCESS_FIELD_TYPE, dateTo5Bytes(entry.lastAccessTime.date))
 
                 // Expiration date
-                writeDate(mOutputStream, EXPIRE_FIELD_TYPE, dateTo5Bytes(mEntry.expiryTime.date))
+                writeDate(outputStream, EXPIRE_FIELD_TYPE, dateTo5Bytes(entry.expiryTime.date))
 
                 // Binary description
-                mOutputStream.write(BINARY_DESC_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.binaryDescription, mOutputStream)
+                outputStream.write(BINARY_DESC_FIELD_TYPE)
+                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.binaryDescription)
 
                 // Binary
-                mOutputStream.write(BINARY_DATA_FIELD_TYPE)
-                val binaryData = mEntry.binaryData
+                outputStream.write(BINARY_DATA_FIELD_TYPE)
+                val binaryData = entry.binaryData
                 val binaryDataLength = binaryData?.length ?: 0L
                 // Write data length
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
+                outputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
                 // Write data
                 if (binaryDataLength > 0) {
                     binaryData?.getInputDataStream(binaryCipherKey).use { inputStream ->
                         inputStream?.readAllBytes { buffer ->
-                            mOutputStream.write(buffer)
+                            outputStream.write(buffer)
                         }
                     }
                 }
 
                 // End
-                mOutputStream.write(END_FIELD_TYPE)
-                mOutputStream.write(ZERO_FIELD_SIZE)
+                outputStream.write(END_FIELD_TYPE)
+                outputStream.write(ZERO_FIELD_SIZE)
             } catch (e: IOException) {
                 throw DatabaseOutputException("Failed to output an entry.", e)
             }
@@ -156,13 +155,10 @@ class EntryOutputKDB {
         private val BINARY_DATA_FIELD_TYPE:ByteArray = uShortTo2Bytes(14)
         private val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
 
-        private val LONG_FOUR:ByteArray = uIntTo4Bytes(UnsignedInt(4))
         private val UUID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(16))
         private val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
         private val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(5))
         private val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val LEVEL_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val FLAGS_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
         private val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(0))
         private val ZERO_FIVE:ByteArray = byteArrayOf(0x00, 0x00, 0x00, 0x00, 0x00)
     }
