@@ -90,6 +90,8 @@ class EntryAttachmentsItemsAdapter(context: Context)
                         }
                     }
                 }
+            } else {
+                visibility = View.GONE
             }
             this.setOnClickListener {
                 ImageViewerActivity.getInstance(context, entryAttachmentState.attachment)

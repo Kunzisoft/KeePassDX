@@ -354,10 +354,6 @@ class EntryEditActivity : LockingActivity(),
                     when (entryAttachmentState.downloadState) {
                         AttachmentState.START -> {
                             entryEditFragment?.apply {
-                                // When only one attachment is allowed
-                                if (!mAllowMultipleAttachments) {
-                                    clearAttachments()
-                                }
                                 putAttachment(entryAttachmentState)
                                 // Scroll to the attachment position
                                 getAttachmentViewPosition(entryAttachmentState) {
@@ -470,6 +466,11 @@ class EntryEditActivity : LockingActivity(),
 
     private fun startUploadAttachment(attachmentToUploadUri: Uri?, attachment: Attachment?) {
         if (attachmentToUploadUri != null && attachment != null) {
+            // When only one attachment is allowed
+            if (!mAllowMultipleAttachments) {
+                entryEditFragment?.clearAttachments()
+            }
+            // TODO if (!mAllowMultipleAttachments && !fileUploading)
             // Start uploading in service
             mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
             // Add in temp list
