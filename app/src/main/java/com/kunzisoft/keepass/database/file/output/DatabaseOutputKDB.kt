@@ -213,12 +213,13 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         // Groups
         mDatabaseKDB.doForEachGroupInIndex { group ->
-            GroupOutputKDB.write(outputStream, group)
+            GroupOutputKDB(group, outputStream).output()
         }
+        // Entries
         val binaryCipherKey = mDatabaseKDB.loadedCipherKey
                 ?: throw DatabaseOutputException("Unable to retrieve cipher key to write binaries")
         mDatabaseKDB.doForEachEntryInIndex { entry ->
-            EntryOutputKDB.write(outputStream, entry, binaryCipherKey)
+            EntryOutputKDB(entry, outputStream, binaryCipherKey).output()
         }
     }
 

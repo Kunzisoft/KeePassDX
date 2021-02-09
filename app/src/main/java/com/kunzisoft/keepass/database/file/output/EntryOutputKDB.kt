@@ -32,115 +32,115 @@ import java.nio.charset.Charset
 /**
  * Output the GroupKDB to the stream
  */
-class EntryOutputKDB {
+class EntryOutputKDB(private val mEntry: EntryKDB,
+                     private val mOutputStream: OutputStream,
+                     private val mCipherKey: Database.LoadedKey) {
+
+    //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
+    @Throws(DatabaseOutputException::class)
+    fun output() {
+        try {
+            // UUID
+            mOutputStream.write(UUID_FIELD_TYPE)
+            mOutputStream.write(UUID_FIELD_SIZE)
+            mOutputStream.write(uuidTo16Bytes(mEntry.id))
+
+            // Group ID
+            mOutputStream.write(GROUPID_FIELD_TYPE)
+            mOutputStream.write(GROUPID_FIELD_SIZE)
+            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.parent!!.id)))
+
+            // Image ID
+            mOutputStream.write(IMAGEID_FIELD_TYPE)
+            mOutputStream.write(IMAGEID_FIELD_SIZE)
+            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.icon.iconId)))
+
+            // Title
+            //byte[] title = mEntry.title.getBytes("UTF-8");
+            mOutputStream.write(TITLE_FIELD_TYPE)
+            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.title)
+
+            // URL
+            mOutputStream.write(URL_FIELD_TYPE)
+            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.url)
+
+            // Username
+            mOutputStream.write(USERNAME_FIELD_TYPE)
+            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.username)
+
+            // Password
+            mOutputStream.write(PASSWORD_FIELD_TYPE)
+            writePassword(mEntry.password, mOutputStream)
+
+            // Additional
+            mOutputStream.write(ADDITIONAL_FIELD_TYPE)
+            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.notes)
+
+            // Create date
+            writeDate(CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime.date))
+
+            // Modification date
+            writeDate(MOD_FIELD_TYPE, dateTo5Bytes(mEntry.lastModificationTime.date))
+
+            // Access date
+            writeDate(ACCESS_FIELD_TYPE, dateTo5Bytes(mEntry.lastAccessTime.date))
+
+            // Expiration date
+            writeDate(EXPIRE_FIELD_TYPE, dateTo5Bytes(mEntry.expiryTime.date))
+
+            // Binary description
+            mOutputStream.write(BINARY_DESC_FIELD_TYPE)
+            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.binaryDescription)
+
+            // Binary
+            mOutputStream.write(BINARY_DATA_FIELD_TYPE)
+            val binaryData = mEntry.binaryData
+            val binaryDataLength = binaryData?.length ?: 0L
+            // Write data length
+            mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
+            // Write data
+            if (binaryDataLength > 0) {
+                binaryData?.getInputDataStream(mCipherKey).use { inputStream ->
+                    inputStream?.readAllBytes { buffer ->
+                        mOutputStream.write(buffer)
+                    }
+                    inputStream?.close()
+                }
+            }
+
+            // End
+            mOutputStream.write(END_FIELD_TYPE)
+            mOutputStream.write(ZERO_FIELD_SIZE)
+        } catch (e: IOException) {
+            throw DatabaseOutputException("Failed to output an entry.", e)
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun writeDate(type: ByteArray, date: ByteArray?) {
+        mOutputStream.write(type)
+        mOutputStream.write(DATE_FIELD_SIZE)
+        if (date != null) {
+            mOutputStream.write(date)
+        } else {
+            mOutputStream.write(ZERO_FIVE)
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun writePassword(str: String, os: OutputStream): Int {
+        val initial = str.toByteArray(Charset.forName("UTF-8"))
+        val length = initial.size + 1
+        os.write(uIntTo4Bytes(UnsignedInt(length)))
+        os.write(initial)
+        os.write(0x00)
+        return length
+    }
 
     companion object {
-        @Throws(DatabaseOutputException::class)
-        fun write(outputStream: OutputStream,
-                  entry: EntryKDB,
-                  binaryCipherKey: Database.LoadedKey) {
-            //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
-            try {
-                // UUID
-                outputStream.write(UUID_FIELD_TYPE)
-                outputStream.write(UUID_FIELD_SIZE)
-                outputStream.write(uuidTo16Bytes(entry.id))
-
-                // Group ID
-                outputStream.write(GROUPID_FIELD_TYPE)
-                outputStream.write(GROUPID_FIELD_SIZE)
-                outputStream.write(uIntTo4Bytes(UnsignedInt(entry.parent!!.id)))
-
-                // Image ID
-                outputStream.write(IMAGEID_FIELD_TYPE)
-                outputStream.write(IMAGEID_FIELD_SIZE)
-                outputStream.write(uIntTo4Bytes(UnsignedInt(entry.icon.iconId)))
-
-                // Title
-                outputStream.write(TITLE_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.title)
-
-                // URL
-                outputStream.write(URL_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.url)
-
-                // Username
-                outputStream.write(USERNAME_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.username)
-
-                // Password
-                outputStream.write(PASSWORD_FIELD_TYPE)
-                writePassword(outputStream, entry.password)
-
-                // Additional
-                outputStream.write(ADDITIONAL_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.notes)
-
-                // Create date
-                writeDate(outputStream, CREATE_FIELD_TYPE, dateTo5Bytes(entry.creationTime.date))
-
-                // Modification date
-                writeDate(outputStream, MOD_FIELD_TYPE, dateTo5Bytes(entry.lastModificationTime.date))
-
-                // Access date
-                writeDate(outputStream, ACCESS_FIELD_TYPE, dateTo5Bytes(entry.lastAccessTime.date))
-
-                // Expiration date
-                writeDate(outputStream, EXPIRE_FIELD_TYPE, dateTo5Bytes(entry.expiryTime.date))
-
-                // Binary description
-                outputStream.write(BINARY_DESC_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToStream(outputStream, entry.binaryDescription)
-
-                // Binary
-                outputStream.write(BINARY_DATA_FIELD_TYPE)
-                val binaryData = entry.binaryData
-                val binaryDataLength = binaryData?.length ?: 0L
-                // Write data length
-                outputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
-                // Write data
-                if (binaryDataLength > 0) {
-                    binaryData?.getInputDataStream(binaryCipherKey).use { inputStream ->
-                        inputStream?.readAllBytes { buffer ->
-                            outputStream.write(buffer)
-                        }
-                    }
-                }
-
-                // End
-                outputStream.write(END_FIELD_TYPE)
-                outputStream.write(ZERO_FIELD_SIZE)
-            } catch (e: IOException) {
-                throw DatabaseOutputException("Failed to output an entry.", e)
-            }
-        }
-
-        @Throws(IOException::class)
-        private fun writeDate(outputStream: OutputStream,
-                              type: ByteArray,
-                              date: ByteArray?) {
-            outputStream.write(type)
-            outputStream.write(DATE_FIELD_SIZE)
-            if (date != null) {
-                outputStream.write(date)
-            } else {
-                outputStream.write(ZERO_FIVE)
-            }
-        }
-
-        @Throws(IOException::class)
-        private fun writePassword(outputStream: OutputStream, str: String): Int {
-            val initial = str.toByteArray(Charset.forName("UTF-8"))
-            val length = initial.size + 1
-            outputStream.write(uIntTo4Bytes(UnsignedInt(length)))
-            outputStream.write(initial)
-            outputStream.write(0x00)
-            return length
-        }
-
         // Constants
         private val UUID_FIELD_TYPE:ByteArray = uShortTo2Bytes(1)
-        private val GROUPID_FIELD_TYPE: ByteArray = uShortTo2Bytes(1)
+        private val GROUPID_FIELD_TYPE:ByteArray = uShortTo2Bytes(2)
         private val IMAGEID_FIELD_TYPE:ByteArray = uShortTo2Bytes(3)
         private val TITLE_FIELD_TYPE:ByteArray = uShortTo2Bytes(4)
         private val URL_FIELD_TYPE:ByteArray = uShortTo2Bytes(5)
