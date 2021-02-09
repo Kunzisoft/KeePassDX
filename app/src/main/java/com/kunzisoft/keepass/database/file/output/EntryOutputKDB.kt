@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.stream.*
@@ -103,7 +102,7 @@ class EntryOutputKDB {
                 // Write data
                 if (binaryDataLength > 0) {
                     binaryData?.getInputDataStream(binaryCipherKey).use { inputStream ->
-                        inputStream?.readAllBytes(DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
+                        inputStream?.readAllBytes { buffer ->
                             mOutputStream.write(buffer)
                         }
                         inputStream?.close()

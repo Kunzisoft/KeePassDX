@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -473,7 +472,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             if (binary.isProtected) {
                 xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
                 binary.getInputDataStream().use { inputStream ->
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readBytes { buffer ->
                         val encoded = ByteArray(buffer.size)
                         randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
                         xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
@@ -482,7 +481,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             } else {
                 // Write the XML
                 binary.getInputDataStream().use { inputStream ->
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readBytes { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }
                 }
@@ -510,7 +509,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 val binaryCipherKey = mDatabaseKDBX.loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to write binaries")
                 binary.getInputDataStream(binaryCipherKey).use { inputStream ->
-                    inputStream.readAllBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readAllBytes { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }
                 }

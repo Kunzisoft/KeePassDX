@@ -216,7 +216,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 val cipherKey = loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to compress binaries")
                 // To compress, create a new binary with file
-                binary.compress(cipherKey, BUFFER_SIZE_BYTES)
+                binary.compress(cipherKey)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to compress $binary", e)
             }
@@ -228,7 +228,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             try {
                 val cipherKey = loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to decompress binaries")
-                binary.decompress(cipherKey, BUFFER_SIZE_BYTES)
+                binary.decompress(cipherKey)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to decompress $binary", e)
             }
@@ -713,7 +713,5 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
         const val BASE_64_FLAG = Base64.NO_WRAP
-
-        const val BUFFER_SIZE_BYTES = 3 * 128
     }
 }
