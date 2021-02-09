@@ -25,6 +25,7 @@ import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.stream.readAllBytes
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
 import java.util.zip.GZIPInputStream
@@ -121,7 +122,7 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun compress(cipherKey: Database.LoadedKey, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    fun compress(cipherKey: Database.LoadedKey) {
         dataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
@@ -129,7 +130,9 @@ class BinaryAttachment : Parcelable {
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 getInputDataStream(cipherKey).use { inputStream ->
                     GZIPOutputStream(buildOutputStream(fileBinaryCompress, cipherKey)).use { outputStream ->
-                        inputStream.copyTo(outputStream, bufferSize)
+                        inputStream.readAllBytes { buffer ->
+                            outputStream.write(buffer)
+                        }
                     }
                 }
                 // Remove ungzip file
@@ -144,14 +147,16 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun decompress(cipherKey: Database.LoadedKey, bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    fun decompress(cipherKey: Database.LoadedKey) {
         dataFile?.let { concreteDataFile ->
             if (isCompressed) {
                 // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
                 getUnGzipInputDataStream(cipherKey).use { inputStream ->
                     buildOutputStream(fileBinaryDecompress, cipherKey).use { outputStream ->
-                        inputStream.copyTo(outputStream, bufferSize)
+                        inputStream.readAllBytes { buffer ->
+                            outputStream.write(buffer)
+                        }
                     }
                 }
                 // Remove gzip file
