@@ -59,23 +59,23 @@ class EntryOutputKDB {
                 // Title
                 //byte[] title = mEntry.title.getBytes("UTF-8");
                 mOutputStream.write(TITLE_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.title, mOutputStream).toLong()
+                StringDatabaseKDBUtils.writeStringToBytes(mEntry.title, mOutputStream)
 
                 // URL
                 mOutputStream.write(URL_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.url, mOutputStream).toLong()
+                StringDatabaseKDBUtils.writeStringToBytes(mEntry.url, mOutputStream)
 
                 // Username
                 mOutputStream.write(USERNAME_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.username, mOutputStream).toLong()
+                StringDatabaseKDBUtils.writeStringToBytes(mEntry.username, mOutputStream)
 
                 // Password
                 mOutputStream.write(PASSWORD_FIELD_TYPE)
-                writePassword(mOutputStream, mEntry.password).toLong()
+                writePassword(mOutputStream, mEntry.password)
 
                 // Additional
                 mOutputStream.write(ADDITIONAL_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.notes, mOutputStream).toLong()
+                StringDatabaseKDBUtils.writeStringToBytes(mEntry.notes, mOutputStream)
 
                 // Create date
                 writeDate(mOutputStream, CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime.date))
@@ -91,7 +91,7 @@ class EntryOutputKDB {
 
                 // Binary description
                 mOutputStream.write(BINARY_DESC_FIELD_TYPE)
-                StringDatabaseKDBUtils.writeStringToBytes(mEntry.binaryDescription, mOutputStream).toLong()
+                StringDatabaseKDBUtils.writeStringToBytes(mEntry.binaryDescription, mOutputStream)
 
                 // Binary
                 mOutputStream.write(BINARY_DATA_FIELD_TYPE)
@@ -105,7 +105,6 @@ class EntryOutputKDB {
                         inputStream?.readAllBytes { buffer ->
                             mOutputStream.write(buffer)
                         }
-                        inputStream?.close()
                     }
                 }
 
