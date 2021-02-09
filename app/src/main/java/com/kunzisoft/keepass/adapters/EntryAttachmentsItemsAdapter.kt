@@ -84,8 +84,10 @@ class EntryAttachmentsItemsAdapter(context: Context)
                         } else {
                             entryAttachmentState.previewState = AttachmentState.COMPLETE
                             setImageBitmap(imageLoaded)
-                            expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
-                                onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                            if (visibility != View.VISIBLE) {
+                                expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
+                                    onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                                }
                             }
                         }
                     }
