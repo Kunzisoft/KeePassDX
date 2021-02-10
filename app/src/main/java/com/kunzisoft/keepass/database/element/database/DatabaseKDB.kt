@@ -281,7 +281,5 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
         const val BACKUP_FOLDER_TITLE = "Backup"
         private const val BACKUP_FOLDER_UNDEFINED_ID = -1
-
-        const val BUFFER_SIZE_BYTES = 3 * 128
     }
 }

@@ -316,7 +316,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         var size = 0L
         for ((label, poolId) in binaries) {
             size += label.length.toLong()
-            size += binaryPool[poolId]?.length() ?: 0
+            size += binaryPool[poolId]?.length ?: 0
         }
         return size
     }

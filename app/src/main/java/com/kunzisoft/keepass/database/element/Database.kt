@@ -47,7 +47,11 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
+import java.security.Key
+import java.security.SecureRandom
 import java.util.*
+import javax.crypto.KeyGenerator
+import javax.crypto.spec.IvParameterSpec
 import kotlin.collections.ArrayList
 
 
@@ -74,6 +78,19 @@ class Database {
 
     var loadTimestamp: Long? = null
         private set
+
+    /**
+     * Cipher key regenerated when the database is loaded and closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: LoadedKey?
+        private set(value) {
+            mDatabaseKDB?.loadedCipherKey = value
+            mDatabaseKDBX?.loadedCipherKey = value
+        }
+        get() {
+            return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
+        }
 
     val iconFactory: IconImageFactory
         get() {
@@ -321,10 +338,24 @@ class Database {
     }
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
-        setDatabaseKDBX(DatabaseKDBX(databaseName, rootName))
+        val newDatabase = DatabaseKDBX(databaseName, rootName)
+        newDatabase.loadedCipherKey = LoadedKey.generateNewCipherKey()
+        setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
+    }
+
+    class LoadedKey(val key: Key, val iv: ByteArray): Serializable {
+        companion object {
+            const val BINARY_CIPHER = "Blowfish/CBC/PKCS5Padding"
+
+            fun generateNewCipherKey(): LoadedKey {
+                val iv = ByteArray(8)
+                SecureRandom().nextBytes(iv)
+                return LoadedKey(KeyGenerator.getInstance("Blowfish").generateKey(), iv)
+            }
+        }
     }
 
     @Throws(LoadDatabaseException::class)
@@ -404,6 +435,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
+                                        LoadedKey.generateNewCipherKey(),
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     },
@@ -412,6 +444,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
+                                        LoadedKey.generateNewCipherKey(),
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     }

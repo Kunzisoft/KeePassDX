@@ -57,7 +57,7 @@ class NodeAdapter (private val context: Context)
     private val mNodeSortedList: SortedList<Node>
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
-    private var mCalculateViewTypeTextSize = Array(2) { true} // number of view type
+    private var mCalculateViewTypeTextSize = Array(2) { true } // number of view type
     private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
     private var mPrefSizeMultiplier: Float = 0F
     private var mSubtextDefaultDimension: Float = 0F

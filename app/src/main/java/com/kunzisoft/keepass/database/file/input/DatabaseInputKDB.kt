@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.file.input
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -48,16 +49,16 @@ import javax.crypto.spec.SecretKeySpec
 class DatabaseInputKDB(cacheDirectory: File)
     : DatabaseInput<DatabaseKDB>(cacheDirectory) {
 
-    private lateinit var mDatabaseToOpen: DatabaseKDB
+    private lateinit var mDatabase: DatabaseKDB
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
-                              keyInputStream: InputStream?,
+                              keyfileInputStream: InputStream?,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabaseToOpen.retrieveMasterKey(password, keyInputStream)
+            mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
 
@@ -67,7 +68,33 @@ class DatabaseInputKDB(cacheDirectory: File)
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabaseToOpen.masterKey = masterKey
+            mDatabase.masterKey = masterKey
+        }
+    }
+
+
+    @Throws(LoadDatabaseException::class)
+    override fun openDatabase(databaseInputStream: InputStream,
+                              password: String?,
+                              keyfileInputStream: InputStream?,
+                              loadedCipherKey: Database.LoadedKey,
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.retrieveMasterKey(password, keyfileInputStream)
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
+    override fun openDatabase(databaseInputStream: InputStream,
+                              masterKey: ByteArray,
+                              loadedCipherKey: Database.LoadedKey,
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              fixDuplicateUUID: Boolean): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.masterKey = masterKey
         }
     }
 
@@ -101,38 +128,38 @@ class DatabaseInputKDB(cacheDirectory: File)
             }
 
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
-            mDatabaseToOpen = DatabaseKDB()
+            mDatabase = DatabaseKDB()
 
-            mDatabaseToOpen.changeDuplicateId = fixDuplicateUUID
+            mDatabase.changeDuplicateId = fixDuplicateUUID
             assignMasterKey?.invoke()
 
             // Select algorithm
             when {
                 header.flags.toKotlinInt() and DatabaseHeaderKDB.FLAG_RIJNDAEL.toKotlinInt() != 0 -> {
-                    mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
+                    mDatabase.encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
                 }
                 header.flags.toKotlinInt() and DatabaseHeaderKDB.FLAG_TWOFISH.toKotlinInt() != 0 -> {
-                    mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.Twofish
+                    mDatabase.encryptionAlgorithm = EncryptionAlgorithm.Twofish
                 }
                 else -> throw InvalidAlgorithmDatabaseException()
             }
 
-            mDatabaseToOpen.numberKeyEncryptionRounds = header.numKeyEncRounds.toKotlinLong()
+            mDatabase.numberKeyEncryptionRounds = header.numKeyEncRounds.toKotlinLong()
 
             // Generate transformedMasterKey from masterKey
-            mDatabaseToOpen.makeFinalKey(
+            mDatabase.makeFinalKey(
                     header.masterSeed,
                     header.transformSeed,
-                    mDatabaseToOpen.numberKeyEncryptionRounds)
+                    mDatabase.numberKeyEncryptionRounds)
 
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
             // Initialize Rijndael algorithm
             val cipher: Cipher = try {
                 when {
-                    mDatabaseToOpen.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
+                    mDatabase.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
                         CipherFactory.getInstance("AES/CBC/PKCS5Padding")
                     }
-                    mDatabaseToOpen.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
+                    mDatabase.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
                         CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
                     }
                     else -> throw IOException("Encryption algorithm is not supported")
@@ -145,7 +172,7 @@ class DatabaseInputKDB(cacheDirectory: File)
 
             try {
                 cipher.init(Cipher.DECRYPT_MODE,
-                        SecretKeySpec(mDatabaseToOpen.finalKey, "AES"),
+                        SecretKeySpec(mDatabase.finalKey, "AES"),
                         IvParameterSpec(header.encryptionIV))
             } catch (e1: InvalidKeyException) {
                 throw IOException("Invalid key")
@@ -169,9 +196,9 @@ class DatabaseInputKDB(cacheDirectory: File)
             )
 
             // New manual root because KDB contains multiple root groups (here available with getRootGroups())
-            val newRoot = mDatabaseToOpen.createGroup()
+            val newRoot = mDatabase.createGroup()
             newRoot.level = -1
-            mDatabaseToOpen.rootGroup = newRoot
+            mDatabase.rootGroup = newRoot
 
             // Import all nodes
             var newGroup: GroupKDB? = null
@@ -192,12 +219,12 @@ class DatabaseInputKDB(cacheDirectory: File)
                         // Create new node depending on byte number
                         when (fieldSize) {
                             4 -> {
-                                newGroup = mDatabaseToOpen.createGroup().apply {
+                                newGroup = mDatabase.createGroup().apply {
                                     setGroupId(cipherInputStream.readBytes4ToUInt().toKotlinInt())
                                 }
                             }
                             16 -> {
-                                newEntry = mDatabaseToOpen.createEntry().apply {
+                                newEntry = mDatabase.createEntry().apply {
                                     nodeId = NodeIdUUID(cipherInputStream.readBytes16ToUuid())
                                 }
                             }
@@ -211,7 +238,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                             group.title = cipherInputStream.readBytesToString(fieldSize)
                         } ?:
                         newEntry?.let { entry ->
-                            val groupKDB = mDatabaseToOpen.createGroup()
+                            val groupKDB = mDatabase.createGroup()
                             groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToUInt().toKotlinInt())
                             entry.parent = groupKDB
                         }
@@ -226,7 +253,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                             if (iconId == -1) {
                                 iconId = 0
                             }
-                            entry.icon = mDatabaseToOpen.iconFactory.getIcon(iconId)
+                            entry.icon = mDatabase.iconFactory.getIcon(iconId)
                         }
                     }
                     0x0004 -> {
@@ -255,7 +282,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                     }
                     0x0007 -> {
                         newGroup?.let { group ->
-                            group.icon = mDatabaseToOpen.iconFactory.getIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
+                            group.icon = mDatabase.iconFactory.getIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
                         } ?:
                         newEntry?.let { entry ->
                             entry.password = cipherInputStream.readBytesToString(fieldSize,false)
@@ -300,11 +327,12 @@ class DatabaseInputKDB(cacheDirectory: File)
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryAttachment = mDatabaseToOpen.buildNewBinary(cacheDirectory)
+                                val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory)
                                 entry.binaryData = binaryAttachment
-                                BufferedOutputStream(binaryAttachment.getOutputDataStream()).use { outputStream ->
-                                    cipherInputStream.readBytes(fieldSize,
-                                            DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
+                                val cipherKey = mDatabase.loadedCipherKey
+                                        ?: throw IOException("Unable to retrieve cipher key to load binaries")
+                                BufferedOutputStream(binaryAttachment.getOutputDataStream(cipherKey)).use { outputStream ->
+                                    cipherInputStream.readBytes(fieldSize) { buffer ->
                                         outputStream.write(buffer)
                                     }
                                 }
@@ -314,12 +342,12 @@ class DatabaseInputKDB(cacheDirectory: File)
                     0xFFFF -> {
                         // End record.  Save node and count it.
                         newGroup?.let { group ->
-                            mDatabaseToOpen.addGroupIndex(group)
+                            mDatabase.addGroupIndex(group)
                             currentGroupNumber++
                             newGroup = null
                         }
                         newEntry?.let { entry ->
-                            mDatabaseToOpen.addEntryIndex(entry)
+                            mDatabase.addEntryIndex(entry)
                             currentEntryNumber++
                             newEntry = null
                         }
@@ -337,20 +365,20 @@ class DatabaseInputKDB(cacheDirectory: File)
             constructTreeFromIndex()
 
         } catch (e: LoadDatabaseException) {
-            mDatabaseToOpen.clearCache()
+            mDatabase.clearCache()
             throw e
         } catch (e: IOException) {
-            mDatabaseToOpen.clearCache()
+            mDatabase.clearCache()
             throw IODatabaseException(e)
         } catch (e: OutOfMemoryError) {
-            mDatabaseToOpen.clearCache()
+            mDatabase.clearCache()
             throw NoMemoryDatabaseException(e)
         } catch (e: Exception) {
-            mDatabaseToOpen.clearCache()
+            mDatabase.clearCache()
             throw LoadDatabaseException(e)
         }
 
-        return mDatabaseToOpen
+        return mDatabase
     }
 
     private fun buildTreeGroups(previousGroup: GroupKDB, currentGroup: GroupKDB, groupIterator: Iterator<GroupKDB>) {
@@ -375,18 +403,18 @@ class DatabaseInputKDB(cacheDirectory: File)
     }
 
     private fun constructTreeFromIndex() {
-        mDatabaseToOpen.rootGroup?.let {
+        mDatabase.rootGroup?.let {
 
             // add each group
-            val groupIterator = mDatabaseToOpen.getGroupIndexes().iterator()
+            val groupIterator = mDatabase.getGroupIndexes().iterator()
             if (groupIterator.hasNext())
                 buildTreeGroups(it, groupIterator.next(), groupIterator)
 
             // add each child
-            for (currentEntry in mDatabaseToOpen.getEntryIndexes()) {
+            for (currentEntry in mDatabase.getEntryIndexes()) {
                 if (currentEntry.parent != null) {
                     // Only the parent id is known so complete the info
-                    val parentGroupRetrieve = mDatabaseToOpen.getGroupById(currentEntry.parent!!.nodeId)
+                    val parentGroupRetrieve = mDatabase.getGroupById(currentEntry.parent!!.nodeId)
                     parentGroupRetrieve?.addChildEntry(currentEntry)
                     currentEntry.parent = parentGroupRetrieve
                 }

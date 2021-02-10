@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -320,6 +321,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
      * Attachments
      * -------------
      */
+
+    fun setAttachmentCipherKey(cipherKey: Database.LoadedKey?) {
+        attachmentsAdapter.binaryCipherKey = cipherKey
+    }
 
     private fun showAttachments(show: Boolean) {
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE

@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrCha
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
@@ -86,6 +87,7 @@ class EntryEditFragment: StylishFragment() {
 
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
+    private var mBinaryCipherKey: Database.LoadedKey? = null
     private var mLastFocusedEditField: FocusedEditField? = null
     private var mExtraViewToRequestFocus: EditText? = null
 
@@ -127,6 +129,7 @@ class EntryEditFragment: StylishFragment() {
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
+        attachmentsAdapter.binaryCipherKey = arguments?.getSerializable(KEY_BINARY_CIPHER_KEY) as? Database.LoadedKey?
         attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
                 attachmentsContainerView.collapse(true)
@@ -502,9 +505,13 @@ class EntryEditFragment: StylishFragment() {
         return attachmentsAdapter.contains(attachment)
     }
 
-    fun putAttachment(attachment: EntryAttachmentState) {
+    fun putAttachment(attachment: EntryAttachmentState,
+                      onPreviewLoaded: (()-> Unit)? = null) {
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter.putItem(attachment)
+        attachmentsAdapter.onBinaryPreviewLoaded = {
+            onPreviewLoaded?.invoke()
+        }
     }
 
     fun removeAttachment(attachment: EntryAttachmentState) {
@@ -528,6 +535,7 @@ class EntryEditFragment: StylishFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
         outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
+        outState.putSerializable(KEY_BINARY_CIPHER_KEY, mBinaryCipherKey)
         outState.putParcelable(KEY_LAST_FOCUSED_FIELD, mLastFocusedEditField)
 
         super.onSaveInstanceState(outState)
@@ -535,12 +543,15 @@ class EntryEditFragment: StylishFragment() {
 
     companion object {
         const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
+        const val KEY_BINARY_CIPHER_KEY = "KEY_BINARY_CIPHER_KEY"
         const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
 
-        fun getInstance(entryInfo: EntryInfo?): EntryEditFragment {
+        fun getInstance(entryInfo: EntryInfo?,
+                        loadedKey: Database.LoadedKey?): EntryEditFragment {
             return EntryEditFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_TEMP_ENTRY_INFO, entryInfo)
+                    putSerializable(KEY_BINARY_CIPHER_KEY, loadedKey)
                 }
             }
         }
