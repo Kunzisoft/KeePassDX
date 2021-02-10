@@ -76,5 +76,5 @@ data class EntryAttachmentState(var attachment: Attachment,
 }
 
 enum class AttachmentState {
-    NULL, START, IN_PROGRESS, COMPLETE, ERROR
+    NULL, START, IN_PROGRESS, COMPLETE, CANCELED, ERROR
 }

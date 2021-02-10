@@ -514,6 +514,7 @@
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizing…</string>
     <string name="download_complete">Complete!</string>
+    <string name="download_canceled">Canceled!</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>

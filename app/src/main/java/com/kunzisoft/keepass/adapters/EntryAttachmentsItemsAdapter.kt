@@ -142,6 +142,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                     }
                     AttachmentState.NULL,
                     AttachmentState.ERROR,
+                    AttachmentState.CANCELED,
                     AttachmentState.COMPLETE -> {
                         holder.binaryFileProgressContainer.visibility = View.GONE
                         holder.binaryFileProgress.visibility = View.GONE
@@ -159,8 +160,13 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 holder.binaryFileDeleteButton.visibility = View.GONE
                 holder.binaryFileProgress.apply {
                     visibility = when (entryAttachmentState.downloadState) {
-                        AttachmentState.NULL, AttachmentState.COMPLETE, AttachmentState.ERROR -> View.GONE
-                        AttachmentState.START, AttachmentState.IN_PROGRESS -> View.VISIBLE
+                        AttachmentState.NULL,
+                        AttachmentState.COMPLETE,
+                        AttachmentState.CANCELED,
+                        AttachmentState.ERROR -> View.GONE
+
+                        AttachmentState.START,
+                        AttachmentState.IN_PROGRESS -> View.VISIBLE
                     }
                     progress = entryAttachmentState.downloadProgression
                 }

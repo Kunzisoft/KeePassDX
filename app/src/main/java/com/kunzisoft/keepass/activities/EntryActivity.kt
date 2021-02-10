@@ -221,7 +221,9 @@ class EntryActivity : LockingActivity() {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-                    entryContentsView?.putAttachment(entryAttachmentState)
+                    if (entryAttachmentState.streamDirection != StreamDirection.UPLOAD) {
+                        entryContentsView?.putAttachment(entryAttachmentState)
+                    }
                 }
             }
         }

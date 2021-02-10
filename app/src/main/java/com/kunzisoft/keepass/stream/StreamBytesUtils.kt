@@ -31,10 +31,11 @@ import java.util.*
  */
 @Throws(IOException::class)
 fun InputStream.readAllBytes(bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                             cancelCondition: ()-> Boolean = { false },
                              readBytes: (bytesRead: ByteArray) -> Unit) {
     val buffer = ByteArray(bufferSize)
     var read = 0
-    while (read != -1) {
+    while (read != -1 && !cancelCondition()) {
         read = this.read(buffer, 0, buffer.size)
         if (read != -1) {
             val optimizedBuffer: ByteArray = if (buffer.size == read) {

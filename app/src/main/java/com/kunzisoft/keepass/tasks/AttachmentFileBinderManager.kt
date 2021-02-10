@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_STOP_UPLOAD
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_REMOVE
 
 class AttachmentFileBinderManager(private val activity: FragmentActivity) {
@@ -118,6 +119,10 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
             putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
             putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
         }, ACTION_ATTACHMENT_FILE_START_UPLOAD)
+    }
+
+    fun stopUploadAllAttachments() {
+        start(null, ACTION_ATTACHMENT_FILE_STOP_UPLOAD)
     }
 
     fun startDownloadAttachment(downloadFileUri: Uri,

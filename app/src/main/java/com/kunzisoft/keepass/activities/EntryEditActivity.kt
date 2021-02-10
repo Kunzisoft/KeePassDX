@@ -372,6 +372,9 @@ class EntryEditActivity : LockingActivity(),
                                 }
                             }
                         }
+                        AttachmentState.CANCELED -> {
+                            entryEditFragment?.removeAttachment(entryAttachmentState)
+                        }
                         AttachmentState.ERROR -> {
                             entryEditFragment?.removeAttachment(entryAttachmentState)
                             coordinatorLayout?.let {
@@ -525,6 +528,7 @@ class EntryEditActivity : LockingActivity(),
      * Saves the new entry or update an existing entry in the database
      */
     private fun saveEntry() {
+        mAttachmentFileBinderManager?.stopUploadAllAttachments()
         // Get the temp entry
         entryEditFragment?.getEntryInfo()?.let { newEntryInfo ->
 
@@ -542,6 +546,7 @@ class EntryEditActivity : LockingActivity(),
                         when (attachmentState.downloadState) {
                             AttachmentState.START,
                             AttachmentState.IN_PROGRESS,
+                            AttachmentState.CANCELED,
                             AttachmentState.ERROR -> {
                                 // Remove attachment not finished from info
                                 newEntryInfo.attachments = newEntryInfo.attachments.toMutableList().apply {
@@ -785,6 +790,7 @@ class EntryEditActivity : LockingActivity(),
                     .setMessage(R.string.discard_changes)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(R.string.discard) { _, _ ->
+                        mAttachmentFileBinderManager?.stopUploadAllAttachments()
                         backPressedAlreadyApproved = true
                         approved.invoke()
                     }.create().show()
