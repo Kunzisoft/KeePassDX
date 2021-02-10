@@ -106,7 +106,7 @@ class EntryEditActivity : LockingActivity(),
     private var mSelectFileHelper: SelectFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAllowMultipleAttachments: Boolean = false
-    private var mTempAttachments = ArrayList<Attachment>()
+    private var mTempAttachments = ArrayList<EntryAttachmentState>()
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -359,7 +359,8 @@ class EntryEditActivity : LockingActivity(),
                                 getAttachmentViewPosition(entryAttachmentState) {
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
-                            }
+                            }            // Add in temp list
+                            mTempAttachments.add(entryAttachmentState)
                         }
                         AttachmentState.IN_PROGRESS -> {
                             entryEditFragment?.putAttachment(entryAttachmentState)
@@ -470,11 +471,8 @@ class EntryEditActivity : LockingActivity(),
             if (!mAllowMultipleAttachments) {
                 entryEditFragment?.clearAttachments()
             }
-            // TODO if (!mAllowMultipleAttachments && !fileUploading)
             // Start uploading in service
             mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
-            // Add in temp list
-            mTempAttachments.add(attachment)
         }
     }
 
@@ -538,14 +536,33 @@ class EntryEditActivity : LockingActivity(),
                 Entry(mEntry!!)
             }?.let { newEntry ->
 
+                // Do not save entry in upload progression
+                mTempAttachments.forEach { attachmentState ->
+                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                        when (attachmentState.downloadState) {
+                            AttachmentState.START,
+                            AttachmentState.IN_PROGRESS,
+                            AttachmentState.ERROR -> {
+                                // Remove attachment not finished from info
+                                newEntryInfo.attachments = newEntryInfo.attachments.toMutableList().apply {
+                                    remove(attachmentState.attachment)
+                                }
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+                }
+
                 // Build info
                 newEntry.setEntryInfo(mDatabase, newEntryInfo)
 
                 // Delete temp attachment if not used
-                mTempAttachments.forEach {
+                mTempAttachments.forEach { tempAttachmentState ->
+                    val tempAttachment = tempAttachmentState.attachment
                     mDatabase?.binaryPool?.let { binaryPool ->
-                        if (!newEntry.getAttachments(binaryPool).contains(it)) {
-                            mDatabase?.removeAttachmentIfNotUsed(it)
+                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                            mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
                         }
                     }
                 }
