@@ -66,6 +66,7 @@ object Stylish {
             context.getString(R.string.list_style_name_blue) -> R.style.KeepassDXStyle_Blue
             context.getString(R.string.list_style_name_red) -> R.style.KeepassDXStyle_Red
             context.getString(R.string.list_style_name_purple) -> R.style.KeepassDXStyle_Purple
+            context.getString(R.string.list_style_name_purple_dark) -> R.style.KeepassDXStyle_Purple_Dark
             else -> R.style.KeepassDXStyle_Light
         }
     }

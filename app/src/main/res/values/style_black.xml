@@ -65,7 +65,8 @@
     <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="background">@color/darker</item>
+        <item name="android:background">@color/grey_black</item>
+        <item name="background">@color/grey_black</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Black" parent="CardView">

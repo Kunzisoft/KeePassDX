@@ -23,6 +23,7 @@
 	<color name="white_transparent">#E0FFFFFF</color>
 	<color name="black">#000000</color>
     <color name="darker">#0A0A0A</color>
+    <color name="grey_black">#101010</color>
     <color name="dark">#0e0e0e</color>
     <color name="dark_transparent">#E00E0E0E</color>
     <color name="grey">#bdbdbd</color>
@@ -58,6 +59,8 @@
     <color name="purple_light">#9048bc</color>
     <color name="purple">#743998</color>
     <color name="purple_dark">#653383</color>
+    <color name="purple_darker">#4E1C6B</color>
+    <color name="purple_darkest">#451D5D</color>
 
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
@@ -65,6 +68,8 @@
     <color name="background_purple">#F2EDFA</color>
     <color name="background_purple_light">#F7F3FD</color>
     <color name="background_purple_light_transparent">#E0F7F3FD</color>
+    <color name="background_purple_dark">#361748</color>
+    <color name="background_purple_dark_transparent">#E0361748</color>
 
     <color name="icon_background">#555555</color>
     <color name="icon_text">#000000</color>

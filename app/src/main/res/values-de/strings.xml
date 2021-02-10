@@ -450,7 +450,8 @@
         <item>Klassisch Dunkel</item>
         <item>Himmel und Meer</item>
         <item>Roter Vulkan</item>
-        <item>Purple Pro</item>
+        <item>Purple Light</item>
+        <item>Purple Dark</item>
     </string-array>
     <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einrichten einer Einmal-Passwortverwaltung (HOTP / TOTP), um ein Token zu generieren, das für die Zwei-Faktor-Authentifizierung (2FA) angefordert wird.</string>

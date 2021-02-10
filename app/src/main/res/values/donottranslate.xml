@@ -332,6 +332,7 @@
     <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
     <string name="list_style_name_red" translatable="false">KeepassDXStyle_Red</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
+    <string name="list_style_name_purple_dark" translatable="false">KeepassDXStyle_Purple_Dark</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
@@ -340,6 +341,7 @@
         <item translatable="false">@string/list_style_name_blue</item>
         <item translatable="false">@string/list_style_name_red</item>
         <item translatable="false">@string/list_style_name_purple</item>
+        <item translatable="false">@string/list_style_name_purple_dark</item>
     </string-array>
     <!-- WARNING ! module icon-pack-material must be import in gradle -->
     <string name="setting_icon_pack_choose_default" translatable="false">@string/material_resource_id</string>
