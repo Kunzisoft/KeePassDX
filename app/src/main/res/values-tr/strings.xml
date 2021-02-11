@@ -406,7 +406,7 @@
     <string name="download_attachment">İndir %1$s</string>
     <string name="download_initialization">Başlatılıyor…</string>
     <string name="download_progression">Devam ediyor: %1$d%%</string>
-    <string name="download_finalization">Sonlandırılıyor…</string>
+    <string name="download_finalization">Sonuçlandırılıyor…</string>
     <string name="download_complete">Tamamlandı!</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
     <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gösterilmez</string>
@@ -541,4 +541,5 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Mevcut OTP türü bu form tarafından tanınmıyor, doğrulaması artık belirteci doğru şekilde oluşturmayabilir.</string>
+    <string name="download_canceled">İptal edildi!</string>
 </resources>
