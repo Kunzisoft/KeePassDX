@@ -107,6 +107,8 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
                 arguments?.apply {
                     if (containsKey(KEY_ACTION_ID))
                         mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getInt(KEY_ACTION_ID))
+                    if (mEditGroupDialogAction === CREATION)
+                        mGroupInfo.notes = ""
                     if (containsKey(KEY_GROUP_INFO)) {
                         mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
                     }
