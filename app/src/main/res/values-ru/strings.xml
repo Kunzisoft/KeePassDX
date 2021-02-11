@@ -557,4 +557,5 @@
     <string name="unit_mebibyte">МиБ</string>
     <string name="unit_kibibyte">КиБ</string>
     <string name="unit_byte">Б</string>
+    <string name="download_canceled">Отменено!</string>
 </resources>
