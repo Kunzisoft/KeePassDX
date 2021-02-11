@@ -552,4 +552,9 @@
     <string name="warning_database_info_changed_options">Сохранить базу, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
     <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
     <string name="menu_reload_database">Перезагрузить базу</string>
+    <string name="error_otp_type">Существующий тип OTP не распознаётся данной формой, его проверка больше не может корректно генерировать токен.</string>
+    <string name="unit_gibibyte">ГиБ</string>
+    <string name="unit_mebibyte">МиБ</string>
+    <string name="unit_kibibyte">КиБ</string>
+    <string name="unit_byte">Б</string>
 </resources>

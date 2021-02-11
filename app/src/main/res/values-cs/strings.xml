@@ -553,4 +553,9 @@
     <string name="menu_reload_database">Databázi nově načíst</string>
     <string name="warning_database_info_changed_options">Přepsat externí změny uložením databáze nebo databázi včetně posledních změn nově načíst.</string>
     <string name="warning_database_info_changed">Informace obsažená ve Vašem databázovém souboru by změněna mimo aplikaci.</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="error_otp_type">Nemohu rozpoznat existující typ OTP v této formě, jeho validace patrně nebude generovat správný token.</string>
 </resources>

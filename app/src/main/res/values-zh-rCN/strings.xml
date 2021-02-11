@@ -552,4 +552,9 @@
     <string name="warning_database_info_changed_options">通过保存数据库或用最新的更改重新加载数据库来覆盖外部修改。</string>
     <string name="warning_database_info_changed">数据库文件中包含的信息已在应用程序之外被修改。</string>
     <string name="menu_reload_database">重新加载数据库</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">兆字节</string>
+    <string name="unit_kibibyte">千位字节</string>
+    <string name="unit_byte">字节</string>
+    <string name="error_otp_type">现有的 OTP 类型未被此表单所识别，其验证可能不再正确生成令牌。</string>
 </resources>
