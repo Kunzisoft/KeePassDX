@@ -48,5 +48,19 @@
 			android:singleLine="true"
 			android:hint="@string/hint_group_name"/>
 	</com.google.android.material.textfield.TextInputLayout>
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/group_edit_note_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/group_edit_note"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="4dp"
+			android:layout_marginStart="4dp"
+			android:inputType="text"
+			android:maxLines="5"
+			android:hint="@string/entry_notes"/>
+	</com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

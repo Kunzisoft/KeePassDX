@@ -57,13 +57,13 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
@@ -750,7 +750,7 @@ class GroupActivity : LockingActivity(),
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as Group
-                GroupEditDialogFragment.build(mOldGroupToUpdate!!)
+                GroupEditDialogFragment.build(mOldGroupToUpdate!!.getGroupInfo())
                         .show(supportFragmentManager,
                                 GroupEditDialogFragment.TAG_CREATE_GROUP)
             }
@@ -1036,19 +1036,17 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
-                                  name: String?,
-                                  icon: IconImage?) {
+    override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
+                                  groupInfo: GroupInfo) {
 
-        if (name != null && name.isNotEmpty() && icon != null) {
+        if (groupInfo.name.isNotEmpty()) {
             when (action) {
                 GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
                     // If group creation
                     mCurrentGroup?.let { currentGroup ->
                         // Build the group
                         mDatabase?.createGroup()?.let { newGroup ->
-                            newGroup.title = name
-                            newGroup.icon = icon
+                            newGroup.setGroupInfo(groupInfo)
                             // Not really needed here because added in runnable but safe
                             newGroup.parent = currentGroup
 
@@ -1068,9 +1066,7 @@ class GroupActivity : LockingActivity(),
                                 // WARNING remove parent and children to keep memory
                                 removeParent()
                                 removeChildren()
-
-                                title = name
-                                this.icon = icon // TODO custom icon #96
+                                this.setGroupInfo(groupInfo)
                             }
                         }
                         // If group updated save it in the database
@@ -1086,9 +1082,8 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
-                                 name: String?,
-                                 icon: IconImage?) {
+    override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
+                                 groupInfo: GroupInfo) {
         // Do nothing here
     }
 

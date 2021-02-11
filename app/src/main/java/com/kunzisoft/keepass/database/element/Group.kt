@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 import kotlin.collections.ArrayList
@@ -232,6 +233,14 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override val isCurrentlyExpires: Boolean
         get() = groupKDB?.isCurrentlyExpires ?: groupKDBX?.isCurrentlyExpires ?: false
 
+    var notes: String?
+        get() = groupKDBX?.notes
+        set(value) {
+            value?.let {
+                groupKDBX?.notes = it
+            }
+        }
+
     override fun getChildGroups(): List<Group> {
         return groupKDB?.getChildGroups()?.map {
             Group(it)
@@ -389,6 +398,26 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun containsCustomData(): Boolean {
         return groupKDBX?.containsCustomData() ?: false
+    }
+
+    /*
+      ------------
+      Converter
+      ------------
+     */
+
+    fun getGroupInfo(): GroupInfo {
+        val groupInfo = GroupInfo()
+        groupInfo.name = title
+        groupInfo.icon = icon
+        groupInfo.notes = notes
+        return groupInfo
+    }
+
+    fun setGroupInfo(groupInfo: GroupInfo) {
+        title = groupInfo.name
+        icon = groupInfo.icon
+        notes = groupInfo.notes
     }
 
     override fun equals(other: Any?): Boolean {

@@ -5,3 +5,4 @@
  * Better UI #876
  * Fix themes and add Purple Dark #889
  * Allow OTP with many padding #585
+ * Add notes in groups #734
