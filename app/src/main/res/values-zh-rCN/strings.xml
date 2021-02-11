@@ -557,4 +557,5 @@
     <string name="unit_kibibyte">千位字节</string>
     <string name="unit_byte">字节</string>
     <string name="error_otp_type">现有的 OTP 类型未被此表单所识别，其验证可能不再正确生成令牌。</string>
+    <string name="download_canceled">已取消！</string>
 </resources>
