@@ -30,6 +30,7 @@
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/background_purple</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
+        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Purple</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
@@ -51,6 +52,11 @@
     <!-- Toolbar Home Purple -->
     <style name="KeepassDXStyle.Toolbar.Home.Purple" parent="KeepassDXStyle.Purple">
         <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Toolbar Popup menu -->
+    <style name="KeepassDXStyle.Toolbar.Popup.Purple" parent="KeepassDXStyle.Toolbar.Popup.Light">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:colorBackground">@color/background_purple</item>
     </style>
     <!-- Special Toolbar Purple -->
     <style name="KeepassDXStyle.Toolbar.Special.Purple" parent="KeepassDXStyle.Toolbar.Purple">

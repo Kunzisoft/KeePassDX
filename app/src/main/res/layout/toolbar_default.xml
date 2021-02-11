@@ -20,12 +20,13 @@
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:title="@string/app_name"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     android:theme="?attr/toolbarAppearance"
-    android:popupTheme="?attr/toolbarPopupAppearance"
+    app:popupTheme="?attr/toolbarPopupAppearance"
     android:elevation="4dp"
     tools:targetApi="lollipop" />
