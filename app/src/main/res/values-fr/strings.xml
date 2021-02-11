@@ -567,4 +567,5 @@
     <string name="unit_kibibyte">Kibioctets</string>
     <string name="unit_byte">Octets</string>
     <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, sa validation peut ne plus générer correctement le jeton.</string>
+    <string name="download_canceled">Annulé !</string>
 </resources>
