@@ -557,4 +557,5 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Istniejący typ OTP nie jest rozpoznawany przez ten formularz, jego walidacja może już nie generować poprawnie tokenu.</string>
+    <string name="download_canceled">Anulowano!</string>
 </resources>
