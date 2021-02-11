@@ -70,6 +70,7 @@
         android:id="@+id/entry_edit_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:popupTheme="?attr/toolbarPopupAppearance"
         android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
