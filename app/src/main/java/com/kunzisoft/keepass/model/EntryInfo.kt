@@ -23,44 +23,28 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
-import kotlin.collections.ArrayList
 
-class EntryInfo : Parcelable {
+class EntryInfo : NodeInfo {
 
     var id: String = ""
-    var title: String = ""
-    var icon: IconImage = IconImageStandard()
     var username: String = ""
     var password: String = ""
-    var creationTime: DateInstant = DateInstant()
-    var modificationTime: DateInstant = DateInstant()
-    var expires: Boolean = false
-    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH
     var url: String = ""
     var notes: String = ""
     var customFields: List<Field> = ArrayList()
     var attachments: List<Attachment> = ArrayList()
     var otpModel: OtpModel? = null
 
-    constructor()
+    constructor(): super()
 
-    private constructor(parcel: Parcel) {
+    constructor(parcel: Parcel): super(parcel) {
         id = parcel.readString() ?: id
-        title = parcel.readString() ?: title
-        icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
-        creationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: creationTime
-        modificationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: modificationTime
-        expires = parcel.readInt() != 0
-        expiryTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: expiryTime
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         parcel.readList(customFields, Field::class.java.classLoader)
@@ -73,15 +57,10 @@ class EntryInfo : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        super.writeToParcel(parcel, flags)
         parcel.writeString(id)
-        parcel.writeString(title)
-        parcel.writeParcelable(icon, flags)
         parcel.writeString(username)
         parcel.writeString(password)
-        parcel.writeParcelable(creationTime, flags)
-        parcel.writeParcelable(modificationTime, flags)
-        parcel.writeInt(if (expires) 1 else 0)
-        parcel.writeParcelable(expiryTime, flags)
         parcel.writeString(url)
         parcel.writeString(notes)
         parcel.writeArray(customFields.toTypedArray())

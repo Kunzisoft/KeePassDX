@@ -26,10 +26,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -50,6 +48,7 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.view.ExpirationView
 import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -64,8 +63,7 @@ class EntryEditFragment: StylishFragment() {
     private lateinit var entryPasswordLayoutView: TextInputLayout
     private lateinit var entryPasswordView: EditText
     private lateinit var entryPasswordGeneratorView: View
-    private lateinit var entryExpiresCheckBox: CompoundButton
-    private lateinit var entryExpiresTextView: TextView
+    private lateinit var entryExpirationView: ExpirationView
     private lateinit var entryNotesView: EditText
     private lateinit var extraFieldsContainerView: View
     private lateinit var extraFieldsListView: ViewGroup
@@ -76,10 +74,9 @@ class EntryEditFragment: StylishFragment() {
 
     private var fontInVisibility: Boolean = false
     private var iconColor: Int = 0
-    private var expiresInstant: DateInstant = DateInstant.IN_ONE_MONTH
 
     var drawFactory: IconDrawableFactory? = null
-    var setOnDateClickListener: View.OnClickListener? = null
+    var setOnDateClickListener: (() -> Unit)? = null
     var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
     var setOnIconViewClickListener: View.OnClickListener? = null
     var setOnEditCustomField: ((Field) -> Unit)? = null
@@ -114,12 +111,8 @@ class EntryEditFragment: StylishFragment() {
         entryPasswordGeneratorView.setOnClickListener {
             setOnPasswordGeneratorClickListener?.onClick(it)
         }
-        entryExpiresCheckBox = rootView.findViewById(R.id.entry_edit_expires_checkbox)
-        entryExpiresTextView = rootView.findViewById(R.id.entry_edit_expires_text)
-        entryExpiresTextView.setOnClickListener {
-            if (entryExpiresCheckBox.isChecked)
-                setOnDateClickListener?.onClick(it)
-        }
+        entryExpirationView = rootView.findViewById(R.id.entry_edit_expiration)
+        entryExpirationView.setOnDateClickListener = setOnDateClickListener
 
         entryNotesView = rootView.findViewById(R.id.entry_edit_notes)
 
@@ -141,10 +134,6 @@ class EntryEditFragment: StylishFragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        }
-
-        entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
-            assignExpiresDateText()
         }
 
         // Retrieve the textColor to tint the icon
@@ -181,7 +170,7 @@ class EntryEditFragment: StylishFragment() {
         setOnEditCustomField = null
     }
 
-    fun getEntryInfo(): EntryInfo? {
+    fun getEntryInfo(): EntryInfo {
         populateEntryWithViews()
         return mEntryInfo
     }
@@ -286,41 +275,20 @@ class EntryEditFragment: StylishFragment() {
             }
         }
 
-    private fun assignExpiresDateText() {
-        entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
-            entryExpiresTextView.setOnClickListener(setOnDateClickListener)
-            expiresInstant.getDateTimeString(resources)
-        } else {
-            entryExpiresTextView.setOnClickListener(null)
-            resources.getString(R.string.never)
-        }
-        if (fontInVisibility)
-            entryExpiresTextView.applyFontVisibility()
-    }
-
     var expires: Boolean
         get() {
-            return entryExpiresCheckBox.isChecked
+            return entryExpirationView.expires
         }
         set(value) {
-            if (!value) {
-                expiresInstant = DateInstant.IN_ONE_MONTH
-            }
-            entryExpiresCheckBox.isChecked = value
-            assignExpiresDateText()
+            entryExpirationView.expires = value
         }
 
     var expiryTime: DateInstant
         get() {
-            return if (expires)
-                expiresInstant
-            else
-                DateInstant.NEVER_EXPIRE
+            return entryExpirationView.expiryTime
         }
         set(value) {
-            if (expires)
-                expiresInstant = value
-            assignExpiresDateText()
+            entryExpirationView.expiryTime = value
         }
 
     var notes: String

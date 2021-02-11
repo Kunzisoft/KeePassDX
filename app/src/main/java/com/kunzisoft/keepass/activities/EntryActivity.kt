@@ -350,7 +350,7 @@ class EntryActivity : LockingActivity() {
 
         // Assign dates
         entryContentsView?.assignCreationDate(entryInfo.creationTime)
-        entryContentsView?.assignModificationDate(entryInfo.modificationTime)
+        entryContentsView?.assignModificationDate(entryInfo.lastModificationTime)
         entryContentsView?.setExpires(entryInfo.expires, entryInfo.expiryTime)
 
         // Manage history

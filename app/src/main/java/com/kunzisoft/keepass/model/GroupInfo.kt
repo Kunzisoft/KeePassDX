@@ -2,29 +2,26 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER
 
-class GroupInfo() : Parcelable {
+class GroupInfo : NodeInfo {
 
-    var name: String = ""
-    var icon: IconImage = IconImageStandard()
     var notes: String? = null
 
-    constructor(parcel: Parcel) : this() {
-        name = parcel.readString() ?: name
-        icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
+    init {
+        icon = IconImageStandard(FOLDER)
+    }
+
+    constructor(): super()
+
+    constructor(parcel: Parcel): super(parcel) {
         notes = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeParcelable(icon, flags)
+        super.writeToParcel(parcel, flags)
         parcel.writeString(notes)
-    }
-
-    override fun describeContents(): Int {
-        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<GroupInfo> {

@@ -408,15 +408,24 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun getGroupInfo(): GroupInfo {
         val groupInfo = GroupInfo()
-        groupInfo.name = title
+        groupInfo.title = title
         groupInfo.icon = icon
+        groupInfo.creationTime = creationTime
+        groupInfo.lastModificationTime = lastModificationTime
+        groupInfo.expires = expires
+        groupInfo.expiryTime = expiryTime
         groupInfo.notes = notes
         return groupInfo
     }
 
     fun setGroupInfo(groupInfo: GroupInfo) {
-        title = groupInfo.name
+        title = groupInfo.title
         icon = groupInfo.icon
+        // Update date time, creation time stay as is
+        lastModificationTime = DateInstant()
+        lastAccessTime = DateInstant()
+        expires = groupInfo.expires
+        expiryTime = groupInfo.expiryTime
         notes = groupInfo.notes
     }
 

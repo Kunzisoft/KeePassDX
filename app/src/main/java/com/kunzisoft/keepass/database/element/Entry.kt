@@ -421,7 +421,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryInfo.username = username
         entryInfo.password = password
         entryInfo.creationTime = creationTime
-        entryInfo.modificationTime = lastModificationTime
+        entryInfo.lastModificationTime = lastModificationTime
         entryInfo.expires = expires
         entryInfo.expiryTime = expiryTime
         entryInfo.url = url

@@ -205,7 +205,7 @@ class EntryEditActivity : LockingActivity(),
                 .commit()
         entryEditFragment?.apply {
             drawFactory = mDatabase?.drawFactory
-            setOnDateClickListener = View.OnClickListener {
+            setOnDateClickListener = {
                 expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
                     val defaultYear = dateTime.year

@@ -19,7 +19,9 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.SearchManager
+import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -33,9 +35,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
@@ -53,10 +53,7 @@ import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrCha
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -80,10 +77,13 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.*
+import org.joda.time.DateTime
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
         IconPickerDialogFragment.IconPickerListener,
+        DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener,
         ListNodesFragment.NodeClickListener,
         ListNodesFragment.NodesActionMenuListener,
         DeleteNodesDialogFragment.DeleteNodeListener,
@@ -705,6 +705,39 @@ class GroupActivity : LockingActivity(),
         )
     }
 
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        // To fix android 4.4 issue
+        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
+        if (datePicker?.isShown == true) {
+            val groupEditFragment = supportFragmentManager.findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as? GroupEditDialogFragment
+            groupEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
+                groupEditFragment.setExpiryTime(DateInstant(DateTime(expiresDate)
+                        .withYear(year)
+                        .withMonthOfYear(month + 1)
+                        .withDayOfMonth(day)
+                        .toDate()))
+                // Launch the time picker
+                val dateTime = DateTime(expiresDate)
+                val defaultHour = dateTime.hourOfDay
+                val defaultMinute = dateTime.minuteOfHour
+                TimePickerFragment.getInstance(defaultHour, defaultMinute)
+                        .show(supportFragmentManager, "TimePickerFragment")
+            }
+        }
+    }
+
+    override fun onTimeSet(view: TimePicker?, hours: Int, minutes: Int) {
+        val groupEditFragment = supportFragmentManager.findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as? GroupEditDialogFragment
+        groupEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
+            // Save the date
+            groupEditFragment.setExpiryTime(
+                    DateInstant(DateTime(expiresDate)
+                    .withHourOfDay(hours)
+                    .withMinuteOfHour(minutes)
+                    .toDate()))
+        }
+    }
+
     private fun finishNodeAction() {
         actionNodeMode?.finish()
     }
@@ -1039,7 +1072,7 @@ class GroupActivity : LockingActivity(),
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
                                   groupInfo: GroupInfo) {
 
-        if (groupInfo.name.isNotEmpty()) {
+        if (groupInfo.title.isNotEmpty()) {
             when (action) {
                 GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
                     // If group creation

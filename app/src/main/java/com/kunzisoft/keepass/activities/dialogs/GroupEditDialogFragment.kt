@@ -34,8 +34,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.view.ExpirationView
+import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconPickerListener {
 
@@ -46,12 +49,13 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     private var mEditGroupDialogAction = EditGroupDialogAction.NONE
     private var mGroupInfo = GroupInfo()
 
-    private var iconButtonView: ImageView? = null
+    private lateinit var iconButtonView: ImageView
     private var iconColor: Int = 0
-    private var nameTextLayoutView: TextInputLayout? = null
-    private var nameTextView: TextView? = null
-    private var notesTextLayoutView: TextInputLayout? = null
-    private var notesTextView: TextView? = null
+    private lateinit var nameTextLayoutView: TextInputLayout
+    private lateinit var nameTextView: TextView
+    private lateinit var notesTextLayoutView: TextInputLayout
+    private lateinit var notesTextView: TextView
+    private lateinit var expirationView: ExpirationView
 
     enum class EditGroupDialogAction {
         CREATION, UPDATE, NONE;
@@ -84,11 +88,12 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_group_edit, null)
-            iconButtonView = root?.findViewById(R.id.group_edit_icon_button)
-            nameTextLayoutView = root?.findViewById(R.id.group_edit_name_container)
-            nameTextView = root?.findViewById(R.id.group_edit_name)
-            notesTextLayoutView = root?.findViewById(R.id.group_edit_note_container)
-            notesTextView = root?.findViewById(R.id.group_edit_note)
+            iconButtonView = root.findViewById(R.id.group_edit_icon_button)
+            nameTextLayoutView = root.findViewById(R.id.group_edit_name_container)
+            nameTextView = root.findViewById(R.id.group_edit_name)
+            notesTextLayoutView = root.findViewById(R.id.group_edit_note_container)
+            notesTextView = root.findViewById(R.id.group_edit_note)
+            expirationView = root.findViewById(R.id.group_edit_expiration)
 
             // Retrieve the textColor to tint the icon
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -115,27 +120,30 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
                 }
             }
 
-            // populate the icon
-            assignIconView()
-            // populate the name
-            nameTextView?.text = mGroupInfo.name
-            // populate the note
-            notesTextLayoutView?.visibility = if (mGroupInfo.notes == null) View.GONE else View.VISIBLE
-            mGroupInfo.notes?.let {
-                notesTextView?.text = it
+            // populate info in views
+            populateInfoToViews()
+            expirationView.setOnDateClickListener = {
+                expirationView.expiryTime.date.let { expiresDate ->
+                    val dateTime = DateTime(expiresDate)
+                    val defaultYear = dateTime.year
+                    val defaultMonth = dateTime.monthOfYear-1
+                    val defaultDay = dateTime.dayOfMonth
+                    DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
+                            .show(parentFragmentManager, "DatePickerFragment")
+                }
             }
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok, null)
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        retrieveGroupInfo()
+                        retrieveGroupInfoFromViews()
                         mEditGroupListener?.cancelEditGroup(
                                 mEditGroupDialogAction,
                                 mGroupInfo)
                     }
 
-            iconButtonView?.setOnClickListener { _ ->
+            iconButtonView.setOnClickListener { _ ->
                 IconPickerDialogFragment().show(parentFragmentManager, "IconPickerDialogFragment")
             }
 
@@ -152,7 +160,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         if (d != null) {
             val positiveButton = d.getButton(Dialog.BUTTON_POSITIVE) as Button
             positiveButton.setOnClickListener {
-                retrieveGroupInfo()
+                retrieveGroupInfoFromViews()
                 if (isValid()) {
                     mEditGroupListener?.approveEditGroup(
                             mEditGroupDialogAction,
@@ -163,18 +171,41 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         }
     }
 
-    private fun retrieveGroupInfo() {
-        mGroupInfo.name = nameTextView?.text?.toString() ?: ""
+    fun getExpiryTime(): DateInstant {
+        retrieveGroupInfoFromViews()
+        return mGroupInfo.expiryTime
+    }
+
+    fun setExpiryTime(expiryTime: DateInstant) {
+        mGroupInfo.expiryTime = expiryTime
+        populateInfoToViews()
+    }
+
+    private fun populateInfoToViews() {
+        assignIconView()
+        nameTextView.text = mGroupInfo.title
+        notesTextLayoutView.visibility = if (mGroupInfo.notes == null) View.GONE else View.VISIBLE
+        mGroupInfo.notes?.let {
+            notesTextView.text = it
+        }
+        expirationView.expires = mGroupInfo.expires
+        expirationView.expiryTime = mGroupInfo.expiryTime
+    }
+
+    private fun retrieveGroupInfoFromViews() {
+        mGroupInfo.title = nameTextView.text.toString()
         // Only if there
-        val newNotes = notesTextView?.text?.toString()
-        if (newNotes != null && newNotes.isNotEmpty()) {
+        val newNotes = notesTextView.text.toString()
+        if (newNotes.isNotEmpty()) {
             mGroupInfo.notes = newNotes
         }
+        mGroupInfo.expires = expirationView.expires
+        mGroupInfo.expiryTime = expirationView.expiryTime
     }
 
     private fun assignIconView() {
         if (mDatabase?.drawFactory != null) {
-            iconButtonView?.assignDatabaseIcon(mDatabase?.drawFactory!!, mGroupInfo.icon, iconColor)
+            iconButtonView.assignDatabaseIcon(mDatabase?.drawFactory!!, mGroupInfo.icon, iconColor)
         }
     }
 
@@ -184,14 +215,15 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        retrieveGroupInfoFromViews()
         outState.putInt(KEY_ACTION_ID, mEditGroupDialogAction.ordinal)
         outState.putParcelable(KEY_GROUP_INFO, mGroupInfo)
         super.onSaveInstanceState(outState)
     }
 
     private fun isValid(): Boolean {
-        if (nameTextView?.text?.toString()?.isNotEmpty() != true) {
-            nameTextLayoutView?.error = getString(R.string.error_no_name)
+        if (nameTextView.text.toString().isEmpty()) {
+            nameTextLayoutView.error = getString(R.string.error_no_name)
             return false
         }
         return true
