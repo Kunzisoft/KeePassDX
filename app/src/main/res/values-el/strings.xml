@@ -557,4 +557,5 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Ο υπάρχων τύπος OTP δεν αναγνωρίζεται από αυτήν τη φόρμα, η επικύρωσή του ενδέχεται να μην δημιουργεί πλέον σωστά το token.</string>
+    <string name="download_canceled">Ακυρώθηκε!</string>
 </resources>
