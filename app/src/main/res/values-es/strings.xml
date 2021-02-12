@@ -547,4 +547,16 @@
     <string name="show_uuid_title">Mostrar UUID</string>
     <string name="error_rebuild_list">No es posible reconstruir adecuadamente la lista.</string>
     <string name="error_database_uri_null">La URI de la base de datos no puede ser recuperada.</string>
+    <string name="autofill_inline_suggestions_summary">Intenta mostrar sugerencias de autocompletado directamente desde un teclado compatible</string>
+    <string name="autofill_inline_suggestions_keyboard">Añadidas sugerencias de autocompletado.</string>
+    <string name="warning_database_revoked">Acceso al archivo revocado por el administrador de archivos, cierra la base de datos y vuelva a abrirla desde su ubicación.</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="autofill_inline_suggestions_title">Sugerencias en línea</string>
+    <string name="warning_database_info_changed_options">Sobrescribir las modificaciones externas guardando la base de datos o recargándola con los últimos cambios.</string>
+    <string name="warning_database_info_changed">La información contenida en su archivo de base de datos ha sido modificada fuera de la aplicación.</string>
+    <string name="menu_reload_database">Recargar la base de datos</string>
+    <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
 </resources>

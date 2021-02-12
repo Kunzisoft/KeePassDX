@@ -75,13 +75,13 @@
     <string name="save">Spremi</string>
     <string name="entry_title">Naslov</string>
     <string name="entry_setup_otp">Postavi jednokratnu lozinku</string>
-    <string name="otp_type">Tip OTP-a</string>
+    <string name="otp_type">Vrsta jednokratne lozinke</string>
     <string name="otp_secret">Tajna</string>
     <string name="otp_period">Razdoblje (u sekundama)</string>
     <string name="otp_counter">Brojač</string>
     <string name="otp_digits">Znamenke</string>
     <string name="otp_algorithm">Algoritam</string>
-    <string name="entry_otp">OTP</string>
+    <string name="entry_otp">Jednokratna lozinka</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Korisničko ime</string>
     <string name="error_nokeyfile">Odaberi datoteku ključa.</string>
@@ -234,7 +234,7 @@
     <string name="error_file_not_create">Nije moguće stvoriti datoteku</string>
     <string name="error_invalid_db">Nije moguće čitati bazu podataka.</string>
     <string name="error_invalid_path">Provjeri putanju do datoteke.</string>
-    <string name="error_invalid_OTP">Neispravan OTP tajni ključ.</string>
+    <string name="error_invalid_OTP">Neispravna tajna jednokratne lozinke.</string>
     <string name="error_no_name">Upiši ime.</string>
     <string name="error_out_of_memory">Nema dovoljno memorije za učitavanje cijele baze podataka.</string>
     <string name="error_load_database">Nije moguće učitati bazu podataka.</string>
@@ -416,7 +416,7 @@
     <string name="icon_pack_choose_title">Paket ikona</string>
     <string name="contribute">Doprinesi</string>
     <string name="html_text_dev_feature_thanks">Zahvaljujemo na doprinosu.</string>
-    <string name="education_setup_OTP_title">Postavi OTP</string>
+    <string name="education_setup_OTP_title">Postavi jednokratnu lozinku</string>
     <string name="content_description_add_item">Dodaj element</string>
     <string name="html_text_dev_feature_buy_pro">Kupnjom &lt;strong&gt;pro&lt;/strong&gt; verzije,</string>
     <string name="keyboard_selection_entry_summary">Prikaži polja unosa u Magikeyboardu prilikom prikaza unosa</string>
@@ -536,4 +536,9 @@
     <string name="warning_database_info_changed_options">Prepiši vanjske promjene spremanjem baze podataka ili je ponovo učitaj s najnovijim promjenama.</string>
     <string name="warning_database_info_changed">Podaci u datoteci tvoje baze podataka izmijenjeni su izvan programa.</string>
     <string name="menu_reload_database">Ponovo učitaj bazu podataka</string>
+    <string name="error_otp_type">Ovaj obrazac ne prepoznaje postojeću vrstu jednokratne lozinke. Provjera valjanosti možda više neće pravilno generirati token.</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
 </resources>

@@ -552,4 +552,9 @@
     <string name="warning_database_info_changed_options">Nadpisz zewnętrzne modyfikacje, zapisując bazę danych lub przeładuj ją z najnowszymi zmianami.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
     <string name="menu_reload_database">Załaduj ponownie bazę danych</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="error_otp_type">Istniejący typ OTP nie jest rozpoznawany przez ten formularz, jego walidacja może już nie generować poprawnie tokenu.</string>
 </resources>
