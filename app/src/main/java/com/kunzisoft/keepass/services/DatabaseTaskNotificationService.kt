@@ -142,9 +142,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 val conditionExists = previousDatabaseInfo != null
                         && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
                 // To prevent dialog opening too often
+                // Add 10 seconds delta time to prevent spamming
                 val conditionLastModification = (oldDatabaseModification != null && newDatabaseModification != null
                         && oldDatabaseModification < newDatabaseModification
-                        && mLastLocalSaveTime + 5000 < newDatabaseModification)
+                        && mLastLocalSaveTime + 10000 < newDatabaseModification)
 
                 if (conditionExists || conditionLastModification) {
                     // Show the dialog only if it's real new info and not a delay after a save
