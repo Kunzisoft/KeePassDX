@@ -556,4 +556,5 @@
     <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
     <string name="menu_reload_database">Ricarica database</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo, la sua convalida potrebbe non generare più correttamente il token.</string>
+    <string name="download_canceled">Annullato!</string>
 </resources>
