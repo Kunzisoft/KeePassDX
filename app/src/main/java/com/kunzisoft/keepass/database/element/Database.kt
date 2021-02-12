@@ -411,6 +411,7 @@ class Database {
                  readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
+                 tempCipherKey: LoadedKey,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -435,7 +436,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
-                                        LoadedKey.generateNewCipherKey(),
+                                        tempCipherKey,
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     },
@@ -444,7 +445,7 @@ class Database {
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
-                                        LoadedKey.generateNewCipherKey(),
+                                        tempCipherKey,
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     }
@@ -464,6 +465,7 @@ class Database {
     @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
                    cacheDirectory: File,
+                   tempCipherKey: LoadedKey,
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
         // Retrieve the stream from the old database URI
@@ -474,12 +476,14 @@ class Database {
                             DatabaseInputKDB(cacheDirectory)
                                     .openDatabase(databaseInputStream,
                                             masterKey,
+                                            tempCipherKey,
                                             progressTaskUpdater)
                         },
                         { databaseInputStream ->
                             DatabaseInputKDBX(cacheDirectory)
                                     .openDatabase(databaseInputStream,
                                             masterKey,
+                                            tempCipherKey,
                                             progressTaskUpdater)
                         }
                 )

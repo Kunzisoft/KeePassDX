@@ -55,6 +55,7 @@ class LoadDatabaseRunnable(private val context: Context,
                     mReadonly,
                     context.contentResolver,
                     UriUtil.getBinaryDir(context),
+                    Database.LoadedKey.generateNewCipherKey(),
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }

@@ -55,28 +55,6 @@ class DatabaseInputKDB(cacheDirectory: File)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.retrieveMasterKey(password, keyfileInputStream)
-        }
-    }
-
-    @Throws(LoadDatabaseException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              masterKey: ByteArray,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.masterKey = masterKey
-        }
-    }
-
-
-    @Throws(LoadDatabaseException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              password: String?,
-                              keyfileInputStream: InputStream?,
                               loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {

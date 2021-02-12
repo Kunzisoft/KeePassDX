@@ -38,19 +38,6 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
      *
      * @throws LoadDatabaseException on database error (contains IO exceptions)
      */
-    @Throws(LoadDatabaseException::class)
-    abstract fun openDatabase(databaseInputStream: InputStream,
-                              password: String?,
-                              keyfileInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean = false): PwDb
-
-
-    @Throws(LoadDatabaseException::class)
-    abstract fun openDatabase(databaseInputStream: InputStream,
-                              masterKey: ByteArray,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean = false): PwDb
 
     @Throws(LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,

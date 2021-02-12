@@ -33,7 +33,10 @@ class ReloadDatabaseRunnable(private val context: Context,
                              private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
 
+    private var tempCipherKey: Database.LoadedKey? = null
+
     override fun onStartRun() {
+        tempCipherKey = mDatabase.loadedCipherKey
         // Clear before we load
         mDatabase.clear(UriUtil.getBinaryDir(context))
     }
@@ -42,6 +45,7 @@ class ReloadDatabaseRunnable(private val context: Context,
         try {
             mDatabase.reloadData(context.contentResolver,
                     UriUtil.getBinaryDir(context),
+                    tempCipherKey ?: Database.LoadedKey.generateNewCipherKey(),
                     progressTaskUpdater)
         } catch (e: LoadDatabaseException) {
             setError(e)
@@ -51,6 +55,7 @@ class ReloadDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
+            tempCipherKey = null
             mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
         }
     }
