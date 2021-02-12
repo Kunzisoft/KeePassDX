@@ -178,7 +178,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    private inline fun retrieveMainCredential(): MainCredential {
+    private fun retrieveMainCredential(): MainCredential {
         val masterPassword = if (passwordCheckBox!!.isChecked) mMasterPassword else null
         val keyFile = if (keyFileCheckBox!!.isChecked) mKeyFile else null
         return MainCredential(masterPassword, keyFile)
