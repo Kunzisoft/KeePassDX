@@ -29,19 +29,22 @@ import com.kunzisoft.keepass.utils.writeEnum
 data class EntryAttachmentState(var attachment: Attachment,
                                 var streamDirection: StreamDirection,
                                 var downloadState: AttachmentState = AttachmentState.NULL,
-                                var downloadProgression: Int = 0) : Parcelable {
+                                var downloadProgression: Int = 0,
+                                var previewState: AttachmentState = AttachmentState.NULL) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readParcelable(Attachment::class.java.classLoader) ?: Attachment("", BinaryAttachment()),
             parcel.readEnum<StreamDirection>() ?: StreamDirection.DOWNLOAD,
             parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
-            parcel.readInt())
+            parcel.readInt(),
+            parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(attachment, flags)
         parcel.writeEnum(streamDirection)
         parcel.writeEnum(downloadState)
         parcel.writeInt(downloadProgression)
+        parcel.writeEnum(previewState)
     }
 
     override fun describeContents(): Int {
@@ -73,5 +76,5 @@ data class EntryAttachmentState(var attachment: Attachment,
 }
 
 enum class AttachmentState {
-    NULL, START, IN_PROGRESS, COMPLETE, ERROR
+    NULL, START, IN_PROGRESS, COMPLETE, CANCELED, ERROR
 }

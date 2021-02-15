@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.view
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -35,6 +36,7 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
@@ -166,7 +168,17 @@ fun View.updateLockPaddingLeft() {
     ))
 }
 
-fun CoordinatorLayout.showActionError(result: ActionRunnable.Result) {
+fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
+    if (!result.isSuccess) {
+        result.exception?.errorId?.let { errorId ->
+            Toast.makeText(this, errorId, Toast.LENGTH_LONG).show()
+        } ?: result.message?.let { message ->
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+    }
+}
+
+fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
         result.exception?.errorId?.let { errorId ->
             Snackbar.make(this, errorId, Snackbar.LENGTH_LONG).asError().show()

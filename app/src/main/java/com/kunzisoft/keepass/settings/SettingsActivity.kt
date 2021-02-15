@@ -36,9 +36,10 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 
 open class SettingsActivity
     : LockingActivity(),
@@ -98,18 +99,23 @@ open class SettingsActivity
             when (actionTask) {
                 DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
                     // Reload the current activity
-                    startActivity(intent)
-                    finish()
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    if (result.isSuccess) {
+                        startActivity(intent)
+                        finish()
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    } else {
+                        this.showActionErrorIfNeeded(result)
+                        finish()
+                    }
                 }
                 else -> {
                     // Call result in fragment
                     (supportFragmentManager
                             .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
                             ?.onProgressDialogThreadResult(actionTask, result)
-                    coordinatorLayout?.showActionError(result)
                 }
             }
+            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
 
         // To reload the current screen
@@ -136,52 +142,33 @@ open class SettingsActivity
     }
 
     override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                                    masterPasswordChecked: Boolean,
-                                                    masterPassword: String?,
-                                                    keyFileChecked: Boolean,
-                                                    keyFile: Uri?) {
+                                                    mainCredential: MainCredential) {
         databaseUri?.let {
             mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                     databaseUri,
-                    masterPasswordChecked,
-                    masterPassword,
-                    keyFileChecked,
-                    keyFile
+                    mainCredential
             )
         }
     }
 
-    override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean,
-                                                masterPassword: String?,
-                                                keyFileChecked: Boolean,
-                                                keyFile: Uri?) {
+    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
         Database.getInstance().let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
+                if (database.validatePasswordEncoding(mainCredential)) {
                     mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                             databaseUri,
-                            masterPasswordChecked,
-                            masterPassword,
-                            keyFileChecked,
-                            keyFile
+                            mainCredential
                     )
                 } else {
-                    PasswordEncodingDialogFragment.getInstance(databaseUri,
-                            masterPasswordChecked,
-                            masterPassword,
-                            keyFileChecked,
-                            keyFile
-                    ).show(supportFragmentManager, "passwordEncodingTag")
+                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
+                            .show(supportFragmentManager, "passwordEncodingTag")
                 }
             }
         }
     }
 
-    override fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean,
-                                                masterPassword: String?,
-                                                keyFileChecked: Boolean,
-                                                keyFile: Uri?) {}
+    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
         if (PreferencesUtil.showLockDatabaseButton(this)) {

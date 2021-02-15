@@ -24,13 +24,15 @@
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue_white</item>
         <item name="colorAccentLight">@color/blue_lighter</item>
-        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlActivated">@color/blue_white</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Blue</item>
     </style>
     <!-- Toolbar Style Blue -->
@@ -61,5 +63,10 @@
     <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">
         <item name="android:background">@color/blue_dark</item>
         <item name="background">@color/blue_dark</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Blue.Dialog" parent="KeepassDXStyle.Light.Dialog">
+        <item name="colorAccent">@color/blue_lighter</item>
+        <item name="android:textColorPrimary">@color/blue</item>
     </style>
 </resources>

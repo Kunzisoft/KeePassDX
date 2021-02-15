@@ -24,13 +24,15 @@
         <item name="colorPrimaryDark">@color/red_dark</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
-        <item name="colorControlActivated">@color/red</item>
+        <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lighter</item>
         <item name="android:windowBackground">@color/background_night</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red</item>
     </style>
     <!-- Toolbar Style Red -->
@@ -56,5 +58,10 @@
     <style name="KeepassDXStyle.ActionMode.Red" parent="@style/Widget.AppCompat.ActionMode">
         <item name="android:background">@color/orange</item>
         <item name="background">@color/orange</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Night.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/orange</item>
     </style>
 </resources>

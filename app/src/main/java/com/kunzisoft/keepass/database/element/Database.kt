@@ -41,12 +41,17 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
+import java.security.Key
+import java.security.SecureRandom
 import java.util.*
+import javax.crypto.KeyGenerator
+import javax.crypto.spec.IvParameterSpec
 import kotlin.collections.ArrayList
 
 
@@ -73,6 +78,19 @@ class Database {
 
     var loadTimestamp: Long? = null
         private set
+
+    /**
+     * Cipher key regenerated when the database is loaded and closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: LoadedKey?
+        private set(value) {
+            mDatabaseKDB?.loadedCipherKey = value
+            mDatabaseKDBX?.loadedCipherKey = value
+        }
+        get() {
+            return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
+        }
 
     val iconFactory: IconImageFactory
         get() {
@@ -320,10 +338,24 @@ class Database {
     }
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
-        setDatabaseKDBX(DatabaseKDBX(databaseName, rootName))
+        val newDatabase = DatabaseKDBX(databaseName, rootName)
+        newDatabase.loadedCipherKey = LoadedKey.generateNewCipherKey()
+        setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
+    }
+
+    class LoadedKey(val key: Key, val iv: ByteArray): Serializable {
+        companion object {
+            const val BINARY_CIPHER = "Blowfish/CBC/PKCS5Padding"
+
+            fun generateNewCipherKey(): LoadedKey {
+                val iv = ByteArray(8)
+                SecureRandom().nextBytes(iv)
+                return LoadedKey(KeyGenerator.getInstance("Blowfish").generateKey(), iv)
+            }
+        }
     }
 
     @Throws(LoadDatabaseException::class)
@@ -366,16 +398,20 @@ class Database {
             loaded = true
         } catch (e: LoadDatabaseException) {
             throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         } finally {
             databaseInputStream?.close()
         }
     }
 
     @Throws(LoadDatabaseException::class)
-    fun loadData(uri: Uri, password: String?, keyfile: Uri?,
+    fun loadData(uri: Uri,
+                 mainCredential: MainCredential,
                  readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
+                 tempCipherKey: LoadedKey,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -389,8 +425,8 @@ class Database {
         var keyFileInputStream: InputStream? = null
         try {
             // Get keyFile inputStream
-            keyfile?.let {
-                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
+            mainCredential.keyFileUri?.let { keyFile ->
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyFile)
             }
 
             // Read database stream for the first time
@@ -398,16 +434,18 @@ class Database {
                     { databaseInputStream ->
                         DatabaseInputKDB(cacheDirectory)
                                 .openDatabase(databaseInputStream,
-                                        password,
+                                        mainCredential.masterPassword,
                                         keyFileInputStream,
+                                        tempCipherKey,
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     },
                     { databaseInputStream ->
                         DatabaseInputKDBX(cacheDirectory)
                                 .openDatabase(databaseInputStream,
-                                        password,
+                                        mainCredential.masterPassword,
                                         keyFileInputStream,
+                                        tempCipherKey,
                                         progressTaskUpdater,
                                         fixDuplicateUUID)
                     }
@@ -427,27 +465,39 @@ class Database {
     @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
                    cacheDirectory: File,
+                   tempCipherKey: LoadedKey,
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
         // Retrieve the stream from the old database URI
-        fileUri?.let { oldDatabaseUri ->
-            readDatabaseStream(contentResolver, oldDatabaseUri,
-                    { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory)
-                                .openDatabase(databaseInputStream,
-                                        masterKey,
-                                        progressTaskUpdater)
-                    },
-                    { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory)
-                                .openDatabase(databaseInputStream,
-                                        masterKey,
-                                        progressTaskUpdater)
-                    }
-            )
-        } ?: run {
-            Log.e(TAG, "Database URI is null, database cannot be reloaded")
-            throw IODatabaseException()
+        try {
+            fileUri?.let { oldDatabaseUri ->
+                readDatabaseStream(contentResolver, oldDatabaseUri,
+                        { databaseInputStream ->
+                            DatabaseInputKDB(cacheDirectory)
+                                    .openDatabase(databaseInputStream,
+                                            masterKey,
+                                            tempCipherKey,
+                                            progressTaskUpdater)
+                        },
+                        { databaseInputStream ->
+                            DatabaseInputKDBX(cacheDirectory)
+                                    .openDatabase(databaseInputStream,
+                                            masterKey,
+                                            tempCipherKey,
+                                            progressTaskUpdater)
+                        }
+                )
+            } ?: run {
+                Log.e(TAG, "Database URI is null, database cannot be reloaded")
+                throw IODatabaseException()
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "Unable to load keyfile", e)
+            throw FileNotFoundDatabaseException()
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         }
     }
 
@@ -608,7 +658,9 @@ class Database {
         }
     }
 
-    fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+    fun validatePasswordEncoding(mainCredential: MainCredential): Boolean {
+        val password = mainCredential.masterPassword
+        val containsKeyFile = mainCredential.keyFileUri != null
         return mDatabaseKDB?.validatePasswordEncoding(password, containsKeyFile)
                 ?: mDatabaseKDBX?.validatePasswordEncoding(password, containsKeyFile)
                 ?: false

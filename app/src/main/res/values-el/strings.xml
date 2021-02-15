@@ -38,7 +38,7 @@
     <string name="clipboard_timeout_summary">Διάρκεια αποθήκευσης στο πρόχειρο</string>
     <string name="select_to_copy">Επιλέξτε για αντιγραφή %1$s στο πρόχειρο</string>
     <string name="retrieving_db_key">Ανάκτηση κλειδιού βάσης δεδομένων…</string>
-    <string name="database">Βάση Δεδομένων</string>
+    <string name="database">Βάση δεδομένων</string>
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένου βάσης δεδομένων …</string>
     <string name="default_checkbox">Χρήση ως προεπιλεγμένης βάσης δεδομένων</string>
     <string name="digits">Ψηφία</string>
@@ -46,7 +46,7 @@
 \nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
     <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
     <string name="entry_accessed">Πρόσβαση</string>
-    <string name="entry_cancel">Ακύρωση</string>
+    <string name="entry_cancel">Άκυρο</string>
     <string name="entry_notes">Σημειώσεις</string>
     <string name="entry_confpassword">Επιβεβαίωση κωδικού</string>
     <string name="entry_created">Δημιουργήθηκε</string>
@@ -54,11 +54,11 @@
     <string name="entry_keyfile">Αρχείο-Κλειδί</string>
     <string name="entry_modified">Τροποποιήθηκε</string>
     <string name="entry_not_found">Δεν ήταν δυνατή η εύρεση δεδομένων εισόδου.</string>
-    <string name="entry_password">Κωδικός Πρόσβασης</string>
+    <string name="entry_password">Κωδικός πρόσβασης</string>
     <string name="save">Αποθήκευση</string>
     <string name="entry_title">Τίτλος</string>
     <string name="entry_url">Διεύθυνση URL</string>
-    <string name="entry_user_name">Όνομα Χρήστη</string>
+    <string name="entry_user_name">Όνομα χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης Arcfour δεν υποστηρίζεται.</string>
     <string name="error_can_not_handle_uri">Το KeePassDX δε μπορεί να χειριστεί αυτή τη διεύθυνση URI.</string>
     <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου</string>
@@ -82,7 +82,7 @@
     <string name="hint_keyfile">Αρχείο κλειδί</string>
     <string name="hint_length">Μήκος</string>
     <string name="hint_pass">Κωδικός</string>
-    <string name="password">Κωδικός Πρόσβασης</string>
+    <string name="password">Κωδικός πρόσβασης</string>
     <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων.</string>
     <string name="invalid_algorithm">Λάθος αλγόριθμος.</string>
     <string name="invalid_db_sig">Δεν ήταν δυνατή η αναγνώριση της μορφής της βάσης δεδομένων.</string>
@@ -258,7 +258,7 @@
     <string name="html_text_dev_feature_thanks">Ευχαριστούμε πολύ για τη συνεισφορά σας.</string>
     <string name="html_text_dev_feature_work_hard">Εργαζόμαστε σκληρά για να διαθέσουμε αυτό το χαρακτηριστικό γρήγορα.</string>
     <string name="html_text_dev_feature_upgrade">Θυμηθείτε να ενημερώνετε την εφαρμογή σας, εγκαθιστώντας νέες εκδόσεις.</string>
-    <string name="download">Download</string>
+    <string name="download">Λήψη</string>
     <string name="contribute">Συνεισφορά</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
@@ -270,7 +270,7 @@
     <string name="menu_copy">Αντιγραφή</string>
     <string name="menu_move">Μετακίνηση</string>
     <string name="menu_paste">Επικόλληση</string>
-    <string name="menu_cancel">Ακύρωση</string>
+    <string name="menu_cancel">Άκυρο</string>
     <string name="clipboard_warning">Εάν αποτύχει η αυτόματη διαγραφή του προχείρου, διαγράψτε το ιστορικό του χειροκίνητα.</string>
     <string name="allow_copy_password_warning">Προειδοποίηση: Το πρόχειρο μοιράζεται από όλες τις εφαρμογές. Αν αντιγράφονται ευαίσθητα δεδομένα, άλλο λογισμικό μπορεί να το ανακτήσει.</string>
     <string name="allow_no_password_title">Να μην επιτρέπεται κανένα κύριο κλειδί</string>
@@ -552,4 +552,10 @@
     <string name="warning_database_info_changed_options">Αντικαταστήστε τις εξωτερικές τροποποιήσεις αποθηκεύοντας τη βάση δεδομένων ή φορτώστε την ξανά με τις πιο πρόσφατες αλλαγές.</string>
     <string name="warning_database_info_changed">Οι πληροφορίες που περιέχονται στο αρχείο της βάσης δεδομένων σας έχουν τροποποιηθεί εκτός της εφαρμογής.</string>
     <string name="menu_reload_database">Επαναφόρτωση βάσης δεδομένων</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="error_otp_type">Ο υπάρχων τύπος OTP δεν αναγνωρίζεται από αυτήν τη φόρμα, η επικύρωσή του ενδέχεται να μην δημιουργεί πλέον σωστά το token.</string>
+    <string name="download_canceled">Ακυρώθηκε!</string>
 </resources>

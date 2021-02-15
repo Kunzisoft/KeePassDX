@@ -281,13 +281,14 @@
     <string name="style_choose_title">Thème de l’application</string>
     <string name="style_choose_summary">Thème utilisé dans l’application</string>
     <string-array name="list_style_names">
-        <item>Thème Jour</item>
-        <item>Thème Nuit</item>
-        <item>Thème Noir</item>
-        <item>Thème Foncé Classique</item>
-        <item>Thème Ciel et Océan</item>
-        <item>Thème Rouge Volcan</item>
-        <item>Thème Pro Violet</item>
+        <item>Jour</item>
+        <item>Nuit</item>
+        <item>Noir</item>
+        <item>Foncé Classique</item>
+        <item>Ciel et Océan</item>
+        <item>Rouge Volcan</item>
+        <item>Pourpre Lumineux</item>
+        <item>Pourpre Obscur</item>
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>
@@ -561,4 +562,10 @@
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
     <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
     <string name="menu_reload_database">Recharger la base de données</string>
+    <string name="unit_gibibyte">Gibioctets</string>
+    <string name="unit_mebibyte">Mébioctets</string>
+    <string name="unit_kibibyte">Kibioctets</string>
+    <string name="unit_byte">Octets</string>
+    <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, sa validation peut ne plus générer correctement le jeton.</string>
+    <string name="download_canceled">Annulé !</string>
 </resources>

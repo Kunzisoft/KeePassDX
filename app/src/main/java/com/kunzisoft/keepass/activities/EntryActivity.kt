@@ -51,22 +51,19 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
-import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.createDocument
-import com.kunzisoft.keepass.utils.onCreateDocumentResult
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.EntryContentsView
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -129,6 +126,7 @@ class EntryActivity : LockingActivity() {
         historyView = findViewById(R.id.history_container)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
+        entryContentsView?.setAttachmentCipherKey(mDatabase?.loadedCipherKey)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
 
@@ -156,10 +154,11 @@ class EntryActivity : LockingActivity() {
                 }
                 ACTION_DATABASE_RELOAD_TASK -> {
                     // Close the current activity
+                    this.showActionErrorIfNeeded(result)
                     finish()
                 }
             }
-            coordinatorLayout?.showActionError(result)
+            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
     }
 
@@ -222,7 +221,9 @@ class EntryActivity : LockingActivity() {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-                    entryContentsView?.putAttachment(entryAttachmentState)
+                    if (entryAttachmentState.streamDirection != StreamDirection.UPLOAD) {
+                        entryContentsView?.putAttachment(entryAttachmentState)
+                    }
                 }
             }
         }
@@ -349,7 +350,7 @@ class EntryActivity : LockingActivity() {
 
         // Assign dates
         entryContentsView?.assignCreationDate(entryInfo.creationTime)
-        entryContentsView?.assignModificationDate(entryInfo.modificationTime)
+        entryContentsView?.assignModificationDate(entryInfo.lastModificationTime)
         entryContentsView?.setExpires(entryInfo.expires, entryInfo.expiryTime)
 
         // Manage history

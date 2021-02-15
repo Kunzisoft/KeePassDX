@@ -64,7 +64,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     android:theme="?attr/toolbarAppearance"
-                    android:popupTheme="?attr/toolbarPopupAppearance"
+                    app:popupTheme="?attr/toolbarPopupAppearance"
                     android:elevation="4dp"
                     tools:targetApi="lollipop">
                     <LinearLayout
@@ -155,9 +155,10 @@
         android:id="@+id/toolbar_action"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:visibility="gone"
+        app:popupTheme="?attr/toolbarPopupAppearance"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="?attr/actionToolbarAppearance" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <include
         layout="@layout/view_button_lock"

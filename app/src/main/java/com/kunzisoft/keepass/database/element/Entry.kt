@@ -346,12 +346,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
                 || entryKDBX?.containsAttachment() == true
     }
 
-    private fun addAttachments(binaryPool: BinaryPool, attachments: List<Attachment>) {
-        attachments.forEach {
-            putAttachment(it, binaryPool)
-        }
-    }
-
     private fun removeAttachment(attachment: Attachment) {
         entryKDB?.removeAttachment(attachment)
         entryKDBX?.removeAttachment(attachment)
@@ -427,7 +421,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryInfo.username = username
         entryInfo.password = password
         entryInfo.creationTime = creationTime
-        entryInfo.modificationTime = lastModificationTime
+        entryInfo.lastModificationTime = lastModificationTime
         entryInfo.expires = expires
         entryInfo.expiryTime = expiryTime
         entryInfo.url = url
@@ -467,7 +461,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         notes = newEntryInfo.notes
         addExtraFields(newEntryInfo.customFields)
         database?.binaryPool?.let { binaryPool ->
-            addAttachments(binaryPool, newEntryInfo.attachments)
+            newEntryInfo.attachments.forEach { attachment ->
+                putAttachment(attachment, binaryPool)
+            }
         }
 
         database?.stopManageEntry(this)

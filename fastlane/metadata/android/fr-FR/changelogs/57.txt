@@ -1,0 +1,8 @@
+ * Visionneuse d'images binaires #473 #749
+ * Correction des paramètres des plugins TOTP #878
+ * Autoriser les Emoji #796
+ * Défilement et amélioration de l'UI dans l'écran d'édition #876
+ * Meilleure interface utilisateur #876
+ * Correction des thèmes et ajout de Pourpre Sombre #889
+ * Autoriser l'OTP avec de nombreux rembourrages #585
+ * Ajout des notes dans les groupes #734

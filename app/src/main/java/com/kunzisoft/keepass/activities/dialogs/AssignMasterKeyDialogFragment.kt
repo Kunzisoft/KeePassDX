@@ -37,6 +37,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
@@ -76,10 +77,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     }
 
     interface AssignPasswordDialogListener {
-        fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?,
-                                           keyFileChecked: Boolean, keyFile: Uri?)
-        fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean, masterPassword: String?,
-                                           keyFileChecked: Boolean, keyFile: Uri?)
+        fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential)
+        fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential)
     }
 
     override fun onAttach(activity: Context) {
@@ -161,17 +160,13 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                             }
                         }
                         if (!error) {
-                            mListener?.onAssignKeyDialogPositiveClick(
-                                    passwordCheckBox!!.isChecked, mMasterPassword,
-                                    keyFileCheckBox!!.isChecked, mKeyFile)
+                            mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
                             dismiss()
                         }
                     }
                     val negativeButton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE)
                     negativeButton.setOnClickListener {
-                        mListener?.onAssignKeyDialogNegativeClick(
-                                passwordCheckBox!!.isChecked, mMasterPassword,
-                                keyFileCheckBox!!.isChecked, mKeyFile)
+                        mListener?.onAssignKeyDialogNegativeClick(retrieveMainCredential())
                         dismiss()
                     }
                 }
@@ -181,6 +176,12 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         }
 
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun retrieveMainCredential(): MainCredential {
+        val masterPassword = if (passwordCheckBox!!.isChecked) mMasterPassword else null
+        val keyFile = if (keyFileCheckBox!!.isChecked) mKeyFile else null
+        return MainCredential(masterPassword, keyFile)
     }
 
     override fun onResume() {
@@ -242,9 +243,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         if (!verifyKeyFile()) {
-                            mListener?.onAssignKeyDialogPositiveClick(
-                                    passwordCheckBox!!.isChecked, mMasterPassword,
-                                    keyFileCheckBox!!.isChecked, mKeyFile)
+                            mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
                             this@AssignMasterKeyDialogFragment.dismiss()
                         }
                     }
@@ -259,9 +258,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        mListener?.onAssignKeyDialogPositiveClick(
-                                passwordCheckBox!!.isChecked, mMasterPassword,
-                                keyFileCheckBox!!.isChecked, mKeyFile)
+                        mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
                         this@AssignMasterKeyDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }

@@ -33,27 +33,14 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <FrameLayout
+        <com.kunzisoft.keepass.view.SpecialModeView
+            android:id="@+id/special_mode_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="?attr/toolbarAppearance"
-                android:popupTheme="?attr/toolbarPopupAppearance"
-                tools:targetApi="lollipop" />
-
-            <com.kunzisoft.keepass.view.SpecialModeView
-                android:id="@+id/special_mode_view"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="?attr/specialToolbarAppearance"
-                app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
-                app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
-                app:layout_constraintTop_toTopOf="parent" />
-        </FrameLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:theme="?attr/specialToolbarAppearance"
+            app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
+            app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -79,24 +66,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.bottomappbar.BottomAppBar
+    <com.kunzisoft.keepass.view.ToolbarAction
         android:id="@+id/entry_edit_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:fabAlignmentMode="center"
-        app:hideOnScroll="false"
-        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="?attr/toolbarPopupAppearance"
         android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_anchorGravity="bottom|end"
-        app:layout_anchor="@+id/entry_edit_bottom_bar"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/ic_check_white_24dp"
         android:contentDescription="@string/validate"
         app:useCompatPadding="true"
+        app:fabSize="mini"
         style="@style/KeepassDXStyle.Fab"/>
 
     <include

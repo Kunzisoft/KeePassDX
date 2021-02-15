@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -140,12 +139,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
             val protectedBinary = keyBinary.binary
+            val binaryCipherKey = database.loadedCipherKey
+                    ?: throw IOException("Unable to retrieve cipher key to write binaries")
             // Force decompression to add binary in header
-            protectedBinary.decompress()
+            protectedBinary.decompress(binaryCipherKey)
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(protectedBinary.length() + 1))
+            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(protectedBinary.length + 1))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
@@ -153,8 +154,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             }
             dataOutputStream.writeByte(flag)
 
-            protectedBinary.getInputDataStream().use { inputStream ->
-                inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+            protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
+                inputStream.readAllBytes { buffer ->
                     dataOutputStream.write(buffer)
                 }
             }
@@ -473,7 +474,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             if (binary.isProtected) {
                 xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
                 binary.getInputDataStream().use { inputStream ->
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readBytes { buffer ->
                         val encoded = ByteArray(buffer.size)
                         randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
                         xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
@@ -482,7 +483,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             } else {
                 // Write the XML
                 binary.getInputDataStream().use { inputStream ->
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readBytes { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }
                 }
@@ -502,13 +503,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
             val binary = keyBinary.binary
-            if (binary.length() > 0) {
+            if (binary.length > 0) {
                 if (binary.isCompressed) {
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }
                 // Write the XML
-                binary.getInputDataStream().use { inputStream ->
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                val binaryCipherKey = mDatabaseKDBX.loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to write binaries")
+                binary.getInputDataStream(binaryCipherKey).use { inputStream ->
+                    inputStream.readAllBytes { buffer ->
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }
                 }
@@ -589,7 +592,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
             }
         } else {
-            xml.text(safeXmlString(value.toString()))
+            xml.text(value.toString())
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemValue)
@@ -718,17 +721,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (text.isEmpty()) {
             return text
         }
-
         val stringBuilder = StringBuilder()
-        var ch: Char
+        var character: Char
         for (element in text) {
-            ch = element
+            character = element
+            val hexChar = character.toInt()
             if (
-                ch.toInt() in 0x20..0xD7FF ||
-                ch.toInt() == 0x9 || ch.toInt() == 0xA || ch.toInt() == 0xD ||
-                ch.toInt() in 0xE000..0xFFFD
+                    hexChar in 0x20..0xD7FF ||
+                    hexChar == 0x9 ||
+                    hexChar == 0xA ||
+                    hexChar == 0xD ||
+                    hexChar in 0xE000..0xFFFD
             ) {
-                stringBuilder.append(ch)
+                stringBuilder.append(character)
             }
         }
         return stringBuilder.toString()

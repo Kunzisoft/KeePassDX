@@ -210,13 +210,13 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         fun isValidBase32(secret: String): Boolean {
             val secretChars = replaceBase32Chars(secret)
             return secret.isNotEmpty()
-                    && (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$", secretChars))
+                    && (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}=*|[A-Z2-7]{4}=*|[A-Z2-7]{5}=*|[A-Z2-7]{7}=*)?$", secretChars))
         }
 
         fun isValidBase64(secret: String): Boolean {
             // TODO replace base 64 chars
             return secret.isNotEmpty()
-                    && (Pattern.matches("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", secret))
+                    && (Pattern.matches("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}=*|[A-Za-z0-9+/]{3}=*)?$", secret))
         }
 
         fun replaceBase32Chars(parameter: String): String {

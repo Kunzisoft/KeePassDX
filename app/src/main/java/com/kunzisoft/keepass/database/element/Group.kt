@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 import kotlin.collections.ArrayList
@@ -232,6 +233,14 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override val isCurrentlyExpires: Boolean
         get() = groupKDB?.isCurrentlyExpires ?: groupKDBX?.isCurrentlyExpires ?: false
 
+    var notes: String?
+        get() = groupKDBX?.notes
+        set(value) {
+            value?.let {
+                groupKDBX?.notes = it
+            }
+        }
+
     override fun getChildGroups(): List<Group> {
         return groupKDB?.getChildGroups()?.map {
             Group(it)
@@ -389,6 +398,35 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun containsCustomData(): Boolean {
         return groupKDBX?.containsCustomData() ?: false
+    }
+
+    /*
+      ------------
+      Converter
+      ------------
+     */
+
+    fun getGroupInfo(): GroupInfo {
+        val groupInfo = GroupInfo()
+        groupInfo.title = title
+        groupInfo.icon = icon
+        groupInfo.creationTime = creationTime
+        groupInfo.lastModificationTime = lastModificationTime
+        groupInfo.expires = expires
+        groupInfo.expiryTime = expiryTime
+        groupInfo.notes = notes
+        return groupInfo
+    }
+
+    fun setGroupInfo(groupInfo: GroupInfo) {
+        title = groupInfo.title
+        icon = groupInfo.icon
+        // Update date time, creation time stay as is
+        lastModificationTime = DateInstant()
+        lastAccessTime = DateInstant()
+        expires = groupInfo.expires
+        expiryTime = groupInfo.expiryTime
+        notes = groupInfo.notes
     }
 
     override fun equals(other: Any?): Boolean {

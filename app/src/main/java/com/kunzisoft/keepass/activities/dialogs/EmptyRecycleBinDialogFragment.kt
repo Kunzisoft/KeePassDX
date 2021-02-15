@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 
 class EmptyRecycleBinDialogFragment : DeleteNodesDialogFragment() {
 

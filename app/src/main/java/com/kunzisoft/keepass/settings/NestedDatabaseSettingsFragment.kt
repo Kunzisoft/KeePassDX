@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable

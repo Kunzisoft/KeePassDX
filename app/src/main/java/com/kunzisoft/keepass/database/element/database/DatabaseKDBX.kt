@@ -126,6 +126,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     constructor(databaseName: String, rootName: String) {
         name = databaseName
+        kdbxVersion = FILE_VERSION_32_3
         val group = createGroup().apply {
             title = rootName
             icon = iconFactory.folderIcon
@@ -212,8 +213,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun compressAllBinaries() {
         binaryPool.doForEachBinary { binary ->
             try {
+                val cipherKey = loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to compress binaries")
                 // To compress, create a new binary with file
-                binary.compress(BUFFER_SIZE_BYTES)
+                binary.compress(cipherKey)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to compress $binary", e)
             }
@@ -223,7 +226,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun decompressAllBinaries() {
         binaryPool.doForEachBinary { binary ->
             try {
-                binary.decompress(BUFFER_SIZE_BYTES)
+                val cipherKey = loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to decompress binaries")
+                binary.decompress(cipherKey)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to decompress $binary", e)
             }
@@ -708,7 +713,5 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
         const val BASE_64_FLAG = Base64.NO_WRAP
-
-        const val BUFFER_SIZE_BYTES = 3 * 128
     }
 }

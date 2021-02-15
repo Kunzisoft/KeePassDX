@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.input
 
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -37,10 +38,12 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
      *
      * @throws LoadDatabaseException on database error (contains IO exceptions)
      */
+
     @Throws(LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
-                              keyInputStream: InputStream?,
+                              keyfileInputStream: InputStream?,
+                              loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean = false): PwDb
 
@@ -48,6 +51,7 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
     @Throws(LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
+                              loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean = false): PwDb
 }

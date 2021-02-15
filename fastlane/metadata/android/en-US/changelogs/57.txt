@@ -1,0 +1,8 @@
+ * Binary image viewer #473 #749
+ * Fix TOTP plugin settings #878
+ * Allow Emoji #796
+ * Scroll and better UI in entry edition screen #876
+ * Better UI #876
+ * Fix themes and add Purple Dark #889
+ * Allow OTP with many padding #585
+ * Add notes in groups #734

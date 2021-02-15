@@ -35,6 +35,7 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Dark</item>
+        <item name="cardBackgroundTransparentColor">@color/dark_transparent</item>
     </style>
     <!-- Toolbar Style Dark -->
     <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">
@@ -61,7 +62,8 @@
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">#fefefe</item>
         <item name="android:textColorPrimary">@color/cyan_lighter</item>
-        <item name="background">@color/darker</item>
+        <item name="android:background">@color/grey_black</item>
+        <item name="background">@color/grey_black</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Dark" parent="CardView">

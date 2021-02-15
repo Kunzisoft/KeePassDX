@@ -130,7 +130,7 @@
                     android:elevation="4dp"
                     app:layout_collapseMode="pin"
                     android:theme="?attr/toolbarHomeAppearance"
-                    android:popupTheme="?attr/toolbarPopupAppearance" />
+                    app:popupTheme="?attr/toolbarPopupAppearance" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

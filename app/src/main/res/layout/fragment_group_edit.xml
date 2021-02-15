@@ -17,36 +17,59 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<androidx.core.widget.NestedScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:padding="@dimen/default_margin"
-	android:importantForAutofill="noExcludeDescendants"
-	tools:targetApi="o">
-	<androidx.appcompat.widget.AppCompatImageButton
-		android:id="@+id/group_edit_icon_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_margin="@dimen/default_margin"
-        android:src="@drawable/ic_blank_32dp"/>
-	<com.google.android.material.textfield.TextInputLayout
-		android:id="@+id/group_edit_name_container"
+	android:layout_height="match_parent">
+	<LinearLayout
+		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<com.google.android.material.textfield.TextInputEditText
-			android:id="@+id/group_edit_name"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/default_margin"
+		android:importantForAutofill="noExcludeDescendants"
+		tools:targetApi="o">
+		<androidx.appcompat.widget.AppCompatImageButton
+			android:id="@+id/group_edit_icon_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_margin="@dimen/default_margin"
+			android:src="@drawable/ic_blank_32dp"/>
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/group_edit_name_container"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/group_edit_name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="4dp"
+				android:layout_marginStart="4dp"
+				android:inputType="text"
+				android:maxLines="1"
+				android:singleLine="true"
+				android:hint="@string/hint_group_name"/>
+		</com.google.android.material.textfield.TextInputLayout>
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/group_edit_note_container"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/group_edit_note"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="4dp"
+				android:layout_marginStart="4dp"
+				android:inputType="textMultiLine"
+				android:maxLines="3"
+				android:hint="@string/entry_notes"/>
+		</com.google.android.material.textfield.TextInputLayout>
+		<com.kunzisoft.keepass.view.ExpirationView
+			android:id="@+id/group_edit_expiration"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="4dp"
-			android:layout_marginStart="4dp"
-			android:inputType="text"
-			android:maxLines="1"
-			android:singleLine="true"
-			android:hint="@string/hint_group_name"/>
-	</com.google.android.material.textfield.TextInputLayout>
-
-</LinearLayout>
+			android:layout_marginStart="4dp" />
+	</LinearLayout>
+</androidx.core.widget.NestedScrollView>

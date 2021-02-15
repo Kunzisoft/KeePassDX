@@ -41,7 +41,7 @@ import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*

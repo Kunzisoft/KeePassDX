@@ -36,7 +36,6 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -57,22 +56,22 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
-import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
-import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
@@ -99,7 +98,7 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var entryEditFragment: EntryEditFragment? = null
-    private var entryEditAddToolBar: Toolbar? = null
+    private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
     private var lockView: View? = null
 
@@ -107,7 +106,7 @@ class EntryEditActivity : LockingActivity(),
     private var mSelectFileHelper: SelectFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAllowMultipleAttachments: Boolean = false
-    private var mTempAttachments = ArrayList<Attachment>()
+    private var mTempAttachments = ArrayList<EntryAttachmentState>()
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -119,11 +118,12 @@ class EntryEditActivity : LockingActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_edit)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp)
+        // Bottom Bar
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        setSupportActionBar(entryEditAddToolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
 
@@ -198,14 +198,14 @@ class EntryEditActivity : LockingActivity(),
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo)
+            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mDatabase?.loadedCipherKey)
         }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
         entryEditFragment?.apply {
             drawFactory = mDatabase?.drawFactory
-            setOnDateClickListener = View.OnClickListener {
+            setOnDateClickListener = {
                 expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
                     val defaultYear = dateTime.year
@@ -234,51 +234,6 @@ class EntryEditActivity : LockingActivity(),
         // Retrieve temp attachments in case of deletion
         if (savedInstanceState?.containsKey(TEMP_ATTACHMENTS) == true) {
             mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
-        }
-
-        // Assign title
-        title = if (mIsNew) getString(R.string.add_entry) else getString(R.string.edit_entry)
-
-        // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
-        entryEditAddToolBar?.apply {
-            menuInflater.inflate(R.menu.entry_edit, menu)
-
-            menu.findItem(R.id.menu_add_field).apply {
-                val allowCustomField = mDatabase?.allowEntryCustomFields() == true
-                isEnabled = allowCustomField
-                isVisible = allowCustomField
-            }
-
-            // Attachment not compatible below KitKat
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                menu.findItem(R.id.menu_add_attachment).isVisible = false
-            }
-
-            menu.findItem(R.id.menu_add_otp).apply {
-                val allowOTP = mDatabase?.allowOTP == true
-                isEnabled = allowOTP
-                // OTP not compatible below KitKat
-                isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-            }
-
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.menu_add_field -> {
-                        addNewCustomField()
-                        true
-                    }
-                    R.id.menu_add_attachment -> {
-                        addNewAttachment(item)
-                        true
-                    }
-                    R.id.menu_add_otp -> {
-                        setupOTP()
-                        true
-                    }
-                    else -> true
-                }
-            }
         }
 
         // To retrieve attachment
@@ -338,10 +293,11 @@ class EntryEditActivity : LockingActivity(),
                 }
                 ACTION_DATABASE_RELOAD_TASK -> {
                     // Close the current activity
+                    this.showActionErrorIfNeeded(result)
                     finish()
                 }
             }
-            coordinatorLayout?.showActionError(result)
+            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
     }
 
@@ -398,28 +354,26 @@ class EntryEditActivity : LockingActivity(),
                     when (entryAttachmentState.downloadState) {
                         AttachmentState.START -> {
                             entryEditFragment?.apply {
-                                // When only one attachment is allowed
-                                if (!mAllowMultipleAttachments) {
-                                    clearAttachments()
-                                }
                                 putAttachment(entryAttachmentState)
                                 // Scroll to the attachment position
                                 getAttachmentViewPosition(entryAttachmentState) {
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
-                            }
+                            }            // Add in temp list
+                            mTempAttachments.add(entryAttachmentState)
                         }
                         AttachmentState.IN_PROGRESS -> {
                             entryEditFragment?.putAttachment(entryAttachmentState)
                         }
                         AttachmentState.COMPLETE -> {
-                            entryEditFragment?.apply {
-                                putAttachment(entryAttachmentState)
-                                // Scroll to the attachment position
-                                getAttachmentViewPosition(entryAttachmentState) {
+                            entryEditFragment?.putAttachment(entryAttachmentState) {
+                                entryEditFragment?.getAttachmentViewPosition(entryAttachmentState) {
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
                             }
+                        }
+                        AttachmentState.CANCELED -> {
+                            entryEditFragment?.removeAttachment(entryAttachmentState)
                         }
                         AttachmentState.ERROR -> {
                             entryEditFragment?.removeAttachment(entryAttachmentState)
@@ -516,10 +470,12 @@ class EntryEditActivity : LockingActivity(),
 
     private fun startUploadAttachment(attachmentToUploadUri: Uri?, attachment: Attachment?) {
         if (attachmentToUploadUri != null && attachment != null) {
+            // When only one attachment is allowed
+            if (!mAllowMultipleAttachments) {
+                entryEditFragment?.clearAttachments()
+            }
             // Start uploading in service
             mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
-            // Add in temp list
-            mTempAttachments.add(attachment)
         }
     }
 
@@ -572,6 +528,7 @@ class EntryEditActivity : LockingActivity(),
      * Saves the new entry or update an existing entry in the database
      */
     private fun saveEntry() {
+        mAttachmentFileBinderManager?.stopUploadAllAttachments()
         // Get the temp entry
         entryEditFragment?.getEntryInfo()?.let { newEntryInfo ->
 
@@ -583,14 +540,34 @@ class EntryEditActivity : LockingActivity(),
                 Entry(mEntry!!)
             }?.let { newEntry ->
 
+                // Do not save entry in upload progression
+                mTempAttachments.forEach { attachmentState ->
+                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                        when (attachmentState.downloadState) {
+                            AttachmentState.START,
+                            AttachmentState.IN_PROGRESS,
+                            AttachmentState.CANCELED,
+                            AttachmentState.ERROR -> {
+                                // Remove attachment not finished from info
+                                newEntryInfo.attachments = newEntryInfo.attachments.toMutableList().apply {
+                                    remove(attachmentState.attachment)
+                                }
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+                }
+
                 // Build info
                 newEntry.setEntryInfo(mDatabase, newEntryInfo)
 
                 // Delete temp attachment if not used
-                mTempAttachments.forEach {
+                mTempAttachments.forEach { tempAttachmentState ->
+                    val tempAttachment = tempAttachmentState.attachment
                     mDatabase?.binaryPool?.let { binaryPool ->
-                        if (!newEntry.getAttachments(binaryPool).contains(it)) {
-                            mDatabase?.removeAttachmentIfNotUsed(it)
+                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                            mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
                         }
                     }
                 }
@@ -619,12 +596,30 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        MenuUtil.contributionMenuInflater(menuInflater, menu)
+        menuInflater.inflate(R.menu.entry_edit, menu)
         return true
     }
 
-
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+
+        menu?.findItem(R.id.menu_add_field)?.apply {
+            val allowCustomField = mDatabase?.allowEntryCustomFields() == true
+            isEnabled = allowCustomField
+            isVisible = allowCustomField
+        }
+
+        // Attachment not compatible below KitKat
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            menu?.findItem(R.id.menu_add_attachment)?.isVisible = false
+        }
+
+        menu?.findItem(R.id.menu_add_otp)?.apply {
+            val allowOTP = mDatabase?.allowOTP == true
+            isEnabled = allowOTP
+            // OTP not compatible below KitKat
+            isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        }
+
         entryEditActivityEducation?.let {
             Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
@@ -676,8 +671,16 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> {
-                MenuUtil.onContributionItemSelected(this)
+            R.id.menu_add_field -> {
+                addNewCustomField()
+                return true
+            }
+            R.id.menu_add_attachment -> {
+                addNewAttachment(item)
+                return true
+            }
+            R.id.menu_add_otp -> {
+                setupOTP()
                 return true
             }
             android.R.id.home -> {
@@ -787,6 +790,7 @@ class EntryEditActivity : LockingActivity(),
                     .setMessage(R.string.discard_changes)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(R.string.discard) { _, _ ->
+                        mAttachmentFileBinderManager?.stopUploadAllAttachments()
                         backPressedAlreadyApproved = true
                         approved.invoke()
                     }.create().show()

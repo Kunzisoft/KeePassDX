@@ -55,6 +55,7 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
         <item name="android:windowBackground">@color/background_light</item>
+        <item name="cardBackgroundTransparentColor">#DDFFFFFF</item>
 
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>
@@ -74,7 +75,7 @@
 
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
+        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Light</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action</item>
@@ -112,6 +113,7 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
         <item name="android:windowBackground">@color/background_night</item>
+        <item name="cardBackgroundTransparentColor">@color/grey_dark_transparent</item>
 
         <item name="android:textColor">@color/text_color_night</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
@@ -131,7 +133,7 @@
 
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
+        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action</item>
@@ -146,17 +148,11 @@
 
     <!-- Light Style -->
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" />
-    <style name="KeepassDXStyle.Light.Toolbar.Popup" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:colorBackground">@color/background_light</item>
-    </style>
+    <style name="KeepassDXStyle.Toolbar.Popup.Light" parent="Theme.AppCompat.Light.DarkActionBar" />
 
     <!-- Night Style -->
     <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v21" />
-    <style name="KeepassDXStyle.Night.Toolbar.Popup" parent="Theme.AppCompat">
-        <item name="android:textColor">@color/colorTextInverse</item>
-        <item name="android:colorBackground">@color/background_night</item>
-    </style>
+    <style name="KeepassDXStyle.Toolbar.Popup.Night" parent="Theme.AppCompat" />
 
     <!-- Activity Animation -->
     <style name="KeepassDXStyle.ActivityAnimation" parent="@android:style/Animation.Activity">

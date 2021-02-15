@@ -19,9 +19,12 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.BinaryAttachment
+import kotlinx.coroutines.*
 
 data class Attachment(var name: String,
                       var binaryAttachment: BinaryAttachment) : Parcelable {
@@ -64,6 +67,29 @@ data class Attachment(var name: String,
 
         override fun newArray(size: Int): Array<Attachment?> {
             return arrayOfNulls(size)
+        }
+
+        fun loadBitmap(attachment: Attachment,
+                       binaryCipherKey: Database.LoadedKey?,
+                       actionOnFinish: (Bitmap?) -> Unit) {
+            CoroutineScope(Dispatchers.Main).launch {
+                withContext(Dispatchers.IO) {
+                    val asyncResult: Deferred<Bitmap?> = async {
+                        runCatching {
+                            binaryCipherKey?.let { binaryKey ->
+                                var bitmap: Bitmap?
+                                attachment.binaryAttachment.getUnGzipInputDataStream(binaryKey).use { bitmapInputStream ->
+                                    bitmap = BitmapFactory.decodeStream(bitmapInputStream)
+                                }
+                                bitmap
+                            }
+                        }.getOrNull()
+                    }
+                    withContext(Dispatchers.Main) {
+                        actionOnFinish(asyncResult.await())
+                    }
+                }
+            }
         }
     }
 }

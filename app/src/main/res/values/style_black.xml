@@ -30,12 +30,14 @@
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
+        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Black</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Black</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Black</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Black</item>
+        <item name="cardBackgroundTransparentColor">@color/dark_transparent</item>
     </style>
     <!-- Toolbar Style Black -->
     <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
@@ -49,6 +51,11 @@
     <!-- Toolbar Home Black -->
     <style name="KeepassDXStyle.Toolbar.Home.Black" parent="KeepassDXStyle.Black">
         <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Toolbar Popup menu -->
+    <style name="KeepassDXStyle.Toolbar.Popup.Black" parent="KeepassDXStyle.Toolbar.Popup.Night">
+        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:colorBackground">@color/grey_black</item>
     </style>
     <!-- Special Toolbar Black -->
     <style name="KeepassDXStyle.Toolbar.Special.Black" parent="KeepassDXStyle.Toolbar.Black">
@@ -64,7 +71,8 @@
     <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="background">@color/darker</item>
+        <item name="android:background">@color/grey_black</item>
+        <item name="background">@color/grey_black</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Black" parent="CardView">

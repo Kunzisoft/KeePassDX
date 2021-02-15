@@ -120,7 +120,9 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
     }
 
     fun clear() {
-        itemsList.clear()
-        notifyDataSetChanged()
+        if (itemsList.size > 0) {
+            itemsList.clear()
+            notifyDataSetChanged()
+        }
     }
 }

@@ -31,16 +31,22 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.ImageViewerActivity
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.view.expand
 
 
 class EntryAttachmentsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
+    var binaryCipherKey: Database.LoadedKey? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
+    var onBinaryPreviewLoaded: ((item: EntryAttachmentState) -> Unit)? = null
 
     private var mTitleColor: Int
 
@@ -62,6 +68,37 @@ class EntryAttachmentsItemsAdapter(context: Context)
         val entryAttachmentState = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
+        holder.binaryFileThumbnail.apply {
+            // Perform image loading only if upload is finished
+            if (entryAttachmentState.downloadState != AttachmentState.START
+                    && entryAttachmentState.downloadState != AttachmentState.IN_PROGRESS) {
+                // Show the bitmap image if loaded
+                if (entryAttachmentState.previewState == AttachmentState.NULL) {
+                    entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
+                    // Load the bitmap image
+                    Attachment.loadBitmap(entryAttachmentState.attachment, binaryCipherKey) { imageLoaded ->
+                        if (imageLoaded == null) {
+                            entryAttachmentState.previewState = AttachmentState.ERROR
+                            visibility = View.GONE
+                            onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                        } else {
+                            entryAttachmentState.previewState = AttachmentState.COMPLETE
+                            setImageBitmap(imageLoaded)
+                            if (visibility != View.VISIBLE) {
+                                expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
+                                    onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                visibility = View.GONE
+            }
+            this.setOnClickListener {
+                ImageViewerActivity.getInstance(context, entryAttachmentState.attachment)
+            }
+        }
         holder.binaryFileBroken.apply {
             setColorFilter(Color.RED)
             visibility = if (entryAttachmentState.attachment.binaryAttachment.isCorrupted) {
@@ -77,7 +114,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
             holder.binaryFileTitle.setTextColor(mTitleColor)
         }
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
-                entryAttachmentState.attachment.binaryAttachment.length())
+                entryAttachmentState.attachment.binaryAttachment.length)
         holder.binaryFileCompression.apply {
             if (entryAttachmentState.attachment.binaryAttachment.isCompressed) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)
@@ -105,6 +142,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                     }
                     AttachmentState.NULL,
                     AttachmentState.ERROR,
+                    AttachmentState.CANCELED,
                     AttachmentState.COMPLETE -> {
                         holder.binaryFileProgressContainer.visibility = View.GONE
                         holder.binaryFileProgress.visibility = View.GONE
@@ -114,7 +152,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                         }
                     }
                 }
-                holder.itemView.setOnClickListener(null)
+                holder.binaryFileInfo.setOnClickListener(null)
             }
             StreamDirection.DOWNLOAD -> {
                 holder.binaryFileProgressIcon.isActivated = false
@@ -122,12 +160,17 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 holder.binaryFileDeleteButton.visibility = View.GONE
                 holder.binaryFileProgress.apply {
                     visibility = when (entryAttachmentState.downloadState) {
-                        AttachmentState.NULL, AttachmentState.COMPLETE, AttachmentState.ERROR -> View.GONE
-                        AttachmentState.START, AttachmentState.IN_PROGRESS -> View.VISIBLE
+                        AttachmentState.NULL,
+                        AttachmentState.COMPLETE,
+                        AttachmentState.CANCELED,
+                        AttachmentState.ERROR -> View.GONE
+
+                        AttachmentState.START,
+                        AttachmentState.IN_PROGRESS -> View.VISIBLE
                     }
                     progress = entryAttachmentState.downloadProgression
                 }
-                holder.itemView.setOnClickListener {
+                holder.binaryFileInfo.setOnClickListener {
                     onItemClickListener?.invoke(entryAttachmentState)
                 }
             }
@@ -136,6 +179,8 @@ class EntryAttachmentsItemsAdapter(context: Context)
 
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        var binaryFileThumbnail: ImageView = itemView.findViewById(R.id.item_attachment_thumbnail)
+        var binaryFileInfo: View = itemView.findViewById(R.id.item_attachment_info)
         var binaryFileBroken: ImageView = itemView.findViewById(R.id.item_attachment_broken)
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)

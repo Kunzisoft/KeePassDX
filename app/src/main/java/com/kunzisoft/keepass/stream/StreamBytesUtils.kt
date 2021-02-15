@@ -30,10 +30,12 @@ import java.util.*
  * Read all data of stream and invoke [readBytes] each time the buffer is full or no more data to read.
  */
 @Throws(IOException::class)
-fun InputStream.readBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
+fun InputStream.readAllBytes(bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                             cancelCondition: ()-> Boolean = { false },
+                             readBytes: (bytesRead: ByteArray) -> Unit) {
     val buffer = ByteArray(bufferSize)
     var read = 0
-    while (read != -1) {
+    while (read != -1 && !cancelCondition()) {
         read = this.read(buffer, 0, buffer.size)
         if (read != -1) {
             val optimizedBuffer: ByteArray = if (buffer.size == read) {
@@ -50,7 +52,8 @@ fun InputStream.readBytes(bufferSize: Int, readBytes: (bytesRead: ByteArray) -> 
  * Read number of bytes defined by [length] and invoke [readBytes] each time the buffer is full or no more data to read.
  */
 @Throws(IOException::class)
-fun InputStream.readBytes(length: Int, bufferSize: Int, readBytes: (bytesRead: ByteArray) -> Unit) {
+fun InputStream.readBytes(length: Int, bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                          readBytes: (bytesRead: ByteArray) -> Unit) {
     var bufferLength = bufferSize
     var buffer = ByteArray(bufferLength)
 

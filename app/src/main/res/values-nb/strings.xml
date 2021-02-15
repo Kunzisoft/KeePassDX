@@ -425,4 +425,20 @@
     <string name="search_mode">Søkemodus</string>
     <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
     <string name="content_description_add_item">Legg til element</string>
+    <string name="education_advanced_unlock_title">Avansert databaseopplåsing</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="unit_byte">B</string>
+    <string name="show_uuid_summary">Viser UUID-en tilhørende en oppføring</string>
+    <string name="show_uuid_title">Vis UUID</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="upload_attachment">Last opp</string>
+    <string name="education_add_attachment_title">Legg til vedlegg</string>
+    <string name="autofill_save_search_info_title">Lagre søkeinfo</string>
+    <string name="autofill_close_database_title">Lukk database</string>
+    <string name="select_entry">Velg oppføring</string>
+    <string name="back_to_previous_keyboard">Tilbake til forrige tastatur</string>
+    <string name="custom_fields">Egendefinerte felter</string>
 </resources>

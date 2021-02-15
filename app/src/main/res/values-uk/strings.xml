@@ -552,4 +552,10 @@
     <string name="warning_database_info_changed_options">Перезаписати зовнішні зміни, зберігши базу даних або перезавантажте її з найновішими змінами.</string>
     <string name="warning_database_info_changed">Відомості, що містяться у файлі бази даних, змінено за межами застосунку.</string>
     <string name="menu_reload_database">Перезавантажити базу даних</string>
+    <string name="unit_gibibyte">ГіБ</string>
+    <string name="unit_mebibyte">МіБ</string>
+    <string name="unit_kibibyte">КіБ</string>
+    <string name="unit_byte">Б</string>
+    <string name="error_otp_type">Ця форма не розпізнає наявний тип OTP, його перевірка може надалі створювати не дійсний токен.</string>
+    <string name="download_canceled">Скасовано!</string>
 </resources>

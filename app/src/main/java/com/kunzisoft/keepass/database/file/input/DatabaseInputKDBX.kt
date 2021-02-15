@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.BinaryAttachment
@@ -96,20 +97,24 @@ class DatabaseInputKDBX(cacheDirectory: File)
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
-                              keyInputStream: InputStream?,
+                              keyfileInputStream: InputStream?,
+                              loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDBX {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.retrieveMasterKey(password, keyInputStream)
+            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
+                              loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDBX {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
+            mDatabase.loadedCipherKey = loadedCipherKey
             mDatabase.masterKey = masterKey
         }
     }
@@ -273,8 +278,10 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 val byteLength = size - 1
                 // No compression at this level
                 val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, false, protectedFlag)
-                protectedBinary.getOutputDataStream().use { outputStream ->
-                    dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
+                val cipherKey = mDatabase.loadedCipherKey
+                        ?: throw IOException("Unable to retrieve cipher key to load binaries")
+                protectedBinary.getOutputDataStream(cipherKey).use { outputStream ->
+                    dataInputStream.readBytes(byteLength) { buffer ->
                         outputStream.write(buffer)
                     }
                 }
@@ -1009,14 +1016,16 @@ class DatabaseInputKDBX(cacheDirectory: File)
 
         // Build the new binary and compress
         val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, compressed, protected, binaryId)
+        val binaryCipherKey = mDatabase.loadedCipherKey
+                ?: throw IOException("Unable to retrieve cipher key to load binaries")
         try {
-            binaryAttachment.getOutputDataStream().use { outputStream ->
+            binaryAttachment.getOutputDataStream(binaryCipherKey).use { outputStream ->
                 outputStream.write(Base64.decode(base64, BASE_64_FLAG))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to read base 64 attachment", e)
             binaryAttachment.isCorrupted = true
-            binaryAttachment.getOutputDataStream().use { outputStream ->
+            binaryAttachment.getOutputDataStream(binaryCipherKey).use { outputStream ->
                 outputStream.write(base64.toByteArray())
             }
         }
@@ -1083,6 +1092,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             return xpp
         }
     }
+
 }
 
 @Throws(IOException::class, XmlPullParserException::class)

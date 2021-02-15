@@ -53,12 +53,12 @@ object StringDatabaseKDBUtils {
     }
 
     @Throws(IOException::class)
-    fun writeStringToBytes(string: String?, os: OutputStream): Int {
+    fun writeStringToStream(outputStream: OutputStream, string: String?): Int {
         var str = string
         if (str == null) {
             // Write out a null character
-            os.write(uIntTo4Bytes(UnsignedInt(1)))
-            os.write(0x00)
+            outputStream.write(uIntTo4Bytes(UnsignedInt(1)))
+            outputStream.write(0x00)
             return 0
         }
 
@@ -69,9 +69,9 @@ object StringDatabaseKDBUtils {
         val initial = str.toByteArray(defaultCharset)
 
         val length = initial.size + 1
-        os.write(uIntTo4Bytes(UnsignedInt(length)))
-        os.write(initial)
-        os.write(0x00)
+        outputStream.write(uIntTo4Bytes(UnsignedInt(length)))
+        outputStream.write(initial)
+        outputStream.write(0x00)
 
         return length
     }

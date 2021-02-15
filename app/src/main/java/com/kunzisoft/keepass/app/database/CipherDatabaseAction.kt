@@ -25,7 +25,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
-import com.kunzisoft.keepass.notifications.AdvancedUnlockNotificationService
+import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
 import java.util.*

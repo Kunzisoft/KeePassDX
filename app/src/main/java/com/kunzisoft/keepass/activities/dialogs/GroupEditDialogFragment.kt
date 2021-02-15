@@ -23,34 +23,39 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.view.ExpirationView
+import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconPickerListener {
 
     private var mDatabase: Database? = null
 
-    private var editGroupListener: EditGroupListener? = null
+    private var mEditGroupListener: EditGroupListener? = null
 
-    private var editGroupDialogAction: EditGroupDialogAction? = null
-    private var nameGroup: String? = null
-    private var iconGroup: IconImage? = null
+    private var mEditGroupDialogAction = EditGroupDialogAction.NONE
+    private var mGroupInfo = GroupInfo()
 
-    private var nameTextLayoutView: TextInputLayout? = null
-    private var nameTextView: TextView? = null
-    private var iconButtonView: ImageView? = null
+    private lateinit var iconButtonView: ImageView
     private var iconColor: Int = 0
+    private lateinit var nameTextLayoutView: TextInputLayout
+    private lateinit var nameTextView: TextView
+    private lateinit var notesTextLayoutView: TextInputLayout
+    private lateinit var notesTextView: TextView
+    private lateinit var expirationView: ExpirationView
 
     enum class EditGroupDialogAction {
         CREATION, UPDATE, NONE;
@@ -67,7 +72,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            editGroupListener = context as EditGroupListener
+            mEditGroupListener = context as EditGroupListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(context.toString()
@@ -76,16 +81,19 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     override fun onDetach() {
-        editGroupListener = null
+        mEditGroupListener = null
         super.onDetach()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_group_edit, null)
-            nameTextLayoutView = root?.findViewById(R.id.group_edit_name_container)
-            nameTextView = root?.findViewById(R.id.group_edit_name)
-            iconButtonView = root?.findViewById(R.id.group_edit_icon_button)
+            iconButtonView = root.findViewById(R.id.group_edit_icon_button)
+            nameTextLayoutView = root.findViewById(R.id.group_edit_name_container)
+            nameTextView = root.findViewById(R.id.group_edit_name)
+            notesTextLayoutView = root.findViewById(R.id.group_edit_note_container)
+            notesTextView = root.findViewById(R.id.group_edit_note)
+            expirationView = root.findViewById(R.id.group_edit_expiration)
 
             // Retrieve the textColor to tint the icon
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -94,46 +102,48 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
 
             // Init elements
             mDatabase = Database.getInstance()
-            editGroupDialogAction = EditGroupDialogAction.NONE
-            nameGroup = ""
-            iconGroup = mDatabase?.iconFactory?.folderIcon
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_ACTION_ID)
-                    && savedInstanceState.containsKey(KEY_NAME)
-                    && savedInstanceState.containsKey(KEY_ICON)) {
-                editGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(savedInstanceState.getInt(KEY_ACTION_ID))
-                nameGroup = savedInstanceState.getString(KEY_NAME)
-                iconGroup = savedInstanceState.getParcelable(KEY_ICON)
-
+                    && savedInstanceState.containsKey(KEY_GROUP_INFO)) {
+                mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(savedInstanceState.getInt(KEY_ACTION_ID))
+                mGroupInfo = savedInstanceState.getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
             } else {
                 arguments?.apply {
                     if (containsKey(KEY_ACTION_ID))
-                        editGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getInt(KEY_ACTION_ID))
-
-                    if (containsKey(KEY_NAME) && containsKey(KEY_ICON)) {
-                        nameGroup = getString(KEY_NAME)
-                        iconGroup = getParcelable(KEY_ICON)
+                        mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getInt(KEY_ACTION_ID))
+                    if (mEditGroupDialogAction === CREATION)
+                        mGroupInfo.notes = ""
+                    if (containsKey(KEY_GROUP_INFO)) {
+                        mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
                     }
                 }
             }
 
-            // populate the name
-            nameTextView?.text = nameGroup
-            // populate the icon
-            assignIconView()
+            // populate info in views
+            populateInfoToViews()
+            expirationView.setOnDateClickListener = {
+                expirationView.expiryTime.date.let { expiresDate ->
+                    val dateTime = DateTime(expiresDate)
+                    val defaultYear = dateTime.year
+                    val defaultMonth = dateTime.monthOfYear-1
+                    val defaultDay = dateTime.dayOfMonth
+                    DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
+                            .show(parentFragmentManager, "DatePickerFragment")
+                }
+            }
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok, null)
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        editGroupListener?.cancelEditGroup(
-                                editGroupDialogAction,
-                                nameTextView?.text?.toString(),
-                                iconGroup)
+                        retrieveGroupInfoFromViews()
+                        mEditGroupListener?.cancelEditGroup(
+                                mEditGroupDialogAction,
+                                mGroupInfo)
                     }
 
-            iconButtonView?.setOnClickListener { _ ->
+            iconButtonView.setOnClickListener { _ ->
                 IconPickerDialogFragment().show(parentFragmentManager, "IconPickerDialogFragment")
             }
 
@@ -150,55 +160,87 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         if (d != null) {
             val positiveButton = d.getButton(Dialog.BUTTON_POSITIVE) as Button
             positiveButton.setOnClickListener {
+                retrieveGroupInfoFromViews()
                 if (isValid()) {
-                    editGroupListener?.approveEditGroup(
-                            editGroupDialogAction,
-                            nameTextView?.text?.toString(),
-                            iconGroup)
+                    mEditGroupListener?.approveEditGroup(
+                            mEditGroupDialogAction,
+                            mGroupInfo)
                     d.dismiss()
                 }
             }
         }
     }
 
+    fun getExpiryTime(): DateInstant {
+        retrieveGroupInfoFromViews()
+        return mGroupInfo.expiryTime
+    }
+
+    fun setExpiryTime(expiryTime: DateInstant) {
+        mGroupInfo.expiryTime = expiryTime
+        populateInfoToViews()
+    }
+
+    private fun populateInfoToViews() {
+        assignIconView()
+        nameTextView.text = mGroupInfo.title
+        notesTextLayoutView.visibility = if (mGroupInfo.notes == null) View.GONE else View.VISIBLE
+        mGroupInfo.notes?.let {
+            notesTextView.text = it
+        }
+        expirationView.expires = mGroupInfo.expires
+        expirationView.expiryTime = mGroupInfo.expiryTime
+    }
+
+    private fun retrieveGroupInfoFromViews() {
+        mGroupInfo.title = nameTextView.text.toString()
+        // Only if there
+        val newNotes = notesTextView.text.toString()
+        if (newNotes.isNotEmpty()) {
+            mGroupInfo.notes = newNotes
+        }
+        mGroupInfo.expires = expirationView.expires
+        mGroupInfo.expiryTime = expirationView.expiryTime
+    }
+
     private fun assignIconView() {
-        if (mDatabase?.drawFactory != null && iconGroup != null) {
-            iconButtonView?.assignDatabaseIcon(mDatabase?.drawFactory!!, iconGroup!!, iconColor)
+        if (mDatabase?.drawFactory != null) {
+            iconButtonView.assignDatabaseIcon(mDatabase?.drawFactory!!, mGroupInfo.icon, iconColor)
         }
     }
 
     override fun iconPicked(bundle: Bundle) {
-        iconGroup = IconPickerDialogFragment.getIconStandardFromBundle(bundle)
+        mGroupInfo.icon = IconPickerDialogFragment.getIconStandardFromBundle(bundle) ?: mGroupInfo.icon
         assignIconView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(KEY_ACTION_ID, editGroupDialogAction!!.ordinal)
-        outState.putString(KEY_NAME, nameGroup)
-        outState.putParcelable(KEY_ICON, iconGroup)
+        retrieveGroupInfoFromViews()
+        outState.putInt(KEY_ACTION_ID, mEditGroupDialogAction.ordinal)
+        outState.putParcelable(KEY_GROUP_INFO, mGroupInfo)
         super.onSaveInstanceState(outState)
     }
 
     private fun isValid(): Boolean {
-        if (nameTextView?.text?.toString()?.isNotEmpty() != true) {
-            nameTextLayoutView?.error = getString(R.string.error_no_name)
+        if (nameTextView.text.toString().isEmpty()) {
+            nameTextLayoutView.error = getString(R.string.error_no_name)
             return false
         }
         return true
     }
 
     interface EditGroupListener {
-        fun approveEditGroup(action: EditGroupDialogAction?, name: String?, icon: IconImage?)
-        fun cancelEditGroup(action: EditGroupDialogAction?, name: String?, icon: IconImage?)
+        fun approveEditGroup(action: EditGroupDialogAction,
+                             groupInfo: GroupInfo)
+        fun cancelEditGroup(action: EditGroupDialogAction,
+                            groupInfo: GroupInfo)
     }
 
     companion object {
 
         const val TAG_CREATE_GROUP = "TAG_CREATE_GROUP"
-
-        const val KEY_NAME = "KEY_NAME"
-        const val KEY_ICON = "KEY_ICON"
         const val KEY_ACTION_ID = "KEY_ACTION_ID"
+        const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
 
         fun build(): GroupEditDialogFragment {
             val bundle = Bundle()
@@ -208,11 +250,10 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             return fragment
         }
 
-        fun build(group: Group): GroupEditDialogFragment {
+        fun build(groupInfo: GroupInfo): GroupEditDialogFragment {
             val bundle = Bundle()
-            bundle.putString(KEY_NAME, group.title)
-            bundle.putParcelable(KEY_ICON, group.icon)
             bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal)
+            bundle.putParcelable(KEY_GROUP_INFO, groupInfo)
             val fragment = GroupEditDialogFragment()
             fragment.arguments = bundle
             return fragment
