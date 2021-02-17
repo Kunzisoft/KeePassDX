@@ -68,7 +68,7 @@
         <item name="background">@color/dark</item>
     </style>
     <!-- Dialog -->
-    <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
         <item name="android:background">@color/grey_black</item>
