@@ -63,10 +63,6 @@
         <item name="android:background">@color/purple_dark</item>
         <item name="background">@color/purple_dark</item>
     </style>
-    <!-- Action Toolbar Purple -->
-    <style name="KeepassDXStyle.Toolbar.Action.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="actionMenuTextColor">@color/colorTextInverse</item>
-    </style>
     <!-- Contextual Action Bar Purple -->
     <style name="KeepassDXStyle.ActionMode.Purple.Dark" parent="@style/Widget.AppCompat.ActionMode">
         <item name="android:background">@color/red</item>
