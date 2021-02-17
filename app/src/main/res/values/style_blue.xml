@@ -33,7 +33,6 @@
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Blue</item>
     </style>
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue" parent="KeepassDXStyle.Blue">
@@ -52,11 +51,6 @@
     <!-- Special Toolbar Blue -->
     <style name="KeepassDXStyle.Toolbar.Special.Blue" parent="KeepassDXStyle.Toolbar.Blue">
         <item name="actionMenuTextColor">@color/colorTextInverse</item>
-        <item name="android:background">@color/blue_dark</item>
-        <item name="background">@color/blue_dark</item>
-    </style>
-    <!-- Contextual Action Bar Blue -->
-    <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">
         <item name="android:background">@color/blue_dark</item>
         <item name="background">@color/blue_dark</item>
     </style>

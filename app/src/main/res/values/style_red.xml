@@ -33,7 +33,6 @@
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red" parent="KeepassDXStyle.Red">
@@ -53,11 +52,6 @@
     <style name="KeepassDXStyle.Toolbar.Special.Red" parent="KeepassDXStyle.Toolbar.Red">
         <item name="android:background">@color/red_dark</item>
         <item name="background">@color/red_dark</item>
-    </style>
-    <!-- Contextual Action Bar Red -->
-    <style name="KeepassDXStyle.ActionMode.Red" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="android:background">@color/orange</item>
-        <item name="background">@color/orange</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Night.Dialog">

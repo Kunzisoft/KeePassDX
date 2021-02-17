@@ -79,8 +79,6 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action</item>
-        <item name="bottomAppBarStyle">@style/KeepassDXStyle.Toolbar.Bottom</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
         <item name="android:actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <item name="actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <!-- CollapsingToolbarLayout -->
@@ -137,8 +135,6 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action</item>
-        <item name="bottomAppBarStyle">@style/KeepassDXStyle.Toolbar.Bottom</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
         <item name="android:actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <item name="actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <!-- CollapsingToolbarLayout -->
@@ -232,12 +228,6 @@
     <style name="KeepassDXStyle.Toolbar.Special.Night" parent="KeepassDXStyle.Toolbar.Night">
         <item name="android:background">@color/green_dark</item>
         <item name="background">@color/green_dark</item>
-    </style>
-
-    <!-- Contextual Action Bar -->
-    <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="android:background">@color/orange</item>
-        <item name="background">@color/orange</item>
     </style>
 
     <!-- CollapsingToolbarLayout -->

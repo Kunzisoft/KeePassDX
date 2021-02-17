@@ -35,7 +35,6 @@
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple.Dark</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple.Dark</item>
         <item name="cardBackgroundTransparentColor">@color/background_purple_dark_transparent</item>
     </style>
@@ -62,11 +61,6 @@
     <style name="KeepassDXStyle.Toolbar.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
         <item name="android:background">@color/purple_dark</item>
         <item name="background">@color/purple_dark</item>
-    </style>
-    <!-- Contextual Action Bar Purple -->
-    <style name="KeepassDXStyle.ActionMode.Purple.Dark" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="android:background">@color/red</item>
-        <item name="background">@color/red</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Purple.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
