@@ -30,7 +30,7 @@
         <item name="android:windowBackground">@color/background_night</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red</item>
-        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
     </style>

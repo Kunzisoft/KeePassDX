@@ -33,7 +33,7 @@
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.White</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.White</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.White</item>
-        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.White</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.White</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.White</item>

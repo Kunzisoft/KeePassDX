@@ -30,7 +30,7 @@
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Dark</item>
-        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Dark</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Dark</item>

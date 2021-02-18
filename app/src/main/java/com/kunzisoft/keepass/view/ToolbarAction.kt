@@ -37,7 +37,7 @@ import com.kunzisoft.keepass.R
 
 class ToolbarAction @JvmOverloads constructor(context: Context,
                                               attrs: AttributeSet? = null,
-                                              defStyle: Int = R.attr.actionToolbarAppearance)
+                                              defStyle: Int = androidx.appcompat.R.attr.toolbarStyle)
     : Toolbar(context, attrs, defStyle) {
 
     private var mActionModeCallback: ActionMode.Callback? = null
