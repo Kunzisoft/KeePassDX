@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="?attr/toolbarSpecialAppearance"
-        app:popupTheme="?attr/toolbarPopupAppearance"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -63,7 +62,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     android:theme="?attr/toolbarAppearance"
-                    app:popupTheme="?attr/toolbarPopupAppearance"
                     android:elevation="4dp"
                     tools:targetApi="lollipop">
                     <LinearLayout
@@ -156,7 +154,6 @@
         android:layout_height="?attr/actionBarSize"
         android:visibility="gone"
         android:theme="?attr/toolbarActionAppearance"
-        app:popupTheme="?attr/toolbarPopupAppearance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

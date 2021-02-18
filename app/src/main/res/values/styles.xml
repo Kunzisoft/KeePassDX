@@ -76,7 +76,6 @@
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Light</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
@@ -133,7 +132,6 @@
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
@@ -176,21 +174,30 @@
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
-    <!-- Toolbar Popup -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Light" parent="Theme.AppCompat.Light.DarkActionBar" />
-    <style name="KeepassDXStyle.Toolbar.Popup.Night" parent="Theme.AppCompat.DayNight" />
+    <!-- Toolbar Home -->
+    <style name="KeepassDXStyle.Toolbar.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">?android:attr/textColorHintInverse</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Home.Light" parent="KeepassDXStyle.Toolbar.Light">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Home.Night" parent="KeepassDXStyle.Toolbar.Night">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
 
     <!-- Special Toolbar Style -->
     <style name="KeepassDXStyle.Toolbar.Special.Light" parent="KeepassDXStyle.Toolbar.Light">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Green</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Special.Night" parent="KeepassDXStyle.Toolbar.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Green</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Widget.Special" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/green_dark</item>
         <item name="titleTextAppearance">@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title</item>
         <item name="subtitleTextAppearance">@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Green" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/green_dark</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.Title" parent="KeepassDXStyle.TextAppearance.Small">
         <item name="android:textColor">?android:attr/textColorHintInverse</item>
@@ -201,24 +208,13 @@
 
     <!-- Action Style -->
     <style name="KeepassDXStyle.Toolbar.Action.Light" parent="KeepassDXStyle.Toolbar.Light">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Green</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Action.Night" parent="KeepassDXStyle.Toolbar.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Green</item>
     </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action" parent="Widget.AppCompat.Toolbar">
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Green" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@color/green</item>
-    </style>
-
-    <!-- Toolbar Home -->
-    <style name="KeepassDXStyle.Toolbar.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="tint">?android:attr/textColorHintInverse</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Home.Light" parent="KeepassDXStyle.Toolbar.Light">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Home.Night" parent="KeepassDXStyle.Toolbar.Night">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
 
     <style name="KeepassDXStyle.Toolbar.Overflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">

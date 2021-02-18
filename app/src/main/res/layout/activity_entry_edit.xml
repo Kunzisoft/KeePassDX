@@ -38,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="?attr/toolbarSpecialAppearance"
-            app:popupTheme="?attr/toolbarPopupAppearance"
             app:layout_constraintTop_toTopOf="parent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -70,7 +69,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="?attr/toolbarActionAppearance"
-        app:popupTheme="?attr/toolbarPopupAppearance"
         android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

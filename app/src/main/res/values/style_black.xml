@@ -30,7 +30,6 @@
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Black</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Black</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
@@ -52,7 +51,7 @@
         <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Black" parent="KeepassDXStyle.Toolbar.Popup.Night">
+    <style name="KeepassDXStyle.Toolbar.Popup.Black" parent="KeepassDXStyle.Toolbar.Black">
         <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:colorBackground">@color/grey_black</item>
     </style>

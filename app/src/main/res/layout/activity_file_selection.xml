@@ -31,7 +31,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="?attr/toolbarSpecialAppearance"
-        app:popupTheme="?attr/toolbarPopupAppearance"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -128,8 +127,7 @@
                     app:navigationContentDescription="@string/about"
                     android:elevation="4dp"
                     app:layout_collapseMode="pin"
-                    android:theme="?attr/toolbarHomeAppearance"
-                    app:popupTheme="?attr/toolbarPopupAppearance" />
+                    android:theme="?attr/toolbarHomeAppearance" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
