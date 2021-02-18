@@ -27,8 +27,9 @@
     <color name="dark">#0e0e0e</color>
     <color name="dark_light">#212121</color>
     <color name="dark_transparent">#E00E0E0E</color>
-    <color name="grey_lighter">#ececec</color>
-    <color name="grey_light">#dddddd</color>
+    <color name="grey_lightest">#ececec</color>
+    <color name="grey_lighter">#dddddd</color>
+    <color name="grey_light">#D4D4D4</color>
     <color name="grey">#bdbdbd</color>
     <color name="grey_dark">#9e9e9e</color>
     <color name="grey_dark_transparent">#E0424242</color>

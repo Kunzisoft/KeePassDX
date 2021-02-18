@@ -20,14 +20,14 @@
 <resources>
     <!-- Clear Style -->
     <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Light.WhiteBar.v23" >
-        <item name="colorPrimary">@color/grey_light</item>
+        <item name="colorPrimary">@color/grey_lighter</item>
         <item name="colorPrimaryDark">@color/grey_light</item>
         <item name="colorAccent">@color/cyan_lighter</item>
         <item name="colorAccentLight">@color/cyan_lightest</item>
         <item name="colorControlActivated">@color/cyan_lightest</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:textColorHintInverse">@color/cyan_lightest</item>
-        <item name="android:windowBackground">@color/grey_lighter</item>
+        <item name="android:windowBackground">@color/grey_lightest</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Clear</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Clear</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Clear</item>
@@ -55,7 +55,7 @@
     </style>
     <!-- Toolbar Popup menu -->
     <style name="KeepassDXStyle.Toolbar.Popup.Clear" parent="KeepassDXStyle.Toolbar.Clear">
-        <item name="android:colorBackground">@color/grey_light</item>
+        <item name="android:colorBackground">@color/grey_lighter</item>
     </style>
     <!-- Toolbar Home Clear -->
     <style name="KeepassDXStyle.Toolbar.Home.Clear" parent="KeepassDXStyle.Toolbar.Clear">
@@ -66,24 +66,24 @@
         <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Clear</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Widget.Special.Clear" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/grey_light</item>
+        <item name="android:background">@color/grey_lighter</item>
     </style>
     <!-- Action Toolbar Clear -->
     <style name="KeepassDXStyle.Toolbar.Action.Clear" parent="KeepassDXStyle.Toolbar.Clear">
         <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Clear</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Widget.Action.Clear" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/grey_light</item>
+        <item name="android:background">@color/grey_lighter</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Clear.Dialog" parent="KeepassDXStyle.Light.Dialog">
         <item name="colorAccent">@color/cyan_lighter</item>
         <item name="android:textColorPrimary">@color/cyan</item>
-        <item name="android:background">@color/grey_light</item>
-        <item name="background">@color/grey_light</item>
+        <item name="android:background">@color/grey_lighter</item>
+        <item name="background">@color/grey_lighter</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Clear" parent="CardView">
-        <item name="cardBackgroundColor">@color/grey_light</item>
+        <item name="cardBackgroundColor">@color/grey_lighter</item>
     </style>
 </resources>
