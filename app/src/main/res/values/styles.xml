@@ -79,8 +79,6 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
-        <item name="android:actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
-        <item name="actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
@@ -135,8 +133,6 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
-        <item name="android:actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
-        <item name="actionOverflowButtonStyle">@style/KeepassDXStyle.Toolbar.Overflow</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
@@ -215,11 +211,6 @@
     </style>
     <style name="KeepassDXStyle.Toolbar.Widget.Action.Green" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@color/green</item>
-    </style>
-
-    <style name="KeepassDXStyle.Toolbar.Overflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:tint">@color/colorTextInverse</item>
-        <item name="tint">@color/colorTextInverse</item>
     </style>
 
     <!-- CollapsingToolbarLayout -->
