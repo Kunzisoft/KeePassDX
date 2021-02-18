@@ -23,10 +23,12 @@
         android:icon="@drawable/ic_autorenew_white_24dp"
         android:title="@string/menu_restore_entry_history"
         android:orderInCategory="92"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_delete_entry_history"
         android:icon="@drawable/ic_content_delete_white_24dp"
         android:title="@string/menu_delete_entry_history"
         android:orderInCategory="93"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

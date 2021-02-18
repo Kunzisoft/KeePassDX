@@ -23,5 +23,6 @@
         android:icon="@drawable/ic_block_white_24dp"
         android:title="@string/autofill_block"
         android:orderInCategory="1"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

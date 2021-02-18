@@ -23,5 +23,6 @@
         android:icon="@drawable/ic_heart_white_24dp"
         android:title="@string/contribute"
         android:orderInCategory="99"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

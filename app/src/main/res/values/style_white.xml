@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- White Style -->
-    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light" />
+    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.Light.WhiteBar.v23" >
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/orange_dark</item>
