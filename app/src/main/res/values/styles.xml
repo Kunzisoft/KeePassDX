@@ -139,6 +139,7 @@
     </style>
 
     <!-- Light Style -->
+    <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light" />
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" />
 
     <!-- Night Style -->

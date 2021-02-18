@@ -19,7 +19,6 @@
 -->
 <resources>
     <!-- Clear Style -->
-    <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light" />
     <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Light.WhiteBar.v23" >
         <item name="colorPrimary">@color/grey_light</item>
         <item name="colorPrimaryDark">@color/grey_light</item>
