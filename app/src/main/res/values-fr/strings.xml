@@ -281,18 +281,12 @@
     <string name="style_choose_title">Thème de l’application</string>
     <string name="style_choose_summary">Thème utilisé dans l’application</string>
     <string-array name="list_style_names">
-        <item>Jour</item>
-        <item>Nuit</item>
-        <item>Blanc</item>
-        <item>Noir</item>
-        <item>Clair Classique</item>
-        <item>Foncé Classique</item>
-        <item>Ciel</item>
+        <item>Forêt</item>
+        <item>Tranche</item>
+        <item>Classique</item>
         <item>Lune</item>
         <item>Soleil</item>
-        <item>Volcan</item>
-        <item>Pourpre Lumineux</item>
-        <item>Pourpre Obscur</item>
+        <item>Pourpre</item>
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>

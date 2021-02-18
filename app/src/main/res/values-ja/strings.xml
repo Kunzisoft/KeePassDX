@@ -493,18 +493,12 @@
     <string name="style_choose_title">アプリのテーマ</string>
     <string name="style_choose_summary">アプリで使用するテーマ</string>
     <string-array name="list_style_names">
-        <item>Light</item>
-        <item>Night</item>
-        <item>White</item>
-        <item>Black</item>
-        <item>Classic Clear</item>
-        <item>Classic Dark</item>
-        <item>Sky</item>
+        <item>Forest</item>
+        <item>Slice</item>
+        <item>Classic</item>
         <item>Moon</item>
         <item>Sun</item>
-        <item>Volcano</item>
-        <item>Purple Light</item>
-        <item>Purple Dark</item>
+        <item>Purple</item>
     </string-array>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>

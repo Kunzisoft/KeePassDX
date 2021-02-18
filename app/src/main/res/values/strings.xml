@@ -558,18 +558,19 @@
     <string name="style_choose_title">App theme</string>
     <string name="style_choose_summary">Theme used in the app</string>
     <string-array name="list_style_names">
-        <item>Light</item>
-        <item>Night</item>
-        <item>White</item>
-        <item>Black</item>
-        <item>Classic Clear</item>
-        <item>Classic Dark</item>
-        <item>Sky</item>
+        <item>Forest</item>
+        <item>Slice</item>
+        <item>Classic</item>
         <item>Moon</item>
         <item>Sun</item>
-        <item>Volcano</item>
-        <item>Purple Light</item>
-        <item>Purple Dark</item>
+        <item>Purple</item>
+    </string-array>
+    <string name="style_brightness_title">Theme brightness</string>
+    <string name="style_brightness_summary">Select light or dark themes</string>
+    <string-array name="list_style_brightness_names">
+        <item>Light</item>
+        <item>Night</item>
+        <item>Follow the system</item>
     </string-array>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>

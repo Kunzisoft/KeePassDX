@@ -132,6 +132,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.show_uuid_default))
     }
 
+    fun getStyleBrightness(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.setting_style_brightness_key),
+                context.resources.getString(R.string.list_style_brightness_follow_system))
+    }
+
     /**
      * Retrieve the text size in % (1 for 100%)
      */

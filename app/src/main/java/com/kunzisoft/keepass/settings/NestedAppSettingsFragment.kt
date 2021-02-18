@@ -397,6 +397,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 styleEnabled
             }
 
+            findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->
+                (activity as? SettingsActivity?)?.apply {
+                    keepCurrentScreen()
+                    startActivity(intent)
+                    finish()
+                    activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                }
+                true
+            }
+
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String

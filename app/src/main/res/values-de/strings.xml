@@ -444,18 +444,12 @@
     <string name="style_choose_title">App-Design</string>
     <string name="style_choose_summary">Design, das in der App genutzt wird</string>
     <string-array name="list_style_names">
-        <item>Hell</item>
-        <item>Dunkel</item>
-        <item>Weiß</item>
-        <item>Schwarz</item>
-        <item>Klassisch Bright</item>
-        <item>Klassisch Dunkel</item>
-        <item>Himmel</item>
+        <item>Wald</item>
+        <item>Slice</item>
+        <item>Klassisch</item>
         <item>Mond</item>
         <item>Sonne</item>
-        <item>Vulkan</item>
-        <item>Purple Light</item>
-        <item>Purple Dark</item>
+        <item>Lila</item>
     </string-array>
     <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einrichten einer Einmal-Passwortverwaltung (HOTP / TOTP), um ein Token zu generieren, das für die Zwei-Faktor-Authentifizierung (2FA) angefordert wird.</string>

@@ -25,6 +25,7 @@ import android.util.Log
 import androidx.annotation.StyleRes
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 /**
  * Class that provides functions to retrieve and assign a theme to a module
@@ -44,35 +45,42 @@ object Stylish {
     }
 
     private fun retrieveEquivalentSystemStyle(styleString: String, context: Context): String {
-        var newStyleString: String = styleString
-        when (context.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
-            Configuration.UI_MODE_NIGHT_NO -> false
-            Configuration.UI_MODE_NIGHT_YES -> true
-            else -> null
-        }?.let { systemNightMode ->
-            newStyleString = if (systemNightMode) {
-                when (styleString) {
-                    context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_night)
-                    context.getString(R.string.list_style_name_white) -> context.getString(R.string.list_style_name_black)
-                    context.getString(R.string.list_style_name_clear) -> context.getString(R.string.list_style_name_dark)
-                    context.getString(R.string.list_style_name_blue) -> context.getString(R.string.list_style_name_blue_night)
-                    context.getString(R.string.list_style_name_red) -> context.getString(R.string.list_style_name_red_night)
-                    context.getString(R.string.list_style_name_purple) -> context.getString(R.string.list_style_name_purple_dark)
-                    else -> styleString
-                }
-            } else {
-                when (styleString) {
-                    context.getString(R.string.list_style_name_night) -> context.getString(R.string.list_style_name_light)
-                    context.getString(R.string.list_style_name_black) -> context.getString(R.string.list_style_name_white)
-                    context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_clear)
-                    context.getString(R.string.list_style_name_blue_night) -> context.getString(R.string.list_style_name_blue)
-                    context.getString(R.string.list_style_name_red_night) -> context.getString(R.string.list_style_name_red)
-                    context.getString(R.string.list_style_name_purple_dark) -> context.getString(R.string.list_style_name_purple)
-                    else -> styleString
+        val systemNightMode = when (PreferencesUtil.getStyleBrightness(context)) {
+            context.getString(R.string.list_style_brightness_light) -> {
+                false
+            }
+            context.getString(R.string.list_style_brightness_night) -> {
+                true
+            }
+            else -> {
+                when (context.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> true
+                    else -> false
                 }
             }
         }
-        return newStyleString
+
+        return if (systemNightMode) {
+            when (styleString) {
+                context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_night)
+                context.getString(R.string.list_style_name_white) -> context.getString(R.string.list_style_name_black)
+                context.getString(R.string.list_style_name_clear) -> context.getString(R.string.list_style_name_dark)
+                context.getString(R.string.list_style_name_blue) -> context.getString(R.string.list_style_name_blue_night)
+                context.getString(R.string.list_style_name_red) -> context.getString(R.string.list_style_name_red_night)
+                context.getString(R.string.list_style_name_purple) -> context.getString(R.string.list_style_name_purple_dark)
+                else -> styleString
+            }
+        } else {
+            when (styleString) {
+                context.getString(R.string.list_style_name_night) -> context.getString(R.string.list_style_name_light)
+                context.getString(R.string.list_style_name_black) -> context.getString(R.string.list_style_name_white)
+                context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_clear)
+                context.getString(R.string.list_style_name_blue_night) -> context.getString(R.string.list_style_name_blue)
+                context.getString(R.string.list_style_name_red_night) -> context.getString(R.string.list_style_name_red)
+                context.getString(R.string.list_style_name_purple_dark) -> context.getString(R.string.list_style_name_purple)
+                else -> styleString
+            }
+        }
     }
 
     /**
@@ -80,7 +88,6 @@ object Stylish {
      * @param styleString Style id String
      */
     fun assignStyle(styleString: String, context: Context) {
-
         themeString = retrieveEquivalentSystemStyle(styleString, context)
     }
 
