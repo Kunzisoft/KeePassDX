@@ -19,14 +19,15 @@
 -->
 <resources>
     <!-- Clear Style -->
-    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light" />
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Light.WhiteBar.v23" >
         <item name="colorPrimary">@color/grey_light</item>
-        <item name="colorPrimaryDark">@color/grey</item>
-        <item name="colorAccent">@color/cyan</item>
-        <item name="colorAccentLight">@color/cyan_lighter</item>
-        <item name="colorControlActivated">@color/cyan_lighter</item>
-        <item name="android:textColorPrimary">@color/cyan_lighter</item>
-        <item name="android:textColorHintInverse">@color/cyan_lighter</item>
+        <item name="colorPrimaryDark">@color/grey_light</item>
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorAccentLight">@color/cyan_lightest</item>
+        <item name="colorControlActivated">@color/cyan_lightest</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:textColorHintInverse">@color/cyan_lightest</item>
         <item name="android:windowBackground">@color/grey_lighter</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Clear</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Clear</item>
@@ -77,13 +78,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Clear.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/grey</item>
+        <item name="colorAccent">@color/cyan_lighter</item>
         <item name="android:textColorPrimary">@color/cyan</item>
         <item name="android:background">@color/grey_light</item>
         <item name="background">@color/grey_light</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Clear" parent="CardView">
-        <item name="cardBackgroundColor">@color/grey_lighter</item>
+        <item name="cardBackgroundColor">@color/grey_light</item>
     </style>
 </resources>

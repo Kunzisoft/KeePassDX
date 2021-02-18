@@ -31,7 +31,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/colorPrimaryDark"/>
+        android:background="?android:attr/listDivider"/>
 
     <ViewSwitcher
         android:id="@+id/file_main_switcher"

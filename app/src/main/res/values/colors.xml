@@ -25,6 +25,7 @@
     <color name="darker">#0A0A0A</color>
     <color name="grey_black">#101010</color>
     <color name="dark">#0e0e0e</color>
+    <color name="dark_light">#212121</color>
     <color name="dark_transparent">#E00E0E0E</color>
     <color name="grey_lighter">#ececec</color>
     <color name="grey_light">#dddddd</color>
@@ -49,7 +50,9 @@
     <color name="blue_dark">#1976D2</color>
     <color name="blue_darker">#1565C0</color>
 
-    <color name="cyan_lighter">#33b5e5</color>
+    <color name="cyan_lightest">#33b5e5</color>
+    <color name="cyan_lighter">#2B9AC3</color>
+    <color name="cyan_light">#2486AB</color>
     <color name="cyan">#2c7a96</color>
 
     <color name="red_lighter">#ef9a9a</color>
