@@ -56,7 +56,7 @@
     </style>
 
     <!-- FAB -->
-    <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat">
+    <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat.DayNight">
         <item name="android:elevation">4dp</item>
     </style>
 

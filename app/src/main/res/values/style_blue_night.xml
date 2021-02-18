@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Blue Style -->
+    <style name="KeepassDXStyle.Blue.Night" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue_white</item>
+        <item name="colorAccentLight">@color/blue_lighter</item>
+        <item name="colorControlActivated">@color/blue_white</item>
+        <item name="android:textColorPrimary">@color/blue_light</item>
+        <item name="android:textColorHintInverse">@color/blue_lighter</item>
+        <item name="android:windowBackground">@color/background_night</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue.Night</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue.Night</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue.Night</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Blue.Night</item>
+    </style>
+    <!-- Toolbar Style Blue -->
+    <style name="KeepassDXStyle.Toolbar.Blue.Night" parent="KeepassDXStyle.Blue.Night">
+        <item name="colorControlActivated">@color/blue_lighter</item>
+        <item name="colorControlNormal">@color/colorTextInverse</item>
+        <item name="android:textColorPrimary">@color/colorTextInverse</item>
+        <item name="android:textColorSecondary">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="android:textColorHint">@color/blue_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
+    </style>
+    <!-- Toolbar Home Blue -->
+    <style name="KeepassDXStyle.Toolbar.Home.Blue.Night" parent="KeepassDXStyle.Blue.Night">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Blue -->
+    <style name="KeepassDXStyle.Toolbar.Special.Blue.Night" parent="KeepassDXStyle.Toolbar.Blue.Night">
+        <item name="actionMenuTextColor">@color/colorTextInverse</item>
+        <item name="android:background">@color/blue_dark</item>
+        <item name="background">@color/blue_dark</item>
+    </style>
+    <!-- Contextual Action Bar Blue -->
+    <style name="KeepassDXStyle.ActionMode.Blue.Night" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/blue_dark</item>
+        <item name="background">@color/blue_dark</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Blue.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
+        <item name="colorAccent">@color/blue_lighter</item>
+        <item name="android:textColorPrimary">@color/blue</item>
+    </style>
+</resources>

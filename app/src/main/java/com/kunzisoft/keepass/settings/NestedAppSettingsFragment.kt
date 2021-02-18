@@ -385,7 +385,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         }
                     }
                 if (styleEnabled) {
-                    Stylish.assignStyle(styleIdString)
+                    Stylish.assignStyle(styleIdString, activity)
                     // Relaunch the current activity to redraw theme
                     (activity as? SettingsActivity?)?.apply {
                         keepCurrentScreen()

@@ -495,10 +495,14 @@
     <string-array name="list_style_names">
         <item>Light</item>
         <item>Night</item>
+        <item>White</item>
         <item>Black</item>
+        <item>Classic Clear</item>
         <item>Classic Dark</item>
-        <item>Sky and Ocean</item>
-        <item>Red Volcano</item>
+        <item>Sky</item>
+        <item>Moon</item>
+        <item>Sun</item>
+        <item>Volcano</item>
         <item>Purple Light</item>
         <item>Purple Dark</item>
     </string-array>

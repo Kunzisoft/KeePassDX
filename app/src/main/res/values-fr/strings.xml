@@ -283,10 +283,14 @@
     <string-array name="list_style_names">
         <item>Jour</item>
         <item>Nuit</item>
+        <item>Blanc</item>
         <item>Noir</item>
+        <item>Clair Classique</item>
         <item>Foncé Classique</item>
-        <item>Ciel et Océan</item>
-        <item>Rouge Volcan</item>
+        <item>Ciel</item>
+        <item>Lune</item>
+        <item>Soleil</item>
+        <item>Volcan</item>
         <item>Pourpre Lumineux</item>
         <item>Pourpre Obscur</item>
     </string-array>

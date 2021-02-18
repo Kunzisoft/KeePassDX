@@ -327,19 +327,27 @@
     <!-- Style -->
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
+    <string name="list_style_name_white" translatable="false">KeepassDXStyle_White</string>
     <string name="list_style_name_black" translatable="false">KeepassDXStyle_Black</string>
+    <string name="list_style_name_clear" translatable="false">KeepassDXStyle_Clear</string>
     <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
     <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
+    <string name="list_style_name_blue_night" translatable="false">KeepassDXStyle_Blue_Night</string>
     <string name="list_style_name_red" translatable="false">KeepassDXStyle_Red</string>
+    <string name="list_style_name_red_night" translatable="false">KeepassDXStyle_Red_Night</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string name="list_style_name_purple_dark" translatable="false">KeepassDXStyle_Purple_Dark</string>
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
+        <item translatable="false">@string/list_style_name_white</item>
         <item translatable="false">@string/list_style_name_black</item>
+        <item translatable="false">@string/list_style_name_clear</item>
         <item translatable="false">@string/list_style_name_dark</item>
         <item translatable="false">@string/list_style_name_blue</item>
+        <item translatable="false">@string/list_style_name_blue_night</item>
         <item translatable="false">@string/list_style_name_red</item>
+        <item translatable="false">@string/list_style_name_red_night</item>
         <item translatable="false">@string/list_style_name_purple</item>
         <item translatable="false">@string/list_style_name_purple_dark</item>
     </string-array>

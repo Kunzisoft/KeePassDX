@@ -446,10 +446,14 @@
     <string-array name="list_style_names">
         <item>Hell</item>
         <item>Dunkel</item>
+        <item>Weiß</item>
         <item>Schwarz</item>
+        <item>Klassisch Bright</item>
         <item>Klassisch Dunkel</item>
-        <item>Himmel und Meer</item>
-        <item>Roter Vulkan</item>
+        <item>Himmel</item>
+        <item>Mond</item>
+        <item>Sonne</item>
+        <item>Vulkan</item>
         <item>Purple Light</item>
         <item>Purple Dark</item>
     </string-array>
