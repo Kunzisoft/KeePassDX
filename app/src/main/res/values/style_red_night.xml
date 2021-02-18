@@ -31,9 +31,9 @@
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Red.Night</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red.Night</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Red.Night</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
@@ -46,18 +46,22 @@
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
     <!-- Toolbar Home Red -->
-    <style name="KeepassDXStyle.Toolbar.Home.Red.Night" parent="KeepassDXStyle.Red.Night">
+    <style name="KeepassDXStyle.Toolbar.Home.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
         <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Special Toolbar Red -->
     <style name="KeepassDXStyle.Toolbar.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
-        <item name="android:background">@color/red_dark</item>
-        <item name="background">@color/red_dark</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Red.Night</item>
     </style>
-    <!-- Contextual Action Bar Red -->
-    <style name="KeepassDXStyle.ActionMode.Red.Night" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="android:background">@color/orange</item>
-        <item name="background">@color/orange</item>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/red_dark</item>
+    </style>
+    <!-- Action Toolbar Red -->
+    <style name="KeepassDXStyle.Toolbar.Action.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Red.Night</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Red.Night" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/red</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">

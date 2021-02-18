@@ -33,7 +33,6 @@
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Clear</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Clear</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Clear</item>
         <item name="cardBackgroundTransparentColor">@color/white_transparent</item>
     </style>
@@ -50,11 +49,6 @@
     </style>
     <!-- Special Toolbar Clear -->
     <style name="KeepassDXStyle.Toolbar.Special.Clear" parent="KeepassDXStyle.Toolbar.Clear">
-        <item name="android:background">@color/white</item>
-        <item name="background">@color/white</item>
-    </style>
-    <!-- Contextual Action Bar Clear -->
-    <style name="KeepassDXStyle.ActionMode.Clear" parent="@style/Widget.AppCompat.ActionMode">
         <item name="android:background">@color/white</item>
         <item name="background">@color/white</item>
     </style>
