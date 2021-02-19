@@ -29,6 +29,7 @@
     <color name="dark_transparent">#E00E0E0E</color>
     <color name="grey_lightest">#ececec</color>
     <color name="grey_lighter">#dddddd</color>
+    <color name="grey_lighter_transparent">#E0DDDDDD</color>
     <color name="grey_light">#D4D4D4</color>
     <color name="grey">#bdbdbd</color>
     <color name="grey_dark">#9e9e9e</color>
