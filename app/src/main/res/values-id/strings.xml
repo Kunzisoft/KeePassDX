@@ -68,7 +68,7 @@
     <string name="error_otp_secret_key">Kunci rahasia harus dalam format Base32.</string>
     <string name="error_save_database">Tidak bisa menyimpan basisdata.</string>
     <string name="error_create_database_file">Tidak bisa membuat basisdata dengan kata sandi dan file kunci ini.</string>
-    <string name="error_create_database">Tidak bisa membuat file basisdata.</string>
+    <string name="error_create_database">Tidak bisa membuat berkas database.</string>
     <string name="error_copy_group_here">Anda tidak bisa menyalin grup di sini.</string>
     <string name="error_copy_entry_here">Anda tidak bisa menyalin entri di sini.</string>
     <string name="error_move_entry_here">Anda tidak bisa memindahkan entri ke sini.</string>
@@ -233,4 +233,5 @@
     <string name="do_not_kill_app">Jangan tutup aplikasi…</string>
     <string name="command_execution">Menjalankan perintah…</string>
     <string name="saving_database">Menyimpan database…</string>
+    <string name="error_rebuild_list">Tidak dapat membangun ulang daftar.</string>
 </resources>
