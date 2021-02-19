@@ -559,11 +559,11 @@
     <string name="style_choose_summary">Theme used in the app</string>
     <string-array name="list_style_names">
         <item>Forest</item>
-        <item>Slice</item>
+        <item>Divine</item>
         <item>Classic</item>
         <item>Moon</item>
         <item>Sun</item>
-        <item>Purple</item>
+        <item>Kunzite</item>
     </string-array>
     <string name="style_brightness_title">Theme brightness</string>
     <string name="style_brightness_summary">Select light or dark themes</string>

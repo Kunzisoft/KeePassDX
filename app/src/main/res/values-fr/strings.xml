@@ -282,11 +282,11 @@
     <string name="style_choose_summary">Thème utilisé dans l’application</string>
     <string-array name="list_style_names">
         <item>Forêt</item>
-        <item>Tranche</item>
+        <item>Divin</item>
         <item>Classique</item>
         <item>Lune</item>
         <item>Soleil</item>
-        <item>Pourpre</item>
+        <item>Kunzite</item>
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>

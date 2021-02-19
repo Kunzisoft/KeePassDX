@@ -494,11 +494,11 @@
     <string name="style_choose_summary">アプリで使用するテーマ</string>
     <string-array name="list_style_names">
         <item>Forest</item>
-        <item>Slice</item>
+        <item>Divine</item>
         <item>Classic</item>
         <item>Moon</item>
         <item>Sun</item>
-        <item>Purple</item>
+        <item>Kunzite</item>
     </string-array>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
