@@ -558,4 +558,5 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Nemohu rozpoznat existující typ OTP v této formě, jeho validace patrně nebude generovat správný token.</string>
+    <string name="download_canceled">Zrušeno!</string>
 </resources>
