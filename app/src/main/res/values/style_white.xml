@@ -22,11 +22,11 @@
     <style name="KeepassDXStyle.White" parent="KeepassDXStyle.Light.WhiteBar.v23" >
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/orange_dark</item>
-        <item name="colorAccentLight">@color/orange</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlNormal">@color/colorText</item>
-        <item name="colorControlActivated">@color/green_darker</item>
-        <item name="android:textColorPrimary">@color/green</item>
+        <item name="colorControlActivated">@color/green</item>
+        <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.White</item>
@@ -53,7 +53,7 @@
         <item name="android:textColorPrimary">@color/colorText</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:editTextColor">@color/colorText</item>
-        <item name="android:textColorHint">@color/green</item>
+        <item name="android:textColorHint">@color/green_light</item>
         <item name="android:tint">@color/colorText</item>
         <item name="tint">@color/colorText</item>
     </style>
@@ -81,8 +81,8 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.White.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/orange_dark</item>
-        <item name="android:textColorPrimary">@color/green_dark</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/white</item>
         <item name="background">@color/white</item>
     </style>
