@@ -83,7 +83,7 @@
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
     </style>
-    <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat.DayNight">
+    <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
 
         <item name="windowNoTitle">true</item>
