@@ -28,6 +28,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -100,9 +101,7 @@ class NodeAdapter (private val context: Context)
         this.mDatabase = Database.getInstance()
 
         // Color of content selection
-        val taContentSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        this.mContentSelectionColor = taContentSelectionColor.getColor(0, Color.WHITE)
-        taContentSelectionColor.recycle()
+        this.mContentSelectionColor = ContextCompat.getColor(context, R.color.colorTextInverse)
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mIconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)

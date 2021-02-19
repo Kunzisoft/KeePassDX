@@ -42,7 +42,7 @@
         tools:targetApi="lollipop"
         android:elevation="4dp"
         android:src="@drawable/ic_lock_white_24dp"
-        android:tint="@color/white"
+        android:tint="@color/colorTextInverse"
         android:layout_gravity="bottom|start"
         android:contentDescription="@string/menu_lock" />
 </FrameLayout>
