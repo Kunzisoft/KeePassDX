@@ -23,10 +23,12 @@
         android:icon="@drawable/ic_save_white_24dp"
         android:title="@string/menu_save_database"
         android:orderInCategory="95"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_reload_database"
         android:icon="@drawable/ic_reload_white_24dp"
         android:title="@string/menu_reload_database"
         android:orderInCategory="96"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

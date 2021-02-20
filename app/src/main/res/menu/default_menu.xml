@@ -23,10 +23,12 @@
         android:icon="@drawable/ic_settings_white_24dp"
         android:title="@string/settings"
         android:orderInCategory="91"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_about"
         android:icon="@drawable/ic_help_white_24dp"
         android:title="@string/about"
         android:orderInCategory="101"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

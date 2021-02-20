@@ -30,9 +30,10 @@
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/background_purple_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple.Dark</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Purple.Dark</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple.Dark</item>
-        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple.Dark</item>
+        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple.Dark</item>
@@ -48,19 +49,27 @@
         <item name="android:textColorHint">@color/purple_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
-    <!-- Toolbar Home Purple -->
-    <style name="KeepassDXStyle.Toolbar.Home.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
     <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Purple.Dark" parent="KeepassDXStyle.Toolbar.Popup.Night">
-        <item name="android:textColor">@color/colorTextInverse</item>
+    <style name="KeepassDXStyle.Toolbar.Popup.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
         <item name="android:colorBackground">@color/purple_darkest</item>
+    </style>
+    <!-- Toolbar Home Purple -->
+    <style name="KeepassDXStyle.Toolbar.Home.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Special Toolbar Purple -->
     <style name="KeepassDXStyle.Toolbar.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="android:background">@color/purple_dark</item>
-        <item name="background">@color/purple_dark</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Purple.Dark</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/purple_darkest</item>
+    </style>
+    <!-- Action Toolbar Purple -->
+    <style name="KeepassDXStyle.Toolbar.Action.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Purple.Dark</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Purple.Dark" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/purple_darker</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Purple.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">

@@ -18,7 +18,7 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <!-- Dark Style -->
+    <!-- Black Style -->
     <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/dark</item>
         <item name="colorPrimaryDark">@color/black</item>
@@ -30,9 +30,10 @@
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Toolbar.Popup.Black</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Black</item>
-        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Black</item>
+        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Black</item>
@@ -47,19 +48,27 @@
         <item name="android:textColorHint">@color/green_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
-    <!-- Toolbar Home Black -->
-    <style name="KeepassDXStyle.Toolbar.Home.Black" parent="KeepassDXStyle.Black">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
     <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Black" parent="KeepassDXStyle.Toolbar.Popup.Night">
-        <item name="android:textColor">@color/colorTextInverse</item>
+    <style name="KeepassDXStyle.Toolbar.Popup.Black" parent="KeepassDXStyle.Toolbar.Black">
         <item name="android:colorBackground">@color/grey_black</item>
+    </style>
+    <!-- Toolbar Home Black -->
+    <style name="KeepassDXStyle.Toolbar.Home.Black" parent="KeepassDXStyle.Toolbar.Black">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
     </style>
     <!-- Special Toolbar Black -->
     <style name="KeepassDXStyle.Toolbar.Special.Black" parent="KeepassDXStyle.Toolbar.Black">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Black</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Black" parent="KeepassDXStyle.Toolbar.Widget.Special">
         <item name="android:background">@color/black</item>
-        <item name="background">@color/black</item>
+    </style>
+    <!-- Action Toolbar Black -->
+    <style name="KeepassDXStyle.Toolbar.Action.Black" parent="KeepassDXStyle.Toolbar.Black">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Black</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Black" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/dark</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">

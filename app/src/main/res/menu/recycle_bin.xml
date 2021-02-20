@@ -24,5 +24,6 @@
         android:icon="@drawable/ic_delete_forever_white_24dp"
         android:title="@string/menu_empty_recycle_bin"
         android:orderInCategory="35"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

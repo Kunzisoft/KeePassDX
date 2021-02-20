@@ -37,9 +37,7 @@
             android:id="@+id/special_mode_view"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="?attr/specialToolbarAppearance"
-            app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
-            app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
+            android:theme="?attr/toolbarSpecialAppearance"
             app:layout_constraintTop_toTopOf="parent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -70,7 +68,7 @@
         android:id="@+id/entry_edit_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="?attr/toolbarPopupAppearance"
+        android:theme="?attr/toolbarActionAppearance"
         android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

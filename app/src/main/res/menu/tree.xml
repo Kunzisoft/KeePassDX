@@ -23,5 +23,6 @@
         android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/sort_menu"
         android:orderInCategory="41"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

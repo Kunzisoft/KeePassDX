@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Clear Style -->
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Light.WhiteBar.v23" >
+        <item name="colorPrimary">@color/grey_lighter</item>
+        <item name="colorPrimaryDark">@color/grey_light</item>
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorAccentLight">@color/cyan_lightest</item>
+        <item name="colorControlActivated">@color/cyan_lightest</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:textColorHintInverse">@color/cyan_lightest</item>
+        <item name="android:windowBackground">@color/grey_lightest</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Clear</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Clear</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Clear</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Clear</item>
+        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Clear</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Clear</item>
+        <item name="cardBackgroundTransparentColor">@color/grey_lighter_transparent</item>
+
+        <item name="android:textColor">@color/text_color_light</item>
+        <item name="android:editTextColor">@color/colorText</item>
+        <item name="textColorInverse">@color/colorText</item>
+        <item name="android:textColorPrimaryInverse">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
+        <item name="android:textColorSecondaryInverse">@color/colorTextSecondary</item>
+        <item name="android:textColorHint">@color/colorTextSecondary</item>
+    </style>
+    <!-- Toolbar Style Clear -->
+    <style name="KeepassDXStyle.Toolbar.Clear" parent="KeepassDXStyle.Clear">
+        <item name="colorControlNormal">@color/colorText</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:tint">@color/colorText</item>
+    </style>
+    <!-- Toolbar Popup menu -->
+    <style name="KeepassDXStyle.Toolbar.Popup.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="android:colorBackground">@color/grey_lighter</item>
+    </style>
+    <!-- Toolbar Home Clear -->
+    <style name="KeepassDXStyle.Toolbar.Home.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Clear -->
+    <style name="KeepassDXStyle.Toolbar.Special.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Clear</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Clear" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/grey_lighter</item>
+    </style>
+    <!-- Action Toolbar Clear -->
+    <style name="KeepassDXStyle.Toolbar.Action.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Clear</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Clear" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/grey_lighter</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Clear.Dialog" parent="KeepassDXStyle.Light.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan</item>
+        <item name="android:background">@color/grey_lighter</item>
+        <item name="background">@color/grey_lighter</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Clear" parent="CardView">
+        <item name="cardBackgroundColor">@color/grey_lighter</item>
+    </style>
+</resources>

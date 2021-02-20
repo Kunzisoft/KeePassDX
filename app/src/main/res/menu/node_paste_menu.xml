@@ -23,5 +23,6 @@
         android:icon="@drawable/ic_content_paste_white_24dp"
         android:title="@string/menu_paste"
         android:orderInCategory="1090"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom|withText" />
 </menu>
