@@ -711,10 +711,8 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    override fun iconPicked(bundle: Bundle) {
-        IconPickerDialogFragment.getIconStandardFromBundle(bundle)?.let { icon ->
-            entryEditFragment?.icon = icon
-        }
+    override fun iconPicked(icon: IconImageStandard) {
+        entryEditFragment?.icon = icon
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
