@@ -137,24 +137,23 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
-            val protectedBinary = keyBinary.binary
-            val binaryCipherKey = database.loadedCipherKey
-                    ?: throw IOException("Unable to retrieve cipher key to write binaries")
+        val binaryCipherKey = database.loadedCipherKey
+                ?: throw IOException("Unable to retrieve cipher key to write binaries")
+        database.binaryPool.doForEachOrderedBinary { _, binary ->
             // Force decompression to add binary in header
-            protectedBinary.decompress(binaryCipherKey)
+            binary.decompress(binaryCipherKey)
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(protectedBinary.length + 1))
+            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.length + 1))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
-            if (protectedBinary.isProtected) {
+            if (binary.isProtected) {
                 flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
             }
             dataOutputStream.writeByte(flag)
 
-            protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
+            binary.getInputDataStream(binaryCipherKey).use { inputStream ->
                 inputStream.readAllBytes { buffer ->
                     dataOutputStream.write(buffer)
                 }
@@ -499,10 +498,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
         // Use indexes because necessarily (binary header ref is the order)
-        mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, keyBinary ->
+        mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, binary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
-            val binary = keyBinary.binary
             if (binary.length > 0) {
                 if (binary.isCompressed) {
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)

@@ -11,8 +11,6 @@ import org.junit.Test
 import java.io.DataInputStream
 import java.io.File
 import java.io.InputStream
-import java.lang.Exception
-import java.security.MessageDigest
 
 class BinaryAttachmentTest {
 
@@ -129,20 +127,6 @@ class BinaryAttachmentTest {
         finally {
             inputStreamA.close()
             inputStreamB.close()
-        }
-    }
-
-    private fun BinaryAttachment.md5(): String {
-        val md = MessageDigest.getInstance("MD5")
-        return this.getInputDataStream(loadedKey).use { fis ->
-            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-            generateSequence {
-                when (val bytesRead = fis.read(buffer)) {
-                    -1 -> null
-                    else -> bytesRead
-                }
-            }.forEach { bytesRead -> md.update(buffer, 0, bytesRead) }
-            md.digest().joinToString("") { "%02x".format(it) }
         }
     }
 

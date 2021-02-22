@@ -1,1 +1,2 @@
- * Thèmes sombres (ATTENTION: Vous devez reselectionner votre theme si mise à niveau d'une ancienne installation)
+ * Thèmes sombres (ATTENTION: Vous devez reselectionner votre theme si mise à niveau d'une ancienne installation) #532 #714
+ * Correction de la duplication des binaires #715
