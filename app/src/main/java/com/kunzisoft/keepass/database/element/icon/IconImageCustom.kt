@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 
 import java.util.UUID
 
@@ -75,7 +76,7 @@ class IconImageCustom : IconImage {
     }
 
     override val iconId: Int
-        get() = UNKNOWN_ID
+        get() = KEY_ID
 
     override val isUnknown: Boolean
         get() = this == UNKNOWN_ICON

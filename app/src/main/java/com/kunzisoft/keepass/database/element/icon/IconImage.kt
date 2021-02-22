@@ -30,8 +30,4 @@ abstract class IconImage protected constructor() : Parcelable {
     override fun describeContents(): Int {
         return 0
     }
-
-    companion object {
-        const val UNKNOWN_ID = -1
-    }
 }

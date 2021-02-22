@@ -37,17 +37,14 @@ class IconImageFactory {
      */
     private val customCache = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
 
-    val unknownIcon: IconImageStandard
-        get() = getIcon(IconImage.UNKNOWN_ID)
-
     val keyIcon: IconImageStandard
-        get() = getIcon(IconImageStandard.KEY)
+        get() = getIcon(IconImageStandard.KEY_ID)
 
     val trashIcon: IconImageStandard
-        get() = getIcon(IconImageStandard.TRASH)
+        get() = getIcon(IconImageStandard.TRASH_ID)
 
     val folderIcon: IconImageStandard
-        get() = getIcon(IconImageStandard.FOLDER)
+        get() = getIcon(IconImageStandard.FOLDER_ID)
 
     fun getIcon(iconId: Int): IconImageStandard {
         var icon: IconImageStandard? = cache[iconId] as IconImageStandard?

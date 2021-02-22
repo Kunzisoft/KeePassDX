@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrCha
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -173,8 +172,7 @@ class EntryEditActivity : LockingActivity(),
             tempEntryInfo = mDatabase?.createEntry()?.getEntryInfo(mDatabase, true)
             // Set default icon
             if (parentIcon != null
-                    && parentIcon.iconId != IconImage.UNKNOWN_ID
-                    && parentIcon.iconId != IconImageStandard.FOLDER) {
+                    && parentIcon.iconId != IconImageStandard.FOLDER_ID) {
                 tempEntryInfo?.icon = parentIcon
             }
             // Set default username

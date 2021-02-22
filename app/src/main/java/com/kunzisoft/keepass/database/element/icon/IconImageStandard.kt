@@ -25,11 +25,14 @@ import android.os.Parcelable
 class IconImageStandard : IconImage {
 
     constructor() {
-        this.iconId = KEY
+        this.iconId = KEY_ID
     }
 
     constructor(iconId: Int) {
-        this.iconId = iconId
+        if (iconId < MIN_ID || iconId > MAX_ID)
+            this.iconId = KEY_ID
+        else
+            this.iconId = iconId
     }
 
     constructor(icon: IconImageStandard) {
@@ -65,16 +68,18 @@ class IconImageStandard : IconImage {
     override val iconId: Int
 
     override val isUnknown: Boolean
-        get() = iconId == UNKNOWN_ID
+        get() = iconId < MIN_ID || iconId > MAX_ID
 
     override val isMetaStreamIcon: Boolean
         get() = iconId == 0
 
     companion object {
 
-        const val KEY = 0
-        const val TRASH = 43
-        const val FOLDER = 48
+        const val KEY_ID = 0
+        const val TRASH_ID = 43
+        const val FOLDER_ID = 48
+        const val MIN_ID = 0
+        const val MAX_ID = 48
 
         @JvmField
         val CREATOR: Parcelable.Creator<IconImageStandard> = object : Parcelable.Creator<IconImageStandard> {
