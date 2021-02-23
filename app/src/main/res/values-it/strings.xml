@@ -557,4 +557,8 @@
     <string name="menu_reload_database">Ricarica database</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo, la sua convalida potrebbe non generare più correttamente il token.</string>
     <string name="download_canceled">Annullato!</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
 </resources>
