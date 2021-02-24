@@ -50,10 +50,6 @@ class IconStandardFragment : Fragment() {
         }
     }
 
-    interface IconStandardPickerListener {
-        fun iconStandardPicked(icon: IconImageStandard)
-    }
-
     inner class IconStandardAdapter(private val context: Context) : BaseAdapter() {
 
         override fun getCount(): Int {
