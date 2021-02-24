@@ -26,9 +26,6 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
@@ -48,19 +45,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    override var icon: IconImage
-        get() {
-            return when {
-                iconCustom.isUnknown -> super.icon
-                else -> iconCustom
-            }
-        }
-        set(value) {
-            if (value is IconImageStandard)
-                iconCustom = IconImageCustom.UNKNOWN_ICON
-            super.icon = value
-        }
-    var iconCustom = IconImageCustom.UNKNOWN_ICON
     var customData = LinkedHashMap<String, String>()
     var fields = LinkedHashMap<String, ProtectedString>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
@@ -103,7 +87,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        iconCustom = parcel.readParcelable(IconImageCustom::class.java.classLoader) ?: iconCustom
         usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
         customData = ParcelableUtil.readStringParcelableMap(parcel)
@@ -121,7 +104,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeParcelable(iconCustom, flags)
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
         ParcelableUtil.writeStringParcelableMap(dest, customData)
@@ -143,7 +125,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      */
     fun updateWith(source: EntryKDBX, copyHistory: Boolean = true) {
         super.updateWith(source)
-        iconCustom = IconImageCustom(source.iconCustom)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
         // Add all custom elements in map

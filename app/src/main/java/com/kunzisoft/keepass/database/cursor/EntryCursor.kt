@@ -23,6 +23,7 @@ import android.database.MatrixCursor
 import android.provider.BaseColumns
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconPool
 import com.kunzisoft.keepass.database.element.node.NodeId
 import java.util.*
@@ -54,7 +55,9 @@ abstract class EntryCursor<EntryId, PwEntryV : EntryVersioned<*, EntryId, *, *>>
         pwEntry.title = getString(getColumnIndex(COLUMN_INDEX_TITLE))
 
         val iconStandard = iconPool.getIcon(getInt(getColumnIndex(COLUMN_INDEX_ICON_STANDARD)))
-        pwEntry.icon = iconStandard
+        val iconCustom = iconPool.getIcon(UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
+                getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
+        pwEntry.icon = IconImage(iconStandard, iconCustom)
 
         pwEntry.username = getString(getColumnIndex(COLUMN_INDEX_USERNAME))
         pwEntry.password = getString(getColumnIndex(COLUMN_INDEX_PASSWORD))

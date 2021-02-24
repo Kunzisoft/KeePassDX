@@ -21,15 +21,15 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.BinaryAttachment
 import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
-import com.kunzisoft.keepass.database.element.Attachment
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Structure containing information about one entry.
@@ -68,7 +68,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
             if (username.isEmpty()) return false
             if (username != PMS_ID_USER) return false
             if (url.isEmpty()) return false
-            return if (url != PMS_ID_URL) false else icon.isMetaStreamIcon
+            if (url != PMS_ID_URL) return false
+            return icon.standard.id == KEY_ID
         }
 
     override fun initNodeId(): NodeId<UUID> {

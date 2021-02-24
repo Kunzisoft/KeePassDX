@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.database.cursor
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.icon.IconPool
 
-import java.util.UUID
-
 class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
 
     private val extraFieldCursor: ExtraFieldCursor = ExtraFieldCursor()
@@ -34,9 +32,9 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
                 entry.id.mostSignificantBits,
                 entry.id.leastSignificantBits,
                 entry.title,
-                entry.icon.iconId,
-                entry.iconCustom.uuid.mostSignificantBits,
-                entry.iconCustom.uuid.leastSignificantBits,
+                entry.icon.standard.id,
+                entry.icon.custom.uuid.mostSignificantBits,
+                entry.icon.custom.uuid.leastSignificantBits,
                 entry.username,
                 entry.password,
                 entry.url,
@@ -54,12 +52,6 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
 
     override fun populateEntry(pwEntry: EntryKDBX, iconPool: IconPool) {
         super.populateEntry(pwEntry, iconPool)
-
-        // Retrieve custom icon
-        val iconCustom = iconPool.getIcon(
-                UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
-                        getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
-        pwEntry.iconCustom = iconCustom
 
         // Retrieve extra fields
         if (extraFieldCursor.moveToFirst()) {

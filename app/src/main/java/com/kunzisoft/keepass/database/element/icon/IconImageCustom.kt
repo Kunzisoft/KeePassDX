@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -22,35 +22,32 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
+import java.util.*
 
-import java.util.UUID
+class IconImageCustom() : Parcelable {
 
-class IconImageCustom : IconImage {
-
-    val uuid: UUID
+    var uuid: UUID = DatabaseVersioned.UUID_ZERO
     @Transient
     var imageData: ByteArray = ByteArray(0)
 
-    constructor(uuid: UUID, data: ByteArray) : super() {
+    constructor(uuid: UUID, data: ByteArray) : this() {
         this.uuid = uuid
         this.imageData = data
     }
 
-    constructor(uuid: UUID) : super() {
+    constructor(uuid: UUID) : this() {
         this.uuid = uuid
         this.imageData = ByteArray(0)
     }
 
-    constructor(icon: IconImageCustom) : super() {
-        uuid = icon.uuid
-        imageData = icon.imageData
-    }
-
-    constructor(parcel: Parcel) {
+    constructor(parcel: Parcel) : this() {
         uuid = parcel.readSerializable() as UUID
         // TODO Take too much memories
         // parcel.readByteArray(imageData);
+    }
+
+    override fun describeContents(): Int {
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -75,17 +72,10 @@ class IconImageCustom : IconImage {
         return uuid == other.uuid
     }
 
-    override val iconId: Int
-        get() = KEY_ID
-
-    override val isUnknown: Boolean
-        get() = this == UNKNOWN_ICON
-
-    override val isMetaStreamIcon: Boolean
-        get() = false
+    val isUnknown: Boolean
+        get() = uuid == DatabaseVersioned.UUID_ZERO
 
     companion object {
-        val UNKNOWN_ICON = IconImageCustom(DatabaseVersioned.UUID_ZERO, ByteArray(0))
 
         @JvmField
         val CREATOR: Parcelable.Creator<IconImageCustom> = object : Parcelable.Creator<IconImageCustom> {

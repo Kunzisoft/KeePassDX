@@ -109,7 +109,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     override var icon: IconImage
         get() {
-            return entryKDB?.icon ?: entryKDBX?.icon ?: IconImageStandard()
+            return entryKDB?.icon ?: entryKDBX?.icon ?: IconImage()
         }
         set(value) {
             entryKDB?.icon = value
@@ -259,28 +259,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     /*
       ------------
-      KDB Methods
-      ------------
-     */
-
-    /**
-     * If it's a node with only meta information like Meta-info SYSTEM Database Color
-     * @return false by default, true if it's a meta stream
-     */
-    val isMetaStream: Boolean
-        get() = entryKDB?.isMetaStream ?: false
-
-    /*
-      ------------
       KDBX Methods
       ------------
      */
-
-    var iconCustom: IconImageCustom
-        get() = entryKDBX?.iconCustom ?: IconImageCustom.UNKNOWN_ICON
-        set(value) {
-            entryKDBX?.iconCustom = value
-        }
 
     /**
      * Retrieve extra fields to show, key is the label, value is the value of field (protected or not)

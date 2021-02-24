@@ -61,4 +61,12 @@ class IconPool {
             action.invoke(customIcon!!)
         }
     }
+
+    /**
+     * Clear the cache of icons
+     */
+    fun clearCache() {
+        standardCache.clear()
+        customCache.clear()
+    }
 }

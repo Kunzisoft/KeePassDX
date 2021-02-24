@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BA
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -362,10 +361,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemUuid, group.id)
         writeObject(DatabaseKDBXXML.ElemName, group.title)
         writeObject(DatabaseKDBXXML.ElemNotes, group.notes)
-        writeObject(DatabaseKDBXXML.ElemIcon, group.icon.iconId.toLong())
+        writeObject(DatabaseKDBXXML.ElemIcon, group.icon.standard.id.toLong())
 
-        if (group.iconCustom != IconImageCustom.UNKNOWN_ICON) {
-            writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.iconCustom.uuid)
+        if (!group.icon.custom.isUnknown) {
+            writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.icon.custom.uuid)
         }
 
         writeTimes(group)
@@ -387,10 +386,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemEntry)
 
         writeUuid(DatabaseKDBXXML.ElemUuid, entry.id)
-        writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.iconId.toLong())
+        writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.standard.id.toLong())
 
-        if (entry.iconCustom != IconImageCustom.UNKNOWN_ICON) {
-            writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.iconCustom.uuid)
+        if (!entry.icon.custom.isUnknown) {
+            writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.icon.custom.uuid)
         }
 
         writeObject(DatabaseKDBXXML.ElemFgColor, entry.foregroundColor)

@@ -228,7 +228,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
                 title = BACKUP_FOLDER_TITLE
-                icon = iconPool.getIcon(IconImageStandard.TRASH_ID)
+                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
             }
             addGroupTo(recycleBinGroup, rootGroup)
             backupGroupId = recycleBinGroup.id

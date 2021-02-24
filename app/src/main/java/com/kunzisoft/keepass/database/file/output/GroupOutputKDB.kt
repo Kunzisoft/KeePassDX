@@ -72,7 +72,7 @@ class GroupOutputKDB(private val mGroup: GroupKDB,
             // Image ID
             mOutputStream.write(IMAGEID_FIELD_TYPE)
             mOutputStream.write(IMAGEID_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.icon.iconId)))
+            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.icon.standard.id)))
 
             // Level
             mOutputStream.write(LEVEL_FIELD_TYPE)

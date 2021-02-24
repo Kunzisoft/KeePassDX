@@ -31,11 +31,11 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.IconPack
 import com.kunzisoft.keepass.icons.IconPackChooser
@@ -134,8 +134,11 @@ class IconPickerDialogFragment : DialogFragment() {
 
         private const val KEY_ICON_STANDARD = "KEY_ICON_STANDARD"
 
-        fun getIconStandardFromBundle(bundle: Bundle): IconImageStandard? {
-            return bundle.getParcelable(KEY_ICON_STANDARD)
+        fun getIconStandardFromBundle(bundle: Bundle): IconImage? {
+            bundle.getParcelable<IconImageStandard>(KEY_ICON_STANDARD)?.let {
+                return IconImage(it)
+            }
+            return null
         }
 
         fun launch(activity: FragmentActivity) {

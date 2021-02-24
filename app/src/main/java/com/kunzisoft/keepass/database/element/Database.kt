@@ -624,6 +624,7 @@ class Database {
     }
 
     fun clear(filesDirectory: File? = null) {
+        iconPool.clearCache()
         drawFactory.clearCache()
         // Delete the cache of the database if present
         mDatabaseKDB?.clearCache()

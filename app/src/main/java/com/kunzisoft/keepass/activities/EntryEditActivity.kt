@@ -171,8 +171,9 @@ class EntryEditActivity : LockingActivity(),
             val parentIcon = mParent?.icon
             tempEntryInfo = mDatabase?.createEntry()?.getEntryInfo(mDatabase, true)
             // Set default icon
+            // TODO Parent refactor
             if (parentIcon != null
-                    && parentIcon.iconId != IconImageStandard.FOLDER_ID) {
+                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
                 tempEntryInfo?.icon = parentIcon
             }
             // Set default username

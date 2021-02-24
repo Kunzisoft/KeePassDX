@@ -22,35 +22,37 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.Parcelable
 
-class IconImageStandard : IconImage {
+class IconImageStandard : Parcelable {
+
+    val id: Int
 
     constructor() {
-        this.iconId = KEY_ID
+        this.id = KEY_ID
     }
 
     constructor(iconId: Int) {
         if (iconId < MIN_ID || iconId > MAX_ID)
-            this.iconId = KEY_ID
+            this.id = KEY_ID
         else
-            this.iconId = iconId
-    }
-
-    constructor(icon: IconImageStandard) {
-        this.iconId = icon.iconId
+            this.id = iconId
     }
 
     constructor(parcel: Parcel) {
-        iconId = parcel.readInt()
+        id = parcel.readInt()
+    }
+
+    override fun describeContents(): Int {
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(iconId)
+        dest.writeInt(id)
     }
 
     override fun hashCode(): Int {
         val prime = 31
         var result = 1
-        result = prime * result + iconId
+        result = prime * result + id
         return result
     }
 
@@ -62,16 +64,8 @@ class IconImageStandard : IconImage {
         if (other !is IconImageStandard) {
             return false
         }
-        return iconId == other.iconId
+        return id == other.id
     }
-
-    override val iconId: Int
-
-    override val isUnknown: Boolean
-        get() = iconId < MIN_ID || iconId > MAX_ID
-
-    override val isMetaStreamIcon: Boolean
-        get() = iconId == 0
 
     companion object {
 

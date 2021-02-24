@@ -129,7 +129,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         kdbxVersion = FILE_VERSION_32_3
         val group = createGroup().apply {
             title = rootName
-            icon = getStandardIcon(IconImageStandard.FOLDER_ID)
+            icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
         }
         rootGroup = group
         addGroupIndex(group)
@@ -554,7 +554,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
                 title = resources.getString(R.string.recycle_bin)
-                icon = getStandardIcon(IconImageStandard.TRASH_ID)
+                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
                 enableAutoType = false
                 enableSearching = false
                 isExpanded = false

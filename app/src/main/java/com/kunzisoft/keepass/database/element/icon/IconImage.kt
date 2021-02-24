@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -19,15 +19,41 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
+import android.os.Parcel
 import android.os.Parcelable
 
-abstract class IconImage protected constructor() : Parcelable {
+class IconImage() : Parcelable {
 
-    abstract val iconId: Int
-    abstract val isUnknown: Boolean
-    abstract val isMetaStreamIcon: Boolean
+    var standard: IconImageStandard = IconImageStandard()
+    var custom: IconImageCustom = IconImageCustom()
+
+    constructor(iconImageStandard: IconImageStandard,
+                iconImageCustom: IconImageCustom = IconImageCustom()) : this() {
+        this.standard = iconImageStandard
+        this.custom = iconImageCustom
+    }
+
+    constructor(parcel: Parcel) : this() {
+        standard = parcel.readParcelable(IconImageStandard::class.java.classLoader) ?: standard
+        custom = parcel.readParcelable(IconImageCustom::class.java.classLoader) ?: custom
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(standard, flags)
+        parcel.writeParcelable(custom, flags)
+    }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<IconImage> {
+        override fun createFromParcel(parcel: Parcel): IconImage {
+            return IconImage(parcel)
+        }
+
+        override fun newArray(size: Int): Array<IconImage?> {
+            return arrayOfNulls(size)
+        }
     }
 }
