@@ -698,16 +698,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeCustomIconList() {
-        val customIcons = mDatabaseKDBX.customIcons
-        if (customIcons.size == 0) return
+        if (!mDatabaseKDBX.containsCustomIcons()) return
 
         xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
 
-        for (icon in customIcons) {
+        mDatabaseKDBX.iconPool.doForEachCustomIcon { customIcon ->
             xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
 
-            writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, icon.uuid)
-            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(icon.imageData, BASE_64_FLAG)))
+            writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, customIcon.uuid)
+            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(customIcon.imageData, BASE_64_FLAG)))
 
             xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
         }

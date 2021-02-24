@@ -231,7 +231,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                             if (iconId == -1) {
                                 iconId = 0
                             }
-                            entry.icon = mDatabase.iconFactory.getIcon(iconId)
+                            entry.icon = mDatabase.getStandardIcon(iconId)
                         }
                     }
                     0x0004 -> {
@@ -260,7 +260,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                     }
                     0x0007 -> {
                         newGroup?.let { group ->
-                            group.icon = mDatabase.iconFactory.getIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
+                            group.icon = mDatabase.getStandardIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
                         } ?:
                         newEntry?.let { entry ->
                             entry.password = cipherInputStream.readBytesToString(fieldSize,false)

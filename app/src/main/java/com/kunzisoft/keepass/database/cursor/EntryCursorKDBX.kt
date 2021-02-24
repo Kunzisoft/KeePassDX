@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.cursor
 
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.icon.IconPool
 
 import java.util.UUID
 
@@ -52,11 +52,11 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
         entryId++
     }
 
-    override fun populateEntry(pwEntry: EntryKDBX, iconFactory: IconImageFactory) {
-        super.populateEntry(pwEntry, iconFactory)
+    override fun populateEntry(pwEntry: EntryKDBX, iconPool: IconPool) {
+        super.populateEntry(pwEntry, iconPool)
 
         // Retrieve custom icon
-        val iconCustom = iconFactory.getIcon(
+        val iconCustom = iconPool.getIcon(
                 UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
                         getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
         pwEntry.iconCustom = iconCustom
