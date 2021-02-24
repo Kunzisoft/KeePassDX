@@ -294,7 +294,7 @@
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
-    <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click the \"Advanced unlock\" button.</string>
+    <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
