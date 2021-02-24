@@ -27,8 +27,16 @@ class IconImage() : Parcelable {
     var standard: IconImageStandard = IconImageStandard()
     var custom: IconImageCustom = IconImageCustom()
 
+    constructor(iconImageStandard: IconImageStandard) : this() {
+        this.standard = iconImageStandard
+    }
+
+    constructor(iconImageCustom: IconImageCustom) : this() {
+        this.custom = iconImageCustom
+    }
+
     constructor(iconImageStandard: IconImageStandard,
-                iconImageCustom: IconImageCustom = IconImageCustom()) : this() {
+                iconImageCustom: IconImageCustom) : this() {
         this.standard = iconImageStandard
         this.custom = iconImageCustom
     }
