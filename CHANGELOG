@@ -2,6 +2,7 @@ KeePassDX(2.9.14)
  * Dark Themes (WARNING: You must reselect your theme if upgrading from an old installation) #532 #714
  * Fix binary deduplication #715
  * Fix IconId #901
+ * Small changes #900
 
 KeePassDX(2.9.13)
  * Binary image viewer #473 #749
