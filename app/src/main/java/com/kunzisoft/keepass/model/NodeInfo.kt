@@ -4,12 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 
 open class NodeInfo() : Parcelable {
 
     var title: String = ""
-    var icon: IconImage = IconImageStandard()
+    var icon: IconImage = IconImage()
     var creationTime: DateInstant = DateInstant()
     var lastModificationTime: DateInstant = DateInstant()
     var expires: Boolean = false

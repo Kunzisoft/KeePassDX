@@ -23,7 +23,8 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
-import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconPool
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
@@ -55,8 +56,7 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
 
-    var iconFactory = IconImageFactory()
-        protected set
+    val iconPool = IconPool()
 
     var changeDuplicateId = false
 
@@ -328,6 +328,8 @@ abstract class DatabaseVersioned<
      */
 
     abstract fun rootCanContainsEntry(): Boolean
+
+    abstract fun getStandardIcon(iconId: Int): IconImageStandard
 
     abstract fun containsCustomData(): Boolean
 

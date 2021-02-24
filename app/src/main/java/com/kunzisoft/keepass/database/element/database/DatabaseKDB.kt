@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
@@ -175,6 +176,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return false
     }
 
+    override fun getStandardIcon(iconId: Int): IconImageStandard {
+        return this.iconPool.getIcon(iconId)
+    }
+
     override fun containsCustomData(): Boolean {
         return false
     }
@@ -223,7 +228,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
                 title = BACKUP_FOLDER_TITLE
-                icon = iconFactory.trashIcon
+                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
             }
             addGroupTo(recycleBinGroup, rootGroup)
             backupGroupId = recycleBinGroup.id

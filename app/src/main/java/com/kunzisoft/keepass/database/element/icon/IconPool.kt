@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -19,46 +19,26 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
-import org.apache.commons.collections.map.AbstractReferenceMap
-import org.apache.commons.collections.map.ReferenceMap
-
 import java.util.UUID
 
-class IconImageFactory {
-    /** customIconMap
-     * Cache for icon drawable.
-     * Keys: Integer, Values: IconImageStandard
-     */
-    private val cache = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
+class IconPool {
 
-    /** standardIconMap
-     * Cache for icon drawable.
-     * Keys: UUID, Values: IconImageCustom
-     */
-    private val customCache = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
-
-    val keyIcon: IconImageStandard
-        get() = getIcon(IconImageStandard.KEY_ID)
-
-    val trashIcon: IconImageStandard
-        get() = getIcon(IconImageStandard.TRASH_ID)
-
-    val folderIcon: IconImageStandard
-        get() = getIcon(IconImageStandard.FOLDER_ID)
+    private val standardCache = HashMap<Int, IconImageStandard?>()
+    private val customCache = HashMap<UUID, IconImageCustom?>()
 
     fun getIcon(iconId: Int): IconImageStandard {
-        var icon: IconImageStandard? = cache[iconId] as IconImageStandard?
+        var icon: IconImageStandard? = standardCache[iconId]
 
         if (icon == null) {
             icon = IconImageStandard(iconId)
-            cache[iconId] = icon
+            standardCache[iconId] = icon
         }
 
         return icon
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
-        var icon: IconImageCustom? = customCache[iconUuid] as IconImageCustom?
+        var icon: IconImageCustom? = customCache[iconUuid]
 
         if (icon == null) {
             icon = IconImageCustom(iconUuid)
@@ -68,7 +48,25 @@ class IconImageFactory {
         return icon
     }
 
-    fun put(icon: IconImageCustom) {
+    fun putIcon(icon: IconImageCustom) {
         customCache[icon.uuid] = icon
+    }
+
+    fun containsCustomIcons(): Boolean {
+        return customCache.isNotEmpty()
+    }
+
+    fun doForEachCustomIcon(action: (customIcon: IconImageCustom) -> Unit) {
+        for ((_, customIcon) in customCache) {
+            action.invoke(customIcon!!)
+        }
+    }
+
+    /**
+     * Clear the cache of icons
+     */
+    fun clearCache() {
+        standardCache.clear()
+        customCache.clear()
     }
 }

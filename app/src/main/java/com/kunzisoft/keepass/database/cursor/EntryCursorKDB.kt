@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.cursor
 
-import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 
 class EntryCursorKDB : EntryCursorUUID<EntryKDB>() {
@@ -30,9 +29,9 @@ class EntryCursorKDB : EntryCursorUUID<EntryKDB>() {
                 entry.id.mostSignificantBits,
                 entry.id.leastSignificantBits,
                 entry.title,
-                entry.icon.iconId,
-                DatabaseVersioned.UUID_ZERO.mostSignificantBits,
-                DatabaseVersioned.UUID_ZERO.leastSignificantBits,
+                entry.icon.standard.id,
+                entry.icon.custom.uuid.mostSignificantBits,
+                entry.icon.custom.uuid.leastSignificantBits,
                 entry.username,
                 entry.password,
                 entry.url,

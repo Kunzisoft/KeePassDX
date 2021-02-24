@@ -53,7 +53,7 @@ class EntryOutputKDB(private val mEntry: EntryKDB,
             // Image ID
             mOutputStream.write(IMAGEID_FIELD_TYPE)
             mOutputStream.write(IMAGEID_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.icon.iconId)))
+            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.icon.standard.id)))
 
             // Title
             //byte[] title = mEntry.title.getBytes("UTF-8");

@@ -10,7 +10,7 @@ class GroupInfo : NodeInfo {
     var notes: String? = null
 
     init {
-        icon = IconImageStandard(FOLDER_ID)
+        icon.standard = IconImageStandard(FOLDER_ID)
     }
 
     constructor(): super()

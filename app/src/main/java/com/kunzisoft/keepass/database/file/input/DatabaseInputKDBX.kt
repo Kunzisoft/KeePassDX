@@ -507,9 +507,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
             } else if (name.equals(DatabaseKDBXXML.ElemNotes, ignoreCase = true)) {
                 ctxGroup?.notes = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
+                ctxGroup?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxGroup?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
+                ctxGroup?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.GroupTimes, xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIsExpanded, ignoreCase = true)) {
@@ -561,9 +561,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
             KdbContext.Entry -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxEntry?.nodeId = NodeIdUUID(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
+                ctxEntry?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxEntry?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
+                ctxEntry?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemFgColor, ignoreCase = true)) {
                 ctxEntry?.foregroundColor = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemBgColor, ignoreCase = true)) {
@@ -706,8 +706,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
         } else if (ctx == KdbContext.CustomIcon && name.equals(DatabaseKDBXXML.ElemCustomIconItem, ignoreCase = true)) {
             if (customIconID != DatabaseVersioned.UUID_ZERO && customIconData != null) {
                 val icon = IconImageCustom(customIconID, customIconData!!)
-                mDatabase.addCustomIcon(icon)
-                mDatabase.iconFactory.put(icon)
+                mDatabase.putCustomIcon(icon)
             }
 
             customIconID = DatabaseVersioned.UUID_ZERO

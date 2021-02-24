@@ -38,7 +38,6 @@ import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import org.apache.commons.collections.map.AbstractReferenceMap
 import org.apache.commons.collections.map.ReferenceMap
 
@@ -110,17 +109,12 @@ class IconDrawableFactory {
      * Get the [SuperDrawable] [icon] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
      */
     fun getIconSuperDrawable(context: Context, icon: IconImage, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
-        return when (icon) {
-            is IconImageStandard -> {
-                val resId = IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.iconId) ?: R.drawable.ic_blank_32dp
-                getIconSuperDrawable(context, resId, width, tint, tintColor)
-            }
-            is IconImageCustom -> {
-                SuperDrawable(getIconDrawable(context.resources, icon))
-            }
-            else -> {
-                SuperDrawable(PatternIcon(context.resources).blankDrawable)
-            }
+        return if (!icon.custom.isUnknown) {
+            SuperDrawable(getIconDrawable(context.resources, icon.custom))
+        } else IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.standard.id)?.let { resId ->
+            getIconSuperDrawable(context, resId, width, tint, tintColor)
+        } ?: run {
+            SuperDrawable(PatternIcon(context.resources).blankDrawable)
         }
     }
 

@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BAC
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
@@ -105,7 +106,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<DeletedObject>()
-    val customIcons = ArrayList<IconImageCustom>()
     val customData = HashMap<String, String>()
 
     var binaryPool = BinaryPool()
@@ -129,7 +129,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         kdbxVersion = FILE_VERSION_32_3
         val group = createGroup().apply {
             title = rootName
-            icon = iconFactory.folderIcon
+            icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
         }
         rootGroup = group
         addGroupIndex(group)
@@ -307,16 +307,20 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         this.dataEngine = dataEngine
     }
 
-    fun getCustomIcons(): List<IconImageCustom> {
-        return customIcons
+    override fun getStandardIcon(iconId: Int): IconImageStandard {
+        return this.iconPool.getIcon(iconId)
     }
 
-    fun addCustomIcon(customIcon: IconImageCustom) {
-        this.customIcons.add(customIcon)
+    fun getCustomIcon(iconUuid: UUID): IconImageCustom {
+        return this.iconPool.getIcon(iconUuid)
     }
 
-    fun getCustomData(): Map<String, String> {
-        return customData
+    fun putCustomIcon(customIcon: IconImageCustom) {
+        this.iconPool.putIcon(customIcon)
+    }
+
+    fun containsCustomIcons(): Boolean {
+        return this.iconPool.containsCustomIcons()
     }
 
     fun putCustomData(label: String, value: String) {
@@ -324,7 +328,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     override fun containsCustomData(): Boolean {
-        return getCustomData().isNotEmpty()
+        return customData.isNotEmpty()
     }
 
     @Throws(IOException::class)
@@ -550,7 +554,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
                 title = resources.getString(R.string.recycle_bin)
-                icon = iconFactory.trashIcon
+                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
                 enableAutoType = false
                 enableSearching = false
                 isExpanded = false
