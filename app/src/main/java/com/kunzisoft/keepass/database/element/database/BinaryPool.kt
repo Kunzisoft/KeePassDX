@@ -99,7 +99,13 @@ class BinaryPool {
     private fun orderedBinaries(): List<KeyBinary> {
         val keyBinaryList = ArrayList<KeyBinary>()
         for ((key, binary) in pool) {
-            keyBinaryList.add(KeyBinary(key, binary))
+            // Don't deduplicate
+            val existentBinary = keyBinaryList.find { it.binary.md5() == binary.md5() }
+            if (existentBinary == null) {
+                keyBinaryList.add(KeyBinary(binary, key))
+            } else {
+                existentBinary.addKey(key)
+            }
         }
         return keyBinaryList
     }
@@ -108,7 +114,7 @@ class BinaryPool {
      * To register a binary with a ref corresponding to an ordered index
      */
     fun getBinaryIndexFromKey(key: Int): Int? {
-        val index = orderedBinaries().indexOfFirst { it.key == key }
+        val index = orderedBinaries().indexOfFirst { it.keys.contains(key) }
         return if (index < 0)
             null
         else
@@ -118,8 +124,10 @@ class BinaryPool {
     /**
      * Different from doForEach, provide an ordered index to each binary
      */
-    fun doForEachOrderedBinary(action: (index: Int, keyBinary: KeyBinary) -> Unit) {
-        orderedBinaries().forEachIndexed(action)
+    fun doForEachOrderedBinary(action: (index: Int, binary: BinaryAttachment) -> Unit) {
+        orderedBinaries().forEachIndexed { index, keyBinary ->
+            action.invoke(index, keyBinary.binary)
+        }
     }
 
     /**
@@ -149,7 +157,16 @@ class BinaryPool {
     }
 
     /**
-     * Utility data class to order binaries
+     * Utility class to order binaries
      */
-    data class KeyBinary(val key: Int, val binary: BinaryAttachment)
+    private class KeyBinary(val binary: BinaryAttachment, key: Int) {
+        val keys = HashSet<Int>()
+        init {
+            addKey(key)
+        }
+
+        fun addKey(key: Int) {
+            keys.add(key)
+        }
+    }
 }

@@ -22,11 +22,10 @@ package com.kunzisoft.keepass.database.element.node
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import org.joda.time.LocalDateTime
 
 /**
@@ -88,7 +87,7 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
 
     final override var parent: Parent? = null
 
-    override var icon: IconImage = IconImageStandard()
+    final override var icon: IconImage = IconImage()
 
     final override var creationTime: DateInstant = DateInstant()
 

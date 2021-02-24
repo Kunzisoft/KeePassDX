@@ -110,10 +110,10 @@ class SearchEntryCursorAdapter(private val context: Context,
         return database.createEntry()?.apply {
             database.startManageEntry(this)
             entryKDB?.let { entryKDB ->
-                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconFactory)
+                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconPool)
             }
             entryKDBX?.let { entryKDBX ->
-                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconFactory)
+                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconPool)
             }
             database.stopManageEntry(this)
         }

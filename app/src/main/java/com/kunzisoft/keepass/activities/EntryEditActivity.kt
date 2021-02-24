@@ -172,10 +172,14 @@ class EntryEditActivity : LockingActivity(),
             val parentIcon = mParent?.icon
             tempEntryInfo = mDatabase?.createEntry()?.getEntryInfo(mDatabase, true)
             // Set default icon
-            if (parentIcon != null
-                    && parentIcon.iconId != IconImage.UNKNOWN_ID
-                    && parentIcon.iconId != IconImageStandard.FOLDER) {
-                tempEntryInfo?.icon = parentIcon
+            if (parentIcon != null) {
+                if (parentIcon.custom.isUnknown
+                        && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
+                    tempEntryInfo?.icon = IconImage(parentIcon.standard)
+                }
+                if (!parentIcon.custom.isUnknown) {
+                    tempEntryInfo?.icon = IconImage(parentIcon.custom)
+                }
             }
             // Set default username
             tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
@@ -711,7 +715,7 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    override fun iconPicked(icon: IconImageStandard) {
+    override fun iconPicked(icon: IconImage) {
         entryEditFragment?.icon = icon
     }
 

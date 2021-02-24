@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
+import java.security.MessageDigest
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
@@ -174,6 +175,25 @@ class BinaryAttachment : Parcelable {
     fun clear() {
         if (dataFile != null && !dataFile!!.delete())
             throw IOException("Unable to delete temp file " + dataFile!!.absolutePath)
+    }
+
+    /**
+     * MD5 of the raw encrypted file in temp folder, only to compare binary data
+     */
+    fun md5(): String {
+        val md = MessageDigest.getInstance("MD5")
+        if (dataFile == null)
+            return ""
+        return FileInputStream(dataFile).use { fis ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            generateSequence {
+                when (val bytesRead = fis.read(buffer)) {
+                    -1 -> null
+                    else -> bytesRead
+                }
+            }.forEach { bytesRead -> md.update(buffer, 0, bytesRead) }
+            md.digest().joinToString("") { "%02x".format(it) }
+        }
     }
 
     override fun equals(other: Any?): Boolean {

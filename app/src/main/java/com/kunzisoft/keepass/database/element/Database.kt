@@ -26,7 +26,7 @@ import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.*
-import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.icon.IconPool
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -51,7 +51,6 @@ import java.security.Key
 import java.security.SecureRandom
 import java.util.*
 import javax.crypto.KeyGenerator
-import javax.crypto.spec.IvParameterSpec
 import kotlin.collections.ArrayList
 
 
@@ -92,9 +91,9 @@ class Database {
             return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
         }
 
-    val iconFactory: IconImageFactory
+    val iconPool: IconPool
         get() {
-            return mDatabaseKDB?.iconFactory ?: mDatabaseKDBX?.iconFactory ?: IconImageFactory()
+            return mDatabaseKDB?.iconPool ?: mDatabaseKDBX?.iconPool ?: IconPool()
         }
 
     val allowName: Boolean
@@ -625,6 +624,7 @@ class Database {
     }
 
     fun clear(filesDirectory: File? = null) {
+        iconPool.clearCache()
         drawFactory.clearCache()
         // Delete the cache of the database if present
         mDatabaseKDB?.clearCache()

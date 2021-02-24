@@ -25,18 +25,7 @@ class IconStandardFragment : Fragment() {
 
     private lateinit var currIconGridView: GridView
     private var iconPack: IconPack? = null
-    private var iconStandardPickerListener: IconPickerDialogFragment.IconPickerListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            iconStandardPickerListener = context as IconPickerDialogFragment.IconPickerListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + IconStandardFragment::class.java.name)
-        }
-    }
+    var iconStandardPickerListener: ((icon: IconImageStandard) -> Unit)? = null
 
     override fun onDetach() {
         iconStandardPickerListener = null
@@ -57,7 +46,7 @@ class IconStandardFragment : Fragment() {
         iconPack = IconPackChooser.getSelectedIconPack(requireContext())
         currIconGridView.adapter = IconStandardAdapter(requireActivity())
         currIconGridView.setOnItemClickListener { _, _, position, _ ->
-            iconStandardPickerListener?.iconPicked(IconImageStandard(position))
+            iconStandardPickerListener?.invoke(IconImageStandard(position))
         }
     }
 

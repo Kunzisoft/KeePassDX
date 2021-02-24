@@ -54,7 +54,7 @@ import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -1122,7 +1122,7 @@ class GroupActivity : LockingActivity(),
     }
 
     // For icon in create tree dialog
-    override fun iconPicked(icon: IconImageStandard) {
+    override fun iconPicked(icon: IconImage) {
         (supportFragmentManager
                 .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
                 .iconPicked(icon)

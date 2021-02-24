@@ -28,10 +28,11 @@ import androidx.fragment.app.*
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 
 
-class IconPickerDialogFragment : DialogFragment(), IconStandardFragment.IconStandardPickerListener {
+class IconPickerDialogFragment : DialogFragment() {
 
     private lateinit var iconPickerPagerAdapter: IconPickerPagerAdapter
     private lateinit var viewPager: ViewPager
@@ -78,40 +79,46 @@ class IconPickerDialogFragment : DialogFragment(), IconStandardFragment.IconStan
         val root = layoutInflater.inflate(R.layout.fragment_icon_picker, container)
         viewPager = root.findViewById(R.id.icon_picker_pager)
         tabLayout = root.findViewById(R.id.icon_picker_tabs)
-        iconPickerPagerAdapter = IconPickerPagerAdapter(requireContext(), childFragmentManager)
+        iconPickerPagerAdapter = IconPickerPagerAdapter(childFragmentManager) { icon ->
+            iconPickerListener?.iconPicked(IconImage(icon))
+            dismiss()
+        }
         viewPager.adapter = iconPickerPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
 
         return root
     }
 
-    class IconPickerPagerAdapter(private val context: Context, fragmentManager: FragmentManager)
+    class IconPickerPagerAdapter(fragmentManager: FragmentManager,
+                                 iconStandardSelected: (icon: IconImageStandard) -> Unit)
         : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_SET_USER_VISIBLE_HINT) {
 
-        override fun getCount(): Int  = 3
+        private val iconStandardFragment = IconStandardFragment()
+        private val iconCustomFragment = IconStandardFragment()
+
+        init {
+            iconStandardFragment.iconStandardPickerListener = iconStandardSelected
+        }
+
+        override fun getCount(): Int  = 2
 
         override fun getItem(i: Int): Fragment {
-            val fragment = IconStandardFragment()
-            return fragment
+            return when (i) {
+                1 -> iconCustomFragment
+                else -> iconStandardFragment
+            }
         }
 
         override fun getPageTitle(position: Int): CharSequence {
             return when (position) {
-                0 -> "Standard" //context.getString(R.string.iconStandard)
-                1 -> "Service" //context.getString(R.string.iconStandard)
-                else -> "Custom" //context.getString(R.string.iconStandard)
+                1 -> "Custom" //context.getString(R.string.iconStandard)
+                else -> "Standard" //context.getString(R.string.iconStandard)
             }
         }
     }
 
-
-    override fun iconStandardPicked(icon: IconImageStandard) {
-        iconPickerListener?.iconPicked(icon)
-        dismiss()
-    }
-
     interface IconPickerListener {
-        fun iconPicked(icon: IconImageStandard)
+        fun iconPicked(icon: IconImage)
     }
 
     companion object {

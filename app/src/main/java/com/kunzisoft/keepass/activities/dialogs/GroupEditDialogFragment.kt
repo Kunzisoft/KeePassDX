@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGrou
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.view.ExpirationView
@@ -210,7 +210,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         }
     }
 
-    override fun iconPicked(icon: IconImageStandard) {
+    override fun iconPicked(icon: IconImage) {
         mGroupInfo.icon = icon
         assignIconView()
     }

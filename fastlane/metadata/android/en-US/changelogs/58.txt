@@ -1,1 +1,3 @@
- * Dark Themes (WARNING: You must reselect your theme if upgrading from an old installation)
+ * Dark Themes (WARNING: You must reselect your theme if upgrading from an old installation) #532 #714
+ * Fix binary deduplication #715
+ * Fix IconId #901

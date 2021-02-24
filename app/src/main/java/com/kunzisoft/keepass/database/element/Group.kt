@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
@@ -124,7 +123,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         }
 
     override var icon: IconImage
-        get() = groupKDB?.icon ?: groupKDBX?.icon ?: IconImageStandard()
+        get() = groupKDB?.icon ?: groupKDBX?.icon ?: IconImage()
         set(value) {
             groupKDB?.icon = value
             groupKDBX?.icon = value
