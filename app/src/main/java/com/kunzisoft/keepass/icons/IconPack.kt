@@ -78,7 +78,7 @@ class IconPack(packageName: String, resources: Resources, resourceId: Int) {
 
         // Build the list of icons
         var num = 0
-        while (num <= NB_ICONS) {
+        while (num < NB_ICONS) {
             // To construct the id with name_ic_XX_32dp (ex : classic_ic_08_32dp )
             val resId = resources.getIdentifier(
                     id + "_" + String.format(Locale.ENGLISH, "%02d", num) + "_32dp",
@@ -134,6 +134,6 @@ class IconPack(packageName: String, resources: Resources, resourceId: Int) {
     }
 
     companion object {
-        const val NB_ICONS = 68
+        const val NB_ICONS = 69
     }
 }

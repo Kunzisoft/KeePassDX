@@ -24,12 +24,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-    app:spanCount="2"
-    android:verticalSpacing="32dp"
-    android:paddingTop="20dp"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:columnWidth="64dp"
-    android:numColumns="auto_fit"
-    android:stretchMode="spacingWidthUniform">
-</androidx.recyclerview.widget.RecyclerView>
+    app:spanCount="4" />

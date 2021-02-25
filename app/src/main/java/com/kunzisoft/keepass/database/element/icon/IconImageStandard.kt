@@ -32,7 +32,7 @@ class IconImageStandard : Parcelable {
     }
 
     constructor(iconId: Int) {
-        if (iconId < 0 || iconId > NB_ICONS)
+        if (iconId < 0 || iconId >= NB_ICONS)
             this.id = KEY_ID
         else
             this.id = iconId
