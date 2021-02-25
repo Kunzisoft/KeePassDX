@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities.dialogs
+package com.kunzisoft.keepass.activities.fragments
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -45,9 +45,6 @@ class IconStandardFragment : Fragment() {
 
         iconPack = IconPackChooser.getSelectedIconPack(requireContext())
         currIconGridView.adapter = IconStandardAdapter(requireActivity())
-        currIconGridView.setOnItemClickListener { _, _, position, _ ->
-            iconStandardPickerListener?.invoke(IconImageStandard(position))
-        }
     }
 
     inner class IconStandardAdapter(private val context: Context) : BaseAdapter() {
@@ -80,6 +77,10 @@ class IconStandardFragment : Fragment() {
                     ImageViewCompat.setImageTintList(iconImageView, ColorStateList.valueOf(ta.getColor(0, Color.BLACK)))
                     ta.recycle()
                 }
+            }
+
+            currentView.setOnClickListener {
+                iconStandardPickerListener?.invoke(IconImageStandard(position))
             }
 
             return currentView

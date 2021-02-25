@@ -28,7 +28,10 @@ import androidx.fragment.app.*
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.fragments.IconCustomFragment
+import com.kunzisoft.keepass.activities.fragments.IconStandardFragment
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 
 
@@ -79,10 +82,14 @@ class IconPickerDialogFragment : DialogFragment() {
         val root = layoutInflater.inflate(R.layout.fragment_icon_picker, container)
         viewPager = root.findViewById(R.id.icon_picker_pager)
         tabLayout = root.findViewById(R.id.icon_picker_tabs)
-        iconPickerPagerAdapter = IconPickerPagerAdapter(childFragmentManager) { icon ->
-            iconPickerListener?.iconPicked(IconImage(icon))
-            dismiss()
-        }
+        iconPickerPagerAdapter = IconPickerPagerAdapter(childFragmentManager, { icon ->
+                    iconPickerListener?.iconPicked(IconImage(icon))
+                    dismiss()
+                }, { icon ->
+                    iconPickerListener?.iconPicked(IconImage(icon))
+                    dismiss()
+                }
+        )
         viewPager.adapter = iconPickerPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
 
@@ -90,14 +97,16 @@ class IconPickerDialogFragment : DialogFragment() {
     }
 
     class IconPickerPagerAdapter(fragmentManager: FragmentManager,
-                                 iconStandardSelected: (icon: IconImageStandard) -> Unit)
+                                 iconStandardSelected: (icon: IconImageStandard) -> Unit,
+                                 iconCustomSelected: (icon: IconImageCustom) -> Unit)
         : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_SET_USER_VISIBLE_HINT) {
 
         private val iconStandardFragment = IconStandardFragment()
-        private val iconCustomFragment = IconStandardFragment()
+        private val iconCustomFragment = IconCustomFragment()
 
         init {
             iconStandardFragment.iconStandardPickerListener = iconStandardSelected
+            iconCustomFragment.iconCustomPickerListener = iconCustomSelected
         }
 
         override fun getCount(): Int  = 2
