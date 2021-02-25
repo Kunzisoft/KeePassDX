@@ -24,13 +24,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.commit
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
@@ -39,6 +42,7 @@ class IconPickerActivity : LockingActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var uploadButton: View
+    private var lockView: View? = null
 
     private val iconPickerViewModel: IconPickerViewModel by viewModels()
 
@@ -59,12 +63,20 @@ class IconPickerActivity : LockingActivity() {
             // TODO Upload icon
         }
 
+        lockView = findViewById(R.id.lock_button)
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
+
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(R.id.icon_picker_fragment, IconPickerFragment(), ICON_PICKER_FRAGMENT_TAG)
             }
         }
+
+        // Focus view to reinitialize timeout
+        findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         // TODO  keep previous standard icon id
         iconPickerViewModel.iconStandardSelected.observe(this) { iconStandard ->
@@ -83,6 +95,13 @@ class IconPickerActivity : LockingActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // Show the lock button
+        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         // Padding if lock button visible
         toolbar.updateLockPaddingLeft()
