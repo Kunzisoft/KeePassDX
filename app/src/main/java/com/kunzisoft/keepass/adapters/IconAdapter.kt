@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -20,7 +19,7 @@ class IconAdapter(context: Context) : RecyclerView.Adapter<IconAdapter.CustomIco
     private val iconList = ArrayList<IconImage>()
 
     var iconDrawableFactory: IconDrawableFactory? = null
-    var iconPickerListener: IconPickerDialogFragment.IconPickerListener? = null
+    var iconPickerListener: IconPickerListener? = null
 
     var tintColor : Int = Color.BLACK
 
@@ -51,6 +50,10 @@ class IconAdapter(context: Context) : RecyclerView.Adapter<IconAdapter.CustomIco
 
     override fun getItemCount(): Int {
         return iconList.size
+    }
+
+    interface IconPickerListener {
+        fun iconPicked(icon: IconImage)
     }
 
     inner class CustomIconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

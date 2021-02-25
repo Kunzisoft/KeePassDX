@@ -17,11 +17,13 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.recyclerview.widget.RecyclerView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/icons_grid_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-    app:spanCount="4" />
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/fragment_icon_grid"/>
+
+    <!-- TODO Prebuild custom icons -->
+</androidx.constraintlayout.widget.ConstraintLayout>

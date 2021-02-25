@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.activities.fragments
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -18,7 +16,8 @@ abstract class IconFragment : Fragment() {
 
     private lateinit var iconsGridView: RecyclerView
     private lateinit var iconAdapter: IconAdapter
-    var iconListener: IconPickerDialogFragment.IconPickerListener? = null
+
+    var iconListener: IconAdapter.IconPickerListener? = null
 
     abstract fun retrieveMainLayoutId(): Int
 
@@ -34,11 +33,6 @@ abstract class IconFragment : Fragment() {
             setList(defineIconList(database))
         }
         iconAdapter.iconPickerListener = iconListener
-    }
-
-    override fun onDetach() {
-        iconAdapter.iconPickerListener = null
-        super.onDetach()
     }
 
     override fun onCreateView(inflater: LayoutInflater,

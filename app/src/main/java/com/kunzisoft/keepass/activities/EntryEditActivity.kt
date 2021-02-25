@@ -78,7 +78,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class EntryEditActivity : LockingActivity(),
-        IconPickerDialogFragment.IconPickerListener,
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
@@ -224,7 +223,7 @@ class EntryEditActivity : LockingActivity(),
             }
             // Add listener to the icon
             setOnIconViewClickListener = View.OnClickListener {
-                IconPickerDialogFragment.launch(this@EntryEditActivity)
+                IconPickerActivity.launch(this@EntryEditActivity)
             }
             setOnRemoveAttachment = { attachment ->
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
@@ -501,6 +500,10 @@ class EntryEditActivity : LockingActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
+            entryEditFragment?.icon = icon
+        }
+
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { attachmentToUploadUri ->
                 // TODO Async to get the name
@@ -713,10 +716,6 @@ class EntryEditActivity : LockingActivity(),
         entryEditFragment?.apply {
             putExtraField(otpField)
         }
-    }
-
-    override fun iconPicked(icon: IconImage) {
-        entryEditFragment?.icon = icon
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {

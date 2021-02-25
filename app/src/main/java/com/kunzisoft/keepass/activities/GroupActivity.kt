@@ -54,7 +54,6 @@ import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -82,7 +81,6 @@ import org.joda.time.DateTime
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
-        IconPickerDialogFragment.IconPickerListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         ListNodesFragment.NodeClickListener,
@@ -1121,13 +1119,6 @@ class GroupActivity : LockingActivity(),
         // Do nothing here
     }
 
-    // For icon in create tree dialog
-    override fun iconPicked(icon: IconImage) {
-        (supportFragmentManager
-                .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
-                .iconPicked(icon)
-    }
-
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters) {
         mListNodesFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
@@ -1165,6 +1156,13 @@ class GroupActivity : LockingActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        // To create tree dialog for icon
+        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
+            (supportFragmentManager
+                    .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
+                    .setIcon(icon)
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)

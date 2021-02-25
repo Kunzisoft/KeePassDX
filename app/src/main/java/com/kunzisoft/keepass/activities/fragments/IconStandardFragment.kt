@@ -11,7 +11,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 class IconStandardFragment : IconFragment() {
 
     override fun retrieveMainLayoutId(): Int {
-        return R.layout.fragment_icon_standard_picker
+        return R.layout.fragment_icon_grid
     }
 
     override fun defineIconList(database: Database): List<IconImage> {
