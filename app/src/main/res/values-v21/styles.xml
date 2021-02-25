@@ -57,6 +57,10 @@
         <item name="android:gravity">center</item>
         <item name="android:elevation">4dp</item>
     </style>
+    <style name="KeepassDXStyle.v21.ImageButton" parent="Widget.AppCompat.ImageButton" >
+        <item name="android:gravity">center</item>
+        <item name="android:elevation">4dp</item>
+    </style>
 
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat.DayNight">
