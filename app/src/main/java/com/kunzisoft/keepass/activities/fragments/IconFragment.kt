@@ -6,18 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 abstract class IconFragment : Fragment() {
 
     private lateinit var iconsGridView: RecyclerView
-    private lateinit var iconAdapter: IconAdapter
+    protected lateinit var iconAdapter: IconAdapter
 
-    var iconListener: IconAdapter.IconPickerListener? = null
+    protected val iconPickerViewModel: IconPickerViewModel by activityViewModels()
 
     abstract fun retrieveMainLayoutId(): Int
 
@@ -32,7 +34,6 @@ abstract class IconFragment : Fragment() {
             iconDrawableFactory = database.iconDrawableFactory
             setList(defineIconList(database))
         }
-        iconAdapter.iconPickerListener = iconListener
     }
 
     override fun onCreateView(inflater: LayoutInflater,

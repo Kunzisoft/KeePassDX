@@ -24,27 +24,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.commit
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
+import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 
-class IconPickerActivity : LockingActivity(),  IconAdapter.IconPickerListener {
+class IconPickerActivity : LockingActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var uploadButton: View
 
-    override fun iconPicked(icon: IconImage) {
-        setResult(Activity.RESULT_OK, Intent().apply {
-            putExtra(EXTRA_ICON, icon)
-        })
-        finish()
-    }
+    private val iconPickerViewModel: IconPickerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +64,20 @@ class IconPickerActivity : LockingActivity(),  IconAdapter.IconPickerListener {
                 setReorderingAllowed(true)
                 add(R.id.icon_picker_fragment, IconPickerFragment(), ICON_PICKER_FRAGMENT_TAG)
             }
+        }
+
+        // TODO  keep previous standard icon id
+        iconPickerViewModel.iconStandardSelected.observe(this) { iconStandard ->
+            setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra(EXTRA_ICON, IconImage(iconStandard))
+            })
+            finish()
+        }
+        iconPickerViewModel.iconCustomSelected.observe(this) { iconCustom ->
+            setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra(EXTRA_ICON, IconImage(iconCustom))
+            })
+            finish()
         }
     }
 

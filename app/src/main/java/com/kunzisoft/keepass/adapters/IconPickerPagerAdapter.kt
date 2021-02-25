@@ -11,12 +11,6 @@ class IconPickerPagerAdapter(fragment: Fragment)
     private val iconStandardFragment = IconStandardFragment()
     private val iconCustomFragment = IconCustomFragment()
 
-    fun setListeners(iconStandardSelected: IconAdapter.IconPickerListener?,
-                     iconCustomSelected: IconAdapter.IconPickerListener?) {
-        iconStandardFragment.iconListener = iconStandardSelected
-        iconCustomFragment.iconListener = iconCustomSelected
-    }
-
     override fun getItemCount(): Int {
         return 2
     }
