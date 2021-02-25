@@ -331,6 +331,9 @@
     <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button">
         <item name="android:gravity">center</item>
     </style>
+    <style name="KeepassDXStyle.v21.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:gravity">center</item>
+    </style>
     <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">@color/text_color_button</item>
         <item name="android:background">@drawable/background_button</item>
@@ -341,12 +344,12 @@
         <item name="android:background">@drawable/background_button</item>
         <item name="backgroundTint">@color/background_button_color_primary</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.Button">
+    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:colorForeground">?attr/textColorInverse</item>
         <item name="android:background">@drawable/background_image_button</item>
         <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.Button">
+    <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:colorForeground">@color/background_button_color_accent</item>
         <item name="tint">@color/background_button_color_accent</item>
         <item name="android:background">@null</item>
