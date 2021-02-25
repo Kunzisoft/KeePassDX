@@ -19,22 +19,31 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
+import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
+import java.util.ArrayList
 import java.util.UUID
 
 class IconPool {
 
-    private val standardCache = HashMap<Int, IconImageStandard?>()
+    private val standardCache = List(NB_ICONS) {
+        IconImageStandard(it)
+    }
     private val customCache = HashMap<UUID, IconImageCustom?>()
 
     fun getIcon(iconId: Int): IconImageStandard {
-        var icon: IconImageStandard? = standardCache[iconId]
+        return standardCache[iconId]
+    }
 
-        if (icon == null) {
-            icon = IconImageStandard(iconId)
-            standardCache[iconId] = icon
-        }
+    fun getStandardIconList(): List<IconImage> {
+        return standardCache.mapIndexed { _, iconImageStandard -> IconImage(iconImageStandard) }
+    }
 
-        return icon
+    /*
+     *  Custom
+     */
+
+    fun putIcon(icon: IconImageCustom) {
+        customCache[icon.uuid] = icon
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
@@ -48,25 +57,22 @@ class IconPool {
         return icon
     }
 
-    fun putIcon(icon: IconImageCustom) {
-        customCache[icon.uuid] = icon
-    }
-
     fun containsCustomIcons(): Boolean {
         return customCache.isNotEmpty()
     }
 
-    fun doForEachCustomIcon(action: (customIcon: IconImageCustom) -> Unit) {
+    fun getCustomIconList(): List<IconImage> {
+        val list = ArrayList<IconImage>(customCache.size)
         for ((_, customIcon) in customCache) {
-            action.invoke(customIcon!!)
+            list.add(IconImage(customIcon!!))
         }
+        return list
     }
 
     /**
      * Clear the cache of icons
      */
     fun clearCache() {
-        standardCache.clear()
         customCache.clear()
     }
 }

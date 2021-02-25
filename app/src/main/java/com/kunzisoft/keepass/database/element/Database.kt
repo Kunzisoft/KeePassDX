@@ -67,7 +67,7 @@ class Database {
 
     var isReadOnly = false
 
-    val drawFactory = IconDrawableFactory()
+    val iconDrawableFactory = IconDrawableFactory()
 
     var loaded = false
         set(value) {
@@ -625,7 +625,7 @@ class Database {
 
     fun clear(filesDirectory: File? = null) {
         iconPool.clearCache()
-        drawFactory.clearCache()
+        iconDrawableFactory.clearCache()
         // Delete the cache of the database if present
         mDatabaseKDB?.clearCache()
         mDatabaseKDBX?.clearCache()

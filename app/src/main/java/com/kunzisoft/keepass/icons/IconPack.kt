@@ -134,7 +134,6 @@ class IconPack(packageName: String, resources: Resources, resourceId: Int) {
     }
 
     companion object {
-
-        private const val NB_ICONS = 68
+        const val NB_ICONS = 68
     }
 }

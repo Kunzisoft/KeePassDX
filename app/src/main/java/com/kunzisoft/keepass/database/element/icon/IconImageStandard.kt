@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 
 class IconImageStandard : Parcelable {
 
@@ -31,7 +32,7 @@ class IconImageStandard : Parcelable {
     }
 
     constructor(iconId: Int) {
-        if (iconId < MIN_ID || iconId > MAX_ID)
+        if (iconId < 0 || iconId > NB_ICONS)
             this.id = KEY_ID
         else
             this.id = iconId
@@ -72,8 +73,6 @@ class IconImageStandard : Parcelable {
         const val KEY_ID = 0
         const val TRASH_ID = 43
         const val FOLDER_ID = 48
-        const val MIN_ID = 0
-        const val MAX_ID = 48
 
         @JvmField
         val CREATOR: Parcelable.Creator<IconImageStandard> = object : Parcelable.Creator<IconImageStandard> {

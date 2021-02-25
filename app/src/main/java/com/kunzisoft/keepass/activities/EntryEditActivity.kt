@@ -208,7 +208,7 @@ class EntryEditActivity : LockingActivity(),
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
         entryEditFragment?.apply {
-            drawFactory = mDatabase?.drawFactory
+            drawFactory = mDatabase?.iconDrawableFactory
             setOnDateClickListener = {
                 expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)

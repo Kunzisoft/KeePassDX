@@ -535,8 +535,8 @@ class GroupActivity : LockingActivity(),
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
             mCurrentGroup?.let {
-                if (mDatabase?.drawFactory != null)
-                    iconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, it.icon, mIconColor)
+                if (mDatabase?.iconDrawableFactory != null)
+                    iconView?.assignDatabaseIcon(mDatabase?.iconDrawableFactory!!, it.icon, mIconColor)
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)

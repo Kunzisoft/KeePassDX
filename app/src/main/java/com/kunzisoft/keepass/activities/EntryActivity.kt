@@ -242,7 +242,7 @@ class EntryActivity : LockingActivity() {
         val entryInfo = entry.getEntryInfo(mDatabase)
 
         // Assign title icon
-        titleIconView?.assignDatabaseIcon(mDatabase!!.drawFactory, entryInfo.icon, iconColor)
+        titleIconView?.assignDatabaseIcon(mDatabase!!.iconDrawableFactory, entryInfo.icon, iconColor)
 
         // Assign title text
         val entryTitle = entryInfo.title

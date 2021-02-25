@@ -93,7 +93,7 @@ object IconPackChooser {
     fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
-                Database.getInstance().drawFactory.clearCache()
+                Database.getInstance().iconDrawableFactory.clearCache()
                 iconPackSelected = iconPack
                 break
             }

@@ -701,11 +701,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
 
-        mDatabaseKDBX.iconPool.doForEachCustomIcon { customIcon ->
+        mDatabaseKDBX.iconPool.getCustomIconList().forEach { icon ->
             xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
 
-            writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, customIcon.uuid)
-            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(customIcon.imageData, BASE_64_FLAG)))
+            writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, icon.custom.uuid)
+            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(icon.custom.imageData, BASE_64_FLAG)))
 
             xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
         }

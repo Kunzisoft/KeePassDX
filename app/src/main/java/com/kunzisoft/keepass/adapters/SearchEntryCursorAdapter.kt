@@ -82,7 +82,7 @@ class SearchEntryCursorAdapter(private val context: Context,
 
             // Assign image
             viewHolder.imageViewIcon?.assignDatabaseIcon(
-                    database.drawFactory,
+                    database.iconDrawableFactory,
                     currentEntry.icon,
                     iconColor)
 

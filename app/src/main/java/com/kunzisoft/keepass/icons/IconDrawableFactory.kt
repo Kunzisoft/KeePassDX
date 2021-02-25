@@ -111,19 +111,14 @@ class IconDrawableFactory {
     fun getIconSuperDrawable(context: Context, icon: IconImage, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
         return if (!icon.custom.isUnknown) {
             SuperDrawable(getIconDrawable(context.resources, icon.custom))
-        } else IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.standard.id)?.let { resId ->
-            getIconSuperDrawable(context, resId, width, tint, tintColor)
-        } ?: run {
-            SuperDrawable(PatternIcon(context.resources).blankDrawable)
+        } else {
+            val iconPack = IconPackChooser.getSelectedIconPack(context)
+            iconPack?.iconToResId(icon.standard.id)?.let { iconId ->
+                SuperDrawable(getIconDrawable(context.resources, iconId, width, tint, tintColor), iconPack.tintable())
+            } ?: run {
+                SuperDrawable(PatternIcon(context.resources).blankDrawable)
+            }
         }
-    }
-
-    /**
-     * Get the [SuperDrawable] IconImageStandard from [iconId] (cache, or build it and add it to the cache if not exists yet)
-     * , then [tint] it with [tintColor] if needed
-     */
-    fun getIconSuperDrawable(context: Context, iconId: Int, width: Int, tint: Boolean, tintColor: Int): SuperDrawable {
-        return SuperDrawable(getIconDrawable(context.resources, iconId, width, tint, tintColor), true)
     }
 
     /**
@@ -256,28 +251,6 @@ class IconDrawableFactory {
         private val TAG = IconDrawableFactory::class.java.name
     }
 
-}
-
-/**
- * Assign a default database icon to an ImageView and tint it with [tintColor] if needed
- */
-fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory,
-                                        tintColor: Int = Color.WHITE) {
-    try {
-        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-            iconFactory.assignDrawableToImageView(
-                    iconFactory.getIconSuperDrawable(context,
-                                    selectedIconPack.defaultIconId,
-                                    width,
-                                    selectedIconPack.tintable(),
-                                    tintColor),
-                        this,
-                        selectedIconPack.tintable(),
-                        tintColor)
-        }
-    } catch (e: Exception) {
-        Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
-    }
 }
 
 /**

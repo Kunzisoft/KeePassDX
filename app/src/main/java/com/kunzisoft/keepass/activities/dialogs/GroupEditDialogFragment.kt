@@ -205,8 +205,8 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     private fun assignIconView() {
-        if (mDatabase?.drawFactory != null) {
-            iconButtonView.assignDatabaseIcon(mDatabase?.drawFactory!!, mGroupInfo.icon, iconColor)
+        if (mDatabase?.iconDrawableFactory != null) {
+            iconButtonView.assignDatabaseIcon(mDatabase?.iconDrawableFactory!!, mGroupInfo.icon, iconColor)
         }
     }
 
