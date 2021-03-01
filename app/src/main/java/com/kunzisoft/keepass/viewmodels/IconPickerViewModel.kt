@@ -15,11 +15,19 @@ class IconPickerViewModel: ViewModel() {
         MutableLiveData<IconImageCustom>()
     }
 
+    val iconCustomAdded: MutableLiveData<IconImageCustom> by lazy {
+        MutableLiveData<IconImageCustom>()
+    }
+
     fun selectIconStandard(icon: IconImageStandard) {
         iconStandardSelected.value = icon
     }
 
     fun selectIconCustom(icon: IconImageCustom) {
         iconCustomSelected.value = icon
+    }
+
+    fun addCustomIcon(icon: IconImageCustom) {
+        iconCustomAdded.value = icon
     }
 }

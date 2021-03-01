@@ -484,7 +484,7 @@ class EntryEditActivity : LockingActivity(),
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         val compression = mDatabase?.compressionForNewEntry() ?: false
-        mDatabase?.buildNewAttachment(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
+        mDatabase?.buildNewBinaryAttachment(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditFragment?.containsAttachment() == true) ||
@@ -506,7 +506,6 @@ class EntryEditActivity : LockingActivity(),
 
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { attachmentToUploadUri ->
-                // TODO Async to get the name
                 UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
                     documentFile.name?.let { fileName ->
                         if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
@@ -572,7 +571,7 @@ class EntryEditActivity : LockingActivity(),
                 // Delete temp attachment if not used
                 mTempAttachments.forEach { tempAttachmentState ->
                     val tempAttachment = tempAttachmentState.attachment
-                    mDatabase?.binaryPool?.let { binaryPool ->
+                    mDatabase?.attachmentPool?.let { binaryPool ->
                         if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
                             mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
                         }

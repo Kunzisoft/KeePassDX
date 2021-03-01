@@ -36,7 +36,7 @@ import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 import javax.crypto.spec.IvParameterSpec
 
-class BinaryAttachment : Parcelable {
+class BinaryFile : Parcelable {
 
     private var dataFile: File? = null
     var length: Long = 0
@@ -74,12 +74,12 @@ class BinaryAttachment : Parcelable {
 
     @Throws(IOException::class)
     fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return buildInputStream(dataFile!!, cipherKey)
+        return buildInputStream(dataFile, cipherKey)
     }
 
     @Throws(IOException::class)
     fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return buildOutputStream(dataFile!!, cipherKey)
+        return buildOutputStream(dataFile, cipherKey)
     }
 
     @Throws(IOException::class)
@@ -201,7 +201,7 @@ class BinaryAttachment : Parcelable {
             return true
         if (other == null || javaClass != other.javaClass)
             return false
-        if (other !is BinaryAttachment)
+        if (other !is BinaryFile)
             return false
 
         var sameData = false
@@ -262,15 +262,15 @@ class BinaryAttachment : Parcelable {
 
     companion object {
 
-        private val TAG = BinaryAttachment::class.java.name
+        private val TAG = BinaryFile::class.java.name
 
         @JvmField
-        val CREATOR: Parcelable.Creator<BinaryAttachment> = object : Parcelable.Creator<BinaryAttachment> {
-            override fun createFromParcel(parcel: Parcel): BinaryAttachment {
-                return BinaryAttachment(parcel)
+        val CREATOR: Parcelable.Creator<BinaryFile> = object : Parcelable.Creator<BinaryFile> {
+            override fun createFromParcel(parcel: Parcel): BinaryFile {
+                return BinaryFile(parcel)
             }
 
-            override fun newArray(size: Int): Array<BinaryAttachment?> {
+            override fun newArray(size: Int): Array<BinaryFile?> {
                 return arrayOfNulls(size)
             }
         }

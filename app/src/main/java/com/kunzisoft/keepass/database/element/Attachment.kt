@@ -23,20 +23,20 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import kotlinx.coroutines.*
 
 data class Attachment(var name: String,
-                      var binaryAttachment: BinaryAttachment) : Parcelable {
+                      var binaryFile: BinaryFile) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readParcelable(BinaryAttachment::class.java.classLoader) ?: BinaryAttachment()
+            parcel.readParcelable(BinaryFile::class.java.classLoader) ?: BinaryFile()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeParcelable(binaryAttachment, flags)
+        parcel.writeParcelable(binaryFile, flags)
     }
 
     override fun describeContents(): Int {
@@ -44,7 +44,7 @@ data class Attachment(var name: String,
     }
 
     override fun toString(): String {
-        return "$name at $binaryAttachment"
+        return "$name at $binaryFile"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -78,7 +78,7 @@ data class Attachment(var name: String,
                         runCatching {
                             binaryCipherKey?.let { binaryKey ->
                                 var bitmap: Bitmap?
-                                attachment.binaryAttachment.getUnGzipInputDataStream(binaryKey).use { bitmapInputStream ->
+                                attachment.binaryFile.getUnGzipInputDataStream(binaryKey).use { bitmapInputStream ->
                                     bitmap = BitmapFactory.decodeStream(bitmapInputStream)
                                 }
                                 bitmap

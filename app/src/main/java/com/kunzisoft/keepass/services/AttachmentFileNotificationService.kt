@@ -30,7 +30,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
@@ -86,7 +86,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState)
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         return mActionTaskBinder
     }
 
@@ -349,7 +349,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                     StreamDirection.UPLOAD -> {
                                         uploadToDatabase(
                                                 attachmentNotification.uri,
-                                                attachment.binaryAttachment,
+                                                attachment.binaryFile,
                                                 contentResolver, 1024,
                                                 { // Cancellation
                                                     downloadState == AttachmentState.CANCELED
@@ -361,7 +361,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                     StreamDirection.DOWNLOAD -> {
                                         downloadFromDatabase(
                                                 attachmentNotification.uri,
-                                                attachment.binaryAttachment,
+                                                attachment.binaryFile,
                                                 contentResolver, 1024) { percent ->
                                             publishProgress(percent)
                                         }
@@ -397,15 +397,15 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
 
         fun downloadFromDatabase(attachmentToUploadUri: Uri,
-                                 binaryAttachment: BinaryAttachment,
+                                 binaryFile: BinaryFile,
                                  contentResolver: ContentResolver,
                                  bufferSize: Int = DEFAULT_BUFFER_SIZE,
                                  update: ((percent: Int)->Unit)? = null) {
             var dataDownloaded = 0L
-            val fileSize = binaryAttachment.length
+            val fileSize = binaryFile.length
             UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
                 Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
-                    binaryAttachment.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
+                    binaryFile.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
                         inputStream.readAllBytes(bufferSize) { buffer ->
                             outputStream.write(buffer)
                             dataDownloaded += buffer.size
@@ -422,7 +422,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
 
         fun uploadToDatabase(attachmentFromDownloadUri: Uri,
-                             binaryAttachment: BinaryAttachment,
+                             binaryFile: BinaryFile,
                              contentResolver: ContentResolver,
                              bufferSize: Int = DEFAULT_BUFFER_SIZE,
                              canceled: ()-> Boolean = { false },
@@ -431,7 +431,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
             UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.use { inputStream ->
                 Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
-                    binaryAttachment.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
+                    binaryFile.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
                         inputStream.readAllBytes(bufferSize, canceled) { buffer ->
                             outputStream.write(buffer)
                             dataUploaded += buffer.size

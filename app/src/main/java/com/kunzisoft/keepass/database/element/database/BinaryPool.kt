@@ -19,39 +19,58 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import java.io.File
 import java.io.IOException
 
-class BinaryPool {
-    private val pool = LinkedHashMap<Int, BinaryAttachment>()
+abstract class BinaryPool<T> {
+
+    protected val pool = LinkedHashMap<T, BinaryFile>()
+
+    private var binaryFileIncrement = 0L // Unique file id (don't use current time because CPU too fast)
 
     /**
      * To get a binary by the pool key (ref attribute in entry)
      */
-    operator fun get(key: Int): BinaryAttachment? {
+    operator fun get(key: T): BinaryFile? {
         return pool[key]
+    }
+
+    /**
+     * Create and return a new binary file not yet linked to a binary
+     */
+    fun put(cacheDirectory: File,
+            key: T? = null,
+            compression: Boolean = false,
+            protection: Boolean = false): KeyBinary<T> {
+        val fileInCache = File(cacheDirectory, binaryFileIncrement.toString())
+        binaryFileIncrement++
+        val newBinaryFile = BinaryFile(fileInCache, compression, protection)
+        val newKey = put(key, newBinaryFile)
+        return KeyBinary(newBinaryFile, newKey)
     }
 
     /**
      * To linked a binary with a pool key, if the pool key doesn't exists, create an unused one
      */
-    fun put(key: Int?, value: BinaryAttachment) {
+    fun put(key: T?, value: BinaryFile): T {
         if (key == null)
-            put(value)
+            return put(value)
         else
             pool[key] = value
+        return key
     }
 
     /**
-     * To put a [binaryAttachment] in the pool,
+     * To put a [binaryFile] in the pool,
      * if already exists, replace the current one,
      * else add it with a new key
      */
-    fun put(binaryAttachment: BinaryAttachment): Int {
-        var key = findKey(binaryAttachment)
+    fun put(binaryFile: BinaryFile): T {
+        var key: T? = findKey(binaryFile)
         if (key == null) {
             key = findUnusedKey()
         }
-        pool[key] = binaryAttachment
+        pool[key!!] = binaryFile
         return key
     }
 
@@ -59,8 +78,8 @@ class BinaryPool {
      * Remove a binary from the pool, the file is not deleted
      */
     @Throws(IOException::class)
-    fun remove(binaryAttachment: BinaryAttachment) {
-        findKey(binaryAttachment)?.let {
+    fun remove(binaryFile: BinaryFile) {
+        findKey(binaryFile)?.let {
             pool.remove(it)
         }
         // Don't clear attachment here because a file can be used in many BinaryAttachment
@@ -69,23 +88,18 @@ class BinaryPool {
     /**
      * Utility method to find an unused key in the pool
      */
-    private fun findUnusedKey(): Int {
-        var unusedKey = 0
-        while (pool[unusedKey] != null)
-            unusedKey++
-        return unusedKey
-    }
+    abstract fun findUnusedKey(): T
 
     /**
-     * Return key of [binaryAttachmentToRetrieve] or null if not found
+     * Return key of [binaryFileToRetrieve] or null if not found
      */
-    private fun findKey(binaryAttachmentToRetrieve: BinaryAttachment): Int? {
-        val contains = pool.containsValue(binaryAttachmentToRetrieve)
+    private fun findKey(binaryFileToRetrieve: BinaryFile): T? {
+        val contains = pool.containsValue(binaryFileToRetrieve)
         return if (!contains)
             null
         else {
             for ((key, binary) in pool) {
-                if (binary == binaryAttachmentToRetrieve) {
+                if (binary == binaryFileToRetrieve) {
                     return key
                 }
             }
@@ -94,53 +108,22 @@ class BinaryPool {
     }
 
     /**
-     * Utility method to order binaries and solve index problem in database v4
-     */
-    private fun orderedBinaries(): List<KeyBinary> {
-        val keyBinaryList = ArrayList<KeyBinary>()
-        for ((key, binary) in pool) {
-            // Don't deduplicate
-            val existentBinary = keyBinaryList.find { it.binary.md5() == binary.md5() }
-            if (existentBinary == null) {
-                keyBinaryList.add(KeyBinary(binary, key))
-            } else {
-                existentBinary.addKey(key)
-            }
-        }
-        return keyBinaryList
-    }
-
-    /**
-     * To register a binary with a ref corresponding to an ordered index
-     */
-    fun getBinaryIndexFromKey(key: Int): Int? {
-        val index = orderedBinaries().indexOfFirst { it.keys.contains(key) }
-        return if (index < 0)
-            null
-        else
-            index
-    }
-
-    /**
-     * Different from doForEach, provide an ordered index to each binary
-     */
-    fun doForEachOrderedBinary(action: (index: Int, binary: BinaryAttachment) -> Unit) {
-        orderedBinaries().forEachIndexed { index, keyBinary ->
-            action.invoke(index, keyBinary.binary)
-        }
-    }
-
-    /**
      * To do an action on each binary in the pool
      */
-    fun doForEachBinary(action: (binary: BinaryAttachment) -> Unit) {
-        pool.values.forEach { action.invoke(it) }
+    fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit) {
+        for ((key, value) in pool) {
+            action.invoke(key, value)
+        }
+    }
+
+    fun isEmpty(): Boolean {
+        return pool.isEmpty()
     }
 
     @Throws(IOException::class)
     fun clear() {
-        doForEachBinary {
-            it.clear()
+        doForEachBinary { _, binary ->
+            binary.clear()
         }
         pool.clear()
     }
@@ -159,13 +142,13 @@ class BinaryPool {
     /**
      * Utility class to order binaries
      */
-    private class KeyBinary(val binary: BinaryAttachment, key: Int) {
-        val keys = HashSet<Int>()
+    class KeyBinary<T>(val binary: BinaryFile, key: T) {
+        val keys = HashSet<T>()
         init {
             addKey(key)
         }
 
-        fun addKey(key: Int) {
+        fun addKey(key: T) {
             keys.add(key)
         }
     }

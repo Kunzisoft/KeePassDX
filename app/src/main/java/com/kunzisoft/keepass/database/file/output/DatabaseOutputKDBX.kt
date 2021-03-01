@@ -701,11 +701,17 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
 
-        mDatabaseKDBX.iconPool.getCustomIconList().forEach { icon ->
+        mDatabaseKDBX.iconsManager.getCustomIconList().forEach { icon ->
             xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
 
             writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, icon.custom.uuid)
-            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(icon.custom.imageData, BASE_64_FLAG)))
+            var customImageData = ByteArray(0)
+            mDatabaseKDBX.loadedCipherKey?.let { cipherKey ->
+                icon.custom.binaryFile.getInputDataStream(cipherKey).use { inputStream ->
+                    customImageData = inputStream.readBytes()
+                }
+            }
+            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(customImageData, BASE_64_FLAG)))
 
             xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
         }

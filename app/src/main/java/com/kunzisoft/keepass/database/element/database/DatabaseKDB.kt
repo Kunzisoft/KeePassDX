@@ -69,7 +69,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
                 getGroupById(backupGroupId)
         }
 
-    override val kdfEngine: KdfEngine?
+    override val kdfEngine: KdfEngine
         get() = kdfListV3[0]
 
     override val kdfAvailableList: List<KdfEngine>
@@ -177,7 +177,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     override fun getStandardIcon(iconId: Int): IconImageStandard {
-        return this.iconPool.getIcon(iconId)
+        return this.iconsManager.getIcon(iconId)
     }
 
     override fun containsCustomData(): Boolean {
@@ -274,11 +274,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         addEntryTo(entry, origParent)
     }
 
-    fun buildNewAttachment(cacheDirectory: File): BinaryAttachment {
+    fun buildNewAttachment(cacheDirectory: File): BinaryFile {
         // Generate an unique new file
         val fileInCache = File(cacheDirectory, binaryIncrement.toString())
         binaryIncrement++
-        return BinaryAttachment(fileInCache)
+        return BinaryFile(fileInCache)
     }
 
     companion object {

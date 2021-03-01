@@ -108,8 +108,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     val deletedObjects = ArrayList<DeletedObject>()
     val customData = HashMap<String, String>()
 
-    var binaryPool = BinaryPool()
-    private var binaryIncrement = 0 // Unique id (don't use current time because CPU too fast)
+    var binaryPool = AttachmentPool()
 
     var localizedAppName = "KeePassDX"
 
@@ -211,7 +210,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun compressAllBinaries() {
-        binaryPool.doForEachBinary { binary ->
+        binaryPool.doForEachBinary { _, binary ->
             try {
                 val cipherKey = loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to compress binaries")
@@ -224,7 +223,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun decompressAllBinaries() {
-        binaryPool.doForEachBinary { binary ->
+        binaryPool.doForEachBinary { _, binary ->
             try {
                 val cipherKey = loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to decompress binaries")
@@ -308,19 +307,19 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     override fun getStandardIcon(iconId: Int): IconImageStandard {
-        return this.iconPool.getIcon(iconId)
+        return this.iconsManager.getIcon(iconId)
     }
 
     fun getCustomIcon(iconUuid: UUID): IconImageCustom {
-        return this.iconPool.getIcon(iconUuid)
+        return this.iconsManager.getIcon(iconUuid)
     }
 
     fun putCustomIcon(customIcon: IconImageCustom) {
-        this.iconPool.putIcon(customIcon)
+        this.iconsManager.putIcon(customIcon)
     }
 
     fun containsCustomIcons(): Boolean {
-        return this.iconPool.containsCustomIcons()
+        return this.iconsManager.containsCustomIcons()
     }
 
     fun putCustomData(label: String, value: String) {
@@ -636,18 +635,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     fun buildNewAttachment(cacheDirectory: File,
                            compression: Boolean,
                            protection: Boolean,
-                           binaryPoolId: Int? = null): BinaryAttachment {
-        // New file with current time
-        val fileInCache = File(cacheDirectory, binaryIncrement.toString())
-        binaryIncrement++
-        val binaryAttachment = BinaryAttachment(fileInCache, compression, protection)
-        // add attachment to pool
-        binaryPool.put(binaryPoolId, binaryAttachment)
-        return binaryAttachment
+                           binaryPoolId: Int? = null): BinaryFile {
+        return binaryPool.put(cacheDirectory, binaryPoolId, compression, protection).binary
     }
 
-    fun removeUnlinkedAttachment(binary: BinaryAttachment, clear: Boolean) {
-        val listBinaries = ArrayList<BinaryAttachment>()
+    fun removeUnlinkedAttachment(binary: BinaryFile, clear: Boolean) {
+        val listBinaries = ArrayList<BinaryFile>()
         listBinaries.add(binary)
         removeUnlinkedAttachments(listBinaries, clear)
     }
@@ -656,11 +649,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         removeUnlinkedAttachments(emptyList(), clear)
     }
 
-    private fun removeUnlinkedAttachments(binaries: List<BinaryAttachment>, clear: Boolean) {
+    private fun removeUnlinkedAttachments(binaries: List<BinaryFile>, clear: Boolean) {
         // Build binaries to remove with all binaries known
-        val binariesToRemove = ArrayList<BinaryAttachment>()
+        val binariesToRemove = ArrayList<BinaryFile>()
         if (binaries.isEmpty()) {
-            binaryPool.doForEachBinary { binary ->
+            binaryPool.doForEachBinary { _, binary ->
                 binariesToRemove.add(binary)
             }
         } else {
@@ -670,7 +663,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
                 node.getAttachments(binaryPool, true).forEach {
-                    binariesToRemove.remove(it.binaryAttachment)
+                    binariesToRemove.remove(it.binaryFile)
                 }
                 return binariesToRemove.isNotEmpty()
             }

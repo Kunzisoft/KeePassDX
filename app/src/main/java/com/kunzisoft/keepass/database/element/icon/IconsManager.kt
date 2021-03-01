@@ -19,16 +19,17 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
+import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
-import java.util.ArrayList
-import java.util.UUID
+import java.io.File
+import java.util.*
 
-class IconPool {
+class IconsManager {
 
     private val standardCache = List(NB_ICONS) {
         IconImageStandard(it)
     }
-    private val customCache = HashMap<UUID, IconImageCustom?>()
+    private val customCache = CustomIconPool()
 
     fun getIcon(iconId: Int): IconImageStandard {
         return standardCache[iconId]
@@ -42,31 +43,42 @@ class IconPool {
      *  Custom
      */
 
+    fun buildNewCustomIcon(cacheDirectory: File, key: UUID? = null): IconImageCustom {
+        val keyBinary = customCache.put(cacheDirectory, key)
+        return IconImageCustom(keyBinary.keys.first(), keyBinary.binary)
+    }
+
     fun putIcon(icon: IconImageCustom) {
-        customCache[icon.uuid] = icon
+        customCache.put(icon.uuid, icon.binaryFile)
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
-        var icon: IconImageCustom? = customCache[iconUuid]
-
-        if (icon == null) {
-            icon = IconImageCustom(iconUuid)
-            customCache[iconUuid] = icon
+        customCache[iconUuid]?.let {
+            return IconImageCustom(iconUuid, it)
         }
-
-        return icon
+        return IconImageCustom(iconUuid)
     }
 
     fun containsCustomIcons(): Boolean {
-        return customCache.isNotEmpty()
+        return !customCache.isEmpty()
     }
 
     fun getCustomIconList(): List<IconImage> {
-        val list = ArrayList<IconImage>(customCache.size)
-        for ((_, customIcon) in customCache) {
-            list.add(IconImage(customIcon!!))
+        val list = ArrayList<IconImage>()
+        customCache.doForEachBinary { key, binary ->
+            list.add(IconImage(IconImageCustom(key, binary)))
         }
         return list
+    }
+
+    class CustomIconPool : BinaryPool<UUID>() {
+        override fun findUnusedKey(): UUID {
+            var newUUID = UUID.randomUUID()
+            while (pool.containsKey(newUUID)) {
+                newUUID = UUID.randomUUID()
+            }
+            return newUUID
+        }
     }
 
     /**

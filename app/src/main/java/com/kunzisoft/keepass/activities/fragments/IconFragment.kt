@@ -19,6 +19,8 @@ abstract class IconFragment : Fragment() {
     private lateinit var iconsGridView: RecyclerView
     protected lateinit var iconAdapter: IconAdapter
 
+    protected val database = Database.getInstance()
+
     protected val iconPickerViewModel: IconPickerViewModel by activityViewModels()
 
     abstract fun retrieveMainLayoutId(): Int
@@ -27,8 +29,6 @@ abstract class IconFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        val database = Database.getInstance()
 
         iconAdapter = IconAdapter(requireActivity()).apply {
             iconDrawableFactory = database.iconDrawableFactory

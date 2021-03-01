@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.icon.IconPool
+import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
@@ -54,7 +54,7 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
 
-    val iconPool = IconPool()
+    val iconsManager = IconsManager()
 
     var changeDuplicateId = false
 
@@ -329,13 +329,8 @@ abstract class DatabaseVersioned<
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
 
-    fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom {
-        // New file with current time
-        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
-        val newCustomIcon = IconImageCustom(UUID.randomUUID())
-        // add icon to pool
-        iconPool.putIcon(newCustomIcon)
-        return newCustomIcon
+    fun buildNewCustomIcon(cacheDirectory: File, customIconId: UUID? = null): IconImageCustom {
+        return iconsManager.buildNewCustomIcon(cacheDirectory, customIconId)
     }
 
     abstract fun containsCustomData(): Boolean

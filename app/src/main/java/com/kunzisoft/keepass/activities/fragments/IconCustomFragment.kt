@@ -18,11 +18,16 @@ class IconCustomFragment : IconFragment() {
     }
 
     override fun defineIconList(database: Database): List<IconImage> {
-        return database.iconPool.getCustomIconList()
+        return database.iconsManager.getCustomIconList()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { _ ->
+            iconAdapter.setList(defineIconList(database))
+            iconAdapter.notifyDataSetChanged()
+        }
 
         iconAdapter.iconPickerListener = object : IconAdapter.IconPickerListener {
             override fun iconPicked(icon: IconImage) {

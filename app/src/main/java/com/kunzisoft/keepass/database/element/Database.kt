@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import com.kunzisoft.keepass.database.element.icon.IconPool
+import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -68,7 +68,7 @@ class Database {
 
     var isReadOnly = false
 
-    val iconDrawableFactory = IconDrawableFactory()
+    val iconDrawableFactory = IconDrawableFactory { loadedCipherKey }
 
     var loaded = false
         set(value) {
@@ -92,9 +92,9 @@ class Database {
             return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
         }
 
-    val iconPool: IconPool
+    val iconsManager: IconsManager
         get() {
-            return mDatabaseKDB?.iconPool ?: mDatabaseKDBX?.iconPool ?: IconPool()
+            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
         }
 
     fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom? {
@@ -537,9 +537,9 @@ class Database {
         }, omitBackup, max)
     }
 
-    val binaryPool: BinaryPool
+    val attachmentPool: AttachmentPool
         get() {
-            return mDatabaseKDBX?.binaryPool ?: BinaryPool()
+            return mDatabaseKDBX?.binaryPool ?: AttachmentPool()
         }
 
     val allowMultipleAttachments: Boolean
@@ -551,9 +551,9 @@ class Database {
             return false
         }
 
-    fun buildNewAttachment(cacheDirectory: File,
-                           compressed: Boolean = false,
-                           protected: Boolean = false): BinaryAttachment? {
+    fun buildNewBinaryAttachment(cacheDirectory: File,
+                                 compressed: Boolean = false,
+                                 protected: Boolean = false): BinaryFile? {
         return mDatabaseKDB?.buildNewAttachment(cacheDirectory)
                 ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, compressed, protected)
     }
@@ -561,7 +561,7 @@ class Database {
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // No need in KDB database because unique attachment by entry
         // Don't clear to fix upload multiple times
-        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryAttachment, false)
+        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryFile, false)
     }
 
     fun removeUnlinkedAttachments() {
@@ -630,7 +630,7 @@ class Database {
     }
 
     fun clear(filesDirectory: File? = null) {
-        iconPool.clearCache()
+        iconsManager.clearCache()
         iconDrawableFactory.clearCache()
         // Delete the cache of the database if present
         mDatabaseKDB?.clearCache()
@@ -797,7 +797,7 @@ class Database {
      * @param entryToCopy
      * @param newParent
      */
-    fun copyEntryTo(entryToCopy: Entry, newParent: Group): Entry? {
+    fun copyEntryTo(entryToCopy: Entry, newParent: Group): Entry {
         val entryCopied = Entry(entryToCopy, false)
         entryCopied.nodeId = mDatabaseKDB?.newEntryId() ?: mDatabaseKDBX?.newEntryId() ?: NodeIdUUID()
         entryCopied.parent = newParent
@@ -954,7 +954,7 @@ class Database {
         rootGroup?.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
-                        removeOldestEntryHistory(node, binaryPool)
+                        removeOldestEntryHistory(node, attachmentPool)
                         return true
                     }
                 },
@@ -969,7 +969,7 @@ class Database {
     /**
      * Remove oldest history if more than max items or max memory
      */
-    fun removeOldestEntryHistory(entry: Entry, binaryPool: BinaryPool) {
+    fun removeOldestEntryHistory(entry: Entry, attachmentPool: AttachmentPool) {
         mDatabaseKDBX?.let {
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
@@ -983,7 +983,7 @@ class Database {
                 while (true) {
                     var historySize: Long = 0
                     for (entryHistory in entry.getHistory()) {
-                        historySize += entryHistory.getSize(binaryPool)
+                        historySize += entryHistory.getSize(attachmentPool)
                     }
                     if (historySize > maxSize) {
                         removeOldestEntryHistory(entry)
@@ -997,7 +997,7 @@ class Database {
 
     private fun removeOldestEntryHistory(entry: Entry) {
         entry.removeOldestEntryFromHistory()?.let {
-            it.getAttachments(binaryPool, false).forEach { attachmentToRemove ->
+            it.getAttachments(attachmentPool, false).forEach { attachmentToRemove ->
                 removeAttachmentIfNotUsed(attachmentToRemove)
             }
         }
@@ -1005,7 +1005,7 @@ class Database {
 
     fun removeEntryHistory(entry: Entry, entryHistoryPosition: Int) {
         entry.removeEntryFromHistory(entryHistoryPosition)?.let {
-            it.getAttachments(binaryPool, false).forEach { attachmentToRemove ->
+            it.getAttachments(attachmentPool, false).forEach { attachmentToRemove ->
                 removeAttachmentIfNotUsed(attachmentToRemove)
             }
         }

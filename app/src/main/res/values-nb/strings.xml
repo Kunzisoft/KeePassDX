@@ -434,7 +434,7 @@
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
-    <string name="upload_attachment">Last opp</string>
+    <string name="upload_attachment">Last opp %1$s</string>
     <string name="education_add_attachment_title">Legg til vedlegg</string>
     <string name="autofill_save_search_info_title">Lagre søkeinfo</string>
     <string name="autofill_close_database_title">Lukk database</string>

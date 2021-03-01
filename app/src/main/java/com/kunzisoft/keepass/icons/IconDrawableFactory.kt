@@ -36,6 +36,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import org.apache.commons.collections.map.AbstractReferenceMap
@@ -44,7 +45,7 @@ import org.apache.commons.collections.map.ReferenceMap
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
-class IconDrawableFactory {
+class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedKey?) {
 
     /** customIconMap
      * Cache for icon drawable.
@@ -155,19 +156,21 @@ class IconDrawableFactory {
      */
     private fun getIconDrawable(resources: Resources, icon: IconImageCustom): Drawable {
         val patternIcon = PatternIcon(resources)
-
-        var draw: Drawable? = customIconMap[icon.uuid] as Drawable?
-        if (draw == null) {
-            var bitmap: Bitmap? = BitmapFactory.decodeByteArray(icon.imageData, 0, icon.imageData.size)
-            // Could not understand custom icon
-            bitmap?.let { bitmapIcon ->
-                bitmap = resize(bitmapIcon, patternIcon)
-                draw = BitmapDrawable(resources, bitmap)
-                customIconMap[icon.uuid] = draw
+        val cipherKey = retrieveCipherKey.invoke()
+        if (cipherKey != null) {
+            var draw: Drawable? = customIconMap[icon.uuid] as Drawable?
+            if (draw == null) {
+                var bitmap: Bitmap? = BitmapFactory.decodeStream(icon.binaryFile.getInputDataStream(cipherKey))
+                // Could not understand custom icon
+                bitmap?.let { bitmapIcon ->
+                    bitmap = resize(bitmapIcon, patternIcon)
+                    draw = BitmapDrawable(resources, bitmap)
+                    customIconMap[icon.uuid] = draw
+                    return draw!!
+                }
+            } else {
                 return draw!!
             }
-        } else {
-            return draw!!
         }
         return patternIcon.blankDrawable
     }
