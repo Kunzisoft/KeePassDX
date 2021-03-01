@@ -20,11 +20,8 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -37,10 +34,8 @@ import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
@@ -111,6 +106,9 @@ class IconPickerActivity : LockingActivity() {
             })
             finish()
         }
+        iconPickerViewModel.iconCustomAdded.observe(this) { _ ->
+            uploadButton.isEnabled = true
+        }
     }
 
     override fun onResume() {
@@ -137,44 +135,6 @@ class IconPickerActivity : LockingActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun buildNewIcon(iconToUploadUri: Uri) {
-        mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this))?.let { customIcon ->
-            uploadIconToDatabase(iconToUploadUri, customIcon.binaryFile, contentResolver,
-                    {
-
-                    }
-            )
-            iconPickerViewModel.addCustomIcon(customIcon)
-        }
-    }
-
-    // TODO Encapsulate
-    fun uploadIconToDatabase(iconToUploadUri: Uri,
-                             binaryFile: BinaryFile,
-                             contentResolver: ContentResolver,
-                             update: ((percent: Int)->Unit)? = null,
-                             canceled: ()-> Boolean = { false },
-                             bufferSize: Int = DEFAULT_BUFFER_SIZE,) {
-        var dataUploaded = 0L
-        val fileSize = contentResolver.openFileDescriptor(iconToUploadUri, "r")?.statSize ?: 0
-        UriUtil.getUriInputStream(contentResolver, iconToUploadUri)?.use { inputStream ->
-            Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
-                binaryFile.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
-                    inputStream.readAllBytes(bufferSize, canceled) { buffer ->
-                        outputStream.write(buffer)
-                        dataUploaded += buffer.size
-                        try {
-                            val percentDownload = (100 * dataUploaded / fileSize).toInt()
-                            update?.invoke(percentDownload)
-                        } catch (e: Exception) {
-                            Log.e("", "", e)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -184,7 +144,13 @@ class IconPickerActivity : LockingActivity() {
                     if (documentFile.length() > MAX_ICON_SIZE) {
                         // TODO Error Icon size too big
                     } else {
-                        buildNewIcon(iconToUploadUri)
+                        mDatabase?.let { database ->
+                            iconPickerViewModel.addCustomIcon(database,
+                                    contentResolver,
+                                    UriUtil.getBinaryDir(this),
+                                    iconToUploadUri)
+                            uploadButton.isEnabled = false
+                        }
                     }
                 }
             }
