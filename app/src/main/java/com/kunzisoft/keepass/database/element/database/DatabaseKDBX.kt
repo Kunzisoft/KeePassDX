@@ -633,10 +633,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
-    fun buildNewBinary(cacheDirectory: File,
-                       compression: Boolean,
-                       protection: Boolean,
-                       binaryPoolId: Int? = null): BinaryAttachment {
+    fun buildNewAttachment(cacheDirectory: File,
+                           compression: Boolean,
+                           protection: Boolean,
+                           binaryPoolId: Int? = null): BinaryAttachment {
         // New file with current time
         val fileInCache = File(cacheDirectory, binaryIncrement.toString())
         binaryIncrement++

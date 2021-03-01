@@ -23,6 +23,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconPool
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -30,10 +31,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import org.apache.commons.codec.binary.Hex
-import java.io.ByteArrayInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.UnsupportedEncodingException
+import java.io.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -330,6 +328,15 @@ abstract class DatabaseVersioned<
     abstract fun rootCanContainsEntry(): Boolean
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
+
+    fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom {
+        // New file with current time
+        val fileInCache = File(cacheDirectory, System.currentTimeMillis().toString())
+        val newCustomIcon = IconImageCustom(UUID.randomUUID())
+        // add icon to pool
+        iconPool.putIcon(newCustomIcon)
+        return newCustomIcon
+    }
 
     abstract fun containsCustomData(): Boolean
 

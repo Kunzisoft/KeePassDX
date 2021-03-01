@@ -26,6 +26,7 @@ import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.*
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconPool
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
@@ -95,6 +96,11 @@ class Database {
         get() {
             return mDatabaseKDB?.iconPool ?: mDatabaseKDBX?.iconPool ?: IconPool()
         }
+
+    fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom? {
+        return mDatabaseKDB?.buildNewCustomIcon(cacheDirectory)
+                ?: mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
+    }
 
     val allowName: Boolean
         get() = mDatabaseKDBX != null
@@ -545,11 +551,11 @@ class Database {
             return false
         }
 
-    fun buildNewBinary(cacheDirectory: File,
-                       compressed: Boolean = false,
-                       protected: Boolean = false): BinaryAttachment? {
-        return mDatabaseKDB?.buildNewBinary(cacheDirectory)
-                ?: mDatabaseKDBX?.buildNewBinary(cacheDirectory, compressed, protected)
+    fun buildNewAttachment(cacheDirectory: File,
+                           compressed: Boolean = false,
+                           protected: Boolean = false): BinaryAttachment? {
+        return mDatabaseKDB?.buildNewAttachment(cacheDirectory)
+                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, compressed, protected)
     }
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {

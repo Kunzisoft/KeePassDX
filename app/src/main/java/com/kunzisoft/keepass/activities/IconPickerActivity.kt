@@ -30,10 +30,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.commit
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
+import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
@@ -45,6 +48,10 @@ class IconPickerActivity : LockingActivity() {
     private var lockView: View? = null
 
     private val iconPickerViewModel: IconPickerViewModel by viewModels()
+
+    private var mDatabase: Database? = null
+
+    private var mSelectFileHelper: SelectFileHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +67,14 @@ class IconPickerActivity : LockingActivity() {
 
         uploadButton = findViewById(R.id.icon_picker_upload)
         uploadButton.setOnClickListener {
-            // TODO Upload icon
+            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
         }
+        uploadButton.setOnLongClickListener {
+            mSelectFileHelper?.selectFileOnClickViewListener?.onLongClick(it)
+            true
+        }
+
+        mDatabase = Database.getInstance()
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
@@ -77,6 +90,8 @@ class IconPickerActivity : LockingActivity() {
 
         // Focus view to reinitialize timeout
         findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+
+        mSelectFileHelper = SelectFileHelper(this)
 
         // TODO  keep previous standard icon id
         iconPickerViewModel.iconStandardSelected.observe(this) { iconStandard ->
@@ -117,12 +132,30 @@ class IconPickerActivity : LockingActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+            uri?.let { iconToUploadUri ->
+                UriUtil.getFileData(this, iconToUploadUri)?.also { documentFile ->
+                    if (documentFile.length() <= MAX_ICON_SIZE) {
+                        mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this))
+                    } else {
+                        // TODO Error Icon size too big
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
 
         private const val ICON_PICKER_FRAGMENT_TAG = "ICON_PICKER_FRAGMENT_TAG"
 
         private const val ICON_SELECTED_REQUEST = 15861
         private const val EXTRA_ICON = "EXTRA_ICON"
+
+        private const val MAX_ICON_SIZE = 5242880
 
         fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, listener: (icon: IconImage) -> Unit) {
             if (requestCode == ICON_SELECTED_REQUEST) {

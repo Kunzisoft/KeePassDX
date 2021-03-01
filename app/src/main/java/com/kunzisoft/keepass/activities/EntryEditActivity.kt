@@ -484,7 +484,7 @@ class EntryEditActivity : LockingActivity(),
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         val compression = mDatabase?.compressionForNewEntry() ?: false
-        mDatabase?.buildNewBinary(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
+        mDatabase?.buildNewAttachment(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditFragment?.containsAttachment() == true) ||

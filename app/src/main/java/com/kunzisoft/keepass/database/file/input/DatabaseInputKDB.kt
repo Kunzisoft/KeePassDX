@@ -305,7 +305,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory)
+                                val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory)
                                 entry.binaryData = binaryAttachment
                                 val cipherKey = mDatabase.loadedCipherKey
                                         ?: throw IOException("Unable to retrieve cipher key to load binaries")

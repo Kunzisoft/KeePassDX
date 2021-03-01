@@ -277,7 +277,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                 val byteLength = size - 1
                 // No compression at this level
-                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, false, protectedFlag)
+                val protectedBinary = mDatabase.buildNewAttachment(cacheDirectory, false, protectedFlag)
                 val cipherKey = mDatabase.loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to load binaries")
                 protectedBinary.getOutputDataStream(cipherKey).use { outputStream ->
@@ -977,7 +977,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 var binaryRetrieve = mDatabase.binaryPool[id]
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
-                    binaryRetrieve = mDatabase.buildNewBinary(cacheDirectory,
+                    binaryRetrieve = mDatabase.buildNewAttachment(cacheDirectory,
                             compression = false, protection = false, binaryPoolId = id)
                 }
                 return binaryRetrieve
@@ -1014,7 +1014,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, compressed, protected, binaryId)
+        val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory, compressed, protected, binaryId)
         val binaryCipherKey = mDatabase.loadedCipherKey
                 ?: throw IOException("Unable to retrieve cipher key to load binaries")
         try {
