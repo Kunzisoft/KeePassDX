@@ -24,12 +24,17 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/icon_picker_fragment"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/icon_picker_coordinator"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar" />
+        app:layout_constraintBottom_toTopOf="@+id/toolbar">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/icon_picker_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.kunzisoft.keepass.view.ToolbarAction
         android:id="@+id/toolbar"

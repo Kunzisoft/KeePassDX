@@ -27,7 +27,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
@@ -37,6 +39,8 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
@@ -44,6 +48,7 @@ import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 class IconPickerActivity : LockingActivity() {
 
     private lateinit var toolbar: Toolbar
+    private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var uploadButton: View
     private var lockView: View? = null
 
@@ -64,6 +69,8 @@ class IconPickerActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
         uploadButton = findViewById(R.id.icon_picker_upload)
         uploadButton.setOnClickListener {
@@ -142,7 +149,7 @@ class IconPickerActivity : LockingActivity() {
             uri?.let { iconToUploadUri ->
                 UriUtil.getFileData(this, iconToUploadUri)?.also { documentFile ->
                     if (documentFile.length() > MAX_ICON_SIZE) {
-                        // TODO Error Icon size too big
+                        Snackbar.make(coordinatorLayout, R.string.error_image_to_big, Snackbar.LENGTH_LONG).asError().show()
                     } else {
                         mDatabase?.let { database ->
                             iconPickerViewModel.addCustomIcon(database,

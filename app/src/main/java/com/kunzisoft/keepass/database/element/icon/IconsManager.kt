@@ -66,7 +66,9 @@ class IconsManager {
     fun getCustomIconList(): List<IconImage> {
         val list = ArrayList<IconImage>()
         customCache.doForEachBinary { key, binary ->
-            list.add(IconImage(IconImageCustom(key, binary)))
+            if (binary.length > 0) {
+                list.add(IconImage(IconImageCustom(key, binary)))
+            }
         }
         return list
     }
