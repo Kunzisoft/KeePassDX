@@ -27,6 +27,7 @@ class IconCustomFragment : IconFragment() {
         iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { _ ->
             iconAdapter.setList(defineIconList(database))
             iconAdapter.notifyDataSetChanged()
+            iconsGridView.smoothScrollToPosition(iconAdapter.itemCount -1)
         }
 
         iconAdapter.iconPickerListener = object : IconAdapter.IconPickerListener {

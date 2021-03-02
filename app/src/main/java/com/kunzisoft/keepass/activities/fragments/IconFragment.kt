@@ -16,7 +16,7 @@ import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 abstract class IconFragment : Fragment() {
 
-    private lateinit var iconsGridView: RecyclerView
+    protected lateinit var iconsGridView: RecyclerView
     protected lateinit var iconAdapter: IconAdapter
 
     protected val database = Database.getInstance()
