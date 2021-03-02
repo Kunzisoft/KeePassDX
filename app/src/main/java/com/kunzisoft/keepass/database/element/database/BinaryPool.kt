@@ -112,12 +112,56 @@ abstract class BinaryPool<T> {
     }
 
     /**
-     * To do an action on each binary in the pool
+     * To do an action on each binary in the pool (order is not important)
      */
-    fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit) {
+    fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit,
+                        condition: (key: T, binary: BinaryFile) -> Boolean) {
         for ((key, value) in pool) {
-            action.invoke(key, value)
+            if (condition.invoke(key, value)) {
+                action.invoke(key, value)
+            }
         }
+    }
+
+    fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit) {
+        doForEachBinary(action) { _, _ -> true }
+    }
+
+    /**
+     * Utility method to order binaries and solve index problem in database v4
+     */
+    protected fun orderedBinariesWithoutDuplication(condition: ((binary: BinaryFile) -> Boolean) = { true })
+    : List<KeyBinary<T>> {
+        val keyBinaryList = ArrayList<KeyBinary<T>>()
+        for ((key, binary) in pool) {
+            // Don't deduplicate
+            val existentBinary = keyBinaryList.find { it.binary.md5() == binary.md5() }
+            if (existentBinary == null) {
+                val newKeyBinary = KeyBinary(binary, key)
+                if (condition.invoke(newKeyBinary.binary)) {
+                    keyBinaryList.add(newKeyBinary)
+                }
+            } else {
+                if (condition.invoke(existentBinary.binary)) {
+                    existentBinary.addKey(key)
+                }
+            }
+        }
+        return keyBinaryList
+    }
+
+    /**
+     * Different from doForEach, provide an ordered index to each binary
+     */
+    fun doForEachOrderedBinary(action: (index: Int, binary: BinaryFile) -> Unit,
+                               conditionToAdd: (binary: BinaryFile) -> Boolean) {
+        orderedBinariesWithoutDuplication(conditionToAdd).forEachIndexed { index, keyBinary ->
+            action.invoke(index, keyBinary.binary)
+        }
+    }
+
+    fun doForEachOrderedBinary(action: (index: Int, binary: BinaryFile) -> Unit) {
+        doForEachOrderedBinary(action, { true })
     }
 
     fun isEmpty(): Boolean {

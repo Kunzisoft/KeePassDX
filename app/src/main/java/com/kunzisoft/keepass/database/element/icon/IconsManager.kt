@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
-import com.kunzisoft.keepass.database.element.database.BinaryPool
+import com.kunzisoft.keepass.database.element.database.CustomIconPool
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.io.File
 import java.util.*
@@ -67,21 +67,9 @@ class IconsManager {
     fun getCustomIconList(): List<IconImage> {
         val list = ArrayList<IconImage>()
         customCache.doForEachBinary { key, binary ->
-            if (binary.length > 0) {
-                list.add(IconImage(IconImageCustom(key, binary)))
-            }
+            list.add(IconImage(IconImageCustom(key, binary)))
         }
         return list
-    }
-
-    class CustomIconPool : BinaryPool<UUID>() {
-        override fun findUnusedKey(): UUID {
-            var newUUID = UUID.randomUUID()
-            while (pool.containsKey(newUUID)) {
-                newUUID = UUID.randomUUID()
-            }
-            return newUUID
-        }
     }
 
     /**
