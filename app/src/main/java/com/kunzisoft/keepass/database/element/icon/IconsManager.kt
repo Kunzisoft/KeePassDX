@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
+import android.util.Log
 import com.kunzisoft.keepass.database.element.database.BinaryPool
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.io.File
@@ -87,6 +88,14 @@ class IconsManager {
      * Clear the cache of icons
      */
     fun clearCache() {
-        customCache.clear()
+        try {
+            customCache.clear()
+        } catch(e: Exception) {
+            Log.e(TAG, "Unable to clear cache", e)
+        }
+    }
+
+    companion object {
+        private val TAG = IconsManager::class.java.name
     }
 }
