@@ -21,12 +21,16 @@ package com.kunzisoft.keepass.database.element.database
 
 import java.io.File
 import java.io.IOException
+import kotlin.math.abs
 
 abstract class BinaryPool<T> {
 
     protected val pool = LinkedHashMap<T, BinaryFile>()
 
-    private var binaryFileIncrement = 0L // Unique file id (don't use current time because CPU too fast)
+    // To build unique file id
+    private var creationId: String = System.currentTimeMillis().toString()
+    private var poolId: String = abs(javaClass.simpleName.hashCode()).toString()
+    private var binaryFileIncrement = 0L
 
     /**
      * To get a binary by the pool key (ref attribute in entry)
@@ -42,7 +46,7 @@ abstract class BinaryPool<T> {
             key: T? = null,
             compression: Boolean = false,
             protection: Boolean = false): KeyBinary<T> {
-        val fileInCache = File(cacheDirectory, binaryFileIncrement.toString())
+        val fileInCache = File(cacheDirectory, "$poolId$creationId$binaryFileIncrement")
         binaryFileIncrement++
         val newBinaryFile = BinaryFile(fileInCache, compression, protection)
         val newKey = put(key, newBinaryFile)
