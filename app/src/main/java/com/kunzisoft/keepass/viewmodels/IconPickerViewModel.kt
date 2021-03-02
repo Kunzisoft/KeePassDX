@@ -53,6 +53,10 @@ class IconPickerViewModel: ViewModel() {
                 withContext(Dispatchers.Main) {
                     asyncResult.await()?.let { customIcon ->
                         iconCustomAdded.value = customIcon
+                        // Remove icon if data cannot be saved
+                        if (customIcon.binaryFile.length <= 0) {
+                            database.removeCustomIcon(customIcon.uuid)
+                        }
                     }
                 }
             }

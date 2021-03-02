@@ -92,6 +92,7 @@ class Database {
             return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
         }
 
+    // TODO private
     val iconsManager: IconsManager
         get() {
             return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
@@ -100,6 +101,10 @@ class Database {
     fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom? {
         return mDatabaseKDB?.buildNewCustomIcon(cacheDirectory)
                 ?: mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
+    }
+
+    fun removeCustomIcon(iconUUID: UUID) {
+        iconsManager.removeCustomIcon(iconUUID)
     }
 
     val allowName: Boolean

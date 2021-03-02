@@ -60,8 +60,18 @@ class IconsManager {
         return IconImageCustom(iconUuid)
     }
 
-    fun containsCustomIcons(): Boolean {
+    fun containsAnyCustomIcon(): Boolean {
         return !customCache.isEmpty()
+    }
+
+    fun removeCustomIcon(iconUuid: UUID) {
+        val binary = customCache[iconUuid]
+        customCache.remove(iconUuid)
+        try {
+            binary?.clear()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to remove custom icon binary", e)
+        }
     }
 
     fun getCustomIconList(): List<IconImage> {

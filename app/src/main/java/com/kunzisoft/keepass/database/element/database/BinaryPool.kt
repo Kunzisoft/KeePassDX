@@ -79,6 +79,15 @@ abstract class BinaryPool<T> {
     }
 
     /**
+     * Remove a binary from the pool with its [key], the file is not deleted
+     */
+    @Throws(IOException::class)
+    fun remove(key: T) {
+        pool.remove(key)
+        // Don't clear attachment here because a file can be used in many BinaryAttachment
+    }
+
+    /**
      * Remove a binary from the pool, the file is not deleted
      */
     @Throws(IOException::class)
