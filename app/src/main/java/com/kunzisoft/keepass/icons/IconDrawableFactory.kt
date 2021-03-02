@@ -39,8 +39,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import org.apache.commons.collections.map.AbstractReferenceMap
-import org.apache.commons.collections.map.ReferenceMap
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
@@ -51,13 +51,13 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      * Cache for icon drawable.
      * Keys: UUID, Values: Drawables
      */
-    private val customIconMap = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
+    private val customIconMap = HashMap<UUID, Drawable>()
 
     /** standardIconMap
      * Cache for icon drawable.
      * Keys: Integer, Values: Drawables
      */
-    private val standardIconMap = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
+    private val standardIconMap = HashMap<CacheKey, Drawable>()
 
     /**
      * Utility method to assign a drawable to an ImageView and tint it
@@ -158,18 +158,18 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
         val patternIcon = PatternIcon(resources)
         val cipherKey = retrieveCipherKey.invoke()
         if (cipherKey != null) {
-            var draw: Drawable? = customIconMap[icon.uuid] as Drawable?
+            val draw: Drawable? = customIconMap[icon.uuid]
             if (draw == null) {
                 var bitmap: Bitmap? = BitmapFactory.decodeStream(icon.binaryFile.getInputDataStream(cipherKey))
                 // Could not understand custom icon
                 bitmap?.let { bitmapIcon ->
                     bitmap = resize(bitmapIcon, patternIcon)
-                    draw = BitmapDrawable(resources, bitmap)
-                    customIconMap[icon.uuid] = draw
-                    return draw!!
+                    val createdDraw = BitmapDrawable(resources, bitmap)
+                    customIconMap[icon.uuid] = createdDraw
+                    return createdDraw
                 }
             } else {
-                return draw!!
+                return draw
             }
         }
         return patternIcon.blankDrawable
@@ -182,7 +182,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     private fun getIconDrawable(resources: Resources, iconId: Int, width: Int, tint: Boolean, tintColor: Int): Drawable {
         val newCacheKey = CacheKey(iconId, width, tint, tintColor)
 
-        var draw: Drawable? = standardIconMap[newCacheKey] as Drawable?
+        var draw: Drawable? = standardIconMap[newCacheKey]
         if (draw == null) {
             try {
                 draw = ResourcesCompat.getDrawable(resources, iconId, null)

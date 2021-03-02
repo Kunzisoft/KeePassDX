@@ -136,7 +136,6 @@ dependencies {
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
     // Apache Commons
-    implementation 'commons-collections:commons-collections:3.2.2'
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
     // Icon pack
