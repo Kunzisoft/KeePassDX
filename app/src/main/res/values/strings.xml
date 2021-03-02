@@ -137,7 +137,8 @@
     <string name="error_field_name_already_exists">The field name already exists.</string>
     <string name="error_database_uri_null">Database URI cannot be retrieved.</string>
     <string name="error_rebuild_list">Unable to properly rebuild the list.</string>
-    <string name="error_image_to_big">The image you are trying to upload is too big.</string>
+    <string name="error_file_to_big">The file you are trying to upload is too big.</string>
+    <string name="error_upload_file">An error occurred while uploading the file data.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>

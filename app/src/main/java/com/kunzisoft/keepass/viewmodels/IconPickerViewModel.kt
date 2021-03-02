@@ -7,9 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.tasks.BinaryStreamManager
+import com.kunzisoft.keepass.tasks.BinaryStreamManager.resizeBitmapAndStoreDataInBinaryFile
 import kotlinx.coroutines.*
 import java.io.File
+
 
 class IconPickerViewModel: ViewModel() {
 
@@ -44,11 +45,8 @@ class IconPickerViewModel: ViewModel() {
                 // on Progress with thread
                 val asyncResult: Deferred<IconImageCustom?> = async {
                     database.buildNewCustomIcon(iconDir)?.let { customIcon ->
-                        BinaryStreamManager.uploadToDatabase(
-                                iconToUploadUri,
-                                customIcon.binaryFile,
-                                contentResolver
-                        )
+                        resizeBitmapAndStoreDataInBinaryFile(contentResolver,
+                                iconToUploadUri, customIcon.binaryFile)
                         customIcon
                     }
                 }
