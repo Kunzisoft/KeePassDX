@@ -13,6 +13,7 @@ import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
+import kotlinx.coroutines.*
 
 abstract class IconFragment : Fragment() {
 
@@ -27,13 +28,34 @@ abstract class IconFragment : Fragment() {
 
     abstract fun defineIconList(database: Database): List<IconImage>
 
+    protected fun onIconListDefined(database: Database,
+                                    result: ((List<IconImage>) -> Unit)? = null) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val asyncResult: Deferred<List<IconImage>> = async {
+                val list = defineIconList(database)
+                iconAdapter.setList(list)
+                list
+            }
+            withContext(Dispatchers.Main) {
+                val list = asyncResult.await()
+                result?.invoke(list)
+                iconAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         iconAdapter = IconAdapter(requireActivity()).apply {
             iconDrawableFactory = database.iconDrawableFactory
-            setList(defineIconList(database))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        onIconListDefined(database)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
