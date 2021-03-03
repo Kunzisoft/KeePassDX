@@ -30,10 +30,9 @@ class IconPickerFragment : Fragment() {
         iconPickerPagerAdapter = IconPickerPagerAdapter(this)
         viewPager.adapter = iconPickerPagerAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            // TODO Custom String
             tab.text = when (position) {
-                1 -> "Custom"
-                else -> "Standard"
+                1 -> getString(R.string.icon_section_custom)
+                else -> getString(R.string.icon_section_standard)
             }
         }.attach()
     }
