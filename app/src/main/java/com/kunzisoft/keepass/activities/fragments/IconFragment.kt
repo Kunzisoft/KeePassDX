@@ -28,7 +28,7 @@ abstract class IconFragment : Fragment() {
 
     abstract fun defineIconList(database: Database): List<IconImage>
 
-    protected fun onIconListDefined(database: Database,
+    private fun onIconListDefined(database: Database,
                                     result: ((List<IconImage>) -> Unit)? = null) {
         CoroutineScope(Dispatchers.IO).launch {
             val asyncResult: Deferred<List<IconImage>> = async {
@@ -50,10 +50,6 @@ abstract class IconFragment : Fragment() {
         iconAdapter = IconAdapter(requireActivity()).apply {
             iconDrawableFactory = database.iconDrawableFactory
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         onIconListDefined(database)
     }

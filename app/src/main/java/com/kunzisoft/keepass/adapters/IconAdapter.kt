@@ -30,6 +30,14 @@ class IconAdapter(context: Context) : RecyclerView.Adapter<IconAdapter.CustomIco
         ta.recycle()
     }
 
+    fun removeAll() {
+        iconList.clear()
+    }
+
+    fun addIcon(icon: IconImage) {
+        iconList.add(icon)
+    }
+
     fun setList(icon: List<IconImage>) {
         iconList.clear()
         iconList.addAll(icon)
