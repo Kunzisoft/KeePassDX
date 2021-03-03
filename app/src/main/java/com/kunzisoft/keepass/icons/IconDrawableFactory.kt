@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -51,13 +52,13 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      * Cache for icon drawable.
      * Keys: UUID, Values: Drawables
      */
-    private val customIconMap = HashMap<UUID, Drawable>()
+    private val customIconMap = HashMap<UUID, WeakReference<Drawable>>()
 
     /** standardIconMap
      * Cache for icon drawable.
      * Keys: Integer, Values: Drawables
      */
-    private val standardIconMap = HashMap<CacheKey, Drawable>()
+    private val standardIconMap = HashMap<CacheKey, WeakReference<Drawable>>()
 
     /**
      * Utility method to assign a drawable to an ImageView and tint it
@@ -158,14 +159,13 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
         val patternIcon = PatternIcon(resources)
         val cipherKey = retrieveCipherKey.invoke()
         if (cipherKey != null) {
-            val draw: Drawable? = customIconMap[icon.uuid]
+            val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
                 var bitmap: Bitmap? = BitmapFactory.decodeStream(icon.binaryFile.getInputDataStream(cipherKey))
-                // Could not understand custom icon
                 bitmap?.let { bitmapIcon ->
                     bitmap = resize(bitmapIcon, patternIcon)
                     val createdDraw = BitmapDrawable(resources, bitmap)
-                    customIconMap[icon.uuid] = createdDraw
+                    customIconMap[icon.uuid] = WeakReference(createdDraw)
                     return createdDraw
                 }
             } else {
@@ -182,7 +182,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     private fun getIconDrawable(resources: Resources, iconId: Int, width: Int, tint: Boolean, tintColor: Int): Drawable {
         val newCacheKey = CacheKey(iconId, width, tint, tintColor)
 
-        var draw: Drawable? = standardIconMap[newCacheKey]
+        var draw: Drawable? = standardIconMap[newCacheKey]?.get()
         if (draw == null) {
             try {
                 draw = ResourcesCompat.getDrawable(resources, iconId, null)
@@ -191,7 +191,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
             }
 
             if (draw != null) {
-                standardIconMap[newCacheKey] = draw
+                standardIconMap[newCacheKey] = WeakReference(draw)
             }
         }
 
