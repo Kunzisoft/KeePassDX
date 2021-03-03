@@ -55,6 +55,22 @@ class IconImage() : Parcelable {
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is IconImage) return false
+
+        if (standard != other.standard) return false
+        if (custom != other.custom) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = standard.hashCode()
+        result = 31 * result + custom.hashCode()
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<IconImage> {
         override fun createFromParcel(parcel: Parcel): IconImage {
             return IconImage(parcel)

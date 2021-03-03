@@ -39,6 +39,10 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.collections.HashMap
@@ -153,6 +157,15 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     }
 
     /**
+     * Simple method to init the cache with the custom icon and be much faster next time
+     */
+    fun addToCache(resources: Resources, icon: IconImage) {
+        if (icon.custom.binaryFile.length > 0
+                && !customIconMap.containsKey(icon.custom.uuid))
+            getIconDrawable(resources, icon.custom)
+    }
+
+    /**
      * Build a custom [Drawable] from custom [icon]
      */
     private fun getIconDrawable(resources: Resources, icon: IconImageCustom): Drawable {
@@ -263,16 +276,22 @@ fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
                                  icon: IconImage,
                                  tintColor: Int = Color.WHITE) {
     try {
-        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-            iconFactory.assignDrawableToImageView(
-                    iconFactory.getIconSuperDrawable(context,
-                            icon,
-                            width,
-                            true,
-                            tintColor),
-                        this,
-                        selectedIconPack.tintable(),
-                        tintColor)
+        val thisView = this
+        CoroutineScope(Dispatchers.IO).launch {
+            iconFactory.addToCache(resources, icon)
+            withContext(Dispatchers.Main) {
+                IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
+                    iconFactory.assignDrawableToImageView(
+                            iconFactory.getIconSuperDrawable(context,
+                                    icon,
+                                    width,
+                                    true,
+                                    tintColor),
+                            thisView,
+                            selectedIconPack.tintable(),
+                            tintColor)
+                }
+            }
         }
     } catch (e: Exception) {
         Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
@@ -285,15 +304,21 @@ fun RemoteViews.assignDatabaseIcon(context: Context,
                                    icon: IconImage,
                                    tintColor: Int = Color.BLACK) {
     try {
-        iconFactory.assignDrawableToRemoteViews(
-                iconFactory.getIconSuperDrawable(context,
-                        icon,
-                        24,
-                        true,
-                        tintColor),
-                this,
-                imageId,
-                tintColor)
+        val thisView = this
+        CoroutineScope(Dispatchers.IO).launch {
+            iconFactory.addToCache(context.resources, icon)
+            withContext(Dispatchers.Main) {
+                iconFactory.assignDrawableToRemoteViews(
+                        iconFactory.getIconSuperDrawable(context,
+                                icon,
+                                24,
+                                true,
+                                tintColor),
+                        thisView,
+                        imageId,
+                        tintColor)
+            }
+        }
     } catch (e: Exception) {
         Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
     }

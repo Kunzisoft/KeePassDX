@@ -24,10 +24,9 @@ class IconCustomFragment : IconFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { icon ->
-            iconAdapter.addIcon(IconImage(icon))
-            iconAdapter.notifyItemInserted(iconAdapter.itemCount -1)
-            iconsGridView.smoothScrollToPosition(iconAdapter.itemCount -1)
+        iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { iconCustom ->
+            iconAdapter.addIcon(IconImage(iconCustom))
+            iconsGridView.smoothScrollToPosition(iconAdapter.lastPosition)
         }
 
         iconAdapter.iconPickerListener = object : IconAdapter.IconPickerListener {

@@ -12,7 +12,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
-class IconAdapter(context: Context) : RecyclerView.Adapter<IconAdapter.CustomIconViewHolder>() {
+class IconAdapter(val context: Context) : RecyclerView.Adapter<IconAdapter.CustomIconViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -30,17 +30,22 @@ class IconAdapter(context: Context) : RecyclerView.Adapter<IconAdapter.CustomIco
         ta.recycle()
     }
 
-    fun removeAll() {
-        iconList.clear()
-    }
+    val lastPosition: Int
+        get() = iconList.lastIndex
 
     fun addIcon(icon: IconImage) {
-        iconList.add(icon)
+        if (!iconList.contains(icon)) {
+            iconList.add(icon)
+            notifyItemInserted(iconList.indexOf(icon))
+        }
     }
 
-    fun setList(icon: List<IconImage>) {
+    fun setList(icons: List<IconImage>) {
         iconList.clear()
-        iconList.addAll(icon)
+        icons.forEach { iconImage ->
+            iconList.add(iconImage)
+        }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomIconViewHolder {
