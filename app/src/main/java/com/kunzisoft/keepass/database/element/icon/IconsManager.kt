@@ -49,10 +49,6 @@ class IconsManager {
         return IconImageCustom(keyBinary.keys.first(), keyBinary.binary)
     }
 
-    fun putIcon(icon: IconImageCustom) {
-        customCache.put(icon.uuid, icon.binaryFile)
-    }
-
     fun getIcon(iconUuid: UUID): IconImageCustom {
         customCache[iconUuid]?.let {
             return IconImageCustom(iconUuid, it)

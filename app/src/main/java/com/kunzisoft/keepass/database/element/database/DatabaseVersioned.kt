@@ -54,6 +54,12 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
 
+    /**
+     * Cipher key generated when the database is loaded, and destroyed when the database is closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: Database.LoadedKey? = null
+
     val iconsManager = IconsManager()
 
     var changeDuplicateId = false
@@ -387,12 +393,6 @@ abstract class DatabaseVersioned<
             return false
         return true
     }
-
-    /**
-     * Cipher key generated when the database is loaded, and destroyed when the database is closed
-     * Can be used to temporarily store database elements
-     */
-    var loadedCipherKey: Database.LoadedKey? = null
 
     companion object {
 

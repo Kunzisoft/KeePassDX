@@ -227,11 +227,11 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
         customIconMap.clear()
     }
 
-    private class PatternIcon
     /**
      * Build a blankDrawable drawable
      * @param res Resource to build the drawable
-     */(res: Resources) {
+     */
+    private class PatternIcon(res: Resources) {
 
         var blankDrawable: Drawable = ColorDrawable(Color.TRANSPARENT)
         var width = -1
