@@ -113,7 +113,7 @@ class IconPickerActivity : LockingActivity() {
             finish()
         }
         iconPickerViewModel.iconCustomAdded.observe(this) { iconCustomAdded ->
-            if (iconCustomAdded.binaryFile.length <= 0) {
+            if (iconCustomAdded.error) {
                 Snackbar.make(coordinatorLayout, R.string.error_upload_file, Snackbar.LENGTH_LONG).asError().show()
             }
             uploadButton.isEnabled = true
