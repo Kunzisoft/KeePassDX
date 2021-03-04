@@ -89,8 +89,8 @@
                     android:id="@+id/setup_otp_secret_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="?attr/colorAccent">
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="?attr/colorAccent">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/setup_otp_secret"
                         android:layout_width="match_parent"

@@ -315,7 +315,8 @@ class EntryEditFragment: StylishFragment() {
         itemView?.id = View.NO_ID
 
         val extraFieldValueContainer: TextInputLayout? = itemView?.findViewById(R.id.entry_extra_field_value_container)
-        extraFieldValueContainer?.isPasswordVisibilityToggleEnabled = extraField.protectedValue.isProtected
+        extraFieldValueContainer?.endIconMode = if (extraField.protectedValue.isProtected)
+             TextInputLayout.END_ICON_PASSWORD_TOGGLE else TextInputLayout.END_ICON_NONE
         extraFieldValueContainer?.hint = extraField.name
         extraFieldValueContainer?.id = View.NO_ID
 
