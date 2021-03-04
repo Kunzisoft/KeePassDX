@@ -146,7 +146,7 @@ class GroupEditDialogFragment : DialogFragment() {
                     }
 
             iconButtonView.setOnClickListener { _ ->
-                IconPickerActivity.launch(activity)
+                IconPickerActivity.launch(activity, mGroupInfo.icon)
             }
 
             return builder.create()

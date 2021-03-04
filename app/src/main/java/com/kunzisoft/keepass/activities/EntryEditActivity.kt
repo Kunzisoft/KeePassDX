@@ -222,8 +222,8 @@ class EntryEditActivity : LockingActivity(),
                 openPasswordGenerator()
             }
             // Add listener to the icon
-            setOnIconViewClickListener = View.OnClickListener {
-                IconPickerActivity.launch(this@EntryEditActivity)
+            setOnIconViewClickListener = { iconImage ->
+                IconPickerActivity.launch(this@EntryEditActivity, iconImage)
             }
             setOnRemoveAttachment = { attachment ->
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)

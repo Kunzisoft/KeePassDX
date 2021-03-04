@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
@@ -50,6 +51,8 @@ class IconPickerActivity : LockingActivity() {
     private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var uploadButton: View
     private var lockView: View? = null
+
+    private var mIconImage: IconImage = IconImage()
 
     private val iconPickerViewModel: IconPickerViewModel by viewModels()
 
@@ -87,11 +90,17 @@ class IconPickerActivity : LockingActivity() {
             lockAndExit()
         }
 
+        intent?.getParcelableExtra<IconImage>(EXTRA_ICON)?.let {
+            mIconImage = it
+        }
+
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(R.id.icon_picker_fragment, IconPickerFragment(), ICON_PICKER_FRAGMENT_TAG)
             }
+        } else {
+            mIconImage = savedInstanceState.getParcelable(EXTRA_ICON) ?: mIconImage
         }
 
         // Focus view to reinitialize timeout
@@ -99,16 +108,20 @@ class IconPickerActivity : LockingActivity() {
 
         mSelectFileHelper = SelectFileHelper(this)
 
-        // TODO  keep previous standard icon id
         iconPickerViewModel.iconStandardSelected.observe(this) { iconStandard ->
+            mIconImage.standard = iconStandard
+            // Remove the custom icon if a standard one is selected
+            mIconImage.custom = IconImageCustom()
             setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(EXTRA_ICON, IconImage(iconStandard))
+                putExtra(EXTRA_ICON, mIconImage)
             })
             finish()
         }
         iconPickerViewModel.iconCustomSelected.observe(this) { iconCustom ->
+            // Keep the standard icon if a custom one is selected
+            mIconImage.custom = iconCustom
             setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(EXTRA_ICON, IconImage(iconCustom))
+                putExtra(EXTRA_ICON, mIconImage)
             })
             finish()
         }
@@ -118,6 +131,12 @@ class IconPickerActivity : LockingActivity() {
             }
             uploadButton.isEnabled = true
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putParcelable(EXTRA_ICON, mIconImage)
     }
 
     override fun onResume() {
@@ -183,9 +202,16 @@ class IconPickerActivity : LockingActivity() {
             }
         }
 
-        fun launch(context: Activity) {
+        fun launch(context: Activity,
+                   previousIcon: IconImage?) {
             // Create an instance to return the picker icon
-            context.startActivityForResult(Intent(context, IconPickerActivity::class.java), ICON_SELECTED_REQUEST)
+            context.startActivityForResult(
+                    Intent(context,
+                    IconPickerActivity::class.java).apply {
+                        if (previousIcon != null)
+                            putExtra(EXTRA_ICON, previousIcon)
+                    },
+                    ICON_SELECTED_REQUEST)
         }
     }
 }

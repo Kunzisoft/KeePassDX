@@ -78,7 +78,7 @@ class EntryEditFragment: StylishFragment() {
     var drawFactory: IconDrawableFactory? = null
     var setOnDateClickListener: (() -> Unit)? = null
     var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
-    var setOnIconViewClickListener: View.OnClickListener? = null
+    var setOnIconViewClickListener: ((IconImage) -> Unit)? = null
     var setOnEditCustomField: ((Field) -> Unit)? = null
     var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
 
@@ -100,7 +100,7 @@ class EntryEditFragment: StylishFragment() {
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
         entryIconView = rootView.findViewById(R.id.entry_edit_icon_button)
         entryIconView.setOnClickListener {
-            setOnIconViewClickListener?.onClick(it)
+            setOnIconViewClickListener?.invoke(mEntryInfo.icon)
         }
 
         entryUserNameView = rootView.findViewById(R.id.entry_edit_user_name)
