@@ -137,6 +137,8 @@
     <string name="error_field_name_already_exists">The field name already exists.</string>
     <string name="error_database_uri_null">Database URI cannot be retrieved.</string>
     <string name="error_rebuild_list">Unable to properly rebuild the list.</string>
+    <string name="error_file_to_big">The file you are trying to upload is too big.</string>
+    <string name="error_upload_file">An error occurred while uploading the file data.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -572,6 +574,8 @@
         <item>Dark</item>
         <item>Follow the system</item>
     </string-array>
+    <string name="icon_section_standard">Standard</string>
+    <string name="icon_section_custom">Custom</string>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>

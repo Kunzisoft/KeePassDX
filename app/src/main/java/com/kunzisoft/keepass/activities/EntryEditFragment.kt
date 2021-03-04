@@ -78,7 +78,7 @@ class EntryEditFragment: StylishFragment() {
     var drawFactory: IconDrawableFactory? = null
     var setOnDateClickListener: (() -> Unit)? = null
     var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
-    var setOnIconViewClickListener: View.OnClickListener? = null
+    var setOnIconViewClickListener: ((IconImage) -> Unit)? = null
     var setOnEditCustomField: ((Field) -> Unit)? = null
     var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
 
@@ -100,7 +100,7 @@ class EntryEditFragment: StylishFragment() {
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
         entryIconView = rootView.findViewById(R.id.entry_edit_icon_button)
         entryIconView.setOnClickListener {
-            setOnIconViewClickListener?.onClick(it)
+            setOnIconViewClickListener?.invoke(mEntryInfo.icon)
         }
 
         entryUserNameView = rootView.findViewById(R.id.entry_edit_user_name)
@@ -315,7 +315,8 @@ class EntryEditFragment: StylishFragment() {
         itemView?.id = View.NO_ID
 
         val extraFieldValueContainer: TextInputLayout? = itemView?.findViewById(R.id.entry_extra_field_value_container)
-        extraFieldValueContainer?.isPasswordVisibilityToggleEnabled = extraField.protectedValue.isProtected
+        extraFieldValueContainer?.endIconMode = if (extraField.protectedValue.isProtected)
+             TextInputLayout.END_ICON_PASSWORD_TOGGLE else TextInputLayout.END_ICON_NONE
         extraFieldValueContainer?.hint = extraField.name
         extraFieldValueContainer?.id = View.NO_ID
 

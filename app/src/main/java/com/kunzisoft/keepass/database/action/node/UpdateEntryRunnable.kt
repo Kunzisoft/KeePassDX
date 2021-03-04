@@ -42,14 +42,14 @@ class UpdateEntryRunnable constructor(
         mNewEntry.addParentFrom(mOldEntry)
 
         // Build oldest attachments
-        val oldEntryAttachments = mOldEntry.getAttachments(database.binaryPool, true)
-        val newEntryAttachments = mNewEntry.getAttachments(database.binaryPool, true)
+        val oldEntryAttachments = mOldEntry.getAttachments(database.attachmentPool, true)
+        val newEntryAttachments = mNewEntry.getAttachments(database.attachmentPool, true)
         val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
         // Not use equals because only check name
         newEntryAttachments.forEach { newAttachment ->
             oldEntryAttachments.forEach { oldAttachment ->
                 if (oldAttachment.name == newAttachment.name
-                        && oldAttachment.binaryAttachment == newAttachment.binaryAttachment)
+                        && oldAttachment.binaryFile == newAttachment.binaryFile)
                     attachmentsToRemove.remove(oldAttachment)
             }
         }
@@ -60,7 +60,7 @@ class UpdateEntryRunnable constructor(
 
         // Create an entry history (an entry history don't have history)
         mOldEntry.addEntryToHistory(Entry(mBackupEntryHistory, copyHistory = false))
-        database.removeOldestEntryHistory(mOldEntry, database.binaryPool)
+        database.removeOldestEntryHistory(mOldEntry, database.attachmentPool)
 
         // Only change data in index
         database.updateEntry(mOldEntry)

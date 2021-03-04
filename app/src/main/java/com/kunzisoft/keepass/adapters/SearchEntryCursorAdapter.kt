@@ -82,7 +82,7 @@ class SearchEntryCursorAdapter(private val context: Context,
 
             // Assign image
             viewHolder.imageViewIcon?.assignDatabaseIcon(
-                    database.drawFactory,
+                    database.iconDrawableFactory,
                     currentEntry.icon,
                     iconColor)
 
@@ -110,10 +110,10 @@ class SearchEntryCursorAdapter(private val context: Context,
         return database.createEntry()?.apply {
             database.startManageEntry(this)
             entryKDB?.let { entryKDB ->
-                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconPool)
+                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconsManager)
             }
             entryKDBX?.let { entryKDBX ->
-                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconPool)
+                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconsManager)
             }
             database.stopManageEntry(this)
         }

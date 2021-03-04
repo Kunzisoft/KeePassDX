@@ -21,29 +21,34 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
 
-class IconImageCustom() : Parcelable {
+class IconImageCustom : Parcelable, IconImageDraw {
 
-    var uuid: UUID = DatabaseVersioned.UUID_ZERO
-    @Transient
-    var imageData: ByteArray = ByteArray(0)
+    var uuid: UUID
+    var binaryFile: BinaryFile
 
-    constructor(uuid: UUID, data: ByteArray) : this() {
-        this.uuid = uuid
-        this.imageData = data
+    constructor() {
+        uuid = DatabaseVersioned.UUID_ZERO
+        binaryFile = BinaryFile()
     }
 
-    constructor(uuid: UUID) : this() {
+    constructor(uuid: UUID,
+                binaryFile: BinaryFile) {
         this.uuid = uuid
-        this.imageData = ByteArray(0)
+        this.binaryFile = binaryFile
     }
 
-    constructor(parcel: Parcel) : this() {
+    constructor(uuid: UUID) {
+        this.uuid = uuid
+        binaryFile = BinaryFile()
+    }
+
+    constructor(parcel: Parcel) {
         uuid = parcel.readSerializable() as UUID
-        // TODO Take too much memories
-        // parcel.readByteArray(imageData);
+        binaryFile = parcel.readParcelable(BinaryFile::class.java.classLoader) ?: BinaryFile()
     }
 
     override fun describeContents(): Int {
@@ -52,7 +57,7 @@ class IconImageCustom() : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeSerializable(uuid)
-        // Too big for a parcelable dest.writeByteArray(imageData);
+        dest.writeParcelable(binaryFile, flags)
     }
 
     override fun hashCode(): Int {
@@ -60,6 +65,10 @@ class IconImageCustom() : Parcelable {
         var result = 1
         result = prime * result + uuid.hashCode()
         return result
+    }
+
+    override fun getIconImageToDraw(): IconImage {
+        return IconImage(this)
     }
 
     override fun equals(other: Any?): Boolean {

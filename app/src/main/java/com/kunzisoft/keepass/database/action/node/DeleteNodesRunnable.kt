@@ -65,7 +65,7 @@ class DeleteNodesRunnable(context: Context,
                         database.deleteEntry(currentNode)
                     }
                     // Remove the oldest attachments
-                    currentNode.getAttachments(database.binaryPool).forEach {
+                    currentNode.getAttachments(database.attachmentPool).forEach {
                         database.removeAttachmentIfNotUsed(it)
                     }
                 }

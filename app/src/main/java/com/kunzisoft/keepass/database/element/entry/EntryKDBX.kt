@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.database.BinaryPool
+import com.kunzisoft.keepass.database.element.database.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -56,7 +56,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var additional = ""
     var tags = ""
 
-    fun getSize(binaryPool: BinaryPool): Long {
+    fun getSize(attachmentPool: AttachmentPool): Long {
         var size = FIXED_LENGTH_SIZE
 
         for (entry in fields.entries) {
@@ -64,7 +64,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             size += entry.value.length().toLong()
         }
 
-        size += getAttachmentsSize(binaryPool)
+        size += getAttachmentsSize(attachmentPool)
 
         size += autoType.defaultSequence.length.toLong()
         for ((key, value) in autoType.entrySet()) {
@@ -73,7 +73,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
 
         for (entry in history) {
-            size += entry.getSize(binaryPool)
+            size += entry.getSize(attachmentPool)
         }
 
         size += overrideURL.length.toLong()
@@ -262,16 +262,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     /**
      * It's a list because history labels can be defined multiple times
      */
-    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): List<Attachment> {
+    fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
         val entryAttachmentList = ArrayList<Attachment>()
         for ((label, poolId) in binaries) {
-            binaryPool[poolId]?.let { binary ->
+            attachmentPool[poolId]?.let { binary ->
                 entryAttachmentList.add(Attachment(label, binary))
             }
         }
         if (inHistory) {
             history.forEach {
-                entryAttachmentList.addAll(it.getAttachments(binaryPool, false))
+                entryAttachmentList.addAll(it.getAttachments(attachmentPool, false))
             }
         }
         return entryAttachmentList
@@ -281,8 +281,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return binaries.isNotEmpty()
     }
 
-    fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {
-        binaries[attachment.name] = binaryPool.put(attachment.binaryAttachment)
+    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+        binaries[attachment.name] = attachmentPool.put(attachment.binaryFile)
     }
 
     fun removeAttachment(attachment: Attachment) {
@@ -293,11 +293,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         binaries.clear()
     }
 
-    private fun getAttachmentsSize(binaryPool: BinaryPool): Long {
+    private fun getAttachmentsSize(attachmentPool: AttachmentPool): Long {
         var size = 0L
         for ((label, poolId) in binaries) {
             size += label.length.toLong()
-            size += binaryPool[poolId]?.length ?: 0
+            size += attachmentPool[poolId]?.length ?: 0
         }
         return size
     }
@@ -314,7 +314,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.add(entry)
     }
 
-    fun removeEntryFromHistory(position: Int): EntryKDBX? {
+    fun removeEntryFromHistory(position: Int): EntryKDBX {
         return history.removeAt(position)
     }
 

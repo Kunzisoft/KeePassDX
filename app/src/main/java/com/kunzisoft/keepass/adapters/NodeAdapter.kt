@@ -304,7 +304,7 @@ class NodeAdapter (private val context: Context)
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+            assignDatabaseIcon(mDatabase.iconDrawableFactory, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()

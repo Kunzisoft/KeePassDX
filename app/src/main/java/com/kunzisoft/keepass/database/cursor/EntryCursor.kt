@@ -24,7 +24,7 @@ import android.provider.BaseColumns
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconPool
+import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import java.util.*
 
@@ -50,12 +50,12 @@ abstract class EntryCursor<EntryId, PwEntryV : EntryVersioned<*, EntryId, *, *>>
 
     abstract fun getPwNodeId(): NodeId<EntryId>
 
-    open fun populateEntry(pwEntry: PwEntryV, iconPool: IconPool) {
+    open fun populateEntry(pwEntry: PwEntryV, iconsManager: IconsManager) {
         pwEntry.nodeId = getPwNodeId()
         pwEntry.title = getString(getColumnIndex(COLUMN_INDEX_TITLE))
 
-        val iconStandard = iconPool.getIcon(getInt(getColumnIndex(COLUMN_INDEX_ICON_STANDARD)))
-        val iconCustom = iconPool.getIcon(UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
+        val iconStandard = iconsManager.getIcon(getInt(getColumnIndex(COLUMN_INDEX_ICON_STANDARD)))
+        val iconCustom = iconsManager.getIcon(UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
                 getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
         pwEntry.icon = IconImage(iconStandard, iconCustom)
 

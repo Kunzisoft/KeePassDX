@@ -276,7 +276,7 @@ object AutofillHelper {
         if (remoteViewsIcon != null) {
             presentation.assignDatabaseIcon(context,
                     R.id.autofill_entry_icon,
-                    Database.getInstance().drawFactory,
+                    Database.getInstance().iconDrawableFactory,
                     remoteViewsIcon,
                     ContextCompat.getColor(context, R.color.green))
         }
@@ -285,7 +285,7 @@ object AutofillHelper {
 
     private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
         return createIconFromDatabaseIcon(context,
-                Database.getInstance().drawFactory,
+                Database.getInstance().iconDrawableFactory,
                 entryInfo.icon,
                 ContextCompat.getColor(context, R.color.green))
     }

@@ -101,22 +101,22 @@ class EntryAttachmentsItemsAdapter(context: Context)
         }
         holder.binaryFileBroken.apply {
             setColorFilter(Color.RED)
-            visibility = if (entryAttachmentState.attachment.binaryAttachment.isCorrupted) {
+            visibility = if (entryAttachmentState.attachment.binaryFile.isCorrupted) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
         }
         holder.binaryFileTitle.text = entryAttachmentState.attachment.name
-        if (entryAttachmentState.attachment.binaryAttachment.isCorrupted) {
+        if (entryAttachmentState.attachment.binaryFile.isCorrupted) {
             holder.binaryFileTitle.setTextColor(Color.RED)
         } else {
             holder.binaryFileTitle.setTextColor(mTitleColor)
         }
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
-                entryAttachmentState.attachment.binaryAttachment.length)
+                entryAttachmentState.attachment.binaryFile.length)
         holder.binaryFileCompression.apply {
-            if (entryAttachmentState.attachment.binaryAttachment.isCompressed) {
+            if (entryAttachmentState.attachment.binaryFile.isCompressed) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)
                 visibility = View.VISIBLE
             } else {

@@ -81,7 +81,6 @@ import org.joda.time.DateTime
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
-        IconPickerDialogFragment.IconPickerListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         ListNodesFragment.NodeClickListener,
@@ -534,8 +533,8 @@ class GroupActivity : LockingActivity(),
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
             mCurrentGroup?.let {
-                if (mDatabase?.drawFactory != null)
-                    iconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, it.icon, mIconColor)
+                if (mDatabase?.iconDrawableFactory != null)
+                    iconView?.assignDatabaseIcon(mDatabase?.iconDrawableFactory!!, it.icon, mIconColor)
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)
@@ -1120,13 +1119,6 @@ class GroupActivity : LockingActivity(),
         // Do nothing here
     }
 
-    override// For icon in create tree dialog
-    fun iconPicked(bundle: Bundle) {
-        (supportFragmentManager
-                .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
-                .iconPicked(bundle)
-    }
-
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters) {
         mListNodesFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
@@ -1164,6 +1156,13 @@ class GroupActivity : LockingActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        // To create tree dialog for icon
+        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
+            (supportFragmentManager
+                    .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
+                    .setIcon(icon)
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
