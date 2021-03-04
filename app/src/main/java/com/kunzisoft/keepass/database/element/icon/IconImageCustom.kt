@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
 
-class IconImageCustom : Parcelable, IconImageInterface {
+class IconImageCustom : Parcelable, IconImageDraw {
 
     var uuid: UUID
     var binaryFile: BinaryFile
@@ -67,7 +67,7 @@ class IconImageCustom : Parcelable, IconImageInterface {
         return result
     }
 
-    override fun getIconImage(): IconImage {
+    override fun getIconImageToDraw(): IconImage {
         return IconImage(this)
     }
 

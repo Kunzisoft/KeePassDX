@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.Parcelable
 
-class IconImage() : Parcelable {
+class IconImage() : Parcelable, IconImageDraw {
 
     var standard: IconImageStandard = IconImageStandard()
     var custom: IconImageCustom = IconImageCustom()
@@ -53,6 +53,10 @@ class IconImage() : Parcelable {
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun getIconImageToDraw(): IconImage {
+        return this
     }
 
     override fun equals(other: Any?): Boolean {

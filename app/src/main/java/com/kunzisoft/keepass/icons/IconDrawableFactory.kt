@@ -37,8 +37,8 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -112,9 +112,10 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     }
 
     /**
-     * Get the [SuperDrawable] [icon] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
+     * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, icon: IconImage, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
+    fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
+        val icon = iconDraw.getIconImageToDraw()
         return if (!icon.custom.isUnknown) {
             SuperDrawable(getIconDrawable(context.resources, icon.custom))
         } else {
@@ -159,7 +160,8 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     /**
      * Simple method to init the cache with the custom icon and be much faster next time
      */
-    fun addToCache(resources: Resources, icon: IconImage) {
+    fun addToCache(resources: Resources, iconDraw: IconImageDraw) {
+        val icon = iconDraw.getIconImageToDraw()
         if (icon.custom.binaryFile.length > 0
                 && !customIconMap.containsKey(icon.custom.uuid))
             getIconDrawable(resources, icon.custom)
@@ -273,7 +275,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
  * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
  */
 fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
-                                 icon: IconImage,
+                                 icon: IconImageDraw,
                                  tintColor: Int = Color.WHITE) {
     try {
         val thisView = this
@@ -301,7 +303,7 @@ fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
 fun RemoteViews.assignDatabaseIcon(context: Context,
                                    imageId: Int,
                                    iconFactory: IconDrawableFactory,
-                                   icon: IconImage,
+                                   icon: IconImageDraw,
                                    tintColor: Int = Color.BLACK) {
     try {
         val thisView = this
@@ -327,7 +329,7 @@ fun RemoteViews.assignDatabaseIcon(context: Context,
 @RequiresApi(Build.VERSION_CODES.M)
 fun createIconFromDatabaseIcon(context: Context,
                                iconFactory: IconDrawableFactory,
-                               icon: IconImage,
+                               icon: IconImageDraw,
                                tintColor: Int = Color.BLACK): Icon? {
     try {
         return iconFactory.assignDrawableToIcon(

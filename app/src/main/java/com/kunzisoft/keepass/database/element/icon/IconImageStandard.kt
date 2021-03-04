@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 
-class IconImageStandard : Parcelable, IconImageInterface {
+class IconImageStandard : Parcelable, IconImageDraw {
 
     val id: Int
 
@@ -57,7 +57,7 @@ class IconImageStandard : Parcelable, IconImageInterface {
         return result
     }
 
-    override fun getIconImage(): IconImage {
+    override fun getIconImageToDraw(): IconImage {
         return IconImage(this)
     }
 

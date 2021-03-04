@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.icon.IconImageInterface
+import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
-abstract class IconFragment<T: IconImageInterface> : Fragment() {
+abstract class IconFragment<T: IconImageDraw> : Fragment() {
 
     protected lateinit var iconsGridView: RecyclerView
     protected lateinit var iconAdapter: IconAdapter<T>

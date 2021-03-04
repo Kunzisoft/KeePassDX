@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.icon.IconImageInterface
+import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
-class IconAdapter<I: IconImageInterface>(val context: Context) : RecyclerView.Adapter<IconAdapter<I>.CustomIconViewHolder>() {
+class IconAdapter<I: IconImageDraw>(val context: Context) : RecyclerView.Adapter<IconAdapter<I>.CustomIconViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -56,7 +56,7 @@ class IconAdapter<I: IconImageInterface>(val context: Context) : RecyclerView.Ad
     override fun onBindViewHolder(holder: CustomIconViewHolder, position: Int) {
         val icon = iconList[position]
         iconDrawableFactory?.let {
-            holder.iconImageView.assignDatabaseIcon(it, icon.getIconImage(), tintColor)
+            holder.iconImageView.assignDatabaseIcon(it, icon, tintColor)
         }
         holder.itemView.setOnClickListener { iconPickerListener?.iconPicked(icon) }
     }
@@ -65,7 +65,7 @@ class IconAdapter<I: IconImageInterface>(val context: Context) : RecyclerView.Ad
         return iconList.size
     }
 
-    interface IconPickerListener<I: IconImageInterface> {
+    interface IconPickerListener<I: IconImageDraw> {
         fun iconPicked(icon: I)
     }
 
