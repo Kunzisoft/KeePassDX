@@ -66,7 +66,7 @@ class IconsManager {
         try {
             binary?.clear()
         } catch (e: Exception) {
-            Log.e(TAG, "Unable to remove custom icon binary", e)
+            Log.w(TAG, "Unable to remove custom icon binary", e)
         }
     }
 
