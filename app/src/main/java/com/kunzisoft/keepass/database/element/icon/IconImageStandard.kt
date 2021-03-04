@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 
-class IconImageStandard : Parcelable {
+class IconImageStandard : Parcelable, IconImageInterface {
 
     val id: Int
 
@@ -55,6 +55,10 @@ class IconImageStandard : Parcelable {
         var result = 1
         result = prime * result + id
         return result
+    }
+
+    override fun getIconImage(): IconImage {
+        return IconImage(this)
     }
 
     override fun equals(other: Any?): Boolean {

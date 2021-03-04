@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
 
-class IconImageCustom : Parcelable {
+class IconImageCustom : Parcelable, IconImageInterface {
 
     var uuid: UUID
     var binaryFile: BinaryFile
@@ -65,6 +65,10 @@ class IconImageCustom : Parcelable {
         var result = 1
         result = prime * result + uuid.hashCode()
         return result
+    }
+
+    override fun getIconImage(): IconImage {
+        return IconImage(this)
     }
 
     override fun equals(other: Any?): Boolean {

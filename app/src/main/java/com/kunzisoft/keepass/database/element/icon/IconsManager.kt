@@ -36,8 +36,8 @@ class IconsManager {
         return standardCache[iconId]
     }
 
-    fun getStandardIconList(): List<IconImage> {
-        return standardCache.mapIndexed { _, iconImageStandard -> IconImage(iconImageStandard) }
+    fun getStandardIconList(): List<IconImageStandard> {
+        return standardCache
     }
 
     /*
@@ -70,10 +70,10 @@ class IconsManager {
         }
     }
 
-    fun getCustomIconList(): List<IconImage> {
-        val list = ArrayList<IconImage>()
+    fun getCustomIconList(): List<IconImageCustom> {
+        val list = ArrayList<IconImageCustom>()
         customCache.doForEachBinary { key, binary ->
-            list.add(IconImage(IconImageCustom(key, binary)))
+            list.add(IconImageCustom(key, binary))
         }
         return list
     }

@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageInterface
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
-class IconAdapter(val context: Context) : RecyclerView.Adapter<IconAdapter.CustomIconViewHolder>() {
+class IconAdapter<I: IconImageInterface>(val context: Context) : RecyclerView.Adapter<IconAdapter<I>.CustomIconViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
-    private val iconList = ArrayList<IconImage>()
+    private val iconList = ArrayList<I>()
 
     var iconDrawableFactory: IconDrawableFactory? = null
-    var iconPickerListener: IconPickerListener? = null
+    var iconPickerListener: IconPickerListener<I>? = null
 
     var tintColor : Int = Color.BLACK
 
@@ -33,14 +33,14 @@ class IconAdapter(val context: Context) : RecyclerView.Adapter<IconAdapter.Custo
     val lastPosition: Int
         get() = iconList.lastIndex
 
-    fun addIcon(icon: IconImage) {
+    fun addIcon(icon: I) {
         if (!iconList.contains(icon)) {
             iconList.add(icon)
             notifyItemInserted(iconList.indexOf(icon))
         }
     }
 
-    fun setList(icons: List<IconImage>) {
+    fun setList(icons: List<I>) {
         iconList.clear()
         icons.forEach { iconImage ->
             iconList.add(iconImage)
@@ -56,7 +56,7 @@ class IconAdapter(val context: Context) : RecyclerView.Adapter<IconAdapter.Custo
     override fun onBindViewHolder(holder: CustomIconViewHolder, position: Int) {
         val icon = iconList[position]
         iconDrawableFactory?.let {
-            holder.iconImageView.assignDatabaseIcon(it, icon, tintColor)
+            holder.iconImageView.assignDatabaseIcon(it, icon.getIconImage(), tintColor)
         }
         holder.itemView.setOnClickListener { iconPickerListener?.iconPicked(icon) }
     }
@@ -65,8 +65,8 @@ class IconAdapter(val context: Context) : RecyclerView.Adapter<IconAdapter.Custo
         return iconList.size
     }
 
-    interface IconPickerListener {
-        fun iconPicked(icon: IconImage)
+    interface IconPickerListener<I: IconImageInterface> {
+        fun iconPicked(icon: I)
     }
 
     inner class CustomIconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageInterface
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
-abstract class IconFragment : Fragment() {
+abstract class IconFragment<T: IconImageInterface> : Fragment() {
 
     protected lateinit var iconsGridView: RecyclerView
-    protected lateinit var iconAdapter: IconAdapter
+    protected lateinit var iconAdapter: IconAdapter<T>
 
     protected val database = Database.getInstance()
 
@@ -25,12 +25,12 @@ abstract class IconFragment : Fragment() {
 
     abstract fun retrieveMainLayoutId(): Int
 
-    abstract fun defineIconList(database: Database): List<IconImage>
+    abstract fun defineIconList(database: Database): List<T>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        iconAdapter = IconAdapter(requireActivity()).apply {
+        iconAdapter = IconAdapter<T>(requireActivity()).apply {
             iconDrawableFactory = database.iconDrawableFactory
         }
 
