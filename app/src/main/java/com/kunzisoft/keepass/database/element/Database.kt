@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
@@ -92,14 +93,29 @@ class Database {
             return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
         }
 
-    // TODO private
-    val iconsManager: IconsManager
+    private val iconsManager: IconsManager
         get() {
             return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
         }
 
+    fun getStandardIconList(): List<IconImageStandard> {
+        return iconsManager.getStandardIconList()
+    }
+
+    fun getStandardIcon(iconId: Int): IconImageStandard {
+        return iconsManager.getIcon(iconId)
+    }
+
     val allowCustomIcons: Boolean
         get() = mDatabaseKDBX != null
+
+    fun getCustomIconList(): List<IconImageCustom> {
+        return iconsManager.getCustomIconList()
+    }
+
+    fun getCustomIcon(iconId: UUID): IconImageCustom {
+        return iconsManager.getIcon(iconId)
+    }
 
     fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom? {
         return mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)

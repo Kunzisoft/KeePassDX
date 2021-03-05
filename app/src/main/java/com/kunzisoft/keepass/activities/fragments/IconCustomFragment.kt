@@ -34,7 +34,7 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
     }
 
     override fun defineIconList(database: Database): List<IconImageCustom> {
-        return database.iconsManager.getCustomIconList()
+        return database.getCustomIconList()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

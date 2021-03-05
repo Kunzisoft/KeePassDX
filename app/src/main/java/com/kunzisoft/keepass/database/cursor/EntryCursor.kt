@@ -24,7 +24,8 @@ import android.provider.BaseColumns
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconsManager
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import java.util.*
 
@@ -50,12 +51,14 @@ abstract class EntryCursor<EntryId, PwEntryV : EntryVersioned<*, EntryId, *, *>>
 
     abstract fun getPwNodeId(): NodeId<EntryId>
 
-    open fun populateEntry(pwEntry: PwEntryV, iconsManager: IconsManager) {
+    open fun populateEntry(pwEntry: PwEntryV,
+                           retrieveStandardIcon: (Int) -> IconImageStandard,
+                           retrieveCustomIcon: (UUID) -> IconImageCustom) {
         pwEntry.nodeId = getPwNodeId()
         pwEntry.title = getString(getColumnIndex(COLUMN_INDEX_TITLE))
 
-        val iconStandard = iconsManager.getIcon(getInt(getColumnIndex(COLUMN_INDEX_ICON_STANDARD)))
-        val iconCustom = iconsManager.getIcon(UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
+        val iconStandard = retrieveStandardIcon.invoke(getInt(getColumnIndex(COLUMN_INDEX_ICON_STANDARD)))
+        val iconCustom = retrieveCustomIcon.invoke(UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
                 getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
         pwEntry.icon = IconImage(iconStandard, iconCustom)
 

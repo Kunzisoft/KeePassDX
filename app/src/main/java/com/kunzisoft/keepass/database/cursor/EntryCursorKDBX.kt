@@ -20,7 +20,9 @@
 package com.kunzisoft.keepass.database.cursor
 
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
-import com.kunzisoft.keepass.database.element.icon.IconsManager
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import java.util.*
 
 class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
 
@@ -50,8 +52,10 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
         entryId++
     }
 
-    override fun populateEntry(pwEntry: EntryKDBX, iconsManager: IconsManager) {
-        super.populateEntry(pwEntry, iconsManager)
+    override fun populateEntry(pwEntry: EntryKDBX,
+                               retrieveStandardIcon: (Int) -> IconImageStandard,
+                               retrieveCustomIcon: (UUID) -> IconImageCustom) {
+        super.populateEntry(pwEntry, retrieveStandardIcon, retrieveCustomIcon)
 
         // Retrieve extra fields
         if (extraFieldCursor.moveToFirst()) {

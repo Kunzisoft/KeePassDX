@@ -110,10 +110,24 @@ class SearchEntryCursorAdapter(private val context: Context,
         return database.createEntry()?.apply {
             database.startManageEntry(this)
             entryKDB?.let { entryKDB ->
-                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconsManager)
+                (cursor as EntryCursorKDB).populateEntry(entryKDB,
+                        { standardIconId ->
+                            database.getStandardIcon(standardIconId)
+                        },
+                        { customIconId ->
+                            database.getCustomIcon(customIconId)
+                        }
+                )
             }
             entryKDBX?.let { entryKDBX ->
-                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconsManager)
+                (cursor as EntryCursorKDBX).populateEntry(entryKDBX,
+                        { standardIconId ->
+                            database.getStandardIcon(standardIconId)
+                        },
+                        { customIconId ->
+                            database.getCustomIcon(customIconId)
+                        }
+                )
             }
             database.stopManageEntry(this)
         }

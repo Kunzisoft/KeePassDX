@@ -34,7 +34,7 @@ class IconStandardFragment : IconFragment<IconImageStandard>() {
     }
 
     override fun defineIconList(database: Database): List<IconImageStandard> {
-        return database.iconsManager.getStandardIconList()
+        return database.getStandardIconList()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
