@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
+import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
 
 class SetOTPDialogFragment : DialogFragment() {
@@ -223,11 +224,14 @@ class SetOTPDialogFragment : DialogFragment() {
 
             val builder = AlertDialog.Builder(activity)
             builder.apply {
-                setTitle(R.string.entry_setup_otp)
                 setView(root)
                         .setPositiveButton(android.R.string.ok) {_, _ -> }
                         .setNegativeButton(android.R.string.cancel) { _, _ ->
                         }
+            }
+
+            root?.findViewById<View>(R.id.otp_information)?.setOnClickListener {
+                UriUtil.gotoUrl(activity, R.string.otp_explanation_url)
             }
 
             return builder.create()

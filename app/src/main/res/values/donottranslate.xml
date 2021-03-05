@@ -35,6 +35,7 @@
     <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
     <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="credentials_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Credentials</string>
+    <string name="otp_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/OTP</string>
     <string name="advanced_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Advanced-Unlocking</string>
     <string name="magic_keyboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Magikeyboard</string>
     <string name="clipboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Clipboard</string>

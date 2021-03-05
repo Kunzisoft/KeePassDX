@@ -53,6 +53,7 @@
     <string name="content_description_add_item">Add item</string>
     <string name="content_description_file_information">File info</string>
     <string name="content_description_credentials_information">Credentials info</string>
+    <string name="content_description_otp_information">One-time password info</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
