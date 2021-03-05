@@ -329,7 +329,7 @@
     <string name="content_description_add_group">Προσθήκη ομάδας</string>
     <string name="content_description_file_information">Πληροφορίες αρχείου</string>
     <string name="content_description_password_checkbox">Έλεγχος κωδικού πρόσβασης</string>
-    <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου κλειδιού-αρχείου</string>
+    <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου αρχείου-κλειδιού</string>
     <string name="content_description_repeat_toggle_password_visibility">Επανάληψη της ορατότητας του κωδικού πρόσβασης</string>
     <string name="content_description_entry_icon">Εικονίδιο καταχώρησης</string>
     <string name="entry_password_generator">Γεννήτρια κωδικού πρόσβασης</string>

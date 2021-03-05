@@ -541,4 +541,5 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
+    <string name="download_canceled">Prekinuto!</string>
 </resources>

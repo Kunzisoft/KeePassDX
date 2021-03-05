@@ -19,7 +19,7 @@
 --><resources>
     <string name="about_description">KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="clipboard_cleared">Iškarpinė išvalyta</string>
-    <string name="invalid_credentials">Neteisingas slaptažodis arba rakto failas.</string>
+    <string name="invalid_credentials">Nepavyko perskaityti prisijungimo duomenų.</string>
     <string name="feedback">Atsiliepimai</string>
     <string name="homepage">Pagrindinis puslapis</string>
     <string name="accept">Priimti</string>
@@ -43,17 +43,17 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Slapyvardis</string>
     <string name="error_invalid_db">Nepavyko perskaityti duomenų bazės.</string>
-    <string name="field_name">Lauko pavadinimas</string>
+    <string name="field_name">Lauko Pavadinimas</string>
     <string name="field_value">Lauko reikšmė</string>
     <string name="file_browser">Failų naršyklė</string>
     <string name="generate_password">Generuoti slaptažodį</string>
-    <string name="hint_conf_pass">patvirtinti slaptažodį</string>
-    <string name="hint_generated_password">generuoti slaptažodį</string>
+    <string name="hint_conf_pass">Patvirtinti slaptažodį</string>
+    <string name="hint_generated_password">Sugeneruotas slaptažodis</string>
     <string name="hint_group_name">Grupės pavadinimas</string>
-    <string name="hint_keyfile">rakto failas</string>
-    <string name="hint_length">ilgis</string>
+    <string name="hint_keyfile">Rakto failas</string>
+    <string name="hint_length">Ilgis</string>
     <string name="password">Slaptažodis</string>
-    <string name="hint_pass">slaptažodis</string>
+    <string name="hint_pass">Slaptažodis</string>
     <string name="length">Ilgis</string>
     <string name="list_size_title">Grupės sąrašo dydis</string>
     <string name="about">Apie</string>
@@ -72,17 +72,17 @@
     <string name="search_results">Paieškos rezultatai</string>
     <string name="version_label">Versija %1$s</string>
     <string name="warning">Įspėjimas</string>
-    <string name="select_database_file">Įveskite duomenų bazės failą</string>
-    <string name="error_wrong_length">Įveskite teigiamą skaičių ilgio lauke</string>
+    <string name="select_database_file">Atidaryti esamą duomenų bazę</string>
+    <string name="error_wrong_length">Įveskite teigiamą sveikąjį skaičių „Ilgio“ lauke.</string>
     <string name="content_description_remove_from_list">Pašalinti</string>
     <string name="root">Šaknis</string>
-    <string name="read_only">Tik skaitymui</string>
+    <string name="read_only">Apsaugota nuo redagavimo</string>
     <string name="error_pass_match">Slaptažodžiai nesutampa.</string>
     <string name="clipboard_timeout">Iškarpinės trukmė</string>
     <string name="clipboard_error_title">Iškarpinės klaida</string>
     <string name="entry_confpassword">Patvirtinti slaptažodį</string>
-    <string name="invalid_db_sig">Duomenų bazės formatas nežinomas.</string>
-    <string name="sort_db">DB rūšiavimo tvarka</string>
+    <string name="invalid_db_sig">Nepavyko atpažinti duomenų bazės formato.</string>
+    <string name="sort_db">Naturali tvarka</string>
     <string name="menu_hide_password">Slėpti slaptažodį</string>
     <string name="app_timeout">Programėlės neveiklumas</string>
     <string name="clipboard_error_clear">Nepavyko išvalyti iškarpinės</string>
@@ -105,8 +105,10 @@
     <string name="default_checkbox">Naudoti šią duomenų bazę kaip numatytąją</string>
     <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
-    <string name="error_invalid_path">Neteisingas kelias.</string>
-    <string name="education_unlock_summary">Įveskite slaptažodį rba raktą, tam kad atidarytumėte duomenų bazę.</string>
+    <string name="error_invalid_path">Pasirūpininkite, kad kelias būtų teisingas.</string>
+    <string name="education_unlock_summary">Įveskite slaptažodį ir/ar rakto failą, kad atvertumėte jūsų duomenų bazę.
+\n
+\nSukurkite atsarginę duomenų bazės failo kopiją saugioje vietoje po kiekvieno pakeitimo.</string>
     <string name="clipboard_error">Kai kurie įrenginiai neleidžia programėlėms naudoti iškarpinės.</string>
     <string name="allow">Leisti</string>
     <string name="extended_ASCII">Išplėstas ASCII</string>
@@ -116,4 +118,20 @@
     <string name="contribution">Įnašai</string>
     <string name="contact">Kontaktai</string>
     <string name="edit_entry">Redaguoti įrašą</string>
+    <string name="entry_add_attachment">Pridėti priedą (failą)</string>
+    <string name="encryption_explanation">Duomenų bazės šifravimo algoritmas naudojamas visiems duomenims.</string>
+    <string name="entry_history">Istorija</string>
+    <string name="entry_attachments">Priedai</string>
+    <string name="entry_add_field">Pridėti lauką</string>
+    <string name="content_description_password_length">Slaptažodžio ilgis</string>
+    <string name="content_description_remove_field">Pašalinti lauką</string>
+    <string name="content_description_update_from_list">Atnaujinti</string>
+    <string name="content_description_password_checkbox">Slaptažodžio žymimasis langelis</string>
+    <string name="content_description_keyfile_checkbox">Rakto failo žymimasis langelis</string>
+    <string name="content_description_credentials_information">Prisijungimo duomenų informacija</string>
+    <string name="content_description_add_group">Pridėti grupę</string>
+    <string name="content_description_add_entry">Pridėti įrašą</string>
+    <string name="content_description_add_node">Pridėti nodą</string>
+    <string name="content_description_open_file">Atverti failą</string>
+    <string name="file_manager_install_description">Failų naršyklė, kuri priima „ACTION_CREATE_DOCUMENT“ ir „ACTION_OPEN_DOCUMENT“ veiksmus reikalinga sukurti, atverti ir išsaugoti duomenų bazės failus.</string>
 </resources>
