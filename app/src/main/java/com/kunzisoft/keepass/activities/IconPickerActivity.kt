@@ -101,7 +101,13 @@ class IconPickerActivity : LockingActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add(R.id.icon_picker_fragment, IconPickerFragment(), ICON_PICKER_FRAGMENT_TAG)
+                add(R.id.icon_picker_fragment, IconPickerFragment.getInstance(
+                        // Default selection tab
+                        if (!mIconImage.custom.isUnknown)
+                            IconPickerFragment.IconTab.CUSTOM
+                        else
+                            IconPickerFragment.IconTab.STANDARD
+                ), ICON_PICKER_FRAGMENT_TAG)
             }
         } else {
             mIconImage = savedInstanceState.getParcelable(EXTRA_ICON) ?: mIconImage

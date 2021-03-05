@@ -46,8 +46,32 @@ class IconPickerFragment : StylishFragment() {
             }
         }.attach()
 
+        arguments?.apply {
+            if (containsKey(ICON_TAB_ARG)) {
+                viewPager.currentItem = getInt(ICON_TAB_ARG)
+            }
+            remove(ICON_TAB_ARG)
+        }
+
         iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { _ ->
             viewPager.currentItem = 1
+        }
+    }
+
+    enum class IconTab {
+        STANDARD, CUSTOM
+    }
+
+    companion object {
+
+        private const val ICON_TAB_ARG = "ICON_TAB_ARG"
+
+        fun getInstance(iconTab: IconTab): IconPickerFragment {
+            val fragment = IconPickerFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ICON_TAB_ARG, iconTab.ordinal)
+            }
+            return fragment
         }
     }
 }
