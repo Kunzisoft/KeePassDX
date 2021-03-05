@@ -521,7 +521,7 @@
     <string name="device_credential_unlock_enable_summary">Dovolí pro otevření databáze použít heslo Vašeho zařízení</string>
     <string name="device_credential_unlock_enable_title">Odemknutí heslem zařízení</string>
     <string name="device_credential">Heslo zařízení</string>
-    <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a klikněte na tlačítko \"Rozšířené odemknutí\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a pak klepněte na toto tlačítko.</string>
     <string name="advanced_unlock_prompt_not_initialized">Nelze inicializovat pobídku pro rozšířené odemknutí.</string>
     <string name="advanced_unlock_scanning_error">Chyba při rozšířeném odemknutí: %1$s</string>
     <string name="advanced_unlock_not_recognized">Otisk pro rozšířené odemknutí nebyl rozpoznán</string>
@@ -559,4 +559,11 @@
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Nemohu rozpoznat existující typ OTP v této formě, jeho validace patrně nebude generovat správný token.</string>
     <string name="download_canceled">Zrušeno!</string>
+    <string name="icon_section_custom">Vlastní</string>
+    <string name="icon_section_standard">Standardní</string>
+    <string name="style_brightness_summary">Vybrat světlé či tmavé motivy</string>
+    <string name="style_brightness_title">Jas motivu</string>
+    <string name="error_upload_file">Během nahrávání souboru došlo k chybě.</string>
+    <string name="error_file_to_big">Soubor, který se pokoušíte nahrát, je příliš velký.</string>
+    <string name="content_description_otp_information">Info o jednorázovém hesle</string>
 </resources>
