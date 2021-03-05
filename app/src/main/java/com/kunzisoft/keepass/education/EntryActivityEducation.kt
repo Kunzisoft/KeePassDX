@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.education
 
 import android.app.Activity
-import android.graphics.Color
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -38,7 +37,9 @@ class EntryActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_field_copy_title),
                         activity.getString(R.string.education_field_copy_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(false)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -68,7 +69,9 @@ class EntryActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_entry_edit_title),
                         activity.getString(R.string.education_entry_edit_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {

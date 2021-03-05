@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.education
 
 import android.app.Activity
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.kunzisoft.keepass.R
@@ -43,8 +43,10 @@ class FileDatabaseSelectActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_create_database_title),
                         activity.getString(R.string.education_create_database_summary))
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .icon(ContextCompat.getDrawable(activity, R.drawable.ic_database_plus_white_24dp))
-                        .textColorInt(Color.WHITE)
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -73,8 +75,10 @@ class FileDatabaseSelectActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_select_database_title),
                         activity.getString(R.string.education_select_database_summary))
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .icon(ContextCompat.getDrawable(activity, R.drawable.ic_folder_white_24dp))
-                        .textColorInt(Color.WHITE)
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {

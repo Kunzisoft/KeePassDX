@@ -37,6 +37,8 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Clear</item>
         <item name="cardBackgroundTransparentColor">@color/grey_lighter_transparent</item>
+        <item name="educationCircleColor">@color/cyan_lighter</item>
+        <item name="educationTextColor">@color/white</item>
 
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>

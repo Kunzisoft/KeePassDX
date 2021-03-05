@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.education
 
 import android.app.Activity
-import android.graphics.Color
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -36,7 +35,9 @@ class GroupActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_new_node_title),
                         activity.getString(R.string.education_new_node_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(false)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -61,7 +62,9 @@ class GroupActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_search_title),
                         activity.getString(R.string.education_search_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -86,7 +89,9 @@ class GroupActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_sort_title),
                         activity.getString(R.string.education_sort_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -111,7 +116,9 @@ class GroupActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_lock_title),
                         activity.getString(R.string.education_lock_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {

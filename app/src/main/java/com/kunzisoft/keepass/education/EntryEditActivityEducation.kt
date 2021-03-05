@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.education
 
 import android.app.Activity
-import android.graphics.Color
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -40,7 +39,9 @@ class EntryEditActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_generate_password_title),
                         activity.getString(R.string.education_generate_password_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -69,7 +70,9 @@ class EntryEditActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_entry_new_field_title),
                         activity.getString(R.string.education_entry_new_field_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -98,7 +101,9 @@ class EntryEditActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_add_attachment_title),
                         activity.getString(R.string.education_add_attachment_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -127,7 +132,9 @@ class EntryEditActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                                 activity.getString(R.string.education_setup_OTP_title),
                                 activity.getString(R.string.education_setup_OTP_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {

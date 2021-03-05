@@ -79,9 +79,12 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
-        <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+
+        <!-- Education Hint -->
+        <item name="educationCircleColor">@color/green_light</item>
+        <item name="educationTextColor">@color/white</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
@@ -133,9 +136,12 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
-        <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+
+        <!-- Education Hint -->
+        <item name="educationCircleColor">@color/green_light</item>
+        <item name="educationTextColor">@color/white</item>
     </style>
 
     <!-- Light Style -->

@@ -28,6 +28,9 @@
     <attr name="iconPreferenceColor" format="reference|color" />
     <attr name="textColorInverse" format="reference|color" />
 
+    <attr name="educationCircleColor" format="reference|color" />
+    <attr name="educationTextColor" format="reference|color" />
+
     <declare-styleable name="explanationDialog">
         <attr name="explanations" format="string" />
     </declare-styleable>

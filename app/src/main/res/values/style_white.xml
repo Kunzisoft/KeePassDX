@@ -38,6 +38,8 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.White</item>
         <item name="cardBackgroundTransparentColor">@color/white_transparent</item>
+        <item name="educationCircleColor">@color/orange</item>
+        <item name="educationTextColor">@color/white</item>
 
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>

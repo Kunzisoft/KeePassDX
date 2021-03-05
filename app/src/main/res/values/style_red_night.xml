@@ -34,6 +34,8 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red.Night</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
+        <item name="educationCircleColor">@color/red_dark</item>
+        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
