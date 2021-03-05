@@ -21,9 +21,6 @@ package com.kunzisoft.keepass.database.element.database
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Base64
-import android.util.Base64InputStream
-import android.util.Base64OutputStream
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import org.apache.commons.io.output.CountingOutputStream
@@ -105,7 +102,7 @@ class BinaryFile : Parcelable {
         return when {
             file != null && file.length() > 0 -> {
                 cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), Base64.NO_WRAP)
+                CipherInputStream(FileInputStream(file), cipherDecryption)
             }
             else -> ByteArrayInputStream(ByteArray(0))
         }
@@ -116,7 +113,7 @@ class BinaryFile : Parcelable {
         return when {
             file != null -> {
                 cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), Base64.NO_WRAP))
+                BinaryCountingOutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption))
             }
             else -> throw IOException("Unable to write in an unknown file")
         }
