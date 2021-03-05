@@ -5,14 +5,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kunzisoft.keepass.activities.fragments.IconCustomFragment
 import com.kunzisoft.keepass.activities.fragments.IconStandardFragment
 
-class IconPickerPagerAdapter(fragment: Fragment)
+class IconPickerPagerAdapter(fragment: Fragment, val size: Int)
     : FragmentStateAdapter(fragment) {
 
     private val iconStandardFragment = IconStandardFragment()
     private val iconCustomFragment = IconCustomFragment()
 
     override fun getItemCount(): Int {
-        return 2
+        return size
     }
 
     override fun createFragment(position: Int): Fragment {

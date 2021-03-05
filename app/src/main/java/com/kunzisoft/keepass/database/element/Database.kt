@@ -98,9 +98,11 @@ class Database {
             return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
         }
 
+    val allowCustomIcons: Boolean
+        get() = mDatabaseKDBX != null
+
     fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom? {
-        return mDatabaseKDB?.buildNewCustomIcon(cacheDirectory)
-                ?: mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
+        return mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
     }
 
     fun removeCustomIcon(iconUUID: UUID) {

@@ -310,6 +310,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconId)
     }
 
+    fun buildNewCustomIcon(cacheDirectory: File, customIconId: UUID? = null): IconImageCustom {
+        return iconsManager.buildNewCustomIcon(cacheDirectory, customIconId)
+    }
+
     fun getCustomIcon(iconUuid: UUID): IconImageCustom {
         return this.iconsManager.getIcon(iconUuid)
     }

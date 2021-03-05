@@ -65,6 +65,8 @@ class IconPickerActivity : LockingActivity() {
 
         setContentView(R.layout.activity_icon_picker)
 
+        mDatabase = Database.getInstance()
+
         toolbar = findViewById(R.id.toolbar)
         toolbar.title = getString(R.string.about)
         setSupportActionBar(toolbar)
@@ -75,15 +77,17 @@ class IconPickerActivity : LockingActivity() {
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
         uploadButton = findViewById(R.id.icon_picker_upload)
-        uploadButton.setOnClickListener {
-            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
+        if (mDatabase?.allowCustomIcons == true) {
+            uploadButton.setOnClickListener {
+                mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
+            }
+            uploadButton.setOnLongClickListener {
+                mSelectFileHelper?.selectFileOnClickViewListener?.onLongClick(it)
+                true
+            }
+        } else {
+            uploadButton.visibility = View.GONE
         }
-        uploadButton.setOnLongClickListener {
-            mSelectFileHelper?.selectFileOnClickViewListener?.onLongClick(it)
-            true
-        }
-
-        mDatabase = Database.getInstance()
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {

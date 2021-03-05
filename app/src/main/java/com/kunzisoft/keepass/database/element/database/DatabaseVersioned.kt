@@ -23,7 +23,6 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
-import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -31,7 +30,10 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import org.apache.commons.codec.binary.Hex
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -334,10 +336,6 @@ abstract class DatabaseVersioned<
     abstract fun rootCanContainsEntry(): Boolean
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
-
-    fun buildNewCustomIcon(cacheDirectory: File, customIconId: UUID? = null): IconImageCustom {
-        return iconsManager.buildNewCustomIcon(cacheDirectory, customIconId)
-    }
 
     abstract fun containsCustomData(): Boolean
 

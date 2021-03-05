@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 class IconPickerFragment : Fragment() {
@@ -19,6 +20,8 @@ class IconPickerFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
     private val iconPickerViewModel: IconPickerViewModel by activityViewModels()
+
+    private var mDatabase: Database? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,9 +32,12 @@ class IconPickerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mDatabase = Database.getInstance()
+
         viewPager = view.findViewById(R.id.icon_picker_pager)
         val tabLayout = view.findViewById<TabLayout>(R.id.icon_picker_tabs)
-        iconPickerPagerAdapter = IconPickerPagerAdapter(this)
+        iconPickerPagerAdapter = IconPickerPagerAdapter(this,
+                if (mDatabase?.allowCustomIcons == true) 2 else 1)
         viewPager.adapter = iconPickerPagerAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
