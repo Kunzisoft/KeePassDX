@@ -51,7 +51,7 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment() {
         super.onAttach(context)
 
         // Retrieve the textColor to tint the icon
-        val ta = contextThemed?.obtainStyledAttributes(intArrayOf(R.attr.colorControlNormal))
+        val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         val tintColor = ta?.getColor(0, Color.BLACK) ?: Color.BLACK
         ta?.recycle()
 
