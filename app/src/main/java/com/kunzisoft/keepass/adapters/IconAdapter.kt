@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
-class IconAdapter<I: IconImageDraw>(val context: Context) : RecyclerView.Adapter<IconAdapter<I>.CustomIconViewHolder>() {
+class IconAdapter<I: IconImageDraw>(val context: Context, val tintIcon: Int)
+    : RecyclerView.Adapter<IconAdapter<I>.CustomIconViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -20,15 +20,6 @@ class IconAdapter<I: IconImageDraw>(val context: Context) : RecyclerView.Adapter
 
     var iconDrawableFactory: IconDrawableFactory? = null
     var iconPickerListener: IconPickerListener<I>? = null
-
-    var tintColor : Int = Color.BLACK
-
-    init {
-        // Retrieve the textColor to tint the icon
-        val ta = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        tintColor = ta.getColor(0, Color.BLACK)
-        ta.recycle()
-    }
 
     val lastPosition: Int
         get() = iconList.lastIndex
@@ -56,7 +47,7 @@ class IconAdapter<I: IconImageDraw>(val context: Context) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: CustomIconViewHolder, position: Int) {
         val icon = iconList[position]
         iconDrawableFactory?.let {
-            holder.iconImageView.assignDatabaseIcon(it, icon, tintColor)
+            holder.iconImageView.assignDatabaseIcon(it, icon, tintIcon)
         }
         holder.itemView.setOnClickListener { iconPickerListener?.iconPicked(icon) }
     }

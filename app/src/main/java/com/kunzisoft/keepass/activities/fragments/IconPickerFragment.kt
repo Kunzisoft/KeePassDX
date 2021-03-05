@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
-class IconPickerFragment : Fragment() {
+class IconPickerFragment : StylishFragment() {
 
     private var iconPickerPagerAdapter: IconPickerPagerAdapter? = null
     private lateinit var viewPager: ViewPager2
