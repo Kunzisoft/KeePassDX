@@ -498,7 +498,7 @@
     <string name="device_credential_unlock_enable_summary">Veri tabanını açmak için aygıt kimlik bilgilerinizi kullanmanıza olanak tanır</string>
     <string name="device_credential_unlock_enable_title">Aygıt kimlik bilgisiyle kilit açma</string>
     <string name="device_credential">Aygıt kimlik bilgileri</string>
-    <string name="credential_before_click_advanced_unlock_button">Parolayı yazın ve ardından \"Gelişmiş kilit açma\" düğmesine tıklayın.</string>
+    <string name="credential_before_click_advanced_unlock_button">Parolayı yazın ve ardından bu düğmeye tıklayın.</string>
     <string name="advanced_unlock_prompt_not_initialized">Gelişmiş kilit açma istemi başlatılamıyor.</string>
     <string name="no_credentials_stored">Bu veri tabanında henüz saklanmış kimlik bilgisi yok.</string>
     <string name="advanced_unlock_scanning_error">Gelişmiş kilit açma hatası: %1$s</string>
@@ -542,4 +542,11 @@
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Mevcut OTP türü bu form tarafından tanınmıyor, doğrulaması artık belirteci doğru şekilde oluşturmayabilir.</string>
     <string name="download_canceled">İptal edildi!</string>
+    <string name="icon_section_custom">Özel</string>
+    <string name="icon_section_standard">Standart</string>
+    <string name="style_brightness_summary">Açık veya koyu temaları seçin</string>
+    <string name="style_brightness_title">Tema parlaklığı</string>
+    <string name="error_upload_file">Dosya verileri karşıya yüklenirken bir hata oluştu.</string>
+    <string name="error_file_to_big">Karşıya yüklemeye çalıştığınız dosya çok büyük.</string>
+    <string name="content_description_otp_information">Tek seferlik parola bilgileri</string>
 </resources>
