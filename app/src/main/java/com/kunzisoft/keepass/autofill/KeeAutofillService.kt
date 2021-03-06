@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.autofill
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BlendMode
@@ -130,6 +131,7 @@ class KeeAutofillService : AutofillService() {
         )
     }
 
+    @SuppressLint("RestrictedApi")
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: InlineSuggestionsRequest?,

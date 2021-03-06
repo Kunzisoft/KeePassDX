@@ -126,7 +126,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     // Autofill
-    implementation "androidx.autofill:autofill:1.1.0-rc01"
+    implementation "androidx.autofill:autofill:1.1.0"
     // Crypto
     implementation 'org.bouncycastle:bcprov-jdk15on:1.65.01'
     // Time
