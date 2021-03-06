@@ -71,7 +71,7 @@
 
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
-    <color name="background_dark">#000000</color>
+    <color name="background_dark">#0d0f10</color>
     <color name="background_purple">#F2EDFA</color>
     <color name="background_purple_light">#F7F3FD</color>
     <color name="background_purple_light_transparent">#E0F7F3FD</color>
