@@ -206,7 +206,7 @@
         <item name="android:textColor">?android:attr/textColorHintInverse</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle" parent="KeepassDXStyle.TextAppearance.Tiny">
-        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
     </style>
 
     <!-- Action Style -->
