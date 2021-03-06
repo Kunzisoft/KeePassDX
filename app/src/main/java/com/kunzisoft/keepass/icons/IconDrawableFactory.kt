@@ -159,17 +159,15 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
             CoroutineScope(Dispatchers.IO).launch {
                 addToCache(context.resources, icon)
                 withContext(Dispatchers.Main) {
-                    IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-                        val superDrawable = getIconSuperDrawable(context,
-                                icon,
-                                imageView.width,
-                                tintColor)
-                        imageView.setImageDrawable(superDrawable.drawable)
-                        if (superDrawable.tintable && selectedIconPack.tintable()) {
-                            ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))
-                        } else {
-                            ImageViewCompat.setImageTintList(imageView, null)
-                        }
+                    val superDrawable = getIconSuperDrawable(context,
+                            icon,
+                            imageView.width,
+                            tintColor)
+                    imageView.setImageDrawable(superDrawable.drawable)
+                    if (superDrawable.tintable) {
+                        ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))
+                    } else {
+                        ImageViewCompat.setImageTintList(imageView, null)
                     }
                 }
             }
