@@ -24,7 +24,7 @@
         <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
-        <item name="colorControlNormal">@color/colorText</item>
+        <item name="colorControlNormal">@color/grey_light</item>
         <item name="colorControlActivated">@color/green</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorHintInverse">@color/green_light</item>
@@ -42,22 +42,22 @@
         <item name="educationTextColor">@color/white</item>
 
         <item name="android:textColor">@color/text_color_light</item>
-        <item name="android:editTextColor">@color/colorText</item>
-        <item name="textColorInverse">@color/colorText</item>
-        <item name="android:textColorPrimaryInverse">@color/colorText</item>
+        <item name="android:editTextColor">@color/grey_light</item>
+        <item name="textColorInverse">@color/grey_light</item>
+        <item name="android:textColorPrimaryInverse">@color/grey_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorSecondaryInverse">@color/colorTextSecondary</item>
-        <item name="android:textColorHint">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
+        <item name="android:textColorHint">@color/grey_lighter</item>
     </style>
     <!-- Toolbar Style White -->
     <style name="KeepassDXStyle.Toolbar.White" parent="KeepassDXStyle.White">
-        <item name="colorControlNormal">@color/colorText</item>
-        <item name="android:textColorPrimary">@color/colorText</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
-        <item name="android:editTextColor">@color/colorText</item>
+        <item name="colorControlNormal">@color/grey_light</item>
+        <item name="android:textColorPrimary">@color/grey_light</item>
+        <item name="android:textColorSecondary">@color/grey_lighter</item>
+        <item name="android:editTextColor">@color/grey_light</item>
         <item name="android:textColorHint">@color/green_light</item>
-        <item name="android:tint">@color/colorText</item>
-        <item name="tint">@color/colorText</item>
+        <item name="android:tint">@color/grey_light</item>
+        <item name="tint">@color/grey_light</item>
     </style>
     <!-- Toolbar Popup menu -->
     <style name="KeepassDXStyle.Toolbar.Popup.White" parent="KeepassDXStyle.Toolbar.White">

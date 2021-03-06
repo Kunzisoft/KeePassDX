@@ -18,7 +18,7 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/keyboard_background"
+    android:background="@color/grey_blue_dark"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 

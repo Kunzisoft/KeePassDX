@@ -20,15 +20,15 @@
 <resources>
     <!-- Black Style -->
     <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Night" >
-        <item name="colorPrimary">@color/dark</item>
+        <item name="colorPrimary">@color/black_light</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/orange_dark</item>
         <item name="colorAccentLight">@color/orange</item>
-        <item name="colorControlNormal">@color/colorText</item>
+        <item name="colorControlNormal">@color/grey_light</item>
         <item name="colorControlActivated">@color/green_darker</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:textColorHintInverse">@color/green_light</item>
-        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:windowBackground">@color/black</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Black</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
@@ -37,22 +37,22 @@
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Black</item>
-        <item name="cardBackgroundTransparentColor">@color/dark_transparent</item>
+        <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
         <item name="educationCircleColor">@color/orange_dark</item>
         <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Toolbar Style Black -->
     <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
-        <item name="colorControlNormal">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey_lighter</item>
+        <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/green_lighter</item>
-        <item name="android:tint">@color/colorTextInverse</item>
+        <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Popup menu -->
     <style name="KeepassDXStyle.Toolbar.Popup.Black" parent="KeepassDXStyle.Toolbar.Black">
-        <item name="android:colorBackground">@color/grey_black</item>
+        <item name="android:colorBackground">@color/black_lighter</item>
     </style>
     <!-- Toolbar Home Black -->
     <style name="KeepassDXStyle.Toolbar.Home.Black" parent="KeepassDXStyle.Toolbar.Black">
@@ -70,17 +70,17 @@
         <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Black</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Widget.Action.Black" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/dark</item>
+        <item name="android:background">@color/black_light</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:background">@color/grey_black</item>
-        <item name="background">@color/grey_black</item>
+        <item name="android:background">@color/black_lighter</item>
+        <item name="background">@color/black_lighter</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Black" parent="CardView">
-        <item name="cardBackgroundColor">@color/dark</item>
+        <item name="cardBackgroundColor">@color/black_light</item>
     </style>
 </resources>

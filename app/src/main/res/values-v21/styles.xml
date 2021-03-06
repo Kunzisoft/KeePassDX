@@ -20,8 +20,8 @@
 <resources>
     <!-- To encapsulate elevation & status bar color -->
     <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21">
-        <item name="android:statusBarColor">@color/background_night</item>
-        <item name="android:navigationBarColor">@color/background_night</item>
+        <item name="android:statusBarColor">@color/grey_dark</item>
+        <item name="android:navigationBarColor">@color/grey_dark</item>
     </style>
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
@@ -30,12 +30,12 @@
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
     </style>
     <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light" >
-        <item name="android:statusBarColor">@color/dark_light</item>
+        <item name="android:statusBarColor">@color/grey_darker</item>
     </style>
     <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v21" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">@color/background_dark</item>
+        <item name="android:navigationBarColor">@color/black</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
     </style>

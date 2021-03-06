@@ -22,7 +22,7 @@
     <!-- SplashScreen theme -->
     <style name="KeepassDXStyle.SplashScreen.v21" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/background_night</item>
+        <item name="colorPrimaryDark">@color/grey_dark</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
     <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21"/>
@@ -48,23 +48,23 @@
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
 
-        <item name="colorControlNormal">@color/colorTextSecondary</item>
+        <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
 
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
-        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowBackground">@color/white_dark</item>
         <item name="cardBackgroundTransparentColor">#DDFFFFFF</item>
 
         <item name="android:textColor">@color/text_color_light</item>
-        <item name="android:editTextColor">@color/colorText</item>
-        <item name="textColorInverse">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/grey_light</item>
+        <item name="textColorInverse">@color/white</item>
         <item name="android:textColorPrimary">@color/green_light</item>
-        <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
+        <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
-        <item name="android:textColorHint">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
+        <item name="android:textColorHint">@color/grey_lighter</item>
         <item name="android:textColorHintInverse">@color/green_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
@@ -105,23 +105,23 @@
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
 
-        <item name="colorControlNormal">@color/colorTextSecondary</item>
+        <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
 
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
-        <item name="android:windowBackground">@color/background_night</item>
+        <item name="android:windowBackground">@color/grey_dark</item>
         <item name="cardBackgroundTransparentColor">@color/grey_dark_transparent</item>
 
         <item name="android:textColor">@color/text_color_night</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
-        <item name="textColorInverse">@color/colorTextInverse</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="textColorInverse">@color/white</item>
         <item name="android:textColorPrimary">@color/green_light</item>
-        <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
+        <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
-        <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
-        <item name="android:textColorHint">@color/colorTextSecondary</item>
+        <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
+        <item name="android:textColorHint">@color/grey_lighter</item>
         <item name="android:textColorHintInverse">@color/green_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
@@ -161,20 +161,20 @@
 
     <!-- Toolbar Style -->
     <style name="KeepassDXStyle.Toolbar.Light" parent="KeepassDXStyle.Light.v21">
-        <item name="colorControlNormal">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextInverse</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/green_lighter</item>
-        <item name="android:tint">@color/colorTextInverse</item>
+        <item name="android:tint">@color/white</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
-        <item name="colorControlNormal">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextInverse</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/green_lighter</item>
-        <item name="android:tint">@color/colorTextInverse</item>
+        <item name="android:tint">@color/white</item>
     </style>
 
     <!-- Toolbar Home -->
@@ -232,24 +232,24 @@
     <style name="KeepassDXStyle.Light.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
-        <item name="background">@color/background_light</item>
+        <item name="background">@color/white_dark</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
-        <item name="background">@color/background_night</item>
+        <item name="background">@color/grey_dark</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
     <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowBackground">@color/white_dark</item>
     </style>
     <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_light</item>
-        <item name="android:windowBackground">@color/background_night</item>
+        <item name="android:windowBackground">@color/grey_dark</item>
     </style>
 
     <!-- CheckBox -->
@@ -307,7 +307,7 @@
 
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorTextInverse</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/background_text_info</item>
         <item name="backgroundTint">?attr/colorAccent</item>
     </style>
@@ -390,7 +390,7 @@
     </style>
     <style name="KeepassDXStyle.Special.Button.Stroke" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/btn_special_start_bottom_stroke</item>
-        <item name="backgroundTint">@color/colorTextInverse</item>
+        <item name="backgroundTint">@color/white</item>
         <item name="backgroundTintMode">src_atop</item>
     </style>
 

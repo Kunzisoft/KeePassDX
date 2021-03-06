@@ -21,29 +21,28 @@
 	<color name="transparent">#00ffffff</color>
 	<color name="white">#ffffff</color>
 	<color name="white_transparent">#E0FFFFFF</color>
-	<color name="black">#000000</color>
-    <color name="darker">#0A0A0A</color>
-    <color name="grey_black">#101010</color>
-    <color name="dark">#0e0e0e</color>
-    <color name="dark_light">#212121</color>
-    <color name="dark_transparent">#E00E0E0E</color>
-    <color name="grey_lightest">#ececec</color>
-    <color name="grey_lighter">#dddddd</color>
-    <color name="grey_lighter_transparent">#E0DDDDDD</color>
-    <color name="grey_light">#D4D4D4</color>
-    <color name="grey">#bdbdbd</color>
-    <color name="grey_dark">#9e9e9e</color>
+    <color name="white_dark">#FAFAFA</color>
+    <color name="white_darkest">#ececec</color>
+    <color name="white_grey_lighter">#dddddd</color>
+    <color name="white_grey_lighter_transparent">#E0DDDDDD</color>
+    <color name="white_grey_light">#D4D4D4</color>
+    <color name="white_grey">#bdbdbd</color>
+    <color name="white_grey_dark">#c7c7c7</color>
+    <color name="white_grey_darker">#9e9e9e</color>
+    <color name="grey_lighter">#7c7c7c</color>
+    <color name="grey_light">#616161</color>
+    <color name="grey">#565656</color>
     <color name="grey_dark_transparent">#E0424242</color>
+    <color name="grey_dark">#303030</color>
+    <color name="grey_darker">#212121</color>
+    <color name="black_lighter">#101010</color>
+    <color name="black_light">#0e0e0e</color>
+    <color name="black_light_transparent">#E00E0E0E</color>
+	<color name="black">#000000</color>
+	<color name="black_transparent">#E0000000</color>
 
-    <color name="orange_light">#ffa726</color>
-    <color name="orange">#fb8c00</color>
-    <color name="orange_dark">#ef6c00</color>
-
-    <color name="green_lighter">#a5d6a7</color>
-    <color name="green_light">#4caf50</color>
-    <color name="green">#43a047</color>
-    <color name="green_dark">#388e3c</color>
-    <color name="green_darker">#2e7d32</color>
+    <color name="grey_blue">#3c474c</color>
+    <color name="grey_blue_dark">#263238</color>
 
     <color name="blue_lighter">#90CAF9</color>
     <color name="blue_white">#5DB2F6</color>
@@ -57,42 +56,30 @@
     <color name="cyan_light">#2486AB</color>
     <color name="cyan">#2c7a96</color>
 
+    <color name="green_lighter">#a5d6a7</color>
+    <color name="green_light">#4caf50</color>
+    <color name="green">#43a047</color>
+    <color name="green_dark">#388e3c</color>
+    <color name="green_darker">#2e7d32</color>
+
     <color name="red_lighter">#ef9a9a</color>
     <color name="red_light">#f44336</color>
     <color name="red">#e53935</color>
     <color name="red_dark">#d32f2f</color>
 
+    <color name="orange_light">#ffa726</color>
+    <color name="orange">#fb8c00</color>
+    <color name="orange_dark">#ef6c00</color>
+
+    <color name="white_purple">#F2EDFA</color>
+    <color name="white_purple_light">#F7F3FD</color>
+    <color name="white_purple_light_transparent">#E0F7F3FD</color>
     <color name="purple_lighter">#ce93d8</color>
     <color name="purple_light">#9048bc</color>
     <color name="purple">#743998</color>
     <color name="purple_dark">#653383</color>
     <color name="purple_darker">#4E1C6B</color>
-    <color name="purple_darkest">#451D5D</color>
-
-    <color name="background_light">#FAFAFA</color>
-	<color name="background_night">#303030</color>
-    <color name="background_dark">#0d0f10</color>
-    <color name="background_purple">#F2EDFA</color>
-    <color name="background_purple_light">#F7F3FD</color>
-    <color name="background_purple_light_transparent">#E0F7F3FD</color>
-    <color name="background_purple_dark">#361748</color>
-    <color name="background_purple_dark_transparent">#E0361748</color>
-
-    <color name="icon_background">#555555</color>
-    <color name="icon_text">#000000</color>
-
-    <color name="colorTextPrimaryInverse">#cccccc</color>
-    <color name="colorText">#616161</color>
-    <color name="colorTextDisable">#c7c7c7</color>
-    <color name="colorTextInverse">#FFFFFF</color>
-    <color name="colorTextInverseDisable">#565656</color>
-    <color name="colorTextSecondary">#7c7c7c</color>
-    <color name="colorTextSecondaryDisable">#c7c7c7</color>
-    <color name="colorTextSecondaryInverse">#999999</color>
-    <color name="colorTextSecondaryInverseDisable">#565656</color>
-
-    <color name="keyboard_button">#3c474c</color>
-    <color name="keyboard_button_pressed">#263238</color>
-    <color name="keyboard_button_border">#3c464c</color>
-    <color name="keyboard_background">#263238</color>
+    <color name="black_purple">#451D5D</color>
+    <color name="black_purple_dark">#361748</color>
+    <color name="black_purple_dark_transparent">#E0361748</color>
 </resources>

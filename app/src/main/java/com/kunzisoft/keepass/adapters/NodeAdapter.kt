@@ -100,7 +100,7 @@ class NodeAdapter (private val context: Context)
         this.mDatabase = Database.getInstance()
 
         // Color of content selection
-        this.mContentSelectionColor = ContextCompat.getColor(context, R.color.colorTextInverse)
+        this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mIconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)

@@ -27,7 +27,7 @@
         <item name="colorControlActivated">@color/blue_white</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
-        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowBackground">@color/white_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>
@@ -40,12 +40,12 @@
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue" parent="KeepassDXStyle.Blue">
         <item name="colorControlActivated">@color/blue_lighter</item>
-        <item name="colorControlNormal">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextInverse</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/blue_lighter</item>
-        <item name="android:tint">@color/colorTextInverse</item>
+        <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Home Blue -->
     <style name="KeepassDXStyle.Toolbar.Home.Blue" parent="KeepassDXStyle.Toolbar.Blue">
