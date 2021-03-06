@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 
@@ -31,7 +32,7 @@ class DuplicateUuidDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = androidx.appcompat.app.AlertDialog.Builder(activity).apply {
+            val builder = AlertDialog.Builder(activity).apply {
                 val message = getString(R.string.contains_duplicate_uuid) +
                         "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
                 setMessage(message)
