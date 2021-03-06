@@ -60,7 +60,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.GroupActivityEducation
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -533,9 +532,10 @@ class GroupActivity : LockingActivity(),
         } else {
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
-            mCurrentGroup?.let {
-                if (mDatabase?.iconDrawableFactory != null)
-                    iconView?.assignDatabaseIcon(mDatabase?.iconDrawableFactory!!, it.icon, mIconColor)
+            mCurrentGroup?.let { currentGroup ->
+                iconView?.let { imageView ->
+                    mDatabase?.iconDrawableFactory?.assignDatabaseIcon(imageView, currentGroup.icon, mIconColor)
+                }
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)

@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -240,9 +239,7 @@ class EntryEditFragment: StylishFragment() {
         }
         set(value) {
             mEntryInfo.icon = value
-            drawFactory?.let { drawFactory ->
-                entryIconView.assignDatabaseIcon(drawFactory, value, iconColor)
-            }
+            drawFactory?.assignDatabaseIcon(entryIconView, value, iconColor)
         }
 
     var username: String

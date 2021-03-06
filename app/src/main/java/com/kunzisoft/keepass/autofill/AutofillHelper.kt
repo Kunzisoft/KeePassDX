@@ -46,8 +46,6 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.icons.createIconFromDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
@@ -274,9 +272,9 @@ object AutofillHelper {
         val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
         presentation.setTextViewText(R.id.autofill_entry_text, remoteViewsText)
         if (remoteViewsIcon != null) {
-            presentation.assignDatabaseIcon(context,
+            Database.getInstance().iconDrawableFactory.assignDatabaseIcon(context,
+                    presentation,
                     R.id.autofill_entry_icon,
-                    Database.getInstance().iconDrawableFactory,
                     remoteViewsIcon,
                     ContextCompat.getColor(context, R.color.green))
         }
@@ -284,8 +282,7 @@ object AutofillHelper {
     }
 
     private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
-        return createIconFromDatabaseIcon(context,
-                Database.getInstance().iconDrawableFactory,
+        return Database.getInstance().iconDrawableFactory.createIconFromDatabaseIcon(context,
                 entryInfo.icon,
                 ContextCompat.getColor(context, R.color.green))
     }

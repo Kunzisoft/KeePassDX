@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
 
@@ -81,10 +80,9 @@ class SearchEntryCursorAdapter(private val context: Context,
             val viewHolder = view.tag as ViewHolder
 
             // Assign image
-            viewHolder.imageViewIcon?.assignDatabaseIcon(
-                    database.iconDrawableFactory,
-                    currentEntry.icon,
-                    iconColor)
+            viewHolder.imageViewIcon?.let { iconView ->
+                database.iconDrawableFactory.assignDatabaseIcon(iconView, currentEntry.icon, iconColor)
+            }
 
             // Assign title
             viewHolder.textViewTitle?.apply {

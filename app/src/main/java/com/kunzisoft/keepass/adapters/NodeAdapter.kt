@@ -40,7 +40,6 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
@@ -304,7 +303,7 @@ class NodeAdapter (private val context: Context)
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            assignDatabaseIcon(mDatabase.iconDrawableFactory, subNode.icon, iconColor)
+            mDatabase.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()

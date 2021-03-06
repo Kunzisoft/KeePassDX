@@ -67,7 +67,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     /**
      * Utility method to assign a drawable to an ImageView and tint it
      */
-    fun assignDrawableToImageView(superDrawable: SuperDrawable, imageView: ImageView?, tint: Boolean, tintColor: Int) {
+    private fun assignDrawableToImageView(superDrawable: SuperDrawable, imageView: ImageView?, tint: Boolean, tintColor: Int) {
         if (imageView != null) {
             imageView.setImageDrawable(superDrawable.drawable)
             if (superDrawable.tintable && tint) {
@@ -81,7 +81,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     /**
      * Utility method to assign a drawable to a RemoteView and tint it
      */
-    fun assignDrawableToRemoteViews(superDrawable: SuperDrawable,
+    private fun assignDrawableToRemoteViews(superDrawable: SuperDrawable,
                                     remoteViews: RemoteViews,
                                     imageId: Int,
                                     tintColor: Int = Color.BLACK) {
@@ -99,7 +99,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      * Utility method to assign a drawable to a icon and tint it
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    fun assignDrawableToIcon(superDrawable: SuperDrawable,
+    private fun assignDrawableToIcon(superDrawable: SuperDrawable,
                              tintColor: Int = Color.BLACK): Icon {
         val bitmap = superDrawable.drawable.toBitmap()
         // Tint bitmap if it's not a custom icon
@@ -114,7 +114,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     /**
      * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
+    private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
         return if (!icon.custom.isUnknown) {
             SuperDrawable(getIconDrawable(context.resources, icon.custom))
@@ -129,38 +129,9 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     }
 
     /**
-     * Key class to retrieve a Drawable in the cache if it's tinted or not
-     */
-    private inner class CacheKey(var resId: Int, var density: Int, var isTint: Boolean, var color: Int) {
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (other == null || javaClass != other.javaClass) return false
-            val cacheKey = other as CacheKey
-            return if (isTint)
-                resId == cacheKey.resId
-                        && density == cacheKey.density
-                        && cacheKey.isTint
-                        && color == cacheKey.color
-            else
-                resId == cacheKey.resId
-                        && density == cacheKey.density
-                        && !cacheKey.isTint
-        }
-
-        override fun hashCode(): Int {
-            var result = resId
-            result = 31 * result + density
-            result = 31 * result + isTint.hashCode()
-            result = 31 * result + color
-            return result
-        }
-    }
-
-    /**
      * Simple method to init the cache with the custom icon and be much faster next time
      */
-    fun addToCache(resources: Resources, iconDraw: IconImageDraw) {
+    private fun addToCache(resources: Resources, iconDraw: IconImageDraw) {
         val icon = iconDraw.getIconImageToDraw()
         if (icon.custom.binaryFile.length > 0
                 && !customIconMap.containsKey(icon.custom.uuid))
@@ -243,6 +214,73 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     }
 
     /**
+     * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
+     */
+    fun assignDatabaseIcon(imageView: ImageView,
+                           icon: IconImageDraw,
+                           tintColor: Int = Color.WHITE) {
+        try {
+            val context = imageView.context
+            CoroutineScope(Dispatchers.IO).launch {
+                addToCache(context.resources, icon)
+                withContext(Dispatchers.Main) {
+                    IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
+                        assignDrawableToImageView(
+                                getIconSuperDrawable(context,
+                                        icon,
+                                        imageView.width,
+                                        true,
+                                        tintColor),
+                                imageView,
+                                selectedIconPack.tintable(),
+                                tintColor)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
+        }
+    }
+
+    fun assignDatabaseIcon(context: Context,
+                           remoteViews: RemoteViews,
+                           imageId: Int,
+                           icon: IconImageDraw,
+                           tintColor: Int = Color.BLACK) {
+        try {
+            assignDrawableToRemoteViews(
+                    getIconSuperDrawable(context,
+                            icon,
+                            24,
+                            true,
+                            tintColor),
+                    remoteViews,
+                    imageId,
+                    tintColor)
+        } catch (e: Exception) {
+            Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun createIconFromDatabaseIcon(context: Context,
+                                   icon: IconImageDraw,
+                                   tintColor: Int = Color.BLACK): Icon? {
+        try {
+            return assignDrawableToIcon(
+                    getIconSuperDrawable(context,
+                            icon,
+                            24,
+                            true,
+                            tintColor),
+                    tintColor)
+        } catch (e: Exception) {
+            Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+        }
+        return null
+    }
+
+    /**
      * Build a blankDrawable drawable
      * @param res Resource to build the drawable
      */
@@ -264,83 +302,38 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      */
     class SuperDrawable(var drawable: Drawable, var tintable: Boolean = false)
 
+    /**
+     * Key class to retrieve a Drawable in the cache if it's tinted or not
+     */
+    private inner class CacheKey(var resId: Int, var density: Int, var isTint: Boolean, var color: Int) {
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || javaClass != other.javaClass) return false
+            val cacheKey = other as CacheKey
+            return if (isTint)
+                resId == cacheKey.resId
+                        && density == cacheKey.density
+                        && cacheKey.isTint
+                        && color == cacheKey.color
+            else
+                resId == cacheKey.resId
+                        && density == cacheKey.density
+                        && !cacheKey.isTint
+        }
+
+        override fun hashCode(): Int {
+            var result = resId
+            result = 31 * result + density
+            result = 31 * result + isTint.hashCode()
+            result = 31 * result + color
+            return result
+        }
+    }
+
     companion object {
 
         private val TAG = IconDrawableFactory::class.java.name
     }
 
-}
-
-/**
- * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
- */
-fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
-                                 icon: IconImageDraw,
-                                 tintColor: Int = Color.WHITE) {
-    try {
-        val thisView = this
-        CoroutineScope(Dispatchers.IO).launch {
-            iconFactory.addToCache(resources, icon)
-            withContext(Dispatchers.Main) {
-                IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-                    iconFactory.assignDrawableToImageView(
-                            iconFactory.getIconSuperDrawable(context,
-                                    icon,
-                                    width,
-                                    true,
-                                    tintColor),
-                            thisView,
-                            selectedIconPack.tintable(),
-                            tintColor)
-                }
-            }
-        }
-    } catch (e: Exception) {
-        Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
-    }
-}
-
-fun RemoteViews.assignDatabaseIcon(context: Context,
-                                   imageId: Int,
-                                   iconFactory: IconDrawableFactory,
-                                   icon: IconImageDraw,
-                                   tintColor: Int = Color.BLACK) {
-    try {
-        val thisView = this
-        CoroutineScope(Dispatchers.IO).launch {
-            iconFactory.addToCache(context.resources, icon)
-            withContext(Dispatchers.Main) {
-                iconFactory.assignDrawableToRemoteViews(
-                        iconFactory.getIconSuperDrawable(context,
-                                icon,
-                                24,
-                                true,
-                                tintColor),
-                        thisView,
-                        imageId,
-                        tintColor)
-            }
-        }
-    } catch (e: Exception) {
-        Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.M)
-fun createIconFromDatabaseIcon(context: Context,
-                               iconFactory: IconDrawableFactory,
-                               icon: IconImageDraw,
-                               tintColor: Int = Color.BLACK): Icon? {
-    try {
-        return iconFactory.assignDrawableToIcon(
-                iconFactory.getIconSuperDrawable(context,
-                        icon,
-                        24,
-                        true,
-                        tintColor),
-                tintColor)
-    } catch (e: Exception) {
-        Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
-    }
-    return null
 }

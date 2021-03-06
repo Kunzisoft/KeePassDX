@@ -37,7 +37,6 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGrou
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.view.ExpirationView
 import org.joda.time.DateTime
@@ -206,9 +205,7 @@ class GroupEditDialogFragment : DialogFragment() {
     }
 
     private fun assignIconView() {
-        if (mDatabase?.iconDrawableFactory != null) {
-            iconButtonView.assignDatabaseIcon(mDatabase?.iconDrawableFactory!!, mGroupInfo.icon, iconColor)
-        }
+        mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconButtonView, mGroupInfo.icon, iconColor)
     }
 
     fun setIcon(icon: IconImage) {
