@@ -26,12 +26,9 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
-import android.os.Build
 import android.util.Log
 import android.widget.ImageView
 import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
@@ -65,7 +62,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     private val standardIconMap = HashMap<CacheKey, WeakReference<Drawable>>()
 
     /**
-     * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
+     * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then tint it with [tintColor] if needed
      */
     private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
@@ -106,7 +103,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
 
     /**
      * Get the standard [Drawable] icon from [iconId] (cache or build it and add it to the cache if not exists yet)
-     * , then [tint] it with [tintColor] if needed
+     * , then tint it with [tintColor] if needed
      */
     private fun getIconDrawable(resources: Resources, iconId: Int, width: Int, tintColor: Int): Drawable {
         val newCacheKey = CacheKey(iconId, width, true, tintColor)
@@ -157,7 +154,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
         try {
             val context = imageView.context
             CoroutineScope(Dispatchers.IO).launch {
-                addToCache(context.resources, icon)
+                addToCustomCache(context.resources, icon)
                 withContext(Dispatchers.Main) {
                     val superDrawable = getIconSuperDrawable(context,
                             icon,
@@ -204,7 +201,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     /**
      * Simple method to init the cache with the custom icon and be much faster next time
      */
-    private fun addToCache(resources: Resources, iconDraw: IconImageDraw) {
+    private fun addToCustomCache(resources: Resources, iconDraw: IconImageDraw) {
         val icon = iconDraw.getIconImageToDraw()
         if (icon.custom.binaryFile.length > 0
                 && !customIconMap.containsKey(icon.custom.uuid))
