@@ -84,6 +84,24 @@ object AutofillHelper {
         return ""
     }
 
+    private fun newRemoteViews(context: Context,
+                               remoteViewsText: String,
+                               remoteViewsIcon: IconImage? = null): RemoteViews {
+        val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
+        presentation.setTextViewText(R.id.autofill_entry_text, remoteViewsText)
+        if (remoteViewsIcon != null) {
+            try {
+                Database.getInstance().iconDrawableFactory.getBitmapFromIcon(context,
+                        remoteViewsIcon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
+                    presentation.setImageViewBitmap(R.id.autofill_entry_icon, bitmap)
+                }
+            } catch (e: Exception) {
+                Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+            }
+        }
+        return presentation
+    }
+
     private fun buildDataset(context: Context,
                               entryInfo: EntryInfo,
                               struct: StructureParser.Result,
@@ -112,6 +130,21 @@ object AutofillHelper {
             // if not value be set
             null
         }
+    }
+
+    /**
+     * Method to assign a drawable to a new icon from a database icon
+     */
+    private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
+        try {
+            Database.getInstance().iconDrawableFactory.getBitmapFromIcon(context,
+                    entryInfo.icon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
+                return Icon.createWithBitmap(bitmap)
+            }
+        } catch (e: Exception) {
+            Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+        }
+        return null
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -264,26 +297,5 @@ object AutofillHelper {
             }
             activity.finish()
         }
-    }
-
-    private fun newRemoteViews(context: Context,
-                               remoteViewsText: String,
-                               remoteViewsIcon: IconImage? = null): RemoteViews {
-        val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
-        presentation.setTextViewText(R.id.autofill_entry_text, remoteViewsText)
-        if (remoteViewsIcon != null) {
-            Database.getInstance().iconDrawableFactory.assignDatabaseIcon(context,
-                    presentation,
-                    R.id.autofill_entry_icon,
-                    remoteViewsIcon,
-                    ContextCompat.getColor(context, R.color.green))
-        }
-        return presentation
-    }
-
-    private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
-        return Database.getInstance().iconDrawableFactory.createIconFromDatabaseIcon(context,
-                entryInfo.icon,
-                ContextCompat.getColor(context, R.color.green))
     }
 }
