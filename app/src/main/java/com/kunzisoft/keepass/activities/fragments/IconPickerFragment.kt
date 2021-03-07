@@ -53,7 +53,7 @@ class IconPickerFragment : StylishFragment() {
             remove(ICON_TAB_ARG)
         }
 
-        iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { _ ->
+        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { _ ->
             viewPager.currentItem = 1
         }
     }

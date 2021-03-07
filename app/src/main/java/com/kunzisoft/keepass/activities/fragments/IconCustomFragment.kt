@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.activities.fragments
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 
@@ -40,17 +39,36 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconPickerViewModel.iconCustomAdded.observe(viewLifecycleOwner) { iconCustom ->
+        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { iconCustom ->
             if (!iconCustom.error) {
-                iconAdapter.addIcon(iconCustom.iconCustom)
-                iconsGridView.smoothScrollToPosition(iconAdapter.lastPosition)
+                iconPickerAdapter.addIcon(iconCustom.iconCustom)
+                iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
             }
         }
+        iconPickerViewModel.customIconsSelected.observe(viewLifecycleOwner) { customIconsSelected ->
+            if (customIconsSelected.isEmpty()) {
+                iconPickerAdapter.deselectAllIcons()
+            }
+        }
+        iconPickerViewModel.customIconRemoved.observe(viewLifecycleOwner) { customIconRemoved ->
+            iconPickerAdapter.removeIcon(customIconRemoved.iconCustom)
+        }
+    }
 
-        iconAdapter.iconPickerListener = object : IconAdapter.IconPickerListener<IconImageCustom> {
-            override fun iconPicked(icon: IconImageCustom) {
-                iconPickerViewModel.selectIconCustom(icon)
-            }
+    override fun onIconClickListener(icon: IconImageCustom) {
+        if (iconActionSelectionMode) {
+            // Same long click behavior after each single click
+            onIconLongClickListener(icon)
+        } else {
+            iconPickerViewModel.pickCustomIcon(icon)
         }
+    }
+
+    override fun onIconLongClickListener(icon: IconImageCustom) {
+        // Select or deselect item if already selected
+        icon.selected = !icon.selected
+        iconPickerAdapter.updateIcon(icon)
+        iconActionSelectionMode = iconPickerAdapter.containsAnySelectedIcon()
+        iconPickerViewModel.selectCustomIcons(iconPickerAdapter.getSelectedIcons())
     }
 }

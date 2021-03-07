@@ -19,10 +19,7 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
-import android.os.Bundle
-import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.adapters.IconAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 
@@ -37,13 +34,9 @@ class IconStandardFragment : IconFragment<IconImageStandard>() {
         return database.getStandardIconList()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        iconAdapter.iconPickerListener = object : IconAdapter.IconPickerListener<IconImageStandard> {
-            override fun iconPicked(icon: IconImageStandard) {
-                iconPickerViewModel.selectIconStandard(icon)
-            }
-        }
+    override fun onIconLongClickListener(icon: IconImageStandard) {
+        iconPickerViewModel.pickStandardIcon(icon)
     }
+
+    override fun onIconClickListener(icon: IconImageStandard) {}
 }

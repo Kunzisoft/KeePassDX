@@ -121,8 +121,9 @@ class Database {
         return mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
     }
 
-    fun removeCustomIcon(iconUUID: UUID) {
-        iconsManager.removeCustomIcon(iconUUID)
+    fun removeCustomIcon(customIcon: IconImageCustom) {
+        iconDrawableFactory.clearFromCache(customIcon)
+        iconsManager.removeCustomIcon(customIcon.uuid)
     }
 
     val allowName: Boolean

@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 
-class IconAdapter<I: IconImageDraw>(val context: Context, val tintIcon: Int)
-    : RecyclerView.Adapter<IconAdapter<I>.CustomIconViewHolder>() {
+class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tintIcon: Int)
+    : RecyclerView.Adapter<IconPickerAdapter<I>.CustomIconViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -23,11 +24,47 @@ class IconAdapter<I: IconImageDraw>(val context: Context, val tintIcon: Int)
     val lastPosition: Int
         get() = iconList.lastIndex
 
+    fun containsIcon(icon: I): Boolean {
+        return iconList.contains(icon)
+    }
+
     fun addIcon(icon: I) {
         if (!iconList.contains(icon)) {
             iconList.add(icon)
             notifyItemInserted(iconList.indexOf(icon))
         }
+    }
+
+    fun updateIcon(icon: I) {
+        if (iconList.contains(icon)) {
+            iconList[iconList.indexOf(icon)] = icon
+            notifyItemChanged(iconList.indexOf(icon))
+        }
+    }
+
+    fun removeIcon(icon: I) {
+        if (iconList.contains(icon)) {
+            val position = iconList.indexOf(icon)
+            iconList.remove(icon)
+            notifyItemRemoved(position)
+        }
+    }
+
+    fun containsAnySelectedIcon(): Boolean {
+        return iconList.firstOrNull { it.selected } != null
+    }
+
+    fun deselectAllIcons() {
+        iconList.forEachIndexed { index, icon ->
+            if (icon.selected) {
+                icon.selected = false
+                notifyItemChanged(index)
+            }
+        }
+    }
+
+    fun getSelectedIcons(): List<I> {
+        return iconList.filter { it.selected }
     }
 
     fun setList(icons: List<I>) {
@@ -46,7 +83,14 @@ class IconAdapter<I: IconImageDraw>(val context: Context, val tintIcon: Int)
     override fun onBindViewHolder(holder: CustomIconViewHolder, position: Int) {
         val icon = iconList[position]
         iconDrawableFactory?.assignDatabaseIcon(holder.iconImageView, icon, tintIcon)
-        holder.itemView.setOnClickListener { iconPickerListener?.iconPicked(icon) }
+        holder.itemView.setBackgroundColor(if (icon.selected) Color.RED else Color.TRANSPARENT)
+        holder.itemView.setOnClickListener {
+            iconPickerListener?.onIconClickListener(icon)
+        }
+        holder.itemView.setOnLongClickListener {
+            iconPickerListener?.onIconLongClickListener(icon)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -54,7 +98,8 @@ class IconAdapter<I: IconImageDraw>(val context: Context, val tintIcon: Int)
     }
 
     interface IconPickerListener<I: IconImageDraw> {
-        fun iconPicked(icon: I)
+        fun onIconClickListener(icon: I)
+        fun onIconLongClickListener(icon: I)
     }
 
     inner class CustomIconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

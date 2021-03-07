@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.Parcelable
 
-class IconImage() : Parcelable, IconImageDraw {
+class IconImage() : IconImageDraw(), Parcelable {
 
     var standard: IconImageStandard = IconImageStandard()
     var custom: IconImageCustom = IconImageCustom()

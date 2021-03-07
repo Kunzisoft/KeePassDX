@@ -20,8 +20,11 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +42,13 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.BinaryStreamManager
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
+import kotlinx.coroutines.*
+import java.io.File
 
 
 class IconPickerActivity : LockingActivity() {
@@ -54,7 +60,11 @@ class IconPickerActivity : LockingActivity() {
 
     private var mIconImage: IconImage = IconImage()
 
+    private val mainScope = CoroutineScope(Dispatchers.Main)
+
     private val iconPickerViewModel: IconPickerViewModel by viewModels()
+    private var mCustomIconsSelectionMode = false
+    private var mIconsSelected: List<IconImageCustom> = ArrayList()
 
     private var mDatabase: Database? = null
 
@@ -68,7 +78,6 @@ class IconPickerActivity : LockingActivity() {
         mDatabase = Database.getInstance()
 
         toolbar = findViewById(R.id.toolbar)
-        toolbar.title = getString(R.string.about)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -118,7 +127,7 @@ class IconPickerActivity : LockingActivity() {
 
         mSelectFileHelper = SelectFileHelper(this)
 
-        iconPickerViewModel.iconStandardSelected.observe(this) { iconStandard ->
+        iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard
             // Remove the custom icon if a standard one is selected
             mIconImage.custom = IconImageCustom()
@@ -127,7 +136,7 @@ class IconPickerActivity : LockingActivity() {
             })
             finish()
         }
-        iconPickerViewModel.iconCustomSelected.observe(this) { iconCustom ->
+        iconPickerViewModel.customIconPicked.observe(this) { iconCustom ->
             // Keep the standard icon if a custom one is selected
             mIconImage.custom = iconCustom
             setResult(Activity.RESULT_OK, Intent().apply {
@@ -135,11 +144,31 @@ class IconPickerActivity : LockingActivity() {
             })
             finish()
         }
-        iconPickerViewModel.iconCustomAdded.observe(this) { iconCustomAdded ->
+        iconPickerViewModel.customIconsSelected.observe(this) { iconsSelected ->
+            mIconsSelected = iconsSelected
+            if (iconsSelected.isEmpty()) {
+                mCustomIconsSelectionMode = false
+                supportActionBar?.setDisplayShowTitleEnabled(false)
+                toolbar.title = ""
+            } else {
+                mCustomIconsSelectionMode = true
+                supportActionBar?.setDisplayShowTitleEnabled(true)
+                toolbar.title = iconsSelected.size.toString()
+            }
+            invalidateOptionsMenu()
+        }
+        iconPickerViewModel.customIconAdded.observe(this) { iconCustomAdded ->
             if (iconCustomAdded.error) {
                 Snackbar.make(coordinatorLayout, R.string.error_upload_file, Snackbar.LENGTH_LONG).asError().show()
             }
             uploadButton.isEnabled = true
+        }
+        iconPickerViewModel.customIconRemoved.observe(this) { iconCustomRemoved ->
+            if (iconCustomRemoved.error) {
+                Snackbar.make(coordinatorLayout, R.string.error_remove_file, Snackbar.LENGTH_LONG).asError().show()
+            }
+            uploadButton.isEnabled = true
+            iconPickerViewModel.deselectAllCustomIcons()
         }
     }
 
@@ -163,14 +192,70 @@ class IconPickerActivity : LockingActivity() {
         toolbar.updateLockPaddingLeft()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+
+        if (mCustomIconsSelectionMode) {
+            menuInflater.inflate(R.menu.icon, menu)
+        }
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                if (mCustomIconsSelectionMode) {
+                    iconPickerViewModel.deselectAllCustomIcons()
+                } else {
+                    onBackPressed()
+                }
+            }
+            R.id.menu_delete -> {
+                mIconsSelected.forEach { iconToRemove ->
+                    removeCustomIcon(iconToRemove)
+                }
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun addCustomIcon(contentResolver: ContentResolver,
+                              iconDir: File,
+                              iconToUploadUri: Uri) {
+        uploadButton.isEnabled = false
+        mainScope.launch {
+            withContext(Dispatchers.IO) {
+                // on Progress with thread
+                val asyncResult: Deferred<IconImageCustom?> = async {
+                    mDatabase?.buildNewCustomIcon(iconDir)?.let { customIcon ->
+                        BinaryStreamManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
+                                iconToUploadUri, customIcon.binaryFile)
+                        customIcon
+                    }
+                }
+                withContext(Dispatchers.Main) {
+                    asyncResult.await()?.let { customIcon ->
+                        var error = false
+                        if (customIcon.binaryFile.length <= 0) {
+                            mDatabase?.removeCustomIcon(customIcon)
+                            error = true
+                        }
+                        iconPickerViewModel.addCustomIcon(
+                                IconPickerViewModel.IconCustomState(customIcon, error)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun removeCustomIcon(iconImageCustom: IconImageCustom) {
+        uploadButton.isEnabled = false
+        mDatabase?.removeCustomIcon(iconImageCustom)
+        iconPickerViewModel.removeCustomIcon(
+                IconPickerViewModel.IconCustomState(iconImageCustom, false)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -182,13 +267,10 @@ class IconPickerActivity : LockingActivity() {
                     if (documentFile.length() > MAX_ICON_SIZE) {
                         Snackbar.make(coordinatorLayout, R.string.error_file_to_big, Snackbar.LENGTH_LONG).asError().show()
                     } else {
-                        mDatabase?.let { database ->
-                            iconPickerViewModel.addCustomIcon(database,
-                                    contentResolver,
-                                    UriUtil.getBinaryDir(this),
-                                    iconToUploadUri)
-                            uploadButton.isEnabled = false
-                        }
+                        addCustomIcon(
+                                contentResolver,
+                                UriUtil.getBinaryDir(this),
+                                iconToUploadUri)
                     }
                 }
             }

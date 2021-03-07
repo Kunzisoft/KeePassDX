@@ -209,6 +209,13 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     }
 
     /**
+     * Clear a specific icon from the cache
+     */
+    fun clearFromCache(icon: IconImageCustom) {
+        customIconMap.remove(icon.uuid)
+    }
+
+    /**
      * Clear the cache of icons
      */
     fun clearCache() {

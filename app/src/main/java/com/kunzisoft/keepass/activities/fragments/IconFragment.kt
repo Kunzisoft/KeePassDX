@@ -29,15 +29,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
-import com.kunzisoft.keepass.adapters.IconAdapter
+import com.kunzisoft.keepass.adapters.IconPickerAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
-abstract class IconFragment<T: IconImageDraw> : StylishFragment() {
+abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
+        IconPickerAdapter.IconPickerListener<T> {
 
     protected lateinit var iconsGridView: RecyclerView
-    protected lateinit var iconAdapter: IconAdapter<T>
+    protected lateinit var iconPickerAdapter: IconPickerAdapter<T>
+    protected var iconActionSelectionMode = false
 
     protected val database = Database.getInstance()
 
@@ -55,11 +57,11 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment() {
         val tintColor = ta?.getColor(0, Color.BLACK) ?: Color.BLACK
         ta?.recycle()
 
-        iconAdapter = IconAdapter<T>(context, tintColor).apply {
+        iconPickerAdapter = IconPickerAdapter<T>(context, tintColor).apply {
             iconDrawableFactory = database.iconDrawableFactory
         }
 
-        iconAdapter.setList(defineIconList(database))
+        iconPickerAdapter.setList(defineIconList(database))
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -67,7 +69,17 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment() {
                               savedInstanceState: Bundle?): View {
         val root = inflater.inflate(retrieveMainLayoutId(), container, false)
         iconsGridView = root.findViewById(R.id.icons_grid_view)
-        iconsGridView.adapter = iconAdapter
+        iconsGridView.adapter = iconPickerAdapter
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        iconPickerAdapter.iconPickerListener = this
+    }
+
+    fun onIconDeleteClicked() {
+        iconActionSelectionMode = false
     }
 }
