@@ -520,7 +520,7 @@
     <string name="device_credential_unlock_enable_summary">Umożliwia otwieranie bazy danych za pomocą poświadczeń urządzenia</string>
     <string name="device_credential_unlock_enable_title">Odblokowanie uwierzytelniające urządzenia</string>
     <string name="device_credential">Uwierzytelnienie urządzenia</string>
-    <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij przycisk \"Zaawansowane odblokowanie\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij ten przycisk.</string>
     <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
     <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowuj. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
@@ -558,4 +558,11 @@
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Istniejący typ OTP nie jest rozpoznawany przez ten formularz, jego walidacja może już nie generować poprawnie tokenu.</string>
     <string name="download_canceled">Anulowano!</string>
+    <string name="icon_section_custom">Niestandardowy</string>
+    <string name="icon_section_standard">Standardowy</string>
+    <string name="style_brightness_summary">Wybierz jasny lub ciemny motyw</string>
+    <string name="style_brightness_title">Jasność motywu</string>
+    <string name="error_upload_file">Wystąpił błąd podczas przesyłania danych pliku.</string>
+    <string name="error_file_to_big">Plik, który próbujesz przesłać, jest za duży.</string>
+    <string name="content_description_otp_information">Informacje o hasłach jednorazowych</string>
 </resources>
