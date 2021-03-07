@@ -34,9 +34,9 @@ class IconStandardFragment : IconFragment<IconImageStandard>() {
         return database.getStandardIconList()
     }
 
-    override fun onIconLongClickListener(icon: IconImageStandard) {
+    override fun onIconClickListener(icon: IconImageStandard) {
         iconPickerViewModel.pickStandardIcon(icon)
     }
 
-    override fun onIconClickListener(icon: IconImageStandard) {}
+    override fun onIconLongClickListener(icon: IconImageStandard) {}
 }

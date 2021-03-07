@@ -66,22 +66,23 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      */
     private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
-        return if (!icon.custom.isUnknown) {
-            SuperDrawable(getIconDrawable(context.resources, icon.custom))
-        } else {
-            val iconPack = IconPackChooser.getSelectedIconPack(context)
-            iconPack?.iconToResId(icon.standard.id)?.let { iconId ->
-                SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor), iconPack.tintable())
-            } ?: run {
-                SuperDrawable(PatternIcon(context.resources).blankDrawable)
+        if (!icon.custom.isUnknown) {
+            getIconDrawable(context.resources, icon.custom)?.let {
+                return SuperDrawable(it)
             }
+        }
+        val iconPack = IconPackChooser.getSelectedIconPack(context)
+        iconPack?.iconToResId(icon.standard.id)?.let { iconId ->
+            return SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor), iconPack.tintable())
+        } ?: run {
+            return SuperDrawable(PatternIcon(context.resources).blankDrawable)
         }
     }
 
     /**
      * Build a custom [Drawable] from custom [icon]
      */
-    private fun getIconDrawable(resources: Resources, icon: IconImageCustom): Drawable {
+    private fun getIconDrawable(resources: Resources, icon: IconImageCustom): Drawable? {
         val patternIcon = PatternIcon(resources)
         val cipherKey = retrieveCipherKey.invoke()
         if (cipherKey != null) {
@@ -93,12 +94,14 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
                     val createdDraw = BitmapDrawable(resources, bitmap)
                     customIconMap[icon.uuid] = WeakReference(createdDraw)
                     return createdDraw
+                } ?: run {
+
                 }
             } else {
                 return draw
             }
         }
-        return patternIcon.blankDrawable
+        return null
     }
 
     /**
