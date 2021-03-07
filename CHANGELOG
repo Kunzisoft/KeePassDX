@@ -1,8 +1,9 @@
 KeePassDX(2.9.14)
+ * Add custom icons #96
  * Dark Themes #532 #714
  * Fix binary deduplication #715
  * Fix IconId #901
- * Small changes #900
+ * Small changes #795 #900 #903 #909
 
 KeePassDX(2.9.13)
  * Binary image viewer #473 #749
