@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,10 +22,6 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
 
     val lastPosition: Int
         get() = iconList.lastIndex
-
-    fun containsIcon(icon: I): Boolean {
-        return iconList.contains(icon)
-    }
 
     fun addIcon(icon: I) {
         if (!iconList.contains(icon)) {
@@ -83,7 +78,7 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
     override fun onBindViewHolder(holder: CustomIconViewHolder, position: Int) {
         val icon = iconList[position]
         iconDrawableFactory?.assignDatabaseIcon(holder.iconImageView, icon, tintIcon)
-        holder.itemView.setBackgroundColor(if (icon.selected) Color.RED else Color.TRANSPARENT)
+        holder.iconContainerView.isSelected = icon.selected
         holder.itemView.setOnClickListener {
             iconPickerListener?.onIconClickListener(icon)
         }
@@ -103,6 +98,7 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
     }
 
     inner class CustomIconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var iconContainerView: ViewGroup = itemView.findViewById(R.id.icon_container)
         var iconImageView: ImageView = itemView.findViewById(R.id.icon_image)
     }
 }
