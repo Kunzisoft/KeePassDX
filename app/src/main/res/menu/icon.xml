@@ -23,5 +23,6 @@
         android:icon="@drawable/ic_delete_forever_white_24dp"
         android:title="@string/menu_delete"
         android:orderInCategory="10"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>
