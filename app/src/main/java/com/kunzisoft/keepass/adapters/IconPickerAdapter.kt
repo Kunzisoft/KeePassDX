@@ -37,6 +37,12 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
         }
     }
 
+    fun updateIcons(icons: List<I>) {
+        icons.forEach { icon ->
+            updateIcon(icon)
+        }
+    }
+
     fun removeIcon(icon: I) {
         if (iconList.contains(icon)) {
             val position = iconList.indexOf(icon)

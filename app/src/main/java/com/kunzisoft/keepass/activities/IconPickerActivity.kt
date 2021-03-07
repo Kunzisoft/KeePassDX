@@ -78,10 +78,10 @@ class IconPickerActivity : LockingActivity() {
         mDatabase = Database.getInstance()
 
         toolbar = findViewById(R.id.toolbar)
+        toolbar.title = " "
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
@@ -142,16 +142,7 @@ class IconPickerActivity : LockingActivity() {
         }
         iconPickerViewModel.customIconsSelected.observe(this) { iconsSelected ->
             mIconsSelected = iconsSelected
-            if (iconsSelected.isEmpty()) {
-                mCustomIconsSelectionMode = false
-                supportActionBar?.setDisplayShowTitleEnabled(false)
-                toolbar.title = ""
-            } else {
-                mCustomIconsSelectionMode = true
-                supportActionBar?.setDisplayShowTitleEnabled(true)
-                toolbar.title = iconsSelected.size.toString()
-            }
-            invalidateOptionsMenu()
+            updateIconsSelectedViews()
         }
         iconPickerViewModel.customIconAdded.observe(this) { iconCustomAdded ->
             if (iconCustomAdded.error) {
@@ -164,8 +155,18 @@ class IconPickerActivity : LockingActivity() {
                 Snackbar.make(coordinatorLayout, R.string.error_remove_file, Snackbar.LENGTH_LONG).asError().show()
             }
             uploadButton.isEnabled = true
-            iconPickerViewModel.deselectAllCustomIcons()
         }
+    }
+
+    private fun updateIconsSelectedViews() {
+        if (mIconsSelected.isEmpty()) {
+            mCustomIconsSelectionMode = false
+            toolbar.title = " "
+        } else {
+            mCustomIconsSelectionMode = true
+            toolbar.title = mIconsSelected.size.toString()
+        }
+        invalidateOptionsMenu()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -248,6 +249,7 @@ class IconPickerActivity : LockingActivity() {
 
     private fun removeCustomIcon(iconImageCustom: IconImageCustom) {
         uploadButton.isEnabled = false
+        iconPickerViewModel.deselectAllCustomIcons()
         mDatabase?.removeCustomIcon(iconImageCustom)
         iconPickerViewModel.removeCustomIcon(
                 IconPickerViewModel.IconCustomState(iconImageCustom, false)

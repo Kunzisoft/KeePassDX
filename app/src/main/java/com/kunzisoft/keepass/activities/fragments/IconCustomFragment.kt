@@ -47,7 +47,11 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
         }
         iconPickerViewModel.customIconsSelected.observe(viewLifecycleOwner) { customIconsSelected ->
             if (customIconsSelected.isEmpty()) {
+                iconActionSelectionMode = false
                 iconPickerAdapter.deselectAllIcons()
+            } else {
+                iconActionSelectionMode = true
+                iconPickerAdapter.updateIcons(customIconsSelected)
             }
         }
         iconPickerViewModel.customIconRemoved.observe(viewLifecycleOwner) { customIconRemoved ->
