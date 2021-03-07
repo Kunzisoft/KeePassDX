@@ -277,6 +277,14 @@ class IconPickerActivity : LockingActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(EXTRA_ICON, mIconImage)
+        })
+
+        super.onBackPressed()
+    }
+
     companion object {
 
         private const val ICON_PICKER_FRAGMENT_TAG = "ICON_PICKER_FRAGMENT_TAG"
