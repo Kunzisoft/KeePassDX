@@ -131,17 +131,13 @@ class IconPickerActivity : LockingActivity() {
             mIconImage.standard = iconStandard
             // Remove the custom icon if a standard one is selected
             mIconImage.custom = IconImageCustom()
-            setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(EXTRA_ICON, mIconImage)
-            })
+            setResult()
             finish()
         }
         iconPickerViewModel.customIconPicked.observe(this) { iconCustom ->
             // Keep the standard icon if a custom one is selected
             mIconImage.custom = iconCustom
-            setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(EXTRA_ICON, mIconImage)
-            })
+            setResult()
             finish()
         }
         iconPickerViewModel.customIconsSelected.observe(this) { iconsSelected ->
@@ -277,11 +273,14 @@ class IconPickerActivity : LockingActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    private fun setResult() {
         setResult(Activity.RESULT_OK, Intent().apply {
             putExtra(EXTRA_ICON, mIconImage)
         })
+    }
 
+    override fun onBackPressed() {
+        setResult()
         super.onBackPressed()
     }
 
