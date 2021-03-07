@@ -37,7 +37,7 @@
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple.Dark</item>
-        <item name="cardBackgroundTransparentColor">@color/black_purple_dark_transparent</item>
+        <item name="cardBackgroundTransparentColor">@color/black_purple_transparent</item>
         <item name="educationCircleColor">@color/black_purple</item>
         <item name="educationTextColor">@color/white</item>
     </style>

@@ -80,6 +80,6 @@
     <color name="purple_dark">#653383</color>
     <color name="purple_darker">#4E1C6B</color>
     <color name="black_purple">#451D5D</color>
+    <color name="black_purple_transparent">#E0451D5D</color>
     <color name="black_purple_dark">#361748</color>
-    <color name="black_purple_dark_transparent">#E0361748</color>
 </resources>
