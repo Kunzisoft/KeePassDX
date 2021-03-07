@@ -31,15 +31,21 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
     }
 
     fun updateIcon(icon: I) {
-        if (iconList.contains(icon)) {
-            iconList[iconList.indexOf(icon)] = icon
-            notifyItemChanged(iconList.indexOf(icon))
+        val index = iconList.indexOf(icon)
+        if (index != -1) {
+            iconList[index] = icon
+            notifyItemChanged(index)
         }
     }
 
-    fun updateIcons(icons: List<I>) {
+    fun updateIconSelectedState(icons: List<I>) {
         icons.forEach { icon ->
-            updateIcon(icon)
+            val index = iconList.indexOf(icon)
+            if (index != -1
+                    && iconList[index].selected != icon.selected) {
+                iconList[index] = icon
+                notifyItemChanged(index)
+            }
         }
     }
 
