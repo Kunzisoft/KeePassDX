@@ -2,4 +2,4 @@
  * Thèmes sombres #532 #714
  * Correction de la duplication des binaires #715
  * Correction IconId #901
- * Petits changements #795 #900 #903 #909
+ * Petits changements #795 #900 #903 #909 #914
