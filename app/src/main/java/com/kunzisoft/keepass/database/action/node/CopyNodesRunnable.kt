@@ -52,16 +52,9 @@ class CopyNodesRunnable constructor(
                     if (mNewParent != database.rootGroup || database.rootCanContainsEntry()) {
                         // Update entry with new values
                         mNewParent.touch(modified = false, touchParents = true)
-
                         val entryCopied = database.copyEntryTo(currentNode as Entry, mNewParent)
-                        if (entryCopied != null) {
-                            entryCopied.touch(modified = true, touchParents = true)
-                            mEntriesCopied.add(entryCopied)
-                        } else {
-                            Log.e(TAG, "Unable to create a copy of the entry")
-                            setError(CopyEntryDatabaseException())
-                            break@foreachNode
-                        }
+                        entryCopied.touch(modified = true, touchParents = true)
+                        mEntriesCopied.add(entryCopied)
                     } else {
                         // Only finish thread
                         setError(CopyEntryDatabaseException())
