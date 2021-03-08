@@ -140,6 +140,7 @@
     <string name="error_rebuild_list">Unable to properly rebuild the list.</string>
     <string name="error_file_to_big">The file you are trying to upload is too big.</string>
     <string name="error_upload_file">An error occurred while uploading the file data.</string>
+    <string name="error_duplicate_file">The file data already exists.</string>
     <string name="error_remove_file">An error occurred while removing the file data.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>

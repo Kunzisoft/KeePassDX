@@ -39,12 +39,6 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { iconCustom ->
-            if (!iconCustom.error) {
-                iconPickerAdapter.addIcon(iconCustom.iconCustom)
-                iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
-            }
-        }
         iconPickerViewModel.customIconsSelected.observe(viewLifecycleOwner) { customIconsSelected ->
             if (customIconsSelected.isEmpty()) {
                 iconActionSelectionMode = false
@@ -54,8 +48,20 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
                 iconPickerAdapter.updateIconSelectedState(customIconsSelected)
             }
         }
-        iconPickerViewModel.customIconRemoved.observe(viewLifecycleOwner) { customIconRemoved ->
-            iconPickerAdapter.removeIcon(customIconRemoved.iconCustom)
+        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { iconCustomAdded ->
+            if (!iconCustomAdded.error) {
+                iconCustomAdded?.iconCustom?.let { icon ->
+                    iconPickerAdapter.addIcon(icon)
+                }
+                iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
+            }
+        }
+        iconPickerViewModel.customIconRemoved.observe(viewLifecycleOwner) { iconCustomRemoved ->
+            if (!iconCustomRemoved.error) {
+                iconCustomRemoved?.iconCustom?.let { icon ->
+                    iconPickerAdapter.removeIcon(icon)
+                }
+            }
         }
     }
 

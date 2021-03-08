@@ -87,7 +87,7 @@ object BinaryStreamManager {
     }
 
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
-                                             bitmapUri: Uri,
+                                             bitmapUri: Uri?,
                                              binaryFile: BinaryFile) {
         UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
             BitmapFactory.decodeStream(inputStream)?.let { bitmap ->

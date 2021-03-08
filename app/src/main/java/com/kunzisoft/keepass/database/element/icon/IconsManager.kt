@@ -20,10 +20,12 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 class IconsManager {
 
@@ -54,6 +56,17 @@ class IconsManager {
             return IconImageCustom(iconUuid, it)
         }
         return IconImageCustom(iconUuid)
+    }
+
+    fun getIconsWithBinary(binaryFile: BinaryFile): List<IconImageCustom>{
+        val searchBinaryMD5 = binaryFile.md5()
+        val listIcons = ArrayList<IconImageCustom>()
+        customCache.doForEachBinary { key, binary ->
+            if (binary.md5() == searchBinaryMD5) {
+                listIcons.add(IconImageCustom(key, binary))
+            }
+        }
+        return listIcons
     }
 
     fun containsAnyCustomIcon(): Boolean {

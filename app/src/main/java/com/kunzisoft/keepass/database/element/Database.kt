@@ -121,6 +121,10 @@ class Database {
         return mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
     }
 
+    fun isCustomIconBinaryAlreadyExists(customIcon: IconImageCustom): Boolean {
+        return mDatabaseKDBX?.isCustomIconBinaryAlreadyExists(customIcon) ?: false
+    }
+
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
         iconsManager.removeCustomIcon(customIcon.uuid)

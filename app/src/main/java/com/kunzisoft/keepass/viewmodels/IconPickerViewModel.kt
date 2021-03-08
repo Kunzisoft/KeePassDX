@@ -54,15 +54,19 @@ class IconPickerViewModel: ViewModel() {
         customIconRemoved.value = customIcon
     }
 
-    data class IconCustomState(val iconCustom: IconImageCustom, val error: Boolean): Parcelable {
+    data class IconCustomState(var iconCustom: IconImageCustom? = null,
+                               var error: Boolean = true,
+                               var errorStringId: Int = -1): Parcelable {
 
         constructor(parcel: Parcel) : this(
-                parcel.readParcelable(IconImageCustom::class.java.classLoader) ?: IconImageCustom(),
-                parcel.readByte() != 0.toByte())
+                parcel.readParcelable(IconImageCustom::class.java.classLoader),
+                parcel.readByte() != 0.toByte(),
+                parcel.readInt())
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeParcelable(iconCustom, flags)
             parcel.writeByte(if (error) 1 else 0)
+            parcel.writeInt(errorStringId)
         }
 
         override fun describeContents(): Int {

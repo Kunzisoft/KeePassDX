@@ -147,13 +147,13 @@ class IconPickerActivity : LockingActivity() {
         }
         iconPickerViewModel.customIconAdded.observe(this) { iconCustomAdded ->
             if (iconCustomAdded.error) {
-                Snackbar.make(coordinatorLayout, R.string.error_upload_file, Snackbar.LENGTH_LONG).asError().show()
+                Snackbar.make(coordinatorLayout, iconCustomAdded.errorStringId, Snackbar.LENGTH_LONG).asError().show()
             }
             uploadButton.isEnabled = true
         }
         iconPickerViewModel.customIconRemoved.observe(this) { iconCustomRemoved ->
             if (iconCustomRemoved.error) {
-                Snackbar.make(coordinatorLayout, R.string.error_remove_file, Snackbar.LENGTH_LONG).asError().show()
+                Snackbar.make(coordinatorLayout, iconCustomRemoved.errorStringId, Snackbar.LENGTH_LONG).asError().show()
             }
             uploadButton.isEnabled = true
         }
@@ -220,30 +220,41 @@ class IconPickerActivity : LockingActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun addCustomIcon(contentResolver: ContentResolver,
-                              iconDir: File,
-                              iconToUploadUri: Uri) {
+    private fun addCustomIcon(iconToUploadUri: Uri?) {
         uploadButton.isEnabled = false
         mainScope.launch {
             withContext(Dispatchers.IO) {
                 // on Progress with thread
-                val asyncResult: Deferred<IconImageCustom?> = async {
-                    mDatabase?.buildNewCustomIcon(iconDir)?.let { customIcon ->
-                        BinaryStreamManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
-                                iconToUploadUri, customIcon.binaryFile)
-                        customIcon
+                val asyncResult: Deferred<IconPickerViewModel.IconCustomState?> = async {
+                    val iconCustomState = IconPickerViewModel.IconCustomState(null, true, R.string.error_upload_file)
+                    UriUtil.getFileData(this@IconPickerActivity, iconToUploadUri)?.also { documentFile ->
+                        if (documentFile.length() > MAX_ICON_SIZE) {
+                            iconCustomState.errorStringId = R.string.error_file_to_big
+                        } else {
+                            mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this@IconPickerActivity))?.let { customIcon ->
+                                iconCustomState.iconCustom = customIcon
+                                BinaryStreamManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
+                                        iconToUploadUri, customIcon.binaryFile)
+                                when {
+                                    customIcon.binaryFile.length <= 0 -> {}
+                                    mDatabase?.isCustomIconBinaryAlreadyExists(customIcon) == true -> {
+                                        iconCustomState.errorStringId = R.string.error_duplicate_file
+                                    }
+                                    else -> {
+                                        iconCustomState.error = false
+                                    }
+                                }
+                                if (iconCustomState.error) {
+                                    mDatabase?.removeCustomIcon(customIcon)
+                                }
+                            }
+                        }
                     }
+                    iconCustomState
                 }
                 withContext(Dispatchers.Main) {
                     asyncResult.await()?.let { customIcon ->
-                        var error = false
-                        if (customIcon.binaryFile.length <= 0) {
-                            mDatabase?.removeCustomIcon(customIcon)
-                            error = true
-                        }
-                        iconPickerViewModel.addCustomIcon(
-                                IconPickerViewModel.IconCustomState(customIcon, error)
-                        )
+                        iconPickerViewModel.addCustomIcon(customIcon)
                     }
                 }
             }
@@ -255,7 +266,7 @@ class IconPickerActivity : LockingActivity() {
         iconPickerViewModel.deselectAllCustomIcons()
         mDatabase?.removeCustomIcon(iconImageCustom)
         iconPickerViewModel.removeCustomIcon(
-                IconPickerViewModel.IconCustomState(iconImageCustom, false)
+                IconPickerViewModel.IconCustomState(iconImageCustom, false, R.string.error_remove_file)
         )
     }
 
@@ -263,18 +274,7 @@ class IconPickerActivity : LockingActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
-            uri?.let { iconToUploadUri ->
-                UriUtil.getFileData(this, iconToUploadUri)?.also { documentFile ->
-                    if (documentFile.length() > MAX_ICON_SIZE) {
-                        Snackbar.make(coordinatorLayout, R.string.error_file_to_big, Snackbar.LENGTH_LONG).asError().show()
-                    } else {
-                        addCustomIcon(
-                                contentResolver,
-                                UriUtil.getBinaryDir(this),
-                                iconToUploadUri)
-                    }
-                }
-            }
+            addCustomIcon(uri)
         }
     }
 
