@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -48,7 +47,6 @@ import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.*
-import java.io.File
 
 
 class IconPickerActivity : LockingActivity() {
