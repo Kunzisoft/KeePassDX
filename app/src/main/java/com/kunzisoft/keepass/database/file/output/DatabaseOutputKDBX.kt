@@ -698,7 +698,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeCustomIconList() {
         var firstElement = true
-        mDatabaseKDBX.iconsManager.doForEachCustomIconWithoutBinaryDuplication { iconCustom ->
+        mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom ->
             // Write the parent tag
             if (firstElement) {
                 xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)

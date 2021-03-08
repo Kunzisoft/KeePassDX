@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
-import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.io.File
@@ -58,15 +57,8 @@ class IconsManager {
         return IconImageCustom(iconUuid)
     }
 
-    fun getIconsWithBinary(binaryFile: BinaryFile): List<IconImageCustom>{
-        val searchBinaryMD5 = binaryFile.md5()
-        val listIcons = ArrayList<IconImageCustom>()
-        customCache.doForEachBinary { key, binary ->
-            if (binary.md5() == searchBinaryMD5) {
-                listIcons.add(IconImageCustom(key, binary))
-            }
-        }
-        return listIcons
+    fun isCustomIconBinaryDuplicate(icon: IconImageCustom): Boolean {
+        return customCache.isBinaryDuplicate(icon.binaryFile)
     }
 
     fun removeCustomIcon(iconUuid: UUID) {
@@ -87,11 +79,9 @@ class IconsManager {
         return list
     }
 
-    fun doForEachCustomIconWithoutBinaryDuplication(action: (IconImageCustom) -> Unit) {
-        customCache.doForEachBinaryWithoutDuplication { keyBinary ->
-            keyBinary.keys.forEach { key ->
-                action.invoke(IconImageCustom(key, keyBinary.binary))
-            }
+    fun doForEachCustomIcon(action: (IconImageCustom) -> Unit) {
+        customCache.doForEachBinary { key, binary ->
+            action.invoke(IconImageCustom(key, binary))
         }
     }
 

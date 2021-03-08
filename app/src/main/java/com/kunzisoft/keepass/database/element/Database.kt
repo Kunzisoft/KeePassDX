@@ -121,8 +121,8 @@ class Database {
         return mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
     }
 
-    fun isCustomIconBinaryAlreadyExists(customIcon: IconImageCustom): Boolean {
-        return mDatabaseKDBX?.isCustomIconBinaryAlreadyExists(customIcon) ?: false
+    fun isCustomIconBinaryDuplicate(customIcon: IconImageCustom): Boolean {
+        return mDatabaseKDBX?.isCustomIconBinaryDuplicate(customIcon) ?: false
     }
 
     fun removeCustomIcon(customIcon: IconImageCustom) {

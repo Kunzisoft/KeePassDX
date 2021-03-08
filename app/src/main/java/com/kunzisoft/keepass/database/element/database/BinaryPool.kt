@@ -120,10 +120,23 @@ abstract class BinaryPool<T> {
         }
     }
 
+    fun isBinaryDuplicate(binaryFile: BinaryFile): Boolean {
+        val searchBinaryMD5 = binaryFile.md5()
+        var i = 0
+        for ((_, binary) in pool) {
+            if (binary.md5() == searchBinaryMD5) {
+                i++
+                if (i > 1)
+                    return true
+            }
+        }
+        return false
+    }
+
     /**
      * To do an action on each binary in the pool (order is not important)
      */
-    fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit,
+    private fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit,
                         condition: (key: T, binary: BinaryFile) -> Boolean) {
         for ((key, value) in pool) {
             if (condition.invoke(key, value)) {
@@ -162,7 +175,7 @@ abstract class BinaryPool<T> {
     /**
      * Different from doForEach, provide an ordered index to each binary
      */
-    fun doForEachBinaryWithoutDuplication(action: (keyBinary: KeyBinary<T>) -> Unit,
+    private fun doForEachBinaryWithoutDuplication(action: (keyBinary: KeyBinary<T>) -> Unit,
                                           conditionToAdd: (binary: BinaryFile) -> Boolean) {
         orderedBinariesWithoutDuplication(conditionToAdd).forEach { keyBinary ->
             action.invoke(keyBinary)
@@ -176,7 +189,7 @@ abstract class BinaryPool<T> {
     /**
      * Different from doForEach, provide an ordered index to each binary
      */
-    fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryFile) -> Unit,
+    private fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryFile) -> Unit,
                                                  conditionToAdd: (binary: BinaryFile) -> Boolean) {
         orderedBinariesWithoutDuplication(conditionToAdd).forEachIndexed { index, keyBinary ->
             action.invoke(index, keyBinary.binary)

@@ -237,7 +237,7 @@ class IconPickerActivity : LockingActivity() {
                                         iconToUploadUri, customIcon.binaryFile)
                                 when {
                                     customIcon.binaryFile.length <= 0 -> {}
-                                    mDatabase?.isCustomIconBinaryAlreadyExists(customIcon) == true -> {
+                                    mDatabase?.isCustomIconBinaryDuplicate(customIcon) == true -> {
                                         iconCustomState.errorStringId = R.string.error_duplicate_file
                                     }
                                     else -> {

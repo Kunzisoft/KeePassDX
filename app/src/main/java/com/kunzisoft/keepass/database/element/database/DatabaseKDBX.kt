@@ -314,8 +314,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return iconsManager.buildNewCustomIcon(cacheDirectory, customIconId)
     }
 
-    fun isCustomIconBinaryAlreadyExists(customIcon: IconImageCustom): Boolean {
-        return iconsManager.getIconsWithBinary(customIcon.binaryFile).size > 1
+    fun isCustomIconBinaryDuplicate(customIcon: IconImageCustom): Boolean {
+        return iconsManager.isCustomIconBinaryDuplicate(customIcon)
     }
 
     fun getCustomIcon(iconUuid: UUID): IconImageCustom {
