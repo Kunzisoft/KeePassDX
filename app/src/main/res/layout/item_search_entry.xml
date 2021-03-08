@@ -24,7 +24,7 @@
     android:layout_gravity="center_vertical"
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
-    android:minHeight="32dp"
+    android:minHeight="48dp"
     android:background="?attr/colorPrimary" >
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/entry_icon"
