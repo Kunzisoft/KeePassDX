@@ -465,7 +465,6 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
-
         // Force read only if the database is like that
         mReadOnly = mDatabase?.isReadOnly == true || mReadOnly
 
@@ -542,8 +541,13 @@ class GroupActivity : LockingActivity(),
         // Assign number of children
         refreshNumberOfChildren()
 
-        // Show button if allowed
+        // Hide button
+        initAddButton()
+    }
+
+    private fun initAddButton() {
         addNodeButtonView?.apply {
+            closeButtonIfOpen()
             // To enable add button
             val addGroupEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
             var addEntryEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
@@ -553,7 +557,6 @@ class GroupActivity : LockingActivity(),
             }
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
-
             if (mCurrentGroup?.isVirtual == true)
                 hideButton()
             else if (actionNodeMode == null)

@@ -177,6 +177,7 @@ class DatabaseInputKDB(cacheDirectory: File)
             val newRoot = mDatabase.createGroup()
             newRoot.level = -1
             mDatabase.rootGroup = newRoot
+            mDatabase.addGroupIndex(newRoot)
 
             // Import all nodes
             var newGroup: GroupKDB? = null
