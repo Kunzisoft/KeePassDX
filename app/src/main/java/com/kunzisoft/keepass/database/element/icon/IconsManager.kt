@@ -91,6 +91,14 @@ class IconsManager {
         return list
     }
 
+    fun doForEachCustomIconWithoutBinaryDuplication(action: (IconImageCustom) -> Unit) {
+        customCache.doForEachBinaryWithoutDuplication { keyBinary ->
+            keyBinary.keys.forEach { key ->
+                action.invoke(IconImageCustom(key, keyBinary.binary))
+            }
+        }
+    }
+
     /**
      * Clear the cache of icons
      */

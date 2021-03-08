@@ -138,7 +138,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         val binaryCipherKey = database.loadedCipherKey
                 ?: throw IOException("Unable to retrieve cipher key to write binaries")
-        database.binaryPool.doForEachOrderedBinary { _, binary ->
+        database.binaryPool.doForEachOrderedBinaryWithoutDuplication { _, binary ->
             // Force decompression to add binary in header
             binary.decompress(binaryCipherKey)
             // Write type binary
@@ -497,7 +497,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
         // Use indexes because necessarily (binary header ref is the order)
-        mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, binary ->
+        mDatabaseKDBX.binaryPool.doForEachOrderedBinaryWithoutDuplication { index, binary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
             if (binary.length > 0) {
@@ -701,7 +701,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
 
-        mDatabaseKDBX.iconsManager.getCustomIconList().forEach { iconCustom ->
+        mDatabaseKDBX.iconsManager.doForEachCustomIconWithoutBinaryDuplication { iconCustom ->
             xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
 
             writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)

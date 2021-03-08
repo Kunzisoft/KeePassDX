@@ -162,15 +162,29 @@ abstract class BinaryPool<T> {
     /**
      * Different from doForEach, provide an ordered index to each binary
      */
-    fun doForEachOrderedBinary(action: (index: Int, binary: BinaryFile) -> Unit,
-                               conditionToAdd: (binary: BinaryFile) -> Boolean) {
+    fun doForEachBinaryWithoutDuplication(action: (keyBinary: KeyBinary<T>) -> Unit,
+                                          conditionToAdd: (binary: BinaryFile) -> Boolean) {
+        orderedBinariesWithoutDuplication(conditionToAdd).forEach { keyBinary ->
+            action.invoke(keyBinary)
+        }
+    }
+
+    fun doForEachBinaryWithoutDuplication(action: (keyBinary: KeyBinary<T>) -> Unit) {
+        doForEachBinaryWithoutDuplication(action, { true })
+    }
+
+    /**
+     * Different from doForEach, provide an ordered index to each binary
+     */
+    fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryFile) -> Unit,
+                                                 conditionToAdd: (binary: BinaryFile) -> Boolean) {
         orderedBinariesWithoutDuplication(conditionToAdd).forEachIndexed { index, keyBinary ->
             action.invoke(index, keyBinary.binary)
         }
     }
 
-    fun doForEachOrderedBinary(action: (index: Int, binary: BinaryFile) -> Unit) {
-        doForEachOrderedBinary(action, { true })
+    fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryFile) -> Unit) {
+        doForEachOrderedBinaryWithoutDuplication(action, { true })
     }
 
     fun isEmpty(): Boolean {
