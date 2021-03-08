@@ -52,6 +52,7 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
             if (!iconCustomAdded.error) {
                 iconCustomAdded?.iconCustom?.let { icon ->
                     iconPickerAdapter.addIcon(icon)
+                    iconCustomAdded.iconCustom = null
                 }
                 iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
             }
@@ -60,6 +61,7 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
             if (!iconCustomRemoved.error) {
                 iconCustomRemoved?.iconCustom?.let { icon ->
                     iconPickerAdapter.removeIcon(icon)
+                    iconCustomRemoved.iconCustom = null
                 }
             }
         }
