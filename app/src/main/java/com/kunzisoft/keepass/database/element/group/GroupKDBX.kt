@@ -125,10 +125,6 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return customData.isNotEmpty()
     }
 
-    override fun allowAddEntryIfIsRoot(): Boolean {
-        return true
-    }
-
     companion object {
 
         @JvmField

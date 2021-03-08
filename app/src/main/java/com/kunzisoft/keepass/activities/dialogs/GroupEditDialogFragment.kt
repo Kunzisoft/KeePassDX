@@ -113,8 +113,6 @@ class GroupEditDialogFragment : DialogFragment() {
                 arguments?.apply {
                     if (containsKey(KEY_ACTION_ID))
                         mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getInt(KEY_ACTION_ID))
-                    if (mEditGroupDialogAction === CREATION)
-                        mGroupInfo.notes = ""
                     if (containsKey(KEY_GROUP_INFO)) {
                         mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
                     }
@@ -241,15 +239,16 @@ class GroupEditDialogFragment : DialogFragment() {
         const val KEY_ACTION_ID = "KEY_ACTION_ID"
         const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
 
-        fun build(): GroupEditDialogFragment {
+        fun create(groupInfo: GroupInfo): GroupEditDialogFragment {
             val bundle = Bundle()
             bundle.putInt(KEY_ACTION_ID, CREATION.ordinal)
+            bundle.putParcelable(KEY_GROUP_INFO, groupInfo)
             val fragment = GroupEditDialogFragment()
             fragment.arguments = bundle
             return fragment
         }
 
-        fun build(groupInfo: GroupInfo): GroupEditDialogFragment {
+        fun update(groupInfo: GroupInfo): GroupEditDialogFragment {
             val bundle = Bundle()
             bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal)
             bundle.putParcelable(KEY_GROUP_INFO, groupInfo)

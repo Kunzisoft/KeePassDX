@@ -204,9 +204,11 @@ class GroupActivity : LockingActivity(),
 
         // Add listeners to the add buttons
         addNodeButtonView?.setAddGroupClickListener {
-            GroupEditDialogFragment.build()
-                    .show(supportFragmentManager,
-                            GroupEditDialogFragment.TAG_CREATE_GROUP)
+            GroupEditDialogFragment.create(GroupInfo().apply {
+                if (mCurrentGroup?.allowAddNoteInGroup == true) {
+                    notes = ""
+                }
+            }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
         }
         addNodeButtonView?.setAddEntryClickListener {
             mCurrentGroup?.let { currentGroup ->
@@ -552,7 +554,7 @@ class GroupActivity : LockingActivity(),
             val addGroupEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
             var addEntryEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
             mCurrentGroup?.let {
-                if (!it.allowAddEntryIfIsRoot())
+                if (!it.allowAddEntryIfIsRoot)
                     addEntryEnabled = it != mRootGroup && addEntryEnabled
             }
             enableAddGroup(addGroupEnabled)
@@ -779,7 +781,7 @@ class GroupActivity : LockingActivity(),
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as Group
-                GroupEditDialogFragment.build(mOldGroupToUpdate!!.getGroupInfo())
+                GroupEditDialogFragment.update(mOldGroupToUpdate!!.getGroupInfo())
                         .show(supportFragmentManager,
                                 GroupEditDialogFragment.TAG_CREATE_GROUP)
             }

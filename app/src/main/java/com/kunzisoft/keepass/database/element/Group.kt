@@ -348,9 +348,11 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.removeChildren()
     }
 
-    override fun allowAddEntryIfIsRoot(): Boolean {
-        return groupKDB?.allowAddEntryIfIsRoot() ?: groupKDBX?.allowAddEntryIfIsRoot() ?: false
-    }
+    val allowAddEntryIfIsRoot: Boolean
+        get() = groupKDBX != null
+
+    val allowAddNoteInGroup: Boolean
+        get() = groupKDBX != null
 
     /*
       ------------
