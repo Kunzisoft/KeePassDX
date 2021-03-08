@@ -56,17 +56,20 @@ class IconPickerViewModel: ViewModel() {
 
     data class IconCustomState(var iconCustom: IconImageCustom? = null,
                                var error: Boolean = true,
-                               var errorStringId: Int = -1): Parcelable {
+                               var errorStringId: Int = -1,
+                               var errorConsumed: Boolean = false): Parcelable {
 
         constructor(parcel: Parcel) : this(
                 parcel.readParcelable(IconImageCustom::class.java.classLoader),
                 parcel.readByte() != 0.toByte(),
-                parcel.readInt())
+                parcel.readInt(),
+                parcel.readByte() != 0.toByte())
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeParcelable(iconCustom, flags)
             parcel.writeByte(if (error) 1 else 0)
             parcel.writeInt(errorStringId)
+            parcel.writeByte(if (errorConsumed) 1 else 0)
         }
 
         override fun describeContents(): Int {

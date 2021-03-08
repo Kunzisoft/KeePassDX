@@ -146,14 +146,16 @@ class IconPickerActivity : LockingActivity() {
             updateIconsSelectedViews()
         }
         iconPickerViewModel.customIconAdded.observe(this) { iconCustomAdded ->
-            if (iconCustomAdded.error) {
+            if (iconCustomAdded.error && !iconCustomAdded.errorConsumed) {
                 Snackbar.make(coordinatorLayout, iconCustomAdded.errorStringId, Snackbar.LENGTH_LONG).asError().show()
+                iconCustomAdded.errorConsumed = true
             }
             uploadButton.isEnabled = true
         }
         iconPickerViewModel.customIconRemoved.observe(this) { iconCustomRemoved ->
-            if (iconCustomRemoved.error) {
+            if (iconCustomRemoved.error && !iconCustomRemoved.errorConsumed) {
                 Snackbar.make(coordinatorLayout, iconCustomRemoved.errorStringId, Snackbar.LENGTH_LONG).asError().show()
+                iconCustomRemoved.errorConsumed = true
             }
             uploadButton.isEnabled = true
         }
