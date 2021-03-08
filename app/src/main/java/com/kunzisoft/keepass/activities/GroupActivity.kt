@@ -104,7 +104,6 @@ class GroupActivity : LockingActivity(),
     private var mDatabase: Database? = null
 
     private var mListNodesFragment: ListNodesFragment? = null
-    private var mCurrentGroupIsASearch: Boolean = false
     private var mRequestStartupSearch = true
 
     private var actionNodeMode: ActionMode? = null
@@ -171,7 +170,7 @@ class GroupActivity : LockingActivity(),
         }
 
         mCurrentGroup = retrieveCurrentGroup(intent, savedInstanceState)
-        mCurrentGroupIsASearch = Intent.ACTION_SEARCH == intent.action
+        val currentGroupIsASearch = mCurrentGroup?.isVirtual == true
 
         Log.i(TAG, "Started creating tree")
         if (mCurrentGroup == null) {
@@ -180,13 +179,13 @@ class GroupActivity : LockingActivity(),
         }
 
         var fragmentTag = LIST_NODES_FRAGMENT_TAG
-        if (mCurrentGroupIsASearch)
+        if (currentGroupIsASearch)
             fragmentTag = SEARCH_FRAGMENT_TAG
 
         // Initialize the fragment with the list
         mListNodesFragment = supportFragmentManager.findFragmentByTag(fragmentTag) as ListNodesFragment?
         if (mListNodesFragment == null)
-            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, mReadOnly, mCurrentGroupIsASearch)
+            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, mReadOnly, currentGroupIsASearch)
 
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
@@ -374,13 +373,10 @@ class GroupActivity : LockingActivity(),
             manageSearchInfoIntent(intentNotNull)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
-            mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
+            if (Intent.ACTION_SEARCH == intentNotNull.action) {
                 // only one instance of search in backstack
                 deletePreviousSearchGroup()
                 openGroup(retrieveCurrentGroup(intentNotNull, null), true)
-                true
-            } else {
-                false
             }
         }
     }
@@ -447,7 +443,6 @@ class GroupActivity : LockingActivity(),
 
             mListNodesFragment = newListNodeFragment
             mCurrentGroup = group
-            mCurrentGroupIsASearch = isASearch
             assignGroupViewElements()
         }
     }
@@ -465,7 +460,7 @@ class GroupActivity : LockingActivity(),
 
     private fun refreshSearchGroup() {
         deletePreviousSearchGroup()
-        if (mCurrentGroupIsASearch)
+        if (mCurrentGroup?.isVirtual == true)
             openGroup(retrieveCurrentGroup(intent, null), true)
     }
 
@@ -518,19 +513,15 @@ class GroupActivity : LockingActivity(),
                 }
             }
         }
-        if (mCurrentGroupIsASearch) {
-            searchTitleView?.visibility = View.VISIBLE
-        } else {
-            searchTitleView?.visibility = View.GONE
-        }
 
-        // Assign icon
-        if (mCurrentGroupIsASearch) {
+        if (mCurrentGroup?.isVirtual == true) {
+            searchTitleView?.visibility = View.VISIBLE
             if (toolbar != null) {
                 toolbar?.navigationIcon = null
             }
             iconView?.visibility = View.GONE
         } else {
+            searchTitleView?.visibility = View.GONE
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
             mCurrentGroup?.let { currentGroup ->
@@ -554,8 +545,8 @@ class GroupActivity : LockingActivity(),
         // Show button if allowed
         addNodeButtonView?.apply {
             // To enable add button
-            val addGroupEnabled = !mReadOnly && !mCurrentGroupIsASearch
-            var addEntryEnabled = !mReadOnly && !mCurrentGroupIsASearch
+            val addGroupEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
+            var addEntryEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
             mCurrentGroup?.let {
                 if (!it.allowAddEntryIfIsRoot())
                     addEntryEnabled = it != mRootGroup && addEntryEnabled
@@ -563,7 +554,7 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            if (mCurrentGroupIsASearch)
+            if (mCurrentGroup?.isVirtual == true)
                 hideButton()
             else if (actionNodeMode == null)
                 showButton()
@@ -1191,7 +1182,6 @@ class GroupActivity : LockingActivity(),
         mCurrentGroup = mListNodesFragment?.mainGroup
         // Remove search in intent
         deletePreviousSearchGroup()
-        mCurrentGroupIsASearch = false
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)

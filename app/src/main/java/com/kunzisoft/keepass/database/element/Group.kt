@@ -40,6 +40,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     var groupKDBX: GroupKDBX? = null
         private set
 
+    // Virtual group is used to defined a detached database group
+    var isVirtual = false
+
     fun updateWith(group: Group) {
         group.groupKDB?.let {
             this.groupKDB?.updateWith(it)
@@ -77,6 +80,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     constructor(parcel: Parcel) {
         groupKDB = parcel.readParcelable(GroupKDB::class.java.classLoader)
         groupKDBX = parcel.readParcelable(GroupKDBX::class.java.classLoader)
+        isVirtual = parcel.readByte().toInt() != 0
     }
 
     enum class ChildFilter {
@@ -110,6 +114,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(groupKDB, flags)
         dest.writeParcelable(groupKDBX, flags)
+        dest.writeByte((if (isVirtual) 1 else 0).toByte())
     }
 
     override val nodeId: NodeId<*>?
