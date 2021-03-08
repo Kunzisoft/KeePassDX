@@ -165,11 +165,9 @@ class IconPickerActivity : LockingActivity() {
         if (mIconsSelected.isEmpty()) {
             mCustomIconsSelectionMode = false
             toolbar.title = " "
-            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_white_24dp)
         } else {
             mCustomIconsSelectionMode = true
             toolbar.title = mIconsSelected.size.toString()
-            toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
         }
         invalidateOptionsMenu()
     }
