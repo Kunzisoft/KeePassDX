@@ -63,14 +63,13 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
-import kotlinx.android.synthetic.main.activity_file_selection.*
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : SpecialModeActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     // Views
-    private var coordinatorLayout: CoordinatorLayout? = null
+    private lateinit var coordinatorLayout: CoordinatorLayout
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -217,7 +216,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                                 resultError = "$resultError $resultMessage"
                             }
                             Log.e(TAG, resultError)
-                            Snackbar.make(activity_file_selection_coordinator_layout,
+                            Snackbar.make(coordinatorLayout,
                                     resultError,
                                     Snackbar.LENGTH_LONG).asError().show()
                         }
@@ -238,9 +237,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     private fun fileNoFoundAction(e: FileNotFoundException) {
         val error = getString(R.string.file_not_found_content)
         Log.e(TAG, error, e)
-        coordinatorLayout?.let {
-            Snackbar.make(it, error, Snackbar.LENGTH_LONG).asError().show()
-        }
+        Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
     }
 
     private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
@@ -344,7 +341,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             }
         } catch (e: Exception) {
             val error = getString(R.string.error_create_database_file)
-            Snackbar.make(activity_file_selection_coordinator_layout, error, Snackbar.LENGTH_LONG).asError().show()
+            Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
             Log.e(TAG, error, e)
         }
     }
@@ -372,9 +369,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         .show(supportFragmentManager, "passwordDialog")
             } else {
                 val error = getString(R.string.error_create_database)
-                coordinatorLayout?.let {
-                    Snackbar.make(it, error, Snackbar.LENGTH_LONG).asError().show()
-                }
+                Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
                 Log.e(TAG, error)
             }
         }

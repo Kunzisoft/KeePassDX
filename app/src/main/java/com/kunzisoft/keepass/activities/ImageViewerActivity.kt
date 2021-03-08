@@ -26,6 +26,7 @@ import android.text.format.Formatter
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
@@ -33,7 +34,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import kotlinx.android.synthetic.main.activity_image_viewer.*
 
 class ImageViewerActivity : LockingActivity() {
 
@@ -47,6 +47,7 @@ class ImageViewerActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val imageContainerView: ViewGroup = findViewById(R.id.image_viewer_container)
         val imageView: ImageView = findViewById(R.id.image_viewer_image)
         val progressView: View = findViewById(R.id.image_viewer_progress)
 
@@ -71,7 +72,7 @@ class ImageViewerActivity : LockingActivity() {
             finish()
         }
 
-        Loupe.create(imageView, image_viewer_container) {
+        Loupe.create(imageView, imageContainerView) {
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
 
                 override fun onStart(view: ImageView) {
