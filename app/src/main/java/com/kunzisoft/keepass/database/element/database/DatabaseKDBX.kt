@@ -322,10 +322,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
-    fun containsCustomIcons(): Boolean {
-        return this.iconsManager.containsAnyCustomIcon()
-    }
-
     fun putCustomData(label: String, value: String) {
         this.customData[label] = value
     }

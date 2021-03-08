@@ -697,11 +697,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeCustomIconList() {
-        if (!mDatabaseKDBX.containsCustomIcons()) return
-
-        xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
-
+        var firstElement = true
         mDatabaseKDBX.iconsManager.doForEachCustomIconWithoutBinaryDuplication { iconCustom ->
+            // Write the parent tag
+            if (firstElement) {
+                xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
+                firstElement = false
+            }
+
             xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
 
             writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
@@ -716,7 +719,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
         }
 
-        xml.endTag(null, DatabaseKDBXXML.ElemCustomIcons)
+        // Close the parent tag
+        if (!firstElement) {
+            xml.endTag(null, DatabaseKDBXXML.ElemCustomIcons)
+        }
     }
 
     private fun safeXmlString(text: String): String {

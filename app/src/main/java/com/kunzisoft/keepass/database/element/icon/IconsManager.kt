@@ -69,10 +69,6 @@ class IconsManager {
         return listIcons
     }
 
-    fun containsAnyCustomIcon(): Boolean {
-        return !customCache.isEmpty()
-    }
-
     fun removeCustomIcon(iconUuid: UUID) {
         val binary = customCache[iconUuid]
         customCache.remove(iconUuid)
