@@ -447,7 +447,7 @@ class GroupActivity : LockingActivity(),
 
             mListNodesFragment = newListNodeFragment
             mCurrentGroup = group
-            mCurrentGroupIsASearch = true
+            mCurrentGroupIsASearch = isASearch
             assignGroupViewElements()
         }
     }
