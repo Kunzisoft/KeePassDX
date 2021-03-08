@@ -42,8 +42,8 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
     : RelativeLayout(context, attrs, defStyle) {
 
     var addButtonView: FloatingActionButton? = null
-    private var addEntryView: View? = null
-    private var addGroupView: View? = null
+    private lateinit var addEntryView: View
+    private lateinit var addGroupView: View
 
     private var addEntryEnable: Boolean = false
     private var addGroupEnable: Boolean = false
@@ -82,8 +82,8 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
         animationDuration = 300L
 
         viewButtonMenuAnimation = AddButtonAnimation(addButtonView)
-        viewMenuAnimationAddEntry = ViewMenuAnimation(addEntryView, 0L, 150L)
-        viewMenuAnimationAddGroup = ViewMenuAnimation(addGroupView, 150L, 0L)
+        viewMenuAnimationAddEntry = ViewMenuAnimation(addEntryView, 150L, 0L)
+        viewMenuAnimationAddGroup = ViewMenuAnimation(addGroupView, 0L, 150L)
 
         allowAction = true
         state = State.CLOSE
@@ -111,8 +111,8 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
         val viewEntryRect = Rect()
         val viewGroupRect = Rect()
         addButtonView?.getGlobalVisibleRect(viewButtonRect)
-        addEntryView?.getGlobalVisibleRect(viewEntryRect)
-        addGroupView?.getGlobalVisibleRect(viewGroupRect)
+        addEntryView.getGlobalVisibleRect(viewEntryRect)
+        addGroupView.getGlobalVisibleRect(viewGroupRect)
         if (!(viewButtonRect.contains(event.rawX.toInt(), event.rawY.toInt())
                         && viewEntryRect.contains(event.rawX.toInt(), event.rawY.toInt())
                         && viewGroupRect.contains(event.rawX.toInt(), event.rawY.toInt()))) {
@@ -165,8 +165,8 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
      */
     fun enableAddEntry(enable: Boolean) {
         this.addEntryEnable = enable
-        if (enable && addEntryView != null && addEntryView!!.visibility != View.VISIBLE)
-            addEntryView!!.visibility = View.INVISIBLE
+        if (enable && addEntryView.visibility != View.VISIBLE)
+            addEntryView.visibility = View.INVISIBLE
         disableViewIfNoAddAvailable()
     }
 
@@ -176,13 +176,13 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
      */
     fun enableAddGroup(enable: Boolean) {
         this.addGroupEnable = enable
-        if (enable && addGroupView != null && addGroupView!!.visibility != View.VISIBLE)
-            addGroupView?.visibility = View.INVISIBLE
+        if (enable && addGroupView.visibility != View.VISIBLE)
+            addGroupView.visibility = View.INVISIBLE
         disableViewIfNoAddAvailable()
     }
 
     private fun disableViewIfNoAddAvailable() {
-        visibility = if (!addEntryEnable || !addGroupEnable) {
+        visibility = if (!addEntryEnable && !addGroupEnable) {
             View.GONE
         } else {
             View.VISIBLE
@@ -191,7 +191,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
     fun setAddGroupClickListener(onClickListener: OnClickListener) {
         if (addGroupEnable)
-            addGroupView?.setOnClickListener { view ->
+            addGroupView.setOnClickListener { view ->
                 onClickListener.onClick(view)
                 closeButtonIfOpen()
             }
@@ -199,11 +199,11 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
     fun setAddEntryClickListener(onClickListener: OnClickListener) {
         if (addEntryEnable) {
-            addEntryView?.setOnClickListener { view ->
+            addEntryView.setOnClickListener { view ->
                 onClickListener.onClick(view)
                 closeButtonIfOpen()
             }
-            addEntryView?.setOnClickListener { view ->
+            addEntryView.setOnClickListener { view ->
                 onClickListener.onClick(view)
                 closeButtonIfOpen()
             }
@@ -248,7 +248,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
         override fun onAnimationCancel(view: View) {}
 
-        internal fun startAnimation() {
+        fun startAnimation() {
             view?.let { view ->
                 if (!isRotate) {
                     ViewCompat.animate(view)
@@ -298,7 +298,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
         override fun onAnimationCancel(view: View) {}
 
-        internal fun startAnimation() {
+        fun startAnimation() {
             view?.let { view ->
                if (view.visibility == View.VISIBLE) {
                     // In
