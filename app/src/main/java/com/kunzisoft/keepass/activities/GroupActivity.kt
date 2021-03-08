@@ -447,6 +447,7 @@ class GroupActivity : LockingActivity(),
 
             mListNodesFragment = newListNodeFragment
             mCurrentGroup = group
+            mCurrentGroupIsASearch = true
             assignGroupViewElements()
         }
     }
@@ -552,7 +553,6 @@ class GroupActivity : LockingActivity(),
 
         // Show button if allowed
         addNodeButtonView?.apply {
-
             // To enable add button
             val addGroupEnabled = !mReadOnly && !mCurrentGroupIsASearch
             var addEntryEnabled = !mReadOnly && !mCurrentGroupIsASearch
@@ -563,7 +563,9 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            if (actionNodeMode == null)
+            if (mCurrentGroupIsASearch)
+                hideButton()
+            else if (actionNodeMode == null)
                 showButton()
         }
     }
