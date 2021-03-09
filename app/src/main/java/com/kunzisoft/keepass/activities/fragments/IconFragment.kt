@@ -33,6 +33,10 @@ import com.kunzisoft.keepass.adapters.IconPickerAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
         IconPickerAdapter.IconPickerListener<T> {
@@ -41,16 +45,18 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
     protected lateinit var iconPickerAdapter: IconPickerAdapter<T>
     protected var iconActionSelectionMode = false
 
-    protected val database = Database.getInstance()
+    protected var mDatabase: Database? = null
 
     protected val iconPickerViewModel: IconPickerViewModel by activityViewModels()
 
     abstract fun retrieveMainLayoutId(): Int
 
-    abstract fun defineIconList(database: Database): List<T>
+    abstract fun defineIconList(): List<T>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        mDatabase = Database.getInstance()
 
         // Retrieve the textColor to tint the icon
         val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -58,10 +64,18 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
         ta?.recycle()
 
         iconPickerAdapter = IconPickerAdapter<T>(context, tintColor).apply {
-            iconDrawableFactory = database.iconDrawableFactory
+            iconDrawableFactory = mDatabase?.iconDrawableFactory
         }
 
-        iconPickerAdapter.setList(defineIconList(database))
+        CoroutineScope(Dispatchers.IO).launch {
+            val populateList = launch {
+                iconPickerAdapter.setList(defineIconList())
+            }
+            withContext(Dispatchers.Main) {
+                populateList.join()
+                iconPickerAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater,

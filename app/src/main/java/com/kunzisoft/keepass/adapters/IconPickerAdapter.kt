@@ -79,7 +79,6 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
         icons.forEach { iconImage ->
             iconList.add(iconImage)
         }
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomIconViewHolder {
