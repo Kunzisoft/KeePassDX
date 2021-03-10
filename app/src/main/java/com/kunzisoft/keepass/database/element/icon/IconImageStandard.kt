@@ -32,7 +32,7 @@ class IconImageStandard : Parcelable, IconImageDraw {
     }
 
     constructor(iconId: Int) {
-        if (iconId < 0 || iconId >= NB_ICONS)
+        if (!isCorrectIconId(iconId))
             this.id = KEY_ID
         else
             this.id = iconId
@@ -77,6 +77,10 @@ class IconImageStandard : Parcelable, IconImageDraw {
         const val KEY_ID = 0
         const val TRASH_ID = 43
         const val FOLDER_ID = 48
+
+        fun isCorrectIconId(iconId: Int): Boolean {
+            return iconId in 0 until NB_ICONS
+        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<IconImageStandard> = object : Parcelable.Creator<IconImageStandard> {

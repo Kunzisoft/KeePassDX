@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.io.File
 import java.util.*
@@ -34,7 +35,8 @@ class IconsManager {
     private val customCache = CustomIconPool()
 
     fun getIcon(iconId: Int): IconImageStandard {
-        return standardCache[iconId]
+        val searchIconId = if (IconImageStandard.isCorrectIconId(iconId)) iconId else KEY_ID
+        return standardCache[searchIconId]
     }
 
     fun getStandardIconList(): List<IconImageStandard> {
