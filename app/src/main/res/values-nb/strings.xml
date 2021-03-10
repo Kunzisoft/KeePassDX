@@ -459,4 +459,19 @@
     <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
     <string name="html_about_contribution">For å <strong> beholde vår frihet </strong>, <strong> fikse feil </strong>, <strong> legge til funksjoner </strong> og <strong> være alltid aktiv </strong>, stoler vi på ditt <strong> bidrag </strong>.</string>
     <string name="content_description_repeat_toggle_password_visibility">Gjenta for å skifte passordsynlighet</string>
+    <string name="icon_section_custom">Egendefinert</string>
+    <string name="icon_section_standard">Forvalg</string>
+    <string name="style_brightness_summary">Velg lys eller mørk drakt</string>
+    <string name="style_brightness_title">Draktlysstyrke</string>
+    <string name="backspace">Rettetast</string>
+    <string name="keyboard_save_search_info_title">Lagre delt info</string>
+    <string name="keyboard_search_share_title">Søk i delt info</string>
+    <string name="device_keyboard_setting_title">Innstillinger for enhetens tastatur</string>
+    <string name="notification">Merknad</string>
+    <string name="data">Data</string>
+    <string name="advanced_unlock_tap_delete">Trykk for å slette avanserte opplåsningsnøkler</string>
+    <string name="clipboard_explanation_summary">Kopier inntastingsfelter ved bruk av utklippstavlen på din enhet</string>
+    <string name="autofill_preference_title">Autofyllings-innstillinger</string>
+    <string name="warning_sure_remove_data">Fjern denne dataen uansett\?</string>
+    <string name="warning_permanently_delete_nodes">Slett valgte noder for godt\?</string>
 </resources>
