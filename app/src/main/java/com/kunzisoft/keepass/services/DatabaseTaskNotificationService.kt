@@ -138,12 +138,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
                 val oldDatabaseModification = previousDatabaseInfo?.lastModification
                 val newDatabaseModification = lastFileDatabaseInfo.lastModification
+                val oldDatabaseSize = previousDatabaseInfo?.size
 
                 val conditionExists = previousDatabaseInfo != null
                         && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
                 // To prevent dialog opening too often
                 // Add 10 seconds delta time to prevent spamming
-                val conditionLastModification = (oldDatabaseModification != null && newDatabaseModification != null
+                val conditionLastModification =
+                        (oldDatabaseModification != null && newDatabaseModification != null
+                        && oldDatabaseSize != null
+                        && oldDatabaseModification > 0 && newDatabaseModification > 0
+                        && oldDatabaseSize > 0
                         && oldDatabaseModification < newDatabaseModification
                         && mLastLocalSaveTime + 10000 < newDatabaseModification)
 
