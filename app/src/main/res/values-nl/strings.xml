@@ -530,7 +530,7 @@
     <string name="advanced_unlock_tap_delete">Tik om geavanceerde ontgrendelingstoetsen te verwijderen</string>
     <string name="content">Inhoud</string>
     <string name="device_credential">Apparaatreferentie</string>
-    <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op de knop \"Geavanceerd ontgrendelen\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op deze knop.</string>
     <string name="advanced_unlock_prompt_not_initialized">Kan geavanceerde ontgrendelingsprompt niet initialiseren.</string>
     <string name="advanced_unlock_scanning_error">Geavanceerde ontgrendelingsfout: %1$s</string>
     <string name="advanced_unlock_not_recognized">Kan geavanceerde ontgrendelingsafdruk niet herkennen</string>
@@ -560,4 +560,13 @@
     <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
     <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
+    <string name="icon_section_custom">Aangepast</string>
+    <string name="icon_section_standard">Standaard</string>
+    <string name="style_brightness_summary">Selecteer lichte of donkere thema\'s</string>
+    <string name="style_brightness_title">Helderheid van het thema</string>
+    <string name="error_remove_file">Er is een fout opgetreden bij het verwijderen van de bestandsgegevens.</string>
+    <string name="error_duplicate_file">De bestandsgegevens bestaan al.</string>
+    <string name="error_upload_file">Er is een fout opgetreden bij het uploaden van de bestandsgegevens.</string>
+    <string name="error_file_to_big">Het bestand dat je probeert te uploaden, is te groot.</string>
+    <string name="content_description_otp_information">Eenmalig wachtwoord-informatie</string>
 </resources>
