@@ -81,6 +81,11 @@
         <item name="android:background">@color/white_purple</item>
         <item name="background">@color/white_purple</item>
     </style>
+    <style name="KeepassDXStyle.Purple.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/purple_light</item>
+        <item name="android:windowBackground">@color/white_purple</item>
+    </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Purple" parent="CardView">
         <item name="cardBackgroundColor">@color/white_purple_light</item>

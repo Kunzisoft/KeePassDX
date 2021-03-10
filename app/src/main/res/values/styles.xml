@@ -241,12 +241,12 @@
         <item name="background">@color/grey_dark</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
-    <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
         <item name="android:windowBackground">@color/white_dark</item>
     </style>
-    <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:windowBackground">@color/grey_dark</item>

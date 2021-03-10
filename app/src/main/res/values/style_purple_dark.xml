@@ -80,6 +80,11 @@
         <item name="android:background">@color/black_purple_dark</item>
         <item name="background">@color/black_purple_dark</item>
     </style>
+    <style name="KeepassDXStyle.Purple.Dark.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/purple_lighter</item>
+        <item name="android:windowBackground">@color/black_purple_dark</item>
+    </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Purple.Dark" parent="CardView">
         <item name="cardBackgroundColor">@color/black_purple</item>
