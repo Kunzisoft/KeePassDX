@@ -551,4 +551,10 @@
     <string name="warning_database_info_changed">データベース ファイルに含まれる情報は、アプリの外部で変更されています。</string>
     <string name="menu_reload_database">データベースを再度読み込む</string>
     <string name="error_rebuild_list">リストを正しく再構築できません。</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="download_canceled">キャンセルされました!</string>
+    <string name="error_otp_type">既存の OTP 形式がこのフォームで認識されない場合、検証によってトークンが正しく生成されなくなる可能性があります。</string>
 </resources>

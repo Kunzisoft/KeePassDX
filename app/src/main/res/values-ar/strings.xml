@@ -113,7 +113,7 @@
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
-    <string name="file_manager_install_description">المحرر الذي يقبل هاذا الفعل ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانتاج, فتح وحفض ملفات قاعدة البيانات.</string>
+    <string name="file_manager_install_description">المحرر الذي يمتلك صلاحتي ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانشاء, وفتح وحفض قواعد البيانات.</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة(إذا كان جهازك يدعمها)</string>
@@ -137,7 +137,7 @@
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تمكين خدمة الملء التلقائي.</string>
-    <string name="error_move_folder_in_itself">غير قادر على نقل مجموعة إلى نفسها.</string>
+    <string name="error_move_folder_in_itself">لا يمكن نقل مجموعة إلى نفسها.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
     <string name="file_browser">مدير الملفات</string>
     <string name="invalid_credentials">تعذر قراءة الإعتمادات.</string>
@@ -187,7 +187,6 @@
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
     <string name="path">مسار</string>
-
     <string name="database_history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
     <string name="advanced_unlock">البصمة</string>
@@ -259,8 +258,8 @@
     <string name="content_description_password_length">طول كلمة السر</string>
     <string name="entry_add_field">أضف حقل</string>
     <string name="content_description_remove_field">أزل حقل</string>
-    <string name="error_move_entry_here">لا يمكنك نقل مدخل هنا.</string>
-    <string name="error_copy_entry_here">لا يمكنك نسخ مدخل هنا.</string>
+    <string name="error_move_entry_here">لا يمكن نقل إدخال هنا.</string>
+    <string name="error_copy_entry_here">لا يمكن نسخ إدخال هنا.</string>
     <string name="list_groups_show_number_entries_title">عرض عدد المدخلات</string>
     <string name="list_groups_show_number_entries_summary">عرض عدد المدخلات في المجموعة</string>
     <string name="content_description_update_from_list">تحديث</string>
@@ -278,8 +277,8 @@
     <string name="error_otp_period">يجب ان تكون المدة بين %1$d و%2$d ثانية.</string>
     <string name="error_otp_secret_key">المفتاح السري يجب ان يكون بصيغة Base32.</string>
     <string name="error_save_database">لا يمكن حفظ قاعدة البيانات.</string>
-    <string name="error_create_database">غير قادر على إنشاء ملف قاعدة البيانات.</string>
-    <string name="error_copy_group_here">لا يمكنك نسخ مجموعة هنا.</string>
+    <string name="error_create_database">لا يمكن إنشاء ملف قاعدة البيانات.</string>
+    <string name="error_copy_group_here">لا يمكن نسخ مجموعة هنا.</string>
     <string name="error_label_exists">هذه التسمية موجودة بالفعل.</string>
     <string name="otp_period">المدة (ثواني)</string>
     <string name="otp_algorithm">الخوارزمية</string>
@@ -317,8 +316,8 @@
     <string name="entry_otp">كلمة مرور لمرة واحدة</string>
     <string name="otp_type">نوع كلمة المرور لمرة واحدة</string>
     <string name="error_disallow_no_credentials">عين اعتماد واحد على الأقل.</string>
-    <string name="contribution">مساهمة</string>
-    <string name="contact">"‮تواصل معنا "</string>
+    <string name="contribution">ساهم</string>
+    <string name="contact">‮تواصل معنا</string>
     <string name="biometric">البصمة</string>
     <string name="warning_empty_keyfile_explanation">يجب ألا تغير محتوى ملف المفتاح، في أحسن الحالات يجب أن يحتوي بيانات مولدة عشوائيا.</string>
     <string name="warning_empty_keyfile">من غير المستحسن اضافة ملف مفتاح فارغ.</string>
@@ -385,8 +384,8 @@
     <string name="biometric_auto_open_prompt_title">افتح محث البصمة تلقائيا</string>
     <string name="keystore_not_accessible">لم يُهيأ مخزن المفاتيح بشكل صحيح.</string>
     <string name="warning_remove_unlinked_attachment">حذف البيانات سيقلل من حجم قاعدة البيانات لكن احذر أن تكون إحدى هذه البيانات ملحقة لكي-باس.</string>
-    <string name="subdomain_search_summary">ابحث عن النطاقات في النطاقات الفرعية</string>
-    <string name="subdomain_search_title">البحث في النطاق الفرعي</string>
+    <string name="subdomain_search_summary">البحث في نطاقات الويب التي فيها قيود النطاقات الفرعية</string>
+    <string name="subdomain_search_title">البحث عن النطاق الفرعي</string>
     <string name="recycle_bin">سلة المحذوفات</string>
     <string name="compression_gzip">Gzip</string>
     <string name="compression_none">بدون</string>
@@ -408,4 +407,6 @@
     <string name="max_history_size_title">الحجم الأقصى</string>
     <string name="max_history_items_summary">عدد عناصر التأريخ لكل مدخل</string>
     <string name="education_generate_password_title">أنشئ كلمة سر قوية</string>
+    <string name="save_mode">وضع الحفظ</string>
+    <string name="search_mode">وضع البحث</string>
 </resources>

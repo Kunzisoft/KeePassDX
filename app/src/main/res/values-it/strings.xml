@@ -434,7 +434,7 @@
     <string name="download_progression">Avanzamento %1$d%%</string>
     <string name="download_initialization">Inizializzazione…</string>
     <string name="download_attachment">Scaricamento %1$s</string>
-    <string name="education_setup_OTP_title">Imposta One-Time Password (OTP)</string>
+    <string name="education_setup_OTP_title">Imposta password usa e getta (OTP)</string>
     <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità «Modificabile»)</string>
     <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
     <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o ID dell\'applicazione</string>
@@ -556,4 +556,10 @@
     <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
     <string name="menu_reload_database">Ricarica database</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo, la sua convalida potrebbe non generare più correttamente il token.</string>
+    <string name="download_canceled">Annullato!</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="content_description_otp_information">Info password usa e getta</string>
 </resources>

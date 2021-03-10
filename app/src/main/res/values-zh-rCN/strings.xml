@@ -515,7 +515,7 @@
     <string name="device_credential_unlock_enable_summary">允许您使用设备凭据来打开数据库</string>
     <string name="device_credential_unlock_enable_title">设备凭据解锁</string>
     <string name="device_credential">设备凭据</string>
-    <string name="credential_before_click_advanced_unlock_button">输入密码，然后点击“高级解锁”按钮。</string>
+    <string name="credential_before_click_advanced_unlock_button">输入密码，然后点击这个按钮。</string>
     <string name="advanced_unlock_prompt_not_initialized">无法初始化高级解锁提示。</string>
     <string name="advanced_unlock_scanning_error">高级解锁出错：%1$s</string>
     <string name="advanced_unlock_not_recognized">无法识别高级解锁印记</string>
@@ -558,4 +558,11 @@
     <string name="unit_byte">字节</string>
     <string name="error_otp_type">现有的 OTP 类型未被此表单所识别，其验证可能不再正确生成令牌。</string>
     <string name="download_canceled">已取消！</string>
+    <string name="icon_section_custom">自定义</string>
+    <string name="icon_section_standard">标准</string>
+    <string name="style_brightness_summary">选择浅色或深色主题</string>
+    <string name="style_brightness_title">主题亮度</string>
+    <string name="error_upload_file">上传文件数据时发生错误。</string>
+    <string name="error_file_to_big">你尝试上传的文件太大。</string>
+    <string name="content_description_otp_information">一次性密码信息</string>
 </resources>

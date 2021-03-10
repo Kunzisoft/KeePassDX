@@ -514,7 +514,7 @@
     <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
     <string name="device_credential">Учётные данные устройства</string>
-    <string name="credential_before_click_advanced_unlock_button">Введите пароль и нажмите кнопку \"Расширенная разблокировка\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Введите пароль и нажмите эту кнопку.</string>
     <string name="advanced_unlock_prompt_not_initialized">Невозможно инициализировать запрос расширенной разблокировки.</string>
     <string name="advanced_unlock_not_recognized">Невозможно распознать расширенную разблокировку</string>
     <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ расширенной разблокировки. Удалите его и повторите процедуру распознавания разблокировки.</string>
@@ -558,4 +558,11 @@
     <string name="unit_kibibyte">КиБ</string>
     <string name="unit_byte">Б</string>
     <string name="download_canceled">Отменено!</string>
+    <string name="icon_section_custom">Пользовательские</string>
+    <string name="icon_section_standard">Стандартные</string>
+    <string name="style_brightness_summary">Выбор светлых или тёмных тем</string>
+    <string name="style_brightness_title">Яркость темы</string>
+    <string name="error_upload_file">Ошибка при загрузке данных файла.</string>
+    <string name="error_file_to_big">Файл слишком большой для загрузки.</string>
+    <string name="content_description_otp_information">Информация об одноразовом пароле</string>
 </resources>

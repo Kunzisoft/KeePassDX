@@ -32,14 +32,14 @@
     <string name="application">Program</string>
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
-    <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
+    <string name="file_manager_install_description">En filbehandling som godtar handlingene ACTION_CREATE_DOCUMENT og ACTION_OPEN_DOCUMENT er nødvendig for å opprette, åpne og lagre databasefiler.</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>
     <string name="clipboard_error">Noen enheter lar ikke programmer bruke utklippstavlen.</string>
     <string name="clipboard_error_clear">Kunne ikke tømme utklippstavle</string>
     <string name="clipboard_timeout">Tidsavbrudd for utklippstavle</string>
-    <string name="clipboard_timeout_summary">Tid før utklippstavlen tømmes etter kopiering av brukernavn og passord</string>
+    <string name="clipboard_timeout_summary">Lagringstid på utklippstavlen (hvis den støttes av enheten din)</string>
     <string name="select_to_copy">Velg for å kopier %1$s til utklippstavlen</string>
     <string name="retrieving_db_key">Oppretter databasenøkkel…</string>
     <string name="database">Database</string>
@@ -65,7 +65,7 @@
     <string name="error_arc4">Arcfour-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan ikke håntere denne URI-en.</string>
     <string name="error_file_not_create">Kunne ikke opprette fil</string>
-    <string name="error_invalid_db">Ugyldig database eller fremmed hovednøkkel.</string>
+    <string name="error_invalid_db">Kunne ikke lese databasen.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
     <string name="error_no_name">Et navn er påkrevd.</string>
     <string name="error_nokeyfile">En nøkkelfil er påkrevd.</string>
@@ -76,7 +76,7 @@
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
     <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til 2147483648.</string>
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
-    <string name="error_wrong_length">Skriv inn et positivt heltall i \"Lengde\"-feltet.</string>
+    <string name="error_wrong_length">Skriv inn et positivt heltall i \"Lengde\" feltet.</string>
     <string name="error_autofill_enable_service">Autofyll-tjenesten kan ikke skrus på.</string>
     <string name="error_move_folder_in_itself">Kan ikke flytte gruppe inn i seg selv.</string>
     <string name="field_name">Feltnavn</string>
@@ -322,7 +322,7 @@
     <string name="content_description_add_node">Legg til node</string>
     <string name="content_description_add_entry">Legg til oppføring</string>
     <string name="content_description_add_group">Legg til gruppe</string>
-    <string name="content_description_file_information">Filinfo</string>
+    <string name="content_description_file_information">Fil info</string>
     <string name="entry_password_generator">Passordgenerator</string>
     <string name="content_description_password_length">Passordslengde</string>
     <string name="entry_add_field">Legg til felt</string>
@@ -345,7 +345,7 @@
     <string name="entry_history">Historikk</string>
     <string name="entry_setup_otp">Sett opp engangspassord</string>
     <string name="otp_type">OTP-type</string>
-    <string name="otp_secret">Hemmelighet</string>
+    <string name="otp_secret">Hemmelig</string>
     <string name="otp_period">Periode (sekunder)</string>
     <string name="otp_counter">Teller</string>
     <string name="otp_digits">Siffer</string>
@@ -356,8 +356,8 @@
     <string name="error_otp_period">Periode må være mellom %1$d og %2$d sekunder.</string>
     <string name="database_opened">Database åpnet</string>
     <string name="menu_save_database">Lagre database</string>
-    <string name="content_description_password_checkbox">Passordsavkryssningsboks</string>
-    <string name="content_description_keyfile_checkbox">Nøkkelfil-avkryssningsboks</string>
+    <string name="content_description_password_checkbox">Passord avkrysningsrute</string>
+    <string name="content_description_keyfile_checkbox">Avkrysningsrute for nøkkelfil</string>
     <string name="biometric">Biometrisk</string>
     <string name="error_disallow_no_credentials">Minst én identitetsdetalj må angis.</string>
     <string name="error_copy_group_here">Du kan ikke kopiere en gruppe hit.</string>
@@ -441,4 +441,22 @@
     <string name="select_entry">Velg oppføring</string>
     <string name="back_to_previous_keyboard">Tilbake til forrige tastatur</string>
     <string name="custom_fields">Egendefinerte felter</string>
+    <string name="content">Innhold</string>
+    <string name="advanced_unlock_delete_all_key_warning">Slette alle krypteringsnøkler relatert til avansert opplåsingsgjenkjenning\?</string>
+    <string name="keyboard_change">Bytt tastatur</string>
+    <string name="keyboard_previous_lock_title">Lås databasen</string>
+    <string name="keyboard_previous_lock_summary">Bytt automatisk tilbake til forrige tastatur etter å ha låst databasen</string>
+    <string name="autofill_close_database_summary">Lukk databasen etter et autofyllvalg</string>
+    <string name="autofill_auto_search_summary">Foreslå automatisk søkeresultater fra webdomenet eller applikasjons-IDen</string>
+    <string name="autofill_save_search_info_summary">Prøv å lagre søkeinformasjon når du foretar et manuelt valg</string>
+    <string name="autofill_block">Blokker autofyll</string>
+    <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
+    <string name="autofill_read_only_save">Datalagring er ikke tillatt for en database som er skrivebeskyttet.</string>
+    <string name="autofill_inline_suggestions_keyboard">Forslag til autofyll er lagt til.</string>
+    <string name="education_advanced_unlock_summary">Koble passordet ditt til den skannede biometriske eller enhetslegitimasjonen for å raskt låse opp databasen din.</string>
+    <string name="education_setup_OTP_title">Sett opp OTP</string>
+    <string name="download_canceled">Avbrutt!</string>
+    <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
+    <string name="html_about_contribution">For å <strong> beholde vår frihet </strong>, <strong> fikse feil </strong>, <strong> legge til funksjoner </strong> og <strong> være alltid aktiv </strong>, stoler vi på ditt <strong> bidrag </strong>.</string>
+    <string name="content_description_repeat_toggle_password_visibility">Gjenta for å skifte passordsynlighet</string>
 </resources>

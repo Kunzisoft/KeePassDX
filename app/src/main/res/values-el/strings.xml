@@ -154,7 +154,7 @@
         <item>Μεγάλα</item>
     </string-array>
     <string name="encryption">Κρυπτογράφηση</string>
-    <string name="key_derivation_function">Λειτουργία εξαγωγής κλειδιών</string>
+    <string name="key_derivation_function">Συνάρτηση παραγωγής κλειδιού</string>
     <string name="extended_ASCII">Extended ASCII</string>
     <string name="allow">Δέχομαι</string>
     <string name="error_autofill_enable_service">Δεν ήταν δυνατή η ενεργοποίηση της υπηρεσίας αυτόματης συμπλήρωσης.</string>
@@ -163,11 +163,11 @@
     <string name="menu_form_filling_settings">Γέμισμα Φόρμας</string>
     <string name="read_only">Προστασία εγγραφής</string>
     <string name="encryption_explanation">Αλγόριθμος κρυπτογράφησης βάσης δεδομένων που χρησιμοποιείται για όλα τα δεδομένα.</string>
-    <string name="kdf_explanation">Για να δημιουργηθεί το κλειδί για τον αλγόριθμο κρυπτογράφησης, το κύριο κλειδί μετασχηματίζεται χρησιμοποιώντας μια τυχαία αλατισμένη λειτουργία εξαγωγής κλειδιών.</string>
+    <string name="kdf_explanation">Για να δημιουργηθεί το κλειδί για τον αλγόριθμο κρυπτογράφησης, το κύριο κλειδί μετασχηματίζεται χρησιμοποιώντας μια τυχαία εμπλουτισμένη συνάρτηση παραγωγής κλειδιού.</string>
     <string name="memory_usage">Χρήση μνήμης</string>
-    <string name="memory_usage_explanation">Ποσότητα μνήμης που θα χρησιμοποιηθεί από τη λειτουργία εξαγωγής κλειδιών.</string>
+    <string name="memory_usage_explanation">Ποσότητα μνήμης που θα χρησιμοποιηθεί από τη συνάρτηση παραγωγής κλειδιού.</string>
     <string name="parallelism">Παραλληλισμός</string>
-    <string name="parallelism_explanation">Βαθμός παραλληλισμού (δηλ. Αριθμός νημάτων) που χρησιμοποιείται από τη συνάρτηση εξαγωγής κλειδιών.</string>
+    <string name="parallelism_explanation">Βαθμός παραλληλισμού (δηλ. Αριθμός νημάτων) που χρησιμοποιείται από τη συνάρτηση παραγωγής κλειδιού.</string>
     <string name="sort_menu">Ταξινόμηση</string>
     <string name="sort_ascending">Χαμηλότερα πρώτα ↓</string>
     <string name="sort_groups_before">Ομάδες πριν</string>
@@ -329,7 +329,7 @@
     <string name="content_description_add_group">Προσθήκη ομάδας</string>
     <string name="content_description_file_information">Πληροφορίες αρχείου</string>
     <string name="content_description_password_checkbox">Έλεγχος κωδικού πρόσβασης</string>
-    <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου κλειδιού-αρχείου</string>
+    <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου αρχείου-κλειδιού</string>
     <string name="content_description_repeat_toggle_password_visibility">Επανάληψη της ορατότητας του κωδικού πρόσβασης</string>
     <string name="content_description_entry_icon">Εικονίδιο καταχώρησης</string>
     <string name="entry_password_generator">Γεννήτρια κωδικού πρόσβασης</string>
@@ -362,7 +362,7 @@
     <string name="security">Ασφάλεια</string>
     <string name="entry_history">Ιστορικό</string>
     <string name="entry_setup_otp">Ρυθμίστε τον κωδικό μιάς χρήσης</string>
-    <string name="otp_type">OTP τύπος</string>
+    <string name="otp_type">Τύπος OTP</string>
     <string name="otp_secret">Μυστικό</string>
     <string name="otp_period">Περίοδος (δευτερολέπτα)</string>
     <string name="otp_counter">Μετρητής</string>
@@ -515,7 +515,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Προειδοποίηση: Θα πρέπει να θυμάστε τον κύριο κωδικό πρόσβασης εάν χρησιμοποιείτε προηγμένο ξεκλείδωμα αναγνώρισης.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Ανοίξτε τη βάση δεδομένων με προηγμένο ξεκλείδωμα αναγνώρισης</string>
     <string name="open_advanced_unlock_prompt_store_credential">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για αποθήκευση διαπιστευτηρίων</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλείιδώσετε τη βάση δεδομένων</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλειδώσετε τη βάση δεδομένων</string>
     <string name="menu_keystore_remove_key">Διαγραφή προηγμένου κλειδιού ξεκλειδώματος</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
@@ -526,7 +526,7 @@
     <string name="device_credential_unlock_enable_summary">Σας επιτρέπει να χρησιμοποιήσετε τα διαπιστευτήρια της συσκευής σας για να ανοίξετε τη βάση δεδομένων</string>
     <string name="device_credential_unlock_enable_title">Ξεκλείδωμα διαπιστευτηρίων συσκευής</string>
     <string name="device_credential">Διαπιστευτήρια συσκευής</string>
-    <string name="credential_before_click_advanced_unlock_button">Πληκτρολογήστε τον κωδικό πρόσβασης, και στη συνέχεια κάντε κλικ στο κουμπί \"Προηγμένο ξεκλείδωμα\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Πληκτρολογήστε τον κωδικό πρόσβασης, και στη συνέχεια κάντε κλικ αυτό το κουμπί.</string>
     <string name="advanced_unlock_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία προτροπής προηγμένου ξεκλειδώματος.</string>
     <string name="advanced_unlock_not_recognized">Δεν ήταν δυνατή η αναγνώριση αποτυπώματος προηγμένου ξεκλειδώματος</string>
     <string name="advanced_unlock_scanning_error">Προηγμένο ξεκλείδωμα σφάλμα: %1$s</string>
@@ -558,4 +558,11 @@
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Ο υπάρχων τύπος OTP δεν αναγνωρίζεται από αυτήν τη φόρμα, η επικύρωσή του ενδέχεται να μην δημιουργεί πλέον σωστά το token.</string>
     <string name="download_canceled">Ακυρώθηκε!</string>
+    <string name="icon_section_custom">Προσαρμοσμένο</string>
+    <string name="icon_section_standard">Κανονικό</string>
+    <string name="style_brightness_summary">Επιλέξτε φωτεινά ή σκοτεινά θέματα</string>
+    <string name="style_brightness_title">Φωτεινότητα θέματος</string>
+    <string name="error_upload_file">Παρουσιάστηκε σφάλμα κατά τη μεταφόρτωση των δεδομένων αρχείου.</string>
+    <string name="error_file_to_big">Το αρχείο που προσπαθείτε να ανεβάσετε είναι πολύ μεγάλο.</string>
+    <string name="content_description_otp_information">Πληροφορίες One-time κωδικού πρόσβασης</string>
 </resources>

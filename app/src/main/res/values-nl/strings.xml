@@ -543,4 +543,21 @@
     <string name="open_advanced_unlock_prompt_unlock_database">Open de geavanceerde ontgrendelingsprompt om de database te ontgrendelen</string>
     <string name="menu_keystore_remove_key">Geavanceerde ontgrendelingssleutel verwijderen</string>
     <string name="error_field_name_already_exists">De veldnaam bestaat al.</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="kdf_Argon2id">Argon2id</string>
+    <string name="kdf_Argon2d">Argon2d</string>
+    <string name="download_canceled">Geannuleerd!</string>
+    <string name="autofill_inline_suggestions_keyboard">Suggesties voor automatisch aanvullen toegevoegd.</string>
+    <string name="autofill_inline_suggestions_summary">Probeer suggesties voor automatisch aanvullen rechtstreeks vanaf een compatibel toetsenbord weer te geven</string>
+    <string name="autofill_inline_suggestions_title">Inline suggesties</string>
+    <string name="warning_database_revoked">Toegang tot het bestand is ingetrokken door de bestandsbeheerder, sluit de database en open deze opnieuw vanaf de locatie.</string>
+    <string name="warning_database_info_changed_options">De externe wijzigingen overschrijven door de database op te slaan of herlaad deze met de laatste wijzigingen.</string>
+    <string name="warning_database_info_changed">De informatie in het databasebestand is buiten de app gewijzigd.</string>
+    <string name="menu_reload_database">Database opnieuw laden</string>
+    <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
+    <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
+    <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
 </resources>

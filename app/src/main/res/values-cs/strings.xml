@@ -225,7 +225,7 @@
     <string name="assign_master_key">Přiřadit hlavní klíč</string>
     <string name="create_keepass_file">Založit novou databázi</string>
     <string name="recycle_bin_title">Využití koše</string>
-    <string name="recycle_bin_summary">Před smazáním přesune skupiny a položky do skupiny „Koš“</string>
+    <string name="recycle_bin_summary">Před smazáním přesune vybrané položky do skupiny s názvem „Koš“</string>
     <string name="monospace_font_fields_enable_title">Písmo kolonek</string>
     <string name="monospace_font_fields_enable_summary">Čitelnost znaků v kolonkách můžete přizpůsobit změnou písma</string>
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
@@ -393,7 +393,7 @@
     <string name="max_history_size_title">Maximální velikost</string>
     <string name="max_history_size_summary">Omezit velikost historie na záznam</string>
     <string name="settings_database_recommend_changing_master_key_title">Doporučit změnu</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Dporučit změnu hlavního klíče (dny)</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Doporučit změnu hlavního klíče (dny)</string>
     <string name="settings_database_force_changing_master_key_title">Vynutit změnu</string>
     <string name="settings_database_force_changing_master_key_summary">Žádat změnu hlavního klíče (dny)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Vynutit změnu příště</string>
@@ -410,7 +410,7 @@
     <string name="command_execution">Provádím příkaz…</string>
     <string name="warning_permanently_delete_nodes">Natrvalo smazat vybrané uzly\?</string>
     <string name="keystore_not_accessible">Úložiště klíčů není řádně inicializováno.</string>
-    <string name="recycle_bin_group_title">Skupina Koš</string>
+    <string name="recycle_bin_group_title">Název skupiny</string>
     <string name="enable_auto_save_database_title">Uložit databázi automaticky</string>
     <string name="enable_auto_save_database_summary">Uložit databázi po každé důležité akci (v režimu \"Zápis\")</string>
     <string name="entry_attachments">Přílohy</string>
@@ -426,7 +426,7 @@
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>
     <string name="hide_expired_entries_summary">Propadlé záznamy nebudou ukázány</string>
     <string name="contact">Kontakt</string>
-    <string name="contribution">Příspění</string>
+    <string name="contribution">Příspěvky</string>
     <string name="feedback">Feedback</string>
     <string name="auto_focus_search_title">Snadné hledání</string>
     <string name="auto_focus_search_summary">Při otevření databáze žádat hledání</string>
@@ -439,8 +439,8 @@
     <string name="hide_broken_locations_title">Skrýt chybné odkazy na databáze</string>
     <string name="hide_broken_locations_summary">Skrýt chybné odkazy v seznamu nedávných databází</string>
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
-\nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>open source</strong> a <strong>bez reklam</strong>.
+\nJe poskytován jak je, od licencí <strong>GPLv3</strong>, bez jakékoli záruky.</string>
     <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;opravili chyby&lt;/strong&gt;,&lt;strong&gt;doplnili funkce&lt;/strong&gt; a &lt;strong&gt;byli vždy aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
     <string name="error_create_database">Nepodařilo se vytvořit soubor databáze.</string>
     <string name="entry_add_attachment">Přidat přílohu</string>
@@ -521,7 +521,7 @@
     <string name="device_credential_unlock_enable_summary">Dovolí pro otevření databáze použít heslo Vašeho zařízení</string>
     <string name="device_credential_unlock_enable_title">Odemknutí heslem zařízení</string>
     <string name="device_credential">Heslo zařízení</string>
-    <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a klikněte na tlačítko \"Rozšířené odemknutí\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a pak klepněte na toto tlačítko.</string>
     <string name="advanced_unlock_prompt_not_initialized">Nelze inicializovat pobídku pro rozšířené odemknutí.</string>
     <string name="advanced_unlock_scanning_error">Chyba při rozšířeném odemknutí: %1$s</string>
     <string name="advanced_unlock_not_recognized">Otisk pro rozšířené odemknutí nebyl rozpoznán</string>
@@ -558,4 +558,12 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="error_otp_type">Nemohu rozpoznat existující typ OTP v této formě, jeho validace patrně nebude generovat správný token.</string>
+    <string name="download_canceled">Zrušeno!</string>
+    <string name="icon_section_custom">Vlastní</string>
+    <string name="icon_section_standard">Standardní</string>
+    <string name="style_brightness_summary">Vybrat světlé či tmavé motivy</string>
+    <string name="style_brightness_title">Jas motivu</string>
+    <string name="error_upload_file">Během nahrávání souboru došlo k chybě.</string>
+    <string name="error_file_to_big">Soubor, který se pokoušíte nahrát, je příliš velký.</string>
+    <string name="content_description_otp_information">Info o jednorázovém hesle</string>
 </resources>
