@@ -77,6 +77,11 @@ class Database {
             loadTimestamp = if (field) System.currentTimeMillis() else null
         }
 
+    /**
+     * To reload the main activity
+     */
+    var wasReloaded = true
+
     var loadTimestamp: Long? = null
         private set
 

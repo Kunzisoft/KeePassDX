@@ -39,6 +39,7 @@ class ReloadDatabaseRunnable(private val context: Context,
         tempCipherKey = mDatabase.loadedCipherKey
         // Clear before we load
         mDatabase.clear(UriUtil.getBinaryDir(context))
+        mDatabase.wasReloaded = true
     }
 
     override fun onActionRun() {

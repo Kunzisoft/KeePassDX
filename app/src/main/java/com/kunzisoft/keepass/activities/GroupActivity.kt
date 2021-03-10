@@ -346,9 +346,7 @@ class GroupActivity : LockingActivity(),
                     ACTION_DATABASE_RELOAD_TASK -> {
                         // Reload the current activity
                         if (result.isSuccess) {
-                            startActivity(intent)
-                            finish()
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                            reload()
                         } else {
                             this.showActionErrorIfNeeded(result)
                             finish()
@@ -365,6 +363,14 @@ class GroupActivity : LockingActivity(),
         }
 
         Log.i(TAG, "Finished creating tree")
+    }
+
+    private fun reload() {
+        // Reload the current activity
+        startActivity(intent)
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        mDatabase?.wasReloaded = false
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -891,6 +897,9 @@ class GroupActivity : LockingActivity(),
     override fun onResume() {
         super.onResume()
 
+        if (mDatabase?.wasReloaded == true) {
+            reload()
+        }
         // Show the lock button
         lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
             View.VISIBLE
