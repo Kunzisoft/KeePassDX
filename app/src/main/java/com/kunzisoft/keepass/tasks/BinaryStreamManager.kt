@@ -91,7 +91,7 @@ object BinaryStreamManager {
                                              binaryFile: BinaryFile) {
         UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
             BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
-                val bitmapResized = bitmap.resize(MAX_ICON_SIZE)
+                val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
                 val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
@@ -126,7 +126,7 @@ object BinaryStreamManager {
         return Bitmap.createScaledBitmap(this, width, height, true)
     }
 
-    private const val MAX_ICON_SIZE = 128
+    private const val DEFAULT_ICON_WIDTH = 64
 
     private val TAG = BinaryStreamManager::class.java.name
 }
