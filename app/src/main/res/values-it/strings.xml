@@ -562,4 +562,12 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="content_description_otp_information">Info password usa e getta</string>
+    <string name="icon_section_custom">Personalizzato</string>
+    <string name="icon_section_standard">Standard</string>
+    <string name="style_brightness_summary">Scegli un tema scuro o chiaro</string>
+    <string name="style_brightness_title">Luminosità del tema</string>
+    <string name="error_remove_file">Si è verificato un errore durante la rimozione del file.</string>
+    <string name="error_duplicate_file">Il file esiste già.</string>
+    <string name="error_upload_file">Si è verificato un errore durante il caricamento del file.</string>
+    <string name="error_file_to_big">Il file che stai cercando di caricare è troppo grande.</string>
 </resources>
