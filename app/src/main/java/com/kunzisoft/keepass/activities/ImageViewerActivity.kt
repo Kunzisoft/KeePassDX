@@ -34,6 +34,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.tasks.BinaryStreamManager
+import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
 
@@ -51,6 +53,12 @@ class ImageViewerActivity : LockingActivity() {
         val imageView: ImageView = findViewById(R.id.image_viewer_image)
         val progressView: View = findViewById(R.id.image_viewer_progress)
 
+        // Approximately, to not OOM and allow a zoom
+        val mImagePreviewMaxWidth = max(
+                resources.displayMetrics.widthPixels * 2,
+                resources.displayMetrics.heightPixels * 2
+        )
+
         try {
             progressView.visibility = View.VISIBLE
             intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
@@ -58,7 +66,11 @@ class ImageViewerActivity : LockingActivity() {
                 supportActionBar?.title = attachment.name
                 supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryFile.length)
 
-                Attachment.loadBitmap(attachment, Database.getInstance().loadedCipherKey) { bitmapLoaded ->
+                BinaryStreamManager.loadBitmap(
+                        attachment.binaryFile,
+                        Database.getInstance().loadedCipherKey,
+                        mImagePreviewMaxWidth
+                ) { bitmapLoaded ->
                     if (bitmapLoaded == null) {
                         finish()
                     } else {

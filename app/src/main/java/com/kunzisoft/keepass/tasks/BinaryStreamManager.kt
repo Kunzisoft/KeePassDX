@@ -9,10 +9,15 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
+import kotlinx.coroutines.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import kotlin.math.ceil
+import kotlin.math.ln
+import kotlin.math.max
+import kotlin.math.pow
 
 object BinaryStreamManager {
 
@@ -124,6 +129,57 @@ object BinaryStreamManager {
             width = (height * bitmapRatio).toInt()
         }
         return Bitmap.createScaledBitmap(this, width, height, true)
+    }
+
+    fun loadBitmap(binaryFile: BinaryFile,
+                   binaryCipherKey: Database.LoadedKey?,
+                   maxWidth: Int,
+                   actionOnFinish: (Bitmap?) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val asyncResult: Deferred<Bitmap?> = async {
+                    runCatching {
+                        binaryCipherKey?.let { binaryKey ->
+                            val bitmap: Bitmap? = decodeSampledBitmap(binaryFile,
+                                    binaryKey,
+                                    maxWidth)
+                            bitmap
+                        }
+                    }.getOrNull()
+                }
+                withContext(Dispatchers.Main) {
+                    actionOnFinish(asyncResult.await())
+                }
+            }
+        }
+    }
+
+    private fun decodeSampledBitmap(binaryFile: BinaryFile,
+                                    binaryCipherKey: Database.LoadedKey,
+                                    maxWidth: Int): Bitmap? {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        return BitmapFactory.Options().run {
+            try {
+                inJustDecodeBounds = true
+                binaryFile.getUnGzipInputDataStream(binaryCipherKey).use {
+                    BitmapFactory.decodeStream(it, null, this)
+                }
+                // Calculate inSampleSize
+                var scale = 1
+                if (outHeight > maxWidth || outWidth > maxWidth) {
+                    scale = 2.0.pow(ceil(ln(maxWidth / max(outHeight, outWidth).toDouble()) / ln(0.5))).toInt()
+                }
+                inSampleSize = scale
+
+                // Decode bitmap with inSampleSize set
+                inJustDecodeBounds = false
+                binaryFile.getUnGzipInputDataStream(binaryCipherKey).use {
+                    BitmapFactory.decodeStream(it, null, this)
+                }
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 
     private const val DEFAULT_ICON_WIDTH = 64

@@ -31,7 +31,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_attachment_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="144dp"
+        android:layout_height="@dimen/image_preview_height"
         android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
         android:visibility="gone"

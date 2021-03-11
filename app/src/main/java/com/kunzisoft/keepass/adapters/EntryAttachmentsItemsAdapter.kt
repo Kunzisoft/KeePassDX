@@ -32,13 +32,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ImageViewerActivity
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.tasks.BinaryStreamManager
 import com.kunzisoft.keepass.view.expand
+import kotlin.math.max
 
 
 class EntryAttachmentsItemsAdapter(context: Context)
@@ -48,6 +49,11 @@ class EntryAttachmentsItemsAdapter(context: Context)
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
     var onBinaryPreviewLoaded: ((item: EntryAttachmentState) -> Unit)? = null
 
+    // Approximately
+    private val mImagePreviewMaxWidth = max(
+            context.resources.displayMetrics.widthPixels,
+            context.resources.getDimensionPixelSize(R.dimen.item_file_info_height)
+    )
     private var mTitleColor: Int
 
     init {
@@ -76,7 +82,11 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 if (entryAttachmentState.previewState == AttachmentState.NULL) {
                     entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
                     // Load the bitmap image
-                    Attachment.loadBitmap(entryAttachmentState.attachment, binaryCipherKey) { imageLoaded ->
+                    BinaryStreamManager.loadBitmap(
+                            entryAttachmentState.attachment.binaryFile,
+                            binaryCipherKey,
+                            mImagePreviewMaxWidth
+                    ) { imageLoaded ->
                         if (imageLoaded == null) {
                             entryAttachmentState.previewState = AttachmentState.ERROR
                             visibility = View.GONE
