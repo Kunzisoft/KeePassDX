@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- Red Style -->
-    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" />
+    <style name="KeepassDXStyle.Red.Night.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/red_dark</item>
         <item name="colorAccent">@color/orange</item>
@@ -69,5 +70,10 @@
     <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
+    </style>
+    <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/orange</item>
+        <item name="android:windowBackground">@color/grey_dark</item>
     </style>
 </resources>

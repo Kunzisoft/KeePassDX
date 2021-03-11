@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- Dark Style -->
-    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Dark.v21" />
+    <style name="KeepassDXStyle.Dark.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/grey_darker</item>
         <item name="colorPrimaryDark">@color/black_light</item>
         <item name="colorAccent">@color/cyan</item>
@@ -70,6 +71,11 @@
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:background">@color/black_lighter</item>
         <item name="background">@color/black_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Dark.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:windowBackground">@color/black_lighter</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Dark" parent="CardView">

@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- Clear Style -->
-    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Light.WhiteBar.v23" >
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v21" />
+    <style name="KeepassDXStyle.Clear.v21" parent="KeepassDXStyle.Light.WhiteBar.v23" >
         <item name="colorPrimary">@color/white_grey_lighter</item>
         <item name="colorPrimaryDark">@color/white_grey_light</item>
         <item name="colorAccent">@color/cyan_lighter</item>
@@ -83,6 +84,11 @@
         <item name="android:textColorPrimary">@color/cyan</item>
         <item name="android:background">@color/white_grey_lighter</item>
         <item name="background">@color/white_grey_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Clear.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan</item>
+        <item name="android:windowBackground">@color/white_grey_lighter</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Clear" parent="CardView">
