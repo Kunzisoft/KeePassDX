@@ -18,7 +18,7 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <!-- Red Style -->
+    <!-- Light Red Style -->
     <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Red.v21" />
     <style name="KeepassDXStyle.Red.v21" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/red</item>
@@ -75,5 +75,64 @@
         <item name="colorAccent">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:windowBackground">@color/white_dark</item>
+    </style>
+
+    <!-- Night Red Style -->
+    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" />
+    <style name="KeepassDXStyle.Red.Night.v21" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red_dark</item>
+        <item name="colorAccent">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="android:textColorPrimary">@color/red</item>
+        <item name="android:textColorHintInverse">@color/red_lighter</item>
+        <item name="android:windowBackground">@color/grey_dark</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red.Night</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red.Night</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Red.Night</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red.Night</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
+        <item name="educationCircleColor">@color/red_dark</item>
+        <item name="educationTextColor">@color/white</item>
+    </style>
+    <!-- Toolbar Style Red -->
+    <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
+        <item name="colorControlActivated">@color/red_lighter</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/red_lighter</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+    <!-- Toolbar Home Red -->
+    <style name="KeepassDXStyle.Toolbar.Home.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Red -->
+    <style name="KeepassDXStyle.Toolbar.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Red.Night</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/red_dark</item>
+    </style>
+    <!-- Action Toolbar Red -->
+    <style name="KeepassDXStyle.Toolbar.Action.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Red.Night</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Red.Night" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/red</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/orange</item>
+    </style>
+    <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/orange</item>
+        <item name="android:windowBackground">@color/grey_dark</item>
     </style>
 </resources>
