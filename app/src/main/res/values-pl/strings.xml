@@ -566,4 +566,5 @@
     <string name="error_file_to_big">Plik, który próbujesz przesłać, jest za duży.</string>
     <string name="content_description_otp_information">Informacje o hasłach jednorazowych</string>
     <string name="error_remove_file">Wystąpił błąd podczas usuwania danych z pliku.</string>
+    <string name="error_duplicate_file">Dane pliku już istnieją.</string>
 </resources>
