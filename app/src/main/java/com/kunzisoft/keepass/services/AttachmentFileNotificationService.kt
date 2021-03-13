@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.tasks.BinaryStreamManager
+import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
@@ -344,7 +344,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
                                 when (streamDirection) {
                                     StreamDirection.UPLOAD -> {
-                                        BinaryStreamManager.uploadToDatabase(
+                                        BinaryDatabaseManager.uploadToDatabase(
                                                 attachmentNotification.uri,
                                                 attachment.binaryFile,
                                                 contentResolver,
@@ -357,7 +357,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                         )
                                     }
                                     StreamDirection.DOWNLOAD -> {
-                                        BinaryStreamManager.downloadFromDatabase(
+                                        BinaryDatabaseManager.downloadFromDatabase(
                                                 attachmentNotification.uri,
                                                 attachment.binaryFile,
                                                 contentResolver,

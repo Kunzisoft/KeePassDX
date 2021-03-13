@@ -41,7 +41,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.BinaryStreamManager
+import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
@@ -231,7 +231,7 @@ class IconPickerActivity : LockingActivity() {
                         } else {
                             mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this@IconPickerActivity))?.let { customIcon ->
                                 iconCustomState.iconCustom = customIcon
-                                BinaryStreamManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
+                                BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
                                         iconToUploadUri, customIcon.binaryFile)
                                 when {
                                     customIcon.binaryFile?.length ?: 0 <= 0 -> {}

@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.tasks.BinaryStreamManager
+import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
@@ -66,7 +66,7 @@ class ImageViewerActivity : LockingActivity() {
                 supportActionBar?.title = attachment.name
                 supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryFile.length)
 
-                BinaryStreamManager.loadBitmap(
+                BinaryDatabaseManager.loadBitmap(
                         attachment.binaryFile,
                         Database.getInstance().loadedCipherKey,
                         mImagePreviewMaxWidth

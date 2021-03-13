@@ -37,7 +37,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.tasks.BinaryStreamManager
+import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import com.kunzisoft.keepass.view.expand
 import kotlin.math.max
 
@@ -82,7 +82,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 if (entryAttachmentState.previewState == AttachmentState.NULL) {
                     entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
                     // Load the bitmap image
-                    BinaryStreamManager.loadBitmap(
+                    BinaryDatabaseManager.loadBitmap(
                             entryAttachmentState.attachment.binaryFile,
                             binaryCipherKey,
                             mImagePreviewMaxWidth

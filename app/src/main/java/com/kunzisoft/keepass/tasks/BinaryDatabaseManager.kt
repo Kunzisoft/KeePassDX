@@ -19,7 +19,7 @@ import kotlin.math.ln
 import kotlin.math.max
 import kotlin.math.pow
 
-object BinaryStreamManager {
+object BinaryDatabaseManager {
 
     fun downloadFromDatabase(attachmentToUploadUri: Uri,
                              binaryFile: BinaryFile,
@@ -186,5 +186,5 @@ object BinaryStreamManager {
 
     private const val DEFAULT_ICON_WIDTH = 64
 
-    private val TAG = BinaryStreamManager::class.java.name
+    private val TAG = BinaryDatabaseManager::class.java.name
 }
