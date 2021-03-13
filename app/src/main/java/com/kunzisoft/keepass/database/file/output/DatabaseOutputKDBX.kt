@@ -710,7 +710,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
             var customImageData = ByteArray(0)
             mDatabaseKDBX.loadedCipherKey?.let { cipherKey ->
-                iconCustom.binaryFile.getInputDataStream(cipherKey).use { inputStream ->
+                iconCustom.binaryFile?.getInputDataStream(cipherKey)?.use { inputStream ->
                     customImageData = inputStream.readBytes()
                 }
             }

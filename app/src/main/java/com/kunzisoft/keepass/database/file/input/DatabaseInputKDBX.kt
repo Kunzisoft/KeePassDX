@@ -706,7 +706,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             if (customIconID != DatabaseVersioned.UUID_ZERO && customIconData != null) {
                 val customIcon = mDatabase.buildNewCustomIcon(cacheDirectory, customIconID)
                 mDatabase.loadedCipherKey?.let { cipherKey ->
-                    customIcon.binaryFile.getOutputDataStream(cipherKey).use { outputStream ->
+                    customIcon.binaryFile?.getOutputDataStream(cipherKey)?.use { outputStream ->
                         outputStream.write(customIconData)
                     }
                 }

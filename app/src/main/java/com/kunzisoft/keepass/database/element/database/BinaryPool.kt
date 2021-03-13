@@ -120,14 +120,16 @@ abstract class BinaryPool<T> {
         }
     }
 
-    fun isBinaryDuplicate(binaryFile: BinaryFile): Boolean {
-        val searchBinaryMD5 = binaryFile.md5()
-        var i = 0
-        for ((_, binary) in pool) {
-            if (binary.md5() == searchBinaryMD5) {
-                i++
-                if (i > 1)
-                    return true
+    fun isBinaryDuplicate(binaryFile: BinaryFile?): Boolean {
+        binaryFile?.let {
+            val searchBinaryMD5 = it.md5()
+            var i = 0
+            for ((_, binary) in pool) {
+                if (binary.md5() == searchBinaryMD5) {
+                    i++
+                    if (i > 1)
+                        return true
+                }
             }
         }
         return false

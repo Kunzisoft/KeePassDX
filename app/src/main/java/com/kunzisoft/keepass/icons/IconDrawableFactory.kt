@@ -88,14 +88,14 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
         if (cipherKey != null) {
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
-                var bitmap: Bitmap? = BitmapFactory.decodeStream(icon.binaryFile.getInputDataStream(cipherKey))
-                bitmap?.let { bitmapIcon ->
-                    bitmap = resize(bitmapIcon, patternIcon)
-                    val createdDraw = BitmapDrawable(resources, bitmap)
-                    customIconMap[icon.uuid] = WeakReference(createdDraw)
-                    return createdDraw
-                } ?: run {
-
+                icon.binaryFile?.let { binaryFile ->
+                    var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(cipherKey))
+                    bitmap?.let { bitmapIcon ->
+                        bitmap = resize(bitmapIcon, patternIcon)
+                        val createdDraw = BitmapDrawable(resources, bitmap)
+                        customIconMap[icon.uuid] = WeakReference(createdDraw)
+                        return createdDraw
+                    }
                 }
             } else {
                 return draw
@@ -206,7 +206,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      */
     private fun addToCustomCache(resources: Resources, iconDraw: IconImageDraw) {
         val icon = iconDraw.getIconImageToDraw()
-        if (icon.custom.binaryFile.length > 0
+        if (icon.custom.binaryFile?.length ?: 0 > 0
                 && !customIconMap.containsKey(icon.custom.uuid))
             getIconDrawable(resources, icon.custom)
     }

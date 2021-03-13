@@ -93,19 +93,21 @@ object BinaryStreamManager {
 
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
                                              bitmapUri: Uri?,
-                                             binaryFile: BinaryFile) {
-        UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
-            BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
-                val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
-                val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
-                val byteArrayInputStream = ByteArrayInputStream(bitmapData)
-                uploadToDatabase(
-                        byteArrayInputStream,
-                        bitmapData.size.toLong(),
-                        binaryFile
-                )
+                                             binaryFile: BinaryFile?) {
+        binaryFile?.let {
+            UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
+                    val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
+                    val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
+                    val byteArrayInputStream = ByteArrayInputStream(bitmapData)
+                    uploadToDatabase(
+                            byteArrayInputStream,
+                            bitmapData.size.toLong(),
+                            binaryFile
+                    )
+                }
             }
         }
     }

@@ -234,7 +234,7 @@ class IconPickerActivity : LockingActivity() {
                                 BinaryStreamManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
                                         iconToUploadUri, customIcon.binaryFile)
                                 when {
-                                    customIcon.binaryFile.length <= 0 -> {}
+                                    customIcon.binaryFile?.length ?: 0 <= 0 -> {}
                                     mDatabase?.isCustomIconBinaryDuplicate(customIcon) == true -> {
                                         iconCustomState.errorStringId = R.string.error_duplicate_file
                                     }

@@ -28,11 +28,11 @@ import java.util.*
 class IconImageCustom : Parcelable, IconImageDraw {
 
     var uuid: UUID
-    var binaryFile: BinaryFile
+    var binaryFile: BinaryFile?
 
     constructor() {
         uuid = DatabaseVersioned.UUID_ZERO
-        binaryFile = BinaryFile()
+        binaryFile = null
     }
 
     constructor(uuid: UUID,
@@ -48,7 +48,7 @@ class IconImageCustom : Parcelable, IconImageDraw {
 
     constructor(parcel: Parcel) {
         uuid = parcel.readSerializable() as UUID
-        binaryFile = parcel.readParcelable(BinaryFile::class.java.classLoader) ?: BinaryFile()
+        binaryFile = parcel.readParcelable(BinaryFile::class.java.classLoader)
     }
 
     override fun describeContents(): Int {
