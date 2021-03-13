@@ -103,8 +103,8 @@ class Database {
             return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
         }
 
-    fun getStandardIconList(): List<IconImageStandard> {
-        return iconsManager.getStandardIconList()
+    fun doForEachStandardIcons(action: (IconImageStandard) -> Unit) {
+        return iconsManager.doForEachStandardIcon(action)
     }
 
     fun getStandardIcon(iconId: Int): IconImageStandard {
@@ -114,8 +114,8 @@ class Database {
     val allowCustomIcons: Boolean
         get() = mDatabaseKDBX != null
 
-    fun getCustomIconList(): List<IconImageCustom> {
-        return iconsManager.getCustomIconList()
+    fun doForEachCustomIcons(action: (IconImageCustom) -> Unit) {
+        return iconsManager.doForEachCustomIcon(action)
     }
 
     fun getCustomIcon(iconId: UUID): IconImageCustom {

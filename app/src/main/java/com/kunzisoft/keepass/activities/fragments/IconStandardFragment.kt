@@ -29,8 +29,10 @@ class IconStandardFragment : IconFragment<IconImageStandard>() {
         return R.layout.fragment_icon_grid
     }
 
-    override fun defineIconList(): List<IconImageStandard> {
-        return mDatabase?.getStandardIconList() ?: listOf()
+    override fun defineIconList() {
+        mDatabase?.doForEachStandardIcons { standardIcon ->
+            iconPickerAdapter.addIcon(standardIcon, false)
+        }
     }
 
     override fun onIconClickListener(icon: IconImageStandard) {

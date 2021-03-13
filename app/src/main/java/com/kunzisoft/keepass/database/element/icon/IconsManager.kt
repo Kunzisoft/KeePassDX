@@ -39,8 +39,10 @@ class IconsManager {
         return standardCache[searchIconId]
     }
 
-    fun getStandardIconList(): List<IconImageStandard> {
-        return standardCache
+    fun doForEachStandardIcon(action: (IconImageStandard) -> Unit) {
+        standardCache.forEach { icon ->
+            action.invoke(icon)
+        }
     }
 
     /*
@@ -71,14 +73,6 @@ class IconsManager {
         } catch (e: Exception) {
             Log.w(TAG, "Unable to remove custom icon binary", e)
         }
-    }
-
-    fun getCustomIconList(): List<IconImageCustom> {
-        val list = ArrayList<IconImageCustom>()
-        customCache.doForEachBinary { key, binary ->
-            list.add(IconImageCustom(key, binary))
-        }
-        return list
     }
 
     fun doForEachCustomIcon(action: (IconImageCustom) -> Unit) {

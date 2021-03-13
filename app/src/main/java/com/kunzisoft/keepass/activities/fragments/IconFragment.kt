@@ -51,7 +51,7 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
 
     abstract fun retrieveMainLayoutId(): Int
 
-    abstract fun defineIconList(): List<T>
+    abstract fun defineIconList()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,7 +69,8 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
 
         CoroutineScope(Dispatchers.IO).launch {
             val populateList = launch {
-                iconPickerAdapter.setList(defineIconList())
+                iconPickerAdapter.clear()
+                defineIconList()
             }
             withContext(Dispatchers.Main) {
                 populateList.join()

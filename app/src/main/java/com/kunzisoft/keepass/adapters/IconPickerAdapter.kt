@@ -23,10 +23,12 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
     val lastPosition: Int
         get() = iconList.lastIndex
 
-    fun addIcon(icon: I) {
+    fun addIcon(icon: I, notify: Boolean = true) {
         if (!iconList.contains(icon)) {
             iconList.add(icon)
-            notifyItemInserted(iconList.indexOf(icon))
+            if (notify) {
+                notifyItemInserted(iconList.indexOf(icon))
+            }
         }
     }
 
@@ -72,6 +74,10 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
 
     fun getSelectedIcons(): List<I> {
         return iconList.filter { it.selected }
+    }
+
+    fun clear() {
+        iconList.clear()
     }
 
     fun setList(icons: List<I>) {
