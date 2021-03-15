@@ -124,13 +124,15 @@ abstract class BinaryPool<T> {
     fun isBinaryDuplicate(binaryFile: BinaryFile?): Boolean {
         try {
             binaryFile?.let {
-                val searchBinaryMD5 = it.md5()
-                var i = 0
-                for ((_, binary) in pool) {
-                    if (binary.md5() == searchBinaryMD5) {
-                        i++
-                        if (i > 1)
-                            return true
+                if (it.length > 0) {
+                    val searchBinaryMD5 = it.md5()
+                    var i = 0
+                    for ((_, binary) in pool) {
+                        if (binary.md5() == searchBinaryMD5) {
+                            i++
+                            if (i > 1)
+                                return true
+                        }
                     }
                 }
             }
@@ -166,7 +168,11 @@ abstract class BinaryPool<T> {
             // Don't deduplicate
             val existentBinary =
             try {
-                keyBinaryList.find { it.binary.md5() == binary.md5() }
+                if (binary.length > 0) {
+                    keyBinaryList.find { it.binary.md5() == binary.md5() }
+                } else {
+                    null
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to check binary MD5", e)
                 null
