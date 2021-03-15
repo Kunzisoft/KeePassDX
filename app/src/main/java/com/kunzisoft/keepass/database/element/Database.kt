@@ -80,7 +80,7 @@ class Database {
     /**
      * To reload the main activity
      */
-    var wasReloaded = true
+    var wasReloaded = false
 
     var loadTimestamp: Long? = null
         private set
