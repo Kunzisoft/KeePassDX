@@ -66,7 +66,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      */
     private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
-        if (!icon.custom.isUnknown) {
+        if (icon.custom.dataExists) {
             getIconDrawable(context.resources, icon.custom)?.let {
                 return SuperDrawable(it)
             }
@@ -211,7 +211,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      */
     private fun addToCustomCache(resources: Resources, iconDraw: IconImageDraw) {
         val icon = iconDraw.getIconImageToDraw()
-        if (icon.custom.binaryFile?.length ?: 0 > 0
+        if (icon.custom.dataExists
                 && !customIconMap.containsKey(icon.custom.uuid))
             getIconDrawable(resources, icon.custom)
     }

@@ -84,6 +84,12 @@ class IconImageCustom : Parcelable, IconImageDraw {
     val isUnknown: Boolean
         get() = uuid == DatabaseVersioned.UUID_ZERO
 
+    val dataExists: Boolean
+        get() {
+            val iconData = binaryFile
+            return !isUnknown && iconData != null && iconData.length > 0
+        }
+
     companion object {
 
         @JvmField

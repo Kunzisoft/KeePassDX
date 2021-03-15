@@ -363,7 +363,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(DatabaseKDBXXML.ElemNotes, group.notes)
         writeObject(DatabaseKDBXXML.ElemIcon, group.icon.standard.id.toLong())
 
-        if (!group.icon.custom.isUnknown) {
+        if (group.icon.custom.dataExists) {
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.icon.custom.uuid)
         }
 
@@ -388,7 +388,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemUuid, entry.id)
         writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.standard.id.toLong())
 
-        if (!entry.icon.custom.isUnknown) {
+        if (entry.icon.custom.dataExists) {
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.icon.custom.uuid)
         }
 
@@ -699,26 +699,33 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeCustomIconList() {
         var firstElement = true
         mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom ->
-            // Write the parent tag
-            if (firstElement) {
-                xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
-                firstElement = false
-            }
-
-            xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
-
-            writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
-            var customImageData = ByteArray(0)
-            mDatabaseKDBX.loadedCipherKey?.let { cipherKey ->
-                iconCustom.binaryFile?.getInputDataStream(cipherKey)?.use { inputStream ->
-                    customImageData = inputStream.readBytes()
+            if (iconCustom.dataExists) {
+                // Write the parent tag
+                if (firstElement) {
+                    xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
+                    firstElement = false
                 }
+
+                xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
+
+                writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
+                var customImageData = ByteArray(0)
+                try {
+                    mDatabaseKDBX.loadedCipherKey?.let { cipherKey ->
+                        iconCustom.binaryFile?.getInputDataStream(cipherKey)?.use { inputStream ->
+                            customImageData = inputStream.readBytes()
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to write custom icon", e)
+                } finally {
+                    writeObject(DatabaseKDBXXML.ElemCustomIconItemData,
+                            String(Base64.encode(customImageData, BASE_64_FLAG)))
+                }
+
+                xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
             }
-            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(customImageData, BASE_64_FLAG)))
-
-            xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
         }
-
         // Close the parent tag
         if (!firstElement) {
             xml.endTag(null, DatabaseKDBXXML.ElemCustomIcons)

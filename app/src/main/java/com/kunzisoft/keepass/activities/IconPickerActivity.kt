@@ -111,10 +111,10 @@ class IconPickerActivity : LockingActivity() {
                 setReorderingAllowed(true)
                 add(R.id.icon_picker_fragment, IconPickerFragment.getInstance(
                         // Default selection tab
-                        if (!mIconImage.custom.isUnknown)
-                            IconPickerFragment.IconTab.CUSTOM
-                        else
+                        if (mIconImage.custom.isUnknown)
                             IconPickerFragment.IconTab.STANDARD
+                        else
+                            IconPickerFragment.IconTab.CUSTOM
                 ), ICON_PICKER_FRAGMENT_TAG)
             }
         } else {
