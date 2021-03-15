@@ -180,6 +180,7 @@ class BinaryFile : Parcelable {
     /**
      * MD5 of the raw encrypted file in temp folder, only to compare binary data
      */
+    @Throws(FileNotFoundException::class)
     fun md5(): String {
         val md = MessageDigest.getInstance("MD5")
         if (dataFile == null)

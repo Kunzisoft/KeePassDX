@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.util.Log
 import java.io.File
 import java.io.IOException
 import kotlin.math.abs
@@ -121,16 +122,20 @@ abstract class BinaryPool<T> {
     }
 
     fun isBinaryDuplicate(binaryFile: BinaryFile?): Boolean {
-        binaryFile?.let {
-            val searchBinaryMD5 = it.md5()
-            var i = 0
-            for ((_, binary) in pool) {
-                if (binary.md5() == searchBinaryMD5) {
-                    i++
-                    if (i > 1)
-                        return true
+        try {
+            binaryFile?.let {
+                val searchBinaryMD5 = it.md5()
+                var i = 0
+                for ((_, binary) in pool) {
+                    if (binary.md5() == searchBinaryMD5) {
+                        i++
+                        if (i > 1)
+                            return true
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to check binary duplication", e)
         }
         return false
     }
@@ -159,7 +164,13 @@ abstract class BinaryPool<T> {
         val keyBinaryList = ArrayList<KeyBinary<T>>()
         for ((key, binary) in pool) {
             // Don't deduplicate
-            val existentBinary = keyBinaryList.find { it.binary.md5() == binary.md5() }
+            val existentBinary =
+            try {
+                keyBinaryList.find { it.binary.md5() == binary.md5() }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to check binary MD5", e)
+                null
+            }
             if (existentBinary == null) {
                 val newKeyBinary = KeyBinary(binary, key)
                 if (condition.invoke(newKeyBinary.binary)) {
@@ -237,5 +248,9 @@ abstract class BinaryPool<T> {
         fun addKey(key: T) {
             keys.add(key)
         }
+    }
+
+    companion object {
+        private val TAG = BinaryPool::class.java.name
     }
 }
