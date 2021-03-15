@@ -89,12 +89,17 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
                 icon.binaryFile?.let { binaryFile ->
-                    var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(cipherKey))
-                    bitmap?.let { bitmapIcon ->
-                        bitmap = resize(bitmapIcon, patternIcon)
-                        val createdDraw = BitmapDrawable(resources, bitmap)
-                        customIconMap[icon.uuid] = WeakReference(createdDraw)
-                        return createdDraw
+                    try {
+                        var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(cipherKey))
+                        bitmap?.let { bitmapIcon ->
+                            bitmap = resize(bitmapIcon, patternIcon)
+                            val createdDraw = BitmapDrawable(resources, bitmap)
+                            customIconMap[icon.uuid] = WeakReference(createdDraw)
+                            return createdDraw
+                        }
+                    } catch (e: Exception) {
+                        customIconMap.remove(icon.uuid)
+                        Log.e(TAG, "Unable to create the bitmap icon", e)
                     }
                 }
             } else {

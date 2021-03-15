@@ -32,7 +32,7 @@ object BinaryDatabaseManager {
         }
     }
 
-    fun downloadFromDatabase(outputStream: OutputStream,
+    private fun downloadFromDatabase(outputStream: OutputStream,
                              binaryFile: BinaryFile,
                              update: ((percent: Int)->Unit)? = null,
                              canceled: ()-> Boolean = { false },
@@ -48,7 +48,7 @@ object BinaryDatabaseManager {
                         val percentDownload = (100 * dataDownloaded / fileSize).toInt()
                         update?.invoke(percentDownload)
                     } catch (e: Exception) {
-                        Log.e(TAG, "", e)
+                        Log.w(TAG, "Unable to call update callback during download", e)
                     }
                 }
             }
@@ -67,8 +67,7 @@ object BinaryDatabaseManager {
         }
     }
 
-    // TODO Better implementation
-    fun uploadToDatabase(inputStream: InputStream,
+    private fun uploadToDatabase(inputStream: InputStream,
                          fileSize: Long,
                          binaryFile: BinaryFile,
                          update: ((percent: Int)->Unit)? = null,
@@ -84,7 +83,7 @@ object BinaryDatabaseManager {
                         val percentDownload = (100 * dataUploaded / fileSize).toInt()
                         update?.invoke(percentDownload)
                     } catch (e: Exception) {
-                        Log.e(TAG, "", e)
+                        Log.w(TAG, "Unable to call update callback during upload", e)
                     }
                 }
             }
@@ -94,21 +93,25 @@ object BinaryDatabaseManager {
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
                                              bitmapUri: Uri?,
                                              binaryFile: BinaryFile?) {
-        binaryFile?.let {
-            UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
-                BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
-                    val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
-                    val byteArrayOutputStream = ByteArrayOutputStream()
-                    bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
-                    val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
-                    val byteArrayInputStream = ByteArrayInputStream(bitmapData)
-                    uploadToDatabase(
-                            byteArrayInputStream,
-                            bitmapData.size.toLong(),
-                            binaryFile
-                    )
+        try {
+            binaryFile?.let {
+                UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
+                    BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
+                        val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
+                        val byteArrayOutputStream = ByteArrayOutputStream()
+                        bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
+                        val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
+                        val byteArrayInputStream = ByteArrayInputStream(bitmapData)
+                        uploadToDatabase(
+                                byteArrayInputStream,
+                                bitmapData.size.toLong(),
+                                binaryFile
+                        )
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to resize bitmap to store it in binary", e)
         }
     }
 
@@ -119,7 +122,7 @@ object BinaryDatabaseManager {
      * @param maxSize
      * @return
      */
-    fun Bitmap.resize(maxSize: Int): Bitmap? {
+    private fun Bitmap.resize(maxSize: Int): Bitmap? {
         var width = this.width
         var height = this.height
         val bitmapRatio = width.toFloat() / height.toFloat()
