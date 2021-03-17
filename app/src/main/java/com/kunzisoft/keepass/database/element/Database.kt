@@ -69,7 +69,10 @@ class Database {
 
     var isReadOnly = false
 
-    val iconDrawableFactory = IconDrawableFactory { loadedCipherKey }
+    val iconDrawableFactory = IconDrawableFactory(
+            { loadedCipherKey },
+            { iconId -> iconsManager.getBinaryForCustomIcon(iconId) }
+    )
 
     var loaded = false
         set(value) {
@@ -114,7 +117,7 @@ class Database {
     val allowCustomIcons: Boolean
         get() = mDatabaseKDBX != null
 
-    fun doForEachCustomIcons(action: (IconImageCustom) -> Unit) {
+    fun doForEachCustomIcons(action: (IconImageCustom, BinaryFile) -> Unit) {
         return iconsManager.doForEachCustomIcon(action)
     }
 
@@ -122,12 +125,13 @@ class Database {
         return iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(cacheDirectory: File): IconImageCustom? {
-        return mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory)
+    fun buildNewCustomIcon(cacheDirectory: File,
+                           result: (IconImageCustom?, BinaryFile?) -> Unit) {
+        mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory, null, result)
     }
 
-    fun isCustomIconBinaryDuplicate(customIcon: IconImageCustom): Boolean {
-        return mDatabaseKDBX?.isCustomIconBinaryDuplicate(customIcon) ?: false
+    fun isCustomIconBinaryDuplicate(binaryFile: BinaryFile): Boolean {
+        return mDatabaseKDBX?.isCustomIconBinaryDuplicate(binaryFile) ?: false
     }
 
     fun removeCustomIcon(customIcon: IconImageCustom) {

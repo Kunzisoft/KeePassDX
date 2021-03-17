@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
@@ -49,20 +50,19 @@ class IconsManager {
      *  Custom
      */
 
-    fun buildNewCustomIcon(cacheDirectory: File, key: UUID? = null): IconImageCustom {
+    fun buildNewCustomIcon(cacheDirectory: File,
+                           key: UUID? = null,
+                           result: (IconImageCustom, BinaryFile?) -> Unit) {
         val keyBinary = customCache.put(cacheDirectory, key)
-        return IconImageCustom(keyBinary.keys.first(), keyBinary.binary)
+        result.invoke(IconImageCustom(keyBinary.keys.first()), keyBinary.binary)
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
-        customCache[iconUuid]?.let {
-            return IconImageCustom(iconUuid, it)
-        }
         return IconImageCustom(iconUuid)
     }
 
-    fun isCustomIconBinaryDuplicate(icon: IconImageCustom): Boolean {
-        return customCache.isBinaryDuplicate(icon.binaryFile)
+    fun isCustomIconBinaryDuplicate(binaryFile: BinaryFile): Boolean {
+        return customCache.isBinaryDuplicate(binaryFile)
     }
 
     fun removeCustomIcon(iconUuid: UUID) {
@@ -75,9 +75,13 @@ class IconsManager {
         }
     }
 
-    fun doForEachCustomIcon(action: (IconImageCustom) -> Unit) {
+    fun getBinaryForCustomIcon(iconUuid: UUID): BinaryFile? {
+        return customCache[iconUuid]
+    }
+
+    fun doForEachCustomIcon(action: (IconImageCustom, BinaryFile) -> Unit) {
         customCache.doForEachBinary { key, binary ->
-            action.invoke(IconImageCustom(key, binary))
+            action.invoke(IconImageCustom(key), binary)
         }
     }
 

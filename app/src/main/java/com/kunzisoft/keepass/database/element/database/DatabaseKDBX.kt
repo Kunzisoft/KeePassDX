@@ -310,12 +310,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(cacheDirectory: File, customIconId: UUID? = null): IconImageCustom {
-        return iconsManager.buildNewCustomIcon(cacheDirectory, customIconId)
+    fun buildNewCustomIcon(cacheDirectory: File,
+                           customIconId: UUID? = null,
+                           result: (IconImageCustom, BinaryFile?) -> Unit) {
+        iconsManager.buildNewCustomIcon(cacheDirectory, customIconId, result)
     }
 
-    fun isCustomIconBinaryDuplicate(customIcon: IconImageCustom): Boolean {
-        return iconsManager.isCustomIconBinaryDuplicate(customIcon)
+    fun isCustomIconBinaryDuplicate(binary: BinaryFile): Boolean {
+        return iconsManager.isCustomIconBinaryDuplicate(binary)
     }
 
     fun getCustomIcon(iconUuid: UUID): IconImageCustom {

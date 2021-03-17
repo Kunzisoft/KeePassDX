@@ -32,7 +32,7 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
     }
 
     override fun defineIconList() {
-        mDatabase?.doForEachCustomIcons { customIcon ->
+        mDatabase?.doForEachCustomIcons { customIcon, _ ->
             iconPickerAdapter.addIcon(customIcon, false)
         }
     }

@@ -229,21 +229,26 @@ class IconPickerActivity : LockingActivity() {
                         if (documentFile.length() > MAX_ICON_SIZE) {
                             iconCustomState.errorStringId = R.string.error_file_to_big
                         } else {
-                            mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this@IconPickerActivity))?.let { customIcon ->
-                                iconCustomState.iconCustom = customIcon
-                                BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
-                                        iconToUploadUri, customIcon.binaryFile)
-                                when {
-                                    customIcon.binaryFile?.length ?: 0 <= 0 -> {}
-                                    mDatabase?.isCustomIconBinaryDuplicate(customIcon) == true -> {
-                                        iconCustomState.errorStringId = R.string.error_duplicate_file
+                            mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this@IconPickerActivity)) { customIcon, binary ->
+                                if (customIcon != null) {
+                                    iconCustomState.iconCustom = customIcon
+                                    BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
+                                            iconToUploadUri, binary)
+                                    when {
+                                        binary == null -> {
+                                        }
+                                        binary.length <= 0 -> {
+                                        }
+                                        mDatabase?.isCustomIconBinaryDuplicate(binary) == true -> {
+                                            iconCustomState.errorStringId = R.string.error_duplicate_file
+                                        }
+                                        else -> {
+                                            iconCustomState.error = false
+                                        }
                                     }
-                                    else -> {
-                                        iconCustomState.error = false
+                                    if (iconCustomState.error) {
+                                        mDatabase?.removeCustomIcon(customIcon)
                                     }
-                                }
-                                if (iconCustomState.error) {
-                                    mDatabase?.removeCustomIcon(customIcon)
                                 }
                             }
                         }

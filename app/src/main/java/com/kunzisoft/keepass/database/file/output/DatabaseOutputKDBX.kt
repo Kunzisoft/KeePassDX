@@ -363,7 +363,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(DatabaseKDBXXML.ElemNotes, group.notes)
         writeObject(DatabaseKDBXXML.ElemIcon, group.icon.standard.id.toLong())
 
-        if (group.icon.custom.dataExists) {
+        if (!group.icon.custom.isUnknown) {
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.icon.custom.uuid)
         }
 
@@ -388,7 +388,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemUuid, entry.id)
         writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.standard.id.toLong())
 
-        if (entry.icon.custom.dataExists) {
+        if (!entry.icon.custom.isUnknown) {
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.icon.custom.uuid)
         }
 
@@ -701,8 +701,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeCustomIconList() {
         mDatabaseKDBX.loadedCipherKey?.let { cipherKey ->
             var firstElement = true
-            mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom ->
-                if (iconCustom.dataExists) {
+            mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom, binary ->
+                if (binary.dataExists()) {
                     // Write the parent tag
                     if (firstElement) {
                         xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
@@ -714,7 +714,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
                     var customImageData = ByteArray(0)
                     try {
-                        iconCustom.binaryFile?.getInputDataStream(cipherKey)?.use { inputStream ->
+                        binary.getInputDataStream(cipherKey).use { inputStream ->
                             customImageData = inputStream.readBytes()
                         }
                     } catch (e: Exception) {

@@ -177,6 +177,10 @@ class BinaryFile : Parcelable {
             throw IOException("Unable to delete temp file " + dataFile!!.absolutePath)
     }
 
+    fun dataExists(): Boolean {
+        return dataFile != null && length > 0
+    }
+
     /**
      * MD5 of the raw encrypted file in temp folder, only to compare binary data
      */

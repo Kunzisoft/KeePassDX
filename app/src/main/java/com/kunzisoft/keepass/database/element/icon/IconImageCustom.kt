@@ -21,34 +21,23 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
 
 class IconImageCustom : Parcelable, IconImageDraw {
 
     var uuid: UUID
-    var binaryFile: BinaryFile?
 
     constructor() {
         uuid = DatabaseVersioned.UUID_ZERO
-        binaryFile = null
-    }
-
-    constructor(uuid: UUID,
-                binaryFile: BinaryFile) {
-        this.uuid = uuid
-        this.binaryFile = binaryFile
     }
 
     constructor(uuid: UUID) {
         this.uuid = uuid
-        binaryFile = BinaryFile()
     }
 
     constructor(parcel: Parcel) {
         uuid = parcel.readSerializable() as UUID
-        binaryFile = parcel.readParcelable(BinaryFile::class.java.classLoader)
     }
 
     override fun describeContents(): Int {
@@ -57,7 +46,6 @@ class IconImageCustom : Parcelable, IconImageDraw {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeSerializable(uuid)
-        dest.writeParcelable(binaryFile, flags)
     }
 
     override fun hashCode(): Int {
@@ -83,12 +71,6 @@ class IconImageCustom : Parcelable, IconImageDraw {
 
     val isUnknown: Boolean
         get() = uuid == DatabaseVersioned.UUID_ZERO
-
-    val dataExists: Boolean
-        get() {
-            val iconData = binaryFile
-            return !isUnknown && iconData != null && iconData.length > 0
-        }
 
     companion object {
 

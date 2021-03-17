@@ -704,10 +704,11 @@ class DatabaseInputKDBX(cacheDirectory: File)
             return KdbContext.Meta
         } else if (ctx == KdbContext.CustomIcon && name.equals(DatabaseKDBXXML.ElemCustomIconItem, ignoreCase = true)) {
             if (customIconID != DatabaseVersioned.UUID_ZERO && customIconData != null) {
-                val customIcon = mDatabase.buildNewCustomIcon(cacheDirectory, customIconID)
-                mDatabase.loadedCipherKey?.let { cipherKey ->
-                    customIcon.binaryFile?.getOutputDataStream(cipherKey)?.use { outputStream ->
-                        outputStream.write(customIconData)
+                mDatabase.buildNewCustomIcon(cacheDirectory, customIconID) { _, binary ->
+                    mDatabase.loadedCipherKey?.let { cipherKey ->
+                        binary?.getOutputDataStream(cipherKey)?.use { outputStream ->
+                            outputStream.write(customIconData)
+                        }
                     }
                 }
             }
