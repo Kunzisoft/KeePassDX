@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
+import java.nio.ByteBuffer
 import java.security.MessageDigest
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
@@ -41,6 +42,7 @@ class BinaryFile : Parcelable {
     private var dataFile: File? = null
     var length: Long = 0
         private set
+    private var mBinaryHash = 0
     var isCompressed: Boolean = false
         private set
     var isProtected: Boolean = false
@@ -182,23 +184,11 @@ class BinaryFile : Parcelable {
     }
 
     /**
-     * MD5 of the raw encrypted file in temp folder, only to compare binary data
+     * Hash of the raw encrypted file in temp folder, only to compare binary data
      */
     @Throws(FileNotFoundException::class)
-    fun md5(): String {
-        val md = MessageDigest.getInstance("MD5")
-        if (dataFile == null)
-            return ""
-        return FileInputStream(dataFile).use { fis ->
-            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-            generateSequence {
-                when (val bytesRead = fis.read(buffer)) {
-                    -1 -> null
-                    else -> bytesRead
-                }
-            }.forEach { bytesRead -> md.update(buffer, 0, bytesRead) }
-            md.digest().joinToString("") { "%02x".format(it) }
-        }
+    fun binaryHash(): Int {
+        return mBinaryHash
     }
 
     override fun equals(other: Any?): Boolean {
@@ -247,11 +237,15 @@ class BinaryFile : Parcelable {
     }
 
     /**
-     * Custom OutputStream to calculate the size of binary file
+     * Custom OutputStream to calculate the size and hash of binary file
      */
     private inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
+
+        private val mMessageDigest: MessageDigest
         init {
             length = 0
+            mMessageDigest = MessageDigest.getInstance("MD5")
+            mBinaryHash = 0
         }
 
         override fun beforeWrite(n: Int) {
@@ -259,9 +253,26 @@ class BinaryFile : Parcelable {
             length = byteCount
         }
 
+        override fun write(idx: Int) {
+            super.write(idx)
+            mMessageDigest.update(idx.toByte())
+        }
+
+        override fun write(bts: ByteArray) {
+            super.write(bts)
+            mMessageDigest.update(bts)
+        }
+
+        override fun write(bts: ByteArray, st: Int, end: Int) {
+            super.write(bts, st, end)
+            mMessageDigest.update(bts, st, end)
+        }
+
         override fun close() {
             super.close()
             length = byteCount
+            val bytes = mMessageDigest.digest()
+            mBinaryHash = ByteBuffer.wrap(bytes).int
         }
     }
 

@@ -125,10 +125,10 @@ abstract class BinaryPool<T> {
         try {
             binaryFile?.let {
                 if (it.length > 0) {
-                    val searchBinaryMD5 = it.md5()
+                    val searchBinaryMD5 = it.binaryHash()
                     var i = 0
                     for ((_, binary) in pool) {
-                        if (binary.md5() == searchBinaryMD5) {
+                        if (binary.binaryHash() == searchBinaryMD5) {
                             i++
                             if (i > 1)
                                 return true
@@ -169,12 +169,16 @@ abstract class BinaryPool<T> {
             val existentBinary =
             try {
                 if (binary.length > 0) {
-                    keyBinaryList.find { it.binary.md5() == binary.md5() }
+                    keyBinaryList.find {
+                        val hash0 = it.binary.binaryHash()
+                        val hash1 = binary.binaryHash()
+                        hash0 != 0 && hash1 != 0 && hash0 == hash1
+                    }
                 } else {
                     null
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to check binary MD5", e)
+                Log.e(TAG, "Unable to check binary hash", e)
                 null
             }
             if (existentBinary == null) {
