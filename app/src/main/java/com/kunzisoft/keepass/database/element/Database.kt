@@ -576,6 +576,7 @@ class Database {
 
     val attachmentPool: AttachmentPool
         get() {
+            // Binary pool is functionally only in KDBX
             return mDatabaseKDBX?.binaryPool ?: AttachmentPool()
         }
 

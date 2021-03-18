@@ -45,6 +45,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
+    // Only to generate unique file name
     private var binaryPool = AttachmentPool()
 
     override val version: String
