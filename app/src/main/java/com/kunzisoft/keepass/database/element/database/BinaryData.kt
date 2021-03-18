@@ -25,6 +25,8 @@ import com.kunzisoft.keepass.database.element.Database
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
 
 abstract class BinaryData : Parcelable {
 
@@ -57,10 +59,22 @@ abstract class BinaryData : Parcelable {
     abstract fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream
 
     @Throws(IOException::class)
-    abstract fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream
+    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
+        return if (isCompressed) {
+            GZIPInputStream(getInputDataStream(cipherKey))
+        } else {
+            getInputDataStream(cipherKey)
+        }
+    }
 
     @Throws(IOException::class)
-    abstract fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream
+    fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
+        return if (isCompressed) {
+            GZIPOutputStream(getOutputDataStream(cipherKey))
+        } else {
+            getOutputDataStream(cipherKey)
+        }
+    }
 
     @Throws(IOException::class)
     abstract fun compress(cipherKey: Database.LoadedKey)

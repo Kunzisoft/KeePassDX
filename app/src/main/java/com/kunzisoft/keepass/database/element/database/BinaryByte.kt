@@ -22,7 +22,9 @@ package com.kunzisoft.keepass.database.element.database
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
+import java.util.zip.GZIPOutputStream
 
 class BinaryByte : BinaryData {
 
@@ -56,23 +58,31 @@ class BinaryByte : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return getInputDataStream(cipherKey)
-    }
-
-    @Throws(IOException::class)
-    override fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return getOutputDataStream(cipherKey)
-    }
-
-    @Throws(IOException::class)
     override fun compress(cipherKey: Database.LoadedKey) {
-        // TODO compress
+        if (!isCompressed) {
+            GZIPOutputStream(getOutputDataStream(cipherKey)).use { outputStream ->
+                getInputDataStream(cipherKey).use { inputStream ->
+                    inputStream.readAllBytes { buffer ->
+                        outputStream.write(buffer)
+                    }
+                }
+                isCompressed = true
+            }
+        }
     }
 
     @Throws(IOException::class)
     override fun decompress(cipherKey: Database.LoadedKey) {
-        // TODO decompress
+        if (isCompressed) {
+            getUnGzipInputDataStream(cipherKey).use { inputStream ->
+                getOutputDataStream(cipherKey).use { outputStream ->
+                    inputStream.readAllBytes { buffer ->
+                        outputStream.write(buffer)
+                    }
+                }
+                isCompressed = false
+            }
+        }
     }
 
     @Throws(IOException::class)

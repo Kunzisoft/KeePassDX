@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.tests.stream
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.database.BinaryByte
 import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
@@ -11,6 +12,7 @@ import org.junit.Test
 import java.io.DataInputStream
 import java.io.File
 import java.io.InputStream
+import kotlin.random.Random
 
 class BinaryDataTest {
 
@@ -88,6 +90,24 @@ class BinaryDataTest {
         binaryB.decompress(loadedKey)
         assertEquals("Decompress image length failed.", binaryB.getSize(), binaryC.getSize())
         assertEquals("Decompress image failed.", binaryB.binaryHash(), binaryC.binaryHash())
+    }
+
+    @Test
+    fun testCompressBytes() {
+        val byteArray = ByteArray(50)
+        Random.nextBytes(byteArray)
+        val binaryA = BinaryByte(byteArray)
+        val binaryB = BinaryByte(byteArray)
+        val binaryC = BinaryByte(byteArray)
+        binaryA.compress(loadedKey)
+        binaryB.compress(loadedKey)
+        assertEquals("Compress bytes decompressed failed.", binaryA.isCompressed, true)
+        assertEquals("Compress bytes length failed.", binaryA.getSize(), binaryA.getSize())
+        assertEquals("Compress bytes failed.", binaryA.binaryHash(), binaryA.binaryHash())
+        binaryB.decompress(loadedKey)
+        assertEquals("Decompress bytes decompressed failed.", binaryB.isCompressed, false)
+        assertEquals("Decompress bytes length failed.", binaryB.getSize(), binaryC.getSize())
+        assertEquals("Decompress bytes failed.", binaryB.binaryHash(), binaryC.binaryHash())
     }
 
     @Test

@@ -30,7 +30,6 @@ import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
 import java.nio.ByteBuffer
 import java.security.MessageDigest
-import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
@@ -74,24 +73,6 @@ class BinaryFile : BinaryData {
     @Throws(IOException::class)
     override fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
         return buildOutputStream(mDataFile, cipherKey)
-    }
-
-    @Throws(IOException::class)
-    override fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return if (isCompressed) {
-            GZIPInputStream(getInputDataStream(cipherKey))
-        } else {
-            getInputDataStream(cipherKey)
-        }
-    }
-
-    @Throws(IOException::class)
-    override fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return if (isCompressed) {
-            GZIPOutputStream(getOutputDataStream(cipherKey))
-        } else {
-            getOutputDataStream(cipherKey)
-        }
     }
 
     @Throws(IOException::class)
