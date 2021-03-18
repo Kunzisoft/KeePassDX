@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.tests.stream
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
 import junit.framework.TestCase.assertEquals
@@ -25,7 +25,7 @@ class BinaryDataTest {
 
     private val loadedKey = Database.LoadedKey.generateNewCipherKey()
 
-    private fun saveBinary(asset: String, binaryData: BinaryData) {
+    private fun saveBinary(asset: String, binaryData: BinaryFile) {
         context.assets.open(asset).use { assetInputStream ->
             binaryData.getOutputDataStream(loadedKey).use { binaryOutputStream ->
                 assetInputStream.readAllBytes(DEFAULT_BUFFER_SIZE) { buffer ->
@@ -37,8 +37,8 @@ class BinaryDataTest {
 
     @Test
     fun testSaveTextInCache() {
-        val binaryA = BinaryData(fileA)
-        val binaryB = BinaryData(fileB)
+        val binaryA = BinaryFile(fileA)
+        val binaryB = BinaryFile(fileB)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         saveBinary(TEST_TEXT_ASSET, binaryB)
         assertEquals("Save text binary length failed.", binaryA.getSize(), binaryB.getSize())
@@ -47,8 +47,8 @@ class BinaryDataTest {
 
     @Test
     fun testSaveImageInCache() {
-        val binaryA = BinaryData(fileA)
-        val binaryB = BinaryData(fileB)
+        val binaryA = BinaryFile(fileA)
+        val binaryB = BinaryFile(fileB)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         saveBinary(TEST_IMAGE_ASSET, binaryB)
         assertEquals("Save image binary length failed.", binaryA.getSize(), binaryB.getSize())
@@ -57,9 +57,9 @@ class BinaryDataTest {
 
     @Test
     fun testCompressText() {
-        val binaryA = BinaryData(fileA)
-        val binaryB = BinaryData(fileB)
-        val binaryC = BinaryData(fileC)
+        val binaryA = BinaryFile(fileA)
+        val binaryB = BinaryFile(fileB)
+        val binaryC = BinaryFile(fileC)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         saveBinary(TEST_TEXT_ASSET, binaryB)
         saveBinary(TEST_TEXT_ASSET, binaryC)
@@ -74,9 +74,9 @@ class BinaryDataTest {
 
     @Test
     fun testCompressImage() {
-        val binaryA = BinaryData(fileA)
-        var binaryB = BinaryData(fileB)
-        val binaryC = BinaryData(fileC)
+        val binaryA = BinaryFile(fileA)
+        var binaryB = BinaryFile(fileB)
+        val binaryC = BinaryFile(fileC)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         saveBinary(TEST_IMAGE_ASSET, binaryB)
         saveBinary(TEST_IMAGE_ASSET, binaryC)
@@ -84,7 +84,7 @@ class BinaryDataTest {
         binaryB.compress(loadedKey)
         assertEquals("Compress image length failed.", binaryA.getSize(), binaryA.getSize())
         assertEquals("Compress image failed.", binaryA.binaryHash(), binaryA.binaryHash())
-        binaryB = BinaryData(fileB, true)
+        binaryB = BinaryFile(fileB, true)
         binaryB.decompress(loadedKey)
         assertEquals("Decompress image length failed.", binaryB.getSize(), binaryC.getSize())
         assertEquals("Decompress image failed.", binaryB.binaryHash(), binaryC.binaryHash())
@@ -92,7 +92,7 @@ class BinaryDataTest {
 
     @Test
     fun testReadText() {
-        val binaryA = BinaryData(fileA)
+        val binaryA = BinaryFile(fileA)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         assert(streamAreEquals(context.assets.open(TEST_TEXT_ASSET),
                 binaryA.getInputDataStream(loadedKey)))
@@ -100,7 +100,7 @@ class BinaryDataTest {
 
     @Test
     fun testReadImage() {
-        val binaryA = BinaryData(fileA)
+        val binaryA = BinaryFile(fileA)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         assert(streamAreEquals(context.assets.open(TEST_IMAGE_ASSET),
                 binaryA.getInputDataStream(loadedKey)))

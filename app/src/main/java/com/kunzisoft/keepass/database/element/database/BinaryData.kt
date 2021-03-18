@@ -21,278 +21,92 @@ package com.kunzisoft.keepass.database.element.database
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Base64
-import android.util.Base64InputStream
-import android.util.Base64OutputStream
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.stream.readAllBytes
-import org.apache.commons.io.output.CountingOutputStream
-import java.io.*
-import java.nio.ByteBuffer
-import java.security.MessageDigest
-import java.util.zip.GZIPInputStream
-import java.util.zip.GZIPOutputStream
-import javax.crypto.Cipher
-import javax.crypto.CipherInputStream
-import javax.crypto.CipherOutputStream
-import javax.crypto.spec.IvParameterSpec
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
-class BinaryData : Parcelable {
+abstract class BinaryData : Parcelable {
 
-    private var mDataFile: File? = null
-    private var mLength: Long = 0
-    private var mBinaryHash = 0
     var isCompressed: Boolean = false
-        private set
+        protected set
     var isProtected: Boolean = false
-        private set
+        protected set
     var isCorrupted: Boolean = false
-    // Cipher to encrypt temp file
-    private var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
-    private var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
 
     /**
      * Empty protected binary
      */
-    constructor()
+    protected constructor()
 
-    constructor(dataFile: File, compressed: Boolean = false, protected: Boolean = false) {
-        this.mDataFile = dataFile
-        this.mLength = 0
+    protected constructor(compressed: Boolean = false, protected: Boolean = false) {
         this.isCompressed = compressed
         this.isProtected = protected
     }
 
-    private constructor(parcel: Parcel) {
-        parcel.readString()?.let {
-            mDataFile = File(it)
-        }
-        mLength = parcel.readLong()
+    protected constructor(parcel: Parcel) {
         isCompressed = parcel.readByte().toInt() != 0
         isProtected = parcel.readByte().toInt() != 0
         isCorrupted = parcel.readByte().toInt() != 0
     }
 
     @Throws(IOException::class)
-    fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return buildInputStream(mDataFile, cipherKey)
-    }
+    abstract fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream
 
     @Throws(IOException::class)
-    fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return buildOutputStream(mDataFile, cipherKey)
-    }
+    abstract fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream
 
     @Throws(IOException::class)
-    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return if (isCompressed) {
-            GZIPInputStream(getInputDataStream(cipherKey))
-        } else {
-            getInputDataStream(cipherKey)
-        }
-    }
+    abstract fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream
 
     @Throws(IOException::class)
-    fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return if (isCompressed) {
-            GZIPOutputStream(getOutputDataStream(cipherKey))
-        } else {
-            getOutputDataStream(cipherKey)
-        }
-    }
+    abstract fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream
 
     @Throws(IOException::class)
-    private fun buildInputStream(file: File?, cipherKey: Database.LoadedKey): InputStream {
-        return when {
-            file != null && file.length() > 0 -> {
-                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), Base64.NO_WRAP)
-            }
-            else -> ByteArrayInputStream(ByteArray(0))
-        }
-    }
+    abstract fun compress(cipherKey: Database.LoadedKey)
 
     @Throws(IOException::class)
-    private fun buildOutputStream(file: File?, cipherKey: Database.LoadedKey): OutputStream {
-        return when {
-            file != null -> {
-                cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), Base64.NO_WRAP))
-            }
-            else -> throw IOException("Unable to write in an unknown file")
-        }
-    }
+    abstract fun decompress(cipherKey: Database.LoadedKey)
 
     @Throws(IOException::class)
-    fun compress(cipherKey: Database.LoadedKey) {
-        mDataFile?.let { concreteDataFile ->
-            // To compress, create a new binary with file
-            if (!isCompressed) {
-                // Encrypt the new gzipped temp file
-                val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                getInputDataStream(cipherKey).use { inputStream ->
-                    GZIPOutputStream(buildOutputStream(fileBinaryCompress, cipherKey)).use { outputStream ->
-                        inputStream.readAllBytes { buffer ->
-                            outputStream.write(buffer)
-                        }
-                    }
-                }
-                // Remove ungzip file
-                if (concreteDataFile.delete()) {
-                    if (fileBinaryCompress.renameTo(concreteDataFile)) {
-                        // Harmonize with database compression
-                        isCompressed = true
-                    }
-                }
-            }
-        }
-    }
+    abstract fun clear()
 
-    @Throws(IOException::class)
-    fun decompress(cipherKey: Database.LoadedKey) {
-        mDataFile?.let { concreteDataFile ->
-            if (isCompressed) {
-                // Encrypt the new ungzipped temp file
-                val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                getUnGzipInputDataStream(cipherKey).use { inputStream ->
-                    buildOutputStream(fileBinaryDecompress, cipherKey).use { outputStream ->
-                        inputStream.readAllBytes { buffer ->
-                            outputStream.write(buffer)
-                        }
-                    }
-                }
-                // Remove gzip file
-                if (concreteDataFile.delete()) {
-                    if (fileBinaryDecompress.renameTo(concreteDataFile)) {
-                        // Harmonize with database compression
-                        isCompressed = false
-                    }
-                }
-            }
-        }
-    }
+    abstract fun dataExists(): Boolean
 
-    @Throws(IOException::class)
-    fun clear() {
-        if (mDataFile != null && !mDataFile!!.delete())
-            throw IOException("Unable to delete temp file " + mDataFile!!.absolutePath)
-    }
+    abstract fun getSize(): Long
 
-    fun dataExists(): Boolean {
-        return mDataFile != null && mLength > 0
-    }
-
-    fun getSize(): Long {
-        return mLength
-    }
-
-    /**
-     * Hash of the raw encrypted file in temp folder, only to compare binary data
-     */
-    @Throws(FileNotFoundException::class)
-    fun binaryHash(): Int {
-        return mBinaryHash
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other)
-            return true
-        if (other == null || javaClass != other.javaClass)
-            return false
-        if (other !is BinaryData)
-            return false
-
-        var sameData = false
-        if (mDataFile != null && mDataFile == other.mDataFile)
-            sameData = true
-
-        return isCompressed == other.isCompressed
-                && isProtected == other.isProtected
-                && isCorrupted == other.isCorrupted
-                && sameData
-    }
-
-    override fun hashCode(): Int {
-
-        var result = 0
-        result = 31 * result + if (isCompressed) 1 else 0
-        result = 31 * result + if (isProtected) 1 else 0
-        result = 31 * result + if (isCorrupted) 1 else 0
-        result = 31 * result + mDataFile!!.hashCode()
-        result = 31 * result + mLength.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return mDataFile.toString()
-    }
+    abstract fun binaryHash(): Int
 
     override fun describeContents(): Int {
         return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(mDataFile?.absolutePath)
-        dest.writeLong(mLength)
         dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeByte((if (isCorrupted) 1 else 0).toByte())
     }
 
-    /**
-     * Custom OutputStream to calculate the size and hash of binary file
-     */
-    private inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BinaryData) return false
 
-        private val mMessageDigest: MessageDigest
-        init {
-            mLength = 0
-            mMessageDigest = MessageDigest.getInstance("MD5")
-            mBinaryHash = 0
-        }
+        if (isCompressed != other.isCompressed) return false
+        if (isProtected != other.isProtected) return false
+        if (isCorrupted != other.isCorrupted) return false
 
-        override fun beforeWrite(n: Int) {
-            super.beforeWrite(n)
-            mLength = byteCount
-        }
+        return true
+    }
 
-        override fun write(idx: Int) {
-            super.write(idx)
-            mMessageDigest.update(idx.toByte())
-        }
-
-        override fun write(bts: ByteArray) {
-            super.write(bts)
-            mMessageDigest.update(bts)
-        }
-
-        override fun write(bts: ByteArray, st: Int, end: Int) {
-            super.write(bts, st, end)
-            mMessageDigest.update(bts, st, end)
-        }
-
-        override fun close() {
-            super.close()
-            mLength = byteCount
-            val bytes = mMessageDigest.digest()
-            mBinaryHash = ByteBuffer.wrap(bytes).int
-        }
+    override fun hashCode(): Int {
+        var result = isCompressed.hashCode()
+        result = 31 * result + isProtected.hashCode()
+        result = 31 * result + isCorrupted.hashCode()
+        return result
     }
 
     companion object {
-
         private val TAG = BinaryData::class.java.name
-
-        @JvmField
-        val CREATOR: Parcelable.Creator<BinaryData> = object : Parcelable.Creator<BinaryData> {
-            override fun createFromParcel(parcel: Parcel): BinaryData {
-                return BinaryData(parcel)
-            }
-
-            override fun newArray(size: Int): Array<BinaryData?> {
-                return arrayOfNulls(size)
-            }
-        }
     }
 
 }

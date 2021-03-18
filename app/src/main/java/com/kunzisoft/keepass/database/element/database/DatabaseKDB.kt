@@ -278,7 +278,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         // Generate an unique new file
         val fileInCache = File(cacheDirectory, binaryIncrement.toString())
         binaryIncrement++
-        return BinaryData(fileInCache)
+        return BinaryFile(fileInCache)
     }
 
     companion object {

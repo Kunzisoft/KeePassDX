@@ -49,7 +49,7 @@ abstract class BinaryPool<T> {
             protection: Boolean = false): KeyBinary<T> {
         val fileInCache = File(cacheDirectory, "$poolId$creationId$binaryFileIncrement")
         binaryFileIncrement++
-        val newBinaryFile = BinaryData(fileInCache, compression, protection)
+        val newBinaryFile = BinaryFile(fileInCache, compression, protection)
         val newKey = put(key, newBinaryFile)
         return KeyBinary(newBinaryFile, newKey)
     }
