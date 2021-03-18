@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
 import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
@@ -52,7 +53,12 @@ class IconsManager {
     fun buildNewCustomIcon(cacheDirectory: File,
                            key: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
-        val keyBinary = customCache.put(cacheDirectory, key)
+        val keyBinary = customCache.put(key) { uniqueBinaryId ->
+            //BinaryByte()
+            // TODO change to BinaryByte to increase performance
+            val fileInCache = File(cacheDirectory, uniqueBinaryId)
+            BinaryFile(fileInCache)
+        }
         result.invoke(IconImageCustom(keyBinary.keys.first()), keyBinary.binary)
     }
 

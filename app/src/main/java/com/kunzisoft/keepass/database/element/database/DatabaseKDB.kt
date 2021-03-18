@@ -45,7 +45,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
-    private var binaryIncrement = 0
+    private var binaryPool = AttachmentPool()
 
     override val version: String
         get() = "KeePass 1"
@@ -276,9 +276,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     fun buildNewAttachment(cacheDirectory: File): BinaryData {
         // Generate an unique new file
-        val fileInCache = File(cacheDirectory, binaryIncrement.toString())
-        binaryIncrement++
-        return BinaryFile(fileInCache)
+        return binaryPool.put { uniqueBinaryId ->
+            val fileInCache = File(cacheDirectory, uniqueBinaryId)
+            BinaryFile(fileInCache)
+        }.binary
     }
 
     companion object {

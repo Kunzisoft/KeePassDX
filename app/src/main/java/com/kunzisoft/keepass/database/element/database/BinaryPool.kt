@@ -43,13 +43,10 @@ abstract class BinaryPool<T> {
     /**
      * Create and return a new binary file not yet linked to a binary
      */
-    fun put(cacheDirectory: File,
-            key: T? = null,
-            compression: Boolean = false,
-            protection: Boolean = false): KeyBinary<T> {
-        val fileInCache = File(cacheDirectory, "$poolId$creationId$binaryFileIncrement")
+    fun put(key: T? = null,
+            builder: (uniqueBinaryId: String) -> BinaryData): KeyBinary<T> {
         binaryFileIncrement++
-        val newBinaryFile = BinaryFile(fileInCache, compression, protection)
+        val newBinaryFile: BinaryData = builder("$poolId$creationId$binaryFileIncrement")
         val newKey = put(key, newBinaryFile)
         return KeyBinary(newBinaryFile, newKey)
     }

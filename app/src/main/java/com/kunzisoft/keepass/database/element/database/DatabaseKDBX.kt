@@ -638,7 +638,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                            compression: Boolean,
                            protection: Boolean,
                            binaryPoolId: Int? = null): BinaryData {
-        return binaryPool.put(cacheDirectory, binaryPoolId, compression, protection).binary
+        return binaryPool.put(binaryPoolId) { uniqueBinaryId ->
+            val fileInCache = File(cacheDirectory, uniqueBinaryId)
+            BinaryFile(fileInCache, compression, protection)
+        }.binary
     }
 
     fun removeUnlinkedAttachment(binary: BinaryData, clear: Boolean) {
