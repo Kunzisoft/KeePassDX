@@ -147,6 +147,7 @@ class BinaryByte : BinaryData {
     companion object {
 
         private val TAG = BinaryByte::class.java.name
+        const val MAX_BINARY_BYTES = 10240
 
         @JvmField
         val CREATOR: Parcelable.Creator<BinaryByte> = object : Parcelable.Creator<BinaryByte> {
