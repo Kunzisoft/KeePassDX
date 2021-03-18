@@ -37,7 +37,7 @@ object BinaryDatabaseManager {
                              update: ((percent: Int)->Unit)? = null,
                              canceled: ()-> Boolean = { false },
                              bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        val fileSize = binaryFile.length
+        val fileSize = binaryFile.getSize()
         var dataDownloaded = 0L
         Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
             binaryFile.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->

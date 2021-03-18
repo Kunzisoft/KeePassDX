@@ -237,7 +237,7 @@ class IconPickerActivity : LockingActivity() {
                                     when {
                                         binary == null -> {
                                         }
-                                        binary.length <= 0 -> {
+                                        binary.getSize() <= 0 -> {
                                         }
                                         mDatabase?.isCustomIconBinaryDuplicate(binary) == true -> {
                                             iconCustomState.errorStringId = R.string.error_duplicate_file

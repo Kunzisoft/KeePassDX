@@ -39,9 +39,8 @@ import javax.crypto.spec.IvParameterSpec
 
 class BinaryFile : Parcelable {
 
-    private var dataFile: File? = null
-    var length: Long = 0
-        private set
+    private var mDataFile: File? = null
+    private var mLength: Long = 0
     private var mBinaryHash = 0
     var isCompressed: Boolean = false
         private set
@@ -58,17 +57,17 @@ class BinaryFile : Parcelable {
     constructor()
 
     constructor(dataFile: File, compressed: Boolean = false, protected: Boolean = false) {
-        this.dataFile = dataFile
-        this.length = 0
+        this.mDataFile = dataFile
+        this.mLength = 0
         this.isCompressed = compressed
         this.isProtected = protected
     }
 
     private constructor(parcel: Parcel) {
         parcel.readString()?.let {
-            dataFile = File(it)
+            mDataFile = File(it)
         }
-        length = parcel.readLong()
+        mLength = parcel.readLong()
         isCompressed = parcel.readByte().toInt() != 0
         isProtected = parcel.readByte().toInt() != 0
         isCorrupted = parcel.readByte().toInt() != 0
@@ -76,12 +75,12 @@ class BinaryFile : Parcelable {
 
     @Throws(IOException::class)
     fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return buildInputStream(dataFile, cipherKey)
+        return buildInputStream(mDataFile, cipherKey)
     }
 
     @Throws(IOException::class)
     fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return buildOutputStream(dataFile, cipherKey)
+        return buildOutputStream(mDataFile, cipherKey)
     }
 
     @Throws(IOException::class)
@@ -126,7 +125,7 @@ class BinaryFile : Parcelable {
 
     @Throws(IOException::class)
     fun compress(cipherKey: Database.LoadedKey) {
-        dataFile?.let { concreteDataFile ->
+        mDataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
                 // Encrypt the new gzipped temp file
@@ -151,7 +150,7 @@ class BinaryFile : Parcelable {
 
     @Throws(IOException::class)
     fun decompress(cipherKey: Database.LoadedKey) {
-        dataFile?.let { concreteDataFile ->
+        mDataFile?.let { concreteDataFile ->
             if (isCompressed) {
                 // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
@@ -175,12 +174,16 @@ class BinaryFile : Parcelable {
 
     @Throws(IOException::class)
     fun clear() {
-        if (dataFile != null && !dataFile!!.delete())
-            throw IOException("Unable to delete temp file " + dataFile!!.absolutePath)
+        if (mDataFile != null && !mDataFile!!.delete())
+            throw IOException("Unable to delete temp file " + mDataFile!!.absolutePath)
     }
 
     fun dataExists(): Boolean {
-        return dataFile != null && length > 0
+        return mDataFile != null && mLength > 0
+    }
+
+    fun getSize(): Long {
+        return mLength
     }
 
     /**
@@ -200,7 +203,7 @@ class BinaryFile : Parcelable {
             return false
 
         var sameData = false
-        if (dataFile != null && dataFile == other.dataFile)
+        if (mDataFile != null && mDataFile == other.mDataFile)
             sameData = true
 
         return isCompressed == other.isCompressed
@@ -215,13 +218,13 @@ class BinaryFile : Parcelable {
         result = 31 * result + if (isCompressed) 1 else 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + if (isCorrupted) 1 else 0
-        result = 31 * result + dataFile!!.hashCode()
-        result = 31 * result + length.hashCode()
+        result = 31 * result + mDataFile!!.hashCode()
+        result = 31 * result + mLength.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return dataFile.toString()
+        return mDataFile.toString()
     }
 
     override fun describeContents(): Int {
@@ -229,8 +232,8 @@ class BinaryFile : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(dataFile?.absolutePath)
-        dest.writeLong(length)
+        dest.writeString(mDataFile?.absolutePath)
+        dest.writeLong(mLength)
         dest.writeByte((if (isCompressed) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeByte((if (isCorrupted) 1 else 0).toByte())
@@ -243,14 +246,14 @@ class BinaryFile : Parcelable {
 
         private val mMessageDigest: MessageDigest
         init {
-            length = 0
+            mLength = 0
             mMessageDigest = MessageDigest.getInstance("MD5")
             mBinaryHash = 0
         }
 
         override fun beforeWrite(n: Int) {
             super.beforeWrite(n)
-            length = byteCount
+            mLength = byteCount
         }
 
         override fun write(idx: Int) {
@@ -270,7 +273,7 @@ class BinaryFile : Parcelable {
 
         override fun close() {
             super.close()
-            length = byteCount
+            mLength = byteCount
             val bytes = mMessageDigest.digest()
             mBinaryHash = ByteBuffer.wrap(bytes).int
         }

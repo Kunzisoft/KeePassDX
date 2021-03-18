@@ -124,7 +124,7 @@ abstract class BinaryPool<T> {
     fun isBinaryDuplicate(binaryFile: BinaryFile?): Boolean {
         try {
             binaryFile?.let {
-                if (it.length > 0) {
+                if (it.getSize() > 0) {
                     val searchBinaryMD5 = it.binaryHash()
                     var i = 0
                     for ((_, binary) in pool) {
@@ -168,7 +168,7 @@ abstract class BinaryPool<T> {
             // Don't deduplicate
             val existentBinary =
             try {
-                if (binary.length > 0) {
+                if (binary.getSize() > 0) {
                     keyBinaryList.find {
                         val hash0 = it.binary.binaryHash()
                         val hash1 = binary.binaryHash()
