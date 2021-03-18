@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryFile
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
@@ -22,25 +22,25 @@ import kotlin.math.pow
 object BinaryDatabaseManager {
 
     fun downloadFromDatabase(attachmentToUploadUri: Uri,
-                             binaryFile: BinaryFile,
+                             binaryData: BinaryData,
                              contentResolver: ContentResolver,
                              update: ((percent: Int)->Unit)? = null,
                              canceled: ()-> Boolean = { false },
                              bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
-            downloadFromDatabase(outputStream, binaryFile, update, canceled, bufferSize)
+            downloadFromDatabase(outputStream, binaryData, update, canceled, bufferSize)
         }
     }
 
     private fun downloadFromDatabase(outputStream: OutputStream,
-                             binaryFile: BinaryFile,
-                             update: ((percent: Int)->Unit)? = null,
-                             canceled: ()-> Boolean = { false },
-                             bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        val fileSize = binaryFile.getSize()
+                                     binaryData: BinaryData,
+                                     update: ((percent: Int)->Unit)? = null,
+                                     canceled: ()-> Boolean = { false },
+                                     bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+        val fileSize = binaryData.getSize()
         var dataDownloaded = 0L
         Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
-            binaryFile.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
+            binaryData.getUnGzipInputDataStream(binaryCipherKey).use { inputStream ->
                 inputStream.readAllBytes(bufferSize, canceled) { buffer ->
                     outputStream.write(buffer)
                     dataDownloaded += buffer.size
@@ -56,26 +56,26 @@ object BinaryDatabaseManager {
     }
 
     fun uploadToDatabase(attachmentFromDownloadUri: Uri,
-                         binaryFile: BinaryFile,
+                         binaryData: BinaryData,
                          contentResolver: ContentResolver,
                          update: ((percent: Int)->Unit)? = null,
                          canceled: ()-> Boolean = { false },
                          bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
         UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.use { inputStream ->
-            uploadToDatabase(inputStream, fileSize, binaryFile, update, canceled, bufferSize)
+            uploadToDatabase(inputStream, fileSize, binaryData, update, canceled, bufferSize)
         }
     }
 
     private fun uploadToDatabase(inputStream: InputStream,
-                         fileSize: Long,
-                         binaryFile: BinaryFile,
-                         update: ((percent: Int)->Unit)? = null,
-                         canceled: ()-> Boolean = { false },
-                         bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+                                 fileSize: Long,
+                                 binaryData: BinaryData,
+                                 update: ((percent: Int)->Unit)? = null,
+                                 canceled: ()-> Boolean = { false },
+                                 bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         var dataUploaded = 0L
         Database.getInstance().loadedCipherKey?.let { binaryCipherKey ->
-            binaryFile.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
+            binaryData.getGzipOutputDataStream(binaryCipherKey).use { outputStream ->
                 inputStream.readAllBytes(bufferSize, canceled) { buffer ->
                     outputStream.write(buffer)
                     dataUploaded += buffer.size
@@ -92,9 +92,9 @@ object BinaryDatabaseManager {
 
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
                                              bitmapUri: Uri?,
-                                             binaryFile: BinaryFile?) {
+                                             binaryData: BinaryData?) {
         try {
-            binaryFile?.let {
+            binaryData?.let {
                 UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
                     BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
                         val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
@@ -105,7 +105,7 @@ object BinaryDatabaseManager {
                         uploadToDatabase(
                                 byteArrayInputStream,
                                 bitmapData.size.toLong(),
-                                binaryFile
+                                binaryData
                         )
                     }
                 }
@@ -136,7 +136,7 @@ object BinaryDatabaseManager {
         return Bitmap.createScaledBitmap(this, width, height, true)
     }
 
-    fun loadBitmap(binaryFile: BinaryFile,
+    fun loadBitmap(binaryData: BinaryData,
                    binaryCipherKey: Database.LoadedKey?,
                    maxWidth: Int,
                    actionOnFinish: (Bitmap?) -> Unit) {
@@ -145,7 +145,7 @@ object BinaryDatabaseManager {
                 val asyncResult: Deferred<Bitmap?> = async {
                     runCatching {
                         binaryCipherKey?.let { binaryKey ->
-                            val bitmap: Bitmap? = decodeSampledBitmap(binaryFile,
+                            val bitmap: Bitmap? = decodeSampledBitmap(binaryData,
                                     binaryKey,
                                     maxWidth)
                             bitmap
@@ -159,14 +159,14 @@ object BinaryDatabaseManager {
         }
     }
 
-    private fun decodeSampledBitmap(binaryFile: BinaryFile,
+    private fun decodeSampledBitmap(binaryData: BinaryData,
                                     binaryCipherKey: Database.LoadedKey,
                                     maxWidth: Int): Bitmap? {
         // First decode with inJustDecodeBounds=true to check dimensions
         return BitmapFactory.Options().run {
             try {
                 inJustDecodeBounds = true
-                binaryFile.getUnGzipInputDataStream(binaryCipherKey).use {
+                binaryData.getUnGzipInputDataStream(binaryCipherKey).use {
                     BitmapFactory.decodeStream(it, null, this)
                 }
                 // Calculate inSampleSize
@@ -178,7 +178,7 @@ object BinaryDatabaseManager {
 
                 // Decode bitmap with inSampleSize set
                 inJustDecodeBounds = false
-                binaryFile.getUnGzipInputDataStream(binaryCipherKey).use {
+                binaryData.getUnGzipInputDataStream(binaryCipherKey).use {
                     BitmapFactory.decodeStream(it, null, this)
                 }
             } catch (e: Exception) {

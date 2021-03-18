@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.database.BinaryFile
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
@@ -33,7 +33,7 @@ data class EntryAttachmentState(var attachment: Attachment,
                                 var previewState: AttachmentState = AttachmentState.NULL) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readParcelable(Attachment::class.java.classLoader) ?: Attachment("", BinaryFile()),
+            parcel.readParcelable(Attachment::class.java.classLoader) ?: Attachment("", BinaryData()),
             parcel.readEnum<StreamDirection>() ?: StreamDirection.DOWNLOAD,
             parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
             parcel.readInt(),

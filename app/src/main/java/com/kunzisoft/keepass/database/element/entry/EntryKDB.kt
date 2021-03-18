@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element.entry
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.database.BinaryFile
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -56,7 +56,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     /** A string describing what is in binaryData  */
     var binaryDescription = ""
-    var binaryData: BinaryFile? = null
+    var binaryData: BinaryData? = null
 
     // Determine if this is a MetaStream entry
     val isMetaStream: Boolean
@@ -89,7 +89,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
-        binaryData = parcel.readParcelable(BinaryFile::class.java.classLoader)
+        binaryData = parcel.readParcelable(BinaryData::class.java.classLoader)
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -151,7 +151,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     fun putAttachment(attachment: Attachment) {
         this.binaryDescription = attachment.name
-        this.binaryData = attachment.binaryFile
+        this.binaryData = attachment.binaryData
     }
 
     fun removeAttachment(attachment: Attachment? = null) {

@@ -83,7 +83,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                     entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
                     // Load the bitmap image
                     BinaryDatabaseManager.loadBitmap(
-                            entryAttachmentState.attachment.binaryFile,
+                            entryAttachmentState.attachment.binaryData,
                             binaryCipherKey,
                             mImagePreviewMaxWidth
                     ) { imageLoaded ->
@@ -111,22 +111,22 @@ class EntryAttachmentsItemsAdapter(context: Context)
         }
         holder.binaryFileBroken.apply {
             setColorFilter(Color.RED)
-            visibility = if (entryAttachmentState.attachment.binaryFile.isCorrupted) {
+            visibility = if (entryAttachmentState.attachment.binaryData.isCorrupted) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
         }
         holder.binaryFileTitle.text = entryAttachmentState.attachment.name
-        if (entryAttachmentState.attachment.binaryFile.isCorrupted) {
+        if (entryAttachmentState.attachment.binaryData.isCorrupted) {
             holder.binaryFileTitle.setTextColor(Color.RED)
         } else {
             holder.binaryFileTitle.setTextColor(mTitleColor)
         }
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
-                entryAttachmentState.attachment.binaryFile.getSize())
+                entryAttachmentState.attachment.binaryData.getSize())
         holder.binaryFileCompression.apply {
-            if (entryAttachmentState.attachment.binaryFile.isCompressed) {
+            if (entryAttachmentState.attachment.binaryData.isCompressed) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)
                 visibility = View.VISIBLE
             } else {

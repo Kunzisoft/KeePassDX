@@ -117,7 +117,7 @@ class Database {
     val allowCustomIcons: Boolean
         get() = mDatabaseKDBX != null
 
-    fun doForEachCustomIcons(action: (IconImageCustom, BinaryFile) -> Unit) {
+    fun doForEachCustomIcons(action: (IconImageCustom, BinaryData) -> Unit) {
         return iconsManager.doForEachCustomIcon(action)
     }
 
@@ -126,12 +126,12 @@ class Database {
     }
 
     fun buildNewCustomIcon(cacheDirectory: File,
-                           result: (IconImageCustom?, BinaryFile?) -> Unit) {
+                           result: (IconImageCustom?, BinaryData?) -> Unit) {
         mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory, null, result)
     }
 
-    fun isCustomIconBinaryDuplicate(binaryFile: BinaryFile): Boolean {
-        return mDatabaseKDBX?.isCustomIconBinaryDuplicate(binaryFile) ?: false
+    fun isCustomIconBinaryDuplicate(binaryData: BinaryData): Boolean {
+        return mDatabaseKDBX?.isCustomIconBinaryDuplicate(binaryData) ?: false
     }
 
     fun removeCustomIcon(customIcon: IconImageCustom) {
@@ -590,7 +590,7 @@ class Database {
 
     fun buildNewBinaryAttachment(cacheDirectory: File,
                                  compressed: Boolean = false,
-                                 protected: Boolean = false): BinaryFile? {
+                                 protected: Boolean = false): BinaryData? {
         return mDatabaseKDB?.buildNewAttachment(cacheDirectory)
                 ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, compressed, protected)
     }
@@ -598,7 +598,7 @@ class Database {
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
         // No need in KDB database because unique attachment by entry
         // Don't clear to fix upload multiple times
-        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryFile, false)
+        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryData, false)
     }
 
     fun removeUnlinkedAttachments() {

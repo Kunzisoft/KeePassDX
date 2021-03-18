@@ -346,7 +346,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                     StreamDirection.UPLOAD -> {
                                         BinaryDatabaseManager.uploadToDatabase(
                                                 attachmentNotification.uri,
-                                                attachment.binaryFile,
+                                                attachment.binaryData,
                                                 contentResolver,
                                                 { percent ->
                                                     publishProgress(percent)
@@ -359,7 +359,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                     StreamDirection.DOWNLOAD -> {
                                         BinaryDatabaseManager.downloadFromDatabase(
                                                 attachmentNotification.uri,
-                                                attachment.binaryFile,
+                                                attachment.binaryData,
                                                 contentResolver,
                                                 { percent ->
                                                     publishProgress(percent)

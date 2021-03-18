@@ -21,20 +21,20 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.BinaryFile
+import com.kunzisoft.keepass.database.element.database.BinaryData
 
 
 data class Attachment(var name: String,
-                      var binaryFile: BinaryFile) : Parcelable {
+                      var binaryData: BinaryData) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readParcelable(BinaryFile::class.java.classLoader) ?: BinaryFile()
+            parcel.readParcelable(BinaryData::class.java.classLoader) ?: BinaryData()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeParcelable(binaryFile, flags)
+        parcel.writeParcelable(binaryData, flags)
     }
 
     override fun describeContents(): Int {
@@ -42,7 +42,7 @@ data class Attachment(var name: String,
     }
 
     override fun toString(): String {
-        return "$name at $binaryFile"
+        return "$name at $binaryData"
     }
 
     override fun equals(other: Any?): Boolean {

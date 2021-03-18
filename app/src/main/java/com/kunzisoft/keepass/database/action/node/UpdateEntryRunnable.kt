@@ -49,7 +49,7 @@ class UpdateEntryRunnable constructor(
         newEntryAttachments.forEach { newAttachment ->
             oldEntryAttachments.forEach { oldAttachment ->
                 if (oldAttachment.name == newAttachment.name
-                        && oldAttachment.binaryFile == newAttachment.binaryFile)
+                        && oldAttachment.binaryData == newAttachment.binaryData)
                     attachmentsToRemove.remove(oldAttachment)
             }
         }

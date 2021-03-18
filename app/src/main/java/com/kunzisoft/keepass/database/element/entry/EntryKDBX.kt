@@ -282,7 +282,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     }
 
     fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
-        binaries[attachment.name] = attachmentPool.put(attachment.binaryFile)
+        binaries[attachment.name] = attachmentPool.put(attachment.binaryData)
     }
 
     fun removeAttachment(attachment: Attachment) {

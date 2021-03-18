@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.database.BinaryFile
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -78,7 +78,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     private var ctxStringName: String? = null
     private var ctxStringValue: ProtectedString? = null
     private var ctxBinaryName: String? = null
-    private var ctxBinaryValue: BinaryFile? = null
+    private var ctxBinaryValue: BinaryData? = null
     private var ctxATName: String? = null
     private var ctxATSeq: String? = null
     private var entryInHistory = false
@@ -966,7 +966,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readBinary(xpp: XmlPullParser): BinaryFile? {
+    private fun readBinary(xpp: XmlPullParser): BinaryData? {
 
         // Reference Id to a binary already present in binary pool
         val ref = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrRef)
@@ -997,7 +997,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryFile? {
+    private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryData? {
         var compressed = false
         var protected = true
 

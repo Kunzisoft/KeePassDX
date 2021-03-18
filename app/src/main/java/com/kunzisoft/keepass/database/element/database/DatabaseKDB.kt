@@ -274,11 +274,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         addEntryTo(entry, origParent)
     }
 
-    fun buildNewAttachment(cacheDirectory: File): BinaryFile {
+    fun buildNewAttachment(cacheDirectory: File): BinaryData {
         // Generate an unique new file
         val fileInCache = File(cacheDirectory, binaryIncrement.toString())
         binaryIncrement++
-        return BinaryFile(fileInCache)
+        return BinaryData(fileInCache)
     }
 
     companion object {

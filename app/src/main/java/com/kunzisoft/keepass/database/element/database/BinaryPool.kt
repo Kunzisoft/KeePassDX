@@ -26,7 +26,7 @@ import kotlin.math.abs
 
 abstract class BinaryPool<T> {
 
-    protected val pool = LinkedHashMap<T, BinaryFile>()
+    protected val pool = LinkedHashMap<T, BinaryData>()
 
     // To build unique file id
     private var creationId: String = System.currentTimeMillis().toString()
@@ -36,7 +36,7 @@ abstract class BinaryPool<T> {
     /**
      * To get a binary by the pool key (ref attribute in entry)
      */
-    operator fun get(key: T): BinaryFile? {
+    operator fun get(key: T): BinaryData? {
         return pool[key]
     }
 
@@ -49,7 +49,7 @@ abstract class BinaryPool<T> {
             protection: Boolean = false): KeyBinary<T> {
         val fileInCache = File(cacheDirectory, "$poolId$creationId$binaryFileIncrement")
         binaryFileIncrement++
-        val newBinaryFile = BinaryFile(fileInCache, compression, protection)
+        val newBinaryFile = BinaryData(fileInCache, compression, protection)
         val newKey = put(key, newBinaryFile)
         return KeyBinary(newBinaryFile, newKey)
     }
@@ -57,7 +57,7 @@ abstract class BinaryPool<T> {
     /**
      * To linked a binary with a pool key, if the pool key doesn't exists, create an unused one
      */
-    fun put(key: T?, value: BinaryFile): T {
+    fun put(key: T?, value: BinaryData): T {
         if (key == null)
             return put(value)
         else
@@ -66,16 +66,16 @@ abstract class BinaryPool<T> {
     }
 
     /**
-     * To put a [binaryFile] in the pool,
+     * To put a [binaryData] in the pool,
      * if already exists, replace the current one,
      * else add it with a new key
      */
-    fun put(binaryFile: BinaryFile): T {
-        var key: T? = findKey(binaryFile)
+    fun put(binaryData: BinaryData): T {
+        var key: T? = findKey(binaryData)
         if (key == null) {
             key = findUnusedKey()
         }
-        pool[key!!] = binaryFile
+        pool[key!!] = binaryData
         return key
     }
 
@@ -92,8 +92,8 @@ abstract class BinaryPool<T> {
      * Remove a binary from the pool, the file is not deleted
      */
     @Throws(IOException::class)
-    fun remove(binaryFile: BinaryFile) {
-        findKey(binaryFile)?.let {
+    fun remove(binaryData: BinaryData) {
+        findKey(binaryData)?.let {
             pool.remove(it)
         }
         // Don't clear attachment here because a file can be used in many BinaryAttachment
@@ -105,15 +105,15 @@ abstract class BinaryPool<T> {
     abstract fun findUnusedKey(): T
 
     /**
-     * Return key of [binaryFileToRetrieve] or null if not found
+     * Return key of [binaryDataToRetrieve] or null if not found
      */
-    private fun findKey(binaryFileToRetrieve: BinaryFile): T? {
-        val contains = pool.containsValue(binaryFileToRetrieve)
+    private fun findKey(binaryDataToRetrieve: BinaryData): T? {
+        val contains = pool.containsValue(binaryDataToRetrieve)
         return if (!contains)
             null
         else {
             for ((key, binary) in pool) {
-                if (binary == binaryFileToRetrieve) {
+                if (binary == binaryDataToRetrieve) {
                     return key
                 }
             }
@@ -121,9 +121,9 @@ abstract class BinaryPool<T> {
         }
     }
 
-    fun isBinaryDuplicate(binaryFile: BinaryFile?): Boolean {
+    fun isBinaryDuplicate(binaryData: BinaryData?): Boolean {
         try {
-            binaryFile?.let {
+            binaryData?.let {
                 if (it.getSize() > 0) {
                     val searchBinaryMD5 = it.binaryHash()
                     var i = 0
@@ -145,8 +145,8 @@ abstract class BinaryPool<T> {
     /**
      * To do an action on each binary in the pool (order is not important)
      */
-    private fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit,
-                        condition: (key: T, binary: BinaryFile) -> Boolean) {
+    private fun doForEachBinary(action: (key: T, binary: BinaryData) -> Unit,
+                                condition: (key: T, binary: BinaryData) -> Boolean) {
         for ((key, value) in pool) {
             if (condition.invoke(key, value)) {
                 action.invoke(key, value)
@@ -154,14 +154,14 @@ abstract class BinaryPool<T> {
         }
     }
 
-    fun doForEachBinary(action: (key: T, binary: BinaryFile) -> Unit) {
+    fun doForEachBinary(action: (key: T, binary: BinaryData) -> Unit) {
         doForEachBinary(action) { _, _ -> true }
     }
 
     /**
      * Utility method to order binaries and solve index problem in database v4
      */
-    protected fun orderedBinariesWithoutDuplication(condition: ((binary: BinaryFile) -> Boolean) = { true })
+    protected fun orderedBinariesWithoutDuplication(condition: ((binary: BinaryData) -> Boolean) = { true })
     : List<KeyBinary<T>> {
         val keyBinaryList = ArrayList<KeyBinary<T>>()
         for ((key, binary) in pool) {
@@ -199,7 +199,7 @@ abstract class BinaryPool<T> {
      * Different from doForEach, provide an ordered index to each binary
      */
     private fun doForEachBinaryWithoutDuplication(action: (keyBinary: KeyBinary<T>) -> Unit,
-                                          conditionToAdd: (binary: BinaryFile) -> Boolean) {
+                                          conditionToAdd: (binary: BinaryData) -> Boolean) {
         orderedBinariesWithoutDuplication(conditionToAdd).forEach { keyBinary ->
             action.invoke(keyBinary)
         }
@@ -212,14 +212,14 @@ abstract class BinaryPool<T> {
     /**
      * Different from doForEach, provide an ordered index to each binary
      */
-    private fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryFile) -> Unit,
-                                                 conditionToAdd: (binary: BinaryFile) -> Boolean) {
+    private fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryData) -> Unit,
+                                                         conditionToAdd: (binary: BinaryData) -> Boolean) {
         orderedBinariesWithoutDuplication(conditionToAdd).forEachIndexed { index, keyBinary ->
             action.invoke(index, keyBinary.binary)
         }
     }
 
-    fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryFile) -> Unit) {
+    fun doForEachOrderedBinaryWithoutDuplication(action: (index: Int, binary: BinaryData) -> Unit) {
         doForEachOrderedBinaryWithoutDuplication(action, { true })
     }
 
@@ -249,7 +249,7 @@ abstract class BinaryPool<T> {
     /**
      * Utility class to order binaries
      */
-    class KeyBinary<T>(val binary: BinaryFile, key: T) {
+    class KeyBinary<T>(val binary: BinaryData, key: T) {
         val keys = HashSet<T>()
         init {
             addKey(key)

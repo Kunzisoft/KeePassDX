@@ -34,7 +34,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryFile
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +49,7 @@ import kotlin.collections.HashMap
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
 class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedKey?,
-                          private val retrieveCustomIconBinary : (iconId: UUID) -> BinaryFile?) {
+                          private val retrieveCustomIconBinary : (iconId: UUID) -> BinaryData?) {
 
     /** customIconMap
      * Cache for icon drawable.
@@ -85,7 +85,7 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     /**
      * Build a custom [Drawable] from custom [icon]
      */
-    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, iconCustomBinary: BinaryFile?): Drawable? {
+    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, iconCustomBinary: BinaryData?): Drawable? {
         val patternIcon = PatternIcon(resources)
         val cipherKey = retrieveCipherKey()
         if (cipherKey != null) {

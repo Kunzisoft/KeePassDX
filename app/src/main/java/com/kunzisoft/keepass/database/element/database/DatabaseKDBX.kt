@@ -312,11 +312,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun buildNewCustomIcon(cacheDirectory: File,
                            customIconId: UUID? = null,
-                           result: (IconImageCustom, BinaryFile?) -> Unit) {
+                           result: (IconImageCustom, BinaryData?) -> Unit) {
         iconsManager.buildNewCustomIcon(cacheDirectory, customIconId, result)
     }
 
-    fun isCustomIconBinaryDuplicate(binary: BinaryFile): Boolean {
+    fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
         return iconsManager.isCustomIconBinaryDuplicate(binary)
     }
 
@@ -637,12 +637,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     fun buildNewAttachment(cacheDirectory: File,
                            compression: Boolean,
                            protection: Boolean,
-                           binaryPoolId: Int? = null): BinaryFile {
+                           binaryPoolId: Int? = null): BinaryData {
         return binaryPool.put(cacheDirectory, binaryPoolId, compression, protection).binary
     }
 
-    fun removeUnlinkedAttachment(binary: BinaryFile, clear: Boolean) {
-        val listBinaries = ArrayList<BinaryFile>()
+    fun removeUnlinkedAttachment(binary: BinaryData, clear: Boolean) {
+        val listBinaries = ArrayList<BinaryData>()
         listBinaries.add(binary)
         removeUnlinkedAttachments(listBinaries, clear)
     }
@@ -651,9 +651,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         removeUnlinkedAttachments(emptyList(), clear)
     }
 
-    private fun removeUnlinkedAttachments(binaries: List<BinaryFile>, clear: Boolean) {
+    private fun removeUnlinkedAttachments(binaries: List<BinaryData>, clear: Boolean) {
         // Build binaries to remove with all binaries known
-        val binariesToRemove = ArrayList<BinaryFile>()
+        val binariesToRemove = ArrayList<BinaryData>()
         if (binaries.isEmpty()) {
             binaryPool.doForEachBinary { _, binary ->
                 binariesToRemove.add(binary)
@@ -665,7 +665,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
                 node.getAttachments(binaryPool, true).forEach {
-                    binariesToRemove.remove(it.binaryFile)
+                    binariesToRemove.remove(it.binaryData)
                 }
                 return binariesToRemove.isNotEmpty()
             }

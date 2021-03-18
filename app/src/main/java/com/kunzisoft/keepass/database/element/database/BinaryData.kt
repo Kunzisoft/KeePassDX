@@ -37,7 +37,7 @@ import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 import javax.crypto.spec.IvParameterSpec
 
-class BinaryFile : Parcelable {
+class BinaryData : Parcelable {
 
     private var mDataFile: File? = null
     private var mLength: Long = 0
@@ -199,7 +199,7 @@ class BinaryFile : Parcelable {
             return true
         if (other == null || javaClass != other.javaClass)
             return false
-        if (other !is BinaryFile)
+        if (other !is BinaryData)
             return false
 
         var sameData = false
@@ -281,15 +281,15 @@ class BinaryFile : Parcelable {
 
     companion object {
 
-        private val TAG = BinaryFile::class.java.name
+        private val TAG = BinaryData::class.java.name
 
         @JvmField
-        val CREATOR: Parcelable.Creator<BinaryFile> = object : Parcelable.Creator<BinaryFile> {
-            override fun createFromParcel(parcel: Parcel): BinaryFile {
-                return BinaryFile(parcel)
+        val CREATOR: Parcelable.Creator<BinaryData> = object : Parcelable.Creator<BinaryData> {
+            override fun createFromParcel(parcel: Parcel): BinaryData {
+                return BinaryData(parcel)
             }
 
-            override fun newArray(size: Int): Array<BinaryFile?> {
+            override fun newArray(size: Int): Array<BinaryData?> {
                 return arrayOfNulls(size)
             }
         }
