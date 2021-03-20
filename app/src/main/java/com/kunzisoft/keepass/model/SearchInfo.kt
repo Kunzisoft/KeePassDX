@@ -7,7 +7,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.ObjectNameResource
+import com.kunzisoft.encrypt.ObjectNameResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

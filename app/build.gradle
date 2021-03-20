@@ -29,12 +29,6 @@ android {
         }
     }
 
-    externalNativeBuild {
-        cmake {
-            path "src/main/jni/CMakeLists.txt"
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled = false
@@ -126,8 +120,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
-    // Crypto
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.65.01'
     // Time
     implementation 'joda-time:joda-time:2.10.6'
     // Color
@@ -137,6 +129,8 @@ dependencies {
     // Apache Commons
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
+    // Encrypt lib
+    implementation project(path: ':encrypt')
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')

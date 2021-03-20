@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.element.node
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.encrypt.UnsignedLong
 
 interface NodeKDBXInterface : NodeTimeInterface {
 

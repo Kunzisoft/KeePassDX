@@ -21,8 +21,9 @@ package com.kunzisoft.keepass.tests.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import junit.framework.TestCase
 import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream

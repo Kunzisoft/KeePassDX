@@ -27,7 +27,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.ObjectNameResource
+import com.kunzisoft.encrypt.ObjectNameResource
 
 import java.util.ArrayList
 

@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
@@ -27,7 +26,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.encrypt.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import org.apache.commons.codec.binary.Hex
 import java.io.ByteArrayInputStream
@@ -48,9 +47,9 @@ abstract class DatabaseVersioned<
     // Algorithm used to encrypt the database
     protected var algorithm: EncryptionAlgorithm? = null
 
-    abstract val kdfEngine: KdfEngine?
+    abstract val kdfEngine: com.kunzisoft.encrypt.keyDerivation.KdfEngine?
 
-    abstract val kdfAvailableList: List<KdfEngine>
+    abstract val kdfAvailableList: List<com.kunzisoft.encrypt.keyDerivation.KdfEngine>
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null

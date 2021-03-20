@@ -19,14 +19,15 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.encrypt.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.keepass.utils.VariantDictionary
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.VariantDictionary
+import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream

@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.encrypt.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseKeyDerivationPreferenceDialogFragmentCompat

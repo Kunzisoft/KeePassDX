@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 import com.kunzisoft.keepass.utils.ParcelableUtil
-import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedInt
 
 class AutoType : Parcelable {
 

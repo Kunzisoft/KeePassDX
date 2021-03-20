@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
-import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset

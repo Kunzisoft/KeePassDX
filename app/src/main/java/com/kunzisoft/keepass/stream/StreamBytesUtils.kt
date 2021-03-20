@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils.bytesToString
-import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 import java.util.*

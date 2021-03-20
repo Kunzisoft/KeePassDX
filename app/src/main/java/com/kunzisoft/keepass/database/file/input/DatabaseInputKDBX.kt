@@ -21,10 +21,14 @@ package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
 import android.util.Log
+import com.kunzisoft.encrypt.CipherFactory
+import com.kunzisoft.encrypt.StreamCipherFactory
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.engine.CipherEngine
+import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
+import com.kunzisoft.encrypt.stream.StreamCipher
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.crypto.StreamCipherFactory
-import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -45,9 +49,6 @@ import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
-import org.bouncycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
