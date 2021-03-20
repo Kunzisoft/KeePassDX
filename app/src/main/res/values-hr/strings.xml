@@ -549,4 +549,6 @@
     <string name="error_upload_file">Tijekom prijenosa podataka datoteke došlo je do greške.</string>
     <string name="error_file_to_big">Datoteka koju pokušavaš prenijeti je prevelika.</string>
     <string name="content_description_otp_information">Podaci jednokratne lozinke</string>
+    <string name="error_remove_file">Tijekom uklanjanja podataka datoteke došlo je do greške.</string>
+    <string name="error_duplicate_file">Podaci datoteke već postoje.</string>
 </resources>

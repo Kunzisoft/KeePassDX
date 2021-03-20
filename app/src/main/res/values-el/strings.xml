@@ -565,4 +565,6 @@
     <string name="error_upload_file">Παρουσιάστηκε σφάλμα κατά τη μεταφόρτωση των δεδομένων αρχείου.</string>
     <string name="error_file_to_big">Το αρχείο που προσπαθείτε να ανεβάσετε είναι πολύ μεγάλο.</string>
     <string name="content_description_otp_information">Πληροφορίες One-time κωδικού πρόσβασης</string>
+    <string name="error_remove_file">Παρουσιάστηκε σφάλμα κατά την κατάργηση των δεδομένων αρχείου.</string>
+    <string name="error_duplicate_file">Τα δεδομένα αρχείου υπάρχουν ήδη.</string>
 </resources>
