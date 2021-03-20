@@ -95,7 +95,7 @@
 					android:id="@+id/entry_edit_container_password"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					app:passwordToggleEnabled="true"
+					app:endIconMode="password_toggle"
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintEnd_toStartOf="@+id/entry_edit_password_generator_button">

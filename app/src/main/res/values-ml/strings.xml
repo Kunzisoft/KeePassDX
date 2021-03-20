@@ -72,7 +72,7 @@
     <string name="generate_password">പാസ്‌വേഡ് സൃഷ്ടിക്കുക</string>
     <string name="file_browser">ഫയൽ മാനേജർ</string>
     <string name="field_value">ഫീൽഡ് മൂല്യം</string>
-    <string name="field_name">ഫീൽഡ് പേര്</string>
+    <string name="field_name">ഫീൽഡ് നാമം</string>
     <string name="error_save_database">ഡാറ്റാബേസ് സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.</string>
     <string name="error_pass_match">പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല.</string>
     <string name="error_no_name">ഒരു പേര് നൽകുക.</string>
@@ -396,4 +396,5 @@
     <string name="settings_database_recommend_changing_master_key_title">പുതുക്കൽ ശുപാർശ ചെയ്യുക</string>
     <string name="content">ഉള്ളടക്കം</string>
     <string name="device_credential">ഉപകരണ ക്രെഡൻഷ്യൽ</string>
+    <string name="error_field_name_already_exists">ഈ ഫീൽഡ് നാമം ഇതിനകം ഉണ്ട്.</string>
 </resources>

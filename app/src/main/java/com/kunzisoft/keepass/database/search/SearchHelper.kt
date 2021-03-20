@@ -81,6 +81,7 @@ class SearchHelper {
                                            max: Int): Group? {
 
         val searchGroup = database.createGroup()
+        searchGroup?.isVirtual = true
         searchGroup?.title = "\"" + searchQuery + "\""
 
         // Search all entries

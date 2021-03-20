@@ -28,75 +28,51 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
-import java.util.zip.GZIPInputStream
+import java.nio.ByteBuffer
+import java.security.MessageDigest
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 import javax.crypto.spec.IvParameterSpec
 
-class BinaryAttachment : Parcelable {
+class BinaryFile : BinaryData {
 
-    private var dataFile: File? = null
-    var length: Long = 0
-        private set
-    var isCompressed: Boolean = false
-        private set
-    var isProtected: Boolean = false
-        private set
-    var isCorrupted: Boolean = false
+    private var mDataFile: File? = null
+    private var mLength: Long = 0
+    private var mBinaryHash = 0
     // Cipher to encrypt temp file
+    @Transient
     private var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
+    @Transient
     private var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
 
-    /**
-     * Empty protected binary
-     */
-    constructor()
+    constructor() : super()
 
-    constructor(dataFile: File, compressed: Boolean = false, protected: Boolean = false) {
-        this.dataFile = dataFile
-        this.length = 0
-        this.isCompressed = compressed
-        this.isProtected = protected
+    constructor(dataFile: File,
+                compressed: Boolean = false,
+                protected: Boolean = false) : super(compressed, protected) {
+        this.mDataFile = dataFile
+        this.mLength = 0
+        this.mBinaryHash = 0
     }
 
-    private constructor(parcel: Parcel) {
+    constructor(parcel: Parcel) : super(parcel) {
         parcel.readString()?.let {
-            dataFile = File(it)
+            mDataFile = File(it)
         }
-        length = parcel.readLong()
-        isCompressed = parcel.readByte().toInt() != 0
-        isProtected = parcel.readByte().toInt() != 0
-        isCorrupted = parcel.readByte().toInt() != 0
+        mLength = parcel.readLong()
+        mBinaryHash = parcel.readInt()
     }
 
     @Throws(IOException::class)
-    fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return buildInputStream(dataFile!!, cipherKey)
+    override fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
+        return buildInputStream(mDataFile, cipherKey)
     }
 
     @Throws(IOException::class)
-    fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return buildOutputStream(dataFile!!, cipherKey)
-    }
-
-    @Throws(IOException::class)
-    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return if (isCompressed) {
-            GZIPInputStream(getInputDataStream(cipherKey))
-        } else {
-            getInputDataStream(cipherKey)
-        }
-    }
-
-    @Throws(IOException::class)
-    fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return if (isCompressed) {
-            GZIPOutputStream(getOutputDataStream(cipherKey))
-        } else {
-            getOutputDataStream(cipherKey)
-        }
+    override fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
+        return buildOutputStream(mDataFile, cipherKey)
     }
 
     @Throws(IOException::class)
@@ -122,8 +98,8 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun compress(cipherKey: Database.LoadedKey) {
-        dataFile?.let { concreteDataFile ->
+    override fun compress(cipherKey: Database.LoadedKey) {
+        mDataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
                 // Encrypt the new gzipped temp file
@@ -147,8 +123,8 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun decompress(cipherKey: Database.LoadedKey) {
-        dataFile?.let { concreteDataFile ->
+    override fun decompress(cipherKey: Database.LoadedKey) {
+        mDataFile?.let { concreteDataFile ->
             if (isCompressed) {
                 // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
@@ -171,86 +147,105 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun clear() {
-        if (dataFile != null && !dataFile!!.delete())
-            throw IOException("Unable to delete temp file " + dataFile!!.absolutePath)
+    override fun clear() {
+        if (mDataFile != null && !mDataFile!!.delete())
+            throw IOException("Unable to delete temp file " + mDataFile!!.absolutePath)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other)
-            return true
-        if (other == null || javaClass != other.javaClass)
-            return false
-        if (other !is BinaryAttachment)
-            return false
-
-        var sameData = false
-        if (dataFile != null && dataFile == other.dataFile)
-            sameData = true
-
-        return isCompressed == other.isCompressed
-                && isProtected == other.isProtected
-                && isCorrupted == other.isCorrupted
-                && sameData
+    override fun dataExists(): Boolean {
+        return mDataFile != null && mLength > 0
     }
 
-    override fun hashCode(): Int {
-
-        var result = 0
-        result = 31 * result + if (isCompressed) 1 else 0
-        result = 31 * result + if (isProtected) 1 else 0
-        result = 31 * result + if (isCorrupted) 1 else 0
-        result = 31 * result + dataFile!!.hashCode()
-        result = 31 * result + length.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return dataFile.toString()
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(dataFile?.absolutePath)
-        dest.writeLong(length)
-        dest.writeByte((if (isCompressed) 1 else 0).toByte())
-        dest.writeByte((if (isProtected) 1 else 0).toByte())
-        dest.writeByte((if (isCorrupted) 1 else 0).toByte())
+    override fun getSize(): Long {
+        return mLength
     }
 
     /**
-     * Custom OutputStream to calculate the size of binary file
+     * Hash of the raw encrypted file in temp folder, only to compare binary data
+     */
+    @Throws(FileNotFoundException::class)
+    override fun binaryHash(): Int {
+        return mBinaryHash
+    }
+
+    override fun toString(): String {
+        return mDataFile.toString()
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        super.writeToParcel(dest, flags)
+        dest.writeString(mDataFile?.absolutePath)
+        dest.writeLong(mLength)
+        dest.writeInt(mBinaryHash)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BinaryFile) return false
+        if (!super.equals(other)) return false
+
+        return mDataFile != null && mDataFile == other.mDataFile
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (mDataFile?.hashCode() ?: 0)
+        result = 31 * result + mLength.hashCode()
+        result = 31 * result + mBinaryHash
+        return result
+    }
+
+    /**
+     * Custom OutputStream to calculate the size and hash of binary file
      */
     private inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
+
+        private val mMessageDigest: MessageDigest
         init {
-            length = 0
+            mLength = 0
+            mMessageDigest = MessageDigest.getInstance("MD5")
+            mBinaryHash = 0
         }
 
         override fun beforeWrite(n: Int) {
             super.beforeWrite(n)
-            length = byteCount
+            mLength = byteCount
+        }
+
+        override fun write(idx: Int) {
+            super.write(idx)
+            mMessageDigest.update(idx.toByte())
+        }
+
+        override fun write(bts: ByteArray) {
+            super.write(bts)
+            mMessageDigest.update(bts)
+        }
+
+        override fun write(bts: ByteArray, st: Int, end: Int) {
+            super.write(bts, st, end)
+            mMessageDigest.update(bts, st, end)
         }
 
         override fun close() {
             super.close()
-            length = byteCount
+            mLength = byteCount
+            val bytes = mMessageDigest.digest()
+            mBinaryHash = ByteBuffer.wrap(bytes).int
         }
     }
 
     companion object {
 
-        private val TAG = BinaryAttachment::class.java.name
+        private val TAG = BinaryFile::class.java.name
 
         @JvmField
-        val CREATOR: Parcelable.Creator<BinaryAttachment> = object : Parcelable.Creator<BinaryAttachment> {
-            override fun createFromParcel(parcel: Parcel): BinaryAttachment {
-                return BinaryAttachment(parcel)
+        val CREATOR: Parcelable.Creator<BinaryFile> = object : Parcelable.Creator<BinaryFile> {
+            override fun createFromParcel(parcel: Parcel): BinaryFile {
+                return BinaryFile(parcel)
             }
 
-            override fun newArray(size: Int): Array<BinaryAttachment?> {
+            override fun newArray(size: Int): Array<BinaryFile?> {
                 return arrayOfNulls(size)
             }
         }

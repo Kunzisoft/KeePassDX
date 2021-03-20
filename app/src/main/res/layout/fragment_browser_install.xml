@@ -30,17 +30,11 @@
 		android:text="@string/file_manager_install_description"
 		android:gravity="center"
 		android:layout_marginBottom="12dp" />
-	<LinearLayout 
+	<Button
+		android:id="@+id/file_manager_button"
+		android:layout_margin="@dimen/button_margin"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="wrap_content"
 		android:gravity="center_horizontal"
-		android:orientation="vertical">
-		<Button
-			android:id="@+id/file_manager_button"
-			android:layout_margin="@dimen/button_margin"
-			android:layout_width="200sp"
-			android:layout_height="wrap_content"
-			android:enabled="false"
-			android:text="@string/file_browser" />
-	</LinearLayout>
+		android:text="@string/file_browser" />
 </LinearLayout>

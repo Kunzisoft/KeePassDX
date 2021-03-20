@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:state_enabled="false" android:color="@color/colorTextSecondaryDisable"/>
-    <item android:color="@color/colorTextSecondary"/>
+    <item android:state_enabled="false" android:color="@color/white_grey_dark"/>
+    <item android:color="@color/grey_lighter"/>
 </selector>

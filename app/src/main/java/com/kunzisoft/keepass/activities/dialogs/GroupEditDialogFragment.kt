@@ -31,16 +31,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.IconPickerActivity
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.view.ExpirationView
 import org.joda.time.DateTime
 
-class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconPickerListener {
+class GroupEditDialogFragment : DialogFragment() {
 
     private var mDatabase: Database? = null
 
@@ -112,8 +113,6 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
                 arguments?.apply {
                     if (containsKey(KEY_ACTION_ID))
                         mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getInt(KEY_ACTION_ID))
-                    if (mEditGroupDialogAction === CREATION)
-                        mGroupInfo.notes = ""
                     if (containsKey(KEY_GROUP_INFO)) {
                         mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
                     }
@@ -144,7 +143,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
                     }
 
             iconButtonView.setOnClickListener { _ ->
-                IconPickerDialogFragment().show(parentFragmentManager, "IconPickerDialogFragment")
+                IconPickerActivity.launch(activity, mGroupInfo.icon)
             }
 
             return builder.create()
@@ -204,13 +203,11 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     private fun assignIconView() {
-        if (mDatabase?.drawFactory != null) {
-            iconButtonView.assignDatabaseIcon(mDatabase?.drawFactory!!, mGroupInfo.icon, iconColor)
-        }
+        mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconButtonView, mGroupInfo.icon, iconColor)
     }
 
-    override fun iconPicked(bundle: Bundle) {
-        mGroupInfo.icon = IconPickerDialogFragment.getIconStandardFromBundle(bundle) ?: mGroupInfo.icon
+    fun setIcon(icon: IconImage) {
+        mGroupInfo.icon = icon
         assignIconView()
     }
 
@@ -242,15 +239,16 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         const val KEY_ACTION_ID = "KEY_ACTION_ID"
         const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
 
-        fun build(): GroupEditDialogFragment {
+        fun create(groupInfo: GroupInfo): GroupEditDialogFragment {
             val bundle = Bundle()
             bundle.putInt(KEY_ACTION_ID, CREATION.ordinal)
+            bundle.putParcelable(KEY_GROUP_INFO, groupInfo)
             val fragment = GroupEditDialogFragment()
             fragment.arguments = bundle
             return fragment
         }
 
-        fun build(groupInfo: GroupInfo): GroupEditDialogFragment {
+        fun update(groupInfo: GroupInfo): GroupEditDialogFragment {
             val bundle = Bundle()
             bundle.putInt(KEY_ACTION_ID, UPDATE.ordinal)
             bundle.putParcelable(KEY_GROUP_INFO, groupInfo)

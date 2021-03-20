@@ -1,0 +1,6 @@
+ * Ajout des icones customisés #96
+ * Thèmes sombres #532 #714
+ * Correction de la duplication des binaires #715
+ * Correction IconId #901
+ * Changement de taille dynamique du flux d'image pour prévenir les ralentissements #919
+ * Petits changements #795 #900 #903 #909 #914

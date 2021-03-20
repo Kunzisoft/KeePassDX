@@ -23,27 +23,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_white_24dp"
-        android:contentDescription="@string/content_description_add_node"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        app:useCompatPadding="true"
-        app:fabSize="normal"
-        style="@style/KeepassDXStyle.Fab" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/container_add_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/add_button"
-        android:layout_alignEnd="@+id/add_button"
-        android:layout_alignRight="@+id/add_button"
+        android:layout_above="@+id/container_add_group"
+        android:layout_alignEnd="@+id/container_add_group"
+        android:layout_alignRight="@+id/container_add_group"
         android:layout_marginBottom="-12dp"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
@@ -73,9 +60,9 @@
         android:id="@+id/container_add_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/container_add_entry"
-        android:layout_alignEnd="@+id/container_add_entry"
-        android:layout_alignRight="@+id/container_add_entry"
+        android:layout_above="@+id/add_button"
+        android:layout_alignEnd="@+id/add_button"
+        android:layout_alignRight="@+id/add_button"
         android:layout_marginBottom="-12dp"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
@@ -98,5 +85,18 @@
             app:fabSize="mini"
             app:useCompatPadding="true" />
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_white_24dp"
+        android:contentDescription="@string/content_description_add_node"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:useCompatPadding="true"
+        app:fabSize="normal"
+        style="@style/KeepassDXStyle.Fab" />
 
 </RelativeLayout>

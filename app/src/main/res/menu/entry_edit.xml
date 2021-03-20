@@ -25,15 +25,18 @@
         android:icon="@drawable/ic_new_field_white_24dp"
         android:title="@string/entry_add_field"
         android:orderInCategory="92"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="always" />
     <item android:id="@+id/menu_add_attachment"
         android:icon="@drawable/ic_attach_file_white_24dp"
         android:title="@string/entry_add_attachment"
         android:orderInCategory="93"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="always" />
     <item android:id="@+id/menu_add_otp"
         android:icon="@drawable/ic_otp_white_24dp"
         android:title="@string/entry_setup_otp"
         android:orderInCategory="94"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="always" />
 </menu>

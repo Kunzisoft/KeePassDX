@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BA
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -137,29 +136,28 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binaryPool.doForEachOrderedBinary { _, keyBinary ->
-            val protectedBinary = keyBinary.binary
-            val binaryCipherKey = database.loadedCipherKey
-                    ?: throw IOException("Unable to retrieve cipher key to write binaries")
-            // Force decompression to add binary in header
-            protectedBinary.decompress(binaryCipherKey)
-            // Write type binary
-            dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
-            // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(protectedBinary.length + 1))
-            // Write protected flag
-            var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
-            if (protectedBinary.isProtected) {
-                flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
-            }
-            dataOutputStream.writeByte(flag)
+        database.loadedCipherKey?.let { binaryCipherKey ->
+            database.binaryPool.doForEachOrderedBinaryWithoutDuplication { _, binary ->
+                // Force decompression to add binary in header
+                binary.decompress(binaryCipherKey)
+                // Write type binary
+                dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
+                // Write size
+                dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
+                // Write protected flag
+                var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
+                if (binary.isProtected) {
+                    flag = flag or DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
+                }
+                dataOutputStream.writeByte(flag)
 
-            protectedBinary.getInputDataStream(binaryCipherKey).use { inputStream ->
-                inputStream.readAllBytes { buffer ->
-                    dataOutputStream.write(buffer)
+                binary.getInputDataStream(binaryCipherKey).use { inputStream ->
+                    inputStream.readAllBytes { buffer ->
+                        dataOutputStream.write(buffer)
+                    }
                 }
             }
-        }
+        } ?: Log.e(TAG, "Unable to retrieve cipher key to write head binaries")
 
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader)
         dataOutputStream.writeInt(0)
@@ -363,10 +361,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemUuid, group.id)
         writeObject(DatabaseKDBXXML.ElemName, group.title)
         writeObject(DatabaseKDBXXML.ElemNotes, group.notes)
-        writeObject(DatabaseKDBXXML.ElemIcon, group.icon.iconId.toLong())
+        writeObject(DatabaseKDBXXML.ElemIcon, group.icon.standard.id.toLong())
 
-        if (group.iconCustom != IconImageCustom.UNKNOWN_ICON) {
-            writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.iconCustom.uuid)
+        if (!group.icon.custom.isUnknown) {
+            writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.icon.custom.uuid)
         }
 
         writeTimes(group)
@@ -388,10 +386,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemEntry)
 
         writeUuid(DatabaseKDBXXML.ElemUuid, entry.id)
-        writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.iconId.toLong())
+        writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.standard.id.toLong())
 
-        if (entry.iconCustom != IconImageCustom.UNKNOWN_ICON) {
-            writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.iconCustom.uuid)
+        if (!entry.icon.custom.isUnknown) {
+            writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.icon.custom.uuid)
         }
 
         writeObject(DatabaseKDBXXML.ElemFgColor, entry.foregroundColor)
@@ -496,30 +494,31 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     // With kdbx4, don't use this method because binaries are in header file
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeMetaBinaries() {
-        xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
-
-        // Use indexes because necessarily (binary header ref is the order)
-        mDatabaseKDBX.binaryPool.doForEachOrderedBinary { index, keyBinary ->
-            xml.startTag(null, DatabaseKDBXXML.ElemBinary)
-            xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
-            val binary = keyBinary.binary
-            if (binary.length > 0) {
-                if (binary.isCompressed) {
-                    xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
-                }
-                // Write the XML
-                val binaryCipherKey = mDatabaseKDBX.loadedCipherKey
-                        ?: throw IOException("Unable to retrieve cipher key to write binaries")
-                binary.getInputDataStream(binaryCipherKey).use { inputStream ->
-                    inputStream.readAllBytes { buffer ->
-                        xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+        mDatabaseKDBX.loadedCipherKey?.let { binaryCipherKey ->
+            xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
+            // Use indexes because necessarily (binary header ref is the order)
+            mDatabaseKDBX.binaryPool.doForEachOrderedBinaryWithoutDuplication { index, binary ->
+                xml.startTag(null, DatabaseKDBXXML.ElemBinary)
+                xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
+                if (binary.getSize() > 0) {
+                    if (binary.isCompressed) {
+                        xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
+                    }
+                    try {
+                        // Write the XML
+                        binary.getInputDataStream(binaryCipherKey).use { inputStream ->
+                            inputStream.readAllBytes { buffer ->
+                                xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to write binary", e)
                     }
                 }
+                xml.endTag(null, DatabaseKDBXXML.ElemBinary)
             }
-            xml.endTag(null, DatabaseKDBXXML.ElemBinary)
-        }
-
-        xml.endTag(null, DatabaseKDBXXML.ElemBinaries)
+            xml.endTag(null, DatabaseKDBXXML.ElemBinaries)
+        } ?: Log.e(TAG, "Unable to retrieve cipher key to write binaries")
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -700,21 +699,39 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeCustomIconList() {
-        val customIcons = mDatabaseKDBX.customIcons
-        if (customIcons.size == 0) return
+        mDatabaseKDBX.loadedCipherKey?.let { cipherKey ->
+            var firstElement = true
+            mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom, binary ->
+                if (binary.dataExists()) {
+                    // Write the parent tag
+                    if (firstElement) {
+                        xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
+                        firstElement = false
+                    }
 
-        xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
+                    xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
 
-        for (icon in customIcons) {
-            xml.startTag(null, DatabaseKDBXXML.ElemCustomIconItem)
+                    writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
+                    var customImageData = ByteArray(0)
+                    try {
+                        binary.getInputDataStream(cipherKey).use { inputStream ->
+                            customImageData = inputStream.readBytes()
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to write custom icon", e)
+                    } finally {
+                        writeObject(DatabaseKDBXXML.ElemCustomIconItemData,
+                                String(Base64.encode(customImageData, BASE_64_FLAG)))
+                    }
 
-            writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, icon.uuid)
-            writeObject(DatabaseKDBXXML.ElemCustomIconItemData, String(Base64.encode(icon.imageData, BASE_64_FLAG)))
-
-            xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
-        }
-
-        xml.endTag(null, DatabaseKDBXXML.ElemCustomIcons)
+                    xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
+                }
+            }
+            // Close the parent tag
+            if (!firstElement) {
+                xml.endTag(null, DatabaseKDBXXML.ElemCustomIcons)
+            }
+        } ?: Log.e(TAG, "Unable to retrieve cipher key to write custom icons")
     }
 
     private fun safeXmlString(text: String): String {

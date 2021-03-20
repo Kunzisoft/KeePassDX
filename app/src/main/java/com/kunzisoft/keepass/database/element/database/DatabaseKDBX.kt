@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BAC
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
@@ -105,11 +106,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<DeletedObject>()
-    val customIcons = ArrayList<IconImageCustom>()
     val customData = HashMap<String, String>()
 
-    var binaryPool = BinaryPool()
-    private var binaryIncrement = 0 // Unique id (don't use current time because CPU too fast)
+    var binaryPool = AttachmentPool()
 
     var localizedAppName = "KeePassDX"
 
@@ -129,7 +128,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         kdbxVersion = FILE_VERSION_32_3
         val group = createGroup().apply {
             title = rootName
-            icon = iconFactory.folderIcon
+            icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
         }
         rootGroup = group
         addGroupIndex(group)
@@ -211,7 +210,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun compressAllBinaries() {
-        binaryPool.doForEachBinary { binary ->
+        binaryPool.doForEachBinary { _, binary ->
             try {
                 val cipherKey = loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to compress binaries")
@@ -224,7 +223,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun decompressAllBinaries() {
-        binaryPool.doForEachBinary { binary ->
+        binaryPool.doForEachBinary { _, binary ->
             try {
                 val cipherKey = loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to decompress binaries")
@@ -307,16 +306,29 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         this.dataEngine = dataEngine
     }
 
-    fun getCustomIcons(): List<IconImageCustom> {
-        return customIcons
+    override fun getStandardIcon(iconId: Int): IconImageStandard {
+        return this.iconsManager.getIcon(iconId)
     }
 
-    fun addCustomIcon(customIcon: IconImageCustom) {
-        this.customIcons.add(customIcon)
+    fun buildNewCustomIcon(cacheDirectory: File,
+                           customIconId: UUID? = null,
+                           result: (IconImageCustom, BinaryData?) -> Unit) {
+        iconsManager.buildNewCustomIcon(cacheDirectory, customIconId, result)
     }
 
-    fun getCustomData(): Map<String, String> {
-        return customData
+    fun addCustomIcon(cacheDirectory: File,
+                      customIconId: UUID? = null,
+                      dataSize: Int,
+                      result: (IconImageCustom, BinaryData?) -> Unit) {
+        iconsManager.addCustomIcon(cacheDirectory, customIconId, dataSize, result)
+    }
+
+    fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
+        return iconsManager.isCustomIconBinaryDuplicate(binary)
+    }
+
+    fun getCustomIcon(iconUuid: UUID): IconImageCustom {
+        return this.iconsManager.getIcon(iconUuid)
     }
 
     fun putCustomData(label: String, value: String) {
@@ -324,7 +336,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     override fun containsCustomData(): Boolean {
-        return getCustomData().isNotEmpty()
+        return customData.isNotEmpty()
     }
 
     @Throws(IOException::class)
@@ -550,7 +562,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
                 title = resources.getString(R.string.recycle_bin)
-                icon = iconFactory.trashIcon
+                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
                 enableAutoType = false
                 enableSearching = false
                 isExpanded = false
@@ -629,21 +641,18 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
-    fun buildNewBinary(cacheDirectory: File,
-                       compression: Boolean,
-                       protection: Boolean,
-                       binaryPoolId: Int? = null): BinaryAttachment {
-        // New file with current time
-        val fileInCache = File(cacheDirectory, binaryIncrement.toString())
-        binaryIncrement++
-        val binaryAttachment = BinaryAttachment(fileInCache, compression, protection)
-        // add attachment to pool
-        binaryPool.put(binaryPoolId, binaryAttachment)
-        return binaryAttachment
+    fun buildNewAttachment(cacheDirectory: File,
+                           compression: Boolean,
+                           protection: Boolean,
+                           binaryPoolId: Int? = null): BinaryData {
+        return binaryPool.put(binaryPoolId) { uniqueBinaryId ->
+            val fileInCache = File(cacheDirectory, uniqueBinaryId)
+            BinaryFile(fileInCache, compression, protection)
+        }.binary
     }
 
-    fun removeUnlinkedAttachment(binary: BinaryAttachment, clear: Boolean) {
-        val listBinaries = ArrayList<BinaryAttachment>()
+    fun removeUnlinkedAttachment(binary: BinaryData, clear: Boolean) {
+        val listBinaries = ArrayList<BinaryData>()
         listBinaries.add(binary)
         removeUnlinkedAttachments(listBinaries, clear)
     }
@@ -652,11 +661,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         removeUnlinkedAttachments(emptyList(), clear)
     }
 
-    private fun removeUnlinkedAttachments(binaries: List<BinaryAttachment>, clear: Boolean) {
+    private fun removeUnlinkedAttachments(binaries: List<BinaryData>, clear: Boolean) {
         // Build binaries to remove with all binaries known
-        val binariesToRemove = ArrayList<BinaryAttachment>()
+        val binariesToRemove = ArrayList<BinaryData>()
         if (binaries.isEmpty()) {
-            binaryPool.doForEachBinary { binary ->
+            binaryPool.doForEachBinary { _, binary ->
                 binariesToRemove.add(binary)
             }
         } else {
@@ -666,7 +675,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
                 node.getAttachments(binaryPool, true).forEach {
-                    binariesToRemove.remove(it.binaryAttachment)
+                    binariesToRemove.remove(it.binaryData)
                 }
                 return binariesToRemove.isNotEmpty()
             }

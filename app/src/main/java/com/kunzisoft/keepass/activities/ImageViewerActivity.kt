@@ -26,6 +26,7 @@ import android.text.format.Formatter
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
@@ -33,7 +34,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import kotlinx.android.synthetic.main.activity_image_viewer.*
+import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
 
@@ -47,17 +49,28 @@ class ImageViewerActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val imageContainerView: ViewGroup = findViewById(R.id.image_viewer_container)
         val imageView: ImageView = findViewById(R.id.image_viewer_image)
         val progressView: View = findViewById(R.id.image_viewer_progress)
+
+        // Approximately, to not OOM and allow a zoom
+        val mImagePreviewMaxWidth = max(
+                resources.displayMetrics.widthPixels * 2,
+                resources.displayMetrics.heightPixels * 2
+        )
 
         try {
             progressView.visibility = View.VISIBLE
             intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
 
                 supportActionBar?.title = attachment.name
-                supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryAttachment.length)
+                supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryData.getSize())
 
-                Attachment.loadBitmap(attachment, Database.getInstance().loadedCipherKey) { bitmapLoaded ->
+                BinaryDatabaseManager.loadBitmap(
+                        attachment.binaryData,
+                        Database.getInstance().loadedCipherKey,
+                        mImagePreviewMaxWidth
+                ) { bitmapLoaded ->
                     if (bitmapLoaded == null) {
                         finish()
                     } else {
@@ -71,7 +84,7 @@ class ImageViewerActivity : LockingActivity() {
             finish()
         }
 
-        Loupe.create(imageView, image_viewer_container) {
+        Loupe.create(imageView, imageContainerView) {
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
 
                 override fun onStart(view: ImageView) {

@@ -42,6 +42,7 @@ abstract class StylishFragment : Fragment() {
         contextThemed = ContextThemeWrapper(context, themeId)
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // To fix status bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -53,14 +54,21 @@ abstract class StylishFragment : Fragment() {
                 window.statusBarColor = taStatusBarColor?.getColor(0, defaultColor) ?: defaultColor
                 taStatusBarColor?.recycle()
             } catch (e: Exception) {}
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                try {
+                    val taWindowStatusLight = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowLightStatusBar))
+                    if (taWindowStatusLight?.getBoolean(0, false) == true) {
+                        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    }
+                    taWindowStatusLight?.recycle()
+                } catch (e: Exception) {}
+            }
             try {
                 val taNavigationBarColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.navigationBarColor))
                 window.navigationBarColor = taNavigationBarColor?.getColor(0, defaultColor) ?: defaultColor
                 taNavigationBarColor?.recycle()
             } catch (e: Exception) {}
         }
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

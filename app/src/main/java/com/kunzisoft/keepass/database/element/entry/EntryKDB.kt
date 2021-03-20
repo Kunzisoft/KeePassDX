@@ -21,15 +21,15 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
-import com.kunzisoft.keepass.database.element.Attachment
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Structure containing information about one entry.
@@ -56,7 +56,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     /** A string describing what is in binaryData  */
     var binaryDescription = ""
-    var binaryData: BinaryAttachment? = null
+    var binaryData: BinaryData? = null
 
     // Determine if this is a MetaStream entry
     val isMetaStream: Boolean
@@ -68,7 +68,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
             if (username.isEmpty()) return false
             if (username != PMS_ID_USER) return false
             if (url.isEmpty()) return false
-            return if (url != PMS_ID_URL) false else icon.isMetaStreamIcon
+            if (url != PMS_ID_URL) return false
+            return icon.standard.id == KEY_ID
         }
 
     override fun initNodeId(): NodeId<UUID> {
@@ -88,7 +89,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
-        binaryData = parcel.readParcelable(BinaryAttachment::class.java.classLoader)
+        binaryData = parcel.readParcelable(BinaryData::class.java.classLoader)
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -150,7 +151,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     fun putAttachment(attachment: Attachment) {
         this.binaryDescription = attachment.name
-        this.binaryData = attachment.binaryAttachment
+        this.binaryData = attachment.binaryData
     }
 
     fun removeAttachment(attachment: Attachment? = null) {

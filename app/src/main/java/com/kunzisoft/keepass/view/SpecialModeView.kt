@@ -20,9 +20,14 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 
 class SpecialModeView @JvmOverloads constructor(context: Context,
@@ -31,7 +36,13 @@ class SpecialModeView @JvmOverloads constructor(context: Context,
     : Toolbar(context, attrs, defStyle) {
 
     init {
-        setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        ContextCompat.getDrawable(context, R.drawable.ic_arrow_back_white_24dp)?.let { closeDrawable ->
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
+            @ColorInt val colorControl = typedValue.data
+            closeDrawable.colorFilter = PorterDuffColorFilter(colorControl, PorterDuff.Mode.SRC_ATOP)
+            navigationIcon = closeDrawable
+        }
         title = resources.getString(R.string.selection_mode)
     }
 

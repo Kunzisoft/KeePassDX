@@ -30,6 +30,30 @@
         android:importantForAutofill="noExcludeDescendants"
         tools:targetApi="o">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/otp_information"
+                android:text="@string/entry_setup_otp"
+                style="@style/KeepassDXStyle.TextAppearance.Large"/>
+            <ImageView
+                android:id="@+id/otp_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_info_white_24dp"
+                style="@style/KeepassDXStyle.ImageButton.Simple"
+                android:contentDescription="@string/content_description_otp_information"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/setup_otp_type_message"
             android:layout_width="match_parent"
@@ -89,8 +113,8 @@
                     android:id="@+id/setup_otp_secret_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="?attr/colorAccent">
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="?attr/colorAccent">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/setup_otp_secret"
                         android:layout_width="match_parent"

@@ -19,19 +19,25 @@
  */
 package com.kunzisoft.keepass.view
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 
 class ToolbarAction @JvmOverloads constructor(context: Context,
                                               attrs: AttributeSet? = null,
-                                              defStyle: Int = R.attr.actionToolbarAppearance)
+                                              defStyle: Int = androidx.appcompat.R.attr.toolbarStyle)
     : Toolbar(context, attrs, defStyle) {
 
     private var mActionModeCallback: ActionMode.Callback? = null
@@ -39,7 +45,13 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
     private var isOpen = false
 
     init {
-        setNavigationIcon(R.drawable.ic_close_white_24dp)
+        ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)?.let { closeDrawable ->
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
+            @ColorInt val colorControl = typedValue.data
+            closeDrawable.colorFilter = PorterDuffColorFilter(colorControl, PorterDuff.Mode.SRC_ATOP)
+            navigationIcon = closeDrawable
+        }
     }
 
     fun startSupportActionMode(actionModeCallback: ActionMode.Callback): ActionMode {
@@ -106,6 +118,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
 
         override fun setCustomView(view: View?) {}
 
+        @SuppressLint("RestrictedApi")
         override fun getMenuInflater(): MenuInflater {
             return SupportMenuInflater(toolbarAction.context)
         }

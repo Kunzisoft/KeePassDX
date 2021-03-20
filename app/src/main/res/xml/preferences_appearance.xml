@@ -28,7 +28,14 @@
             android:summary="@string/style_choose_summary"
             android:defaultValue="@string/list_style_name_light"
             android:entries="@array/list_style_names"
-            android:entryValues="@array/list_style_values" />
+            android:entryValues="@array/list_style_values_light" />
+        <ListPreference
+            android:key="@string/setting_style_brightness_key"
+            android:title="@string/style_brightness_title"
+            android:summary="@string/style_brightness_summary"
+            android:defaultValue="@string/list_style_brightness_follow_system"
+            android:entries="@array/list_style_brightness_names"
+            android:entryValues="@array/list_style_brightness_values" />
         <com.kunzisoft.keepass.settings.preference.IconPackListPreference
             android:key="@string/setting_icon_pack_choose_key"
             android:title="@string/icon_pack_choose_title"

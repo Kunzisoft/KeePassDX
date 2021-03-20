@@ -47,7 +47,6 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
@@ -242,7 +241,9 @@ class EntryActivity : LockingActivity() {
         val entryInfo = entry.getEntryInfo(mDatabase)
 
         // Assign title icon
-        titleIconView?.assignDatabaseIcon(mDatabase!!.drawFactory, entryInfo.icon, iconColor)
+        titleIconView?.let { iconView ->
+            mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, iconColor)
+        }
 
         // Assign title text
         val entryTitle = entryInfo.title

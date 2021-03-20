@@ -23,5 +23,6 @@
         android:icon="@drawable/ic_keystore_remove_white_24dp"
         android:title="@string/menu_keystore_remove_key"
         android:orderInCategory="85"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

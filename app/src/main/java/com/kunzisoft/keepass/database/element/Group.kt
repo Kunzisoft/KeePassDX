@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
@@ -40,6 +39,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         private set
     var groupKDBX: GroupKDBX? = null
         private set
+
+    // Virtual group is used to defined a detached database group
+    var isVirtual = false
 
     fun updateWith(group: Group) {
         group.groupKDB?.let {
@@ -78,6 +80,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     constructor(parcel: Parcel) {
         groupKDB = parcel.readParcelable(GroupKDB::class.java.classLoader)
         groupKDBX = parcel.readParcelable(GroupKDBX::class.java.classLoader)
+        isVirtual = parcel.readByte().toInt() != 0
     }
 
     enum class ChildFilter {
@@ -111,6 +114,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(groupKDB, flags)
         dest.writeParcelable(groupKDBX, flags)
+        dest.writeByte((if (isVirtual) 1 else 0).toByte())
     }
 
     override val nodeId: NodeId<*>?
@@ -124,7 +128,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         }
 
     override var icon: IconImage
-        get() = groupKDB?.icon ?: groupKDBX?.icon ?: IconImageStandard()
+        get() = groupKDB?.icon ?: groupKDBX?.icon ?: IconImage()
         set(value) {
             groupKDB?.icon = value
             groupKDBX?.icon = value
@@ -344,9 +348,11 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.removeChildren()
     }
 
-    override fun allowAddEntryIfIsRoot(): Boolean {
-        return groupKDB?.allowAddEntryIfIsRoot() ?: groupKDBX?.allowAddEntryIfIsRoot() ?: false
-    }
+    val allowAddEntryIfIsRoot: Boolean
+        get() = groupKDBX != null
+
+    val allowAddNoteInGroup: Boolean
+        get() = groupKDBX != null
 
     /*
       ------------

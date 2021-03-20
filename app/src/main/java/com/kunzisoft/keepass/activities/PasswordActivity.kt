@@ -36,6 +36,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
@@ -71,7 +72,6 @@ import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
-import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 
 open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.BuilderListener {
@@ -84,8 +84,9 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     private var confirmButtonView: Button? = null
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
-    private var advancedUnlockFragment: AdvancedUnlockFragment? = null
     private var infoContainerView: ViewGroup? = null
+    private lateinit var coordinatorLayout: CoordinatorLayout
+    private var advancedUnlockFragment: AdvancedUnlockFragment? = null
 
     private val databaseFileViewModel: DatabaseFileViewModel by viewModels()
 
@@ -131,6 +132,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         infoContainerView = findViewById(R.id.activity_password_info_container)
+        coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
@@ -271,7 +273,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                                 resultError = "$resultError $resultMessage"
                             }
                             Log.e(TAG, resultError)
-                            Snackbar.make(activity_password_coordinator_layout,
+                            Snackbar.make(coordinatorLayout,
                                     resultError,
                                     Snackbar.LENGTH_LONG).asError().show()
                         }
@@ -523,7 +525,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                 || mSpecialMode == SpecialMode.REGISTRATION)
         ) {
             Log.e(TAG, getString(R.string.autofill_read_only_save))
-            Snackbar.make(activity_password_coordinator_layout,
+            Snackbar.make(coordinatorLayout,
                     R.string.autofill_read_only_save,
                     Snackbar.LENGTH_LONG).asError().show()
         } else {

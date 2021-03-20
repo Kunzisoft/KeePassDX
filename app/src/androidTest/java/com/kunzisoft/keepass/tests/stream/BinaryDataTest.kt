@@ -3,7 +3,8 @@ package com.kunzisoft.keepass.tests.stream
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryByte
+import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
 import junit.framework.TestCase.assertEquals
@@ -11,10 +12,9 @@ import org.junit.Test
 import java.io.DataInputStream
 import java.io.File
 import java.io.InputStream
-import java.lang.Exception
-import java.security.MessageDigest
+import kotlin.random.Random
 
-class BinaryAttachmentTest {
+class BinaryDataTest {
 
     private val context: Context by lazy {
         InstrumentationRegistry.getInstrumentation().context
@@ -27,9 +27,9 @@ class BinaryAttachmentTest {
 
     private val loadedKey = Database.LoadedKey.generateNewCipherKey()
 
-    private fun saveBinary(asset: String, binaryAttachment: BinaryAttachment) {
+    private fun saveBinary(asset: String, binaryData: BinaryFile) {
         context.assets.open(asset).use { assetInputStream ->
-            binaryAttachment.getOutputDataStream(loadedKey).use { binaryOutputStream ->
+            binaryData.getOutputDataStream(loadedKey).use { binaryOutputStream ->
                 assetInputStream.readAllBytes(DEFAULT_BUFFER_SIZE) { buffer ->
                     binaryOutputStream.write(buffer)
                 }
@@ -39,62 +39,80 @@ class BinaryAttachmentTest {
 
     @Test
     fun testSaveTextInCache() {
-        val binaryA = BinaryAttachment(fileA)
-        val binaryB = BinaryAttachment(fileB)
+        val binaryA = BinaryFile(fileA)
+        val binaryB = BinaryFile(fileB)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         saveBinary(TEST_TEXT_ASSET, binaryB)
-        assertEquals("Save text binary length failed.", binaryA.length, binaryB.length)
-        assertEquals("Save text binary MD5 failed.", binaryA.md5(), binaryB.md5())
+        assertEquals("Save text binary length failed.", binaryA.getSize(), binaryB.getSize())
+        assertEquals("Save text binary MD5 failed.", binaryA.binaryHash(), binaryB.binaryHash())
     }
 
     @Test
     fun testSaveImageInCache() {
-        val binaryA = BinaryAttachment(fileA)
-        val binaryB = BinaryAttachment(fileB)
+        val binaryA = BinaryFile(fileA)
+        val binaryB = BinaryFile(fileB)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         saveBinary(TEST_IMAGE_ASSET, binaryB)
-        assertEquals("Save image binary length failed.", binaryA.length, binaryB.length)
-        assertEquals("Save image binary failed.", binaryA.md5(), binaryB.md5())
+        assertEquals("Save image binary length failed.", binaryA.getSize(), binaryB.getSize())
+        assertEquals("Save image binary failed.", binaryA.binaryHash(), binaryB.binaryHash())
     }
 
     @Test
     fun testCompressText() {
-        val binaryA = BinaryAttachment(fileA)
-        val binaryB = BinaryAttachment(fileB)
-        val binaryC = BinaryAttachment(fileC)
+        val binaryA = BinaryFile(fileA)
+        val binaryB = BinaryFile(fileB)
+        val binaryC = BinaryFile(fileC)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         saveBinary(TEST_TEXT_ASSET, binaryB)
         saveBinary(TEST_TEXT_ASSET, binaryC)
         binaryA.compress(loadedKey)
         binaryB.compress(loadedKey)
-        assertEquals("Compress text length failed.", binaryA.length, binaryB.length)
-        assertEquals("Compress text MD5 failed.", binaryA.md5(), binaryB.md5())
+        assertEquals("Compress text length failed.", binaryA.getSize(), binaryB.getSize())
+        assertEquals("Compress text MD5 failed.", binaryA.binaryHash(), binaryB.binaryHash())
         binaryB.decompress(loadedKey)
-        assertEquals("Decompress text length failed.", binaryB.length, binaryC.length)
-        assertEquals("Decompress text MD5 failed.", binaryB.md5(), binaryC.md5())
+        assertEquals("Decompress text length failed.", binaryB.getSize(), binaryC.getSize())
+        assertEquals("Decompress text MD5 failed.", binaryB.binaryHash(), binaryC.binaryHash())
     }
 
     @Test
     fun testCompressImage() {
-        val binaryA = BinaryAttachment(fileA)
-        var binaryB = BinaryAttachment(fileB)
-        val binaryC = BinaryAttachment(fileC)
+        val binaryA = BinaryFile(fileA)
+        var binaryB = BinaryFile(fileB)
+        val binaryC = BinaryFile(fileC)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         saveBinary(TEST_IMAGE_ASSET, binaryB)
         saveBinary(TEST_IMAGE_ASSET, binaryC)
         binaryA.compress(loadedKey)
         binaryB.compress(loadedKey)
-        assertEquals("Compress image length failed.", binaryA.length, binaryA.length)
-        assertEquals("Compress image failed.", binaryA.md5(), binaryA.md5())
-        binaryB = BinaryAttachment(fileB, true)
+        assertEquals("Compress image length failed.", binaryA.getSize(), binaryA.getSize())
+        assertEquals("Compress image failed.", binaryA.binaryHash(), binaryA.binaryHash())
+        binaryB = BinaryFile(fileB, true)
         binaryB.decompress(loadedKey)
-        assertEquals("Decompress image length failed.", binaryB.length, binaryC.length)
-        assertEquals("Decompress image failed.", binaryB.md5(), binaryC.md5())
+        assertEquals("Decompress image length failed.", binaryB.getSize(), binaryC.getSize())
+        assertEquals("Decompress image failed.", binaryB.binaryHash(), binaryC.binaryHash())
+    }
+
+    @Test
+    fun testCompressBytes() {
+        val byteArray = ByteArray(50)
+        Random.nextBytes(byteArray)
+        val binaryA = BinaryByte(byteArray)
+        val binaryB = BinaryByte(byteArray)
+        val binaryC = BinaryByte(byteArray)
+        binaryA.compress(loadedKey)
+        binaryB.compress(loadedKey)
+        assertEquals("Compress bytes decompressed failed.", binaryA.isCompressed, true)
+        assertEquals("Compress bytes length failed.", binaryA.getSize(), binaryA.getSize())
+        assertEquals("Compress bytes failed.", binaryA.binaryHash(), binaryA.binaryHash())
+        binaryB.decompress(loadedKey)
+        assertEquals("Decompress bytes decompressed failed.", binaryB.isCompressed, false)
+        assertEquals("Decompress bytes length failed.", binaryB.getSize(), binaryC.getSize())
+        assertEquals("Decompress bytes failed.", binaryB.binaryHash(), binaryC.binaryHash())
     }
 
     @Test
     fun testReadText() {
-        val binaryA = BinaryAttachment(fileA)
+        val binaryA = BinaryFile(fileA)
         saveBinary(TEST_TEXT_ASSET, binaryA)
         assert(streamAreEquals(context.assets.open(TEST_TEXT_ASSET),
                 binaryA.getInputDataStream(loadedKey)))
@@ -102,7 +120,7 @@ class BinaryAttachmentTest {
 
     @Test
     fun testReadImage() {
-        val binaryA = BinaryAttachment(fileA)
+        val binaryA = BinaryFile(fileA)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
         assert(streamAreEquals(context.assets.open(TEST_IMAGE_ASSET),
                 binaryA.getInputDataStream(loadedKey)))
@@ -129,20 +147,6 @@ class BinaryAttachmentTest {
         finally {
             inputStreamA.close()
             inputStreamB.close()
-        }
-    }
-
-    private fun BinaryAttachment.md5(): String {
-        val md = MessageDigest.getInstance("MD5")
-        return this.getInputDataStream(loadedKey).use { fis ->
-            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-            generateSequence {
-                when (val bytesRead = fis.read(buffer)) {
-                    -1 -> null
-                    else -> bytesRead
-                }
-            }.forEach { bytesRead -> md.update(buffer, 0, bytesRead) }
-            md.digest().joinToString("") { "%02x".format(it) }
         }
     }
 

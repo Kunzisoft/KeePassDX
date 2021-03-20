@@ -29,9 +29,7 @@
         android:id="@+id/special_mode_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="?attr/specialToolbarAppearance"
-        app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
-        app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
+        android:theme="?attr/toolbarSpecialAppearance"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -64,7 +62,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     android:theme="?attr/toolbarAppearance"
-                    app:popupTheme="?attr/toolbarPopupAppearance"
                     android:elevation="4dp"
                     tools:targetApi="lollipop">
                     <LinearLayout
@@ -156,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:visibility="gone"
-        app:popupTheme="?attr/toolbarPopupAppearance"
+        android:theme="?attr/toolbarActionAppearance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

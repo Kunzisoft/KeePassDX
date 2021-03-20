@@ -26,6 +26,7 @@ import android.net.Uri
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -130,6 +131,21 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_uuid_key),
                 context.resources.getBoolean(R.bool.show_uuid_default))
+    }
+
+    fun getStyle(context: Context): String {
+        val stylishPrefKey = context.getString(R.string.setting_style_key)
+        val defaultStyleString = context.getString(R.string.list_style_name_light)
+        val styleString = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(stylishPrefKey, defaultStyleString)
+                ?: defaultStyleString
+        return Stylish.retrieveEquivalentLightStyle(context, styleString)
+    }
+
+    fun getStyleBrightness(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.setting_style_brightness_key),
+                context.resources.getString(R.string.list_style_brightness_follow_system))
     }
 
     /**

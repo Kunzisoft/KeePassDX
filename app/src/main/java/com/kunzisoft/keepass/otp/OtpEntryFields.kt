@@ -321,11 +321,9 @@ object OtpEntryFields {
                 return try {
                     // KeeOtp string format
                     val query = breakDownKeyValuePairs(plainText)
-
                     otpElement.setBase32Secret(query[SEED_KEY] ?: "")
                     otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
                     otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
-
                     otpElement.type = OtpType.TOTP
                     true
                 } catch (exception: Exception) {
@@ -413,7 +411,7 @@ object OtpEntryFields {
         val output = HashMap<String, String>()
         for (element in elements) {
             val pair = element.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            output[pair[0]] = pair[1]
+            output[pair[0].toLowerCase(Locale.ENGLISH)] = pair[1]
         }
         return output
     }

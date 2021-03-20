@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.education
 
 import android.app.Activity
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
@@ -37,8 +36,10 @@ class PasswordActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_unlock_title),
                         activity.getString(R.string.education_unlock_summary))
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
                         .icon(ContextCompat.getDrawable(activity, R.mipmap.ic_launcher_round))
-                        .textColorInt(Color.WHITE)
+                        .textColorInt(getTextColor())
                         .tintTarget(false)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -63,7 +64,9 @@ class PasswordActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_read_only_title),
                         activity.getString(R.string.education_read_only_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
@@ -88,7 +91,9 @@ class PasswordActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_advanced_unlock_title),
                         activity.getString(R.string.education_advanced_unlock_summary))
-                        .textColorInt(Color.WHITE)
+                        .outerCircleColorInt(getCircleColor())
+                        .outerCircleAlpha(getCircleAlpha())
+                        .textColorInt(getTextColor())
                         .tintTarget(false)
                         .cancelable(true),
                 object : TapTargetView.Listener() {

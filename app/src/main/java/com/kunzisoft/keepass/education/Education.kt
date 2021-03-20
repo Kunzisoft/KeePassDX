@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.education
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.getkeepsafe.taptargetview.TapTarget
@@ -72,6 +73,24 @@ open class Education(val activity: Activity) {
             editor.putBoolean(context.getString(key), true)
         }
         editor.apply()
+    }
+
+    protected fun getCircleColor(): Int {
+        val typedArray = activity.obtainStyledAttributes(intArrayOf(R.attr.educationCircleColor))
+        val colorControl = typedArray.getColor(0, Color.GREEN)
+        typedArray.recycle()
+        return colorControl
+    }
+
+    protected fun getCircleAlpha(): Float {
+        return 0.98F
+    }
+
+    protected fun getTextColor(): Int {
+        val typedArray = activity.obtainStyledAttributes(intArrayOf(R.attr.educationTextColor))
+        val colorControl = typedArray.getColor(0, Color.WHITE)
+        typedArray.recycle()
+        return colorControl
     }
 
     companion object {

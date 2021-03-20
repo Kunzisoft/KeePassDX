@@ -26,111 +26,237 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
-import android.os.Build
 import android.util.Log
 import android.widget.ImageView
 import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import org.apache.commons.collections.map.AbstractReferenceMap
-import org.apache.commons.collections.map.ReferenceMap
+import com.kunzisoft.keepass.database.element.icon.IconImageDraw
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.lang.ref.WeakReference
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
-class IconDrawableFactory {
+class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedKey?,
+                          private val retrieveCustomIconBinary : (iconId: UUID) -> BinaryData?) {
 
     /** customIconMap
      * Cache for icon drawable.
      * Keys: UUID, Values: Drawables
      */
-    private val customIconMap = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
+    private val customIconMap = HashMap<UUID, WeakReference<Drawable>>()
 
     /** standardIconMap
      * Cache for icon drawable.
      * Keys: Integer, Values: Drawables
      */
-    private val standardIconMap = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
+    private val standardIconMap = HashMap<CacheKey, WeakReference<Drawable>>()
 
     /**
-     * Utility method to assign a drawable to an ImageView and tint it
+     * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then tint it with [tintColor] if needed
      */
-    fun assignDrawableToImageView(superDrawable: SuperDrawable, imageView: ImageView?, tint: Boolean, tintColor: Int) {
-        if (imageView != null) {
-            imageView.setImageDrawable(superDrawable.drawable)
-            if (superDrawable.tintable && tint) {
-                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))
+    private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
+        val icon = iconDraw.getIconImageToDraw()
+        val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
+        if (customIconBinary != null && customIconBinary.dataExists()) {
+            getIconDrawable(context.resources, icon.custom, customIconBinary)?.let {
+                return SuperDrawable(it)
+            }
+        }
+        val iconPack = IconPackChooser.getSelectedIconPack(context)
+        iconPack?.iconToResId(icon.standard.id)?.let { iconId ->
+            return SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor), iconPack.tintable())
+        } ?: run {
+            return SuperDrawable(PatternIcon(context.resources).blankDrawable)
+        }
+    }
+
+    /**
+     * Build a custom [Drawable] from custom [icon]
+     */
+    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, iconCustomBinary: BinaryData?): Drawable? {
+        val patternIcon = PatternIcon(resources)
+        val cipherKey = retrieveCipherKey()
+        if (cipherKey != null) {
+            val draw: Drawable? = customIconMap[icon.uuid]?.get()
+            if (draw == null) {
+                iconCustomBinary?.let { binaryFile ->
+                    try {
+                        var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(cipherKey))
+                        bitmap?.let { bitmapIcon ->
+                            bitmap = resize(bitmapIcon, patternIcon)
+                            val createdDraw = BitmapDrawable(resources, bitmap)
+                            customIconMap[icon.uuid] = WeakReference(createdDraw)
+                            return createdDraw
+                        }
+                    } catch (e: Exception) {
+                        customIconMap.remove(icon.uuid)
+                        Log.e(TAG, "Unable to create the bitmap icon", e)
+                    }
+                }
             } else {
-                ImageViewCompat.setImageTintList(imageView, null)
+                return draw
             }
+        }
+        return null
+    }
+
+    /**
+     * Get the standard [Drawable] icon from [iconId] (cache or build it and add it to the cache if not exists yet)
+     * , then tint it with [tintColor] if needed
+     */
+    private fun getIconDrawable(resources: Resources, iconId: Int, width: Int, tintColor: Int): Drawable {
+        val newCacheKey = CacheKey(iconId, width, true, tintColor)
+
+        var draw: Drawable? = standardIconMap[newCacheKey]?.get()
+        if (draw == null) {
+            try {
+                draw = ResourcesCompat.getDrawable(resources, iconId, null)
+            } catch (e: Exception) {
+                Log.e(TAG, "Can't get icon", e)
+            }
+
+            if (draw != null) {
+                standardIconMap[newCacheKey] = WeakReference(draw)
+            }
+        }
+
+        if (draw == null) {
+            draw = PatternIcon(resources).blankDrawable
+        }
+        draw.isFilterBitmap = false
+
+        return draw
+    }
+
+    /**
+     * Resize the custom icon to match the built in icons
+     *
+     * @param bitmap Bitmap to resize
+     * @return Bitmap resized
+     */
+    private fun resize(bitmap: Bitmap, dimensionPattern: PatternIcon): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        return if (width == dimensionPattern.width && height == dimensionPattern.height) {
+            bitmap
+        } else Bitmap.createScaledBitmap(bitmap, dimensionPattern.width, dimensionPattern.height, true)
+
+    }
+
+    /**
+     * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
+     */
+    fun assignDatabaseIcon(imageView: ImageView,
+                           icon: IconImageDraw,
+                           tintColor: Int = Color.WHITE) {
+        try {
+            val context = imageView.context
+            CoroutineScope(Dispatchers.IO).launch {
+                addToCustomCache(context.resources, icon)
+                withContext(Dispatchers.Main) {
+                    val superDrawable = getIconSuperDrawable(context,
+                            icon,
+                            imageView.width,
+                            tintColor)
+                    imageView.setImageDrawable(superDrawable.drawable)
+                    if (superDrawable.tintable) {
+                        ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))
+                    } else {
+                        ImageViewCompat.setImageTintList(imageView, null)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
         }
     }
 
     /**
-     * Utility method to assign a drawable to a RemoteView and tint it
+     * Build a bitmap from a database [icon]
      */
-    fun assignDrawableToRemoteViews(superDrawable: SuperDrawable,
-                                    remoteViews: RemoteViews,
-                                    imageId: Int,
-                                    tintColor: Int = Color.BLACK) {
-        val bitmap = superDrawable.drawable.toBitmap()
-        // Tint bitmap if it's not a custom icon
-        if (superDrawable.tintable && bitmap.isMutable) {
-            Canvas(bitmap).drawBitmap(bitmap, 0.0F, 0.0F, Paint().apply {
-                colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
-            })
+    fun getBitmapFromIcon(context: Context,
+                          icon: IconImageDraw,
+                          tintColor: Int = Color.BLACK): Bitmap? {
+        try {
+            val superDrawable = getIconSuperDrawable(context,
+                    icon,
+                    24,
+                    tintColor)
+            val bitmap = superDrawable.drawable.toBitmap()
+            // Tint bitmap if it's not a custom icon
+            if (superDrawable.tintable && bitmap.isMutable) {
+                Canvas(bitmap).drawBitmap(bitmap, 0.0F, 0.0F, Paint().apply {
+                    colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+                })
+            }
+            return bitmap
+        } catch (e: Exception) {
+            Log.e(RemoteViews::class.java.name, "Unable to create bitmap from icon", e)
         }
-        remoteViews.setImageViewBitmap(imageId, bitmap)
+        return null
     }
 
     /**
-     * Utility method to assign a drawable to a icon and tint it
+     * Simple method to init the cache with the custom icon and be much faster next time
      */
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun assignDrawableToIcon(superDrawable: SuperDrawable,
-                             tintColor: Int = Color.BLACK): Icon {
-        val bitmap = superDrawable.drawable.toBitmap()
-        // Tint bitmap if it's not a custom icon
-        if (superDrawable.tintable && bitmap.isMutable) {
-            Canvas(bitmap).drawBitmap(bitmap, 0.0F, 0.0F, Paint().apply {
-                colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
-            })
-        }
-        return Icon.createWithBitmap(bitmap)
+    private fun addToCustomCache(resources: Resources, iconDraw: IconImageDraw) {
+        val icon = iconDraw.getIconImageToDraw()
+        val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
+        if (customIconBinary != null
+                && customIconBinary.dataExists()
+                && !customIconMap.containsKey(icon.custom.uuid))
+            getIconDrawable(resources, icon.custom, customIconBinary)
     }
 
     /**
-     * Get the [SuperDrawable] [icon] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
+     * Clear a specific icon from the cache
      */
-    fun getIconSuperDrawable(context: Context, icon: IconImage, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
-        return when (icon) {
-            is IconImageStandard -> {
-                val resId = IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.iconId) ?: R.drawable.ic_blank_32dp
-                getIconSuperDrawable(context, resId, width, tint, tintColor)
-            }
-            is IconImageCustom -> {
-                SuperDrawable(getIconDrawable(context.resources, icon))
-            }
-            else -> {
-                SuperDrawable(PatternIcon(context.resources).blankDrawable)
-            }
+    fun clearFromCache(icon: IconImageCustom) {
+        customIconMap.remove(icon.uuid)
+    }
+
+    /**
+     * Clear the cache of icons
+     */
+    fun clearCache() {
+        standardIconMap.clear()
+        customIconMap.clear()
+    }
+
+    /**
+     * Build a blankDrawable drawable
+     * @param res Resource to build the drawable
+     */
+    private class PatternIcon(res: Resources) {
+
+        var blankDrawable: Drawable = ColorDrawable(Color.TRANSPARENT)
+        var width = -1
+        var height = -1
+
+        init {
+            width = res.getDimension(R.dimen.icon_size).toInt()
+            height = res.getDimension(R.dimen.icon_size).toInt()
+            blankDrawable.setBounds(0, 0, width, height)
         }
     }
 
     /**
-     * Get the [SuperDrawable] IconImageStandard from [iconId] (cache, or build it and add it to the cache if not exists yet)
-     * , then [tint] it with [tintColor] if needed
+     * Utility class to prevent a custom icon to be tint
      */
-    fun getIconSuperDrawable(context: Context, iconId: Int, width: Int, tint: Boolean, tintColor: Int): SuperDrawable {
-        return SuperDrawable(getIconDrawable(context.resources, iconId, width, tint, tintColor), true)
-    }
+    class SuperDrawable(var drawable: Drawable, var tintable: Boolean = false)
 
     /**
      * Key class to retrieve a Drawable in the cache if it's tinted or not
@@ -161,189 +287,9 @@ class IconDrawableFactory {
         }
     }
 
-    /**
-     * Build a custom [Drawable] from custom [icon]
-     */
-    private fun getIconDrawable(resources: Resources, icon: IconImageCustom): Drawable {
-        val patternIcon = PatternIcon(resources)
-
-        var draw: Drawable? = customIconMap[icon.uuid] as Drawable?
-        if (draw == null) {
-            var bitmap: Bitmap? = BitmapFactory.decodeByteArray(icon.imageData, 0, icon.imageData.size)
-            // Could not understand custom icon
-            bitmap?.let { bitmapIcon ->
-                bitmap = resize(bitmapIcon, patternIcon)
-                draw = BitmapDrawable(resources, bitmap)
-                customIconMap[icon.uuid] = draw
-                return draw!!
-            }
-        } else {
-            return draw!!
-        }
-        return patternIcon.blankDrawable
-    }
-
-    /**
-     * Get the standard [Drawable] icon from [iconId] (cache or build it and add it to the cache if not exists yet)
-     * , then [tint] it with [tintColor] if needed
-     */
-    private fun getIconDrawable(resources: Resources, iconId: Int, width: Int, tint: Boolean, tintColor: Int): Drawable {
-        val newCacheKey = CacheKey(iconId, width, tint, tintColor)
-
-        var draw: Drawable? = standardIconMap[newCacheKey] as Drawable?
-        if (draw == null) {
-            try {
-                draw = ResourcesCompat.getDrawable(resources, iconId, null)
-            } catch (e: Exception) {
-                Log.e(TAG, "Can't get icon", e)
-            }
-
-            if (draw != null) {
-                standardIconMap[newCacheKey] = draw
-            }
-        }
-
-        if (draw == null) {
-            draw = PatternIcon(resources).blankDrawable
-        }
-        draw.isFilterBitmap = false
-
-        return draw
-    }
-
-    /**
-     * Resize the custom icon to match the built in icons
-     *
-     * @param bitmap Bitmap to resize
-     * @return Bitmap resized
-     */
-    private fun resize(bitmap: Bitmap, dimensionPattern: PatternIcon): Bitmap {
-        val width = bitmap.width
-        val height = bitmap.height
-
-        return if (width == dimensionPattern.width && height == dimensionPattern.height) {
-            bitmap
-        } else Bitmap.createScaledBitmap(bitmap, dimensionPattern.width, dimensionPattern.height, true)
-
-    }
-
-    /**
-     * Clear the cache of icons
-     */
-    fun clearCache() {
-        standardIconMap.clear()
-        customIconMap.clear()
-    }
-
-    private class PatternIcon
-    /**
-     * Build a blankDrawable drawable
-     * @param res Resource to build the drawable
-     */(res: Resources) {
-
-        var blankDrawable: Drawable = ColorDrawable(Color.TRANSPARENT)
-        var width = -1
-        var height = -1
-
-        init {
-            width = res.getDimension(R.dimen.icon_size).toInt()
-            height = res.getDimension(R.dimen.icon_size).toInt()
-            blankDrawable.setBounds(0, 0, width, height)
-        }
-    }
-
-    /**
-     * Utility class to prevent a custom icon to be tint
-     */
-    class SuperDrawable(var drawable: Drawable, var tintable: Boolean = false)
-
     companion object {
 
         private val TAG = IconDrawableFactory::class.java.name
     }
 
-}
-
-/**
- * Assign a default database icon to an ImageView and tint it with [tintColor] if needed
- */
-fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory,
-                                        tintColor: Int = Color.WHITE) {
-    try {
-        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-            iconFactory.assignDrawableToImageView(
-                    iconFactory.getIconSuperDrawable(context,
-                                    selectedIconPack.defaultIconId,
-                                    width,
-                                    selectedIconPack.tintable(),
-                                    tintColor),
-                        this,
-                        selectedIconPack.tintable(),
-                        tintColor)
-        }
-    } catch (e: Exception) {
-        Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
-    }
-}
-
-/**
- * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
- */
-fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
-                                 icon: IconImage,
-                                 tintColor: Int = Color.WHITE) {
-    try {
-        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-            iconFactory.assignDrawableToImageView(
-                    iconFactory.getIconSuperDrawable(context,
-                            icon,
-                            width,
-                            true,
-                            tintColor),
-                        this,
-                        selectedIconPack.tintable(),
-                        tintColor)
-        }
-    } catch (e: Exception) {
-        Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
-    }
-}
-
-fun RemoteViews.assignDatabaseIcon(context: Context,
-                                   imageId: Int,
-                                   iconFactory: IconDrawableFactory,
-                                   icon: IconImage,
-                                   tintColor: Int = Color.BLACK) {
-    try {
-        iconFactory.assignDrawableToRemoteViews(
-                iconFactory.getIconSuperDrawable(context,
-                        icon,
-                        24,
-                        true,
-                        tintColor),
-                this,
-                imageId,
-                tintColor)
-    } catch (e: Exception) {
-        Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.M)
-fun createIconFromDatabaseIcon(context: Context,
-                               iconFactory: IconDrawableFactory,
-                               icon: IconImage,
-                               tintColor: Int = Color.BLACK): Icon? {
-    try {
-        return iconFactory.assignDrawableToIcon(
-                iconFactory.getIconSuperDrawable(context,
-                        icon,
-                        24,
-                        true,
-                        tintColor),
-                tintColor)
-    } catch (e: Exception) {
-        Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
-    }
-    return null
 }

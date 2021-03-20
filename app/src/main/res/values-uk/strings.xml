@@ -515,7 +515,7 @@
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
     <string name="device_credential_unlock_enable_title">Розблокування облікових даних пристрою</string>
     <string name="device_credential">Облікові дані пристрою</string>
-    <string name="credential_before_click_advanced_unlock_button">Введіть пароль, а потім натисніть кнопку «Розширене розблокування».</string>
+    <string name="credential_before_click_advanced_unlock_button">Введіть пароль, а потім натисніть цю кнопку.</string>
     <string name="advanced_unlock_prompt_not_initialized">Не вдалося ініціалізувати запит на розширене розблокування.</string>
     <string name="advanced_unlock_scanning_error">Помилка розширеного розблокування: %1$s</string>
     <string name="advanced_unlock_not_recognized">Не вдалося розпізнати розширене розблокування</string>
@@ -558,4 +558,11 @@
     <string name="unit_byte">Б</string>
     <string name="error_otp_type">Ця форма не розпізнає наявний тип OTP, його перевірка може надалі створювати не дійсний токен.</string>
     <string name="download_canceled">Скасовано!</string>
+    <string name="icon_section_custom">Власні</string>
+    <string name="icon_section_standard">Стандартні</string>
+    <string name="style_brightness_summary">Вибрати світлі або темні теми</string>
+    <string name="style_brightness_title">Яскравість теми</string>
+    <string name="error_upload_file">Під час передавання даних файлу сталася помилка.</string>
+    <string name="error_file_to_big">Файл, який ви намагаєтеся передати, завеликий.</string>
+    <string name="content_description_otp_information">Відомості про одноразовий пароль</string>
 </resources>

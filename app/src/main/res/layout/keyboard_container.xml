@@ -24,13 +24,13 @@
     android:layout_alignParentBottom="true"
     android:paddingTop="4dp"
     android:paddingBottom="8dp"
-    android:background="@color/keyboard_background"
+    android:background="@color/grey_blue_dark"
     android:orientation="vertical">
     <TextView
         android:id="@+id/magikeyboard_entry_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/keyboard_background"
+        android:background="@color/grey_blue_dark"
         android:gravity="center"
         android:textColor="@color/white"/>
     <com.kunzisoft.keepass.view.MagikeyboardView
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
-        android:background="@color/keyboard_background"
+        android:background="@color/grey_blue_dark"
         android:keyBackground="@drawable/key_background"
         android:keyTextColor="@color/white"
         android:popupLayout="@layout/keyboard_popup_fields" />

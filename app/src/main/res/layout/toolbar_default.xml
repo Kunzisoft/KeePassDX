@@ -27,6 +27,5 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     android:theme="?attr/toolbarAppearance"
-    app:popupTheme="?attr/toolbarPopupAppearance"
     android:elevation="4dp"
     tools:targetApi="lollipop" />

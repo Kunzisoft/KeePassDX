@@ -17,78 +17,83 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o"
-    android:id="@+id/entry_edit_coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/entry_edit_coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/entry_edit_bottom_bar">
 
-        <com.kunzisoft.keepass.view.SpecialModeView
-            android:id="@+id/special_mode_view"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="?attr/specialToolbarAppearance"
-            app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
-            app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/entry_edit_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="none"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginBottom="?attr/actionBarSize">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/entry_edit_contents"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="@dimen/content_percent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+            <com.kunzisoft.keepass.view.SpecialModeView
+                android:id="@+id/special_mode_view"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="?attr/toolbarSpecialAppearance"
                 app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/entry_edit_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/entry_edit_contents"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintWidth_percent="@dimen/content_percent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.kunzisoft.keepass.view.ToolbarAction
         android:id="@+id/entry_edit_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="?attr/toolbarPopupAppearance"
-        android:layout_gravity="bottom" />
+        android:theme="?attr/toolbarActionAppearance"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"
-        android:layout_width="match_parent"
+        style="@style/KeepassDXStyle.Fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_check_white_24dp"
         android:contentDescription="@string/validate"
-        app:useCompatPadding="true"
+        android:src="@drawable/ic_check_white_24dp"
         app:fabSize="mini"
-        style="@style/KeepassDXStyle.Fab"/>
+        app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         layout="@layout/view_button_lock"
         android:layout_width="@dimen/lock_button_size"
         android:layout_height="@dimen/lock_button_size"
-        android:layout_gravity="start|bottom" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

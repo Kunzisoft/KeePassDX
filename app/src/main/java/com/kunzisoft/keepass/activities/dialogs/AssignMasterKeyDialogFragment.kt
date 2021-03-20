@@ -120,8 +120,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
 
-            val credentialsInfo: ImageView? = rootView?.findViewById(R.id.credentials_information)
-            credentialsInfo?.setOnClickListener {
+            rootView?.findViewById<View>(R.id.credentials_information)?.setOnClickListener {
                 UriUtil.gotoUrl(activity, R.string.credentials_explanation_url)
             }
 

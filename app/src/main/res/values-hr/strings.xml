@@ -497,7 +497,7 @@
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>
     <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja\?</string>
-    <string name="credential_before_click_advanced_unlock_button">Upiši lozinku i zatim pritisni gumb „Napredno otključavanje”.</string>
+    <string name="credential_before_click_advanced_unlock_button">Upiši lozinku i zatim pritisni ovaj gumb.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću naprednog prepoznavanja otključavanja</string>
     <string name="advanced_unlock_prompt_store_credential_message">Upozorenje: Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
     <string name="menu_keystore_remove_key">Izbriši ključ naprednog otključavanja</string>
@@ -541,4 +541,12 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
+    <string name="download_canceled">Prekinuto!</string>
+    <string name="icon_section_custom">Prilagođeno</string>
+    <string name="icon_section_standard">Standardno</string>
+    <string name="style_brightness_summary">Odaberi svijetle ili tamne teme</string>
+    <string name="style_brightness_title">Svjetlina teme</string>
+    <string name="error_upload_file">Tijekom prijenosa podataka datoteke došlo je do greške.</string>
+    <string name="error_file_to_big">Datoteka koju pokušavaš prenijeti je prevelika.</string>
+    <string name="content_description_otp_information">Podaci jednokratne lozinke</string>
 </resources>

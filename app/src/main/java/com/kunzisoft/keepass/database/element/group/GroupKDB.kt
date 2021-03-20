@@ -82,10 +82,6 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         this.nodeId = NodeIdInt(groupId)
     }
 
-    override fun allowAddEntryIfIsRoot(): Boolean {
-        return false
-    }
-
     companion object {
 
         @JvmField

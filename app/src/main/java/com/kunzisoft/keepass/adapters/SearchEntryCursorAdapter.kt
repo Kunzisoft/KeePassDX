@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
 
@@ -81,10 +80,9 @@ class SearchEntryCursorAdapter(private val context: Context,
             val viewHolder = view.tag as ViewHolder
 
             // Assign image
-            viewHolder.imageViewIcon?.assignDatabaseIcon(
-                    database.drawFactory,
-                    currentEntry.icon,
-                    iconColor)
+            viewHolder.imageViewIcon?.let { iconView ->
+                database.iconDrawableFactory.assignDatabaseIcon(iconView, currentEntry.icon, iconColor)
+            }
 
             // Assign title
             viewHolder.textViewTitle?.apply {
@@ -110,10 +108,24 @@ class SearchEntryCursorAdapter(private val context: Context,
         return database.createEntry()?.apply {
             database.startManageEntry(this)
             entryKDB?.let { entryKDB ->
-                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconFactory)
+                (cursor as EntryCursorKDB).populateEntry(entryKDB,
+                        { standardIconId ->
+                            database.getStandardIcon(standardIconId)
+                        },
+                        { customIconId ->
+                            database.getCustomIcon(customIconId)
+                        }
+                )
             }
             entryKDBX?.let { entryKDBX ->
-                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconFactory)
+                (cursor as EntryCursorKDBX).populateEntry(entryKDBX,
+                        { standardIconId ->
+                            database.getStandardIcon(standardIconId)
+                        },
+                        { customIconId ->
+                            database.getCustomIcon(customIconId)
+                        }
+                )
             }
             database.stopManageEntry(this)
         }

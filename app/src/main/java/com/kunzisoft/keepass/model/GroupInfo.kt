@@ -3,14 +3,14 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
 
 class GroupInfo : NodeInfo {
 
     var notes: String? = null
 
     init {
-        icon = IconImageStandard(FOLDER)
+        icon.standard = IconImageStandard(FOLDER_ID)
     }
 
     constructor(): super()

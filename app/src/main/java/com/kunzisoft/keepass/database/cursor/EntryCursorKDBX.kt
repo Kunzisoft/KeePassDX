@@ -20,9 +20,9 @@
 package com.kunzisoft.keepass.database.cursor
 
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImageFactory
-
-import java.util.UUID
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import java.util.*
 
 class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
 
@@ -34,9 +34,9 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
                 entry.id.mostSignificantBits,
                 entry.id.leastSignificantBits,
                 entry.title,
-                entry.icon.iconId,
-                entry.iconCustom.uuid.mostSignificantBits,
-                entry.iconCustom.uuid.leastSignificantBits,
+                entry.icon.standard.id,
+                entry.icon.custom.uuid.mostSignificantBits,
+                entry.icon.custom.uuid.leastSignificantBits,
                 entry.username,
                 entry.password,
                 entry.url,
@@ -52,14 +52,10 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
         entryId++
     }
 
-    override fun populateEntry(pwEntry: EntryKDBX, iconFactory: IconImageFactory) {
-        super.populateEntry(pwEntry, iconFactory)
-
-        // Retrieve custom icon
-        val iconCustom = iconFactory.getIcon(
-                UUID(getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
-                        getLong(getColumnIndex(COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
-        pwEntry.iconCustom = iconCustom
+    override fun populateEntry(pwEntry: EntryKDBX,
+                               retrieveStandardIcon: (Int) -> IconImageStandard,
+                               retrieveCustomIcon: (UUID) -> IconImageCustom) {
+        super.populateEntry(pwEntry, retrieveStandardIcon, retrieveCustomIcon)
 
         // Retrieve extra fields
         if (extraFieldCursor.moveToFirst()) {

@@ -53,6 +53,7 @@
     <string name="content_description_add_item">Add item</string>
     <string name="content_description_file_information">File info</string>
     <string name="content_description_credentials_information">Credentials info</string>
+    <string name="content_description_otp_information">One-time password info</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
@@ -137,6 +138,10 @@
     <string name="error_field_name_already_exists">The field name already exists.</string>
     <string name="error_database_uri_null">Database URI cannot be retrieved.</string>
     <string name="error_rebuild_list">Unable to properly rebuild the list.</string>
+    <string name="error_file_to_big">The file you are trying to upload is too big.</string>
+    <string name="error_upload_file">An error occurred while uploading the file data.</string>
+    <string name="error_duplicate_file">The file data already exists.</string>
+    <string name="error_remove_file">An error occurred while removing the file data.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -294,7 +299,7 @@
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
-    <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click the \"Advanced unlock\" button.</string>
+    <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
@@ -558,15 +563,22 @@
     <string name="style_choose_title">App theme</string>
     <string name="style_choose_summary">Theme used in the app</string>
     <string-array name="list_style_names">
-        <item>Light</item>
-        <item>Night</item>
-        <item>Black</item>
-        <item>Classic Dark</item>
-        <item>Sky and Ocean</item>
-        <item>Red Volcano</item>
-        <item>Purple Light</item>
-        <item>Purple Dark</item>
+        <item>Forest</item>
+        <item>Divine</item>
+        <item>Classic</item>
+        <item>Moon</item>
+        <item>Sun</item>
+        <item>Kunzite</item>
     </string-array>
+    <string name="style_brightness_title">Theme brightness</string>
+    <string name="style_brightness_summary">Select light or dark themes</string>
+    <string-array name="list_style_brightness_names">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Follow the system</item>
+    </string-array>
+    <string name="icon_section_standard">Standard</string>
+    <string name="icon_section_custom">Custom</string>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>

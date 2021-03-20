@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Classic Clear Style -->
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v21" />
+    <style name="KeepassDXStyle.Clear.v21" parent="KeepassDXStyle.Light.WhiteBar.v23" >
+        <item name="colorPrimary">@color/white_grey_lighter</item>
+        <item name="colorPrimaryDark">@color/white_grey_light</item>
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorAccentLight">@color/cyan_lightest</item>
+        <item name="colorControlActivated">@color/cyan_lightest</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:textColorHintInverse">@color/cyan_lightest</item>
+        <item name="android:windowBackground">@color/white_darkest</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Clear</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Clear</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Clear</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Clear</item>
+        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Clear</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Clear.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Clear</item>
+        <item name="cardBackgroundTransparentColor">@color/white_grey_lighter_transparent</item>
+        <item name="educationCircleColor">@color/cyan_lighter</item>
+        <item name="educationTextColor">@color/white</item>
+
+        <item name="android:textColor">@color/text_color_light</item>
+        <item name="android:editTextColor">@color/grey_light</item>
+        <item name="textColorInverse">@color/grey_light</item>
+        <item name="android:textColorPrimaryInverse">@color/grey_light</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
+        <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
+        <item name="android:textColorHint">@color/grey_lighter</item>
+    </style>
+    <!-- Toolbar Style Clear -->
+    <style name="KeepassDXStyle.Toolbar.Clear" parent="KeepassDXStyle.Clear">
+        <item name="colorControlNormal">@color/grey_light</item>
+        <item name="android:textColorPrimary">@color/grey_light</item>
+        <item name="android:textColorSecondary">@color/grey_lighter</item>
+        <item name="android:tint">@color/grey_light</item>
+    </style>
+    <!-- Toolbar Popup menu -->
+    <style name="KeepassDXStyle.Toolbar.Popup.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="android:colorBackground">@color/white_grey_lighter</item>
+    </style>
+    <!-- Toolbar Home Clear -->
+    <style name="KeepassDXStyle.Toolbar.Home.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Clear -->
+    <style name="KeepassDXStyle.Toolbar.Special.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Clear</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Clear" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/white_grey_lighter</item>
+    </style>
+    <!-- Action Toolbar Clear -->
+    <style name="KeepassDXStyle.Toolbar.Action.Clear" parent="KeepassDXStyle.Toolbar.Clear">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Clear</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Clear" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/white_grey_lighter</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Clear.Dialog" parent="KeepassDXStyle.Light.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan</item>
+        <item name="android:background">@color/white_grey_lighter</item>
+        <item name="background">@color/white_grey_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Clear.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan</item>
+        <item name="android:windowBackground">@color/white_grey_lighter</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Clear" parent="CardView">
+        <item name="cardBackgroundColor">@color/white_grey_lighter</item>
+    </style>
+
+    <!-- Classic Dark Style -->
+    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Dark.v21" />
+    <style name="KeepassDXStyle.Dark.v21" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/grey_darker</item>
+        <item name="colorPrimaryDark">@color/black_light</item>
+        <item name="colorAccent">@color/cyan</item>
+        <item name="colorAccentLight">@color/cyan_lightest</item>
+        <item name="colorControlActivated">@color/cyan_lightest</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:textColorHintInverse">@color/cyan_lightest</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Dark</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Dark</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Dark</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Dark</item>
+        <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
+        <item name="educationCircleColor">@color/cyan</item>
+        <item name="educationTextColor">@color/white</item>
+    </style>
+    <!-- Toolbar Style Dark -->
+    <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey_lighter</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+    <!-- Toolbar Home Dark -->
+    <style name="KeepassDXStyle.Toolbar.Home.Dark" parent="KeepassDXStyle.Toolbar.Dark">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Dark -->
+    <style name="KeepassDXStyle.Toolbar.Special.Dark" parent="KeepassDXStyle.Toolbar.Dark">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Dark</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Dark" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/black_light</item>
+    </style>
+    <!-- Action Toolbar Dark -->
+    <style name="KeepassDXStyle.Toolbar.Action.Dark" parent="KeepassDXStyle.Toolbar.Dark">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Dark</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Dark" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/grey_darker</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:background">@color/black_lighter</item>
+        <item name="background">@color/black_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Dark.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan_lightest</item>
+        <item name="android:windowBackground">@color/black_lighter</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Dark" parent="CardView">
+        <item name="cardBackgroundColor">@color/black_light</item>
+    </style>
+</resources>

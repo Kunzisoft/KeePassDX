@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2021 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v21" >
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
+    </style>
+    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Dark.v21" >
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">?android:attr/windowBackground</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
+    </style>
+</resources>

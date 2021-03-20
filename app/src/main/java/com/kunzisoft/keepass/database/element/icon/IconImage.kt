@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -19,19 +19,69 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
+import android.os.Parcel
 import android.os.Parcelable
 
-abstract class IconImage protected constructor() : Parcelable {
+class IconImage() : IconImageDraw(), Parcelable {
 
-    abstract val iconId: Int
-    abstract val isUnknown: Boolean
-    abstract val isMetaStreamIcon: Boolean
+    var standard: IconImageStandard = IconImageStandard()
+    var custom: IconImageCustom = IconImageCustom()
+
+    constructor(iconImageStandard: IconImageStandard) : this() {
+        this.standard = iconImageStandard
+    }
+
+    constructor(iconImageCustom: IconImageCustom) : this() {
+        this.custom = iconImageCustom
+    }
+
+    constructor(iconImageStandard: IconImageStandard,
+                iconImageCustom: IconImageCustom) : this() {
+        this.standard = iconImageStandard
+        this.custom = iconImageCustom
+    }
+
+    constructor(parcel: Parcel) : this() {
+        standard = parcel.readParcelable(IconImageStandard::class.java.classLoader) ?: standard
+        custom = parcel.readParcelable(IconImageCustom::class.java.classLoader) ?: custom
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(standard, flags)
+        parcel.writeParcelable(custom, flags)
+    }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object {
-        const val UNKNOWN_ID = -1
+    override fun getIconImageToDraw(): IconImage {
+        return this
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is IconImage) return false
+
+        if (standard != other.standard) return false
+        if (custom != other.custom) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = standard.hashCode()
+        result = 31 * result + custom.hashCode()
+        return result
+    }
+
+    companion object CREATOR : Parcelable.Creator<IconImage> {
+        override fun createFromParcel(parcel: Parcel): IconImage {
+            return IconImage(parcel)
+        }
+
+        override fun newArray(size: Int): Array<IconImage?> {
+            return arrayOfNulls(size)
+        }
     }
 }

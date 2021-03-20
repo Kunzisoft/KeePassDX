@@ -43,6 +43,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -78,7 +79,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class EntryEditActivity : LockingActivity(),
-        IconPickerDialogFragment.IconPickerListener,
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
@@ -172,10 +172,14 @@ class EntryEditActivity : LockingActivity(),
             val parentIcon = mParent?.icon
             tempEntryInfo = mDatabase?.createEntry()?.getEntryInfo(mDatabase, true)
             // Set default icon
-            if (parentIcon != null
-                    && parentIcon.iconId != IconImage.UNKNOWN_ID
-                    && parentIcon.iconId != IconImageStandard.FOLDER) {
-                tempEntryInfo?.icon = parentIcon
+            if (parentIcon != null) {
+                if (parentIcon.custom.isUnknown
+                        && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
+                    tempEntryInfo?.icon = IconImage(parentIcon.standard)
+                }
+                if (!parentIcon.custom.isUnknown) {
+                    tempEntryInfo?.icon = IconImage(parentIcon.custom)
+                }
             }
             // Set default username
             tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
@@ -204,7 +208,7 @@ class EntryEditActivity : LockingActivity(),
                 .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
                 .commit()
         entryEditFragment?.apply {
-            drawFactory = mDatabase?.drawFactory
+            drawFactory = mDatabase?.iconDrawableFactory
             setOnDateClickListener = {
                 expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
@@ -219,8 +223,8 @@ class EntryEditActivity : LockingActivity(),
                 openPasswordGenerator()
             }
             // Add listener to the icon
-            setOnIconViewClickListener = View.OnClickListener {
-                IconPickerDialogFragment.launch(this@EntryEditActivity)
+            setOnIconViewClickListener = { iconImage ->
+                IconPickerActivity.launch(this@EntryEditActivity, iconImage)
             }
             setOnRemoveAttachment = { attachment ->
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
@@ -481,7 +485,7 @@ class EntryEditActivity : LockingActivity(),
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         val compression = mDatabase?.compressionForNewEntry() ?: false
-        mDatabase?.buildNewBinary(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
+        mDatabase?.buildNewBinaryAttachment(UriUtil.getBinaryDir(this), compression)?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments != true && entryEditFragment?.containsAttachment() == true) ||
@@ -497,9 +501,12 @@ class EntryEditActivity : LockingActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
+            entryEditFragment?.icon = icon
+        }
+
         mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             uri?.let { attachmentToUploadUri ->
-                // TODO Async to get the name
                 UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
                     documentFile.name?.let { fileName ->
                         if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
@@ -565,7 +572,7 @@ class EntryEditActivity : LockingActivity(),
                 // Delete temp attachment if not used
                 mTempAttachments.forEach { tempAttachmentState ->
                     val tempAttachment = tempAttachmentState.attachment
-                    mDatabase?.binaryPool?.let { binaryPool ->
+                    mDatabase?.attachmentPool?.let { binaryPool ->
                         if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
                             mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
                         }
@@ -708,12 +715,6 @@ class EntryEditActivity : LockingActivity(),
         mEntry?.putExtraField(Field(otpField.name, otpField.protectedValue))
         entryEditFragment?.apply {
             putExtraField(otpField)
-        }
-    }
-
-    override fun iconPicked(bundle: Bundle) {
-        IconPickerDialogFragment.getIconStandardFromBundle(bundle)?.let { icon ->
-            entryEditFragment?.icon = icon
         }
     }
 

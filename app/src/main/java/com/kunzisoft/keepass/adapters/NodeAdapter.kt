@@ -28,6 +28,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -39,7 +40,6 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
@@ -100,9 +100,7 @@ class NodeAdapter (private val context: Context)
         this.mDatabase = Database.getInstance()
 
         // Color of content selection
-        val taContentSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        this.mContentSelectionColor = taContentSelectionColor.getColor(0, Color.WHITE)
-        taContentSelectionColor.recycle()
+        this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mIconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)
@@ -305,7 +303,7 @@ class NodeAdapter (private val context: Context)
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+            mDatabase.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()

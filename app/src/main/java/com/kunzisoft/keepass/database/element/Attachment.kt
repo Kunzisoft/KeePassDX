@@ -19,24 +19,23 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
-import kotlinx.coroutines.*
+import com.kunzisoft.keepass.database.element.database.BinaryByte
+import com.kunzisoft.keepass.database.element.database.BinaryData
+
 
 data class Attachment(var name: String,
-                      var binaryAttachment: BinaryAttachment) : Parcelable {
+                      var binaryData: BinaryData) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readParcelable(BinaryAttachment::class.java.classLoader) ?: BinaryAttachment()
+            parcel.readParcelable(BinaryData::class.java.classLoader) ?: BinaryByte()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeParcelable(binaryAttachment, flags)
+        parcel.writeParcelable(binaryData, flags)
     }
 
     override fun describeContents(): Int {
@@ -44,7 +43,7 @@ data class Attachment(var name: String,
     }
 
     override fun toString(): String {
-        return "$name at $binaryAttachment"
+        return "$name at $binaryData"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -67,29 +66,6 @@ data class Attachment(var name: String,
 
         override fun newArray(size: Int): Array<Attachment?> {
             return arrayOfNulls(size)
-        }
-
-        fun loadBitmap(attachment: Attachment,
-                       binaryCipherKey: Database.LoadedKey?,
-                       actionOnFinish: (Bitmap?) -> Unit) {
-            CoroutineScope(Dispatchers.Main).launch {
-                withContext(Dispatchers.IO) {
-                    val asyncResult: Deferred<Bitmap?> = async {
-                        runCatching {
-                            binaryCipherKey?.let { binaryKey ->
-                                var bitmap: Bitmap?
-                                attachment.binaryAttachment.getUnGzipInputDataStream(binaryKey).use { bitmapInputStream ->
-                                    bitmap = BitmapFactory.decodeStream(bitmapInputStream)
-                                }
-                                bitmap
-                            }
-                        }.getOrNull()
-                    }
-                    withContext(Dispatchers.Main) {
-                        actionOnFinish(asyncResult.await())
-                    }
-                }
-            }
         }
     }
 }

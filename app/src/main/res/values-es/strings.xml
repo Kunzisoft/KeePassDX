@@ -559,4 +559,5 @@
     <string name="warning_database_info_changed">La información contenida en su archivo de base de datos ha sido modificada fuera de la aplicación.</string>
     <string name="menu_reload_database">Recargar la base de datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
+    <string name="download_canceled">¡Cancelado!</string>
 </resources>

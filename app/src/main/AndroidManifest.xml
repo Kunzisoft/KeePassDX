@@ -130,6 +130,9 @@
             android:name="com.kunzisoft.keepass.activities.EntryActivity"
             android:configChanges="keyboardHidden" />
         <activity
+            android:name="com.kunzisoft.keepass.activities.IconPickerActivity"
+            android:configChanges="keyboardHidden" />
+        <activity
             android:name="com.kunzisoft.keepass.activities.ImageViewerActivity"
             android:configChanges="keyboardHidden" />
         <activity

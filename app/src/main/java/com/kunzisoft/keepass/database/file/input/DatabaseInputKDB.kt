@@ -177,6 +177,7 @@ class DatabaseInputKDB(cacheDirectory: File)
             val newRoot = mDatabase.createGroup()
             newRoot.level = -1
             mDatabase.rootGroup = newRoot
+            mDatabase.addGroupIndex(newRoot)
 
             // Import all nodes
             var newGroup: GroupKDB? = null
@@ -231,7 +232,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                             if (iconId == -1) {
                                 iconId = 0
                             }
-                            entry.icon = mDatabase.iconFactory.getIcon(iconId)
+                            entry.icon.standard = mDatabase.getStandardIcon(iconId)
                         }
                     }
                     0x0004 -> {
@@ -260,7 +261,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                     }
                     0x0007 -> {
                         newGroup?.let { group ->
-                            group.icon = mDatabase.iconFactory.getIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
+                            group.icon.standard = mDatabase.getStandardIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
                         } ?:
                         newEntry?.let { entry ->
                             entry.password = cipherInputStream.readBytesToString(fieldSize,false)
@@ -305,7 +306,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory)
+                                val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory)
                                 entry.binaryData = binaryAttachment
                                 val cipherKey = mDatabase.loadedCipherKey
                                         ?: throw IOException("Unable to retrieve cipher key to load binaries")

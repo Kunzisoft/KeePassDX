@@ -21,34 +21,44 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 
-class IconImageStandard : IconImage {
+class IconImageStandard : Parcelable, IconImageDraw {
+
+    val id: Int
 
     constructor() {
-        this.iconId = KEY
+        this.id = KEY_ID
     }
 
     constructor(iconId: Int) {
-        this.iconId = iconId
-    }
-
-    constructor(icon: IconImageStandard) {
-        this.iconId = icon.iconId
+        if (!isCorrectIconId(iconId))
+            this.id = KEY_ID
+        else
+            this.id = iconId
     }
 
     constructor(parcel: Parcel) {
-        iconId = parcel.readInt()
+        id = parcel.readInt()
+    }
+
+    override fun describeContents(): Int {
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(iconId)
+        dest.writeInt(id)
     }
 
     override fun hashCode(): Int {
         val prime = 31
         var result = 1
-        result = prime * result + iconId
+        result = prime * result + id
         return result
+    }
+
+    override fun getIconImageToDraw(): IconImage {
+        return IconImage(this)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -59,22 +69,18 @@ class IconImageStandard : IconImage {
         if (other !is IconImageStandard) {
             return false
         }
-        return iconId == other.iconId
+        return id == other.id
     }
-
-    override val iconId: Int
-
-    override val isUnknown: Boolean
-        get() = iconId == UNKNOWN_ID
-
-    override val isMetaStreamIcon: Boolean
-        get() = iconId == 0
 
     companion object {
 
-        const val KEY = 0
-        const val TRASH = 43
-        const val FOLDER = 48
+        const val KEY_ID = 0
+        const val TRASH_ID = 43
+        const val FOLDER_ID = 48
+
+        fun isCorrectIconId(iconId: Int): Boolean {
+            return iconId in 0 until NB_ICONS
+        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<IconImageStandard> = object : Parcelable.Creator<IconImageStandard> {

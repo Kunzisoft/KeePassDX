@@ -23,7 +23,8 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
-import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
@@ -55,8 +56,13 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
 
-    var iconFactory = IconImageFactory()
-        protected set
+    /**
+     * Cipher key generated when the database is loaded, and destroyed when the database is closed
+     * Can be used to temporarily store database elements
+     */
+    var loadedCipherKey: Database.LoadedKey? = null
+
+    val iconsManager = IconsManager()
 
     var changeDuplicateId = false
 
@@ -329,6 +335,8 @@ abstract class DatabaseVersioned<
 
     abstract fun rootCanContainsEntry(): Boolean
 
+    abstract fun getStandardIcon(iconId: Int): IconImageStandard
+
     abstract fun containsCustomData(): Boolean
 
     fun addGroupTo(newGroup: Group, parent: Group?) {
@@ -383,12 +391,6 @@ abstract class DatabaseVersioned<
             return false
         return true
     }
-
-    /**
-     * Cipher key generated when the database is loaded, and destroyed when the database is closed
-     * Can be used to temporarily store database elements
-     */
-    var loadedCipherKey: Database.LoadedKey? = null
 
     companion object {
 

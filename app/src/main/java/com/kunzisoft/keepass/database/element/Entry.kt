@@ -21,14 +21,12 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.BinaryPool
+import com.kunzisoft.keepass.database.element.database.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -109,7 +107,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     override var icon: IconImage
         get() {
-            return entryKDB?.icon ?: entryKDBX?.icon ?: IconImageStandard()
+            return entryKDB?.icon ?: entryKDBX?.icon ?: IconImage()
         }
         set(value) {
             entryKDB?.icon = value
@@ -259,28 +257,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     /*
       ------------
-      KDB Methods
-      ------------
-     */
-
-    /**
-     * If it's a node with only meta information like Meta-info SYSTEM Database Color
-     * @return false by default, true if it's a meta stream
-     */
-    val isMetaStream: Boolean
-        get() = entryKDB?.isMetaStream ?: false
-
-    /*
-      ------------
       KDBX Methods
       ------------
      */
-
-    var iconCustom: IconImageCustom
-        get() = entryKDBX?.iconCustom ?: IconImageCustom.UNKNOWN_ICON
-        set(value) {
-            entryKDBX?.iconCustom = value
-        }
 
     /**
      * Retrieve extra fields to show, key is the label, value is the value of field (protected or not)
@@ -330,12 +309,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    fun getAttachments(binaryPool: BinaryPool, inHistory: Boolean = false): List<Attachment> {
+    fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
         val attachments = ArrayList<Attachment>()
         entryKDB?.getAttachment()?.let {
             attachments.add(it)
         }
-        entryKDBX?.getAttachments(binaryPool, inHistory)?.let {
+        entryKDBX?.getAttachments(attachmentPool, inHistory)?.let {
             attachments.addAll(it)
         }
         return attachments
@@ -356,9 +335,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.removeAttachments()
     }
 
-    private fun putAttachment(attachment: Attachment, binaryPool: BinaryPool) {
+    private fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
         entryKDB?.putAttachment(attachment)
-        entryKDBX?.putAttachment(attachment, binaryPool)
+        entryKDBX?.putAttachment(attachment, attachmentPool)
     }
 
     fun getHistory(): ArrayList<Entry> {
@@ -390,8 +369,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return null
     }
 
-    fun getSize(binaryPool: BinaryPool): Long {
-        return entryKDBX?.getSize(binaryPool) ?: 0L
+    fun getSize(attachmentPool: AttachmentPool): Long {
+        return entryKDBX?.getSize(attachmentPool) ?: 0L
     }
 
     fun containsCustomData(): Boolean {
@@ -433,7 +412,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             // Replace parameter fields by generated OTP fields
             entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
         }
-        database?.binaryPool?.let { binaryPool ->
+        database?.attachmentPool?.let { binaryPool ->
             entryInfo.attachments = getAttachments(binaryPool)
         }
 
@@ -460,7 +439,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         url = newEntryInfo.url
         notes = newEntryInfo.notes
         addExtraFields(newEntryInfo.customFields)
-        database?.binaryPool?.let { binaryPool ->
+        database?.attachmentPool?.let { binaryPool ->
             newEntryInfo.attachments.forEach { attachment ->
                 putAttachment(attachment, binaryPool)
             }

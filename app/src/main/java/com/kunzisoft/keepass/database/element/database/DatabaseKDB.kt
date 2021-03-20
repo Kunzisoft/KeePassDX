@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
@@ -44,7 +45,8 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
-    private var binaryIncrement = 0
+    // Only to generate unique file name
+    private var binaryPool = AttachmentPool()
 
     override val version: String
         get() = "KeePass 1"
@@ -68,7 +70,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
                 getGroupById(backupGroupId)
         }
 
-    override val kdfEngine: KdfEngine?
+    override val kdfEngine: KdfEngine
         get() = kdfListV3[0]
 
     override val kdfAvailableList: List<KdfEngine>
@@ -175,6 +177,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return false
     }
 
+    override fun getStandardIcon(iconId: Int): IconImageStandard {
+        return this.iconsManager.getIcon(iconId)
+    }
+
     override fun containsCustomData(): Boolean {
         return false
     }
@@ -223,7 +229,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
                 title = BACKUP_FOLDER_TITLE
-                icon = iconFactory.trashIcon
+                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
             }
             addGroupTo(recycleBinGroup, rootGroup)
             backupGroupId = recycleBinGroup.id
@@ -269,11 +275,12 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         addEntryTo(entry, origParent)
     }
 
-    fun buildNewBinary(cacheDirectory: File): BinaryAttachment {
+    fun buildNewAttachment(cacheDirectory: File): BinaryData {
         // Generate an unique new file
-        val fileInCache = File(cacheDirectory, binaryIncrement.toString())
-        binaryIncrement++
-        return BinaryAttachment(fileInCache)
+        return binaryPool.put { uniqueBinaryId ->
+            val fileInCache = File(cacheDirectory, uniqueBinaryId)
+            BinaryFile(fileInCache)
+        }.binary
     }
 
     companion object {

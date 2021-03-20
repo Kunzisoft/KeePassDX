@@ -29,14 +29,13 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.database.BinaryAttachment
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -79,7 +78,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     private var ctxStringName: String? = null
     private var ctxStringValue: ProtectedString? = null
     private var ctxBinaryName: String? = null
-    private var ctxBinaryValue: BinaryAttachment? = null
+    private var ctxBinaryValue: BinaryData? = null
     private var ctxATName: String? = null
     private var ctxATSeq: String? = null
     private var entryInHistory = false
@@ -277,7 +276,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                 val byteLength = size - 1
                 // No compression at this level
-                val protectedBinary = mDatabase.buildNewBinary(cacheDirectory, false, protectedFlag)
+                val protectedBinary = mDatabase.buildNewAttachment(cacheDirectory, false, protectedFlag)
                 val cipherKey = mDatabase.loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to load binaries")
                 protectedBinary.getOutputDataStream(cipherKey).use { outputStream ->
@@ -507,9 +506,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
             } else if (name.equals(DatabaseKDBXXML.ElemNotes, ignoreCase = true)) {
                 ctxGroup?.notes = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
+                ctxGroup?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxGroup?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
+                ctxGroup?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.GroupTimes, xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIsExpanded, ignoreCase = true)) {
@@ -561,9 +560,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
             KdbContext.Entry -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxEntry?.nodeId = NodeIdUUID(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
+                ctxEntry?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxEntry?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
+                ctxEntry?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemFgColor, ignoreCase = true)) {
                 ctxEntry?.foregroundColor = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemBgColor, ignoreCase = true)) {
@@ -705,9 +704,13 @@ class DatabaseInputKDBX(cacheDirectory: File)
             return KdbContext.Meta
         } else if (ctx == KdbContext.CustomIcon && name.equals(DatabaseKDBXXML.ElemCustomIconItem, ignoreCase = true)) {
             if (customIconID != DatabaseVersioned.UUID_ZERO && customIconData != null) {
-                val icon = IconImageCustom(customIconID, customIconData!!)
-                mDatabase.addCustomIcon(icon)
-                mDatabase.iconFactory.put(icon)
+                mDatabase.addCustomIcon(cacheDirectory, customIconID, customIconData!!.size) { _, binary ->
+                    mDatabase.loadedCipherKey?.let { cipherKey ->
+                        binary?.getOutputDataStream(cipherKey)?.use { outputStream ->
+                            outputStream.write(customIconData)
+                        }
+                    }
+                }
             }
 
             customIconID = DatabaseVersioned.UUID_ZERO
@@ -963,7 +966,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readBinary(xpp: XmlPullParser): BinaryAttachment? {
+    private fun readBinary(xpp: XmlPullParser): BinaryData? {
 
         // Reference Id to a binary already present in binary pool
         val ref = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrRef)
@@ -978,7 +981,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 var binaryRetrieve = mDatabase.binaryPool[id]
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
-                    binaryRetrieve = mDatabase.buildNewBinary(cacheDirectory,
+                    binaryRetrieve = mDatabase.buildNewAttachment(cacheDirectory,
                             compression = false, protection = false, binaryPoolId = id)
                 }
                 return binaryRetrieve
@@ -994,7 +997,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryAttachment? {
+    private fun createBinary(binaryId: Int?, xpp: XmlPullParser): BinaryData? {
         var compressed = false
         var protected = true
 
@@ -1015,7 +1018,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewBinary(cacheDirectory, compressed, protected, binaryId)
+        val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory, compressed, protected, binaryId)
         val binaryCipherKey = mDatabase.loadedCipherKey
                 ?: throw IOException("Unable to retrieve cipher key to load binaries")
         try {

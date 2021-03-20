@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -22,39 +22,30 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
+import java.util.*
 
-import java.util.UUID
+class IconImageCustom : Parcelable, IconImageDraw {
 
-class IconImageCustom : IconImage {
+    var uuid: UUID
 
-    val uuid: UUID
-    @Transient
-    var imageData: ByteArray = ByteArray(0)
-
-    constructor(uuid: UUID, data: ByteArray) : super() {
-        this.uuid = uuid
-        this.imageData = data
+    constructor() {
+        uuid = DatabaseVersioned.UUID_ZERO
     }
 
-    constructor(uuid: UUID) : super() {
+    constructor(uuid: UUID) {
         this.uuid = uuid
-        this.imageData = ByteArray(0)
-    }
-
-    constructor(icon: IconImageCustom) : super() {
-        uuid = icon.uuid
-        imageData = icon.imageData
     }
 
     constructor(parcel: Parcel) {
         uuid = parcel.readSerializable() as UUID
-        // TODO Take too much memories
-        // parcel.readByteArray(imageData);
+    }
+
+    override fun describeContents(): Int {
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeSerializable(uuid)
-        // Too big for a parcelable dest.writeByteArray(imageData);
     }
 
     override fun hashCode(): Int {
@@ -62,6 +53,10 @@ class IconImageCustom : IconImage {
         var result = 1
         result = prime * result + uuid.hashCode()
         return result
+    }
+
+    override fun getIconImageToDraw(): IconImage {
+        return IconImage(this)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -74,17 +69,10 @@ class IconImageCustom : IconImage {
         return uuid == other.uuid
     }
 
-    override val iconId: Int
-        get() = UNKNOWN_ID
-
-    override val isUnknown: Boolean
-        get() = this == UNKNOWN_ICON
-
-    override val isMetaStreamIcon: Boolean
-        get() = false
+    val isUnknown: Boolean
+        get() = uuid == DatabaseVersioned.UUID_ZERO
 
     companion object {
-        val UNKNOWN_ICON = IconImageCustom(DatabaseVersioned.UUID_ZERO, ByteArray(0))
 
         @JvmField
         val CREATOR: Parcelable.Creator<IconImageCustom> = object : Parcelable.Creator<IconImageCustom> {

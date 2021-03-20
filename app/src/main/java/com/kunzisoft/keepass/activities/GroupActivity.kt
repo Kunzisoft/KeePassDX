@@ -45,6 +45,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.fragments.ListNodesFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -59,7 +60,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.GroupActivityEducation
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -81,7 +81,6 @@ import org.joda.time.DateTime
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
-        IconPickerDialogFragment.IconPickerListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         ListNodesFragment.NodeClickListener,
@@ -105,7 +104,6 @@ class GroupActivity : LockingActivity(),
     private var mDatabase: Database? = null
 
     private var mListNodesFragment: ListNodesFragment? = null
-    private var mCurrentGroupIsASearch: Boolean = false
     private var mRequestStartupSearch = true
 
     private var actionNodeMode: ActionMode? = null
@@ -172,7 +170,7 @@ class GroupActivity : LockingActivity(),
         }
 
         mCurrentGroup = retrieveCurrentGroup(intent, savedInstanceState)
-        mCurrentGroupIsASearch = Intent.ACTION_SEARCH == intent.action
+        val currentGroupIsASearch = mCurrentGroup?.isVirtual == true
 
         Log.i(TAG, "Started creating tree")
         if (mCurrentGroup == null) {
@@ -181,13 +179,13 @@ class GroupActivity : LockingActivity(),
         }
 
         var fragmentTag = LIST_NODES_FRAGMENT_TAG
-        if (mCurrentGroupIsASearch)
+        if (currentGroupIsASearch)
             fragmentTag = SEARCH_FRAGMENT_TAG
 
         // Initialize the fragment with the list
         mListNodesFragment = supportFragmentManager.findFragmentByTag(fragmentTag) as ListNodesFragment?
         if (mListNodesFragment == null)
-            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, mReadOnly, mCurrentGroupIsASearch)
+            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, mReadOnly, currentGroupIsASearch)
 
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
@@ -206,9 +204,11 @@ class GroupActivity : LockingActivity(),
 
         // Add listeners to the add buttons
         addNodeButtonView?.setAddGroupClickListener {
-            GroupEditDialogFragment.build()
-                    .show(supportFragmentManager,
-                            GroupEditDialogFragment.TAG_CREATE_GROUP)
+            GroupEditDialogFragment.create(GroupInfo().apply {
+                if (mCurrentGroup?.allowAddNoteInGroup == true) {
+                    notes = ""
+                }
+            }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
         }
         addNodeButtonView?.setAddEntryClickListener {
             mCurrentGroup?.let { currentGroup ->
@@ -346,9 +346,7 @@ class GroupActivity : LockingActivity(),
                     ACTION_DATABASE_RELOAD_TASK -> {
                         // Reload the current activity
                         if (result.isSuccess) {
-                            startActivity(intent)
-                            finish()
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                            reload()
                         } else {
                             this.showActionErrorIfNeeded(result)
                             finish()
@@ -367,6 +365,14 @@ class GroupActivity : LockingActivity(),
         Log.i(TAG, "Finished creating tree")
     }
 
+    private fun reload() {
+        // Reload the current activity
+        startActivity(intent)
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        mDatabase?.wasReloaded = false
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
@@ -375,13 +381,10 @@ class GroupActivity : LockingActivity(),
             manageSearchInfoIntent(intentNotNull)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
-            mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
+            if (Intent.ACTION_SEARCH == intentNotNull.action) {
                 // only one instance of search in backstack
                 deletePreviousSearchGroup()
                 openGroup(retrieveCurrentGroup(intentNotNull, null), true)
-                true
-            } else {
-                false
             }
         }
     }
@@ -465,12 +468,11 @@ class GroupActivity : LockingActivity(),
 
     private fun refreshSearchGroup() {
         deletePreviousSearchGroup()
-        if (mCurrentGroupIsASearch)
+        if (mCurrentGroup?.isVirtual == true)
             openGroup(retrieveCurrentGroup(intent, null), true)
     }
 
     private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
-
         // Force read only if the database is like that
         mReadOnly = mDatabase?.isReadOnly == true || mReadOnly
 
@@ -518,24 +520,21 @@ class GroupActivity : LockingActivity(),
                 }
             }
         }
-        if (mCurrentGroupIsASearch) {
-            searchTitleView?.visibility = View.VISIBLE
-        } else {
-            searchTitleView?.visibility = View.GONE
-        }
 
-        // Assign icon
-        if (mCurrentGroupIsASearch) {
+        if (mCurrentGroup?.isVirtual == true) {
+            searchTitleView?.visibility = View.VISIBLE
             if (toolbar != null) {
                 toolbar?.navigationIcon = null
             }
             iconView?.visibility = View.GONE
         } else {
+            searchTitleView?.visibility = View.GONE
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
-            mCurrentGroup?.let {
-                if (mDatabase?.drawFactory != null)
-                    iconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, it.icon, mIconColor)
+            mCurrentGroup?.let { currentGroup ->
+                iconView?.let { imageView ->
+                    mDatabase?.iconDrawableFactory?.assignDatabaseIcon(imageView, currentGroup.icon, mIconColor)
+                }
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)
@@ -550,20 +549,25 @@ class GroupActivity : LockingActivity(),
         // Assign number of children
         refreshNumberOfChildren()
 
-        // Show button if allowed
-        addNodeButtonView?.apply {
+        // Hide button
+        initAddButton()
+    }
 
+    private fun initAddButton() {
+        addNodeButtonView?.apply {
+            closeButtonIfOpen()
             // To enable add button
-            val addGroupEnabled = !mReadOnly && !mCurrentGroupIsASearch
-            var addEntryEnabled = !mReadOnly && !mCurrentGroupIsASearch
+            val addGroupEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
+            var addEntryEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
             mCurrentGroup?.let {
-                if (!it.allowAddEntryIfIsRoot())
+                if (!it.allowAddEntryIfIsRoot)
                     addEntryEnabled = it != mRootGroup && addEntryEnabled
             }
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
-
-            if (actionNodeMode == null)
+            if (mCurrentGroup?.isVirtual == true)
+                hideButton()
+            else if (actionNodeMode == null)
                 showButton()
         }
     }
@@ -783,7 +787,7 @@ class GroupActivity : LockingActivity(),
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as Group
-                GroupEditDialogFragment.build(mOldGroupToUpdate!!.getGroupInfo())
+                GroupEditDialogFragment.update(mOldGroupToUpdate!!.getGroupInfo())
                         .show(supportFragmentManager,
                                 GroupEditDialogFragment.TAG_CREATE_GROUP)
             }
@@ -893,6 +897,9 @@ class GroupActivity : LockingActivity(),
     override fun onResume() {
         super.onResume()
 
+        if (mDatabase?.wasReloaded == true) {
+            reload()
+        }
         // Show the lock button
         lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
             View.VISIBLE
@@ -1120,13 +1127,6 @@ class GroupActivity : LockingActivity(),
         // Do nothing here
     }
 
-    override// For icon in create tree dialog
-    fun iconPicked(bundle: Bundle) {
-        (supportFragmentManager
-                .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
-                .iconPicked(bundle)
-    }
-
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters) {
         mListNodesFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
@@ -1165,6 +1165,13 @@ class GroupActivity : LockingActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // To create tree dialog for icon
+        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
+            (supportFragmentManager
+                    .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
+                    .setIcon(icon)
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
@@ -1189,7 +1196,6 @@ class GroupActivity : LockingActivity(),
         mCurrentGroup = mListNodesFragment?.mainGroup
         // Remove search in intent
         deletePreviousSearchGroup()
-        mCurrentGroupIsASearch = false
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
