@@ -523,7 +523,7 @@
     <string name="device_credential_unlock_enable_summary">Vous permet d\'utiliser les informations d\'identification de votre appareil pour ouvrir la base de données</string>
     <string name="device_credential_unlock_enable_title">Déverrouillage par identifiants de l\'appareil</string>
     <string name="device_credential">Déverouillage de l\'appareil</string>
-    <string name="credential_before_click_advanced_unlock_button">Tapez le mot de passe, puis cliquez sur le bouton \"Déverrouillage avancé\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Tapez le mot de passe, puis cliquez sur ce bouton.</string>
     <string name="advanced_unlock_prompt_not_initialized">Impossible d\'initialiser l\'invite de déverrouillage avancé.</string>
     <string name="advanced_unlock_scanning_error">Erreur de déverrouillage avancé : %1$s</string>
     <string name="advanced_unlock_not_recognized">Impossible de reconnaître l\'empreinte de déverrouillage avancé</string>
@@ -566,4 +566,13 @@
     <string name="unit_byte">Octets</string>
     <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, sa validation peut ne plus générer correctement le jeton.</string>
     <string name="download_canceled">Annulé !</string>
+    <string name="icon_section_custom">Customisé</string>
+    <string name="icon_section_standard">Standard</string>
+    <string name="style_brightness_summary">Sélectionnez des thèmes clairs ou foncés</string>
+    <string name="style_brightness_title">Luminosité de thème</string>
+    <string name="error_remove_file">Une erreur s\'est produite lors de la suppression des données du fichier.</string>
+    <string name="error_duplicate_file">Les données du fichier existent déjà.</string>
+    <string name="error_upload_file">Une erreur s\'est produite lors du téléchargement des données du fichier.</string>
+    <string name="error_file_to_big">Le fichier que vous essayez de téléverser est trop gros.</string>
+    <string name="content_description_otp_information">Information sur le mot de passe à usage unique</string>
 </resources>
