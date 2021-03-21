@@ -17,35 +17,27 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.engine
+package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.EncryptionAlgorithm
-
+import com.kunzisoft.encrypt.CipherEngineFactory
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-
 import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
 
-abstract class CipherEngine {
+class ChaCha20Engine : CipherEngine() {
 
-    fun keyLength(): Int {
-        return 32
-    }
-
-    open fun ivLength(): Int {
-        return 16
+    override fun ivLength(): Int {
+        return 12
     }
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
-    abstract fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray, androidOverride: Boolean): Cipher
-
-    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
-    fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
-        return getCipher(opmode, key, IV, false)
+    override fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
+        return CipherEngineFactory.getChacha20(opmode, key, IV)
     }
 
-    abstract fun getPwEncryptionAlgorithm(): EncryptionAlgorithm
-
+    override fun getEncryptionAlgorithm(): EncryptionAlgorithm {
+        return EncryptionAlgorithm.ChaCha20
+    }
 }

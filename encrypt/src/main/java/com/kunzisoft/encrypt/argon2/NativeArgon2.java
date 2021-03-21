@@ -17,38 +17,22 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.keyDerivation;
+package com.kunzisoft.encrypt.argon2;
 
 import com.kunzisoft.encrypt.NativeLib;
 import com.kunzisoft.encrypt.UnsignedInt;
 
 import java.io.IOException;
 
-public class Argon2Native {
+public class NativeArgon2 {
 
-    enum CType {
-        ARGON2_D(0),
-        ARGON2_I(1),
-        ARGON2_ID(2);
-
-        int cValue = 0;
-
-        CType(int i) {
-            cValue = i;
-        }
-    }
-
-    public static byte[] transformKey(Argon2Kdf.Type type, byte[] password, byte[] salt, UnsignedInt parallelism,
+    public static byte[] transformKey(Argon2Type type, byte[] password, byte[] salt, UnsignedInt parallelism,
                                       UnsignedInt memory, UnsignedInt iterations, byte[] secretKey,
                                       byte[] associatedData, UnsignedInt version) throws IOException {
         NativeLib.INSTANCE.init();
 
-        CType cType = CType.ARGON2_D;
-        if (type.equals(Argon2Kdf.Type.ARGON2_ID))
-            cType = CType.ARGON2_ID;
-
         return nTransformMasterKey(
-                cType.cValue,
+                type.cValue,
                 password,
                 salt,
                 parallelism.toKotlinInt(),

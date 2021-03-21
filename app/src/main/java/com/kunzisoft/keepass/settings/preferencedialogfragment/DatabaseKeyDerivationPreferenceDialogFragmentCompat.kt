@@ -20,12 +20,12 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.preference.Preference
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.encrypt.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseKeyDerivationPreferenceDialogFragmentCompat

@@ -17,10 +17,28 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.keyDerivation
+package com.kunzisoft.keepass.database.crypto
 
-object KdfFactory {
-    var aesKdf = AesKdf()
-    var argon2dKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_D)
-    var argon2idKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
+
+import javax.crypto.Cipher
+import javax.crypto.NoSuchPaddingException
+
+abstract class CipherEngine {
+
+    fun keyLength(): Int {
+        return 32
+    }
+
+    open fun ivLength(): Int {
+        return 16
+    }
+
+    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
+    abstract fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher
+
+    abstract fun getEncryptionAlgorithm(): EncryptionAlgorithm
+
 }

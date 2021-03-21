@@ -17,9 +17,9 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt
+package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.keyDerivation.KdfParameters
+import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
 import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import com.kunzisoft.encrypt.stream.bytes4ToUInt
@@ -123,10 +123,10 @@ open class VariantDictionary {
         }
 
         @Throws(IOException::class)
-        fun serialize(kdfParameters: KdfParameters): ByteArray {
+        fun serialize(variantDictionary: VariantDictionary): ByteArray {
             val byteArrayOutputStream = ByteArrayOutputStream()
             val outputStream = LittleEndianDataOutputStream(byteArrayOutputStream)
-            serialize(kdfParameters, outputStream)
+            serialize(variantDictionary, outputStream)
             return byteArrayOutputStream.toByteArray()
         }
 

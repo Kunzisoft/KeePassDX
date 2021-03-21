@@ -23,9 +23,9 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.encrypt.EncryptionAlgorithm
-import com.kunzisoft.encrypt.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
@@ -250,7 +250,7 @@ class Database {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
                 mDatabaseKDBX?.setDataEngine(algorithm.cipherEngine)
-                mDatabaseKDBX?.dataCipher = algorithm.dataCipher
+                mDatabaseKDBX?.cipherUuid = algorithm.uuid
             }
         }
 

@@ -26,11 +26,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.encrypt.EncryptionAlgorithm
-import com.kunzisoft.encrypt.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm

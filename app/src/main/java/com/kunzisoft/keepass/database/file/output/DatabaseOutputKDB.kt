@@ -20,10 +20,10 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.CipherFactory
-import com.kunzisoft.encrypt.EncryptionAlgorithm
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import com.kunzisoft.encrypt.stream.NullOutputStream
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -70,6 +70,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         val cipher: Cipher
         cipher = try {
             when {
+                // TODO Encapsulate
                 mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael->
                     CipherFactory.getInstance("AES/CBC/PKCS5Padding")
                 mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish ->

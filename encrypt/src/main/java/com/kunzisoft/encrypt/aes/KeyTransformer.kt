@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,19 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt
+package com.kunzisoft.encrypt.aes
 
-import com.kunzisoft.encrypt.aes.NativeAESCipherSpi
-import java.security.Provider
+import java.io.IOException
 
-class AESProvider : Provider("AESProvider", 1.0, "") {
-    init {
-        put("Cipher.AES", NativeAESCipherSpi::class.java.name)
-    }
-
-    companion object {
-
-        private const val serialVersionUID = -3846349284296062658L
-    }
-
+abstract class KeyTransformer {
+    @Throws(IOException::class)
+    abstract fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray?
 }

@@ -19,15 +19,15 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.encrypt.keyDerivation.KdfParameters
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.VariantDictionary
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
@@ -90,7 +90,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         los.writeUInt(DatabaseHeaderKDBX.DBSIG_2)
         los.writeUInt(header.version)
 
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.dataCipher))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.cipherUuid))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, uIntTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 

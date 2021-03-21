@@ -21,14 +21,14 @@ package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
 import android.util.Log
-import com.kunzisoft.encrypt.CipherFactory
-import com.kunzisoft.encrypt.stream.StreamCipherFactory
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.engine.CipherEngine
 import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
 import com.kunzisoft.encrypt.stream.StreamCipher
+import com.kunzisoft.encrypt.stream.StreamCipherFactory
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -145,9 +145,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
             val engine: CipherEngine
             val cipher: Cipher
             try {
-                engine = CipherFactory.getInstance(mDatabase.dataCipher)
+                engine = EncryptionAlgorithm.getFrom(mDatabase.cipherUuid).cipherEngine
                 mDatabase.setDataEngine(engine)
-                mDatabase.encryptionAlgorithm = engine.getPwEncryptionAlgorithm()
+                mDatabase.encryptionAlgorithm = engine.getEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
             } catch (e: Exception) {
                 throw InvalidAlgorithmDatabaseException(e)

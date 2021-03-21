@@ -17,10 +17,10 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.keyDerivation
+package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.CryptoUtil
-import com.kunzisoft.encrypt.finalkey.AESKeyTransformerFactory
+import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
 import com.kunzisoft.encrypt.stream.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom

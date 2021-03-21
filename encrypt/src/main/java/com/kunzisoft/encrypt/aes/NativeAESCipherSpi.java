@@ -17,9 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt;
+package com.kunzisoft.encrypt.aes;
 
 import android.util.Log;
+
+import com.kunzisoft.encrypt.NativeLib;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;

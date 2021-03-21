@@ -19,71 +19,8 @@
  */
 package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.engine.AesEngine
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
-import org.junit.Assert.assertArrayEquals
-import org.junit.Test
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.util.*
-import javax.crypto.Cipher
-import javax.crypto.CipherInputStream
-import javax.crypto.CipherOutputStream
-
 class CipherTest {
-    private val rand = Random()
 
-    @Test
-    fun testCipherFactory() {
-        val key = ByteArray(32)
-        val iv = ByteArray(16)
+    // TODO Cipher Tests
 
-        val plaintext = ByteArray(1024)
-
-        rand.nextBytes(key)
-        rand.nextBytes(iv)
-        rand.nextBytes(plaintext)
-
-        val aes = CipherFactory.getInstance(AesEngine.CIPHER_UUID)
-        val encrypt = aes.getCipher(Cipher.ENCRYPT_MODE, key, iv)
-        val decrypt = aes.getCipher(Cipher.DECRYPT_MODE, key, iv)
-
-        val secrettext = encrypt.doFinal(plaintext)
-        val decrypttext = decrypt.doFinal(secrettext)
-
-        assertArrayEquals("Encryption and decryption failed", plaintext, decrypttext)
-    }
-
-    @Test
-    fun testCipherStreams() {
-        val MESSAGE_LENGTH = 1024
-
-        val key = ByteArray(32)
-        val iv = ByteArray(16)
-
-        val plaintext = ByteArray(MESSAGE_LENGTH)
-
-        rand.nextBytes(key)
-        rand.nextBytes(iv)
-        rand.nextBytes(plaintext)
-
-        val aes = CipherFactory.getInstance(AesEngine.CIPHER_UUID)
-        val encrypt = aes.getCipher(Cipher.ENCRYPT_MODE, key, iv)
-        val decrypt = aes.getCipher(Cipher.DECRYPT_MODE, key, iv)
-
-        val bos = ByteArrayOutputStream()
-        val cos = CipherOutputStream(bos, encrypt)
-        cos.write(plaintext)
-        cos.close()
-
-        val secrettext = bos.toByteArray()
-
-        val bis = ByteArrayInputStream(secrettext)
-        val cis = CipherInputStream(bis, decrypt)
-        val lis = LittleEndianDataInputStream(cis)
-
-        val decrypttext = lis.readBytes(MESSAGE_LENGTH)
-
-        assertArrayEquals("Encryption and decryption failed", plaintext, decrypttext)
-    }
 }

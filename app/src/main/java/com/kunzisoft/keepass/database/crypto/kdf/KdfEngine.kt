@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.keyDerivation
+package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.UnsignedInt
 import java.io.IOException

@@ -17,9 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.keyDerivation
+package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.argon2.Argon2Transformer
+import com.kunzisoft.encrypt.argon2.Argon2Type
 import com.kunzisoft.encrypt.stream.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
@@ -66,16 +68,18 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         val secretKey = kdfParameters.getByteArray(PARAM_SECRET_KEY)
         val assocData = kdfParameters.getByteArray(PARAM_ASSOC_DATA)
 
-        return Argon2Native.transformKey(
-                type,
+        val argonType = if (type == Type.ARGON2_ID) Argon2Type.ARGON2_ID else Argon2Type.ARGON2_D
+
+        return Argon2Transformer.transformKey(
+                argonType,
                 masterKey,
                 salt,
-                parallelism,
-                memory,
-                iterations,
+                parallelism!!,
+                memory!!,
+                iterations!!,
                 secretKey,
                 assocData,
-                version)
+                version!!)
     }
 
     override fun randomize(kdfParameters: KdfParameters) {
@@ -181,8 +185,6 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
             return typeName
         }
     }
-
-
 
     companion object {
 

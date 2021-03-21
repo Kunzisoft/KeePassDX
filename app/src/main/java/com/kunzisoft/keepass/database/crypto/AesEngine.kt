@@ -17,19 +17,24 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt
+package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.aes.NativeAESCipherSpi
-import java.security.Provider
 
-class AESProvider : Provider("AESProvider", 1.0, "") {
-    init {
-        put("Cipher.AES", NativeAESCipherSpi::class.java.name)
+import com.kunzisoft.encrypt.CipherEngineFactory
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
+import javax.crypto.Cipher
+import javax.crypto.NoSuchPaddingException
+
+class AesEngine : CipherEngine() {
+
+    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
+    override fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
+        return CipherEngineFactory.getAES(opmode, key, IV)
     }
 
-    companion object {
-
-        private const val serialVersionUID = -3846349284296062658L
+    override fun getEncryptionAlgorithm(): EncryptionAlgorithm {
+        return EncryptionAlgorithm.AESRijndael
     }
-
 }

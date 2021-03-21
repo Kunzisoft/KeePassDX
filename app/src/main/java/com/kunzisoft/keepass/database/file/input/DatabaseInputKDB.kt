@@ -21,8 +21,8 @@
 package com.kunzisoft.keepass.database.file.input
 
 import com.kunzisoft.encrypt.CipherFactory
-import com.kunzisoft.encrypt.EncryptionAlgorithm
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -133,6 +133,7 @@ class DatabaseInputKDB(cacheDirectory: File)
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
             // Initialize Rijndael algorithm
             val cipher: Cipher = try {
+                // TODO Encapsulate
                 when {
                     mDatabase.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
                         CipherFactory.getInstance("AES/CBC/PKCS5Padding")

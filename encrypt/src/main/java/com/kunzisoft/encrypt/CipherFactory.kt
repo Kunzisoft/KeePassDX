@@ -20,14 +20,9 @@
 package com.kunzisoft.encrypt
 
 import android.os.Build
-import com.kunzisoft.encrypt.engine.AesEngine
-import com.kunzisoft.encrypt.engine.ChaCha20Engine
-import com.kunzisoft.encrypt.engine.CipherEngine
-import com.kunzisoft.encrypt.engine.TwofishEngine
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.NoSuchAlgorithmException
 import java.security.Security
-import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
 
@@ -61,19 +56,6 @@ object CipherFactory {
             Cipher.getInstance(transformation, AESProvider())
         } else {
             Cipher.getInstance(transformation)
-        }
-    }
-
-    /**
-     * Generate appropriate cipher based on KeePass 2.x UUID's
-     */
-    @Throws(NoSuchAlgorithmException::class)
-    fun getInstance(uuid: UUID): CipherEngine {
-        return when (uuid) {
-            AesEngine.CIPHER_UUID -> AesEngine()
-            TwofishEngine.CIPHER_UUID -> TwofishEngine()
-            ChaCha20Engine.CIPHER_UUID -> ChaCha20Engine()
-            else -> throw NoSuchAlgorithmException("UUID unrecognized.")
         }
     }
 }

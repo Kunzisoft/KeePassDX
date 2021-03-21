@@ -128,7 +128,7 @@ void throwExceptionF(JNIEnv *env, jclass exception, const char *format, ...) {
 #define ARGON2_HASHLEN 32
 
 JNIEXPORT jbyteArray
-JNICALL Java_com_kunzisoft_encrypt_keyDerivation_Argon2Native_nTransformMasterKey(JNIEnv *env,
+JNICALL Java_com_kunzisoft_encrypt_argon2_NativeArgon2_nTransformMasterKey(JNIEnv *env,
    jobject this, jint type, jbyteArray password, jbyteArray salt, jint parallelism, jint memory,
    jint iterations, jbyteArray secretKey, jbyteArray associatedData, jint version) {
 

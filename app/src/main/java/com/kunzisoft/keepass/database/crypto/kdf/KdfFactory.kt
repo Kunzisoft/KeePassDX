@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,11 +17,10 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.finalkey
+package com.kunzisoft.keepass.database.crypto.kdf
 
-import java.io.IOException
-
-abstract class KeyTransformer {
-    @Throws(IOException::class)
-    abstract fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray?
+object KdfFactory {
+    var aesKdf = AesKdf()
+    var argon2dKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_D)
+    var argon2idKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
 }

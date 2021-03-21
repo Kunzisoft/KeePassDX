@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.finalkey.AndroidAESKeyTransformer
-import com.kunzisoft.encrypt.finalkey.NativeAESKeyTransformer
+import com.kunzisoft.encrypt.aes.AndroidAESKeyTransformer
+import com.kunzisoft.encrypt.aes.NativeAESKeyTransformer
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import java.util.*

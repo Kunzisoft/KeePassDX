@@ -23,16 +23,16 @@ import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.CryptoUtil
-import com.kunzisoft.encrypt.EncryptionAlgorithm
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.VariantDictionary
-import com.kunzisoft.encrypt.engine.AesEngine
-import com.kunzisoft.encrypt.engine.CipherEngine
-import com.kunzisoft.encrypt.keyDerivation.KdfEngine
-import com.kunzisoft.encrypt.keyDerivation.KdfFactory
-import com.kunzisoft.encrypt.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.AesEngine
+import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
@@ -65,7 +65,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     var hmacKey: ByteArray? = null
         private set
-    var dataCipher = AesEngine.CIPHER_UUID
+    var cipherUuid = EncryptionAlgorithm.AESRijndael.uuid
     private var dataEngine: CipherEngine = AesEngine()
     var compressionAlgorithm = CompressionAlgorithm.GZip
     var kdfParameters: KdfParameters? = null

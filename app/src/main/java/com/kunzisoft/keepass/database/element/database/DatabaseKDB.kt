@@ -19,11 +19,11 @@
 
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.encrypt.EncryptionAlgorithm
-import com.kunzisoft.encrypt.finalkey.AESKeyTransformerFactory
-import com.kunzisoft.encrypt.keyDerivation.KdfEngine
-import com.kunzisoft.encrypt.keyDerivation.KdfFactory
+import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
 import com.kunzisoft.encrypt.stream.NullOutputStream
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard

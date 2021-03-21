@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.finalkey
+package com.kunzisoft.encrypt.aes
 
 import java.io.IOException
 import java.security.InvalidKeyException
