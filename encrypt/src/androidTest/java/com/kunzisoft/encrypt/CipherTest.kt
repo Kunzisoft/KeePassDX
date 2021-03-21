@@ -20,7 +20,6 @@
 package com.kunzisoft.encrypt
 
 import com.kunzisoft.encrypt.engine.AesEngine
-import com.kunzisoft.encrypt.stream.BetterCipherInputStream
 import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
@@ -28,6 +27,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 
 class CipherTest {
@@ -79,7 +79,7 @@ class CipherTest {
         val secrettext = bos.toByteArray()
 
         val bis = ByteArrayInputStream(secrettext)
-        val cis = BetterCipherInputStream(bis, decrypt)
+        val cis = CipherInputStream(bis, decrypt)
         val lis = LittleEndianDataInputStream(cis)
 
         val decrypttext = lis.readBytes(MESSAGE_LENGTH)
