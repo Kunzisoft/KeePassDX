@@ -24,7 +24,7 @@ import android.util.Log
 import android.util.Xml
 import com.kunzisoft.encrypt.CipherFactory
 import com.kunzisoft.encrypt.CrsAlgorithm
-import com.kunzisoft.encrypt.StreamCipherFactory
+import com.kunzisoft.encrypt.stream.StreamCipherFactory
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.engine.CipherEngine
 import com.kunzisoft.encrypt.keyDerivation.KdfFactory
@@ -585,12 +585,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (protect) {
             xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
             val data = value.toString().toByteArray()
-            val dataLength = data.size
-            if (data.isNotEmpty()) {
-                val encoded = ByteArray(dataLength)
-                randomStream!!.processBytes(data, 0, dataLength, encoded, 0)
-                xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
-            }
+            val encoded = randomStream?.processBytes(data) ?: ByteArray(0)
+            xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
         } else {
             xml.text(value.toString())
         }

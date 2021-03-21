@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.encrypt
 
-enum class CrsAlgorithm constructor(val id: UnsignedInt) {
+enum class CrsAlgorithm(val id: UnsignedInt) {
 
     Null(UnsignedInt(0)),
     ArcFourVariant(UnsignedInt(1)),

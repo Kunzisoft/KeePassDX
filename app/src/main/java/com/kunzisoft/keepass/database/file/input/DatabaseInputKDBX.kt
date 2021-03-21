@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.file.input
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.CipherFactory
-import com.kunzisoft.encrypt.StreamCipherFactory
+import com.kunzisoft.encrypt.stream.StreamCipherFactory
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.engine.CipherEngine
@@ -1058,9 +1058,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
             if (protect != null && protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)) {
                 Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { data ->
-                    val plainText = ByteArray(data.size)
-                    randomStream?.processBytes(data, 0, data.size, plainText, 0)
-                    return plainText
+                    return randomStream?.processBytes(data)
                 }
                 return ByteArray(0)
             }
