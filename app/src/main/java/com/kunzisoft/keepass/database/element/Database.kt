@@ -235,9 +235,9 @@ class Database {
     val allowEncryptionAlgorithmModification: Boolean
         get() = availableEncryptionAlgorithms.size > 1
 
-    fun getEncryptionAlgorithmName(resources: Resources): String {
-        return mDatabaseKDB?.encryptionAlgorithm?.getName(resources)
-                ?: mDatabaseKDBX?.encryptionAlgorithm?.getName(resources)
+    fun getEncryptionAlgorithmName(): String {
+        return mDatabaseKDB?.encryptionAlgorithm?.toString()
+                ?: mDatabaseKDBX?.encryptionAlgorithm?.toString()
                 ?: ""
     }
 
@@ -272,8 +272,8 @@ class Database {
             }
         }
 
-    fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine?.getName(resources) ?: ""
+    fun getKeyDerivationName(): String {
+        return kdfEngine?.toString() ?: ""
     }
 
     var numberKeyEncryptionRounds: Long

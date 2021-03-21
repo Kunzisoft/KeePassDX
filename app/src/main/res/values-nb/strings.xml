@@ -280,10 +280,6 @@
     <string name="html_text_dev_feature_upgrade">Ikke glem å holde programmet ditt oppgradert.</string>
     <string name="download">Last ned</string>
     <string name="contribute">Bidra</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
-    <string name="encryption_twofish">Twofish</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="style_choose_title">Velg en drakt</string>
     <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
@@ -426,8 +422,6 @@
     <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
     <string name="content_description_add_item">Legg til element</string>
     <string name="education_advanced_unlock_title">Avansert databaseopplåsing</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="unit_byte">B</string>
     <string name="show_uuid_summary">Viser UUID-en tilhørende en oppføring</string>
     <string name="show_uuid_title">Vis UUID</string>

@@ -19,11 +19,9 @@
  */
 package com.kunzisoft.encrypt.keyDerivation
 
-import android.content.res.Resources
-import com.kunzisoft.encrypt.R
 import com.kunzisoft.encrypt.CryptoUtil
-import com.kunzisoft.encrypt.stream.bytes16ToUuid
 import com.kunzisoft.encrypt.finalkey.AESKeyTransformerFactory
+import com.kunzisoft.encrypt.stream.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -43,10 +41,6 @@ class AesKdf : KdfEngine() {
         }
 
     override val defaultKeyRounds: Long = 500000L
-
-    override fun getName(resources: Resources): String {
-        return resources.getString(R.string.kdf_AES)
-    }
 
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray {
@@ -81,6 +75,10 @@ class AesKdf : KdfEngine() {
 
     override fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long) {
         kdfParameters.setUInt64(PARAM_ROUNDS, keyRounds)
+    }
+
+    override fun toString(): String {
+        return "AES"
     }
 
     companion object {

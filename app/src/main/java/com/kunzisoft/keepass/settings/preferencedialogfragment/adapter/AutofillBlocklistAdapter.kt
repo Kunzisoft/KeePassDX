@@ -28,7 +28,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.encrypt.ObjectNameResource
+import com.kunzisoft.keepass.utils.ObjectNameResource
 
 import java.util.ArrayList
 

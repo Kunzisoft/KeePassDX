@@ -19,15 +19,13 @@
  */
 package com.kunzisoft.encrypt.keyDerivation
 
-import com.kunzisoft.encrypt.ObjectNameResource
 import com.kunzisoft.encrypt.UnsignedInt
-
 import java.io.IOException
 import java.io.Serializable
-import java.util.UUID
+import java.util.*
 
 // TODO Parcelable
-abstract class KdfEngine : ObjectNameResource, Serializable {
+abstract class KdfEngine : Serializable {
 
     var uuid: UUID? = null
 

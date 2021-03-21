@@ -19,15 +19,13 @@
  */
 package com.kunzisoft.encrypt
 
-import android.content.res.Resources
 import com.kunzisoft.encrypt.engine.AesEngine
 import com.kunzisoft.encrypt.engine.ChaCha20Engine
 import com.kunzisoft.encrypt.engine.CipherEngine
 import com.kunzisoft.encrypt.engine.TwofishEngine
+import java.util.*
 
-import java.util.UUID
-
-enum class EncryptionAlgorithm : ObjectNameResource {
+enum class EncryptionAlgorithm {
 
     AESRijndael,
     Twofish,
@@ -51,11 +49,11 @@ enum class EncryptionAlgorithm : ObjectNameResource {
             }
         }
 
-    override fun getName(resources: Resources): String {
+    override fun toString(): String {
         return when (this) {
-            AESRijndael -> resources.getString(R.string.encryption_rijndael)
-            Twofish -> resources.getString(R.string.encryption_twofish)
-            ChaCha20 -> resources.getString(R.string.encryption_chacha20)
+            AESRijndael -> "Rijndael (AES)"
+            Twofish -> "Twofish"
+            ChaCha20 -> "ChaCha20"
         }
     }
 }

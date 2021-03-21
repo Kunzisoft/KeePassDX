@@ -19,11 +19,8 @@
  */
 package com.kunzisoft.encrypt.keyDerivation
 
-import android.content.res.Resources
-import androidx.annotation.StringRes
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.bytes16ToUuid
-import com.kunzisoft.encrypt.R
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -49,10 +46,6 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
     override val defaultKeyRounds: Long
         get() = DEFAULT_ITERATIONS
-
-    override fun getName(resources: Resources): String {
-        return resources.getString(type.nameId)
-    }
 
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray {
@@ -135,6 +128,10 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         kdfParameters.setUInt32(PARAM_PARALLELISM, UnsignedInt.fromKotlinLong(parallelism))
     }
 
+    override fun toString(): String {
+        return "$type"
+    }
+
     override val defaultParallelism: Long
         get() = DEFAULT_PARALLELISM.toKotlinLong()
 
@@ -144,7 +141,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override val maxParallelism: Long
         get() = MAX_PARALLELISM
 
-    enum class Type(val CIPHER_UUID: UUID, @StringRes val nameId: Int) {
+    enum class Type(val CIPHER_UUID: UUID, private val typeName: String) {
         ARGON2_D(bytes16ToUuid(
                 byteArrayOf(0xEF.toByte(),
                         0x63.toByte(),
@@ -161,7 +158,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
                         0x03.toByte(),
                         0xE3.toByte(),
                         0x0A.toByte(),
-                        0x0C.toByte())), R.string.kdf_Argon2d),
+                        0x0C.toByte())), "Argon2d"),
         ARGON2_ID(bytes16ToUuid(
                 byteArrayOf(0x9E.toByte(),
                         0x29.toByte(),
@@ -178,8 +175,14 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
                         0xC6.toByte(),
                         0xF0.toByte(),
                         0xA1.toByte(),
-                        0xE6.toByte())), R.string.kdf_Argon2id);
+                        0xE6.toByte())), "Argon2id");
+
+        override fun toString(): String {
+            return typeName
+        }
     }
+
+
 
     companion object {
 

@@ -217,12 +217,12 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
         if (mDatabase.loaded) {
             // Encryption Algorithm
             mEncryptionAlgorithmPref = findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.apply {
-                summary = mDatabase.getEncryptionAlgorithmName(resources)
+                summary = mDatabase.getEncryptionAlgorithmName()
             }
 
             // Key derivation function
             mKeyDerivationPref = findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))?.apply {
-                summary = mDatabase.getKeyDerivationName(resources)
+                summary = mDatabase.getKeyDerivationName()
             }
 
             // Round encryption
@@ -398,7 +398,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                     mDatabase.encryptionAlgorithm = oldEncryption
                                     oldEncryption
                                 }
-                        mEncryptionAlgorithmPref?.summary = algorithmToShow.getName(resources)
+                        mEncryptionAlgorithmPref?.summary = algorithmToShow.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> {
                         val oldKeyDerivationEngine = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as KdfEngine
@@ -410,7 +410,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                     mDatabase.kdfEngine = oldKeyDerivationEngine
                                     oldKeyDerivationEngine
                                 }
-                        mKeyDerivationPref?.summary = kdfEngineToShow.getName(resources)
+                        mKeyDerivationPref?.summary = kdfEngineToShow.toString()
 
                         mRoundPref?.summary = kdfEngineToShow.defaultKeyRounds.toString()
                         // Disable memory and parallelism if not available

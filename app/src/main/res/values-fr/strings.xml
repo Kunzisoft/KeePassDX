@@ -258,10 +258,6 @@
     <string name="html_text_dev_feature_upgrade">N’oubliez pas de garder votre application à jour en installant les nouvelles versions.</string>
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
-    <string name="encryption_twofish">Twofish</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string-array name="timeout_options">
         <item>5 secondes</item>
         <item>10 secondes</item>
@@ -549,8 +545,6 @@
     <string name="temp_advanced_unlock_enable_title">Déverrouillage avancé temporaire</string>
     <string name="advanced_unlock_tap_delete">Appuyez pour supprimer les clés de déverrouillage avancées</string>
     <string name="content">Contenu</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Impossible de reconstruire correctement la liste.</string>
     <string name="error_database_uri_null">L\'URI de la base de données ne peut pas être récupéré.</string>
     <string name="autofill_inline_suggestions_keyboard">Suggestions de remplissage automatique ajoutées.</string>
