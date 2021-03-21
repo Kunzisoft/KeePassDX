@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -21,30 +21,19 @@ package com.kunzisoft.encrypt
 
 import com.kunzisoft.encrypt.engine.AesEngine
 import com.kunzisoft.encrypt.stream.BetterCipherInputStream
+import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
 import org.junit.Assert.assertArrayEquals
-
+import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.security.InvalidAlgorithmParameterException
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
-import java.util.Random
-
-import javax.crypto.BadPaddingException
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
-import javax.crypto.IllegalBlockSizeException
-import javax.crypto.NoSuchPaddingException
 
-import junit.framework.TestCase
-
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
-
-class CipherTest : TestCase() {
+class CipherTest {
     private val rand = Random()
 
-    @Throws(InvalidKeyException::class, NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidAlgorithmParameterException::class, IllegalBlockSizeException::class, BadPaddingException::class)
+    @Test
     fun testCipherFactory() {
         val key = ByteArray(32)
         val iv = ByteArray(16)
@@ -65,7 +54,7 @@ class CipherTest : TestCase() {
         assertArrayEquals("Encryption and decryption failed", plaintext, decrypttext)
     }
 
-    @Throws(InvalidKeyException::class, NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidAlgorithmParameterException::class, IllegalBlockSizeException::class, BadPaddingException::class, IOException::class)
+    @Test
     fun testCipherStreams() {
         val MESSAGE_LENGTH = 1024
 

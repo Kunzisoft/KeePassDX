@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -19,29 +19,45 @@
  */
 package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.CipherFactory
-
-import junit.framework.TestCase
-
-import java.security.InvalidAlgorithmParameterException
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
-import java.util.Random
-
-import javax.crypto.BadPaddingException
+import com.kunzisoft.encrypt.finalkey.AndroidAESKeyTransformer
+import com.kunzisoft.encrypt.finalkey.NativeAESKeyTransformer
+import org.junit.Assert.assertArrayEquals
+import org.junit.Test
+import java.util.*
 import javax.crypto.Cipher
-import javax.crypto.IllegalBlockSizeException
-import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-import org.junit.Assert.assertArrayEquals
-
-class AESTest : TestCase() {
+class AESTest {
 
     private val mRand = Random()
 
-    @Throws(InvalidKeyException::class, NoSuchAlgorithmException::class, NoSuchPaddingException::class, IllegalBlockSizeException::class, BadPaddingException::class, InvalidAlgorithmParameterException::class)
+    @Test
+    fun testAES() {
+        // Test both an old and an even number to test my flip variable
+        testAESFinalKey(5)
+        testAESFinalKey(6)
+    }
+
+    private fun testAESFinalKey(rounds: Long) {
+        val seed = ByteArray(32)
+        val key = ByteArray(32)
+        val nativeKey: ByteArray?
+        val androidKey: ByteArray?
+
+        mRand.nextBytes(seed)
+        mRand.nextBytes(key)
+
+        val androidAESKey = AndroidAESKeyTransformer()
+        androidKey = androidAESKey.transformMasterKey(seed, key, rounds)
+
+        val nativeAESKey = NativeAESKeyTransformer()
+        nativeKey = nativeAESKey.transformMasterKey(seed, key, rounds)
+
+        assertArrayEquals("Does not match", androidKey, nativeKey)
+    }
+
+    @Test
     fun testEncrypt() {
         // Test above below and at the blocksize
         testFinal(15)
@@ -53,9 +69,7 @@ class AESTest : TestCase() {
         testFinal(size)
     }
 
-    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, IllegalBlockSizeException::class, BadPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
     private fun testFinal(dataSize: Int) {
-
         // Generate some input
         val input = ByteArray(dataSize)
         mRand.nextBytes(input)
