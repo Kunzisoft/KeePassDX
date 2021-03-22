@@ -70,14 +70,8 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
                     .cipherEngine.getCipher(Cipher.ENCRYPT_MODE,
                             finalKey ?: ByteArray(0),
                             header.encryptionIV)
-        } catch (e1: NoSuchAlgorithmException) {
-            throw IOException("No such algorithm")
-        } catch (e1: NoSuchPaddingException) {
-            throw IOException("No such padding")
-        } catch (e1: InvalidKeyException) {
-            throw IOException("Invalid key")
-        } catch (e1: InvalidAlgorithmParameterException) {
-            throw IOException("Invalid algorithm parameter.")
+        } catch (e: Exception) {
+            throw IOException("Algorithm not supported.", e)
         }
 
         try {
