@@ -373,46 +373,18 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nGetCac
 }
 
 #define MASTER_KEY_SIZE 32
-
-typedef struct _master_key {
-  uint64_t rounds;
-  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-  uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
-} master_key;
-
-
-void generate_key_material(void *arg) {
-  #if defined(KPD_PROFILE)
-  struct timespec start, end;
-  #endif
-  uint32_t i;
-  uint8_t *key1, *key2;
-  master_key *mk = (master_key *)arg;
-  aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
-  key1 = mk->key1;
-
-  #if defined(KPD_PROFILE)
-  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
-  #endif
-
-  aes_encrypt_key256(mk->c_seed, e_ctx);
-  for (i = 0; i < mk->rounds; i++) {
-      aes_encrypt(key1, key1, e_ctx);
-      key2 = key1 + (MASTER_KEY_SIZE/2);
-      aes_encrypt(key2, key2, e_ctx);
-  }
-
-  #if defined(KPD_PROFILE)
-  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
-  __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
-  #endif
-}
+#define MASTER_KEY_HALF_SIZE 16
 
 JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransformer_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
-  master_key mk;
+  uint64_t c_rounds;
+  uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+  uint8_t c_key[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
+
   jbyteArray result;
   sha256_ctx h_ctx[1] __attribute__ ((aligned (16)));
+
+  uint32_t i;
+  aes_encrypt_ctx e_ctx[1] __attribute__ ((aligned (16)));
 
   // step 1: housekeeping - sanity checks and fetch data from the JVM
   if( (*env)->GetArrayLength(env, seed) != MASTER_KEY_SIZE ) {
@@ -427,21 +399,25 @@ JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransfor
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: illegal number of encryption rounds");
     return NULL;
   }
-  mk.rounds = (uint64_t)rounds;
-  (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)mk.c_seed);
-  (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
+  c_rounds = (uint64_t)rounds;
+  (*env)->GetByteArrayRegion(env, seed, 0, MASTER_KEY_SIZE, (jbyte *)c_seed);
+  (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)c_key);
 
   // step 2: encrypt the hash "rounds"
-  generate_key_material((void*)&mk);
+  aes_encrypt_key256(c_seed, e_ctx);
+  for (i = 0; i < c_rounds; i++) {
+    aes_encrypt(c_key, c_key, e_ctx);
+    aes_encrypt(c_key + (MASTER_KEY_HALF_SIZE), c_key + (MASTER_KEY_HALF_SIZE), e_ctx);
+  }
 
   // step 3: final SHA256 hash
   sha256_begin(h_ctx);
-  sha256_hash(mk.key1, MASTER_KEY_SIZE, h_ctx);
-  sha256_end(mk.key2, h_ctx);
+  sha256_hash(c_key, MASTER_KEY_SIZE, h_ctx);
+  sha256_end(c_key, h_ctx);
 
   // step 4: send the hash into the JVM
   result = (*env)->NewByteArray(env, MASTER_KEY_SIZE);
-  (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key2);
+  (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)c_key);
 
   return result;
 }
