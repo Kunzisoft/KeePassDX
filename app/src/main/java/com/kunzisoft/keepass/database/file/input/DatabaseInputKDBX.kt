@@ -125,7 +125,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                              fixDuplicateUUID: Boolean,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
-            progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
+            startKeyTimer(progressTaskUpdater)
             mDatabase = DatabaseKDBX()
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
@@ -141,7 +141,9 @@ class DatabaseInputKDBX(cacheDirectory: File)
             assignMasterKey?.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
 
-            progressTaskUpdater?.updateMessage(R.string.decrypting_db)
+            stopKeyTimer()
+            startContentTimer(progressTaskUpdater)
+
             val engine: CipherEngine
             val cipher: Cipher
             try {
@@ -212,6 +214,8 @@ class DatabaseInputKDBX(cacheDirectory: File)
             }
 
             readDocumentStreamed(createPullParser(inputStreamXml))
+
+            stopContentTimer()
 
         } catch (e: LoadDatabaseException) {
             throw e

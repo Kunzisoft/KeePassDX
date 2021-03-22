@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database.file.input
 
+import android.util.Log
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
@@ -28,6 +30,9 @@ import java.io.InputStream
 
 abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
     (protected val cacheDirectory: File) {
+
+    private var startTimeKey = System.currentTimeMillis()
+    private var startTimeContent = System.currentTimeMillis()
 
     /**
      * Load a versioned database file, return contents in a new DatabaseVersioned.
@@ -54,4 +59,28 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
                               loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean = false): PwDb
+
+    protected fun startKeyTimer(progressTaskUpdater: ProgressTaskUpdater?) {
+        progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
+        Log.d(TAG, "Start retrieving database key...")
+        startTimeKey = System.currentTimeMillis()
+    }
+
+    protected fun stopKeyTimer() {
+        Log.d(TAG, "Stop retrieving database key... ${System.currentTimeMillis() - startTimeKey} ms")
+    }
+
+    protected fun startContentTimer(progressTaskUpdater: ProgressTaskUpdater?) {
+        progressTaskUpdater?.updateMessage(R.string.decrypting_db)
+        Log.d(TAG, "Start decrypting database content...")
+        startTimeContent = System.currentTimeMillis()
+    }
+
+    protected fun stopContentTimer() {
+        Log.d(TAG, "Stop retrieving database content... ${System.currentTimeMillis() - startTimeContent} ms")
+    }
+
+    companion object {
+        private val TAG = DatabaseInput::class.java.name
+    }
 }

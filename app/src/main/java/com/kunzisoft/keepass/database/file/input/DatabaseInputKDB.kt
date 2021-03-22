@@ -81,6 +81,7 @@ class DatabaseInputKDB(cacheDirectory: File)
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
 
         try {
+            startKeyTimer(progressTaskUpdater)
             // Load entire file, most of it's encrypted.
             val fileSize = databaseInputStream.available()
 
@@ -103,7 +104,6 @@ class DatabaseInputKDB(cacheDirectory: File)
                 throw VersionDatabaseException()
             }
 
-            progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabase = DatabaseKDB()
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
@@ -128,7 +128,8 @@ class DatabaseInputKDB(cacheDirectory: File)
                     header.transformSeed,
                     mDatabase.numberKeyEncryptionRounds)
 
-            progressTaskUpdater?.updateMessage(R.string.decrypting_db)
+            stopKeyTimer()
+            startContentTimer(progressTaskUpdater)
 
             val cipher: Cipher = try {
                 mDatabase.encryptionAlgorithm
@@ -323,6 +324,8 @@ class DatabaseInputKDB(cacheDirectory: File)
                 throw InvalidCredentialsDatabaseException()
             }
             constructTreeFromIndex()
+
+            stopContentTimer()
 
         } catch (e: LoadDatabaseException) {
             mDatabase.clearCache()
