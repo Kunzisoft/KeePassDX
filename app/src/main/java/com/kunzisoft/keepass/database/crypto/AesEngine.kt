@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.crypto
 
 
-import com.kunzisoft.encrypt.CipherEngineFactory
+import com.kunzisoft.encrypt.CipherFactory
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
@@ -31,7 +31,7 @@ class AesEngine : CipherEngine() {
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
     override fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
-        return CipherEngineFactory.getAES(opmode, key, IV)
+        return CipherFactory.getAES(opmode, key, IV)
     }
 
     override fun getEncryptionAlgorithm(): EncryptionAlgorithm {

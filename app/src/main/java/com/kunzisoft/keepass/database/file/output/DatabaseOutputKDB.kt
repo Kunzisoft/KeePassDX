@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.encrypt.CipherFactory
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import com.kunzisoft.encrypt.stream.NullOutputStream
@@ -37,8 +36,7 @@ import java.security.*
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
+import javax.crypto.NoSuchPaddingException
 
 class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
                         outputStream: OutputStream)
@@ -67,31 +65,27 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         val finalKey = getFinalKey(header)
 
-        val cipher: Cipher
-        cipher = try {
-            when {
-                // TODO Encapsulate
-                mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael->
-                    CipherFactory.getInstance("AES/CBC/PKCS5Padding")
-                mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish ->
-                    CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
-                else ->
-                    throw Exception()
-            }
-        } catch (e: Exception) {
-            throw DatabaseOutputException("Algorithm not supported.", e)
+        val cipher: Cipher = try {
+            mDatabaseKDB.encryptionAlgorithm
+                    .cipherEngine.getCipher(Cipher.ENCRYPT_MODE,
+                            finalKey ?: ByteArray(0),
+                            header.encryptionIV)
+        } catch (e1: NoSuchAlgorithmException) {
+            throw IOException("No such algorithm")
+        } catch (e1: NoSuchPaddingException) {
+            throw IOException("No such padding")
+        } catch (e1: InvalidKeyException) {
+            throw IOException("Invalid key")
+        } catch (e1: InvalidAlgorithmParameterException) {
+            throw IOException("Invalid algorithm parameter.")
         }
 
         try {
-            cipher.init(Cipher.ENCRYPT_MODE,
-                    SecretKeySpec(finalKey, "AES"),
-                    IvParameterSpec(header.encryptionIV))
             val cos = CipherOutputStream(mOutputStream, cipher)
             val bos = BufferedOutputStream(cos)
             outputPlanGroupAndEntries(bos)
             bos.flush()
             bos.close()
-
         } catch (e: InvalidKeyException) {
             throw DatabaseOutputException("Invalid key", e)
         } catch (e: InvalidAlgorithmParameterException) {

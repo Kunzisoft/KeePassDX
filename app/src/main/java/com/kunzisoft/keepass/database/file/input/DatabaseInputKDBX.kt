@@ -156,7 +156,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
             val isPlain: InputStream
             if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
-                val decrypted = attachCipherStream(databaseInputStream, cipher)
+                val decrypted = CipherInputStream(databaseInputStream, cipher)
                 val dataDecrypted = LittleEndianDataInputStream(decrypted)
                 val storedStartBytes: ByteArray?
                 try {
@@ -193,11 +193,10 @@ class DatabaseInputKDBX(cacheDirectory: File)
 
                 val hmIs = HmacBlockInputStream(isData, true, hmacKey)
 
-                isPlain = attachCipherStream(hmIs, cipher)
+                isPlain = CipherInputStream(hmIs, cipher)
             }
 
-            val inputStreamXml: InputStream
-            inputStreamXml = when (mDatabase.compressionAlgorithm) {
+            val inputStreamXml: InputStream = when (mDatabase.compressionAlgorithm) {
                 CompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
                 else -> isPlain
             }
@@ -230,10 +229,6 @@ class DatabaseInputKDBX(cacheDirectory: File)
         }
 
         return mDatabase
-    }
-
-    private fun attachCipherStream(inputStream: InputStream, cipher: Cipher): InputStream {
-        return CipherInputStream(inputStream, cipher)
     }
 
     @Throws(IOException::class)

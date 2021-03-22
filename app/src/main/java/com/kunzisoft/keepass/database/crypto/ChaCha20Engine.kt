@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.CipherEngineFactory
+import com.kunzisoft.encrypt.CipherFactory
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
@@ -34,7 +34,7 @@ class ChaCha20Engine : CipherEngine() {
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
     override fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
-        return CipherEngineFactory.getChacha20(opmode, key, IV)
+        return CipherFactory.getChacha20(opmode, key, IV)
     }
 
     override fun getEncryptionAlgorithm(): EncryptionAlgorithm {

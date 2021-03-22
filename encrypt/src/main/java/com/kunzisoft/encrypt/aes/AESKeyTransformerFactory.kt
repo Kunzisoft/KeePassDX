@@ -19,13 +19,12 @@
  */
 package com.kunzisoft.encrypt.aes
 
-import com.kunzisoft.encrypt.CipherFactory.deviceBlacklisted
+import com.kunzisoft.encrypt.NativeBlockList
 
 object AESKeyTransformerFactory : KeyTransformer() {
     override fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
         // Prefer the native final key implementation
-        val keyTransformer = if (!deviceBlacklisted()
-                && NativeAESKeyTransformer.available()) {
+        val keyTransformer = if (!NativeBlockList.isBlocked && NativeAESKeyTransformer.available()) {
             NativeAESKeyTransformer()
         } else {
             // Fall back on the android crypto implementation

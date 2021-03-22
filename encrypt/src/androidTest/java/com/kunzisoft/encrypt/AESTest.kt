@@ -23,23 +23,82 @@ import com.kunzisoft.encrypt.aes.AndroidAESKeyTransformer
 import com.kunzisoft.encrypt.aes.NativeAESKeyTransformer
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.crypto.Cipher
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
+import javax.crypto.CipherInputStream
+import javax.crypto.CipherOutputStream
 
 class AESTest {
 
     private val mRand = Random()
 
     @Test
-    fun testAES() {
-        // Test both an old and an even number to test my flip variable
-        testAESFinalKey(5)
-        testAESFinalKey(6)
+    fun testAESByteArray() {
+        // Generate random input
+        val input = ByteArray(mRand.nextInt(494) + 18)
+        mRand.nextBytes(input)
+        // Generate key
+        val keyArray = ByteArray(32)
+        mRand.nextBytes(keyArray)
+        // Generate IV
+        val ivArray = ByteArray(16)
+        mRand.nextBytes(ivArray)
+
+        val androidEncrypt = CipherFactory.getAES(Cipher.ENCRYPT_MODE, keyArray, ivArray).doFinal(input)
+        val nativeEncrypt = CipherFactory.getAES(Cipher.ENCRYPT_MODE, keyArray, ivArray, true).doFinal(input)
+
+        assertArrayEquals("Check AES encryption", androidEncrypt, nativeEncrypt)
+
+        val androidDecrypt = CipherFactory.getAES(Cipher.DECRYPT_MODE, keyArray, ivArray).doFinal(androidEncrypt)
+        val nativeDecrypt = CipherFactory.getAES(Cipher.DECRYPT_MODE, keyArray, ivArray, true).doFinal(nativeEncrypt)
+
+        assertArrayEquals("Check AES encryption/decryption", androidDecrypt, nativeDecrypt)
+
+        val androidMixDecrypt = CipherFactory.getAES(Cipher.DECRYPT_MODE, keyArray, ivArray).doFinal(nativeEncrypt)
+        val nativeMixDecrypt = CipherFactory.getAES(Cipher.DECRYPT_MODE, keyArray, ivArray, true).doFinal(androidEncrypt)
+
+        assertArrayEquals("Check AES mix encryption/decryption", androidMixDecrypt, nativeMixDecrypt)
     }
 
-    private fun testAESFinalKey(rounds: Long) {
+    @Test
+    fun testAESStream() {
+        // Generate random input
+        val input = ByteArray(mRand.nextInt(494) + 18)
+        mRand.nextBytes(input)
+        // Generate key
+        val keyArray = ByteArray(32)
+        mRand.nextBytes(keyArray)
+        // Generate IV
+        val ivArray = ByteArray(16)
+        mRand.nextBytes(ivArray)
+
+        val androidEncrypt = CipherFactory.getAES(Cipher.ENCRYPT_MODE, keyArray, ivArray)
+        val androidDecrypt = CipherFactory.getAES(Cipher.DECRYPT_MODE, keyArray, ivArray)
+        val androidOutputStream = ByteArrayOutputStream()
+        CipherInputStream(ByteArrayInputStream(input), androidEncrypt).use { cipherInputStream ->
+            CipherOutputStream(androidOutputStream, androidDecrypt).use { outputStream ->
+                outputStream.write(cipherInputStream.readBytes())
+            }
+        }
+        val androidOut = androidOutputStream.toByteArray()
+
+        val nativeEncrypt = CipherFactory.getAES(Cipher.ENCRYPT_MODE, keyArray, ivArray)
+        val nativeDecrypt = CipherFactory.getAES(Cipher.DECRYPT_MODE, keyArray, ivArray)
+        val nativeOutputStream = ByteArrayOutputStream()
+        CipherInputStream(ByteArrayInputStream(input), nativeEncrypt).use { cipherInputStream ->
+            CipherOutputStream(nativeOutputStream, nativeDecrypt).use { outputStream ->
+                outputStream.write(cipherInputStream.readBytes())
+            }
+        }
+        val nativeOut = nativeOutputStream.toByteArray()
+
+        assertArrayEquals("Check AES encryption/decryption", androidOut, nativeOut)
+    }
+
+    @Test
+    fun testAESKDF() {
         val seed = ByteArray(32)
         val key = ByteArray(32)
         val nativeKey: ByteArray?
@@ -49,49 +108,11 @@ class AESTest {
         mRand.nextBytes(key)
 
         val androidAESKey = AndroidAESKeyTransformer()
-        androidKey = androidAESKey.transformMasterKey(seed, key, rounds)
+        androidKey = androidAESKey.transformMasterKey(seed, key, 60000)
 
         val nativeAESKey = NativeAESKeyTransformer()
-        nativeKey = nativeAESKey.transformMasterKey(seed, key, rounds)
+        nativeKey = nativeAESKey.transformMasterKey(seed, key, 60000)
 
         assertArrayEquals("Does not match", androidKey, nativeKey)
-    }
-
-    @Test
-    fun testEncrypt() {
-        // Test above below and at the blocksize
-        testFinal(15)
-        testFinal(16)
-        testFinal(17)
-
-        // Test random larger sizes
-        val size = mRand.nextInt(494) + 18
-        testFinal(size)
-    }
-
-    private fun testFinal(dataSize: Int) {
-        // Generate some input
-        val input = ByteArray(dataSize)
-        mRand.nextBytes(input)
-
-        // Generate key
-        val keyArray = ByteArray(32)
-        mRand.nextBytes(keyArray)
-        val key = SecretKeySpec(keyArray, "AES")
-
-        // Generate IV
-        val ivArray = ByteArray(16)
-        mRand.nextBytes(ivArray)
-        val iv = IvParameterSpec(ivArray)
-
-        val android = CipherFactory.getInstance("AES/CBC/PKCS5Padding", true)
-        android.init(Cipher.ENCRYPT_MODE, key, iv)
-        val outAndroid = android.doFinal(input, 0, dataSize)
-
-        val nat = CipherFactory.getInstance("AES/CBC/PKCS5Padding")
-        nat.init(Cipher.ENCRYPT_MODE, key, iv)
-        val outNative = nat.doFinal(input, 0, dataSize)
-
-        assertArrayEquals("Arrays differ on size: $dataSize", outAndroid, outNative)
     }
 }
