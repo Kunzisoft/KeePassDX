@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
     // Crypto
     implementation 'org.bouncycastle:bcprov-jdk15on:1.65.01'
+    implementation 'com.lambdapioneer.argon2kt:argon2kt:1.2.0'
 
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'

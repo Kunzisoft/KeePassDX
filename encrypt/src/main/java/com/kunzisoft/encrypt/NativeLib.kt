@@ -31,7 +31,6 @@ object NativeLib {
         if (!isLoaded) {
             try {
                 System.loadLibrary("final-key")
-                System.loadLibrary("argon2")
             } catch (e: UnsatisfiedLinkError) {
                 return false
             }

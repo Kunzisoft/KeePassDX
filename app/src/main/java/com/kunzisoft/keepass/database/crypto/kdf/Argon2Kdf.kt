@@ -38,10 +38,10 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
             val p = KdfParameters(uuid!!)
 
             p.setParamUUID()
-            p.setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
+            p.setUInt32(PARAM_PARALLELISM, UnsignedInt.fromKotlinLong(DEFAULT_PARALLELISM))
             p.setUInt64(PARAM_MEMORY, DEFAULT_MEMORY)
             p.setUInt64(PARAM_ITERATIONS, DEFAULT_ITERATIONS)
-            p.setUInt32(PARAM_VERSION, MAX_VERSION)
+            p.setUInt32(PARAM_VERSION, UnsignedInt(MAX_VERSION))
 
             return p
         }
@@ -52,19 +52,13 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray {
 
-        val salt = kdfParameters.getByteArray(PARAM_SALT)
-        val parallelism = kdfParameters.getUInt32(PARAM_PARALLELISM)?.let {
-            UnsignedInt(it)
-        }
-        val memory = kdfParameters.getUInt64(PARAM_MEMORY)?.div(MEMORY_BLOCK_SIZE)?.let {
-            UnsignedInt.fromKotlinLong(it)
-        }
-        val iterations = kdfParameters.getUInt64(PARAM_ITERATIONS)?.let {
-            UnsignedInt.fromKotlinLong(it)
-        }
-        val version = kdfParameters.getUInt32(PARAM_VERSION)?.let {
-            UnsignedInt(it)
-        }
+        val salt = kdfParameters.getByteArray(PARAM_SALT) ?: ByteArray(0)
+        val parallelism = kdfParameters.getUInt32(PARAM_PARALLELISM)?.toKotlinLong() ?: DEFAULT_PARALLELISM
+        val memory = kdfParameters.getUInt64(PARAM_MEMORY)?.div(MEMORY_BLOCK_SIZE) ?: DEFAULT_MEMORY
+        val iterations = kdfParameters.getUInt64(PARAM_ITERATIONS) ?: DEFAULT_ITERATIONS
+        val version = kdfParameters.getUInt32(PARAM_VERSION)?.toKotlinInt() ?: MAX_VERSION
+
+        // Not used
         val secretKey = kdfParameters.getByteArray(PARAM_SECRET_KEY)
         val assocData = kdfParameters.getByteArray(PARAM_ASSOC_DATA)
 
@@ -74,12 +68,10 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
                 argonType,
                 masterKey,
                 salt,
-                parallelism!!,
-                memory!!,
-                iterations!!,
-                secretKey,
-                assocData,
-                version!!)
+                parallelism,
+                memory,
+                iterations,
+                version)
     }
 
     override fun randomize(kdfParameters: KdfParameters) {
@@ -137,7 +129,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     }
 
     override val defaultParallelism: Long
-        get() = DEFAULT_PARALLELISM.toKotlinLong()
+        get() = DEFAULT_PARALLELISM
 
     override val minParallelism: Long
         get() = MIN_PARALLELISM
@@ -196,8 +188,8 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         private const val PARAM_SECRET_KEY = "K" // byte[]
         private const val PARAM_ASSOC_DATA = "A" // byte[]
 
-        private val MIN_VERSION = UnsignedInt(0x10)
-        private val MAX_VERSION = UnsignedInt(0x13)
+        private const val MIN_VERSION = 0x10
+        private const val MAX_VERSION = 0x13
 
         private const val MIN_SALT = 8
         private val MAX_SALT = UnsignedInt.MAX_VALUE.toKotlinLong()
@@ -214,6 +206,6 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
         private const val DEFAULT_ITERATIONS: Long = 2L
         private const val DEFAULT_MEMORY = (1024 * 1024).toLong()
-        private val DEFAULT_PARALLELISM = UnsignedInt(2)
+        private const val DEFAULT_PARALLELISM: Long = 2L
     }
 }
