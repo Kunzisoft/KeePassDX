@@ -100,18 +100,16 @@ class AESTest {
     @Test
     fun testAESKDF() {
         val seed = ByteArray(32)
-        val key = ByteArray(32)
-        val nativeKey: ByteArray?
-        val androidKey: ByteArray?
-
         mRand.nextBytes(seed)
+        val key = ByteArray(32)
         mRand.nextBytes(key)
+        val rounds = 60000L
 
         val androidAESKey = AndroidAESKeyTransformer()
-        androidKey = androidAESKey.transformMasterKey(seed, key, 60000)
+        val androidKey = androidAESKey.transformMasterKey(seed, key, rounds)
 
         val nativeAESKey = NativeAESKeyTransformer()
-        nativeKey = nativeAESKey.transformMasterKey(seed, key, 60000)
+        val nativeKey = nativeAESKey.transformMasterKey(seed, key, rounds)
 
         assertArrayEquals("Does not match", androidKey, nativeKey)
     }
