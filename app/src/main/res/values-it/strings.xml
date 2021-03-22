@@ -538,7 +538,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Attenzione: dovrai sempre ricordare la password principale anche se usi lo sblocco avanzato.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Riconoscimento con sblocco avanzato</string>
     <string name="device_credential">Credenziali del dispositivo</string>
-    <string name="credential_before_click_advanced_unlock_button">Inserisci la password, quindi clicca sull\'icona \"Sblocco avanzato\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
     <string name="advanced_unlock_scanning_error">Errore sblocco avanzato: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Apri il database con lo sblocco avanzato</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Autentica con lo sblocco avanzato per sbloccare il database</string>
