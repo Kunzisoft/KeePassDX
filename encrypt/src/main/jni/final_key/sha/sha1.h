@@ -1,37 +1,34 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 2002, Dr Brian Gladman, Worcester, UK.   All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2010, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The free distribution and use of this software in both source and binary
- form is allowed (with or without changes) provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-   1. distributions of this source code include the above copyright
-      notice, this list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-   2. distributions in binary form include the above copyright
-      notice, this list of conditions and the following disclaimer
-      in the documentation and/or other associated materials;
-
-   3. the copyright holder's name is not used to endorse products
-      built using this software without specific written permission.
-
- ALTERNATIVELY, provided that this notice is retained in full, this product
- may be distributed under the terms of the GNU General Public License (GPL),
- in which case the provisions of the GPL apply INSTEAD OF those given above.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 01/08/2005
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 */
 
 #ifndef _SHA1_H
 #define _SHA1_H
+
+/* define for bit or byte oriented SHA   */
+#if 1
+#  define SHA1_BITS 0   /* byte oriented */
+#else
+#  define SHA1_BITS 1   /* bit oriented  */
+#endif
+
+#define SHA_1
 
 #include <stdlib.h>
 #include "brg_types.h"
@@ -47,9 +44,9 @@ extern "C"
 /* type to hold the SHA256 context  */
 
 typedef struct
-{   uint_32t count[2];
-    uint_32t hash[5];
-    uint_32t wbuf[16];
+{   uint32_t count[2];
+    uint32_t hash[SHA1_DIGEST_SIZE >> 2];
+    uint32_t wbuf[SHA1_BLOCK_SIZE >> 2];
 } sha1_ctx;
 
 /* Note that these prototypes are the same for both bit and */
@@ -57,7 +54,9 @@ typedef struct
 /* are in bytes or bits as appropriate for the version used */
 /* and bit sequences are input as arrays of bytes in which  */
 /* bit sequences run from the most to the least significant */
-/* end of each byte                                         */
+/* end of each byte. The value 'len' in sha1_hash for the   */
+/* byte oriented version of SHA1 is limited to 2^29 bytes,  */
+/* but multiple calls will handle longer data blocks.       */
 
 VOID_RETURN sha1_compile(sha1_ctx ctx[1]);
 

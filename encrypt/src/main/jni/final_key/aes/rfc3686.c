@@ -1,3 +1,22 @@
+/*
+---------------------------------------------------------------------------
+Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
+
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
+
+source code distributions include the above copyright notice, this
+list of conditions and the following disclaimer;
+
+binary distributions include the above copyright notice, this list
+of conditions and the following disclaimer in their documentation.
+
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/11/2013
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -312,16 +331,21 @@ void rfc3686_test(void)
 {   aes_encrypt_ctx aes_ctx[1];
     unsigned char ctr_buf[AES_BLOCK_SIZE];
     unsigned char obuf[36];
-    unsigned int i; 
+    unsigned int i, err = 0; 
     
     for( i = 0 ; i < sizeof(tests) / sizeof(test_str) ; ++i )
     {
         aes_encrypt_key(tests[i].key, tests[i].k_len, aes_ctx);
         rfc3686_init(tests[i].nonce, tests[i].iv, ctr_buf);
         rfc3686_crypt(tests[i].p_txt, obuf, tests[i].m_len, ctr_buf, aes_ctx);
-        if(memcmp(obuf, tests[i].c_txt, tests[i].m_len) != 0)
-            printf("\nerror");
+		if(memcmp(obuf, tests[i].c_txt, tests[i].m_len) != 0)
+		{
+			err++;
+			printf("error\n");
+		}
     }
+	if(!err)
+		printf("RFC3686 Tests Passed\n");
 }
 
 int main(void)

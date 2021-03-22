@@ -1,28 +1,21 @@
 
 ; ---------------------------------------------------------------------------
-; Copyright (c) 1998-2007, Brian Gladman, Worcester, UK. All rights reserved.
-; 
-; LICENSE TERMS
-; 
-; The free distribution and use of this software is allowed (with or without
-; changes) provided that:
-; 
-;  1. source code distributions include the above copyright notice, this
-;     list of conditions and the following disclaimer;
-; 
-;  2. binary distributions include the above copyright notice, this list
-;     of conditions and the following disclaimer in their documentation;
-; 
-;  3. the name of the copyright holder is not used to endorse products
-;     built using this software without specific written permission.
-; 
-; DISCLAIMER
-; 
+; Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
+;
+; The redistribution and use of this software (with or without changes)
+; is allowed without the payment of fees or royalties provided that:
+;
+;   source code distributions include the above copyright notice, this
+;   list of conditions and the following disclaimer;
+;
+;   binary distributions include the above copyright notice, this list
+;   of conditions and the following disclaimer in their documentation.
+;
 ; This software is provided 'as is' with no explicit or implied warranties
-; in respect of its properties, including, but not limited to, correctness
-; and/or fitness for purpose.
+; in respect of its operation, including, but not limited to, correctness
+; and fitness for purpose.
 ; ---------------------------------------------------------------------------
-; Issue 20/12/2007
+; Issue Date: 27/10/2018
 ;
 ; I am grateful to Dag Arne Osvik for many discussions of the techniques that
 ; can be used to optimise AES assembler code on AMD64/EM64T architectures.
@@ -51,7 +44,10 @@
 ; used if __GNUC__ is defined.
 ;
 ; Define _SEH_ to include support for Win64 structured exception handling
-; (this requires YASM version 0.6 or later).
+; (this requires YASM version 0.6 or later).  
+;
+; In order to use this code in Windows kernel mode, set the NO_PAGING define
+; to disable structured exception handling and paging.
 ;
 ; This code provides the standard AES block size (128 bits, 16 bytes) and the
 ; three standard AES key sizes (128, 192 and 256 bits). It has the same call
@@ -77,19 +73,40 @@
 ;     AES_RETURN aes_decrypt_key(const unsigned char key[],
 ;                           unsigned int len, const aes_decrypt_ctx cx[1]);
 ;
-; where <NNN> is 128, 102 or 256.  In the last two calls the length can be in
+; where <NNN> is 128, 192 or 256.  In the last two calls the length can be in
 ; either bits or bytes.
-;
-; Comment in/out the following lines to obtain the desired subroutines. These
-; selections MUST match those in the C header file aes.h
 
+;----------------------------------------------------------------------------
+
+; Use of this assembler code in Windows kernel mode requires structured
+; exception handling and memory paging to be disabled
+%ifdef NO_PAGING
+%undef _SEH_
+%define set_page nopage
+%else
+%define set_page
+%endif
+
+; Comment in/out the following lines to obtain the desired subroutines. These
+; selections MUST match those in the C header files aes.h and aesopt.h
+%ifdef INTEL_AES_POSSIBLE
+%define USE_INTEL_AES_IF_PRESENT
+%endif
 %define AES_128                 ; define if AES with 128 bit keys is needed
 %define AES_192                 ; define if AES with 192 bit keys is needed
 %define AES_256                 ; define if AES with 256 bit keys is needed
 %define AES_VAR                 ; define if a variable key size is needed
 %define ENCRYPTION              ; define if encryption is needed
 %define DECRYPTION              ; define if decryption is needed
-%define AES_REV_DKS             ; define if key decryption schedule is reversed
+;----------------------------------------------------------------------------
+
+%ifdef USE_INTEL_AES_IF_PRESENT
+%define aes_ni(x) aes_ %+ x %+ _i
+%undef  AES_REV_DKS
+%else
+%define aes_ni(x) aes_ %+ x
+%define AES_REV_DKS
+%endif
 
 %define LAST_ROUND_TABLES       ; define for the faster version using extra tables
 
@@ -126,15 +143,15 @@
 ;     | decryption round N-1 | = INV_MIX_COL[ | encryption round N-1 | ]
 ; hi: | decryption round N   | =              | encryption round N   |
 ;
-; This layout is faster when the assembler key scheduling provided here
-; is used.
+; This layout is faster when the assembler key scheduling is used (not
+; used here).
 ;
 ; The DLL interface must use the _stdcall convention in which the number
-; of bytes of parameter space is added after an @ to the sutine's name.
+; of bytes of parameter space is added after an @ to the rouutine's name.
 ; We must also remove our parameters from the stack before return (see
 ; the do_exit macro). Define DLL_EXPORT for the Dynamic Link Library version.
 
-;%define DLL_EXPORT
+; %define DLL_EXPORT
 
 ; End of user defines
 
@@ -671,12 +688,12 @@
 
 %ifdef ENCRYPTION
 
-    global  aes_encrypt
+    global  aes_ni(encrypt)
 %ifdef DLL_EXPORT
-    export  aes_encrypt
+    export  aes_ni(encrypt)
 %endif
 
-    section .data align=64
+    section .data align=64 set_page
     align   64
 enc_tab:
     enc_vals u8
@@ -684,40 +701,40 @@ enc_tab:
     enc_vals w8
 %endif
 
-    section .text align=16
+    section .text align=16 set_page
     align   16
 
 %ifdef _SEH_
-proc_frame aes_encrypt
-	alloc_stack	7*8			; 7 to align stack to 16 bytes
-	save_reg	rsi,4*8
-	save_reg	rdi,5*8
-	save_reg	rbx,1*8
-	save_reg	rbp,2*8
-	save_reg	r12,3*8
+proc_frame aes_ni(encrypt)
+    alloc_stack	7*8			; 7 to align stack to 16 bytes
+    save_reg	rsi,4*8
+    save_reg	rdi,5*8
+    save_reg	rbx,1*8
+    save_reg	rbp,2*8
+    save_reg	r12,3*8
 end_prologue
     mov     rdi, rcx        ; input pointer
     mov     [rsp+0*8], rdx  ; output pointer
 %else
-	aes_encrypt:
-	%ifdef __GNUC__
-		sub     rsp, 4*8        ; gnu/linux binary interface
-		mov     [rsp+0*8], rsi  ; output pointer
-		mov     r8, rdx         ; context
-	%else
-		sub     rsp, 6*8        ; windows binary interface
-		mov     [rsp+4*8], rsi
-		mov     [rsp+5*8], rdi
-		mov     rdi, rcx        ; input pointer
-		mov     [rsp+0*8], rdx  ; output pointer
-	%endif
-		mov     [rsp+1*8], rbx  ; input pointer in rdi
-		mov     [rsp+2*8], rbp  ; output pointer in [rsp]
-		mov     [rsp+3*8], r12  ; context in r8
+    aes_ni(encrypt):
+    %ifdef __GNUC__
+        sub     rsp, 4*8        ; gnu/linux binary interface
+        mov     [rsp+0*8], rsi  ; output pointer
+        mov     r8, rdx         ; context
+    %else
+        sub     rsp, 6*8        ; windows binary interface
+        mov     [rsp+4*8], rsi
+        mov     [rsp+5*8], rdi
+        mov     rdi, rcx        ; input pointer
+        mov     [rsp+0*8], rdx  ; output pointer
+    %endif
+        mov     [rsp+1*8], rbx  ; input pointer in rdi
+        mov     [rsp+2*8], rbp  ; output pointer in [rsp]
+        mov     [rsp+3*8], r12  ; context in r8
 %endif
 
     movzx   esi, byte [kptr+4*KS_LENGTH]
-    lea     tptr,[enc_tab wrt rip]
+    lea     tptr, [rel enc_tab]
     sub     kptr, fofs
 
     mov     eax, [rdi+0*4]
@@ -769,25 +786,25 @@ end_prologue
     add     rsp, 4*8
     ret
 %else
-	mov     rsi, [rsp+4*8]
-	mov     rdi, [rsp+5*8]
-	%ifdef _SEH_
-		add     rsp, 7*8
-		ret
-	endproc_frame
-	%else
-		add     rsp, 6*8
-		ret
-	%endif
+    mov     rsi, [rsp+4*8]
+    mov     rdi, [rsp+5*8]
+    %ifdef _SEH_
+        add     rsp, 7*8
+        ret
+    endproc_frame
+    %else
+        add     rsp, 6*8
+        ret
+    %endif
 %endif
 
 %endif
 
 %ifdef DECRYPTION
 
-    global  aes_decrypt
+    global  aes_ni(decrypt)
 %ifdef DLL_EXPORT
-    export  aes_decrypt
+    export  aes_ni(decrypt)
 %endif
 
     section .data
@@ -802,36 +819,36 @@ dec_tab:
     align   16
 
 %ifdef _SEH_
-proc_frame aes_decrypt
-	alloc_stack	7*8			; 7 to align stack to 16 bytes
-	save_reg	rsi,4*8
-	save_reg	rdi,5*8
-	save_reg	rbx,1*8
-	save_reg	rbp,2*8
-	save_reg	r12,3*8
+proc_frame aes_ni(decrypt)
+    alloc_stack	7*8			; 7 to align stack to 16 bytes
+    save_reg	rsi,4*8
+    save_reg	rdi,5*8
+    save_reg	rbx,1*8
+    save_reg	rbp,2*8
+    save_reg	r12,3*8
 end_prologue
     mov     rdi, rcx        ; input pointer
     mov     [rsp+0*8], rdx  ; output pointer
 %else
-	aes_decrypt:
-	%ifdef __GNUC__
-		sub     rsp, 4*8        ; gnu/linux binary interface
-		mov     [rsp+0*8], rsi  ; output pointer
-		mov     r8, rdx         ; context
-	%else
-		sub     rsp, 6*8        ; windows binary interface
-		mov     [rsp+4*8], rsi
-		mov     [rsp+5*8], rdi
-		mov     rdi, rcx        ; input pointer
-		mov     [rsp+0*8], rdx  ; output pointer
-	%endif
-		mov     [rsp+1*8], rbx  ; input pointer in rdi
-		mov     [rsp+2*8], rbp  ; output pointer in [rsp]
-		mov     [rsp+3*8], r12  ; context in r8
+    aes_ni(decrypt):
+    %ifdef __GNUC__
+        sub     rsp, 4*8        ; gnu/linux binary interface
+        mov     [rsp+0*8], rsi  ; output pointer
+        mov     r8, rdx         ; context
+    %else
+        sub     rsp, 6*8        ; windows binary interface
+        mov     [rsp+4*8], rsi
+        mov     [rsp+5*8], rdi
+        mov     rdi, rcx        ; input pointer
+        mov     [rsp+0*8], rdx  ; output pointer
+    %endif
+        mov     [rsp+1*8], rbx  ; input pointer in rdi
+        mov     [rsp+2*8], rbp  ; output pointer in [rsp]
+        mov     [rsp+3*8], r12  ; context in r8
 %endif
 
-    movzx   esi,byte[kptr+4*KS_LENGTH]
-    lea     tptr,[dec_tab wrt rip]
+    movzx   esi, byte[kptr+4*KS_LENGTH]
+    lea     tptr, [rel dec_tab]
     sub     kptr, rofs
 
     mov     eax, [rdi+0*4]
@@ -888,16 +905,16 @@ end_prologue
     add     rsp, 4*8
     ret
 %else
-	mov     rsi, [rsp+4*8]
-	mov     rdi, [rsp+5*8]
-	%ifdef _SEH_
-		add     rsp, 7*8
-		ret
-	endproc_frame
-	%else
-		add     rsp, 6*8
-		ret
-	%endif
+    mov     rsi, [rsp+4*8]
+    mov     rdi, [rsp+5*8]
+    %ifdef _SEH_
+        add     rsp, 7*8
+        ret
+    endproc_frame
+    %else
+        add     rsp, 6*8
+        ret
+    %endif
 %endif
 
 %endif

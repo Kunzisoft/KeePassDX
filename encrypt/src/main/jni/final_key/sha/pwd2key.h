@@ -1,36 +1,24 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 2002, Dr Brian Gladman, Worcester, UK.   All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2010, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The free distribution and use of this software in both source and binary 
- form is allowed (with or without changes) provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-   1. distributions of this source code include the above copyright 
-      notice, this list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-   2. distributions in binary form include the above copyright
-      notice, this list of conditions and the following disclaimer
-      in the documentation and/or other associated materials;
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 
-   3. the copyright holder's name is not used to endorse products 
-      built using this software without specific written permission. 
-
- ALTERNATIVELY, provided that this notice is retained in full, this product
- may be distributed under the terms of the GNU General Public License (GPL),
- in which case the provisions of the GPL apply INSTEAD OF those given above.
- 
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness 
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 26/08/2003
-
- This is an implementation of RFC2898, which specifies key derivation from
- a password and a salt value.
+This is an implementation of RFC2898, which specifies key derivation from
+a password and a salt value.
 */
 
 #ifndef PWD2KEY_H

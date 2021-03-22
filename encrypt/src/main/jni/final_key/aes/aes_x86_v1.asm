@@ -1,26 +1,19 @@
 
 ; ---------------------------------------------------------------------------
-; Copyright (c) 1998-2008, Brian Gladman, Worcester, UK. All rights reserved.
-;
-; LICENSE TERMS
+; Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
 ;
 ; The redistribution and use of this software (with or without changes)
 ; is allowed without the payment of fees or royalties provided that:
 ;
-;  1. source code distributions include the above copyright notice, this
-;     list of conditions and the following disclaimer;
+;   source code distributions include the above copyright notice, this
+;   list of conditions and the following disclaimer;
 ;
-;  2. binary distributions include the above copyright notice, this list
-;     of conditions and the following disclaimer in their documentation;
-;
-;  3. the name of the copyright holder is not used to endorse products
-;     built using this software without specific written permission.
-;
-; DISCLAIMER
+;   binary distributions include the above copyright notice, this list
+;   of conditions and the following disclaimer in their documentation.
 ;
 ; This software is provided 'as is' with no explicit or implied warranties
-; in respect of its properties, including, but not limited to, correctness
-; and/or fitness for purpose.
+; in respect of its operation, including, but not limited to, correctness
+; and fitness for purpose.
 ; ---------------------------------------------------------------------------
 ; Issue 13/08/2008
 ;
@@ -67,7 +60,15 @@
 ;
 ; where <NNN> is 128, 102 or 256.  In the last two calls the length can be in
 ; either bits or bytes.
-;
+
+; Use of this assembler code in Windows kernel mode requires memory paging 
+; to be disabled
+%ifdef NO_PAGING
+%define set_page nopage
+%else
+%define set_page
+%endif
+
 ; Comment in/out the following lines to obtain the desired subroutines. These
 ; selections MUST match those in the C header file aes.h
 
@@ -132,6 +133,8 @@ stk_spc equ    20   ; stack space
 ;%define DLL_EXPORT
 
 ; End of user defines
+
+    section .text align=32 set_page
 
 %ifdef AES_VAR
 %ifndef AES_128
@@ -353,8 +356,6 @@ stk_spc equ    20   ; stack space
 
 %endmacro
 
-    section .text align=32
-
 ; AES Encryption Subroutine
 
     align   32
@@ -563,8 +564,6 @@ stk_spc equ    20   ; stack space
     xor     ebx,[ebp+4]
 
 %endmacro
-
-    section .text
 
 ; AES Decryption Subroutine
 

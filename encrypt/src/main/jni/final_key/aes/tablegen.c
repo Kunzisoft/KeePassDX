@@ -1,33 +1,27 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 1998-2008, Brian Gladman, Worcester, UK. All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The redistribution and use of this software (with or without changes)
- is allowed without the payment of fees or royalties provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-  1. source code distributions include the above copyright notice, this
-     list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-  2. binary distributions include the above copyright notice, this list
-     of conditions and the following disclaimer in their documentation;
-
-  3. the name of the copyright holder is not used to endorse products
-     built using this software without specific written permission.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 20/12/2007
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 */
 
 #define DO_TABLES
 
 #include <stdio.h>
+#include "aesaux.h"
 #include "aesopt.h"
 
 #define sb_data(w) {\
@@ -170,7 +164,7 @@
 void rtab(FILE *f, unsigned char *h, const unsigned int t[RC_LENGTH])
 {   int i;
 
-    fprintf(f, "\nuint_32t %s[RC_LENGTH] = \n{", h);
+    fprintf(f, "\nuint32_t %s[RC_LENGTH] = \n{", h);
 
     for(i = 0; i < RC_LENGTH; ++i)
     {
@@ -188,7 +182,7 @@ void rtab(FILE *f, unsigned char *h, const unsigned int t[RC_LENGTH])
 void btab_1(FILE *f, unsigned char *h, const unsigned char t[256])
 {   int i;
 
-    fprintf(f, "\nuint_8t %s[256] = \n{", h);
+    fprintf(f, "\nuint8_t %s[256] = \n{", h);
 
     for(i = 0; i < 256; ++i)
     {
@@ -206,7 +200,7 @@ void btab_1(FILE *f, unsigned char *h, const unsigned char t[256])
 void wtab_1(FILE *f, unsigned char *h, const unsigned int t[256])
 {   int i;
 
-    fprintf(f, "\nuint_32t %s[256] = \n{", h);
+    fprintf(f, "\nuint32_t %s[256] = \n{", h);
 
     for(i = 0; i < 256; ++i)
     {
@@ -224,7 +218,7 @@ void wtab_1(FILE *f, unsigned char *h, const unsigned int t[256])
 void wtab_4(FILE *f, unsigned char *h, const unsigned int t[4][256])
 {   int i, j;
 
-    fprintf(f, "\nuint_32t %s[4][256] = \n{", h);
+    fprintf(f, "\nuint32_t %s[4][256] = \n{", h);
 
     for(i = 0; i < 4; ++i)
     {
@@ -251,8 +245,13 @@ void wtab_4(FILE *f, unsigned char *h, const unsigned int t[4][256])
 
 int main(void)
 {   FILE *f;
+    char *fn = "aestab2.c";
 
-    f = fopen("aestab2.c", "w");
+    if(fopen_s(&f, fn, "w"))
+	{
+		printf("\nCannot open %s for output\n", fn);
+		return -1;
+	}
 
     fprintf(f, "\n#include \"aes.h\"\n");
     fprintf(f, "\n#define RC_LENGTH   (5 * (AES_BLOCK_SIZE / 4 - 2))\n");

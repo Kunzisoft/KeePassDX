@@ -1,36 +1,21 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 2002, Dr Brian Gladman, Worcester, UK.   All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2010, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The free distribution and use of this software in both source and binary
- form is allowed (with or without changes) provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-   1. distributions of this source code include the above copyright
-      notice, this list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-   2. distributions in binary form include the above copyright
-      notice, this list of conditions and the following disclaimer
-      in the documentation and/or other associated materials;
-
-   3. the copyright holder's name is not used to endorse products
-      built using this software without specific written permission.
-
- ALTERNATIVELY, provided that this notice is retained in full, this product
- may be distributed under the terms of the GNU General Public License (GPL),
- in which case the provisions of the GPL apply INSTEAD OF those given above.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 01/08/2005
-
- This is a byte oriented version of SHA1 that operates on arrays of bytes
- stored in memory.
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 */
 
 #include <string.h>     /* for memcpy() etc.        */
@@ -45,6 +30,7 @@ extern "C"
 
 #if defined( _MSC_VER ) && ( _MSC_VER > 800 )
 #pragma intrinsic(memcpy)
+#pragma intrinsic(memset)
 #endif
 
 #if 0 && defined(_MSC_VER)
@@ -67,7 +53,7 @@ extern "C"
 
 #if defined(SWAP_BYTES)
 #define bsw_32(p,n) \
-    { int _i = (n); while(_i--) ((uint_32t*)p)[_i] = bswap_32(((uint_32t*)p)[_i]); }
+    { int _i = (n); while(_i--) ((uint32_t*)p)[_i] = bswap_32(((uint32_t*)p)[_i]); }
 #else
 #define bsw_32(p,n)
 #endif
@@ -114,13 +100,13 @@ extern "C"
     one_cycle(v, 1,2,3,4,0, f,k,hf(i+4))
 
 VOID_RETURN sha1_compile(sha1_ctx ctx[1])
-{   uint_32t    *w = ctx->wbuf;
+{   uint32_t    *w = ctx->wbuf;
 
 #ifdef ARRAY
-    uint_32t    v[5];
-    memcpy(v, ctx->hash, 5 * sizeof(uint_32t));
+    uint32_t    v[5];
+    memcpy(v, ctx->hash, sizeof(ctx->hash));
 #else
-    uint_32t    v0, v1, v2, v3, v4;
+    uint32_t    v0, v1, v2, v3, v4;
     v0 = ctx->hash[0]; v1 = ctx->hash[1];
     v2 = ctx->hash[2]; v3 = ctx->hash[3];
     v4 = ctx->hash[4];
@@ -171,7 +157,7 @@ VOID_RETURN sha1_compile(sha1_ctx ctx[1])
 
 VOID_RETURN sha1_begin(sha1_ctx ctx[1])
 {
-    ctx->count[0] = ctx->count[1] = 0;
+    memset(ctx, 0, sizeof(sha1_ctx));
     ctx->hash[0] = 0x67452301;
     ctx->hash[1] = 0xefcdab89;
     ctx->hash[2] = 0x98badcfe;
@@ -180,43 +166,78 @@ VOID_RETURN sha1_begin(sha1_ctx ctx[1])
 }
 
 /* SHA1 hash data in an array of bytes into hash buffer and */
-/* call the hash_compile function as required.              */
+/* call the hash_compile function as required. For both the */
+/* bit and byte orientated versions, the block length 'len' */
+/* must not be greater than 2^32 - 1 bits (2^29 - 1 bytes)  */ 
 
 VOID_RETURN sha1_hash(const unsigned char data[], unsigned long len, sha1_ctx ctx[1])
-{   uint_32t pos = (uint_32t)(ctx->count[0] & SHA1_MASK),
-            space = SHA1_BLOCK_SIZE - pos;
+{   uint32_t pos = (uint32_t)((ctx->count[0] >> 3) & SHA1_MASK);
     const unsigned char *sp = data;
-
+    unsigned char *w = (unsigned char*)ctx->wbuf;
+#if SHA1_BITS == 1
+    uint32_t ofs = (ctx->count[0] & 7);
+#else
+    len <<= 3;
+#endif
     if((ctx->count[0] += len) < len)
         ++(ctx->count[1]);
-
-    while(len >= space)     /* tranfer whole blocks if possible  */
+#if SHA1_BITS == 1
+    if(ofs)                 /* if not on a byte boundary    */
     {
-        memcpy(((unsigned char*)ctx->wbuf) + pos, sp, space);
-        sp += space; len -= space; space = SHA1_BLOCK_SIZE; pos = 0;
-        bsw_32(ctx->wbuf, SHA1_BLOCK_SIZE >> 2);
-        sha1_compile(ctx);
-    }
+        if(ofs + len < 8)   /* if no added bytes are needed */
+        {
+            w[pos] |= (*sp >> ofs);
+        }
+        else                /* otherwise and add bytes      */
+        {   unsigned char part = w[pos];
 
-    memcpy(((unsigned char*)ctx->wbuf) + pos, sp, len);
+            while((int)(ofs + (len -= 8)) >= 0)
+            {
+                w[pos++] = part | (*sp >> ofs);
+                part = *sp++ << (8 - ofs);
+                if(pos == SHA1_BLOCK_SIZE)
+                {
+                    bsw_32(w, SHA1_BLOCK_SIZE >> 2);
+                    sha1_compile(ctx); pos = 0;
+                }
+            }
+
+            w[pos] = part;
+        }
+    }
+    else    /* data is byte aligned */
+#endif
+    {   uint32_t space = SHA1_BLOCK_SIZE - pos;
+
+        while(len >= (space << 3))
+        {
+            memcpy(w + pos, sp, space);
+            bsw_32(w, SHA1_BLOCK_SIZE >> 2);
+            sha1_compile(ctx); 
+            sp += space; len -= (space << 3); 
+            space = SHA1_BLOCK_SIZE; pos = 0;
+        }
+        memcpy(w + pos, sp, (len + 7 * SHA1_BITS) >> 3);
+    }
 }
 
 /* SHA1 final padding and digest calculation  */
 
 VOID_RETURN sha1_end(unsigned char hval[], sha1_ctx ctx[1])
-{   uint_32t    i = (uint_32t)(ctx->count[0] & SHA1_MASK);
+{   uint32_t    i = (uint32_t)((ctx->count[0] >> 3) & SHA1_MASK), m1;
 
     /* put bytes in the buffer in an order in which references to   */
     /* 32-bit words will put bytes with lower addresses into the    */
     /* top of 32 bit words on BOTH big and little endian machines   */
-    bsw_32(ctx->wbuf, (i + 3) >> 2);
+    bsw_32(ctx->wbuf, (i + 3 + SHA1_BITS) >> 2);
 
     /* we now need to mask valid bytes and add the padding which is */
     /* a single 1 bit and as many zero bits as necessary. Note that */
     /* we can always add the first padding byte here because the    */
     /* buffer always has at least one empty slot                    */
-    ctx->wbuf[i >> 2] &= 0xffffff80 << 8 * (~i & 3);
-    ctx->wbuf[i >> 2] |= 0x00000080 << 8 * (~i & 3);
+    m1 = (unsigned char)0x80 >> (ctx->count[0] & 7);
+    ctx->wbuf[i >> 2] &= ((0xffffff00 | (~m1 + 1)) << 8 * (~i & 3));
+    ctx->wbuf[i >> 2] |= (m1 << 8 * (~i & 3));
 
     /* we need 9 or more empty positions, one for the padding byte  */
     /* (above) and eight for the length count. If there is not      */
@@ -237,14 +258,14 @@ VOID_RETURN sha1_end(unsigned char hval[], sha1_ctx ctx[1])
     /* wrong byte order on little endian machines but this is       */
     /* corrected later since they are only ever used as 32-bit      */
     /* word values.                                                 */
-    ctx->wbuf[14] = (ctx->count[1] << 3) | (ctx->count[0] >> 29);
-    ctx->wbuf[15] = ctx->count[0] << 3;
+    ctx->wbuf[14] = ctx->count[1];
+    ctx->wbuf[15] = ctx->count[0];
     sha1_compile(ctx);
 
     /* extract the hash value as bytes in case the hash buffer is   */
     /* misaligned for 32-bit words                                  */
     for(i = 0; i < SHA1_DIGEST_SIZE; ++i)
-        hval[i] = (unsigned char)(ctx->hash[i >> 2] >> (8 * (~i & 3)));
+        hval[i] = ((ctx->hash[i >> 2] >> (8 * (~i & 3))) & 0xff);
 }
 
 VOID_RETURN sha1(unsigned char hval[], const unsigned char data[], unsigned long len)

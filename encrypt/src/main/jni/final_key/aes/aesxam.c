@@ -1,28 +1,21 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 1998-2008, Brian Gladman, Worcester, UK. All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The redistribution and use of this software (with or without changes)
- is allowed without the payment of fees or royalties provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-  1. source code distributions include the above copyright notice, this
-     list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-  2. binary distributions include the above copyright notice, this list
-     of conditions and the following disclaimer in their documentation;
-
-  3. the name of the copyright holder is not used to endorse products
-     built using this software without specific written permission.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 20/12/2007
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 25/09/2018
 */
 
 //  An example of the use of AES (Rijndael) for file encryption.  This code
@@ -124,6 +117,24 @@
 #include "aes.h"
 #include "rdtsc.h"
 
+#if !defined( _MSC_VER ) 
+// substitute for MSVC fopen_s() on Unix/Linux
+int fopen_s(FILE** pFile, const char *filename, const char *mode)
+{
+	char ul_name[64], *d = ul_name;
+	const char *s = filename;
+	FILE * fp;
+
+	do{
+		*d++ = (char)(*s == '\\' ? '/' : *s);
+	}
+	while(*s++);
+
+	*pFile = fp = fopen(ul_name, mode);
+	return fp == NULL;
+}
+#endif
+
 #define BLOCK_LEN   16
 
 #define OK           0
@@ -166,8 +177,8 @@ int encfile(FILE *fin, FILE *fout, aes_encrypt_ctx ctx[1])
 {   unsigned char dbuf[3 * BLOCK_LEN];
     unsigned long i, len, wlen = BLOCK_LEN;
 
-    // When ciphertext stealing is used, we three ciphertext blocks so
-    // we use a buffer that is three times the block length.  The buffer
+    // When ciphertext stealing is used, we need three ciphertext blocks
+    // so we use a buffer that is three times the block length.  The buffer
     // pointers b1, b2 and b3 point to the buffer positions of three
     // ciphertext blocks, b3 being the most recent and b1 being the
     // oldest. We start with the IV in b1 and the block to be decrypted
@@ -254,8 +265,8 @@ int decfile(FILE *fin, FILE *fout, aes_decrypt_ctx ctx[1])
 {   unsigned char dbuf[3 * BLOCK_LEN], buf[BLOCK_LEN];
     unsigned long i, len, wlen = BLOCK_LEN;
 
-    // When ciphertext stealing is used, we three ciphertext blocks so
-    // we use a buffer that is three times the block length.  The buffer
+    // When ciphertext stealing is used, we need three ciphertext blocks
+    // so we use a buffer that is three times the block length.  The buffer
     // pointers b1, b2 and b3 point to the buffer positions of three
     // ciphertext blocks, b3 being the most recent and b1 being the
     // oldest. We start with the IV in b1 and the block to be decrypted
@@ -383,13 +394,13 @@ int main(int argc, char *argv[])
 
     key_len = i / 2;
 
-    if(!(fin = fopen(argv[1], "rb")))   // try to open the input file
+    if(fopen_s(&fin, argv[1], "rb"))   // try to open the input file
     {
         printf("The input file: %s could not be opened\n", argv[1]);
         err = -5; goto exit;
     }
 
-    if(!(fout = fopen(argv[2], "wb")))  // try to open the output file
+    if(fopen_s(&fout, argv[2], "wb"))  // try to open the output file
     {
         printf("The output file: %s could not be opened\n", argv[2]);
         err = -6; goto exit;

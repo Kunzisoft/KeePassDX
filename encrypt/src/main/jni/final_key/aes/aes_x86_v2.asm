@@ -1,28 +1,21 @@
 
 ; ---------------------------------------------------------------------------
-; Copyright (c) 1998-2008, Brian Gladman, Worcester, UK. All rights reserved.
-;
-; LICENSE TERMS
+; Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
 ;
 ; The redistribution and use of this software (with or without changes)
 ; is allowed without the payment of fees or royalties provided that:
 ;
-;  1. source code distributions include the above copyright notice, this
-;     list of conditions and the following disclaimer;
+;   source code distributions include the above copyright notice, this
+;   list of conditions and the following disclaimer;
 ;
-;  2. binary distributions include the above copyright notice, this list
-;     of conditions and the following disclaimer in their documentation;
-;
-;  3. the name of the copyright holder is not used to endorse products
-;     built using this software without specific written permission.
-;
-; DISCLAIMER
+;   binary distributions include the above copyright notice, this list
+;   of conditions and the following disclaimer in their documentation.
 ;
 ; This software is provided 'as is' with no explicit or implied warranties
-; in respect of its properties, including, but not limited to, correctness
-; and/or fitness for purpose.
+; in respect of its operation, including, but not limited to, correctness
+; and fitness for purpose.
 ; ---------------------------------------------------------------------------
-; Issue 13/08/2008
+; Issue Date: 20/11/2013
 ;
 ; This code requires either ASM_X86_V2 or ASM_X86_V2C to be set in aesopt.h
 ; and the same define to be set here as well. If AES_V2C is set this file
@@ -78,6 +71,14 @@
 ;
 ; where <NNN> is 128, 102 or 256.  In the last two calls the length can be in
 ; either bits or bytes.
+
+; Use of this assembler code in Windows kernel mode requires memory paging 
+; to be disabled
+%ifdef NO_PAGING
+%define set_page nopage
+%else
+%define set_page
+%endif
 
 ; The DLL interface must use the _stdcall convention in which the number
 ; of bytes of parameter space is added after an @ to the sutine's name.
@@ -145,6 +146,8 @@
 ;
 ; End of user defines
 
+    section .text align=32 set_page
+    
 %ifdef AES_VAR
 %ifndef AES_128
 %define AES_128
@@ -346,7 +349,7 @@
 ;   Apply S-Box to the 4 bytes in a 32-bit word and rotate byte positions
 
 %ifdef REDUCE_CODE_SIZE
-    
+
     global _ls_sub
 _ls_sub:                        ; ls_sub(t,n) = ls_box(t,n)
     mov     ecx,[esp+8]
@@ -411,38 +414,32 @@ stk_spc equ    16   ; stack space
 
 %define ENCRYPTION_TABLE
 
+%macro _enc_round 0
+
+    add     ebp,16
+    mov     esi,[ebp+8]
+    mov     edi,[ebp+12]
+    push    ebp
+    rnd_fun nr_xor, nr_mov
+    mov     eax,ebp
+    pop     ebp
+    mov     ecx,esi
+    mov     edx,edi
+    xor     eax,[ebp]
+    xor     ebx,[ebp+4]
+
+%endmacro
+
 %ifdef REDUCE_CODE_SIZE
 
 enc_round:
-    add     ebp,16
-    mov     esi,[ebp+8]
-    mov     edi,[ebp+12]
-    push    ebp
-    rnd_fun nr_xor, nr_mov
-    mov     eax,ebp
-    pop     ebp
-    mov     ecx,esi
-    mov     edx,edi
-    xor     eax,[ebp]
-    xor     ebx,[ebp+4]
-    ret
-    
+    _enc_round
+	ret
+
 %else
 
 %macro enc_round 0
-
-    add     ebp,16
-    mov     esi,[ebp+8]
-    mov     edi,[ebp+12]
-    push    ebp
-    rnd_fun nr_xor, nr_mov
-    mov     eax,ebp
-    pop     ebp
-    mov     ecx,esi
-    mov     edx,edi
-    xor     eax,[ebp]
-    xor     ebx,[ebp+4]
-
+    _enc_round
 %endmacro
 
 %endif
@@ -461,10 +458,7 @@ enc_round:
 
 %endmacro
 
-    section .text align=32
-
 ;   AES Encryption Subroutine
-
     align   32
     do_name _aes_encrypt,12
     push    ebp
@@ -789,51 +783,6 @@ enc_round:
 
 %endif
 
-%ifdef ENCRYPTION_TABLE
-
-; S-box data - 256 entries
-
-    section .data align=32
-    align 32
-
-%define u8(x)   0, x, x, f3(x), f2(x), x, x, f3(x)
-
-enc_tab:
-    db  u8(0x63),u8(0x7c),u8(0x77),u8(0x7b),u8(0xf2),u8(0x6b),u8(0x6f),u8(0xc5)
-    db  u8(0x30),u8(0x01),u8(0x67),u8(0x2b),u8(0xfe),u8(0xd7),u8(0xab),u8(0x76)
-    db  u8(0xca),u8(0x82),u8(0xc9),u8(0x7d),u8(0xfa),u8(0x59),u8(0x47),u8(0xf0)
-    db  u8(0xad),u8(0xd4),u8(0xa2),u8(0xaf),u8(0x9c),u8(0xa4),u8(0x72),u8(0xc0)
-    db  u8(0xb7),u8(0xfd),u8(0x93),u8(0x26),u8(0x36),u8(0x3f),u8(0xf7),u8(0xcc)
-    db  u8(0x34),u8(0xa5),u8(0xe5),u8(0xf1),u8(0x71),u8(0xd8),u8(0x31),u8(0x15)
-    db  u8(0x04),u8(0xc7),u8(0x23),u8(0xc3),u8(0x18),u8(0x96),u8(0x05),u8(0x9a)
-    db  u8(0x07),u8(0x12),u8(0x80),u8(0xe2),u8(0xeb),u8(0x27),u8(0xb2),u8(0x75)
-    db  u8(0x09),u8(0x83),u8(0x2c),u8(0x1a),u8(0x1b),u8(0x6e),u8(0x5a),u8(0xa0)
-    db  u8(0x52),u8(0x3b),u8(0xd6),u8(0xb3),u8(0x29),u8(0xe3),u8(0x2f),u8(0x84)
-    db  u8(0x53),u8(0xd1),u8(0x00),u8(0xed),u8(0x20),u8(0xfc),u8(0xb1),u8(0x5b)
-    db  u8(0x6a),u8(0xcb),u8(0xbe),u8(0x39),u8(0x4a),u8(0x4c),u8(0x58),u8(0xcf)
-    db  u8(0xd0),u8(0xef),u8(0xaa),u8(0xfb),u8(0x43),u8(0x4d),u8(0x33),u8(0x85)
-    db  u8(0x45),u8(0xf9),u8(0x02),u8(0x7f),u8(0x50),u8(0x3c),u8(0x9f),u8(0xa8)
-    db  u8(0x51),u8(0xa3),u8(0x40),u8(0x8f),u8(0x92),u8(0x9d),u8(0x38),u8(0xf5)
-    db  u8(0xbc),u8(0xb6),u8(0xda),u8(0x21),u8(0x10),u8(0xff),u8(0xf3),u8(0xd2)
-    db  u8(0xcd),u8(0x0c),u8(0x13),u8(0xec),u8(0x5f),u8(0x97),u8(0x44),u8(0x17)
-    db  u8(0xc4),u8(0xa7),u8(0x7e),u8(0x3d),u8(0x64),u8(0x5d),u8(0x19),u8(0x73)
-    db  u8(0x60),u8(0x81),u8(0x4f),u8(0xdc),u8(0x22),u8(0x2a),u8(0x90),u8(0x88)
-    db  u8(0x46),u8(0xee),u8(0xb8),u8(0x14),u8(0xde),u8(0x5e),u8(0x0b),u8(0xdb)
-    db  u8(0xe0),u8(0x32),u8(0x3a),u8(0x0a),u8(0x49),u8(0x06),u8(0x24),u8(0x5c)
-    db  u8(0xc2),u8(0xd3),u8(0xac),u8(0x62),u8(0x91),u8(0x95),u8(0xe4),u8(0x79)
-    db  u8(0xe7),u8(0xc8),u8(0x37),u8(0x6d),u8(0x8d),u8(0xd5),u8(0x4e),u8(0xa9)
-    db  u8(0x6c),u8(0x56),u8(0xf4),u8(0xea),u8(0x65),u8(0x7a),u8(0xae),u8(0x08)
-    db  u8(0xba),u8(0x78),u8(0x25),u8(0x2e),u8(0x1c),u8(0xa6),u8(0xb4),u8(0xc6)
-    db  u8(0xe8),u8(0xdd),u8(0x74),u8(0x1f),u8(0x4b),u8(0xbd),u8(0x8b),u8(0x8a)
-    db  u8(0x70),u8(0x3e),u8(0xb5),u8(0x66),u8(0x48),u8(0x03),u8(0xf6),u8(0x0e)
-    db  u8(0x61),u8(0x35),u8(0x57),u8(0xb9),u8(0x86),u8(0xc1),u8(0x1d),u8(0x9e)
-    db  u8(0xe1),u8(0xf8),u8(0x98),u8(0x11),u8(0x69),u8(0xd9),u8(0x8e),u8(0x94)
-    db  u8(0x9b),u8(0x1e),u8(0x87),u8(0xe9),u8(0xce),u8(0x55),u8(0x28),u8(0xdf)
-    db  u8(0x8c),u8(0xa1),u8(0x89),u8(0x0d),u8(0xbf),u8(0xe6),u8(0x42),u8(0x68)
-    db  u8(0x41),u8(0x99),u8(0x2d),u8(0x0f),u8(0xb0),u8(0x54),u8(0xbb),u8(0x16)
-
-%endif
-
 %ifdef  DECRYPTION
 
 %define DECRYPTION_TABLE
@@ -903,9 +852,8 @@ enc_tab:
 %endif
 %endmacro
 
-%ifdef REDUCE_CODE_SIZE
+%macro _dec_round 0
 
-dec_round:
 %ifdef AES_REV_DKS
     add     ebp,16
 %else
@@ -921,28 +869,20 @@ dec_round:
     mov     edx,edi
     xor     eax,[ebp]
     xor     ebx,[ebp+4]
-    ret
+
+%endmacro
+
+%ifdef REDUCE_CODE_SIZE
+
+	align 32
+dec_round:
+	_dec_round
+	ret
 
 %else
 
 %macro dec_round 0
-
-%ifdef AES_REV_DKS
-    add     ebp,16
-%else
-    sub     ebp,16
-%endif
-    mov     esi,[ebp+8]
-    mov     edi,[ebp+12]
-    push    ebp
-    irn_fun ni_xor, ni_mov
-    mov     ebx,ebp
-    pop     ebp
-    mov     ecx,esi
-    mov     edx,edi
-    xor     eax,[ebp]
-    xor     ebx,[ebp+4]
-
+	_dec_round
 %endmacro
 
 %endif
@@ -965,10 +905,7 @@ dec_round:
 
 %endmacro
 
-    section .text
-
 ; AES Decryption Subroutine
-
     align   32
     do_name _aes_decrypt,12
     push    ebp
@@ -1370,12 +1307,53 @@ dec_end:
 
 %endif
 
+    section .data align=32 set_page
+
+%ifdef ENCRYPTION_TABLE
+
+; S-box data - 256 entries
+
+%define u8(x)   0, x, x, f3(x), f2(x), x, x, f3(x)
+
+enc_tab:
+    db  u8(0x63),u8(0x7c),u8(0x77),u8(0x7b),u8(0xf2),u8(0x6b),u8(0x6f),u8(0xc5)
+    db  u8(0x30),u8(0x01),u8(0x67),u8(0x2b),u8(0xfe),u8(0xd7),u8(0xab),u8(0x76)
+    db  u8(0xca),u8(0x82),u8(0xc9),u8(0x7d),u8(0xfa),u8(0x59),u8(0x47),u8(0xf0)
+    db  u8(0xad),u8(0xd4),u8(0xa2),u8(0xaf),u8(0x9c),u8(0xa4),u8(0x72),u8(0xc0)
+    db  u8(0xb7),u8(0xfd),u8(0x93),u8(0x26),u8(0x36),u8(0x3f),u8(0xf7),u8(0xcc)
+    db  u8(0x34),u8(0xa5),u8(0xe5),u8(0xf1),u8(0x71),u8(0xd8),u8(0x31),u8(0x15)
+    db  u8(0x04),u8(0xc7),u8(0x23),u8(0xc3),u8(0x18),u8(0x96),u8(0x05),u8(0x9a)
+    db  u8(0x07),u8(0x12),u8(0x80),u8(0xe2),u8(0xeb),u8(0x27),u8(0xb2),u8(0x75)
+    db  u8(0x09),u8(0x83),u8(0x2c),u8(0x1a),u8(0x1b),u8(0x6e),u8(0x5a),u8(0xa0)
+    db  u8(0x52),u8(0x3b),u8(0xd6),u8(0xb3),u8(0x29),u8(0xe3),u8(0x2f),u8(0x84)
+    db  u8(0x53),u8(0xd1),u8(0x00),u8(0xed),u8(0x20),u8(0xfc),u8(0xb1),u8(0x5b)
+    db  u8(0x6a),u8(0xcb),u8(0xbe),u8(0x39),u8(0x4a),u8(0x4c),u8(0x58),u8(0xcf)
+    db  u8(0xd0),u8(0xef),u8(0xaa),u8(0xfb),u8(0x43),u8(0x4d),u8(0x33),u8(0x85)
+    db  u8(0x45),u8(0xf9),u8(0x02),u8(0x7f),u8(0x50),u8(0x3c),u8(0x9f),u8(0xa8)
+    db  u8(0x51),u8(0xa3),u8(0x40),u8(0x8f),u8(0x92),u8(0x9d),u8(0x38),u8(0xf5)
+    db  u8(0xbc),u8(0xb6),u8(0xda),u8(0x21),u8(0x10),u8(0xff),u8(0xf3),u8(0xd2)
+    db  u8(0xcd),u8(0x0c),u8(0x13),u8(0xec),u8(0x5f),u8(0x97),u8(0x44),u8(0x17)
+    db  u8(0xc4),u8(0xa7),u8(0x7e),u8(0x3d),u8(0x64),u8(0x5d),u8(0x19),u8(0x73)
+    db  u8(0x60),u8(0x81),u8(0x4f),u8(0xdc),u8(0x22),u8(0x2a),u8(0x90),u8(0x88)
+    db  u8(0x46),u8(0xee),u8(0xb8),u8(0x14),u8(0xde),u8(0x5e),u8(0x0b),u8(0xdb)
+    db  u8(0xe0),u8(0x32),u8(0x3a),u8(0x0a),u8(0x49),u8(0x06),u8(0x24),u8(0x5c)
+    db  u8(0xc2),u8(0xd3),u8(0xac),u8(0x62),u8(0x91),u8(0x95),u8(0xe4),u8(0x79)
+    db  u8(0xe7),u8(0xc8),u8(0x37),u8(0x6d),u8(0x8d),u8(0xd5),u8(0x4e),u8(0xa9)
+    db  u8(0x6c),u8(0x56),u8(0xf4),u8(0xea),u8(0x65),u8(0x7a),u8(0xae),u8(0x08)
+    db  u8(0xba),u8(0x78),u8(0x25),u8(0x2e),u8(0x1c),u8(0xa6),u8(0xb4),u8(0xc6)
+    db  u8(0xe8),u8(0xdd),u8(0x74),u8(0x1f),u8(0x4b),u8(0xbd),u8(0x8b),u8(0x8a)
+    db  u8(0x70),u8(0x3e),u8(0xb5),u8(0x66),u8(0x48),u8(0x03),u8(0xf6),u8(0x0e)
+    db  u8(0x61),u8(0x35),u8(0x57),u8(0xb9),u8(0x86),u8(0xc1),u8(0x1d),u8(0x9e)
+    db  u8(0xe1),u8(0xf8),u8(0x98),u8(0x11),u8(0x69),u8(0xd9),u8(0x8e),u8(0x94)
+    db  u8(0x9b),u8(0x1e),u8(0x87),u8(0xe9),u8(0xce),u8(0x55),u8(0x28),u8(0xdf)
+    db  u8(0x8c),u8(0xa1),u8(0x89),u8(0x0d),u8(0xbf),u8(0xe6),u8(0x42),u8(0x68)
+    db  u8(0x41),u8(0x99),u8(0x2d),u8(0x0f),u8(0xb0),u8(0x54),u8(0xbb),u8(0x16)
+
+%endif
+
 %ifdef DECRYPTION_TABLE
 
 ; Inverse S-box data - 256 entries
-
-    section .data
-    align 32
 
 %define v8(x)   fe(x), f9(x), fd(x), fb(x), fe(x), f9(x), fd(x), x
 
@@ -1416,4 +1394,3 @@ dec_tab:
 %endif
 
     end
-

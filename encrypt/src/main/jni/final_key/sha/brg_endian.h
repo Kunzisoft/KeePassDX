@@ -1,49 +1,45 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 2003, Dr Brian Gladman, Worcester, UK.   All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The free distribution and use of this software in both source and binary
- form is allowed (with or without changes) provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-   1. distributions of this source code include the above copyright
-      notice, this list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-   2. distributions in binary form include the above copyright
-      notice, this list of conditions and the following disclaimer
-      in the documentation and/or other associated materials;
-
-   3. the copyright holder's name is not used to endorse products
-      built using this software without specific written permission.
-
- ALTERNATIVELY, provided that this notice is retained in full, this product
- may be distributed under the terms of the GNU General Public License (GPL),
- in which case the provisions of the GPL apply INSTEAD OF those given above.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue 20/10/2006
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 */
 
-#ifndef BRG_ENDIAN_H
-#define BRG_ENDIAN_H
+#ifndef _BRG_ENDIAN_H
+#define _BRG_ENDIAN_H
 
 #define IS_BIG_ENDIAN      4321 /* byte 0 is most significant (mc68k) */
 #define IS_LITTLE_ENDIAN   1234 /* byte 0 is least significant (i386) */
 
+/* This is needed when using clang with MSVC to avoid including */
+/* endian.h and byteswap.h which are not present on Windows     */
+#if defined( _MSC_VER ) && defined( __clang__ )
+#  undef __GNUC__
+#endif
+
 /* Include files where endian defines and byteswap functions may reside */
-#if defined( __FreeBSD__ ) || defined( __OpenBSD__ ) || defined( __NetBSD__ )
+#if defined( __sun )
+#  include <sys/isa_defs.h>
+#elif defined( __FreeBSD__ ) || defined( __OpenBSD__ ) || defined( __NetBSD__ )
 #  include <sys/endian.h>
 #elif defined( BSD ) && ( BSD >= 199103 ) || defined( __APPLE__ ) || \
       defined( __CYGWIN32__ ) || defined( __DJGPP__ ) || defined( __osf__ )
 #  include <machine/endian.h>
 #elif defined( __linux__ ) || defined( __GNUC__ ) || defined( __GNU_LIBRARY__ )
-#  if !defined( __MINGW32__ )
+#  if !defined( __MINGW32__ ) && !defined( _AIX )
 #    include <endian.h>
 #    if !defined( __BEOS__ )
 #      include <byteswap.h>
@@ -120,7 +116,7 @@
       defined( __MRC__ ) || defined( __MVS__ )   || defined( __MWERKS__ ) || \
       defined( sparc )   || defined( __sparc)    || defined( SYMANTEC_C ) || \
       defined( __VOS__ ) || defined( __TIGCC__ ) || defined( __TANDEM )   || \
-      defined( THINK_C ) || defined( __VMCMS__ )
+      defined( THINK_C ) || defined( __VMCMS__ ) || defined( _AIX )
 #  define PLATFORM_BYTE_ORDER IS_BIG_ENDIAN
 
 #elif 0     /* **** EDIT HERE IF NECESSARY **** */

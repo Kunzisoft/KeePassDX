@@ -1,36 +1,24 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 2002, Dr Brian Gladman, Worcester, UK.   All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2010, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The free distribution and use of this software in both source and binary
- form is allowed (with or without changes) provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-   1. distributions of this source code include the above copyright
-      notice, this list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-   2. distributions in binary form include the above copyright
-      notice, this list of conditions and the following disclaimer
-      in the documentation and/or other associated materials;
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 
-   3. the copyright holder's name is not used to endorse products
-      built using this software without specific written permission.
-
- ALTERNATIVELY, provided that this notice is retained in full, this product
- may be distributed under the terms of the GNU General Public License (GPL),
- in which case the provisions of the GPL apply INSTEAD OF those given above.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 26/08/2003
-
- This is an implementation of RFC2898, which specifies key derivation from
- a password and a salt value.
+This is an implementation of RFC2898, which specifies key derivation from
+a password and a salt value.
 */
 
 #include <memory.h>
@@ -49,12 +37,12 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
                unsigned char key[], /* space for the output key */
                unsigned int key_len)/* and its required length  */
 {
-    unsigned int    i, j, k, n_blk;
-    unsigned char uu[HASH_OUTPUT_SIZE], ux[HASH_OUTPUT_SIZE];
+    unsigned int    i, j, k, n_blk, h_size;
+    unsigned char uu[HMAC_MAX_OUTPUT_SIZE], ux[HMAC_MAX_OUTPUT_SIZE];
     hmac_ctx c1[1], c2[1], c3[1];
 
     /* set HMAC context (c1) for password               */
-    hmac_sha_begin(c1);
+    h_size = hmac_sha_begin(HMAC_SHA1, c1);
     hmac_sha_key(pwd, pwd_len, c1);
 
     /* set HMAC context (c2) for password and salt      */
@@ -62,12 +50,12 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
     hmac_sha_data(salt, salt_len, c2);
 
     /* find the number of SHA blocks in the key         */
-    n_blk = 1 + (key_len - 1) / HASH_OUTPUT_SIZE;
+    n_blk = 1 + (key_len - 1) / h_size;
 
     for(i = 0; i < n_blk; ++i) /* for each block in key */
     {
         /* ux[] holds the running xor value             */
-        memset(ux, 0, HASH_OUTPUT_SIZE);
+        memset(ux, 0, h_size);
 
         /* set HMAC context (c3) for password and salt  */
         memcpy(c3, c2, sizeof(hmac_ctx));
@@ -85,10 +73,10 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
             hmac_sha_data(uu, k, c3);
 
             /* obtain HMAC for uu[]                 */
-            hmac_sha_end(uu, HASH_OUTPUT_SIZE, c3);
+            hmac_sha_end(uu, h_size, c3);
 
             /* xor into the running xor block       */
-            for(k = 0; k < HASH_OUTPUT_SIZE; ++k)
+            for(k = 0; k < h_size; ++k)
                 ux[k] ^= uu[k];
 
             /* set HMAC context (c3) for password   */
@@ -96,8 +84,8 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
         }
 
         /* compile key blocks into the key output   */
-        j = 0; k = i * HASH_OUTPUT_SIZE;
-        while(j < HASH_OUTPUT_SIZE && k < key_len)
+        j = 0; k = i * h_size;
+        while(j < h_size && k < key_len)
             key[k++] = ux[j++];
     }
 }

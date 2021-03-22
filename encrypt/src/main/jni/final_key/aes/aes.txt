@@ -2,8 +2,67 @@
 An AES (Rijndael) Implementation in C/C++ (as specified in FIPS-197)
 ====================================================================
 
-Changes in this Version (16/04/2007)
-====================================
+Change (26/09/2018)
+===================
+
+1. Changes to test programs to allow them to be built on Linux/GCC
+   (with thanks to Michael Mohr).
+
+2. Rationalisation of the defines DLL_IMPORT, DYNAMIC_DLL and USE_DLL
+   in the test code - now DLL_IMPORT and DLL_DYNAMIC_LOAD
+
+3. Update the test_avs test to allow the testing of static, DLL and
+   dynamically loaded DLL libraries.
+
+Change (21/05/2018)
+===================
+
+1. Properly dectect presence of AESNI when using GCC (my thanks to 
+   Peter Gutmann for this fix)
+
+Changes (6/12/2016)
+====================
+
+1. Changed function definition of has_aes_ni() to has_aes_ni(void), 
+   suggested by Peter Gutmann
+   
+2. Changed the default location for the vsyasm assembler to:
+   C:\Program Files\yasm
+
+Changes (27/09/2015)
+====================
+
+1. Added automatic dynamic table initialisation (my thanks to
+   Henrik S. Gaﬂmann who proposed this addition).
+
+Changes (09/09/2014)
+====================
+
+1. Added the ability to use Intel's hardware support for AES
+   with GCC on Windows and Linux
+
+Changes (01/09/2014)
+====================
+
+1. Clarify some user choices in the file aes_amd64.asm
+
+2. Change the detection of the x86 and x86_64 processors
+   in aesopt.h to allow assembler code use with GCC
+    
+Changes (14/11/2013)
+====================
+
+1. Added the ability to use Intel's hardware support for AES
+   on Windows using Microsoft Visual Studio.
+
+2. Added the include 'stdint.h' and used the uint<xx>_t instead
+   of the old uint_<xx>t (e.g. uint_32t is now uint32_t).
+
+3. Added a missing .text directive in aes_x86_v2.asm that caused
+   runtime errors in one build configuration.
+
+Changes (16/04/2007)
+====================
 
 These changes remove errors in the VC++ build files and add some 
 improvements in file naming consitency and portability. There are
@@ -59,6 +118,11 @@ In addition AES modes are implemented in the files:
 aes_modes.c     AES modes with optional support for VIA ACE detection and use
 aes_via_ace.h   the header file for VIA ACE support
 
+and Intel hardware support for AES (AES_NI) is implemented in the files
+
+aes_ni.h        defines for AES_NI implementation
+aes_ni.c        the AES_NI implementation
+
 Other associated files for testing and support are:
 
 aesaux.h        header for auxilliary routines for testsing
@@ -88,104 +152,105 @@ A. Versions
 The code can be used to build static and dynamic libraries, each in five
 versions:
 
-    C           uses C source code only
-    ASM_X86_V1C large table x86 assembler code for encrypt/decrypt
-    ASM_X86_V2  compressed table x86 assembler for encrypt/decrypt and keying
-    ASM_X86_V2C compressed table x86 assembler code for encrypt/decrypt
-    ASM_AMD64   compressed table x86 assembler code for encrypt/decrypt
+ Key scheduling code in C, encrypt/decrypt in:
 
-The C version can be compiled for Win32 or x64, the x86 assembler versions
-are for Win32 only and the AMD64 version for x64 only.
+    C           C source code                        (win32 and x64)
+    ASM_X86_V1C large table x86 assembler code       (win32)
+    ASM_X86_V2C compressed table x86 assembler code  (win32)
+    ASM_AMD64   compressed table x64 assembler code  (x64)
+ 
+ Key scheduling and encrypt/decrypt code in assembler:
+ 
+    ASM_X86_V2  compressed table x86 assembler       (win32)
 
-B. Types
---------
+The C version can be compiled for Win32 or x64 whereas the x86 and x64 
+assembler versions are for Win32 and x64 respectively. 
 
-The code makes use of types defined as uint_<nn>t where <nn> is the length
-of the type, for example, the unsigned 32-bit type is 'uint_32t'.  These are
-NOT the same as the fixed width integer types in C99, inttypes.h and stdint.h
-since several attempts to use these types have shown that support for them is
-still highly variable.  But a regular expression search and replace in VC++
-with search on 'uint_{:z}t' and a replace with 'uint\1_t' will convert these
-types to C99 types (there should be similar search/replace facilities on other
-systems).
+If Intel's hardware support for AES (AES_NI) is available, it can be used
+with either the C or the ASM_AMD64 version. If ASM_AMD64 is to be used, it
+is important that the define USE_INTEL_AES_IF_PRESENT in asm_amd64.asm is
+set to the same value as it has in aesopt.h
 
-C. YASM
+B. YASM
 -------
 
 If you wish to use the x86 assembler files you will also need the YASM open
 source x86 assembler (r1331 or later) for Windows which can be obtained from:
 
-  http://www.tortall.net/projects/yasm/
+    http://www.tortall.net/projects/yasm/
 
-This assembler should be placed in the bin directory used by VC++, which, for
-Visual Stduio 2005, is typically:
+This assembler (vsyasm.exe) should be placed in the directory:
 
- C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin
+    C:\Program Files\yasm
 
-You will also need to move the yasm.rules file from this distribution into
-the directory where Visual Studio 2005 expects to find it, which is typically:
-
- C:\Program Files (x86)\Microsoft Visual Studio 8\VC\VCProjectDefaults
-
-Alternatively you can configure the path for rules files within Visual Studio.
-
-D. Configuration
+C. Configuration
 ----------------
 
-The following configurations are available as projects for Visual Studio 2005
+The following configurations are available as projects for Visual Studio
 but the following descriptions should allow them to be built in other x86
-environments:
+environments
 
     lib_generic_c       Win32 and x64
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
+		                (+ aes_ni.h for AES_NI)
         C source:       aescrypt.c, aeskey.c, aestab.c, aes_modes.c
+		                (+ aes_ni.c for AES_NI)
         defines
+
     dll_generic_c       Win32 and x64
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
+		                (+ aes_ni.h for AES_NI)
         C source:       aescrypt.c, aeskey.c, aestab.c, aes_modes.c
+		                (+ aes_ni.c for AES_NI)
         defines         DLL_EXPORT
 
     lib_asm_x86_v1c     Win32
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
         C source:       aeskey.c, aestab.c, aes_modes.c
         x86 assembler:  aes_x86_v1.asm
         defines         ASM_X86_V1C (set for C and assembler files)
-    dll_asm_x86_v1c     Win32
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+    
+	dll_asm_x86_v1c     Win32
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
         C source:       aeskey.c, aestab.c, aes_modes.c
         x86 assembler:  aes_x86_v1.asm
         defines         DLL_EXPORT, ASM_X86_V1C (set for C and assembler files)
 
     lib_asm_x86_v2c     Win32
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
         C source:       aeskey.c, aestab.c, aes_modes.c
         x86 assembler:  aes_x86_v2.asm
         defines         ASM_X86_V2C (set for C and assembler files)
-    dll_asm_x86_v2c     Win32
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+    
+	dll_asm_x86_v2c     Win32
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
         C source:       aeskey.c, aestab.c, aes_modes.c
         x86 assembler:  aes_x86_v1.asm
         defines         DLL_EXPORT, ASM_X86_V2C (set for C and assembler files)
 
     lib_asm_x86_v2      Win32
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
         C source:       aes_modes.c
         x86 assembler:  aes_x86_v1.asm
         defines         ASM_X86_V2 (set for C and assembler files)
-    dll_asm_x86_v2      Win32
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
+    
+	dll_asm_x86_v2      Win32
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
         C source:       aes_modes.c
         x86 assembler:  aes_x86_v1.asm
         defines         DLL_EXPORT, ASM_AMD64_C (set for C and assembler files)
 
     lib_asm_amd64_c     x64
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
-        C source:       aes_modes.c
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
+		                (+ aes_ni.h for AES_NI)
+        C source:       aes_modes.c (+ aes_ni.c for AES_NI)
         x86 assembler:  aes_amd64.asm
-        defines         ASM_X86_V2 (set for C and assembler files)
-    dll_asm_amd64_c     x64
-        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs,h
-        C source:       aes_modes.c
+        defines         ASM_AMD64_C (set for C and assembler files)
+    
+	dll_asm_amd64_c     x64
+        headers:        aes.h, aesopt.h, aestab.h, brg_endian.h, tdefs.h
+		                (+ aes_ni.h for AES_NI)
+        C source:       aes_modes.c (+ aes_ni.c for AES_NI)
         x86 assembler:  aes_amd64.asm
         defines         DLL_EXPORT, ASM_AMD64_C (set for C and assembler files)
 
@@ -195,28 +260,27 @@ ASM_X86_V1C is defined if using the version 1 assembler code (aescrypt1.asm).
             The defines in the assember file must match those in aes.h and
             aesopt.h).  Also remember to include/exclude the right assembler
             and C files in the build to avoid undefined or multiply defined
-            symbols - include aescrypt1.asm and exclude aescrypt.c and
-            aescrypt2.asm.
+            symbols - include aes_x86_v1.asm and exclude aescrypt.c
 
-ASM_X86_V2  is defined if using the version 2 assembler code (aescrypt2.asm).
+ASM_X86_V2  is defined if using the version 2 assembler code (aes_x86_v2.asm).
             This version provides a full, self contained assembler version
             and does not use any C source code files except for the mutiple
             block encryption modes that are provided by aes_modes.c. The define
-            ASM_X86_V2 must be set on the YASM command line (or in aescrypt2.asm)
-            to use this version and all C files except aec_modes.c and. for the
+            ASM_X86_V2 must be set on the YASM command line (or in aes_x86_v2.asm)
+            to use this version and all C files except aec_modes.c and, for the
             DLL build, aestab.c must be excluded from the build.
 
-ASM_X86_V2C is defined when using the version 2 assembler code (aescrypt2.asm)
+ASM_X86_V2C is defined when using the version 2 assembler code (aes_x86_v2.asm)
             with faster key scheduling provided by the in C code (the options in
             the assember file must match those in aes.h and aesopt.h).  In this
-            case aeskey.c and aestab.c are needed with aescrypt2.asm and the
+            case aeskey.c and aestab.c are needed with aes_x86_v2.asm and the
             define ASM_X86_V2C must be set for both the C files and for
-            asecrypt2.asm command lines (or in aesopt.h and aescrypt2.asm).
-            Include aescrypt2.asm aeskey.c and aestab.c, exclude aescrypt.c for
+            aes_x86_v2.asm in the build commands(or in aesopt.h and aes_x86_v2.asm).
+            Include aes_x86_v2.asm, aeskey.c and aestab.c, exclude aescrypt.c for
             this option.
 
 ASM_AMD64_C is defined when using the AMD64 assembly code because the C key
-            scheduling is sued in this case.
+            scheduling is used in this case.
 
 DLL_EXPORT  must be defined to generate the DLL version of the code and
             to run tests on it
@@ -246,11 +310,11 @@ Libraries
 
             in the aes root directory depending on the platform(win32 or
             x64) and the build (release or debug). After any of these is
-            built it is then copied into aes.lib, which is the library
-            that is subsequently used for testing. Hence testing is for
-            the last static library built.
+            built it is then copied into the aes\lib directory, which is
+			the library location that is subsequently used for testing. 
+			Hence testing is always for the last static library built.
 
-Dynamic     The static libraries are named:
+Dynamic     These libraries are named:
 Libraries
                 aes_lib_generic_c.dll
                 aes_lib_asm_x86_v1c.dll
@@ -277,17 +341,30 @@ Libraries
                 aes_dll_<ext>.pdb   the symbol file
 
             After any DLL is built it and its three related files are then
-            copied into aes.lib, aes.lib, aes,exp and aes.pdb, which are
-            the libraries used for testing.  Hence testing is for the last
-            static library or DLL built.
-
-E. Testing
+            copied to the aes\dll directory, which is the library location
+			used in subsequent testing.  Hence testing is always for the 
+			last DLL built.
+			
+D. Testing
 ----------
 
 These tests require that the test vector files are placed in the 'testvals' 
-subdirectory. If the AES Algorithm Validation Suite tests will be use3d then
+subdirectory.  If the AES Algorithm Validation Suite tests are used then
 the *.fax files need to be put in the 'testvals\fax' subdirectory.  This is
 covered in more detail below.
+
+The projects test_lib and time_lib are used to test and time the last static
+library built. They use the files:
+
+    test_lib:       Win32 (x64 for the C and AMD64 versions)
+        headers:    aes.h, aescpp.h, brg_types.h, aesaux.h and aestst.h
+        C source:   aesaux.c, aesrav.c
+        defines:
+
+    time_lib:       Win32 (x64 for the C and AMD64 versions)
+        headers:    aes.h, aescpp.h, brg_types.h, aesaux.h, aestst.h and rdtsc.h
+        C source:   aesaux.c, aestmr.c
+        defines:
 
 The projects test_dll and time_dll are used to test and time the last DLL
 built.  These use the files:
@@ -302,26 +379,15 @@ built.  These use the files:
         C source:   aesaux.c, aestmr.c
         defines:    DLL_IMPORT
 
-and link to the DLL using explicit linking. However, if the lib file associated
-with the DLL is linked into this project and the symbol DYNAMIC_LINK in aestst.h
-is left undefined, then implicit linking will be used
+and default to linkingto with the AES DLL using dynamic (run-time) linking.  Implicit
+linking can be used by adding the lib file associated with the AES DLL (in the aes\dll
+sub-directory) to the build (under project Properties|Linker in Visual Studio) and 
+removing the DLL_DYNAMIC_LOAD define (under project Properties|C/C++|Preprocessor).
 
-The projects test_lib and time_lib are used to test and time the last static LIB
-built. They use the files:
+0  Link is linked into this project and the symbol
+DLL_DYNAMIC_LOAD is left undefined, then implicit linking will be used
 
-    test_lib:       Win32 (x64 for the C and AMD64 versions)
-        headers:    aes.h, aescpp.h, brg_types.h, aesaux.h and aestst.h
-        C source:   aesaux.c, aesrav.c
-        defines:
-
-    time_lib:       Win32 (x64 for the C and AMD64 versions)
-        headers:    aes.h, aescpp.h, brg_types.h, aesaux.h, aestst.h and rdtsc.h
-        C source:   aesaux.c, aestmr.c
-        defines:
-
-and link to the last static library built.
-
-The above test take command line arguments that determine which test are run
+The above tests take command line arguments that determine which test are run
 as follows:
 
     test_lib /t:[knec] /k:[468]
@@ -339,8 +405,8 @@ the brackets) and have the following meanings:
         e: generate ECB Monte Carlo Test files
         c: generate CBC Monte Carlo Test files
 
-and the characters giving the lengths are digits representing the lengths in
-32-bit units.\n\n");
+and the characters giving the lengths are digits representing the key lengths
+in 32-bit units (4, 6, 8 for lengths of 128, 192 or 256 bits respectively).
 
 The project test_modes tests the AES modes.  It uses the files:
 
@@ -351,7 +417,7 @@ The project test_modes tests the AES modes.  It uses the files:
 
 which again links to the last library built.
 
-F. Other Applications
+E. Other Applications
 ---------------------
 
 These are:
@@ -370,8 +436,8 @@ These are:
 These applications are linked to the last static library built or, if
 DLL_IMPORT is defined during compilation, to the last DLL built.
 
-G. Use of the VIA ACE Cryptography Engine
------------------------------------------
+F. Use of the VIA ACE Cryptography Engine (x86 only)
+----------------------------------------------------
 
 The use of the code with the VIA ACE cryptography engine in described in the
 file via_ace.txt. In outline aes_modes.c is used and USE_VIA_ACE_IF_PRESENT
@@ -382,7 +448,7 @@ support is needed and AES assembler is being used only the ASM_X86_V1C and
 ASM_X86_V2C versions should be used since ASM_X86_V2 and ASM_AMD64 do not
 support the VIA ACE engine.
 
-H. The AES Test Vector Files
+G. The AES Test Vector Files
 ----------------------------
 
 These files fall in the following groups (where <nn> is a two digit
@@ -410,7 +476,7 @@ The AES Algorithm Validation Suite tests can be run for ECB, CBC, CFB and
 OFB modes (CFB1 and CFB8 are not implemented).  The test routine uses the 
 *.fax test files, which should be placed in the 'testvals\fax' subdirectory.
 
-I. The Basic AES Calling Interface
+H. The Basic AES Calling Interface
 ----------------------------------
 
 The basic AES code keeps its state in a context, there being different 
@@ -421,8 +487,8 @@ contexts for encryption and decryption:
     
 The AES code is initialised with the call
 
-	aes_init(void)
-	
+    aes_init(void)
+    
 although this is only essential if the option to generate the AES tables at 
 run-time has been set in the options (i.e.fixed tables are not being used).
     
@@ -461,7 +527,7 @@ Encryption and decryption for a single 16 byte block is then achieved using:
 The above subroutines return a value of EXIT_SUCCESS or EXIT_FAILURE 
 depending on whether the operation succeeded or failed.
  
-J. The Calling Interface for the AES Modes
+I. The Calling Interface for the AES Modes
 ------------------------------------------
 
 The subroutines for the AES modes, ECB, CBC, CFB, OFB and CTR, each process
@@ -524,8 +590,8 @@ Please note the following IMPORTANT points about the AES mode subroutines:
        key must be set or a reset must be issued (see 
        below).
        
-    3. For modes with IVs, the IV value is an inpu AND
-       an ouput since it is updated after each call to 
+    3. For modes with IVs, the IV value is an input AND
+       an output since it is updated after each call to 
        the value needed for any subsequent incremental
        call(s). If the mode is reset, the IV hence has
        to be set (or reset) as well.
@@ -546,11 +612,11 @@ Please note the following IMPORTANT points about the AES mode subroutines:
        
     7. CFB, OFB and CTR modes only use AES encryption 
        operations and contexts and do not need AES
-       decrytpion operations.
+       decryption operations.
        
     8. AES keys remain valid across resets and changes
        of mode (but encryption and decryption keys must 
        both be set if they are needed).  
        
-   Brian Gladman  22/07/2008
-   
+   Brian Gladman  26/09/2018
+ 

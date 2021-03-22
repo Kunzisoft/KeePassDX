@@ -1,28 +1,21 @@
 /*
- ---------------------------------------------------------------------------
- Copyright (c) 1998-2008, Brian Gladman, Worcester, UK. All rights reserved.
+---------------------------------------------------------------------------
+Copyright (c) 1998-2013, Brian Gladman, Worcester, UK. All rights reserved.
 
- LICENSE TERMS
+The redistribution and use of this software (with or without changes)
+is allowed without the payment of fees or royalties provided that:
 
- The redistribution and use of this software (with or without changes)
- is allowed without the payment of fees or royalties provided that:
+  source code distributions include the above copyright notice, this
+  list of conditions and the following disclaimer;
 
-  1. source code distributions include the above copyright notice, this
-     list of conditions and the following disclaimer;
+  binary distributions include the above copyright notice, this list
+  of conditions and the following disclaimer in their documentation.
 
-  2. binary distributions include the above copyright notice, this list
-     of conditions and the following disclaimer in their documentation;
-
-  3. the name of the copyright holder is not used to endorse products
-     built using this software without specific written permission.
-
- DISCLAIMER
-
- This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
- and/or fitness for purpose.
- ---------------------------------------------------------------------------
- Issue Date: 20/12/2007
+This software is provided 'as is' with no explicit or implied warranties
+in respect of its operation, including, but not limited to, correctness
+and fitness for purpose.
+---------------------------------------------------------------------------
+Issue Date: 20/12/2007
 */
 
 #define DO_TABLES
@@ -30,7 +23,7 @@
 #include "aes.h"
 #include "aesopt.h"
 
-#if defined(FIXED_TABLES)
+#if defined(STATIC_TABLES)
 
 #define sb_data(w) {\
     w(0x63), w(0x7c), w(0x77), w(0x7b), w(0xf2), w(0x6b), w(0x6f), w(0xc5),\
@@ -157,7 +150,7 @@
 
 #endif
 
-#if defined(FIXED_TABLES) || !defined(FF_TABLES)
+#if defined(STATIC_TABLES) || !defined(FF_TABLES)
 
 #define f2(x)   ((x<<1) ^ (((x>>7) & 1) * WPOLY))
 #define f4(x)   ((x<<2) ^ (((x>>6) & 1) * WPOLY) ^ (((x>>6) & 2) * WPOLY))
@@ -187,7 +180,7 @@ extern "C"
 {
 #endif
 
-#if defined(FIXED_TABLES)
+#if defined(STATIC_TABLES)
 
 /* implemented in case of wrong call for fixed tables */
 
@@ -202,7 +195,7 @@ AES_RETURN aes_init(void)
 
 #define gf_inv(x)   ((x) ? pow[ 255 - log[x]] : 0)
 
-#else 
+#else
 
 /*  It will generally be sensible to use tables to compute finite
     field multiplies and inverses but where memory is scarse this
@@ -215,8 +208,8 @@ AES_RETURN aes_init(void)
     used so that locals within fi can be bytes rather than words
 */
 
-static uint_8t hibit(const uint_32t x)
-{   uint_8t r = (uint_8t)((x >> 1) | (x >> 2));
+static uint8_t hibit(const uint32_t x)
+{   uint8_t r = (uint8_t)((x >> 1) | (x >> 2));
 
     r |= (r >> 2);
     r |= (r >> 4);
@@ -225,10 +218,10 @@ static uint_8t hibit(const uint_32t x)
 
 /* return the inverse of the finite field element x */
 
-static uint_8t gf_inv(const uint_8t x)
-{   uint_8t p1 = x, p2 = BPOLY, n1 = hibit(x), n2 = 0x80, v1 = 1, v2 = 0;
+static uint8_t gf_inv(const uint8_t x)
+{   uint8_t p1 = x, p2 = BPOLY, n1 = hibit(x), n2 = 0x80, v1 = 1, v2 = 0;
 
-    if(x < 2) 
+    if(x < 2)
         return x;
 
     for( ; ; )
@@ -236,20 +229,20 @@ static uint_8t gf_inv(const uint_8t x)
         if(n1)
             while(n2 >= n1)             /* divide polynomial p2 by p1    */
             {
-                n2 /= n1;               /* shift smaller polynomial left */ 
+                n2 /= n1;               /* shift smaller polynomial left */
                 p2 ^= (p1 * n2) & 0xff; /* and remove from larger one    */
-                v2 ^= v1 * n2;          /* shift accumulated value and   */ 
+                v2 ^= v1 * n2;          /* shift accumulated value and   */
                 n2 = hibit(p2);         /* add into result               */
             }
         else
             return v1;
 
-        if(n2)                          /* repeat with values swapped    */ 
+        if(n2)                          /* repeat with values swapped    */
             while(n1 >= n2)
             {
-                n1 /= n2; 
-                p1 ^= p2 * n1; 
-                v1 ^= v2 * n1; 
+                n1 /= n2;
+                p1 ^= p2 * n1;
+                v1 ^= v2 * n1;
                 n1 = hibit(p1);
             }
         else
@@ -260,14 +253,14 @@ static uint_8t gf_inv(const uint_8t x)
 #endif
 
 /* The forward and inverse affine transformations used in the S-box */
-uint_8t fwd_affine(const uint_8t x)
-{   uint_32t w = x;
+uint8_t fwd_affine(const uint8_t x)
+{   uint32_t w = x;
     w ^= (w << 1) ^ (w << 2) ^ (w << 3) ^ (w << 4);
     return 0x63 ^ ((w ^ (w >> 8)) & 0xff);
 }
 
-uint_8t inv_affine(const uint_8t x)
-{   uint_32t w = x;
+uint8_t inv_affine(const uint8_t x)
+{   uint32_t w = x;
     w = (w << 1) ^ (w << 3) ^ (w << 6);
     return 0x05 ^ ((w ^ (w >> 8)) & 0xff);
 }
@@ -275,11 +268,11 @@ uint_8t inv_affine(const uint_8t x)
 static int init = 0;
 
 AES_RETURN aes_init(void)
-{   uint_32t  i, w;
+{   uint32_t  i, w;
 
 #if defined(FF_TABLES)
 
-    uint_8t  pow[512], log[256];
+    uint8_t  pow[512], log[256];
 
     if(init)
         return EXIT_SUCCESS;
@@ -291,9 +284,9 @@ AES_RETURN aes_init(void)
     i = 0; w = 1;
     do
     {
-        pow[i] = (uint_8t)w;
-        pow[i + 255] = (uint_8t)w;
-        log[w] = (uint_8t)i++;
+        pow[i] = (uint8_t)w;
+        pow[i + 255] = (uint8_t)w;
+        log[w] = (uint8_t)i++;
         w ^=  (w << 1) ^ (w & 0x80 ? WPOLY : 0);
     }
     while (w != 1);
@@ -310,9 +303,9 @@ AES_RETURN aes_init(void)
     }
 
     for(i = 0; i < 256; ++i)
-    {   uint_8t    b;
+    {   uint8_t    b;
 
-        b = fwd_affine(gf_inv((uint_8t)i));
+        b = fwd_affine(gf_inv((uint8_t)i));
         w = bytes2word(f2(b), b, b, f3(b));
 
 #if defined( SBX_SET )
@@ -350,7 +343,7 @@ AES_RETURN aes_init(void)
         t_set(l,s)[3][i] = upr(w,3);
 #endif
 
-        b = gf_inv(inv_affine((uint_8t)i));
+        b = gf_inv(inv_affine((uint8_t)i));
         w = bytes2word(fe(b), f9(b), fd(b), fb(b));
 
 #if defined( IM1_SET )			/* tables for the inverse mix column operation  */
@@ -389,6 +382,33 @@ AES_RETURN aes_init(void)
     init = 1;
     return EXIT_SUCCESS;
 }
+
+/* 
+   Automatic code initialisation (suggested by by Henrik S. Gaßmann)
+   based on code provided by Joe Lowe and placed in the public domain at:
+   http://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
+*/
+
+#ifdef _MSC_VER
+
+#pragma section(".CRT$XCU", read)
+
+__declspec(allocate(".CRT$XCU")) void (__cdecl *aes_startup)(void) = aes_init;
+
+#elif defined(__GNUC__)
+
+static void aes_startup(void) __attribute__((constructor));
+
+static void aes_startup(void)
+{
+    aes_init();
+}
+
+#else
+
+#pragma message( "dynamic tables must be initialised manually on your system" )
+
+#endif
 
 #endif
 
