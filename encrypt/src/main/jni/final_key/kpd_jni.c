@@ -376,7 +376,6 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nGetCac
 
 typedef struct _master_key {
   uint64_t rounds;
-  pthread_mutex_t lock1, lock2; // these lock the two halves of the key material
   uint8_t c_seed[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key1[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
   uint8_t key2[MASTER_KEY_SIZE] __attribute__ ((aligned (16)));
