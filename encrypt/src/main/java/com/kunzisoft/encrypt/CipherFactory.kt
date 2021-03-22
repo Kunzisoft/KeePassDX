@@ -1,5 +1,6 @@
 package com.kunzisoft.encrypt
 
+import com.kunzisoft.encrypt.aes.AESProvider
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException

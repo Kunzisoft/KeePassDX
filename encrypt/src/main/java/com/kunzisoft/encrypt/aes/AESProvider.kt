@@ -17,9 +17,8 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt
+package com.kunzisoft.encrypt.aes
 
-import com.kunzisoft.encrypt.aes.NativeAESCipherSpi
 import java.security.Provider
 
 class AESProvider : Provider("AESProvider", 1.0, "") {
