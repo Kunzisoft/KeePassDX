@@ -96,10 +96,6 @@ class BinaryByte : BinaryData {
         }
     }
 
-    override fun dataExists(binaryCache: BinaryCache): Boolean {
-        return getByteArray(binaryCache).isNotEmpty()
-    }
-
     @Throws(IOException::class)
     override fun clear(binaryCache: BinaryCache) {
         binaryCache.removeByteArray(mDataByteId)
