@@ -26,8 +26,9 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.File
 import java.io.InputStream
 
-abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
-    (protected val cacheDirectory: File) {
+abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>>
+    (protected val cacheDirectory: File,
+     protected val isRAMSufficient: (memoryWanted: Long) -> Boolean) {
 
     /**
      * Load a versioned database file, return contents in a new DatabaseVersioned.
@@ -45,7 +46,7 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
                               keyfileInputStream: InputStream?,
                               loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean = false): PwDb
+                              fixDuplicateUUID: Boolean = false): D
 
 
     @Throws(LoadDatabaseException::class)
@@ -53,5 +54,5 @@ abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
                               masterKey: ByteArray,
                               loadedCipherKey: Database.LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean = false): PwDb
+                              fixDuplicateUUID: Boolean = false): D
 }

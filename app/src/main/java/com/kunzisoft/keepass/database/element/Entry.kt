@@ -311,7 +311,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
         val attachments = ArrayList<Attachment>()
-        entryKDB?.getAttachment()?.let {
+        entryKDB?.getAttachment(attachmentPool)?.let {
             attachments.add(it)
         }
         entryKDBX?.getAttachments(attachmentPool, inHistory)?.let {
@@ -336,7 +336,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     }
 
     private fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
-        entryKDB?.putAttachment(attachment)
+        entryKDB?.putAttachment(attachment, attachmentPool)
         entryKDBX?.putAttachment(attachment, attachmentPool)
     }
 

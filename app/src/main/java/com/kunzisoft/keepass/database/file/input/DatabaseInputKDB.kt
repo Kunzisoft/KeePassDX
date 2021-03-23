@@ -46,8 +46,9 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * Load a KDB database file.
  */
-class DatabaseInputKDB(cacheDirectory: File)
-    : DatabaseInput<DatabaseKDB>(cacheDirectory) {
+class DatabaseInputKDB(cacheDirectory: File,
+                       isRAMSufficient: (memoryWanted: Long) -> Boolean)
+    : DatabaseInput<DatabaseKDB>(cacheDirectory, isRAMSufficient) {
 
     private lateinit var mDatabase: DatabaseKDB
 
@@ -306,11 +307,11 @@ class DatabaseInputKDB(cacheDirectory: File)
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory)
-                                entry.binaryData = binaryAttachment
+                                val binaryData = mDatabase.buildNewAttachment(cacheDirectory)
+                                entry.putBinary(binaryData, mDatabase.binaryPool)
                                 val cipherKey = mDatabase.loadedCipherKey
                                         ?: throw IOException("Unable to retrieve cipher key to load binaries")
-                                BufferedOutputStream(binaryAttachment.getOutputDataStream(cipherKey)).use { outputStream ->
+                                BufferedOutputStream(binaryData.getOutputDataStream(cipherKey)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize) { buffer ->
                                         outputStream.write(buffer)
                                     }

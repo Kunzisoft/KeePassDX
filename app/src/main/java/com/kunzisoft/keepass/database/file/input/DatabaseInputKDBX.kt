@@ -63,8 +63,9 @@ import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import kotlin.math.min
 
-class DatabaseInputKDBX(cacheDirectory: File)
-    : DatabaseInput<DatabaseKDBX>(cacheDirectory) {
+class DatabaseInputKDBX(cacheDirectory: File,
+                        isRAMSufficient: (memoryWanted: Long) -> Boolean)
+    : DatabaseInput<DatabaseKDBX>(cacheDirectory, isRAMSufficient) {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: DatabaseKDBX
@@ -276,7 +277,8 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                 val byteLength = size - 1
                 // No compression at this level
-                val protectedBinary = mDatabase.buildNewAttachment(cacheDirectory, false, protectedFlag)
+                val protectedBinary = mDatabase.buildNewAttachment(cacheDirectory,
+                        isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
                 val cipherKey = mDatabase.loadedCipherKey
                         ?: throw IOException("Unable to retrieve cipher key to load binaries")
                 protectedBinary.getOutputDataStream(cipherKey).use { outputStream ->
@@ -703,11 +705,12 @@ class DatabaseInputKDBX(cacheDirectory: File)
         } else if (ctx == KdbContext.CustomIcons && name.equals(DatabaseKDBXXML.ElemCustomIcons, ignoreCase = true)) {
             return KdbContext.Meta
         } else if (ctx == KdbContext.CustomIcon && name.equals(DatabaseKDBXXML.ElemCustomIconItem, ignoreCase = true)) {
-            if (customIconID != DatabaseVersioned.UUID_ZERO && customIconData != null) {
-                mDatabase.addCustomIcon(cacheDirectory, customIconID, customIconData!!.size) { _, binary ->
+            val iconData = customIconData
+            if (customIconID != DatabaseVersioned.UUID_ZERO && iconData != null) {
+                mDatabase.addCustomIcon(cacheDirectory, customIconID, isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
                     mDatabase.loadedCipherKey?.let { cipherKey ->
                         binary?.getOutputDataStream(cipherKey)?.use { outputStream ->
-                            outputStream.write(customIconData)
+                            outputStream.write(iconData)
                         }
                     }
                 }
@@ -981,7 +984,7 @@ class DatabaseInputKDBX(cacheDirectory: File)
                 var binaryRetrieve = mDatabase.binaryPool[id]
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
-                    binaryRetrieve = mDatabase.buildNewAttachment(cacheDirectory,
+                    binaryRetrieve = mDatabase.buildNewAttachment(cacheDirectory, false,
                             compression = false, protection = false, binaryPoolId = id)
                 }
                 return binaryRetrieve
@@ -1018,7 +1021,8 @@ class DatabaseInputKDBX(cacheDirectory: File)
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory, compressed, protected, binaryId)
+        val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory,
+                isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
         val binaryCipherKey = mDatabase.loadedCipherKey
                 ?: throw IOException("Unable to retrieve cipher key to load binaries")
         try {

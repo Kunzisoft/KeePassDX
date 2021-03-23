@@ -453,6 +453,7 @@ class Database {
                  readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
+                 isRAMSufficient: (memoryWanted: Long) -> Boolean,
                  tempCipherKey: LoadedKey,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
@@ -474,7 +475,7 @@ class Database {
             // Read database stream for the first time
             readDatabaseStream(contentResolver, uri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory)
+                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
@@ -483,7 +484,7 @@ class Database {
                                         fixDuplicateUUID)
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory)
+                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
@@ -507,6 +508,7 @@ class Database {
     @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
                    cacheDirectory: File,
+                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
                    tempCipherKey: LoadedKey,
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -515,14 +517,14 @@ class Database {
             fileUri?.let { oldDatabaseUri ->
                 readDatabaseStream(contentResolver, oldDatabaseUri,
                         { databaseInputStream ->
-                            DatabaseInputKDB(cacheDirectory)
+                            DatabaseInputKDB(cacheDirectory, isRAMSufficient)
                                     .openDatabase(databaseInputStream,
                                             masterKey,
                                             tempCipherKey,
                                             progressTaskUpdater)
                         },
                         { databaseInputStream ->
-                            DatabaseInputKDBX(cacheDirectory)
+                            DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
                                     .openDatabase(databaseInputStream,
                                             masterKey,
                                             tempCipherKey,
@@ -576,8 +578,7 @@ class Database {
 
     val attachmentPool: AttachmentPool
         get() {
-            // Binary pool is functionally only in KDBX
-            return mDatabaseKDBX?.binaryPool ?: AttachmentPool()
+            return mDatabaseKDB?.binaryPool ?: mDatabaseKDBX?.binaryPool ?: AttachmentPool()
         }
 
     val allowMultipleAttachments: Boolean
@@ -593,7 +594,7 @@ class Database {
                                  compressed: Boolean = false,
                                  protected: Boolean = false): BinaryData? {
         return mDatabaseKDB?.buildNewAttachment(cacheDirectory)
-                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, compressed, protected)
+                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, false, compressed, protected)
     }
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {

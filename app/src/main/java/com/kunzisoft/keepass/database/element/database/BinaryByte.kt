@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
@@ -35,16 +33,13 @@ class BinaryByte : BinaryData {
      */
     constructor() : super()
 
+    constructor(compressed: Boolean = false,
+                protected: Boolean = false) : super(compressed, protected)
+
     constructor(byteArray: ByteArray,
                 compressed: Boolean = false,
                 protected: Boolean = false) : super(compressed, protected) {
         this.mDataByte = byteArray
-    }
-
-    constructor(parcel: Parcel) : super(parcel) {
-        val byteArray = ByteArray(parcel.readInt())
-        parcel.readByteArray(byteArray)
-        mDataByte = byteArray
     }
 
     @Throws(IOException::class)
@@ -112,12 +107,6 @@ class BinaryByte : BinaryData {
         return mDataByte.toString()
     }
 
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        super.writeToParcel(dest, flags)
-        dest.writeInt(mDataByte.size)
-        dest.writeByteArray(mDataByte)
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is BinaryByte) return false
@@ -145,21 +134,7 @@ class BinaryByte : BinaryData {
     }
 
     companion object {
-
         private val TAG = BinaryByte::class.java.name
-        // Max Parcelable / 2
-        const val MAX_BINARY_BYTES = 524288
-
-        @JvmField
-        val CREATOR: Parcelable.Creator<BinaryByte> = object : Parcelable.Creator<BinaryByte> {
-            override fun createFromParcel(parcel: Parcel): BinaryByte {
-                return BinaryByte(parcel)
-            }
-
-            override fun newArray(size: Int): Array<BinaryByte?> {
-                return arrayOfNulls(size)
-            }
-        }
     }
 
 }

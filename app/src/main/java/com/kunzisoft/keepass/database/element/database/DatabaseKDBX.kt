@@ -318,9 +318,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun addCustomIcon(cacheDirectory: File,
                       customIconId: UUID? = null,
-                      dataSize: Int,
+                      smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.addCustomIcon(cacheDirectory, customIconId, dataSize, result)
+        iconsManager.addCustomIcon(cacheDirectory, customIconId, smallSize, result)
     }
 
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
@@ -642,12 +642,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun buildNewAttachment(cacheDirectory: File,
+                           smallSize: Boolean,
                            compression: Boolean,
                            protection: Boolean,
                            binaryPoolId: Int? = null): BinaryData {
         return binaryPool.put(binaryPoolId) { uniqueBinaryId ->
-            val fileInCache = File(cacheDirectory, uniqueBinaryId)
-            BinaryFile(fileInCache, compression, protection)
+            if (smallSize) {
+                BinaryByte(compression, protection)
+            } else {
+                val fileInCache = File(cacheDirectory, uniqueBinaryId)
+                BinaryFile(fileInCache, compression, protection)
+            }
         }.binary
     }
 

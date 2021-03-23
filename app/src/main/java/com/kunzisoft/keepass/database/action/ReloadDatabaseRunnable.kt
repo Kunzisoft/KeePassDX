@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -46,6 +47,9 @@ class ReloadDatabaseRunnable(private val context: Context,
         try {
             mDatabase.reloadData(context.contentResolver,
                     UriUtil.getBinaryDir(context),
+                    { memoryWanted ->
+                        BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
+                    },
                     tempCipherKey ?: Database.LoadedKey.generateNewCipherKey(),
                     progressTaskUpdater)
         } catch (e: LoadDatabaseException) {

@@ -217,7 +217,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         }
         // Entries
         mDatabaseKDB.doForEachEntryInIndex { entry ->
-            EntryOutputKDB(entry, outputStream, mDatabaseKDB.loadedCipherKey).output()
+            EntryOutputKDB(entry, outputStream, mDatabaseKDB.loadedCipherKey).output(mDatabaseKDB)
         }
     }
 

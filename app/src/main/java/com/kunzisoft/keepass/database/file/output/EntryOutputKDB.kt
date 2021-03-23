@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.file.output
 
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.stream.*
@@ -39,7 +40,7 @@ class EntryOutputKDB(private val mEntry: EntryKDB,
 
     //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
     @Throws(DatabaseOutputException::class)
-    fun output() {
+    fun output(database: DatabaseKDB) {
         try {
             // UUID
             mOutputStream.write(UUID_FIELD_TYPE)
@@ -96,7 +97,7 @@ class EntryOutputKDB(private val mEntry: EntryKDB,
             // Binary
             mCipherKey?.let { cipherKey ->
                 mOutputStream.write(BINARY_DATA_FIELD_TYPE)
-                val binaryData = mEntry.binaryData
+                val binaryData = mEntry.getBinary(database.binaryPool)
                 val binaryDataLength = binaryData?.getSize() ?: 0L
                 // Write data length
                 mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))

@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
@@ -55,14 +53,6 @@ class BinaryFile : BinaryData {
         this.mDataFile = dataFile
         this.mLength = 0
         this.mBinaryHash = 0
-    }
-
-    constructor(parcel: Parcel) : super(parcel) {
-        parcel.readString()?.let {
-            mDataFile = File(it)
-        }
-        mLength = parcel.readLong()
-        mBinaryHash = parcel.readInt()
     }
 
     @Throws(IOException::class)
@@ -172,13 +162,6 @@ class BinaryFile : BinaryData {
         return mDataFile.toString()
     }
 
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        super.writeToParcel(dest, flags)
-        dest.writeString(mDataFile?.absolutePath)
-        dest.writeLong(mLength)
-        dest.writeInt(mBinaryHash)
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is BinaryFile) return false
@@ -236,19 +219,7 @@ class BinaryFile : BinaryData {
     }
 
     companion object {
-
         private val TAG = BinaryFile::class.java.name
-
-        @JvmField
-        val CREATOR: Parcelable.Creator<BinaryFile> = object : Parcelable.Creator<BinaryFile> {
-            override fun createFromParcel(parcel: Parcel): BinaryFile {
-                return BinaryFile(parcel)
-            }
-
-            override fun newArray(size: Int): Array<BinaryFile?> {
-                return arrayOfNulls(size)
-            }
-        }
     }
 
 }

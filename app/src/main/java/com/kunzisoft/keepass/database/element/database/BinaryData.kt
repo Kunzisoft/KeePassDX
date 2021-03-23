@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import android.os.Parcel
-import android.os.Parcelable
+import android.app.ActivityManager
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import java.io.IOException
 import java.io.InputStream
@@ -28,7 +28,7 @@ import java.io.OutputStream
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 
-abstract class BinaryData : Parcelable {
+abstract class BinaryData {
 
     var isCompressed: Boolean = false
         protected set
@@ -44,12 +44,6 @@ abstract class BinaryData : Parcelable {
     protected constructor(compressed: Boolean = false, protected: Boolean = false) {
         this.isCompressed = compressed
         this.isProtected = protected
-    }
-
-    protected constructor(parcel: Parcel) {
-        isCompressed = parcel.readByte().toInt() != 0
-        isProtected = parcel.readByte().toInt() != 0
-        isCorrupted = parcel.readByte().toInt() != 0
     }
 
     @Throws(IOException::class)
@@ -91,16 +85,6 @@ abstract class BinaryData : Parcelable {
 
     abstract fun binaryHash(): Int
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (isCompressed) 1 else 0).toByte())
-        dest.writeByte((if (isProtected) 1 else 0).toByte())
-        dest.writeByte((if (isCorrupted) 1 else 0).toByte())
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is BinaryData) return false
@@ -121,6 +105,13 @@ abstract class BinaryData : Parcelable {
 
     companion object {
         private val TAG = BinaryData::class.java.name
+
+        fun canMemoryBeAllocatedInRAM(context: Context, memoryWanted: Long): Boolean {
+            val memoryInfo = ActivityManager.MemoryInfo()
+            (context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).getMemoryInfo(memoryInfo)
+            val availableMemory = memoryInfo.availMem
+            return availableMemory > memoryWanted * 3
+        }
     }
 
 }

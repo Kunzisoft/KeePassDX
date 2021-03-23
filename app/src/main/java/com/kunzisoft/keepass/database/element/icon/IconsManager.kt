@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
 import com.kunzisoft.keepass.database.element.database.BinaryByte
-import com.kunzisoft.keepass.database.element.database.BinaryByte.Companion.MAX_BINARY_BYTES
 import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.database.BinaryFile
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
@@ -56,16 +55,16 @@ class IconsManager {
                            key: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
         // Create a binary file for a brand new custom icon
-        addCustomIcon(cacheDirectory, key, -1, result)
+        addCustomIcon(cacheDirectory, key, false, result)
     }
 
     fun addCustomIcon(cacheDirectory: File,
                       key: UUID? = null,
-                      dataSize: Int,
+                      smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
         val keyBinary = customCache.put(key) { uniqueBinaryId ->
             // Create a byte array for better performance with small data
-            if (dataSize in 1..MAX_BINARY_BYTES) {
+            if (smallSize) {
                 BinaryByte()
             } else {
                 val fileInCache = File(cacheDirectory, uniqueBinaryId)
