@@ -1,7 +1,5 @@
-package com.kunzisoft.keepass.database.element.database
+package com.kunzisoft.keepass.database.element.binary
 
-import com.kunzisoft.keepass.database.element.binary.BinaryCache
-import com.kunzisoft.keepass.database.element.binary.BinaryPool
 import java.util.*
 
 class CustomIconPool(binaryCache: BinaryCache) : BinaryPool<UUID>(binaryCache) {
