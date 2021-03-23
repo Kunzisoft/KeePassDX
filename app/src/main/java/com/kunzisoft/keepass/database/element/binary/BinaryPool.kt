@@ -226,7 +226,7 @@ abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
     @Throws(IOException::class)
     fun clear() {
         doForEachBinary { _, binary ->
-            // TODO Check binary.delete()
+            binary.clear(mBinaryCache)
         }
         pool.clear()
     }
