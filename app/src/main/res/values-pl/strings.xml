@@ -105,7 +105,6 @@
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
     <string name="content_description_remove_from_list">Usuń</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Rundy szyfrowania</string>
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
@@ -115,7 +114,6 @@
     <string name="sort_db">Porządek naturalny</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>
-    <string name="encryption_twofish">Algorytm szyfrujący Twofish</string>
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
@@ -296,8 +294,6 @@
     <string name="html_text_dev_feature_upgrade">Pamiętaj, aby aktualizować swoją aplikację, instalując nowe wersje.</string>
     <string name="download">Pobieranie</string>
     <string name="contribute">Przyczyń się</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="style_choose_title">Motyw aplikacji</string>
     <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
@@ -536,8 +532,6 @@
     <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
     <string name="content">Zawartość</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otwórz bazę danych z zaawansowanym rozpoznawaniem odblokowania</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="advanced_unlock_scanning_error">Błąd zaawansowanego odblokowywania: %1$s</string>
     <string name="error_rebuild_list">Nie można poprawnie odbudować listy.</string>
     <string name="error_database_uri_null">Nie można pobrać identyfikatora URI bazy danych.</string>

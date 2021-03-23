@@ -117,7 +117,6 @@
     <string name="progress_title">Työskennellään…</string>
     <string name="protection">Suojaus</string>
     <string name="content_description_remove_from_list">Poista</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>
     <string name="rounds_explanation">Lisätty kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
@@ -128,7 +127,6 @@
     <string name="special">Erityistä</string>
     <string name="search">Tietueen otsikko/kuvaus</string>
     <string name="search_results">Hakutulokset</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Alleviivattu</string>
     <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
     <string name="uppercase">Isot kirjaimet</string>

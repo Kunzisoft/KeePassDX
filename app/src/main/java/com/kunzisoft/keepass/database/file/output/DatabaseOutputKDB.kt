@@ -19,16 +19,15 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.crypto.CipherFactory
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.stream.NullOutputStream
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
-import com.kunzisoft.keepass.stream.NullOutputStream
-import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -37,8 +36,7 @@ import java.security.*
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
+import javax.crypto.NoSuchPaddingException
 
 class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
                         outputStream: OutputStream)
@@ -67,30 +65,21 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         val finalKey = getFinalKey(header)
 
-        val cipher: Cipher
-        cipher = try {
-            when {
-                mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael->
-                    CipherFactory.getInstance("AES/CBC/PKCS5Padding")
-                mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish ->
-                    CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
-                else ->
-                    throw Exception()
-            }
+        val cipher: Cipher = try {
+            mDatabaseKDB.encryptionAlgorithm
+                    .cipherEngine.getCipher(Cipher.ENCRYPT_MODE,
+                            finalKey ?: ByteArray(0),
+                            header.encryptionIV)
         } catch (e: Exception) {
-            throw DatabaseOutputException("Algorithm not supported.", e)
+            throw IOException("Algorithm not supported.", e)
         }
 
         try {
-            cipher.init(Cipher.ENCRYPT_MODE,
-                    SecretKeySpec(finalKey, "AES"),
-                    IvParameterSpec(header.encryptionIV))
             val cos = CipherOutputStream(mOutputStream, cipher)
             val bos = BufferedOutputStream(cos)
             outputPlanGroupAndEntries(bos)
             bos.flush()
             bos.close()
-
         } catch (e: InvalidKeyException) {
             throw DatabaseOutputException("Invalid key", e)
         } catch (e: InvalidAlgorithmParameterException) {

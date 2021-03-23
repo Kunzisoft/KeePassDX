@@ -22,12 +22,15 @@ package com.kunzisoft.keepass.database.file.output
 import android.util.Base64
 import android.util.Log
 import android.util.Xml
-import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.crypto.StreamCipherFactory
-import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
+import com.kunzisoft.encrypt.CrsAlgorithm
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.stream.StreamCipher
+import com.kunzisoft.encrypt.stream.StreamCipherFactory
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
@@ -44,8 +47,6 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.UnsignedInt
-import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
@@ -75,7 +76,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         try {
             try {
-                engine = CipherFactory.getInstance(mDatabaseKDBX.dataCipher)
+                engine = EncryptionAlgorithm.getFrom(mDatabaseKDBX.cipherUuid).cipherEngine
             } catch (e: NoSuchAlgorithmException) {
                 throw DatabaseOutputException("No such cipher", e)
             }
@@ -281,8 +282,6 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun attachStreamEncryptor(header: DatabaseHeaderKDBX, os: OutputStream): CipherOutputStream {
         val cipher: Cipher
         try {
-            //mDatabaseKDBX.makeFinalKey(header.masterSeed, mDatabaseKDBX.kdfParameters);
-
             cipher = engine!!.getCipher(Cipher.ENCRYPT_MODE, mDatabaseKDBX.finalKey!!, header.encryptionIV)
         } catch (e: Exception) {
             throw DatabaseOutputException("Invalid algorithm.", e)
@@ -582,12 +581,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (protect) {
             xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
             val data = value.toString().toByteArray()
-            val dataLength = data.size
-            if (data.isNotEmpty()) {
-                val encoded = ByteArray(dataLength)
-                randomStream!!.processBytes(data, 0, dataLength, encoded, 0)
-                xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
-            }
+            val encoded = randomStream?.processBytes(data) ?: ByteArray(0)
+            xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
         } else {
             xml.text(value.toString())
         }

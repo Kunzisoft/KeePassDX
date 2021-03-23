@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.stream.dateTo5Bytes
 import com.kunzisoft.keepass.stream.uIntTo4Bytes
 import com.kunzisoft.keepass.stream.uShortTo2Bytes
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
-import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 

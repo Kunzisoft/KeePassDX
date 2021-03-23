@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
-import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.encrypt.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap

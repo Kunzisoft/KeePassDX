@@ -23,20 +23,22 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.binary.LoadedKey
-import com.kunzisoft.keepass.database.element.database.*
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -239,9 +241,9 @@ class Database {
     val allowEncryptionAlgorithmModification: Boolean
         get() = availableEncryptionAlgorithms.size > 1
 
-    fun getEncryptionAlgorithmName(resources: Resources): String {
-        return mDatabaseKDB?.encryptionAlgorithm?.getName(resources)
-                ?: mDatabaseKDBX?.encryptionAlgorithm?.getName(resources)
+    fun getEncryptionAlgorithmName(): String {
+        return mDatabaseKDB?.encryptionAlgorithm?.toString()
+                ?: mDatabaseKDBX?.encryptionAlgorithm?.toString()
                 ?: ""
     }
 
@@ -254,7 +256,7 @@ class Database {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
                 mDatabaseKDBX?.setDataEngine(algorithm.cipherEngine)
-                mDatabaseKDBX?.dataCipher = algorithm.dataCipher
+                mDatabaseKDBX?.cipherUuid = algorithm.uuid
             }
         }
 
@@ -276,8 +278,8 @@ class Database {
             }
         }
 
-    fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine?.getName(resources) ?: ""
+    fun getKeyDerivationName(): String {
+        return kdfEngine?.toString() ?: ""
     }
 
     var numberKeyEncryptionRounds: Long

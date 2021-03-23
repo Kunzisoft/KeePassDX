@@ -20,6 +20,7 @@
 
 package com.kunzisoft.keepass.utils
 
+import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.keepass.stream.uIntTo4Bytes
 import java.io.IOException
 import java.io.OutputStream

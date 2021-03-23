@@ -293,7 +293,6 @@
     <string name="education_lock_summary">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਫ਼ੌਰੀ ਤੌਰ ਉੱਤੇ ਲਾਕ ਕਰੋ, ਤੁਸੀਂ ਕੁਝ ਦੇਰ ਬਾਅਦ ਅਤੇ ਜਦੋਂ ਸਕਰੀਨ ਬੰਦ ਹੋਵੇ ਤਾਂ ਇਸ ਨੂੰ ਲਾਕ ਕਰਨ ਲਈ ਐਪ ਨੂੰ ਸੈਟਅੱਪ ਕਰ ਸਕਦੇ ਹੋ।</string>
     <string name="education_lock_title">ਡਾਟਾਬੇਸ ਲਾਕ ਕਰੋ</string>
     <string name="upload_attachment">%1$s ਅੱਪਲੋਡ ਕਰੋ</string>
-    <string name="kdf_AES">AES</string>
     <string name="show_uuid_summary">ਐਂਟਰੀ ਨਾਲ ਸੰਬੰਧਿਤ UUID ਦਿਖਾਉਂਦਾ ਹੈ</string>
     <string name="encryption_explanation">ਸਾਰੇ ਡਾਟੇ ਲਈ ਡਾਟਾਬੇਸ ਇੰਕ੍ਰਿਪਸ਼ਨ ਐਲਗੋਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ।</string>
     <string name="registration_mode">ਰਜਿਸਟਰੇਸ਼ਨ ਢੰਗ</string>

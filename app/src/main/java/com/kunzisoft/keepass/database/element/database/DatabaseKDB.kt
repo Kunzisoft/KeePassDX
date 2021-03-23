@@ -19,9 +19,11 @@
 
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.keepass.crypto.finalkey.AESKeyTransformerFactory
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
+import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
+import com.kunzisoft.encrypt.stream.NullOutputStream
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -29,8 +31,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.stream.NullOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestOutputStream

@@ -104,7 +104,6 @@
     <string name="progress_create">正在新建数据库…</string>
     <string name="progress_title">正在处理…</string>
     <string name="content_description_remove_from_list">移除</string>
-    <string name="encryption_rijndael">Rijndael(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">迭代次数</string>
     <string name="rounds_explanation">更多的迭代次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
@@ -114,7 +113,6 @@
     <string name="sort_db">自然排序</string>
     <string name="special">特殊符号</string>
     <string name="search">搜索</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
@@ -143,8 +141,6 @@
     <string name="clipboard_error_title">剪切板错误</string>
     <string name="clipboard_error">一些设备不允许程序使用剪切板。</string>
     <string name="clipboard_error_clear">无法清空剪切板</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="style_choose_title">主题</string>
     <string name="icon_pack_choose_title">图标包</string>
     <string name="icon_pack_choose_summary">程序中使用的图标包</string>
@@ -541,8 +537,6 @@
     <string name="temp_advanced_unlock_enable_title">临时性高级解锁</string>
     <string name="advanced_unlock_tap_delete">点击删除高级解锁密钥</string>
     <string name="content">内容</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">无法正确地重建列表。</string>
     <string name="error_database_uri_null">无法检索数据库 URI 。</string>
     <string name="autofill_inline_suggestions_keyboard">已添加自动填充建议。</string>

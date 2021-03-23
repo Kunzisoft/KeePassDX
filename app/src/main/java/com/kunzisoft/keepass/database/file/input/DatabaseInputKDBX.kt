@@ -21,13 +21,18 @@ package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
 import android.util.Log
-import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.crypto.StreamCipherFactory
-import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
+import com.kunzisoft.encrypt.stream.StreamCipher
+import com.kunzisoft.encrypt.stream.StreamCipherFactory
+import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -43,9 +48,6 @@ import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
-import org.bouncycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
@@ -123,7 +125,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                              fixDuplicateUUID: Boolean,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
-            progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
+            startKeyTimer(progressTaskUpdater)
             mDatabase = DatabaseKDBX()
             mDatabase.binaryCache.cacheDirectory = cacheDirectory
 
@@ -140,13 +142,15 @@ class DatabaseInputKDBX(cacheDirectory: File,
             assignMasterKey?.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
 
-            progressTaskUpdater?.updateMessage(R.string.decrypting_db)
+            stopKeyTimer()
+            startContentTimer(progressTaskUpdater)
+
             val engine: CipherEngine
             val cipher: Cipher
             try {
-                engine = CipherFactory.getInstance(mDatabase.dataCipher)
+                engine = EncryptionAlgorithm.getFrom(mDatabase.cipherUuid).cipherEngine
                 mDatabase.setDataEngine(engine)
-                mDatabase.encryptionAlgorithm = engine.getPwEncryptionAlgorithm()
+                mDatabase.encryptionAlgorithm = engine.getEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
             } catch (e: Exception) {
                 throw InvalidAlgorithmDatabaseException(e)
@@ -155,7 +159,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             val isPlain: InputStream
             if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
-                val decrypted = attachCipherStream(databaseInputStream, cipher)
+                val decrypted = CipherInputStream(databaseInputStream, cipher)
                 val dataDecrypted = LittleEndianDataInputStream(decrypted)
                 val storedStartBytes: ByteArray?
                 try {
@@ -192,11 +196,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
                 val hmIs = HmacBlockInputStream(isData, true, hmacKey)
 
-                isPlain = attachCipherStream(hmIs, cipher)
+                isPlain = CipherInputStream(hmIs, cipher)
             }
 
-            val inputStreamXml: InputStream
-            inputStreamXml = when (mDatabase.compressionAlgorithm) {
+            val inputStreamXml: InputStream = when (mDatabase.compressionAlgorithm) {
                 CompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
                 else -> isPlain
             }
@@ -212,6 +215,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             readDocumentStreamed(createPullParser(inputStreamXml))
+
+            stopContentTimer()
 
         } catch (e: LoadDatabaseException) {
             throw e
@@ -229,10 +234,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
         }
 
         return mDatabase
-    }
-
-    private fun attachCipherStream(inputStream: InputStream, cipher: Cipher): InputStream {
-        return CipherInputStream(inputStream, cipher)
     }
 
     @Throws(IOException::class)
@@ -1057,9 +1058,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
             if (protect != null && protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)) {
                 Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { data ->
-                    val plainText = ByteArray(data.size)
-                    randomStream?.processBytes(data, 0, data.size, plainText, 0)
-                    return plainText
+                    return randomStream?.processBytes(data)
                 }
                 return ByteArray(0)
             }

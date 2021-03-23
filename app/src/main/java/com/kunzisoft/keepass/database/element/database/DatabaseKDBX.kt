@@ -22,14 +22,17 @@ package com.kunzisoft.keepass.database.element.database
 import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
+import com.kunzisoft.encrypt.CryptoUtil
+import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.CryptoUtil
-import com.kunzisoft.keepass.crypto.engine.AesEngine
-import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.AesEngine
+import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -40,15 +43,12 @@ import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.VariantDictionary
 import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
 import java.io.IOException
@@ -65,7 +65,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     var hmacKey: ByteArray? = null
         private set
-    var dataCipher = AesEngine.CIPHER_UUID
+    var cipherUuid = EncryptionAlgorithm.AESRijndael.uuid
     private var dataEngine: CipherEngine = AesEngine()
     var compressionAlgorithm = CompressionAlgorithm.GZip
     var kdfParameters: KdfParameters? = null

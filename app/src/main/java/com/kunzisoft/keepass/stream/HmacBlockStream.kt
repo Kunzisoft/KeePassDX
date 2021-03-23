@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.stream.NullOutputStream
 import java.io.IOException
 import java.security.DigestOutputStream
 import java.security.MessageDigest

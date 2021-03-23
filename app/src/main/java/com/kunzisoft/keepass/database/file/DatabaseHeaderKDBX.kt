@@ -19,11 +19,15 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.encrypt.CrsAlgorithm
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -31,9 +35,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.keepass.utils.VariantDictionary
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -244,7 +245,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid cipher ID.")
         }
 
-        databaseV4.dataCipher = bytes16ToUuid(pbId)
+        databaseV4.cipherUuid = bytes16ToUuid(pbId)
     }
 
     private fun setTransformRound(roundsByte: ByteArray) {

@@ -20,27 +20,24 @@
 
 package com.kunzisoft.keepass.database.file.input
 
-import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.CipherFactory
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.*
-import java.security.*
+import java.security.DigestInputStream
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.*
 import javax.crypto.Cipher
-import javax.crypto.NoSuchPaddingException
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 
 
 /**
@@ -84,6 +81,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
 
         try {
+            startKeyTimer(progressTaskUpdater)
             // Load entire file, most of it's encrypted.
             val fileSize = databaseInputStream.available()
 
@@ -106,7 +104,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                 throw VersionDatabaseException()
             }
 
-            progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabase = DatabaseKDB()
             mDatabase.binaryCache.cacheDirectory = cacheDirectory
 
@@ -132,32 +129,16 @@ class DatabaseInputKDB(cacheDirectory: File,
                     header.transformSeed,
                     mDatabase.numberKeyEncryptionRounds)
 
-            progressTaskUpdater?.updateMessage(R.string.decrypting_db)
-            // Initialize Rijndael algorithm
-            val cipher: Cipher = try {
-                when {
-                    mDatabase.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
-                        CipherFactory.getInstance("AES/CBC/PKCS5Padding")
-                    }
-                    mDatabase.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
-                        CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
-                    }
-                    else -> throw IOException("Encryption algorithm is not supported")
-                }
-            } catch (e1: NoSuchAlgorithmException) {
-                throw IOException("No such algorithm")
-            } catch (e1: NoSuchPaddingException) {
-                throw IOException("No such pdading")
-            }
+            stopKeyTimer()
+            startContentTimer(progressTaskUpdater)
 
-            try {
-                cipher.init(Cipher.DECRYPT_MODE,
-                        SecretKeySpec(mDatabase.finalKey, "AES"),
-                        IvParameterSpec(header.encryptionIV))
-            } catch (e1: InvalidKeyException) {
-                throw IOException("Invalid key")
-            } catch (e1: InvalidAlgorithmParameterException) {
-                throw IOException("Invalid algorithm parameter.")
+            val cipher: Cipher = try {
+                mDatabase.encryptionAlgorithm
+                        .cipherEngine.getCipher(Cipher.DECRYPT_MODE,
+                                mDatabase.finalKey ?: ByteArray(0),
+                                header.encryptionIV)
+            } catch (e: Exception) {
+                throw IOException("Algorithm not supported.", e)
             }
 
             val messageDigest: MessageDigest
@@ -342,6 +323,8 @@ class DatabaseInputKDB(cacheDirectory: File,
                 throw InvalidCredentialsDatabaseException()
             }
             constructTreeFromIndex()
+
+            stopContentTimer()
 
         } catch (e: LoadDatabaseException) {
             mDatabase.clearCache()
