@@ -44,7 +44,6 @@ enum class EncryptionAlgorithm {
                 AESRijndael -> AES_UUID
                 Twofish -> TWOFISH_UUID
                 ChaCha20 -> CHACHA20_UUID
-                else -> throw NoSuchAlgorithmException("UUID unrecognized.")
             }
         }
 
