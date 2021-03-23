@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.stream.NullOutputStream
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestOutputStream
@@ -44,9 +43,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     private var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
 
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
-
-    // Only to generate unique file name
-    var binaryPool = AttachmentPool()
 
     override val version: String
         get() = "KeePass 1"
@@ -275,11 +271,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         addEntryTo(entry, origParent)
     }
 
-    fun buildNewAttachment(cacheDirectory: File): BinaryData {
+    fun buildNewAttachment(): BinaryData {
         // Generate an unique new file
-        return binaryPool.put { uniqueBinaryId ->
-            val fileInCache = File(cacheDirectory, uniqueBinaryId)
-            BinaryFile(fileInCache)
+        return attachmentPool.put { uniqueBinaryId ->
+            binaryCache.getBinaryData(uniqueBinaryId, false)
         }.binary
     }
 

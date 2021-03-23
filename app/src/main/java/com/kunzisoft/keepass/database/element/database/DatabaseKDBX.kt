@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
@@ -107,8 +106,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<DeletedObject>()
     val customData = HashMap<String, String>()
-
-    var binaryPool = AttachmentPool()
 
     var localizedAppName = "KeePassDX"
 
@@ -210,7 +207,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun compressAllBinaries() {
-        binaryPool.doForEachBinary { _, binary ->
+        attachmentPool.doForEachBinary { _, binary ->
             try {
                 // To compress, create a new binary with file
                 binary.compress(binaryCache)
@@ -221,7 +218,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun decompressAllBinaries() {
-        binaryPool.doForEachBinary { _, binary ->
+        attachmentPool.doForEachBinary { _, binary ->
             try {
                 binary.decompress(binaryCache)
             } catch (e: Exception) {
@@ -306,17 +303,15 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(cacheDirectory: File,
-                           customIconId: UUID? = null,
+    fun buildNewCustomIcon(customIconId: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.buildNewCustomIcon(cacheDirectory, customIconId, result)
+        iconsManager.buildNewCustomIcon(customIconId, result)
     }
 
-    fun addCustomIcon(cacheDirectory: File,
-                      customIconId: UUID? = null,
+    fun addCustomIcon(customIconId: UUID? = null,
                       smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.addCustomIcon(cacheDirectory, customIconId, smallSize, result)
+        iconsManager.addCustomIcon(customIconId, smallSize, result)
     }
 
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
@@ -637,18 +632,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
-    fun buildNewAttachment(cacheDirectory: File,
-                           smallSize: Boolean,
+    fun buildNewAttachment(smallSize: Boolean,
                            compression: Boolean,
                            protection: Boolean,
                            binaryPoolId: Int? = null): BinaryData {
-        return binaryPool.put(binaryPoolId) { uniqueBinaryId ->
-            if (smallSize) {
-                BinaryByte(compression, protection)
-            } else {
-                val fileInCache = File(cacheDirectory, uniqueBinaryId)
-                BinaryFile(fileInCache, compression, protection)
-            }
+        return attachmentPool.put(binaryPoolId) { uniqueBinaryId ->
+            binaryCache.getBinaryData(uniqueBinaryId, smallSize, compression, protection)
         }.binary
     }
 
@@ -666,7 +655,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryData>()
         if (binaries.isEmpty()) {
-            binaryPool.doForEachBinary { _, binary ->
+            attachmentPool.doForEachBinary { _, binary ->
                 binariesToRemove.add(binary)
             }
         } else {
@@ -675,7 +664,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Remove binaries from the list
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
-                node.getAttachments(binaryPool, true).forEach {
+                node.getAttachments(attachmentPool, true).forEach {
                     binariesToRemove.remove(it.binaryData)
                 }
                 return binariesToRemove.isNotEmpty()
@@ -684,7 +673,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Effective removing
         binariesToRemove.forEach {
             try {
-                binaryPool.remove(it)
+                attachmentPool.remove(it)
                 if (clear)
                     it.clear(binaryCache)
             } catch (e: Exception) {
@@ -702,7 +691,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     override fun clearCache() {
         try {
             super.clearCache()
-            binaryPool.clear()
+            attachmentPool.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear cache", e)
         }

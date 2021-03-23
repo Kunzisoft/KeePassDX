@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.database.BinaryCache
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.stream.readAllBytes
 import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
@@ -40,7 +40,7 @@ object BinaryDatabaseManager {
                                      update: ((percent: Int)->Unit)? = null,
                                      canceled: ()-> Boolean = { false },
                                      bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        val fileSize = binaryData.getSize()
+        val fileSize = binaryData.getSize(binaryCache)
         var dataDownloaded = 0L
         binaryData.getUnGzipInputDataStream(binaryCache).use { inputStream ->
             inputStream.readAllBytes(bufferSize, canceled) { buffer ->

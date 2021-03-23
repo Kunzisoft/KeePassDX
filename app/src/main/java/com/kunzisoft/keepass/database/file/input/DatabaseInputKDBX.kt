@@ -127,6 +127,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         try {
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabase = DatabaseKDBX()
+            mDatabase.binaryCache.cacheDirectory = cacheDirectory
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
 
@@ -277,7 +278,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                 val byteLength = size - 1
                 // No compression at this level
-                val protectedBinary = mDatabase.buildNewAttachment(cacheDirectory,
+                val protectedBinary = mDatabase.buildNewAttachment(
                         isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
                 protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                     dataInputStream.readBytes(byteLength) { buffer ->
@@ -705,7 +706,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         } else if (ctx == KdbContext.CustomIcon && name.equals(DatabaseKDBXXML.ElemCustomIconItem, ignoreCase = true)) {
             val iconData = customIconData
             if (customIconID != DatabaseVersioned.UUID_ZERO && iconData != null) {
-                mDatabase.addCustomIcon(cacheDirectory, customIconID, isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
+                mDatabase.addCustomIcon(customIconID, isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
                     binary?.getOutputDataStream(mDatabase.binaryCache)?.use { outputStream ->
                         outputStream.write(iconData)
                     }
@@ -783,7 +784,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryBinary && name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
             if (ctxBinaryName != null && ctxBinaryValue != null) {
-                ctxEntry?.putAttachment(Attachment(ctxBinaryName!!, ctxBinaryValue!!), mDatabase.binaryPool)
+                ctxEntry?.putAttachment(Attachment(ctxBinaryName!!, ctxBinaryValue!!), mDatabase.attachmentPool)
             }
             ctxBinaryName = null
             ctxBinaryValue = null
@@ -977,11 +978,14 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 xpp.next() // Consume end tag
                 val id = Integer.parseInt(ref)
                 // A ref is not necessarily an index in Database V3.1
-                var binaryRetrieve = mDatabase.binaryPool[id]
+                var binaryRetrieve = mDatabase.attachmentPool[id]
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
-                    binaryRetrieve = mDatabase.buildNewAttachment(cacheDirectory, false,
-                            compression = false, protection = false, binaryPoolId = id)
+                    binaryRetrieve = mDatabase.buildNewAttachment(
+                            smallSize = false,
+                            compression = false,
+                            protection = false,
+                            binaryPoolId = id)
                 }
                 return binaryRetrieve
             }
@@ -1017,7 +1021,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory,
+        val binaryAttachment = mDatabase.buildNewAttachment(
                 isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
         try {
             binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->

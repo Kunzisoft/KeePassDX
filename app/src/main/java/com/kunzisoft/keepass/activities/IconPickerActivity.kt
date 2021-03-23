@@ -229,7 +229,7 @@ class IconPickerActivity : LockingActivity() {
                         if (documentFile.length() > MAX_ICON_SIZE) {
                             iconCustomState.errorStringId = R.string.error_file_to_big
                         } else {
-                            mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this@IconPickerActivity)) { customIcon, binary ->
+                            mDatabase?.buildNewCustomIcon() { customIcon, binary ->
                                 if (customIcon != null) {
                                     iconCustomState.iconCustom = customIcon
                                     mDatabase?.let { database ->
@@ -238,17 +238,17 @@ class IconPickerActivity : LockingActivity() {
                                                 database,
                                                 iconToUploadUri,
                                                 binary)
-                                    }
-                                    when {
-                                        binary == null -> {
-                                        }
-                                        binary.getSize() <= 0 -> {
-                                        }
-                                        mDatabase?.isCustomIconBinaryDuplicate(binary) == true -> {
-                                            iconCustomState.errorStringId = R.string.error_duplicate_file
-                                        }
-                                        else -> {
-                                            iconCustomState.error = false
+                                        when {
+                                            binary == null -> {
+                                            }
+                                            binary.getSize(database.binaryCache) <= 0 -> {
+                                            }
+                                            database.isCustomIconBinaryDuplicate(binary) -> {
+                                                iconCustomState.errorStringId = R.string.error_duplicate_file
+                                            }
+                                            else -> {
+                                                iconCustomState.error = false
+                                            }
                                         }
                                     }
                                     if (iconCustomState.error) {

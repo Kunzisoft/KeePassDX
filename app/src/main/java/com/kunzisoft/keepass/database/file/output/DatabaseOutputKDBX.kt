@@ -136,13 +136,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binaryPool.doForEachOrderedBinaryWithoutDuplication { _, binary ->
+        val binaryCache = database.binaryCache
+        database.attachmentPool.doForEachOrderedBinaryWithoutDuplication { _, binary ->
             // Force decompression to add binary in header
-            binary.decompress(database.binaryCache)
+            binary.decompress(binaryCache)
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
+            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize(binaryCache) + 1))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (binary.isProtected) {
@@ -150,7 +151,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             }
             dataOutputStream.writeByte(flag)
 
-            binary.getInputDataStream(database.binaryCache).use { inputStream ->
+            binary.getInputDataStream(binaryCache).use { inputStream ->
                 inputStream.readAllBytes { buffer ->
                     dataOutputStream.write(buffer)
                 }
@@ -494,16 +495,17 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeMetaBinaries() {
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
         // Use indexes because necessarily (binary header ref is the order)
-        mDatabaseKDBX.binaryPool.doForEachOrderedBinaryWithoutDuplication { index, binary ->
+        val binaryCache = mDatabaseKDBX.binaryCache
+        mDatabaseKDBX.attachmentPool.doForEachOrderedBinaryWithoutDuplication { index, binary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
-            if (binary.getSize() > 0) {
+            if (binary.getSize(binaryCache) > 0) {
                 if (binary.isCompressed) {
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }
                 try {
                     // Write the XML
-                    binary.getInputDataStream(mDatabaseKDBX.binaryCache).use { inputStream ->
+                    binary.getInputDataStream(binaryCache).use { inputStream ->
                         inputStream.readAllBytes { buffer ->
                             xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                         }
@@ -608,7 +610,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeEntryBinaries(binaries: LinkedHashMap<String, Int>) {
         for ((label, poolId) in binaries) {
             // Retrieve the right index with the poolId, don't use ref because of header in DatabaseV4
-            mDatabaseKDBX.binaryPool.getBinaryIndexFromKey(poolId)?.toString()?.let { indexString ->
+            mDatabaseKDBX.attachmentPool.getBinaryIndexFromKey(poolId)?.toString()?.let { indexString ->
                 xml.startTag(null, DatabaseKDBXXML.ElemBinary)
                 xml.startTag(null, DatabaseKDBXXML.ElemKey)
                 xml.text(safeXmlString(label))
@@ -696,8 +698,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeCustomIconList() {
         var firstElement = true
+        val binaryCache = mDatabaseKDBX.binaryCache
         mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom, binary ->
-            if (binary.dataExists()) {
+            if (binary.dataExists(binaryCache)) {
                 // Write the parent tag
                 if (firstElement) {
                     xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)
@@ -709,7 +712,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 writeUuid(DatabaseKDBXXML.ElemCustomIconItemID, iconCustom.uuid)
                 var customImageData = ByteArray(0)
                 try {
-                    binary.getInputDataStream(mDatabaseKDBX.binaryCache).use { inputStream ->
+                    binary.getInputDataStream(binaryCache).use { inputStream ->
                         customImageData = inputStream.readBytes()
                     }
                 } catch (e: Exception) {

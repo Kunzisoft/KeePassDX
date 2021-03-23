@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.keepass.database.element.Database
+import java.io.File
 import java.util.*
 
 class BinaryCache {
@@ -11,14 +12,28 @@ class BinaryCache {
      */
     var loadedCipherKey: Database.LoadedKey? = null
 
-    // Similar to file storage but much faster
-    private val byteArrayList = HashMap<Int, ByteArray>()
+    lateinit var cacheDirectory: File
 
-    fun getByteArray(key: Int?): KeyByteArray {
-        if (key == null) {
-            val newItem = KeyByteArray(byteArrayList.size, ByteArray(0))
-            byteArrayList[newItem.key] = newItem.data
-            return newItem
+    private val voidBinary = KeyByteArray(UNKNOWN, ByteArray(0))
+
+    fun getBinaryData(binaryId: String,
+                      smallSize: Boolean = false,
+                      compression: Boolean = false,
+                      protection: Boolean = false): BinaryData {
+        return if (smallSize) {
+            BinaryByte(binaryId, compression, protection)
+        } else {
+            val fileInCache = File(cacheDirectory, binaryId)
+            return BinaryFile(fileInCache, compression, protection)
+        }
+    }
+
+    // Similar to file storage but much faster
+    private val byteArrayList = HashMap<String, ByteArray>()
+
+    fun getByteArray(key: String): KeyByteArray {
+        if (key == UNKNOWN) {
+            return voidBinary
         }
         if (!byteArrayList.containsKey(key)) {
             val newItem = KeyByteArray(key, ByteArray(0))
@@ -28,18 +43,15 @@ class BinaryCache {
         return KeyByteArray(key, byteArrayList[key]!!)
     }
 
-    fun setByteArray(key: Int?, data: ByteArray): KeyByteArray {
-        return if (key == null) {
-            val keyByteArray = KeyByteArray(byteArrayList.size, data)
-            byteArrayList[keyByteArray.key] = keyByteArray.data
-            keyByteArray
-        } else {
-            byteArrayList[key] = data
-            KeyByteArray(key, data)
+    fun setByteArray(key: String, data: ByteArray): KeyByteArray {
+        if (key == UNKNOWN) {
+            return voidBinary
         }
+        byteArrayList[key] = data
+        return KeyByteArray(key, data)
     }
 
-    fun removeByteArray(key: Int?) {
+    fun removeByteArray(key: String?) {
         key?.let {
             byteArrayList.remove(it)
         }
@@ -49,7 +61,11 @@ class BinaryCache {
         byteArrayList.clear()
     }
 
-    data class KeyByteArray(val key: Int, val data: ByteArray) {
+    companion object {
+        const val UNKNOWN = "UNKNOWN"
+    }
+
+    data class KeyByteArray(val key: String, val data: ByteArray) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (other !is KeyByteArray) return false
@@ -60,7 +76,7 @@ class BinaryCache {
         }
 
         override fun hashCode(): Int {
-            return key
+            return key.hashCode()
         }
     }
 }

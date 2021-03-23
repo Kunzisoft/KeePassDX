@@ -101,9 +101,13 @@ class Database {
             return mDatabaseKDB?.binaryCache ?: mDatabaseKDBX?.binaryCache ?: BinaryCache()
         }
 
+    fun setCacheDirectory(cacheDirectory: File) {
+        binaryCache.cacheDirectory = cacheDirectory
+    }
+
     private val iconsManager: IconsManager
         get() {
-            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
+            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager(binaryCache)
         }
 
     fun doForEachStandardIcons(action: (IconImageStandard) -> Unit) {
@@ -125,9 +129,8 @@ class Database {
         return iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(cacheDirectory: File,
-                           result: (IconImageCustom?, BinaryData?) -> Unit) {
-        mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory, null, result)
+    fun buildNewCustomIcon(result: (IconImageCustom?, BinaryData?) -> Unit) {
+        mDatabaseKDBX?.buildNewCustomIcon(null, result)
     }
 
     fun isCustomIconBinaryDuplicate(binaryData: BinaryData): Boolean {
@@ -578,7 +581,7 @@ class Database {
 
     val attachmentPool: AttachmentPool
         get() {
-            return mDatabaseKDB?.binaryPool ?: mDatabaseKDBX?.binaryPool ?: AttachmentPool()
+            return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool(binaryCache)
         }
 
     val allowMultipleAttachments: Boolean
@@ -590,11 +593,10 @@ class Database {
             return false
         }
 
-    fun buildNewBinaryAttachment(cacheDirectory: File,
-                                 compressed: Boolean = false,
+    fun buildNewBinaryAttachment(compressed: Boolean = false,
                                  protected: Boolean = false): BinaryData? {
-        return mDatabaseKDB?.buildNewAttachment(cacheDirectory)
-                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, false, compressed, protected)
+        return mDatabaseKDB?.buildNewAttachment()
+                ?: mDatabaseKDBX?.buildNewAttachment( false, compressed, protected)
     }
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {

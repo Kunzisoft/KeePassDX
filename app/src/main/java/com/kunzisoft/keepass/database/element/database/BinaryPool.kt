@@ -23,13 +23,13 @@ import android.util.Log
 import java.io.IOException
 import kotlin.math.abs
 
-abstract class BinaryPool<T> {
+abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
 
     protected val pool = LinkedHashMap<T, BinaryData>()
 
     // To build unique file id
-    private var creationId: String = System.currentTimeMillis().toString()
-    private var poolId: String = abs(javaClass.simpleName.hashCode()).toString()
+    private var creationId: Long = System.currentTimeMillis()
+    private var poolId: Int = abs(javaClass.simpleName.hashCode())
     private var binaryFileIncrement = 0L
 
     /**
@@ -120,11 +120,11 @@ abstract class BinaryPool<T> {
     fun isBinaryDuplicate(binaryData: BinaryData?): Boolean {
         try {
             binaryData?.let {
-                if (it.getSize() > 0) {
-                    val searchBinaryMD5 = it.binaryHash()
+                if (it.getSize(mBinaryCache) > 0) {
+                    val searchBinaryMD5 = it.binaryHash(mBinaryCache)
                     var i = 0
                     for ((_, binary) in pool) {
-                        if (binary.binaryHash() == searchBinaryMD5) {
+                        if (binary.binaryHash(mBinaryCache) == searchBinaryMD5) {
                             i++
                             if (i > 1)
                                 return true
@@ -164,10 +164,10 @@ abstract class BinaryPool<T> {
             // Don't deduplicate
             val existentBinary =
             try {
-                if (binary.getSize() > 0) {
+                if (binary.getSize(mBinaryCache) > 0) {
                     keyBinaryList.find {
-                        val hash0 = it.binary.binaryHash()
-                        val hash1 = binary.binaryHash()
+                        val hash0 = it.binary.binaryHash(mBinaryCache)
+                        val hash1 = binary.binaryHash(mBinaryCache)
                         hash0 != 0 && hash1 != 0 && hash0 == hash1
                     }
                 } else {
@@ -226,7 +226,7 @@ abstract class BinaryPool<T> {
     @Throws(IOException::class)
     fun clear() {
         doForEachBinary { _, binary ->
-            binary.delete()
+            // TODO Check binary.delete()
         }
         pool.clear()
     }

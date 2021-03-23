@@ -108,6 +108,7 @@ class DatabaseInputKDB(cacheDirectory: File,
 
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabase = DatabaseKDB()
+            mDatabase.binaryCache.cacheDirectory = cacheDirectory
 
             mDatabase.changeDuplicateId = fixDuplicateUUID
             assignMasterKey?.invoke()
@@ -307,8 +308,8 @@ class DatabaseInputKDB(cacheDirectory: File,
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryData = mDatabase.buildNewAttachment(cacheDirectory)
-                                entry.putBinary(binaryData, mDatabase.binaryPool)
+                                val binaryData = mDatabase.buildNewAttachment()
+                                entry.putBinary(binaryData, mDatabase.attachmentPool)
                                 BufferedOutputStream(binaryData.getOutputDataStream(mDatabase.binaryCache)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize) { buffer ->
                                         outputStream.write(buffer)

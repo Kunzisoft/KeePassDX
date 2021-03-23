@@ -68,7 +68,11 @@ class ImageViewerActivity : LockingActivity() {
             intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
 
                 supportActionBar?.title = attachment.name
-                supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryData.getSize())
+
+                val size = mDatabase?.binaryCache?.let {
+                    attachment.binaryData.getSize(it)
+                } ?: 0L
+                supportActionBar?.subtitle = Formatter.formatFileSize(this, size)
 
                 mDatabase?.let { database ->
                     BinaryDatabaseManager.loadBitmap(

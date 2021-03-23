@@ -125,8 +125,11 @@ class EntryAttachmentsItemsAdapter(context: Context)
         } else {
             holder.binaryFileTitle.setTextColor(mTitleColor)
         }
-        holder.binaryFileSize.text = Formatter.formatFileSize(context,
-                entryAttachmentState.attachment.binaryData.getSize())
+
+        val size = database?.binaryCache?.let {
+            entryAttachmentState.attachment.binaryData.getSize(it)
+        } ?: 0L
+        holder.binaryFileSize.text = Formatter.formatFileSize(context, size)
         holder.binaryFileCompression.apply {
             if (entryAttachmentState.attachment.binaryData.isCompressed) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)

@@ -23,16 +23,11 @@ import android.app.ActivityManager
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.Database
-import org.apache.commons.io.output.CountingOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.nio.ByteBuffer
-import java.security.MessageDigest
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
-import javax.crypto.Cipher
 
 abstract class BinaryData : Parcelable {
 
@@ -41,33 +36,22 @@ abstract class BinaryData : Parcelable {
     var isProtected: Boolean = false
         protected set
     var isCorrupted: Boolean = false
-    private var mLength: Long = 0
-    private var mBinaryHash = 0
-
-    // Cipher to encrypt temp file
-    @Transient
-    protected var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
-    @Transient
-    protected var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
-
-    /**
-     * Empty protected binary
-     */
-    protected constructor()
 
     protected constructor(compressed: Boolean = false, protected: Boolean = false) {
         this.isCompressed = compressed
         this.isProtected = protected
-        this.mLength = 0
-        this.mBinaryHash = 0
     }
 
     protected constructor(parcel: Parcel) {
         isCompressed = parcel.readByte().toInt() != 0
         isProtected = parcel.readByte().toInt() != 0
         isCorrupted = parcel.readByte().toInt() != 0
-        mLength = parcel.readLong()
-        mBinaryHash = parcel.readInt()
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeByte((if (isCompressed) 1 else 0).toByte())
+        dest.writeByte((if (isProtected) 1 else 0).toByte())
+        dest.writeByte((if (isCorrupted) 1 else 0).toByte())
     }
 
     @Throws(IOException::class)
@@ -101,33 +85,19 @@ abstract class BinaryData : Parcelable {
     abstract fun decompress(binaryCache: BinaryCache)
 
     @Throws(IOException::class)
-    abstract fun delete()
+    abstract fun dataExists(binaryCache: BinaryCache): Boolean
+
+    @Throws(IOException::class)
+    abstract fun getSize(binaryCache: BinaryCache): Long
+
+    @Throws(IOException::class)
+    abstract fun binaryHash(binaryCache: BinaryCache): Int
 
     @Throws(IOException::class)
     abstract fun clear(binaryCache: BinaryCache)
 
-    open fun dataExists(): Boolean {
-        return mLength > 0
-    }
-
-    fun getSize(): Long {
-        return mLength
-    }
-
-    fun binaryHash(): Int {
-        return mBinaryHash
-    }
-
     override fun describeContents(): Int {
         return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (isCompressed) 1 else 0).toByte())
-        dest.writeByte((if (isProtected) 1 else 0).toByte())
-        dest.writeByte((if (isCorrupted) 1 else 0).toByte())
-        dest.writeLong(mLength)
-        dest.writeInt(mBinaryHash)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -145,49 +115,7 @@ abstract class BinaryData : Parcelable {
         var result = isCompressed.hashCode()
         result = 31 * result + isProtected.hashCode()
         result = 31 * result + isCorrupted.hashCode()
-        result = 31 * result + mLength.hashCode()
-        result = 31 * result + mBinaryHash
         return result
-    }
-
-    /**
-     * Custom OutputStream to calculate the size and hash of binary file
-     */
-    protected inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
-
-        private val mMessageDigest: MessageDigest
-        init {
-            mLength = 0
-            mMessageDigest = MessageDigest.getInstance("MD5")
-            mBinaryHash = 0
-        }
-
-        override fun beforeWrite(n: Int) {
-            super.beforeWrite(n)
-            mLength = byteCount
-        }
-
-        override fun write(idx: Int) {
-            super.write(idx)
-            mMessageDigest.update(idx.toByte())
-        }
-
-        override fun write(bts: ByteArray) {
-            super.write(bts)
-            mMessageDigest.update(bts)
-        }
-
-        override fun write(bts: ByteArray, st: Int, end: Int) {
-            super.write(bts, st, end)
-            mMessageDigest.update(bts, st, end)
-        }
-
-        override fun close() {
-            super.close()
-            mLength = byteCount
-            val bytes = mMessageDigest.digest()
-            mBinaryHash = ByteBuffer.wrap(bytes).int
-        }
     }
 
     companion object {

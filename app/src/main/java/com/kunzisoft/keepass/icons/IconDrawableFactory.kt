@@ -33,8 +33,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.database.BinaryCache
+import com.kunzisoft.keepass.database.element.database.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import kotlinx.coroutines.CoroutineScope
@@ -69,7 +69,8 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
         val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
-        if (customIconBinary != null && customIconBinary.dataExists()) {
+        val binaryCache = retrieveBinaryCache()
+        if (binaryCache != null && customIconBinary != null && customIconBinary.dataExists(binaryCache)) {
             getIconDrawable(context.resources, icon.custom, customIconBinary)?.let {
                 return SuperDrawable(it)
             }
@@ -215,8 +216,9 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     private fun addToCustomCache(resources: Resources, iconDraw: IconImageDraw) {
         val icon = iconDraw.getIconImageToDraw()
         val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
-        if (customIconBinary != null
-                && customIconBinary.dataExists()
+        val binaryCache = retrieveBinaryCache()
+        if (customIconBinary != null && binaryCache != null
+                && customIconBinary.dataExists(binaryCache)
                 && !customIconMap.containsKey(icon.custom.uuid))
             getIconDrawable(resources, icon.custom, customIconBinary)
     }

@@ -24,13 +24,14 @@ import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
+import com.kunzisoft.keepass.database.element.database.BinaryCache.Companion.UNKNOWN
 import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
 import java.util.zip.GZIPOutputStream
 
 class BinaryByte : BinaryData {
 
-    private var mDataByteId: Int? = null
+    private var mDataByteId: String
 
     private fun getByteArray(binaryCache: BinaryCache): ByteArray {
         val keyData = binaryCache.getByteArray(mDataByteId)
@@ -38,35 +39,29 @@ class BinaryByte : BinaryData {
         return keyData.data
     }
 
-    /**
-     * Empty protected binary
-     */
-    constructor() : super()
+    constructor() : super() {
+        mDataByteId = UNKNOWN
+    }
 
-    constructor(compressed: Boolean = false,
-                protected: Boolean = false) : super(compressed, protected)
-
-    constructor(mDataByteId: Int,
+    constructor(id: String,
                 compressed: Boolean = false,
                 protected: Boolean = false) : super(compressed, protected) {
-        this.mDataByteId = mDataByteId
+        mDataByteId = id
     }
 
     constructor(parcel: Parcel) : super(parcel) {
-        mDataByteId = parcel.readInt()
+        mDataByteId = parcel.readString() ?: UNKNOWN
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        mDataByteId?.let {
-            dest.writeInt(it)
-        }
+        dest.writeString(mDataByteId)
     }
 
     @Throws(IOException::class)
     override fun getInputDataStream(binaryCache: BinaryCache): InputStream {
         return when {
-            getSize() > 0 -> {
+            getSize(binaryCache) > 0 -> {
                 Base64InputStream(ByteArrayInputStream(getByteArray(binaryCache)), Base64.NO_WRAP)
             }
             else -> ByteArrayInputStream(ByteArray(0))
@@ -75,7 +70,7 @@ class BinaryByte : BinaryData {
 
     @Throws(IOException::class)
     override fun getOutputDataStream(binaryCache: BinaryCache): OutputStream {
-        return BinaryCountingOutputStream(Base64OutputStream(ByteOutputStream(binaryCache), Base64.NO_WRAP))
+        return Base64OutputStream(ByteOutputStream(binaryCache), Base64.NO_WRAP)
     }
 
     @Throws(IOException::class)
@@ -106,15 +101,21 @@ class BinaryByte : BinaryData {
         }
     }
 
-    @Throws(IOException::class)
-    override fun delete() {
-        mDataByteId = null
+    override fun dataExists(binaryCache: BinaryCache): Boolean {
+        return getByteArray(binaryCache).isNotEmpty()
+    }
+
+    override fun getSize(binaryCache: BinaryCache): Long {
+        return getByteArray(binaryCache).size.toLong()
+    }
+
+    override fun binaryHash(binaryCache: BinaryCache): Int {
+        return getByteArray(binaryCache).contentHashCode()
     }
 
     @Throws(IOException::class)
     override fun clear(binaryCache: BinaryCache) {
         binaryCache.removeByteArray(mDataByteId)
-        mDataByteId = null
     }
 
     override fun equals(other: Any?): Boolean {
@@ -129,7 +130,7 @@ class BinaryByte : BinaryData {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + (mDataByteId ?: 0)
+        result = 31 * result + mDataByteId.hashCode()
         return result
     }
 
