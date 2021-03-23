@@ -57,10 +57,11 @@ abstract class DatabaseVersioned<
         protected set
 
     /**
+     * To manage binaries in faster way
      * Cipher key generated when the database is loaded, and destroyed when the database is closed
      * Can be used to temporarily store database elements
      */
-    var loadedCipherKey: Database.LoadedKey? = null
+    var binaryCache = BinaryCache()
 
     val iconsManager = IconsManager()
 

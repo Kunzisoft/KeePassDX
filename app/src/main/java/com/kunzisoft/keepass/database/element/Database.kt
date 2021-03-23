@@ -70,7 +70,7 @@ class Database {
     var isReadOnly = false
 
     val iconDrawableFactory = IconDrawableFactory(
-            { loadedCipherKey },
+            { binaryCache },
             { iconId -> iconsManager.getBinaryForCustomIcon(iconId) }
     )
 
@@ -92,13 +92,13 @@ class Database {
      * Cipher key regenerated when the database is loaded and closed
      * Can be used to temporarily store database elements
      */
-    var loadedCipherKey: LoadedKey?
+    var binaryCache: BinaryCache
         private set(value) {
-            mDatabaseKDB?.loadedCipherKey = value
-            mDatabaseKDBX?.loadedCipherKey = value
+            mDatabaseKDB?.binaryCache = value
+            mDatabaseKDBX?.binaryCache = value
         }
         get() {
-            return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
+            return mDatabaseKDB?.binaryCache ?: mDatabaseKDBX?.binaryCache ?: BinaryCache()
         }
 
     private val iconsManager: IconsManager
@@ -136,7 +136,7 @@ class Database {
 
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
-        iconsManager.removeCustomIcon(customIcon.uuid)
+        iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
     }
 
     val allowName: Boolean
@@ -381,7 +381,7 @@ class Database {
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
         val newDatabase = DatabaseKDBX(databaseName, rootName)
-        newDatabase.loadedCipherKey = LoadedKey.generateNewCipherKey()
+        newDatabase.binaryCache.loadedCipherKey = LoadedKey.generateNewCipherKey()
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
@@ -669,6 +669,7 @@ class Database {
     }
 
     fun clear(filesDirectory: File? = null) {
+        binaryCache.clear()
         iconsManager.clearCache()
         iconDrawableFactory.clearCache()
         // Delete the cache of the database if present

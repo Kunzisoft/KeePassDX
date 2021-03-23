@@ -60,7 +60,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
             mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
@@ -72,7 +72,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
             mDatabase.masterKey = masterKey
         }
     }
@@ -309,9 +309,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                             if (fieldSize > 0) {
                                 val binaryData = mDatabase.buildNewAttachment(cacheDirectory)
                                 entry.putBinary(binaryData, mDatabase.binaryPool)
-                                val cipherKey = mDatabase.loadedCipherKey
-                                        ?: throw IOException("Unable to retrieve cipher key to load binaries")
-                                BufferedOutputStream(binaryData.getOutputDataStream(cipherKey)).use { outputStream ->
+                                BufferedOutputStream(binaryData.getOutputDataStream(mDatabase.binaryCache)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize) { buffer ->
                                         outputStream.write(buffer)
                                     }

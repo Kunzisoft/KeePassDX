@@ -71,37 +71,40 @@ abstract class BinaryData : Parcelable {
     }
 
     @Throws(IOException::class)
-    abstract fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream
+    abstract fun getInputDataStream(binaryCache: BinaryCache): InputStream
 
     @Throws(IOException::class)
-    abstract fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream
+    abstract fun getOutputDataStream(binaryCache: BinaryCache): OutputStream
 
     @Throws(IOException::class)
-    fun getUnGzipInputDataStream(cipherKey: Database.LoadedKey): InputStream {
+    fun getUnGzipInputDataStream(binaryCache: BinaryCache): InputStream {
         return if (isCompressed) {
-            GZIPInputStream(getInputDataStream(cipherKey))
+            GZIPInputStream(getInputDataStream(binaryCache))
         } else {
-            getInputDataStream(cipherKey)
+            getInputDataStream(binaryCache)
         }
     }
 
     @Throws(IOException::class)
-    fun getGzipOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
+    fun getGzipOutputDataStream(binaryCache: BinaryCache): OutputStream {
         return if (isCompressed) {
-            GZIPOutputStream(getOutputDataStream(cipherKey))
+            GZIPOutputStream(getOutputDataStream(binaryCache))
         } else {
-            getOutputDataStream(cipherKey)
+            getOutputDataStream(binaryCache)
         }
     }
 
     @Throws(IOException::class)
-    abstract fun compress(cipherKey: Database.LoadedKey)
+    abstract fun compress(binaryCache: BinaryCache)
 
     @Throws(IOException::class)
-    abstract fun decompress(cipherKey: Database.LoadedKey)
+    abstract fun decompress(binaryCache: BinaryCache)
 
     @Throws(IOException::class)
-    abstract fun clear()
+    abstract fun delete()
+
+    @Throws(IOException::class)
+    abstract fun clear(binaryCache: BinaryCache)
 
     open fun dataExists(): Boolean {
         return mLength > 0

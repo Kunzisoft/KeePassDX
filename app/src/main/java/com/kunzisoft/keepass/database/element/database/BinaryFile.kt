@@ -24,12 +24,8 @@ import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
-import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
-import java.nio.ByteBuffer
-import java.security.MessageDigest
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
@@ -55,19 +51,20 @@ class BinaryFile : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return buildInputStream(mDataFile, cipherKey)
+    override fun getInputDataStream(binaryCache: BinaryCache): InputStream {
+        return buildInputStream(mDataFile, binaryCache)
     }
 
     @Throws(IOException::class)
-    override fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return buildOutputStream(mDataFile, cipherKey)
+    override fun getOutputDataStream(binaryCache: BinaryCache): OutputStream {
+        return buildOutputStream(mDataFile, binaryCache)
     }
 
     @Throws(IOException::class)
-    private fun buildInputStream(file: File?, cipherKey: Database.LoadedKey): InputStream {
+    private fun buildInputStream(file: File?, binaryCache: BinaryCache): InputStream {
+        val cipherKey = binaryCache.loadedCipherKey
         return when {
-            file != null && file.length() > 0 -> {
+            cipherKey != null && file != null && file.length() > 0 -> {
                 cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
                 Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), Base64.NO_WRAP)
             }
@@ -76,9 +73,10 @@ class BinaryFile : BinaryData {
     }
 
     @Throws(IOException::class)
-    private fun buildOutputStream(file: File?, cipherKey: Database.LoadedKey): OutputStream {
+    private fun buildOutputStream(file: File?, binaryCache: BinaryCache): OutputStream {
+        val cipherKey = binaryCache.loadedCipherKey
         return when {
-            file != null -> {
+            cipherKey != null && file != null -> {
                 cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
                 BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), Base64.NO_WRAP))
             }
@@ -87,14 +85,14 @@ class BinaryFile : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun compress(cipherKey: Database.LoadedKey) {
+    override fun compress(binaryCache: BinaryCache) {
         mDataFile?.let { concreteDataFile ->
             // To compress, create a new binary with file
             if (!isCompressed) {
                 // Encrypt the new gzipped temp file
                 val fileBinaryCompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                getInputDataStream(cipherKey).use { inputStream ->
-                    GZIPOutputStream(buildOutputStream(fileBinaryCompress, cipherKey)).use { outputStream ->
+                getInputDataStream(binaryCache).use { inputStream ->
+                    GZIPOutputStream(buildOutputStream(fileBinaryCompress, binaryCache)).use { outputStream ->
                         inputStream.readAllBytes { buffer ->
                             outputStream.write(buffer)
                         }
@@ -112,13 +110,13 @@ class BinaryFile : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun decompress(cipherKey: Database.LoadedKey) {
+    override fun decompress(binaryCache: BinaryCache) {
         mDataFile?.let { concreteDataFile ->
             if (isCompressed) {
                 // Encrypt the new ungzipped temp file
                 val fileBinaryDecompress = File(concreteDataFile.parent, concreteDataFile.name + "_temp")
-                getUnGzipInputDataStream(cipherKey).use { inputStream ->
-                    buildOutputStream(fileBinaryDecompress, cipherKey).use { outputStream ->
+                getUnGzipInputDataStream(binaryCache).use { inputStream ->
+                    buildOutputStream(fileBinaryDecompress, binaryCache).use { outputStream ->
                         inputStream.readAllBytes { buffer ->
                             outputStream.write(buffer)
                         }
@@ -135,10 +133,14 @@ class BinaryFile : BinaryData {
         }
     }
 
-    @Throws(IOException::class)
-    override fun clear() {
+    override fun delete() {
         if (mDataFile != null && !mDataFile!!.delete())
             throw IOException("Unable to delete temp file " + mDataFile!!.absolutePath)
+    }
+
+    @Throws(IOException::class)
+    override fun clear(binaryCache: BinaryCache) {
+        delete()
     }
 
     override fun dataExists(): Boolean {

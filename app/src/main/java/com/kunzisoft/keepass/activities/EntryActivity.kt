@@ -125,7 +125,7 @@ class EntryActivity : LockingActivity() {
         historyView = findViewById(R.id.history_container)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
-        entryContentsView?.setAttachmentCipherKey(mDatabase?.loadedCipherKey)
+        entryContentsView?.setAttachmentCipherKey(mDatabase)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
 

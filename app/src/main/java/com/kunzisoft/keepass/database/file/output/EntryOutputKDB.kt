@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import android.util.Log
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -34,13 +32,13 @@ import java.nio.charset.Charset
 /**
  * Output the GroupKDB to the stream
  */
-class EntryOutputKDB(private val mEntry: EntryKDB,
-                     private val mOutputStream: OutputStream,
-                     private val mCipherKey: Database.LoadedKey?) {
+class EntryOutputKDB(private val mDatabase: DatabaseKDB,
+                     private val mEntry: EntryKDB,
+                     private val mOutputStream: OutputStream) {
 
     //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
     @Throws(DatabaseOutputException::class)
-    fun output(database: DatabaseKDB) {
+    fun output() {
         try {
             // UUID
             mOutputStream.write(UUID_FIELD_TYPE)
@@ -95,22 +93,20 @@ class EntryOutputKDB(private val mEntry: EntryKDB,
             StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.binaryDescription)
 
             // Binary
-            mCipherKey?.let { cipherKey ->
-                mOutputStream.write(BINARY_DATA_FIELD_TYPE)
-                val binaryData = mEntry.getBinary(database.binaryPool)
-                val binaryDataLength = binaryData?.getSize() ?: 0L
-                // Write data length
-                mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
-                // Write data
-                if (binaryDataLength > 0) {
-                    binaryData?.getInputDataStream(cipherKey).use { inputStream ->
-                        inputStream?.readAllBytes { buffer ->
-                            mOutputStream.write(buffer)
-                        }
-                        inputStream?.close()
+            mOutputStream.write(BINARY_DATA_FIELD_TYPE)
+            val binaryData = mEntry.getBinary(mDatabase.binaryPool)
+            val binaryDataLength = binaryData?.getSize() ?: 0L
+            // Write data length
+            mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
+            // Write data
+            if (binaryDataLength > 0) {
+                binaryData?.getInputDataStream(mDatabase.binaryCache).use { inputStream ->
+                    inputStream?.readAllBytes { buffer ->
+                        mOutputStream.write(buffer)
                     }
+                    inputStream?.close()
                 }
-            } ?: Log.e(TAG, "Unable to retrieve cipher key to write entry binary")
+            }
 
             // End
             mOutputStream.write(END_FIELD_TYPE)

@@ -37,7 +37,7 @@ class ReloadDatabaseRunnable(private val context: Context,
     private var tempCipherKey: Database.LoadedKey? = null
 
     override fun onStartRun() {
-        tempCipherKey = mDatabase.loadedCipherKey
+        tempCipherKey = mDatabase.binaryCache.loadedCipherKey
         // Clear before we load
         mDatabase.clear(UriUtil.getBinaryDir(context))
         mDatabase.wasReloaded = true

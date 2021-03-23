@@ -39,6 +39,8 @@ import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
 
+    private var mDatabase: Database? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,6 +61,8 @@ class ImageViewerActivity : LockingActivity() {
                 resources.displayMetrics.heightPixels * 2
         )
 
+        mDatabase = Database.getInstance()
+
         try {
             progressView.visibility = View.VISIBLE
             intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
@@ -66,16 +70,18 @@ class ImageViewerActivity : LockingActivity() {
                 supportActionBar?.title = attachment.name
                 supportActionBar?.subtitle = Formatter.formatFileSize(this, attachment.binaryData.getSize())
 
-                BinaryDatabaseManager.loadBitmap(
-                        attachment.binaryData,
-                        Database.getInstance().loadedCipherKey,
-                        mImagePreviewMaxWidth
-                ) { bitmapLoaded ->
-                    if (bitmapLoaded == null) {
-                        finish()
-                    } else {
-                        progressView.visibility = View.GONE
-                        imageView.setImageBitmap(bitmapLoaded)
+                mDatabase?.let { database ->
+                    BinaryDatabaseManager.loadBitmap(
+                            database,
+                            attachment.binaryData,
+                            mImagePreviewMaxWidth
+                    ) { bitmapLoaded ->
+                        if (bitmapLoaded == null) {
+                            finish()
+                        } else {
+                            progressView.visibility = View.GONE
+                            imageView.setImageBitmap(bitmapLoaded)
+                        }
                     }
                 }
             } ?: finish()

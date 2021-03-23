@@ -232,8 +232,13 @@ class IconPickerActivity : LockingActivity() {
                             mDatabase?.buildNewCustomIcon(UriUtil.getBinaryDir(this@IconPickerActivity)) { customIcon, binary ->
                                 if (customIcon != null) {
                                     iconCustomState.iconCustom = customIcon
-                                    BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(contentResolver,
-                                            iconToUploadUri, binary)
+                                    mDatabase?.let { database ->
+                                        BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
+                                                contentResolver,
+                                                database,
+                                                iconToUploadUri,
+                                                binary)
+                                    }
                                     when {
                                         binary == null -> {
                                         }

@@ -24,21 +24,16 @@ import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
 import java.util.zip.GZIPOutputStream
-import javax.crypto.Cipher
-import javax.crypto.CipherInputStream
-import javax.crypto.CipherOutputStream
-import javax.crypto.spec.IvParameterSpec
 
 class BinaryByte : BinaryData {
 
     private var mDataByteId: Int? = null
 
-    private fun getByteArray(): ByteArray {
-        val keyData = KeyByteArray.getByteArray(mDataByteId)
+    private fun getByteArray(binaryCache: BinaryCache): ByteArray {
+        val keyData = binaryCache.getByteArray(mDataByteId)
         mDataByteId = keyData.key
         return keyData.data
     }
@@ -46,14 +41,10 @@ class BinaryByte : BinaryData {
     /**
      * Empty protected binary
      */
-    constructor() : super() {
-        getByteArray()
-    }
+    constructor() : super()
 
     constructor(compressed: Boolean = false,
-                protected: Boolean = false) : super(compressed, protected) {
-        getByteArray()
-    }
+                protected: Boolean = false) : super(compressed, protected)
 
     constructor(mDataByteId: Int,
                 compressed: Boolean = false,
@@ -73,27 +64,25 @@ class BinaryByte : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
+    override fun getInputDataStream(binaryCache: BinaryCache): InputStream {
         return when {
             getSize() > 0 -> {
-                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                Base64InputStream(CipherInputStream(ByteArrayInputStream(getByteArray()), cipherDecryption), Base64.NO_WRAP)
+                Base64InputStream(ByteArrayInputStream(getByteArray(binaryCache)), Base64.NO_WRAP)
             }
             else -> ByteArrayInputStream(ByteArray(0))
         }
     }
 
     @Throws(IOException::class)
-    override fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-        return BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(ByteOutputStream(), cipherEncryption), Base64.NO_WRAP))
+    override fun getOutputDataStream(binaryCache: BinaryCache): OutputStream {
+        return BinaryCountingOutputStream(Base64OutputStream(ByteOutputStream(binaryCache), Base64.NO_WRAP))
     }
 
     @Throws(IOException::class)
-    override fun compress(cipherKey: Database.LoadedKey) {
+    override fun compress(binaryCache: BinaryCache) {
         if (!isCompressed) {
-            GZIPOutputStream(getOutputDataStream(cipherKey)).use { outputStream ->
-                getInputDataStream(cipherKey).use { inputStream ->
+            GZIPOutputStream(getOutputDataStream(binaryCache)).use { outputStream ->
+                getInputDataStream(binaryCache).use { inputStream ->
                     inputStream.readAllBytes { buffer ->
                         outputStream.write(buffer)
                     }
@@ -104,10 +93,10 @@ class BinaryByte : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun decompress(cipherKey: Database.LoadedKey) {
+    override fun decompress(binaryCache: BinaryCache) {
         if (isCompressed) {
-            getUnGzipInputDataStream(cipherKey).use { inputStream ->
-                getOutputDataStream(cipherKey).use { outputStream ->
+            getUnGzipInputDataStream(binaryCache).use { inputStream ->
+                getOutputDataStream(binaryCache).use { outputStream ->
                     inputStream.readAllBytes { buffer ->
                         outputStream.write(buffer)
                     }
@@ -118,12 +107,14 @@ class BinaryByte : BinaryData {
     }
 
     @Throws(IOException::class)
-    override fun clear() {
-        KeyByteArray.removeByteArray(mDataByteId)
+    override fun delete() {
+        mDataByteId = null
     }
 
-    override fun toString(): String {
-        return getByteArray().toString()
+    @Throws(IOException::class)
+    override fun clear(binaryCache: BinaryCache) {
+        binaryCache.removeByteArray(mDataByteId)
+        mDataByteId = null
     }
 
     override fun equals(other: Any?): Boolean {
@@ -145,9 +136,9 @@ class BinaryByte : BinaryData {
     /**
      * Custom OutputStream to calculate the size and hash of binary file
      */
-    private inner class ByteOutputStream : ByteArrayOutputStream() {
+    private inner class ByteOutputStream(private val binaryCache: BinaryCache) : ByteArrayOutputStream() {
         override fun close() {
-            KeyByteArray.setByteArray(mDataByteId, this.toByteArray())
+            binaryCache.setByteArray(mDataByteId, this.toByteArray())
             super.close()
         }
     }

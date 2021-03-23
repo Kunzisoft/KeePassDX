@@ -20,10 +20,7 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
-import com.kunzisoft.keepass.database.element.database.BinaryByte
-import com.kunzisoft.keepass.database.element.database.BinaryData
-import com.kunzisoft.keepass.database.element.database.BinaryFile
-import com.kunzisoft.keepass.database.element.database.CustomIconPool
+import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.io.File
@@ -82,11 +79,11 @@ class IconsManager {
         return customCache.isBinaryDuplicate(binaryData)
     }
 
-    fun removeCustomIcon(iconUuid: UUID) {
+    fun removeCustomIcon(binaryCache: BinaryCache, iconUuid: UUID) {
         val binary = customCache[iconUuid]
         customCache.remove(iconUuid)
         try {
-            binary?.clear()
+            binary?.clear(binaryCache)
         } catch (e: Exception) {
             Log.w(TAG, "Unable to remove custom icon binary", e)
         }

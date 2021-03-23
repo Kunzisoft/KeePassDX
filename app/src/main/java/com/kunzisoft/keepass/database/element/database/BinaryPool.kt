@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element.database
 
 import android.util.Log
-import java.io.File
 import java.io.IOException
 import kotlin.math.abs
 
@@ -227,7 +226,7 @@ abstract class BinaryPool<T> {
     @Throws(IOException::class)
     fun clear() {
         doForEachBinary { _, binary ->
-            binary.clear()
+            binary.delete()
         }
         pool.clear()
     }

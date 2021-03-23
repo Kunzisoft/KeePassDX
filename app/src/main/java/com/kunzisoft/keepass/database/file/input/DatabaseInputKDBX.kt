@@ -102,7 +102,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDBX {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
             mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
@@ -114,7 +114,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDBX {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.loadedCipherKey = loadedCipherKey
+            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
             mDatabase.masterKey = masterKey
         }
     }
@@ -279,9 +279,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 // No compression at this level
                 val protectedBinary = mDatabase.buildNewAttachment(cacheDirectory,
                         isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
-                val cipherKey = mDatabase.loadedCipherKey
-                        ?: throw IOException("Unable to retrieve cipher key to load binaries")
-                protectedBinary.getOutputDataStream(cipherKey).use { outputStream ->
+                protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                     dataInputStream.readBytes(byteLength) { buffer ->
                         outputStream.write(buffer)
                     }
@@ -708,10 +706,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             val iconData = customIconData
             if (customIconID != DatabaseVersioned.UUID_ZERO && iconData != null) {
                 mDatabase.addCustomIcon(cacheDirectory, customIconID, isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
-                    mDatabase.loadedCipherKey?.let { cipherKey ->
-                        binary?.getOutputDataStream(cipherKey)?.use { outputStream ->
-                            outputStream.write(iconData)
-                        }
+                    binary?.getOutputDataStream(mDatabase.binaryCache)?.use { outputStream ->
+                        outputStream.write(iconData)
                     }
                 }
             }
@@ -1023,16 +1019,14 @@ class DatabaseInputKDBX(cacheDirectory: File,
         // Build the new binary and compress
         val binaryAttachment = mDatabase.buildNewAttachment(cacheDirectory,
                 isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
-        val binaryCipherKey = mDatabase.loadedCipherKey
-                ?: throw IOException("Unable to retrieve cipher key to load binaries")
         try {
-            binaryAttachment.getOutputDataStream(binaryCipherKey).use { outputStream ->
+            binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                 outputStream.write(Base64.decode(base64, BASE_64_FLAG))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to read base 64 attachment", e)
             binaryAttachment.isCorrupted = true
-            binaryAttachment.getOutputDataStream(binaryCipherKey).use { outputStream ->
+            binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                 outputStream.write(base64.toByteArray())
             }
         }
