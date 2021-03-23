@@ -59,8 +59,8 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         val version = kdfParameters.getUInt32(PARAM_VERSION)?.toKotlinInt() ?: MAX_VERSION
 
         // Not used
-        val secretKey = kdfParameters.getByteArray(PARAM_SECRET_KEY)
-        val assocData = kdfParameters.getByteArray(PARAM_ASSOC_DATA)
+        // val secretKey = kdfParameters.getByteArray(PARAM_SECRET_KEY)
+        // val assocData = kdfParameters.getByteArray(PARAM_ASSOC_DATA)
 
         val argonType = if (type == Type.ARGON2_ID) Argon2Type.ARGON2_ID else Argon2Type.ARGON2_D
 
