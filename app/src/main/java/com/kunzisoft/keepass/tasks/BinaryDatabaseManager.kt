@@ -40,7 +40,7 @@ object BinaryDatabaseManager {
                                      update: ((percent: Int)->Unit)? = null,
                                      canceled: ()-> Boolean = { false },
                                      bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        val fileSize = binaryData.getSize(binaryCache)
+        val fileSize = binaryData.getSize()
         var dataDownloaded = 0L
         binaryData.getUnGzipInputDataStream(binaryCache).use { inputStream ->
             inputStream.readAllBytes(bufferSize, canceled) { buffer ->

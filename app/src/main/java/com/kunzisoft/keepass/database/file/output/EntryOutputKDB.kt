@@ -95,7 +95,7 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
             // Binary
             mOutputStream.write(BINARY_DATA_FIELD_TYPE)
             val binaryData = mEntry.getBinary(mDatabase.attachmentPool)
-            val binaryDataLength = binaryData?.getSize(mDatabase.binaryCache) ?: 0L
+            val binaryDataLength = binaryData?.getSize() ?: 0L
             // Write data length
             mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
             // Write data

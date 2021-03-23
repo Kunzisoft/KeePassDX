@@ -25,10 +25,7 @@ import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
 import com.kunzisoft.keepass.stream.readAllBytes
-import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
-import java.nio.ByteBuffer
-import java.security.MessageDigest
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
@@ -37,8 +34,6 @@ import javax.crypto.spec.IvParameterSpec
 
 class BinaryFile : BinaryData {
 
-    private var mLength: Long = 0
-    private var mBinaryHash = 0
     private var mDataFile: File? = null
 
     // Cipher to encrypt temp file
@@ -50,14 +45,10 @@ class BinaryFile : BinaryData {
     constructor(dataFile: File,
                 compressed: Boolean = false,
                 protected: Boolean = false) : super(compressed, protected) {
-        this.mLength = 0
-        this.mBinaryHash = 0
         this.mDataFile = dataFile
     }
 
     constructor(parcel: Parcel) : super(parcel) {
-        mLength = parcel.readLong()
-        mBinaryHash = parcel.readInt()
         parcel.readString()?.let {
             mDataFile = File(it)
         }
@@ -65,8 +56,6 @@ class BinaryFile : BinaryData {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(mLength)
-        dest.writeInt(mBinaryHash)
         dest.writeString(mDataFile?.absolutePath)
     }
 
@@ -154,15 +143,7 @@ class BinaryFile : BinaryData {
     }
 
     override fun dataExists(binaryCache: BinaryCache): Boolean {
-        return mDataFile != null && mLength > 0
-    }
-
-    override fun getSize(binaryCache: BinaryCache): Long {
-        return mLength
-    }
-
-    override fun binaryHash(binaryCache: BinaryCache): Int {
-        return mBinaryHash
+        return mDataFile != null && super.dataExists(binaryCache)
     }
 
     override fun clear(binaryCache: BinaryCache) {
@@ -185,49 +166,7 @@ class BinaryFile : BinaryData {
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + (mDataFile?.hashCode() ?: 0)
-        result = 31 * result + mLength.hashCode()
-        result = 31 * result + mBinaryHash
         return result
-    }
-
-    /**
-     * Custom OutputStream to calculate the size and hash of binary file
-     */
-    private inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
-
-        private val mMessageDigest: MessageDigest
-        init {
-            mLength = 0
-            mMessageDigest = MessageDigest.getInstance("MD5")
-            mBinaryHash = 0
-        }
-
-        override fun beforeWrite(n: Int) {
-            super.beforeWrite(n)
-            mLength = byteCount
-        }
-
-        override fun write(idx: Int) {
-            super.write(idx)
-            mMessageDigest.update(idx.toByte())
-        }
-
-        override fun write(bts: ByteArray) {
-            super.write(bts)
-            mMessageDigest.update(bts)
-        }
-
-        override fun write(bts: ByteArray, st: Int, end: Int) {
-            super.write(bts, st, end)
-            mMessageDigest.update(bts, st, end)
-        }
-
-        override fun close() {
-            super.close()
-            mLength = byteCount
-            val bytes = mMessageDigest.digest()
-            mBinaryHash = ByteBuffer.wrap(bytes).int
-        }
     }
 
     companion object {

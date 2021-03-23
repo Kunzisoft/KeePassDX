@@ -126,9 +126,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
             holder.binaryFileTitle.setTextColor(mTitleColor)
         }
 
-        val size = database?.binaryCache?.let {
-            entryAttachmentState.attachment.binaryData.getSize(it)
-        } ?: 0L
+        val size = entryAttachmentState.attachment.binaryData.getSize()
         holder.binaryFileSize.text = Formatter.formatFileSize(context, size)
         holder.binaryFileCompression.apply {
             if (entryAttachmentState.attachment.binaryData.isCompressed) {

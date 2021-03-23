@@ -229,7 +229,7 @@ class IconPickerActivity : LockingActivity() {
                         if (documentFile.length() > MAX_ICON_SIZE) {
                             iconCustomState.errorStringId = R.string.error_file_to_big
                         } else {
-                            mDatabase?.buildNewCustomIcon() { customIcon, binary ->
+                            mDatabase?.buildNewCustomIcon { customIcon, binary ->
                                 if (customIcon != null) {
                                     iconCustomState.iconCustom = customIcon
                                     mDatabase?.let { database ->
@@ -241,7 +241,7 @@ class IconPickerActivity : LockingActivity() {
                                         when {
                                             binary == null -> {
                                             }
-                                            binary.getSize(database.binaryCache) <= 0 -> {
+                                            binary.getSize() <= 0 -> {
                                             }
                                             database.isCustomIconBinaryDuplicate(binary) -> {
                                                 iconCustomState.errorStringId = R.string.error_duplicate_file

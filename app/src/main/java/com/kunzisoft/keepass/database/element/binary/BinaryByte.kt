@@ -60,17 +60,12 @@ class BinaryByte : BinaryData {
 
     @Throws(IOException::class)
     override fun getInputDataStream(binaryCache: BinaryCache): InputStream {
-        return when {
-            getSize(binaryCache) > 0 -> {
-                Base64InputStream(ByteArrayInputStream(getByteArray(binaryCache)), Base64.NO_WRAP)
-            }
-            else -> ByteArrayInputStream(ByteArray(0))
-        }
+        return Base64InputStream(ByteArrayInputStream(getByteArray(binaryCache)), Base64.NO_WRAP)
     }
 
     @Throws(IOException::class)
     override fun getOutputDataStream(binaryCache: BinaryCache): OutputStream {
-        return Base64OutputStream(ByteOutputStream(binaryCache), Base64.NO_WRAP)
+        return BinaryCountingOutputStream(Base64OutputStream(ByteOutputStream(binaryCache), Base64.NO_WRAP))
     }
 
     @Throws(IOException::class)
@@ -103,14 +98,6 @@ class BinaryByte : BinaryData {
 
     override fun dataExists(binaryCache: BinaryCache): Boolean {
         return getByteArray(binaryCache).isNotEmpty()
-    }
-
-    override fun getSize(binaryCache: BinaryCache): Long {
-        return getByteArray(binaryCache).size.toLong()
-    }
-
-    override fun binaryHash(binaryCache: BinaryCache): Int {
-        return getByteArray(binaryCache).contentHashCode()
     }
 
     @Throws(IOException::class)
