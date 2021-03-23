@@ -17,14 +17,14 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.database
+package com.kunzisoft.keepass.database.element.binary
 
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
-import com.kunzisoft.keepass.database.element.database.BinaryCache.Companion.UNKNOWN
+import com.kunzisoft.keepass.database.element.binary.BinaryCache.Companion.UNKNOWN
 import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
 import java.util.zip.GZIPOutputStream

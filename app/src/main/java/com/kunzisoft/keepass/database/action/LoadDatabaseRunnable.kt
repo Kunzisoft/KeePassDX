@@ -25,7 +25,8 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -59,7 +60,7 @@ class LoadDatabaseRunnable(private val context: Context,
                     { memoryWanted ->
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },
-                    Database.LoadedKey.generateNewCipherKey(),
+                    LoadedKey.generateNewCipherKey(),
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }

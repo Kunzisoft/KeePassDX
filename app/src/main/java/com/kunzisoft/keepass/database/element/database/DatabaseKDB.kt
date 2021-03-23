@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element.database
 import com.kunzisoft.keepass.crypto.finalkey.AESKeyTransformerFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard

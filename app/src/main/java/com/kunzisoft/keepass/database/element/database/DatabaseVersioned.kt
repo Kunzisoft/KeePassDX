@@ -20,6 +20,8 @@
 package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.database.element.binary.AttachmentPool
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard

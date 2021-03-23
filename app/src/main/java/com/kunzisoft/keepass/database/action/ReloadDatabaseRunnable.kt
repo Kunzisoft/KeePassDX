@@ -21,7 +21,8 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -34,7 +35,7 @@ class ReloadDatabaseRunnable(private val context: Context,
                              private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
 
-    private var tempCipherKey: Database.LoadedKey? = null
+    private var tempCipherKey: LoadedKey? = null
 
     override fun onStartRun() {
         tempCipherKey = mDatabase.binaryCache.loadedCipherKey
@@ -50,7 +51,7 @@ class ReloadDatabaseRunnable(private val context: Context,
                     { memoryWanted ->
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },
-                    tempCipherKey ?: Database.LoadedKey.generateNewCipherKey(),
+                    tempCipherKey ?: LoadedKey.generateNewCipherKey(),
                     progressTaskUpdater)
         } catch (e: LoadDatabaseException) {
             setError(e)

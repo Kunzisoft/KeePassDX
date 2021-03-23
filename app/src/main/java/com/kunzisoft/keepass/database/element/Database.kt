@@ -25,6 +25,10 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.binary.AttachmentPool
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
+import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.*
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
@@ -49,10 +53,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
-import java.security.Key
-import java.security.SecureRandom
 import java.util.*
-import javax.crypto.KeyGenerator
 import kotlin.collections.ArrayList
 
 
@@ -384,23 +385,10 @@ class Database {
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
         val newDatabase = DatabaseKDBX(databaseName, rootName)
-        newDatabase.binaryCache.loadedCipherKey = LoadedKey.generateNewCipherKey()
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
-    }
-
-    class LoadedKey(val key: Key, val iv: ByteArray): Serializable {
-        companion object {
-            const val BINARY_CIPHER = "Blowfish/CBC/PKCS5Padding"
-
-            fun generateNewCipherKey(): LoadedKey {
-                val iv = ByteArray(8)
-                SecureRandom().nextBytes(iv)
-                return LoadedKey(KeyGenerator.getInstance("Blowfish").generateKey(), iv)
-            }
-        }
     }
 
     @Throws(LoadDatabaseException::class)

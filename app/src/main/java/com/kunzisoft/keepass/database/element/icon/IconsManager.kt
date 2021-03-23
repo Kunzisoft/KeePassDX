@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
-import com.kunzisoft.keepass.database.element.database.BinaryCache
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CustomIconPool
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS

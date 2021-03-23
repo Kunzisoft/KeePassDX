@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.database
+package com.kunzisoft.keepass.database.element.binary
 
 import android.app.ActivityManager
 import android.content.Context

@@ -1,6 +1,5 @@
-package com.kunzisoft.keepass.database.element.database
+package com.kunzisoft.keepass.database.element.binary
 
-import com.kunzisoft.keepass.database.element.Database
 import java.io.File
 import java.util.*
 
@@ -10,7 +9,7 @@ class BinaryCache {
      * Cipher key generated when the database is loaded, and destroyed when the database is closed
      * Can be used to temporarily store database elements
      */
-    var loadedCipherKey: Database.LoadedKey? = null
+    var loadedCipherKey: LoadedKey = LoadedKey.generateNewCipherKey()
 
     lateinit var cacheDirectory: File
 

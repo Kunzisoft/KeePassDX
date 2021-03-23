@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.input
 
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -44,7 +44,7 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>>
     abstract fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: Database.LoadedKey,
+                              loadedCipherKey: LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean = false): D
 
@@ -52,7 +52,7 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>>
     @Throws(LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: Database.LoadedKey,
+                              loadedCipherKey: LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean = false): D
 }

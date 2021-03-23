@@ -17,14 +17,13 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.database
+package com.kunzisoft.keepass.database.element.binary
 
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.*
@@ -44,9 +43,9 @@ class BinaryFile : BinaryData {
 
     // Cipher to encrypt temp file
     @Transient
-    private var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
+    private var cipherEncryption: Cipher = Cipher.getInstance(LoadedKey.BINARY_CIPHER)
     @Transient
-    private var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
+    private var cipherDecryption: Cipher = Cipher.getInstance(LoadedKey.BINARY_CIPHER)
 
     constructor(dataFile: File,
                 compressed: Boolean = false,
@@ -85,7 +84,7 @@ class BinaryFile : BinaryData {
     private fun buildInputStream(file: File?, binaryCache: BinaryCache): InputStream {
         val cipherKey = binaryCache.loadedCipherKey
         return when {
-            cipherKey != null && file != null && file.length() > 0 -> {
+            file != null && file.length() > 0 -> {
                 cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
                 Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), Base64.NO_WRAP)
             }
@@ -97,7 +96,7 @@ class BinaryFile : BinaryData {
     private fun buildOutputStream(file: File?, binaryCache: BinaryCache): OutputStream {
         val cipherKey = binaryCache.loadedCipherKey
         return when {
-            cipherKey != null && file != null -> {
+            file != null -> {
                 cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
                 BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), Base64.NO_WRAP))
             }

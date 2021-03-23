@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.file.input
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -56,7 +56,7 @@ class DatabaseInputKDB(cacheDirectory: File,
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: Database.LoadedKey,
+                              loadedCipherKey: LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
@@ -68,7 +68,7 @@ class DatabaseInputKDB(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: Database.LoadedKey,
+                              loadedCipherKey: LoadedKey,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               fixDuplicateUUID: Boolean): DatabaseKDB {
         return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {

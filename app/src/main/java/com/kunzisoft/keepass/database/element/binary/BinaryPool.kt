@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.database
+package com.kunzisoft.keepass.database.element.binary
 
 import android.util.Log
 import java.io.IOException
@@ -195,7 +195,7 @@ abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
      * Different from doForEach, provide an ordered index to each binary
      */
     private fun doForEachBinaryWithoutDuplication(action: (keyBinary: KeyBinary<T>) -> Unit,
-                                          conditionToAdd: (binary: BinaryData) -> Boolean) {
+                                                  conditionToAdd: (binary: BinaryData) -> Boolean) {
         orderedBinariesWithoutDuplication(conditionToAdd).forEach { keyBinary ->
             action.invoke(keyBinary)
         }
