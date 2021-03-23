@@ -144,7 +144,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize(binaryCache) + 1))
+            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (binary.isProtected) {
@@ -498,7 +498,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         mDatabaseKDBX.attachmentPool.doForEachOrderedBinaryWithoutDuplication { index, binary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, index.toString())
-            if (binary.getSize(binaryCache) > 0) {
+            if (binary.getSize() > 0) {
                 if (binary.isCompressed) {
                     xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
                 }

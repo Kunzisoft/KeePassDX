@@ -297,10 +297,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         var size = 0L
         for ((label, poolId) in binaries) {
             size += label.length.toLong()
-            val binarySize = mDatabase?.binaryCache?.let {
-                attachmentPool[poolId]?.getSize(it)
-            }
-            size += binarySize ?: 0
+            size += attachmentPool[poolId]?.getSize() ?: 0
         }
         return size
     }

@@ -120,11 +120,11 @@ abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
     fun isBinaryDuplicate(binaryData: BinaryData?): Boolean {
         try {
             binaryData?.let {
-                if (it.getSize(mBinaryCache) > 0) {
-                    val searchBinaryMD5 = it.binaryHash(mBinaryCache)
+                if (it.getSize() > 0) {
+                    val searchBinaryMD5 = it.binaryHash()
                     var i = 0
                     for ((_, binary) in pool) {
-                        if (binary.binaryHash(mBinaryCache) == searchBinaryMD5) {
+                        if (binary.binaryHash() == searchBinaryMD5) {
                             i++
                             if (i > 1)
                                 return true
@@ -164,10 +164,10 @@ abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
             // Don't deduplicate
             val existentBinary =
             try {
-                if (binary.getSize(mBinaryCache) > 0) {
+                if (binary.getSize() > 0) {
                     keyBinaryList.find {
-                        val hash0 = it.binary.binaryHash(mBinaryCache)
-                        val hash1 = binary.binaryHash(mBinaryCache)
+                        val hash0 = it.binary.binaryHash()
+                        val hash1 = binary.binaryHash()
                         hash0 != 0 && hash1 != 0 && hash0 == hash1
                     }
                 } else {

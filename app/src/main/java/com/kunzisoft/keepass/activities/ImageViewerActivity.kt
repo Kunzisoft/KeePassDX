@@ -69,9 +69,7 @@ class ImageViewerActivity : LockingActivity() {
 
                 supportActionBar?.title = attachment.name
 
-                val size = mDatabase?.binaryCache?.let {
-                    attachment.binaryData.getSize(it)
-                } ?: 0L
+                val size = attachment.binaryData.getSize()
                 supportActionBar?.subtitle = Formatter.formatFileSize(this, size)
 
                 mDatabase?.let { database ->
