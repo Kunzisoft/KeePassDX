@@ -24,7 +24,6 @@ import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
@@ -39,7 +38,7 @@ class BinaryByte : BinaryData {
     private var mDataByteId: Int? = null
 
     private fun getByteArray(): ByteArray {
-        val keyData = App.getByteArray(mDataByteId)
+        val keyData = KeyByteArray.getByteArray(mDataByteId)
         mDataByteId = keyData.key
         return keyData.data
     }
@@ -120,7 +119,7 @@ class BinaryByte : BinaryData {
 
     @Throws(IOException::class)
     override fun clear() {
-        App.removeByteArray(mDataByteId)
+        KeyByteArray.removeByteArray(mDataByteId)
     }
 
     override fun toString(): String {
@@ -148,7 +147,7 @@ class BinaryByte : BinaryData {
      */
     private inner class ByteOutputStream : ByteArrayOutputStream() {
         override fun close() {
-            App.setByteArray(mDataByteId, this.toByteArray())
+            KeyByteArray.setByteArray(mDataByteId, this.toByteArray())
             super.close()
         }
     }
