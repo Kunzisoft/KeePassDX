@@ -18,18 +18,18 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Red.v21" >
+    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.White.v21" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Red.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Red.DateTime.Dialog</item>
+        <item name="android:navigationBarColor">@color/grey_dark</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
     </style>
-    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" >
+    <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Black.v21" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
         <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Red.Night.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Red.Night.DateTime.Dialog</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
     </style>
 </resources>

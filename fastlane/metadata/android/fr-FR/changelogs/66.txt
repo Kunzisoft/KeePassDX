@@ -1,1 +1,1 @@
- *
+ * Correction des themes #935
