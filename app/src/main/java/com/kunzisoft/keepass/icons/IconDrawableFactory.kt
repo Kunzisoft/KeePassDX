@@ -70,7 +70,7 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
         val icon = iconDraw.getIconImageToDraw()
         val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
         val binaryCache = retrieveBinaryCache()
-        if (binaryCache != null && customIconBinary != null && customIconBinary.dataExists(binaryCache)) {
+        if (binaryCache != null && customIconBinary != null && customIconBinary.dataExists()) {
             getIconDrawable(context.resources, icon.custom, customIconBinary)?.let {
                 return SuperDrawable(it)
             }
@@ -216,9 +216,8 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     private fun addToCustomCache(resources: Resources, iconDraw: IconImageDraw) {
         val icon = iconDraw.getIconImageToDraw()
         val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
-        val binaryCache = retrieveBinaryCache()
-        if (customIconBinary != null && binaryCache != null
-                && customIconBinary.dataExists(binaryCache)
+        if (customIconBinary != null
+                && customIconBinary.dataExists()
                 && !customIconMap.containsKey(icon.custom.uuid))
             getIconDrawable(resources, icon.custom, customIconBinary)
     }

@@ -96,7 +96,7 @@ abstract class BinaryData : Parcelable {
     abstract fun decompress(binaryCache: BinaryCache)
 
     @Throws(IOException::class)
-    open fun dataExists(binaryCache: BinaryCache): Boolean {
+    fun dataExists(): Boolean {
         return mLength > 0
     }
 

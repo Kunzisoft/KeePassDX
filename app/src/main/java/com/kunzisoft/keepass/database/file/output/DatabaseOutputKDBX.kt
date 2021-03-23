@@ -695,7 +695,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         var firstElement = true
         val binaryCache = mDatabaseKDBX.binaryCache
         mDatabaseKDBX.iconsManager.doForEachCustomIcon { iconCustom, binary ->
-            if (binary.dataExists(binaryCache)) {
+            if (binary.dataExists()) {
                 // Write the parent tag
                 if (firstElement) {
                     xml.startTag(null, DatabaseKDBXXML.ElemCustomIcons)

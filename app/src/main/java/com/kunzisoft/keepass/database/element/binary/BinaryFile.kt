@@ -142,10 +142,6 @@ class BinaryFile : BinaryData {
         }
     }
 
-    override fun dataExists(binaryCache: BinaryCache): Boolean {
-        return mDataFile != null && super.dataExists(binaryCache)
-    }
-
     override fun clear(binaryCache: BinaryCache) {
         if (mDataFile != null && !mDataFile!!.delete())
             throw IOException("Unable to delete temp file " + mDataFile!!.absolutePath)
