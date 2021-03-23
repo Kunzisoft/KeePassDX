@@ -30,15 +30,12 @@ data class Attachment(var name: String,
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            // TODO BinaryParcelable
-            //parcel.readParcelable(BinaryData::class.java.classLoader) ?:
-            BinaryByte()
+            parcel.readParcelable(BinaryData::class.java.classLoader) ?: BinaryByte()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        // TODO BinaryParcelable
-        //parcel.writeParcelable(binaryData, flags)
+        parcel.writeParcelable(binaryData, flags)
     }
 
     override fun describeContents(): Int {

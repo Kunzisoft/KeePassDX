@@ -19,37 +19,75 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.Base64
+import android.util.Base64InputStream
+import android.util.Base64OutputStream
+import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
 import java.util.zip.GZIPOutputStream
+import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
+import javax.crypto.CipherOutputStream
+import javax.crypto.spec.IvParameterSpec
 
 class BinaryByte : BinaryData {
 
-    private var mDataByte: ByteArray = ByteArray(0)
+    private var mDataByteId: Int? = null
+
+    private fun getByteArray(): ByteArray {
+        val keyData = App.getByteArray(mDataByteId)
+        mDataByteId = keyData.key
+        return keyData.data
+    }
 
     /**
      * Empty protected binary
      */
-    constructor() : super()
+    constructor() : super() {
+        getByteArray()
+    }
 
     constructor(compressed: Boolean = false,
-                protected: Boolean = false) : super(compressed, protected)
+                protected: Boolean = false) : super(compressed, protected) {
+        getByteArray()
+    }
 
-    constructor(byteArray: ByteArray,
+    constructor(mDataByteId: Int,
                 compressed: Boolean = false,
                 protected: Boolean = false) : super(compressed, protected) {
-        this.mDataByte = byteArray
+        this.mDataByteId = mDataByteId
+    }
+
+    constructor(parcel: Parcel) : super(parcel) {
+        mDataByteId = parcel.readInt()
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        super.writeToParcel(dest, flags)
+        mDataByteId?.let {
+            dest.writeInt(it)
+        }
     }
 
     @Throws(IOException::class)
     override fun getInputDataStream(cipherKey: Database.LoadedKey): InputStream {
-        return ByteArrayInputStream(mDataByte)
+        return when {
+            getSize() > 0 -> {
+                cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
+                Base64InputStream(CipherInputStream(ByteArrayInputStream(getByteArray()), cipherDecryption), Base64.NO_WRAP)
+            }
+            else -> ByteArrayInputStream(ByteArray(0))
+        }
     }
 
     @Throws(IOException::class)
     override fun getOutputDataStream(cipherKey: Database.LoadedKey): OutputStream {
-        return ByteOutputStream()
+        cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
+        return BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(ByteOutputStream(), cipherEncryption), Base64.NO_WRAP))
     }
 
     @Throws(IOException::class)
@@ -82,29 +120,11 @@ class BinaryByte : BinaryData {
 
     @Throws(IOException::class)
     override fun clear() {
-        mDataByte = ByteArray(0)
-    }
-
-    override fun dataExists(): Boolean {
-        return mDataByte.isNotEmpty()
-    }
-
-    override fun getSize(): Long {
-        return mDataByte.size.toLong()
-    }
-
-    /**
-     * Hash of the raw encrypted file in temp folder, only to compare binary data
-     */
-    override fun binaryHash(): Int {
-        return if (dataExists())
-            mDataByte.contentHashCode()
-        else
-            0
+        App.removeByteArray(mDataByteId)
     }
 
     override fun toString(): String {
-        return mDataByte.toString()
+        return getByteArray().toString()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -112,14 +132,14 @@ class BinaryByte : BinaryData {
         if (other !is BinaryByte) return false
         if (!super.equals(other)) return false
 
-        if (!mDataByte.contentEquals(other.mDataByte)) return false
+        if (mDataByteId != other.mDataByteId) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + mDataByte.contentHashCode()
+        result = 31 * result + (mDataByteId ?: 0)
         return result
     }
 
@@ -128,13 +148,24 @@ class BinaryByte : BinaryData {
      */
     private inner class ByteOutputStream : ByteArrayOutputStream() {
         override fun close() {
-            mDataByte = this.toByteArray()
+            App.setByteArray(mDataByteId, this.toByteArray())
             super.close()
         }
     }
 
     companion object {
         private val TAG = BinaryByte::class.java.name
+
+        @JvmField
+        val CREATOR: Parcelable.Creator<BinaryByte> = object : Parcelable.Creator<BinaryByte> {
+            override fun createFromParcel(parcel: Parcel): BinaryByte {
+                return BinaryByte(parcel)
+            }
+
+            override fun newArray(size: Int): Array<BinaryByte?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 
 }

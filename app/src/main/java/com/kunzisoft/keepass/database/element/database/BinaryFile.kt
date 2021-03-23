@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
@@ -37,13 +39,6 @@ import javax.crypto.spec.IvParameterSpec
 class BinaryFile : BinaryData {
 
     private var mDataFile: File? = null
-    private var mLength: Long = 0
-    private var mBinaryHash = 0
-    // Cipher to encrypt temp file
-    @Transient
-    private var cipherEncryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
-    @Transient
-    private var cipherDecryption: Cipher = Cipher.getInstance(Database.LoadedKey.BINARY_CIPHER)
 
     constructor() : super()
 
@@ -51,8 +46,12 @@ class BinaryFile : BinaryData {
                 compressed: Boolean = false,
                 protected: Boolean = false) : super(compressed, protected) {
         this.mDataFile = dataFile
-        this.mLength = 0
-        this.mBinaryHash = 0
+    }
+
+    constructor(parcel: Parcel) : super(parcel) {
+        parcel.readString()?.let {
+            mDataFile = File(it)
+        }
     }
 
     @Throws(IOException::class)
@@ -143,23 +142,16 @@ class BinaryFile : BinaryData {
     }
 
     override fun dataExists(): Boolean {
-        return mDataFile != null && mLength > 0
-    }
-
-    override fun getSize(): Long {
-        return mLength
-    }
-
-    /**
-     * Hash of the raw encrypted file in temp folder, only to compare binary data
-     */
-    @Throws(FileNotFoundException::class)
-    override fun binaryHash(): Int {
-        return mBinaryHash
+        return mDataFile != null && super.dataExists()
     }
 
     override fun toString(): String {
         return mDataFile.toString()
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        super.writeToParcel(dest, flags)
+        dest.writeString(mDataFile?.absolutePath)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -173,53 +165,22 @@ class BinaryFile : BinaryData {
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + (mDataFile?.hashCode() ?: 0)
-        result = 31 * result + mLength.hashCode()
-        result = 31 * result + mBinaryHash
         return result
-    }
-
-    /**
-     * Custom OutputStream to calculate the size and hash of binary file
-     */
-    private inner class BinaryCountingOutputStream(out: OutputStream): CountingOutputStream(out) {
-
-        private val mMessageDigest: MessageDigest
-        init {
-            mLength = 0
-            mMessageDigest = MessageDigest.getInstance("MD5")
-            mBinaryHash = 0
-        }
-
-        override fun beforeWrite(n: Int) {
-            super.beforeWrite(n)
-            mLength = byteCount
-        }
-
-        override fun write(idx: Int) {
-            super.write(idx)
-            mMessageDigest.update(idx.toByte())
-        }
-
-        override fun write(bts: ByteArray) {
-            super.write(bts)
-            mMessageDigest.update(bts)
-        }
-
-        override fun write(bts: ByteArray, st: Int, end: Int) {
-            super.write(bts, st, end)
-            mMessageDigest.update(bts, st, end)
-        }
-
-        override fun close() {
-            super.close()
-            mLength = byteCount
-            val bytes = mMessageDigest.digest()
-            mBinaryHash = ByteBuffer.wrap(bytes).int
-        }
     }
 
     companion object {
         private val TAG = BinaryFile::class.java.name
+
+        @JvmField
+        val CREATOR: Parcelable.Creator<BinaryFile> = object : Parcelable.Creator<BinaryFile> {
+            override fun createFromParcel(parcel: Parcel): BinaryFile {
+                return BinaryFile(parcel)
+            }
+
+            override fun newArray(size: Int): Array<BinaryFile?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 
 }
