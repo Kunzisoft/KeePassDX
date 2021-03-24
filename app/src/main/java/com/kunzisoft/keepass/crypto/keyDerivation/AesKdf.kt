@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.finalkey.AESKeyTransformerFactory
 import com.kunzisoft.keepass.stream.bytes16ToUuid
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -38,11 +39,11 @@ class AesKdf : KdfEngine() {
         get() {
             return KdfParameters(uuid!!).apply {
                 setParamUUID()
-                setUInt64(PARAM_ROUNDS, defaultKeyRounds)
+                setUInt64(PARAM_ROUNDS, UnsignedLong(defaultKeyRounds))
             }
         }
 
-    override val defaultKeyRounds: Long = 500000L
+    override val defaultKeyRounds = 500000L
 
     override fun getName(resources: Resources): String {
         return resources.getString(R.string.kdf_AES)
@@ -61,7 +62,7 @@ class AesKdf : KdfEngine() {
             currentMasterKey = CryptoUtil.hashSha256(currentMasterKey)
         }
 
-        val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)
+        val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
 
         return AESKeyTransformerFactory.transformMasterKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
@@ -76,11 +77,11 @@ class AesKdf : KdfEngine() {
     }
 
     override fun getKeyRounds(kdfParameters: KdfParameters): Long {
-        return kdfParameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds
+        return kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong() ?: defaultKeyRounds
     }
 
     override fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long) {
-        kdfParameters.setUInt64(PARAM_ROUNDS, keyRounds)
+        kdfParameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds))
     }
 
     companion object {

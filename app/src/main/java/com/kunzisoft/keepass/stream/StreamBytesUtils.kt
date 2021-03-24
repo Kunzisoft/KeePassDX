@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.stream
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils.bytesToString
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -119,18 +120,32 @@ fun InputStream.readBytesLength(length: Int): ByteArray {
     return buf
 }
 
+@Throws(IOException::class)
 fun OutputStream.write4BytesUInt(value: UnsignedInt) {
     this.write(uIntTo4Bytes(value))
 }
 
+@Throws(IOException::class)
+fun OutputStream.writeBooleanByte(value: Boolean) {
+    this.writeByte(if (value) 1.toByte() else 0.toByte())
+}
+
+@Throws(IOException::class)
 fun OutputStream.writeByte(byte: Byte) {
     this.write(byte.toInt())
 }
 
+@Throws(IOException::class)
 fun OutputStream.write8BytesLong(value: Long) {
     this.write(longTo8Bytes(value))
 }
 
+@Throws(IOException::class)
+fun OutputStream.write8BytesLong(value: UnsignedLong) {
+    this.write(uLongTo8Bytes(value))
+}
+
+@Throws(IOException::class)
 fun OutputStream.write2BytesUShort(value: Int) {
     this.write(uShortTo2Bytes(value))
 }
@@ -141,6 +156,20 @@ fun OutputStream.write2BytesUShort(value: Int) {
 fun bytes2ToUShort(buf: ByteArray): Int {
     return ((buf[0].toInt() and 0xFF)
             + (buf[1].toInt() and 0xFF shl 8))
+}
+
+/**
+ * Read a 64 bit to unsigned long
+ */
+fun bytes64ToULong(buf: ByteArray): UnsignedLong {
+    return UnsignedLong((buf[0].toLong() and 0xFF)
+            + (buf[1].toLong() and 0xFF shl 8)
+            + (buf[2].toLong() and 0xFF shl 16)
+            + (buf[3].toLong() and 0xFF shl 24)
+            + (buf[4].toLong() and 0xFF shl 32)
+            + (buf[5].toLong() and 0xFF shl 40)
+            + (buf[6].toLong() and 0xFF shl 48)
+            + (buf[7].toLong() and 0xFF shl 56))
 }
 
 /**
@@ -213,6 +242,17 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
     return DateInstant(calendar.time)
 }
 
+
+/**
+ * Write an unsigned 16-bit value
+ */
+fun uShortTo2Bytes(value: Int): ByteArray {
+    val buf = ByteArray(2)
+    buf[0] = (value and 0x00FF).toByte()
+    buf[1] = (value and 0xFF00 shr 8).toByte()
+    return buf
+}
+
 /**
  * Write a 32-bit Int value.
  */
@@ -224,14 +264,8 @@ fun uIntTo4Bytes(value: UnsignedInt): ByteArray {
     return buf
 }
 
-/**
- * Write an unsigned 16-bit value
- */
-fun uShortTo2Bytes(value: Int): ByteArray {
-    val buf = ByteArray(2)
-    buf[0] = (value and 0x00FF).toByte()
-    buf[1] = (value and 0xFF00 shr 8).toByte()
-    return buf
+fun uLongTo8Bytes(value: UnsignedLong): ByteArray {
+    return longTo8Bytes(value.toKotlinLong())
 }
 
 fun longTo8Bytes(value: Long): ByteArray {

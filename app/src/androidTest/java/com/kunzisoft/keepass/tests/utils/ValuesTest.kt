@@ -54,7 +54,7 @@ class ValuesTest : TestCase() {
         val orig = ByteArray(8)
         setArray(orig, value, 8)
 
-        assertArrayEquals(orig, longTo8Bytes(bytes64ToLong(orig)))
+        assertArrayEquals(orig, uLongTo8Bytes(bytes64ToULong(orig)))
     }
 
     fun testReadWriteIntZero() {
@@ -144,13 +144,11 @@ class ValuesTest : TestCase() {
         expected.set(2008, 1, 2, 3, 4, 5)
 
         val actual = Calendar.getInstance()
-        dateTo5Bytes(expected.time, cal)?.let { buf ->
-            actual.time = bytes5ToDate(buf, cal).date
-        }
+        actual.time = bytes5ToDate(dateTo5Bytes(expected.time, cal), cal).date
 
         val jDate = DateInstant(System.currentTimeMillis())
         val intermediate = DateInstant(jDate)
-        val cDate = bytes5ToDate(dateTo5Bytes(intermediate.date)!!)
+        val cDate = bytes5ToDate(dateTo5Bytes(intermediate.date))
 
         assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR))
         assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH))
@@ -184,7 +182,7 @@ class ValuesTest : TestCase() {
         }
 
         val byteArrayOutputStream = ByteArrayOutputStream()
-        byteArrayOutputStream.write8BytesLong(UnsignedLong.MAX_VALUE)
+        byteArrayOutputStream.write8BytesLong(UnsignedLong.MAX)
         byteArrayOutputStream.close()
         val uLongMax = byteArrayOutputStream.toByteArray()
 

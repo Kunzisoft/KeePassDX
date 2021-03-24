@@ -19,13 +19,14 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.IOException
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object HmacBlockStream {
-    fun getHmacKey64(key: ByteArray, blockIndex: Long): ByteArray {
+    fun getHmacKey64(key: ByteArray, blockIndex: UnsignedLong): ByteArray {
         val hash: MessageDigest
         try {
             hash = MessageDigest.getInstance("SHA-512")

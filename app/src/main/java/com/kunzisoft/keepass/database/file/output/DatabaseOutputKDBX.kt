@@ -82,8 +82,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
             header = outputHeader(mOutputStream)
 
-            val osPlain: OutputStream
-            osPlain = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+            val osPlain: OutputStream = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
                 val cos = attachStreamEncryptor(header!!, mOutputStream)
                 cos.write(header!!.streamStartBytes)
 

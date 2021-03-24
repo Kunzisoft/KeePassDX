@@ -53,12 +53,12 @@ open class VariantDictionary {
         return dict[name]?.value as UnsignedInt?
     }
 
-    fun setUInt64(name: String, value: Long) {
+    fun setUInt64(name: String, value: UnsignedLong) {
         putType(VdType.UInt64, name, value)
     }
 
-    fun getUInt64(name: String): Long? {
-        return dict[name]?.value as Long?
+    fun getUInt64(name: String): UnsignedLong? {
+        return dict[name]?.value as UnsignedLong?
     }
 
     fun setBool(name: String, value: Boolean) {
@@ -156,7 +156,7 @@ open class VariantDictionary {
                         dictionary.setUInt32(name, bytes4ToUInt(valueBuf))
                     }
                     VdType.UInt64 -> if (valueLen == 8) {
-                        dictionary.setUInt64(name, bytes64ToLong(valueBuf))
+                        dictionary.setUInt64(name, bytes64ToULong(valueBuf))
                     }
                     VdType.Bool -> if (valueLen == 1) {
                         dictionary.setBool(name, valueBuf[0] != 0.toByte())
@@ -185,7 +185,7 @@ open class VariantDictionary {
             outputStream.write2BytesUShort(VdVersion)
             for ((name, vd) in variantDictionary.dict) {
                 val nameBuf = name.toByteArray(UTF8Charset)
-                outputStream.write(vd.type.toInt())
+                outputStream.writeByte(vd.type)
                 outputStream.write4BytesUInt(UnsignedInt(nameBuf.size))
                 outputStream.write(nameBuf)
                 var buf: ByteArray
@@ -196,12 +196,11 @@ open class VariantDictionary {
                     }
                     VdType.UInt64 -> {
                         outputStream.write4BytesUInt(UnsignedInt(8))
-                        outputStream.write8BytesLong(vd.value as Long)
+                        outputStream.write8BytesLong(vd.value as UnsignedLong)
                     }
                     VdType.Bool -> {
                         outputStream.write4BytesUInt(UnsignedInt(1))
-                        val bool = if (vd.value as Boolean) 1.toByte() else 0.toByte()
-                        outputStream.write(bool.toInt())
+                        outputStream.writeBooleanByte(vd.value as Boolean)
                     }
                     VdType.Int32 -> {
                         outputStream.write4BytesUInt(UnsignedInt(4))

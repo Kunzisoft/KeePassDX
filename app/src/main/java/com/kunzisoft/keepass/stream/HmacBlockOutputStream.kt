@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.IOException
 import java.io.OutputStream
 import java.security.InvalidKeyException
@@ -34,7 +35,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
 
     private val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
     private var bufferPos = 0
-    private var blockIndex: Long = 0
+    private var blockIndex = UnsignedLong(0L)
 
     @Throws(IOException::class)
     override fun close() {
@@ -85,7 +86,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
 
     @Throws(IOException::class)
     private fun writeSafeBlock() {
-        val bufBlockIndex = longTo8Bytes(blockIndex)
+        val bufBlockIndex = uLongTo8Bytes(blockIndex)
         val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
         val blockHmac: ByteArray
@@ -118,7 +119,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
             baseStream.write(buffer, 0, bufferPos)
         }
 
-        blockIndex++
+        blockIndex.plusOne()
         bufferPos = 0
     }
 }

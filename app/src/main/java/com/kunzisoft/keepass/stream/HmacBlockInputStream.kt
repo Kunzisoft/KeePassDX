@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.IOException
 import java.io.InputStream
 import java.security.InvalidKeyException
@@ -32,7 +33,7 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
 
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
-    private var blockIndex: Long = 0
+    private var blockIndex = UnsignedLong(0L)
     private var endOfStream = false
 
     @Throws(IOException::class)
@@ -66,8 +67,6 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
             }
 
             val copy = (buffer.size - bufferPos).coerceAtMost(remaining)
-            assert(copy > 0)
-
             System.arraycopy(buffer, bufferPos, outBuffer, offset, copy)
             offset += copy
             bufferPos += copy
@@ -92,7 +91,7 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = longTo8Bytes(blockIndex)
+        val pbBlockIndex = uLongTo8Bytes(blockIndex)
         val pbBlockSize = baseStream.readBytesLength(4)
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
@@ -126,13 +125,13 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
             cmpHmac = hmac.doFinal()
             Arrays.fill(blockKey, 0.toByte())
 
-            if (!Arrays.equals(cmpHmac, storedHmac)) {
+            if (!cmpHmac.contentEquals(storedHmac)) {
                 throw IOException("Invalid Hmac")
             }
 
         }
 
-        blockIndex++
+        blockIndex.plusOne()
 
         if (blockSize.toKotlinLong() == 0L) {
             endOfStream = true

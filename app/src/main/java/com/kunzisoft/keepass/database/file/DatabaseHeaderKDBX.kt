@@ -248,9 +248,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     private fun setTransformRound(roundsByte: ByteArray) {
         assignAesKdfEngineIfNotExists()
-        val rounds = bytes64ToLong(roundsByte)
+        val rounds = bytes64ToULong(roundsByte)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
-        databaseV4.numberKeyEncryptionRounds = rounds
+        databaseV4.numberKeyEncryptionRounds = rounds.toKotlinLong()
     }
 
     @Throws(IOException::class)
@@ -325,7 +325,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX_VALUE)
+            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX)
 
             val hmac: Mac
             try {

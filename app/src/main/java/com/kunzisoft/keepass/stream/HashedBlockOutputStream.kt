@@ -110,9 +110,8 @@ class HashedBlockOutputStream : OutputStream {
                 throw IOException("SHA-256 not implemented here.")
             }
 
-            val hash: ByteArray
             messageDigest.update(buffer, 0, bufferPos)
-            hash = messageDigest.digest()
+            val hash: ByteArray = messageDigest.digest()
             baseStream.write(hash)
 
         } else {

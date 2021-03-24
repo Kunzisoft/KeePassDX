@@ -69,7 +69,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         val hmac: Mac
         try {
             hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(HmacBlockStream.getHmacKey64(hmacKey, UnsignedLong.MAX_VALUE), "HmacSHA256")
+            val signingKey = SecretKeySpec(HmacBlockStream.getHmacKey64(hmacKey, UnsignedLong.MAX), "HmacSHA256")
             hmac.init(signingKey)
         } catch (e: NoSuchAlgorithmException) {
             throw DatabaseOutputException(e)

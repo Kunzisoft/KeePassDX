@@ -338,8 +338,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        // TODO unsigned long
-        usageCount = UnsignedLong(usageCount.toKotlinLong() + 1)
+        usageCount.plusOne()
     }
 
     companion object {

@@ -17,36 +17,30 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file;
+package com.kunzisoft.keepass.database.file
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Duration
+import java.util.*
 
-import java.util.Date;
+object DateKDBXUtil {
 
-public class DateKDBXUtil {
-    private static final DateTime dotNetEpoch = new DateTime(1, 1, 1, 0, 0, 0, DateTimeZone.UTC);
-    private static final DateTime javaEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeZone.UTC);
+    private val dotNetEpoch = DateTime(1, 1, 1, 0, 0, 0, DateTimeZone.UTC)
+    private val javaEpoch = DateTime(1970, 1, 1, 0, 0, 0, DateTimeZone.UTC)
+    private val epochOffset = (javaEpoch.millis - dotNetEpoch.millis) / 1000L
 
-    private static final long epochOffset;
-
-    static {
-        epochOffset = (javaEpoch.getMillis() - dotNetEpoch.getMillis()) / 1000L;
-    }
-
-    public static Date convertKDBX4Time(long seconds) {
-        DateTime dt = dotNetEpoch.plus(seconds * 1000L);
+    fun convertKDBX4Time(seconds: Long): Date {
+        val dt = dotNetEpoch.plus(seconds * 1000L)
         // Switch corrupted dates to a more recent date that won't cause issues on the client
-        if (dt.isBefore(javaEpoch)) {
-            return javaEpoch.toDate();
-        }
-        return dt.toDate();
+        return if (dt.isBefore(javaEpoch)) {
+            javaEpoch.toDate()
+        } else dt.toDate()
     }
 
-    public static long convertDateToKDBX4Time(DateTime dt) {
-        Duration duration = new Duration( javaEpoch, dt );
-        long seconds = ( duration.getMillis() / 1000L );
-        return seconds + epochOffset;
+    fun convertDateToKDBX4Time(dt: DateTime?): Long {
+        val duration = Duration(javaEpoch, dt)
+        val seconds = duration.millis / 1000L
+        return seconds + epochOffset
     }
 }
