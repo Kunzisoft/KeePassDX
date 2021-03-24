@@ -155,11 +155,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
             val isPlain: InputStream
             if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
-                val decrypted = CipherInputStream(databaseInputStream, cipher)
-                val dataDecrypted = LittleEndianDataInputStream(decrypted)
+                val dataDecrypted = CipherInputStream(databaseInputStream, cipher)
                 val storedStartBytes: ByteArray?
                 try {
-                    storedStartBytes = dataDecrypted.readBytes(32)
+                    storedStartBytes = dataDecrypted.readBytesLength(32)
                     if (storedStartBytes.size != 32) {
                         throw InvalidCredentialsDatabaseException()
                     }
@@ -173,15 +172,14 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
                 isPlain = HashedBlockInputStream(dataDecrypted)
             } else { // KDBX 4
-                val isData = LittleEndianDataInputStream(databaseInputStream)
-                val storedHash = isData.readBytes(32)
+                val storedHash = databaseInputStream.readBytesLength(32)
                 if (!Arrays.equals(storedHash, hashOfHeader)) {
                     throw InvalidCredentialsDatabaseException()
                 }
 
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
                 val headerHmac = DatabaseHeaderKDBX.computeHeaderHmac(pbHeader, hmacKey)
-                val storedHmac = isData.readBytes(32)
+                val storedHmac = databaseInputStream.readBytesLength(32)
                 if (storedHmac.size != 32) {
                     throw InvalidCredentialsDatabaseException()
                 }
@@ -190,7 +188,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     throw InvalidCredentialsDatabaseException()
                 }
 
-                val hmIs = HmacBlockInputStream(isData, true, hmacKey)
+                val hmIs = HmacBlockInputStream(databaseInputStream, true, hmacKey)
 
                 isPlain = CipherInputStream(hmIs, cipher)
             }
@@ -231,23 +229,21 @@ class DatabaseInputKDBX(cacheDirectory: File,
     }
 
     @Throws(IOException::class)
-    private fun readInnerHeader(inputStream: InputStream,
+    private fun readInnerHeader(dataInputStream: InputStream,
                                 header: DatabaseHeaderKDBX) {
-
-        val dataInputStream = LittleEndianDataInputStream(inputStream)
 
         var readStream = true
         while (readStream) {
             val fieldId = dataInputStream.read().toByte()
 
-            val size = dataInputStream.readUInt().toKotlinInt()
+            val size = dataInputStream.readBytes4ToUInt().toKotlinInt()
             if (size < 0) throw IOException("Corrupted file")
 
             var data = ByteArray(0)
             try {
                 if (size > 0) {
                     if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
-                        data = dataInputStream.readBytes(size)
+                        data = dataInputStream.readBytesLength(size)
                     }
                 }
             } catch (e: Exception) {

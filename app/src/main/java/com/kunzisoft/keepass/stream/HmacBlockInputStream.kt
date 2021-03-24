@@ -28,9 +28,8 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
+class HmacBlockInputStream(private val baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
 
-    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(baseStream)
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
     private var blockIndex: Long = 0
@@ -88,20 +87,20 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
     private fun readSafeBlock(): Boolean {
         if (endOfStream) return false
 
-        val storedHmac = baseStream.readBytes(32)
+        val storedHmac = baseStream.readBytesLength(32)
         if (storedHmac.size != 32) {
             throw IOException("File corrupted")
         }
 
         val pbBlockIndex = longTo8Bytes(blockIndex)
-        val pbBlockSize = baseStream.readBytes(4)
+        val pbBlockSize = baseStream.readBytesLength(4)
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
         val blockSize = bytes4ToUInt(pbBlockSize)
         bufferPos = 0
 
-        buffer = baseStream.readBytes(blockSize.toKotlinInt())
+        buffer = baseStream.readBytesLength(blockSize.toKotlinInt())
 
         if (verify) {
             val cmpHmac: ByteArray

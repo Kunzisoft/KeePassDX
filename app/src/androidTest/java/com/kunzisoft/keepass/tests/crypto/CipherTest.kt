@@ -19,28 +19,20 @@
  */
 package com.kunzisoft.keepass.tests.crypto
 
+import com.kunzisoft.keepass.crypto.CipherFactory
+import com.kunzisoft.keepass.crypto.engine.AesEngine
+import com.kunzisoft.keepass.stream.BetterCipherInputStream
+import com.kunzisoft.keepass.stream.readBytesLength
+import junit.framework.TestCase
 import org.junit.Assert.assertArrayEquals
-
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-import java.util.Random
-
-import javax.crypto.BadPaddingException
-import javax.crypto.Cipher
-import javax.crypto.CipherOutputStream
-import javax.crypto.IllegalBlockSizeException
-import javax.crypto.NoSuchPaddingException
-
-import junit.framework.TestCase
-
-import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.crypto.engine.AesEngine
-import com.kunzisoft.keepass.stream.BetterCipherInputStream
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
+import java.util.*
+import javax.crypto.*
 
 class CipherTest : TestCase() {
     private val rand = Random()
@@ -92,9 +84,8 @@ class CipherTest : TestCase() {
 
         val bis = ByteArrayInputStream(secrettext)
         val cis = BetterCipherInputStream(bis, decrypt)
-        val lis = LittleEndianDataInputStream(cis)
 
-        val decrypttext = lis.readBytes(MESSAGE_LENGTH)
+        val decrypttext = cis.readBytesLength(MESSAGE_LENGTH)
 
         assertArrayEquals("Encryption and decryption failed", plaintext, decrypttext)
     }

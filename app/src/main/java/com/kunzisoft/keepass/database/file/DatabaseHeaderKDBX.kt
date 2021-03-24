@@ -150,23 +150,22 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)
         val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
-        val littleEndianDataInputStream = LittleEndianDataInputStream(digestInputStream)
 
-        val sig1 = littleEndianDataInputStream.readUInt()
-        val sig2 = littleEndianDataInputStream.readUInt()
+        val sig1 = digestInputStream.readBytes4ToUInt()
+        val sig2 = digestInputStream.readBytes4ToUInt()
 
         if (!matchesHeader(sig1, sig2)) {
             throw VersionDatabaseException()
         }
 
-        version = littleEndianDataInputStream.readUInt() // Erase previous value
+        version = digestInputStream.readBytes4ToUInt() // Erase previous value
         if (!validVersion(version)) {
             throw VersionDatabaseException()
         }
 
         var done = false
         while (!done) {
-            done = readHeaderField(littleEndianDataInputStream)
+            done = readHeaderField(digestInputStream)
         }
 
         val hash = messageDigest.digest()
@@ -174,13 +173,13 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     @Throws(IOException::class)
-    private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
+    private fun readHeaderField(dis: InputStream): Boolean {
         val fieldID = dis.read().toByte()
 
         val fieldSize: Int = if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
-            dis.readUShort()
+            dis.readBytes2ToUShort()
         } else {
-            dis.readUInt().toKotlinInt()
+            dis.readBytes4ToUInt().toKotlinInt()
         }
 
         var fieldData: ByteArray? = null

@@ -27,9 +27,8 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 
 
-class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
+class HashedBlockInputStream(private val baseStream: InputStream) : InputStream() {
 
-    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(inputStream)
     private var bufferPos = 0
     private var buffer: ByteArray = ByteArray(0)
     private var bufferIndex: Long = 0
@@ -80,13 +79,13 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
 
         bufferPos = 0
 
-        val index = baseStream.readUInt()
+        val index = baseStream.readBytes4ToUInt()
         if (index.toKotlinLong() != bufferIndex) {
             throw IOException("Invalid data format")
         }
         bufferIndex++
 
-        val storedHash = baseStream.readBytes(32)
+        val storedHash = baseStream.readBytesLength(32)
         if (storedHash.size != HASH_SIZE) {
             throw IOException("Invalid data format")
         }
@@ -104,7 +103,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             return false
         }
 
-        buffer = baseStream.readBytes(bufferSize)
+        buffer = baseStream.readBytesLength(bufferSize)
         if (buffer.size != bufferSize) {
             throw IOException("Invalid data format")
         }

@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.stream.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.*
 
@@ -115,7 +116,7 @@ open class VariantDictionary {
 
         @Throws(IOException::class)
         fun deserialize(data: ByteArray): VariantDictionary {
-            val inputStream = LittleEndianDataInputStream(ByteArrayInputStream(data))
+            val inputStream = ByteArrayInputStream(data)
             return deserialize(inputStream)
         }
 
@@ -128,9 +129,9 @@ open class VariantDictionary {
         }
 
         @Throws(IOException::class)
-        fun deserialize(inputStream: LittleEndianDataInputStream): VariantDictionary {
+        fun deserialize(inputStream: InputStream): VariantDictionary {
             val dictionary = VariantDictionary()
-            val version = inputStream.readUShort()
+            val version = inputStream.readBytes2ToUShort()
             if (version and VdmCritical > VdVersion and VdmCritical) {
                 throw IOException("Invalid format")
             }
@@ -143,14 +144,14 @@ open class VariantDictionary {
                 if (bType == VdType.None) {
                     break
                 }
-                val nameLen = inputStream.readUInt().toKotlinInt()
-                val nameBuf = inputStream.readBytes(nameLen)
+                val nameLen = inputStream.readBytes4ToUInt().toKotlinInt()
+                val nameBuf = inputStream.readBytesLength(nameLen)
                 if (nameLen != nameBuf.size) {
                     throw IOException("Invalid format")
                 }
                 val name = String(nameBuf, UTF8Charset)
-                val valueLen = inputStream.readUInt().toKotlinInt()
-                val valueBuf = inputStream.readBytes(valueLen)
+                val valueLen = inputStream.readBytes4ToUInt().toKotlinInt()
+                val valueBuf = inputStream.readBytesLength(valueLen)
                 if (valueLen != valueBuf.size) {
                     throw IOException("Invalid format")
                 }
