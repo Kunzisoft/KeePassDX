@@ -53,7 +53,6 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
                 if (!readHashedBlock()) {
                     return length - remaining
                 }
-
             }
 
             // Copy from buffer out
@@ -109,13 +108,12 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
             throw IOException("Invalid data format")
         }
 
-        val messageDigest: MessageDigest = HashManager.getHash256()
-        val computedHash = messageDigest.digest(buffer)
+        val computedHash = HashManager.hashSha256(buffer)
         if (computedHash.size != HASH_SIZE) {
             throw IOException("Hash wrong size")
         }
 
-        if (!Arrays.equals(storedHash, computedHash)) {
+        if (!storedHash.contentEquals(computedHash)) {
             throw IOException("Hashes didn't match.")
         }
 

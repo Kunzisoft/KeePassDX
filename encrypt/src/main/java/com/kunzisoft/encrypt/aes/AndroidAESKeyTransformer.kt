@@ -62,8 +62,6 @@ class AndroidAESKeyTransformer : KeyTransformer() {
         }
 
         // Hash the key
-        val messageDigest: MessageDigest = HashManager.getHash256()
-        messageDigest.update(newKey)
-        return messageDigest.digest()
+        return HashManager.hashSha256(newKey)
     }
 }

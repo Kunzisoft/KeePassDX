@@ -100,10 +100,7 @@ abstract class DatabaseVersioned<
     protected fun getCompositeKey(key: String, keyfileInputStream: InputStream): ByteArray {
         val fileKey = getFileKey(keyfileInputStream)
         val passwordKey = getPasswordKey(key)
-
-        val messageDigest: MessageDigest = HashManager.getHash256()
-        messageDigest.update(passwordKey)
-        return messageDigest.digest(fileKey)
+        return HashManager.hashSha256(passwordKey, fileKey)
     }
 
     @Throws(IOException::class)
@@ -113,10 +110,7 @@ abstract class DatabaseVersioned<
         } catch (e: UnsupportedEncodingException) {
             key.toByteArray()
         }
-
-        val messageDigest: MessageDigest = HashManager.getHash256()
-        messageDigest.update(bKey)
-        return messageDigest.digest()
+        return HashManager.hashSha256(bKey)
     }
 
     @Throws(IOException::class)
@@ -138,10 +132,8 @@ abstract class DatabaseVersioned<
                 // Key is not base 64, treat it as binary data
             }
         }
-
         // Hash file as binary data
-        val messageDigest = HashManager.getHash256()
-        return messageDigest.digest(keyData)
+        return HashManager.hashSha256(keyData)
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

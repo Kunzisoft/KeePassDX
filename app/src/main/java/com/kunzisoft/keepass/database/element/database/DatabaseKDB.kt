@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
 import java.io.InputStream
-import java.security.MessageDigest
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -141,16 +140,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     @Throws(IOException::class)
-    fun makeFinalKey(masterSeed: ByteArray, masterSeed2: ByteArray, numRounds: Long) {
-
-        // Write checksum Checksum
-        val messageDigest: MessageDigest = HashManager.getHash256()
-        messageDigest.update(masterSeed)
+    fun makeFinalKey(masterSeed: ByteArray, transformSeed: ByteArray, numRounds: Long) {
         // Encrypt the master key a few times to make brute-force key-search harder
-        val transformedKey = AESKeyTransformerFactory.transformMasterKey(masterSeed2, masterKey, numRounds) ?: ByteArray(0)
-        messageDigest.update(transformedKey)
-
-        finalKey = messageDigest.digest()
+        val transformedKey = AESKeyTransformerFactory.transformMasterKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
+        // Write checksum Checksum
+        finalKey = HashManager.hashSha256(masterSeed, transformedKey)
     }
 
     override fun createGroup(): GroupKDB {

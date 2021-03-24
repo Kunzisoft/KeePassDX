@@ -347,8 +347,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             masterKey = getFileKey(keyInputStream)
         }
 
-        val messageDigest: MessageDigest = HashManager.getHash256()
-        return messageDigest.digest(masterKey)
+        return HashManager.hashSha256(masterKey)
     }
 
     @Throws(IOException::class)
@@ -383,11 +382,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun resizeKey(inBytes: ByteArray, cbOut: Int): ByteArray {
         if (cbOut == 0) return ByteArray(0)
 
-        val hash: ByteArray = if (cbOut <= 32) {
-            HashManager.hashSha256(inBytes, 0, 64)
-        } else {
-            HashManager.hashSha512(inBytes, 0, 64)
-        }
+        val messageDigest = if (cbOut <= 32) HashManager.getHash256() else HashManager.getHash512()
+        messageDigest.update(inBytes, 0, 64)
+        val hash: ByteArray = messageDigest.digest()
 
         if (cbOut == hash.size) {
             return hash
@@ -522,12 +519,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun checkKeyFileHash(data: String, hash: String): Boolean {
         var success = false
         try {
-            val digest: MessageDigest = HashManager.getHash256()
-            digest.reset()
             // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-            val dataDigest = digest.digest(Hex.decodeHex(data.toCharArray()))
-                    .copyOfRange(0, 4)
-                    .toHexString()
+            val dataDigest = HashManager.hashSha256(Hex.decodeHex(data.toCharArray()))
+                    .copyOfRange(0, 4).toHexString()
             success = dataDigest == hash
         } catch (e: Exception) {
             e.printStackTrace()

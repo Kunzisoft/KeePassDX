@@ -39,22 +39,29 @@ object HashManager {
         return messageDigest
     }
 
-    fun hashSha256(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
-        return hashGen("SHA-256", data, offset, count)
-    }
-
-    fun hashSha512(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
-        return hashGen("SHA-512", data, offset, count)
-    }
-
-    private fun hashGen(transform: String, data: ByteArray, offset: Int, count: Int): ByteArray {
-        val hash: MessageDigest
-        try {
-            hash = MessageDigest.getInstance(transform)
-        } catch (e: NoSuchAlgorithmException) {
-            throw RuntimeException(e)
+    fun hashSha256(vararg data: ByteArray): ByteArray {
+        val hash: MessageDigest = getHash256()
+        for (byteArray in data) {
+            hash.update(byteArray)
         }
-        hash.update(data, offset, count)
+        return hash.digest()
+    }
+
+    fun getHash512(): MessageDigest {
+        val messageDigest: MessageDigest
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256")
+        } catch (e: NoSuchAlgorithmException) {
+            throw IOException("SHA-256 not implemented here.", e)
+        }
+        return messageDigest
+    }
+
+    private fun hashSha512(vararg data: ByteArray): ByteArray {
+        val hash: MessageDigest = getHash512()
+        for (byteArray in data) {
+            hash.update(byteArray)
+        }
         return hash.digest()
     }
 
