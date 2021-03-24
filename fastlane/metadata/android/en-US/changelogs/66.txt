@@ -1,1 +1,2 @@
  * Fix themes #935
+ * Decrease default clipboard time #934
