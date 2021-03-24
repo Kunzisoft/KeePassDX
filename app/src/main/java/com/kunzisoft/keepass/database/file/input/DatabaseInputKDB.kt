@@ -33,13 +33,13 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.BetterCipherInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.*
 import java.security.DigestInputStream
 import java.security.MessageDigest
 import java.util.*
 import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
 
 
 /**
@@ -147,7 +147,7 @@ class DatabaseInputKDB(cacheDirectory: File,
             val messageDigest: MessageDigest = HashManager.getHash256()
             val cipherInputStream = BufferedInputStream(
                     DigestInputStream(
-                            BetterCipherInputStream(databaseInputStream, cipher),
+                            CipherInputStream(databaseInputStream, cipher),
                             messageDigest
                     )
             )
