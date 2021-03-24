@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.search;
 
 import java.util.UUID;
 
-import static com.kunzisoft.encrypt.stream.StreamBytesUtilsKt.uuidTo16Bytes;
+import static com.kunzisoft.keepass.utils.StreamBytesUtilsKt.uuidTo16Bytes;
 
 public class UuidUtil {
 

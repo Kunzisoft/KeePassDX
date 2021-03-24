@@ -1,4 +1,4 @@
-package com.kunzisoft.encrypt.stream
+package com.kunzisoft.encrypt
 
 import org.bouncycastle.crypto.CipherParameters
 import org.bouncycastle.crypto.DataLengthException

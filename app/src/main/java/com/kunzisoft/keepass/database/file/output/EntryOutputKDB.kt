@@ -19,11 +19,10 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.utils.*
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset

@@ -20,9 +20,9 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.write2BytesUShort
-import com.kunzisoft.encrypt.stream.write4BytesUInt
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.write2BytesUShort
+import com.kunzisoft.keepass.utils.write4BytesUInt
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB

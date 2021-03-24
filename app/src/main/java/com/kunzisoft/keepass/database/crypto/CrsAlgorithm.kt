@@ -17,7 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt
+package com.kunzisoft.keepass.database.crypto
+
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.encrypt.StreamCipher
 
 enum class CrsAlgorithm(val id: UnsignedInt) {
 
@@ -27,6 +31,15 @@ enum class CrsAlgorithm(val id: UnsignedInt) {
     ChaCha20(UnsignedInt(3));
 
     companion object {
+
+        @Throws(Exception::class)
+        fun getCipher(algorithm: CrsAlgorithm?, key: ByteArray): StreamCipher {
+            return when (algorithm) {
+                Salsa20 -> HashManager.getSalsa20(key)
+                ChaCha20 -> HashManager.getChaCha20(key)
+                else -> throw Exception("Invalid random cipher")
+            }
+        }
 
         fun fromId(num: UnsignedInt): CrsAlgorithm? {
             for (e in values()) {

@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedInt
 
 abstract class DatabaseHeader {
 

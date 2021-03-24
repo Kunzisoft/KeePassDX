@@ -19,10 +19,8 @@
  */
 package com.kunzisoft.keepass.tests.utils
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.*
 import junit.framework.TestCase
 import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream

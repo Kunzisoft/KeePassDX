@@ -20,9 +20,9 @@
 package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
-import com.kunzisoft.encrypt.stream.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*

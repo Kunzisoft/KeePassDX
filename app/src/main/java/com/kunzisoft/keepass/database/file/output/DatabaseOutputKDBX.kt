@@ -22,9 +22,8 @@ package com.kunzisoft.keepass.database.file.output
 import android.util.Base64
 import android.util.Log
 import android.util.Xml
-import com.kunzisoft.encrypt.CrsAlgorithm
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.*
+import com.kunzisoft.encrypt.StreamCipher
+import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -47,6 +46,7 @@ import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
+import com.kunzisoft.keepass.utils.*
 import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
@@ -320,7 +320,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         random.nextBytes(header.innerRandomStreamKey)
 
         try {
-            randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+            randomStream = CrsAlgorithm.getCipher(header.innerRandomStream, header.innerRandomStreamKey)
         } catch (e: Exception) {
             throw DatabaseOutputException(e)
         }

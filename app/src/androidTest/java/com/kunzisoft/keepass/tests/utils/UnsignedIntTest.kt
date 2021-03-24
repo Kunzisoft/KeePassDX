@@ -1,6 +1,6 @@
 package com.kunzisoft.keepass.tests.utils
 
-import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedInt
 import junit.framework.TestCase
 
 class UnsignedIntTest: TestCase() {

@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool

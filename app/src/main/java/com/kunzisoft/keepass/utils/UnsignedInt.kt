@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt
+package com.kunzisoft.keepass.utils
 
 class UnsignedInt(private var unsignedValue: Int) {
 

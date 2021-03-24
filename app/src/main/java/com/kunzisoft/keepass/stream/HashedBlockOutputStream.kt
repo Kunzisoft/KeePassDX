@@ -20,9 +20,9 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.write4BytesUInt
-import com.kunzisoft.encrypt.stream.write8BytesLong
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.write4BytesUInt
+import com.kunzisoft.keepass.utils.write8BytesLong
 import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest

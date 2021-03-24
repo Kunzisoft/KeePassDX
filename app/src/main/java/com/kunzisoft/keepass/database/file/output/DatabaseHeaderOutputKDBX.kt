@@ -20,9 +20,6 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
@@ -32,6 +29,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.stream.MacOutputStream
+import com.kunzisoft.keepass.utils.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream

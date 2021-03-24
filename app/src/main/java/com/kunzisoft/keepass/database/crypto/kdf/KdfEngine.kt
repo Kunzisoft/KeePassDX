@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
-import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.Serializable
 import java.util.*

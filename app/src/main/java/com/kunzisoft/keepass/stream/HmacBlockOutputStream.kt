@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.uIntTo4Bytes
-import com.kunzisoft.encrypt.stream.uLongTo8Bytes
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uLongTo8Bytes
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import java.io.IOException
 import java.io.OutputStream

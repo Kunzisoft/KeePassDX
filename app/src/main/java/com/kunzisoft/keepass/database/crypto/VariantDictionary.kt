@@ -19,9 +19,7 @@
  */
 package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.*
+import com.kunzisoft.keepass.utils.*
 import java.io.*
 import java.nio.charset.Charset
 import java.util.*

@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.tests.stream
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
-import com.kunzisoft.encrypt.stream.readAllBytes
+import com.kunzisoft.keepass.utils.readAllBytes
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryFile
 import com.kunzisoft.keepass.utils.UriUtil

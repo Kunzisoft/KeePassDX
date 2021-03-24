@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.tests.crypto
 
-import com.kunzisoft.encrypt.stream.readBytesLength
+import com.kunzisoft.keepass.utils.readBytesLength
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test

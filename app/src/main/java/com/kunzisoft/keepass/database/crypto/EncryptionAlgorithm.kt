@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.stream.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.security.NoSuchAlgorithmException
 import java.util.*
 

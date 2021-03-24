@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.encrypt.stream.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import java.io.IOException
 import java.io.OutputStream

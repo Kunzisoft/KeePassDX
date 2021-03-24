@@ -23,8 +23,8 @@ import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.longTo8Bytes
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.longTo8Bytes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.AesEngine

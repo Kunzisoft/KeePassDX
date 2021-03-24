@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.dateTo5Bytes
-import com.kunzisoft.encrypt.stream.uIntTo4Bytes
-import com.kunzisoft.encrypt.stream.uShortTo2Bytes
-import com.kunzisoft.encrypt.stream.writeStringToStream
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.dateTo5Bytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uShortTo2Bytes
+import com.kunzisoft.keepass.utils.writeStringToStream
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import java.io.IOException

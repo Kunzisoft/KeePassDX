@@ -17,10 +17,8 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.stream
+package com.kunzisoft.keepass.utils
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream

@@ -21,7 +21,6 @@
 package com.kunzisoft.keepass.database.file.input
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.binary.LoadedKey
@@ -34,6 +33,7 @@ import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.*
 import java.io.*
 import java.security.DigestInputStream
 import java.security.MessageDigest

@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.stream.readBytes4ToUInt
-import com.kunzisoft.encrypt.stream.readBytesLength
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytesLength
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest

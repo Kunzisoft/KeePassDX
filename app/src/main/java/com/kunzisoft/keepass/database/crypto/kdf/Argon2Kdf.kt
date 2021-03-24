@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
-import com.kunzisoft.encrypt.stream.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*

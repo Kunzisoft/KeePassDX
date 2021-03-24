@@ -19,6 +19,10 @@
  */
 package com.kunzisoft.encrypt
 
+import org.bouncycastle.crypto.engines.ChaCha7539Engine
+import org.bouncycastle.crypto.engines.Salsa20Engine
+import org.bouncycastle.crypto.params.KeyParameter
+import org.bouncycastle.crypto.params.ParametersWithIV
 import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -52,5 +56,46 @@ object HashManager {
         }
         hash.update(data, offset, count)
         return hash.digest()
+    }
+
+    private val SALSA_IV = byteArrayOf(
+            0xE8.toByte(),
+            0x30,
+            0x09,
+            0x4B,
+            0x97.toByte(),
+            0x20,
+            0x5D,
+            0x2A)
+
+    fun getSalsa20(key: ByteArray): StreamCipher {
+        // Build stream cipher key
+        val key32 = hashSha256(key)
+
+        val keyParam = KeyParameter(key32)
+        val ivParam = ParametersWithIV(keyParam, SALSA_IV)
+
+        val cipher = Salsa20Engine()
+        cipher.init(true, ivParam)
+
+        return StreamCipher(cipher)
+    }
+
+    fun getChaCha20(key: ByteArray): StreamCipher {
+        // Build stream cipher key
+        val hash = hashSha512(key)
+        val key32 = ByteArray(32)
+        val iv = ByteArray(12)
+
+        System.arraycopy(hash, 0, key32, 0, 32)
+        System.arraycopy(hash, 32, iv, 0, 12)
+
+        val keyParam = KeyParameter(key32)
+        val ivParam = ParametersWithIV(keyParam, iv)
+
+        val cipher = ChaCha7539Engine()
+        cipher.init(true, ivParam)
+
+        return StreamCipher(cipher)
     }
 }

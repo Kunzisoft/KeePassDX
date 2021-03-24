@@ -23,7 +23,7 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.encrypt.stream.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine

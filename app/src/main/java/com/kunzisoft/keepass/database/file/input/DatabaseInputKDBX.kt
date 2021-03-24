@@ -21,10 +21,9 @@ package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
 import android.util.Log
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.*
+import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.Attachment
@@ -49,6 +48,7 @@ import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
@@ -213,7 +213,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             try {
-                randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+                randomStream = CrsAlgorithm.getCipher(header.innerRandomStream, header.innerRandomStreamKey)
             } catch (e: Exception) {
                 throw LoadDatabaseException(e)
             }

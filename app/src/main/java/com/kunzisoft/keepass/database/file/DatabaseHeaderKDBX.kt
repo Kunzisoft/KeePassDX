@@ -19,10 +19,8 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.encrypt.CrsAlgorithm
+import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
@@ -35,6 +33,7 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
+import com.kunzisoft.keepass.utils.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
