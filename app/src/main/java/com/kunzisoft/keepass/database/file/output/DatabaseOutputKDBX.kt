@@ -96,19 +96,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 attachStreamEncryptor(header, HmacBlockOutputStream(mOutputStream, mDatabaseKDBX.hmacKey!!))
             }
 
-            val xmlOutpuStream: OutputStream
+            val xmlOutputStream: OutputStream
             try {
-                xmlOutpuStream = when(mDatabaseKDBX.compressionAlgorithm) {
+                xmlOutputStream = when(mDatabaseKDBX.compressionAlgorithm) {
                     CompressionAlgorithm.GZip -> GZIPOutputStream(plainOutputStream)
                     else -> plainOutputStream
                 }
 
                 if (!isVersionBelow4) {
-                    outputInnerHeader(mDatabaseKDBX, header, xmlOutpuStream)
+                    outputInnerHeader(mDatabaseKDBX, header, xmlOutputStream)
                 }
 
-                outputDatabase(xmlOutpuStream)
-                xmlOutpuStream.close()
+                outputDatabase(xmlOutputStream)
+                xmlOutputStream.close()
             } catch (e: IllegalArgumentException) {
                 throw DatabaseOutputException(e)
             } catch (e: IllegalStateException) {
