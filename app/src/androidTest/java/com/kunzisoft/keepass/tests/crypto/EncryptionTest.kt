@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.tests.crypto
 
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
+import com.kunzisoft.encrypt.stream.readBytesLength
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
@@ -80,9 +80,8 @@ class EncryptionTest {
 
         val bis = ByteArrayInputStream(secrettext)
         val cis = CipherInputStream(bis, decrypt)
-        val lis = LittleEndianDataInputStream(cis)
 
-        val decrypttext = lis.readBytes(length)
+        val decrypttext = cis.readBytesLength(length)
 
         assertArrayEquals("Encryption and decryption failed", plaintext, decrypttext)
     }

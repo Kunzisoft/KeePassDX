@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.file
 import com.kunzisoft.encrypt.CrsAlgorithm
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
+import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
@@ -34,7 +34,8 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
-import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.stream.CopyInputStream
+import com.kunzisoft.keepass.stream.HmacBlockStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -151,23 +152,22 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)
         val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
-        val littleEndianDataInputStream = LittleEndianDataInputStream(digestInputStream)
 
-        val sig1 = littleEndianDataInputStream.readUInt()
-        val sig2 = littleEndianDataInputStream.readUInt()
+        val sig1 = digestInputStream.readBytes4ToUInt()
+        val sig2 = digestInputStream.readBytes4ToUInt()
 
         if (!matchesHeader(sig1, sig2)) {
             throw VersionDatabaseException()
         }
 
-        version = littleEndianDataInputStream.readUInt() // Erase previous value
+        version = digestInputStream.readBytes4ToUInt() // Erase previous value
         if (!validVersion(version)) {
             throw VersionDatabaseException()
         }
 
         var done = false
         while (!done) {
-            done = readHeaderField(littleEndianDataInputStream)
+            done = readHeaderField(digestInputStream)
         }
 
         val hash = messageDigest.digest()
@@ -175,13 +175,13 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     @Throws(IOException::class)
-    private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
+    private fun readHeaderField(dis: InputStream): Boolean {
         val fieldID = dis.read().toByte()
 
         val fieldSize: Int = if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
-            dis.readUShort()
+            dis.readBytes2ToUShort()
         } else {
-            dis.readUInt().toKotlinInt()
+            dis.readBytes4ToUInt().toKotlinInt()
         }
 
         var fieldData: ByteArray? = null
@@ -250,9 +250,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     private fun setTransformRound(roundsByte: ByteArray) {
         assignAesKdfEngineIfNotExists()
-        val rounds = bytes64ToLong(roundsByte)
+        val rounds = bytes64ToULong(roundsByte)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
-        databaseV4.numberKeyEncryptionRounds = rounds
+        databaseV4.numberKeyEncryptionRounds = rounds.toKotlinLong()
     }
 
     @Throws(IOException::class)
@@ -327,7 +327,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX_VALUE)
+            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX)
 
             val hmac: Mac
             try {

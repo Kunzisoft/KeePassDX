@@ -19,11 +19,10 @@
  */
 package com.kunzisoft.keepass.tests.utils
 
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.stream.*
+import com.kunzisoft.keepass.database.element.DateInstant
 import junit.framework.TestCase
 import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream
@@ -55,7 +54,7 @@ class ValuesTest : TestCase() {
         val orig = ByteArray(8)
         setArray(orig, value, 8)
 
-        assertArrayEquals(orig, longTo8Bytes(bytes64ToLong(orig)))
+        assertArrayEquals(orig, uLongTo8Bytes(bytes64ToULong(orig)))
     }
 
     fun testReadWriteIntZero() {
@@ -134,7 +133,7 @@ class ValuesTest : TestCase() {
     }
 
     private fun testReadWriteByte(value: Byte) {
-        val dest: Byte = UnsignedInt(UnsignedInt.fromKotlinByte(value)).toKotlinByte()
+        val dest: Byte = UnsignedInt(value.toInt() and 0xFF).toKotlinByte()
         assert(value == dest)
     }
 
@@ -145,13 +144,11 @@ class ValuesTest : TestCase() {
         expected.set(2008, 1, 2, 3, 4, 5)
 
         val actual = Calendar.getInstance()
-        dateTo5Bytes(expected.time, cal)?.let { buf ->
-            actual.time = bytes5ToDate(buf, cal).date
-        }
+        actual.time = DateInstant(bytes5ToDate(dateTo5Bytes(expected.time, cal), cal)).date
 
         val jDate = DateInstant(System.currentTimeMillis())
         val intermediate = DateInstant(jDate)
-        val cDate = bytes5ToDate(dateTo5Bytes(intermediate.date)!!)
+        val cDate = DateInstant(bytes5ToDate(dateTo5Bytes(intermediate.date)))
 
         assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR))
         assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH))
@@ -184,12 +181,10 @@ class ValuesTest : TestCase() {
             ulongBytes[i] = -1
         }
 
-        val bos = ByteArrayOutputStream()
-        val leos = LittleEndianDataOutputStream(bos)
-        leos.writeLong(UnsignedLong.MAX_VALUE)
-        leos.close()
-
-        val uLongMax = bos.toByteArray()
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        byteArrayOutputStream.write8BytesLong(UnsignedLong.MAX)
+        byteArrayOutputStream.close()
+        val uLongMax = byteArrayOutputStream.toByteArray()
 
         assertArrayEquals(ulongBytes, uLongMax)
     }

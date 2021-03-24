@@ -19,12 +19,11 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
-import com.kunzisoft.encrypt.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset
@@ -58,15 +57,15 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
             // Title
             //byte[] title = mEntry.title.getBytes("UTF-8");
             mOutputStream.write(TITLE_FIELD_TYPE)
-            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.title)
+            writeStringToStream(mOutputStream, mEntry.title)
 
             // URL
             mOutputStream.write(URL_FIELD_TYPE)
-            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.url)
+            writeStringToStream(mOutputStream, mEntry.url)
 
             // Username
             mOutputStream.write(USERNAME_FIELD_TYPE)
-            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.username)
+            writeStringToStream(mOutputStream, mEntry.username)
 
             // Password
             mOutputStream.write(PASSWORD_FIELD_TYPE)
@@ -74,7 +73,7 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
 
             // Additional
             mOutputStream.write(ADDITIONAL_FIELD_TYPE)
-            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.notes)
+            writeStringToStream(mOutputStream, mEntry.notes)
 
             // Create date
             writeDate(CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime.date))
@@ -90,7 +89,7 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
 
             // Binary description
             mOutputStream.write(BINARY_DESC_FIELD_TYPE)
-            StringDatabaseKDBUtils.writeStringToStream(mOutputStream, mEntry.binaryDescription)
+            writeStringToStream(mOutputStream, mEntry.binaryDescription)
 
             // Binary
             mOutputStream.write(BINARY_DATA_FIELD_TYPE)

@@ -20,24 +20,23 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.uIntTo4Bytes
+import com.kunzisoft.encrypt.stream.uLongTo8Bytes
 import java.io.IOException
 import java.io.OutputStream
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class HmacBlockOutputStream(outputStream: OutputStream,
+class HmacBlockOutputStream(private val baseStream: OutputStream,
                             private val key: ByteArray)
     : OutputStream() {
 
-    private val baseStream: LittleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
-
     private val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
     private var bufferPos = 0
-    private var blockIndex: Long = 0
+    private var blockIndex = UnsignedLong(0L)
 
     @Throws(IOException::class)
     override fun close() {
@@ -88,7 +87,7 @@ class HmacBlockOutputStream(outputStream: OutputStream,
 
     @Throws(IOException::class)
     private fun writeSafeBlock() {
-        val bufBlockIndex = longTo8Bytes(blockIndex)
+        val bufBlockIndex = uLongTo8Bytes(blockIndex)
         val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
         val blockHmac: ByteArray
@@ -121,7 +120,7 @@ class HmacBlockOutputStream(outputStream: OutputStream,
             baseStream.write(buffer, 0, bufferPos)
         }
 
-        blockIndex++
+        blockIndex.plusOne()
         bufferPos = 0
     }
 }

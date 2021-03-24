@@ -19,8 +19,10 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.bytes4ToUInt
+import com.kunzisoft.encrypt.stream.readBytesLength
+import com.kunzisoft.encrypt.stream.uLongTo8Bytes
 import java.io.IOException
 import java.io.InputStream
 import java.security.InvalidKeyException
@@ -29,12 +31,11 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
+class HmacBlockInputStream(private val baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
 
-    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(baseStream)
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
-    private var blockIndex: Long = 0
+    private var blockIndex = UnsignedLong(0L)
     private var endOfStream = false
 
     @Throws(IOException::class)
@@ -45,7 +46,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             if (!readSafeBlock()) return -1
         }
 
-        val output = UnsignedInt.fromKotlinByte(buffer[bufferPos]).toKotlinInt()
+        val output = (buffer[bufferPos]).toInt() and 0xFF
         bufferPos++
 
         return output
@@ -68,8 +69,6 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             }
 
             val copy = (buffer.size - bufferPos).coerceAtMost(remaining)
-            assert(copy > 0)
-
             System.arraycopy(buffer, bufferPos, outBuffer, offset, copy)
             offset += copy
             bufferPos += copy
@@ -89,20 +88,20 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
     private fun readSafeBlock(): Boolean {
         if (endOfStream) return false
 
-        val storedHmac = baseStream.readBytes(32)
+        val storedHmac = baseStream.readBytesLength(32)
         if (storedHmac.size != 32) {
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = longTo8Bytes(blockIndex)
-        val pbBlockSize = baseStream.readBytes(4)
+        val pbBlockIndex = uLongTo8Bytes(blockIndex)
+        val pbBlockSize = baseStream.readBytesLength(4)
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
         val blockSize = bytes4ToUInt(pbBlockSize)
         bufferPos = 0
 
-        buffer = baseStream.readBytes(blockSize.toKotlinInt())
+        buffer = baseStream.readBytesLength(blockSize.toKotlinInt())
 
         if (verify) {
             val cmpHmac: ByteArray
@@ -128,13 +127,13 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             cmpHmac = hmac.doFinal()
             Arrays.fill(blockKey, 0.toByte())
 
-            if (!Arrays.equals(cmpHmac, storedHmac)) {
+            if (!cmpHmac.contentEquals(storedHmac)) {
                 throw IOException("Invalid Hmac")
             }
 
         }
 
-        blockIndex++
+        blockIndex.plusOne()
 
         if (blockSize.toKotlinLong() == 0L) {
             endOfStream = true

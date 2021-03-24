@@ -19,10 +19,12 @@
  */
 package com.kunzisoft.encrypt
 
-class UnsignedLong(private var unsignedValue: Long) {
+class UnsignedLong(value: Long) {
+
+    private var unsignedValue: Long = value
 
     /**
-     * Convert an unsigned Integer to Long
+     * Convert an unsigned Long to Kotlin Long
      */
     fun toKotlinLong(): Long {
         return unsignedValue
@@ -43,7 +45,15 @@ class UnsignedLong(private var unsignedValue: Long) {
         return unsignedValue.hashCode()
     }
 
+    fun plusOne() {
+        if (unsignedValue >= 0L)
+            unsignedValue++
+        else
+            unsignedValue--
+    }
+
     companion object {
         const val MAX_VALUE: Long = -1
+        val MAX = UnsignedLong(MAX_VALUE)
     }
 }

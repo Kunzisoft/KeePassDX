@@ -19,15 +19,16 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.NullOutputStream
+import com.kunzisoft.encrypt.stream.write8BytesLong
 import java.io.IOException
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object HmacBlockStream {
-    fun getHmacKey64(key: ByteArray, blockIndex: Long): ByteArray {
+    fun getHmacKey64(key: ByteArray, blockIndex: UnsignedLong): ByteArray {
         val hash: MessageDigest
         try {
             hash = MessageDigest.getInstance("SHA-512")
@@ -35,19 +36,14 @@ object HmacBlockStream {
             throw RuntimeException(e)
         }
 
-        val nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, hash)
-        val leos = LittleEndianDataOutputStream(dos)
-
+        val digestOutputStream = DigestOutputStream(NullOutputStream(), hash)
         try {
-            leos.writeLong(blockIndex)
-            leos.write(key)
-            leos.close()
+            digestOutputStream.write8BytesLong(blockIndex)
+            digestOutputStream.write(key)
+            digestOutputStream.close()
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-
-        //assert(hashKey.length == 64);
         return hash.digest()
     }
 }

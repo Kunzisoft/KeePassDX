@@ -24,9 +24,7 @@ import android.util.Log
 import android.util.Xml
 import com.kunzisoft.encrypt.CrsAlgorithm
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
-import com.kunzisoft.encrypt.stream.StreamCipher
-import com.kunzisoft.encrypt.stream.StreamCipherFactory
+import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -46,7 +44,8 @@ import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
-import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.stream.HashedBlockOutputStream
+import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
@@ -83,8 +82,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
             header = outputHeader(mOutputStream)
 
-            val osPlain: OutputStream
-            osPlain = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+            val osPlain: OutputStream = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
                 val cos = attachStreamEncryptor(header!!, mOutputStream)
                 cos.write(header!!.streamStartBytes)
 
@@ -123,18 +121,16 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IOException::class)
     private fun outputInnerHeader(database: DatabaseKDBX,
                                   header: DatabaseHeaderKDBX,
-                                  outputStream: OutputStream) {
-        val dataOutputStream = LittleEndianDataOutputStream(outputStream)
-
+                                  dataOutputStream: OutputStream) {
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID)
-        dataOutputStream.writeInt(4)
+        dataOutputStream.write4BytesUInt(UnsignedInt(4))
         if (header.innerRandomStream == null)
             throw IOException("Can't write innerRandomStream")
-        dataOutputStream.writeUInt(header.innerRandomStream!!.id)
+        dataOutputStream.write4BytesUInt(header.innerRandomStream!!.id)
 
         val streamKeySize = header.innerRandomStreamKey.size
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey)
-        dataOutputStream.writeInt(streamKeySize)
+        dataOutputStream.write4BytesUInt(UnsignedInt(streamKeySize))
         dataOutputStream.write(header.innerRandomStreamKey)
 
         val binaryCache = database.binaryCache
@@ -144,7 +140,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
+            dataOutputStream.write4BytesUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (binary.isProtected) {
@@ -160,7 +156,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
 
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader)
-        dataOutputStream.writeInt(0)
+        dataOutputStream.write4BytesUInt(UnsignedInt(0))
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)

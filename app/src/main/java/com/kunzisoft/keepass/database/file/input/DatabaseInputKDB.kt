@@ -20,7 +20,9 @@
 
 package com.kunzisoft.keepass.database.file.input
 
+import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -30,7 +32,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.stream.BetterCipherInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.*
 import java.security.DigestInputStream
@@ -207,7 +209,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0003 -> {
                         newGroup?.let { group ->
-                            group.creationTime = cipherInputStream.readBytes5ToDate()
+                            group.creationTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         } ?:
                         newEntry?.let { entry ->
                             var iconId = cipherInputStream.readBytes4ToUInt().toKotlinInt()
@@ -220,7 +222,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0004 -> {
                         newGroup?.let { group ->
-                            group.lastModificationTime = cipherInputStream.readBytes5ToDate()
+                            group.lastModificationTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         } ?:
                         newEntry?.let { entry ->
                             entry.title = cipherInputStream.readBytesToString(fieldSize)
@@ -228,7 +230,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0005 -> {
                         newGroup?.let { group ->
-                            group.lastAccessTime = cipherInputStream.readBytes5ToDate()
+                            group.lastAccessTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         } ?:
                         newEntry?.let { entry ->
                             entry.url = cipherInputStream.readBytesToString(fieldSize)
@@ -236,7 +238,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0006 -> {
                         newGroup?.let { group ->
-                            group.expiryTime = cipherInputStream.readBytes5ToDate()
+                            group.expiryTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         } ?:
                         newEntry?.let { entry ->
                             entry.username = cipherInputStream.readBytesToString(fieldSize)
@@ -263,22 +265,22 @@ class DatabaseInputKDB(cacheDirectory: File,
                             group.groupFlags = cipherInputStream.readBytes4ToUInt().toKotlinInt()
                         } ?:
                         newEntry?.let { entry ->
-                            entry.creationTime = cipherInputStream.readBytes5ToDate()
+                            entry.creationTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         }
                     }
                     0x000A -> {
                         newEntry?.let { entry ->
-                            entry.lastModificationTime = cipherInputStream.readBytes5ToDate()
+                            entry.lastModificationTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         }
                     }
                     0x000B -> {
                         newEntry?.let { entry ->
-                            entry.lastAccessTime = cipherInputStream.readBytes5ToDate()
+                            entry.lastAccessTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         }
                     }
                     0x000C -> {
                         newEntry?.let { entry ->
-                            entry.expiryTime = cipherInputStream.readBytes5ToDate()
+                            entry.expiryTime = DateInstant(cipherInputStream.readBytes5ToDate())
                         }
                     }
                     0x000D -> {

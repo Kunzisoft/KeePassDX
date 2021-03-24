@@ -20,8 +20,9 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
 import com.kunzisoft.encrypt.stream.NullOutputStream
+import com.kunzisoft.encrypt.stream.write2BytesUShort
+import com.kunzisoft.encrypt.stream.write4BytesUInt
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -36,7 +37,6 @@ import java.security.*
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
-import javax.crypto.NoSuchPaddingException
 
 class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
                         outputStream: OutputStream)
@@ -187,14 +187,13 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     @Suppress("CAST_NEVER_SUCCEEDS")
     @Throws(DatabaseOutputException::class)
     fun outputPlanGroupAndEntries(outputStream: OutputStream) {
-        val littleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
 
         // useHeaderHash
         if (headerHashBlock != null) {
             try {
-                littleEndianDataOutputStream.writeUShort(0x0000)
-                littleEndianDataOutputStream.writeInt(headerHashBlock!!.size)
-                littleEndianDataOutputStream.write(headerHashBlock!!)
+                outputStream.write2BytesUShort(0x0000)
+                outputStream.write4BytesUInt(UnsignedInt(headerHashBlock!!.size))
+                outputStream.write(headerHashBlock!!)
             } catch (e: IOException) {
                 throw DatabaseOutputException("Failed to output header hash.", e)
             }
@@ -241,24 +240,22 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     @Throws(IOException::class)
-    private fun writeExtData(headerDigest: ByteArray, os: OutputStream) {
-        val los = LittleEndianDataOutputStream(os)
-
-        writeExtDataField(los, 0x0001, headerDigest, headerDigest.size)
+    private fun writeExtData(headerDigest: ByteArray, outputStream: OutputStream) {
+        writeExtDataField(outputStream, 0x0001, headerDigest, headerDigest.size)
         val headerRandom = ByteArray(32)
         val rand = SecureRandom()
         rand.nextBytes(headerRandom)
-        writeExtDataField(los, 0x0002, headerRandom, headerRandom.size)
-        writeExtDataField(los, 0xFFFF, null, 0)
+        writeExtDataField(outputStream, 0x0002, headerRandom, headerRandom.size)
+        writeExtDataField(outputStream, 0xFFFF, null, 0)
 
     }
 
     @Throws(IOException::class)
-    private fun writeExtDataField(los: LittleEndianDataOutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
-        los.writeUShort(fieldType)
-        los.writeInt(fieldSize)
+    private fun writeExtDataField(outputStream: OutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
+        outputStream.write2BytesUShort(fieldType)
+        outputStream.write4BytesUInt(UnsignedInt(fieldSize))
         if (data != null) {
-            los.write(data)
+            outputStream.write(data)
         }
     }
 }

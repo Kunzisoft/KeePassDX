@@ -20,13 +20,9 @@
 package com.kunzisoft.keepass.database.crypto
 
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
-import com.kunzisoft.encrypt.stream.bytes4ToUInt
-import com.kunzisoft.encrypt.stream.bytes64ToLong
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.IOException
+import com.kunzisoft.encrypt.UnsignedLong
+import com.kunzisoft.encrypt.stream.*
+import java.io.*
 import java.nio.charset.Charset
 import java.util.*
 
@@ -58,12 +54,12 @@ open class VariantDictionary {
         return dict[name]?.value as UnsignedInt?
     }
 
-    fun setUInt64(name: String, value: Long) {
+    fun setUInt64(name: String, value: UnsignedLong) {
         putType(VdType.UInt64, name, value)
     }
 
-    fun getUInt64(name: String): Long? {
-        return dict[name]?.value as Long?
+    fun getUInt64(name: String): UnsignedLong? {
+        return dict[name]?.value as UnsignedLong?
     }
 
     fun setBool(name: String, value: Boolean) {
@@ -118,22 +114,21 @@ open class VariantDictionary {
 
         @Throws(IOException::class)
         fun deserialize(data: ByteArray): VariantDictionary {
-            val inputStream = LittleEndianDataInputStream(ByteArrayInputStream(data))
+            val inputStream = ByteArrayInputStream(data)
             return deserialize(inputStream)
         }
 
         @Throws(IOException::class)
         fun serialize(variantDictionary: VariantDictionary): ByteArray {
             val byteArrayOutputStream = ByteArrayOutputStream()
-            val outputStream = LittleEndianDataOutputStream(byteArrayOutputStream)
-            serialize(variantDictionary, outputStream)
+            serialize(variantDictionary, byteArrayOutputStream)
             return byteArrayOutputStream.toByteArray()
         }
 
         @Throws(IOException::class)
-        fun deserialize(inputStream: LittleEndianDataInputStream): VariantDictionary {
+        fun deserialize(inputStream: InputStream): VariantDictionary {
             val dictionary = VariantDictionary()
-            val version = inputStream.readUShort()
+            val version = inputStream.readBytes2ToUShort()
             if (version and VdmCritical > VdVersion and VdmCritical) {
                 throw IOException("Invalid format")
             }
@@ -146,14 +141,14 @@ open class VariantDictionary {
                 if (bType == VdType.None) {
                     break
                 }
-                val nameLen = inputStream.readUInt().toKotlinInt()
-                val nameBuf = inputStream.readBytes(nameLen)
+                val nameLen = inputStream.readBytes4ToUInt().toKotlinInt()
+                val nameBuf = inputStream.readBytesLength(nameLen)
                 if (nameLen != nameBuf.size) {
                     throw IOException("Invalid format")
                 }
                 val name = String(nameBuf, UTF8Charset)
-                val valueLen = inputStream.readUInt().toKotlinInt()
-                val valueBuf = inputStream.readBytes(valueLen)
+                val valueLen = inputStream.readBytes4ToUInt().toKotlinInt()
+                val valueBuf = inputStream.readBytesLength(valueLen)
                 if (valueLen != valueBuf.size) {
                     throw IOException("Invalid format")
                 }
@@ -162,7 +157,7 @@ open class VariantDictionary {
                         dictionary.setUInt32(name, bytes4ToUInt(valueBuf))
                     }
                     VdType.UInt64 -> if (valueLen == 8) {
-                        dictionary.setUInt64(name, bytes64ToLong(valueBuf))
+                        dictionary.setUInt64(name, bytes64ToULong(valueBuf))
                     }
                     VdType.Bool -> if (valueLen == 1) {
                         dictionary.setBool(name, valueBuf[0] != 0.toByte())
@@ -184,48 +179,47 @@ open class VariantDictionary {
 
         @Throws(IOException::class)
         fun serialize(variantDictionary: VariantDictionary,
-                      outputStream: LittleEndianDataOutputStream?) {
+                      outputStream: OutputStream?) {
             if (outputStream == null) {
                 return
             }
-            outputStream.writeUShort(VdVersion)
+            outputStream.write2BytesUShort(VdVersion)
             for ((name, vd) in variantDictionary.dict) {
                 val nameBuf = name.toByteArray(UTF8Charset)
-                outputStream.write(vd.type.toInt())
-                outputStream.writeInt(nameBuf.size)
+                outputStream.writeByte(vd.type)
+                outputStream.write4BytesUInt(UnsignedInt(nameBuf.size))
                 outputStream.write(nameBuf)
                 var buf: ByteArray
                 when (vd.type) {
                     VdType.UInt32 -> {
-                        outputStream.writeInt(4)
-                        outputStream.writeUInt((vd.value as UnsignedInt))
+                        outputStream.write4BytesUInt(UnsignedInt(4))
+                        outputStream.write4BytesUInt(vd.value as UnsignedInt)
                     }
                     VdType.UInt64 -> {
-                        outputStream.writeInt(8)
-                        outputStream.writeLong(vd.value as Long)
+                        outputStream.write4BytesUInt(UnsignedInt(8))
+                        outputStream.write8BytesLong(vd.value as UnsignedLong)
                     }
                     VdType.Bool -> {
-                        outputStream.writeInt(1)
-                        val bool = if (vd.value as Boolean) 1.toByte() else 0.toByte()
-                        outputStream.write(bool.toInt())
+                        outputStream.write4BytesUInt(UnsignedInt(1))
+                        outputStream.writeBooleanByte(vd.value as Boolean)
                     }
                     VdType.Int32 -> {
-                        outputStream.writeInt(4)
-                        outputStream.writeInt(vd.value as Int)
+                        outputStream.write4BytesUInt(UnsignedInt(4))
+                        outputStream.write4BytesUInt(UnsignedInt(vd.value as Int))
                     }
                     VdType.Int64 -> {
-                        outputStream.writeInt(8)
-                        outputStream.writeLong(vd.value as Long)
+                        outputStream.write4BytesUInt(UnsignedInt(8))
+                        outputStream.write8BytesLong(vd.value as Long)
                     }
                     VdType.String -> {
                         val value = vd.value as String
                         buf = value.toByteArray(UTF8Charset)
-                        outputStream.writeInt(buf.size)
+                        outputStream.write4BytesUInt(UnsignedInt(buf.size))
                         outputStream.write(buf)
                     }
                     VdType.ByteArray -> {
                         buf = vd.value as ByteArray
-                        outputStream.writeInt(buf.size)
+                        outputStream.write4BytesUInt(UnsignedInt(buf.size))
                         outputStream.write(buf)
                     }
                     else -> {

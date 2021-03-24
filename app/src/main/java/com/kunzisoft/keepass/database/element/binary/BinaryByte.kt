@@ -24,8 +24,8 @@ import android.os.Parcelable
 import android.util.Base64
 import android.util.Base64InputStream
 import android.util.Base64OutputStream
+import com.kunzisoft.encrypt.stream.readAllBytes
 import com.kunzisoft.keepass.database.element.binary.BinaryCache.Companion.UNKNOWN
-import com.kunzisoft.keepass.stream.readAllBytes
 import java.io.*
 import java.util.zip.GZIPOutputStream
 

@@ -23,9 +23,7 @@ import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.LittleEndianDataInputStream
-import com.kunzisoft.encrypt.stream.StreamCipher
-import com.kunzisoft.encrypt.stream.StreamCipherFactory
+import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.Attachment
@@ -46,7 +44,8 @@ import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
-import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.stream.HashedBlockInputStream
+import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -156,14 +155,13 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 throw InvalidAlgorithmDatabaseException(e)
             }
 
-            val isPlain: InputStream
+            val plainInputStream: InputStream
             if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
-                val decrypted = CipherInputStream(databaseInputStream, cipher)
-                val dataDecrypted = LittleEndianDataInputStream(decrypted)
+                val dataDecrypted = CipherInputStream(databaseInputStream, cipher)
                 val storedStartBytes: ByteArray?
                 try {
-                    storedStartBytes = dataDecrypted.readBytes(32)
+                    storedStartBytes = dataDecrypted.readBytesLength(32)
                     if (storedStartBytes.size != 32) {
                         throw InvalidCredentialsDatabaseException()
                     }
@@ -175,33 +173,32 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     throw InvalidCredentialsDatabaseException()
                 }
 
-                isPlain = HashedBlockInputStream(dataDecrypted)
+                plainInputStream = HashedBlockInputStream(dataDecrypted)
             } else { // KDBX 4
-                val isData = LittleEndianDataInputStream(databaseInputStream)
-                val storedHash = isData.readBytes(32)
-                if (!Arrays.equals(storedHash, hashOfHeader)) {
+                val storedHash = databaseInputStream.readBytesLength(32)
+                if (!storedHash.contentEquals(hashOfHeader)) {
                     throw InvalidCredentialsDatabaseException()
                 }
 
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
                 val headerHmac = DatabaseHeaderKDBX.computeHeaderHmac(pbHeader, hmacKey)
-                val storedHmac = isData.readBytes(32)
+                val storedHmac = databaseInputStream.readBytesLength(32)
                 if (storedHmac.size != 32) {
                     throw InvalidCredentialsDatabaseException()
                 }
                 // Mac doesn't match
-                if (!Arrays.equals(headerHmac, storedHmac)) {
+                if (!headerHmac.contentEquals(storedHmac)) {
                     throw InvalidCredentialsDatabaseException()
                 }
 
-                val hmIs = HmacBlockInputStream(isData, true, hmacKey)
+                val hmIs = HmacBlockInputStream(databaseInputStream, true, hmacKey)
 
-                isPlain = CipherInputStream(hmIs, cipher)
+                plainInputStream = CipherInputStream(hmIs, cipher)
             }
 
             val inputStreamXml: InputStream = when (mDatabase.compressionAlgorithm) {
-                CompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
-                else -> isPlain
+                CompressionAlgorithm.GZip -> GZIPInputStream(plainInputStream)
+                else -> plainInputStream
             }
 
             if (mDatabase.kdbxVersion.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
@@ -214,7 +211,13 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 throw LoadDatabaseException(e)
             }
 
-            readDocumentStreamed(createPullParser(inputStreamXml))
+            val xmlPullParserFactory = XmlPullParserFactory.newInstance().apply {
+                isNamespaceAware = false
+            }
+            val xmlPullParser = xmlPullParserFactory.newPullParser().apply {
+                setInput(inputStreamXml, null)
+            }
+            readDocumentStreamed(xmlPullParser)
 
             stopContentTimer()
 
@@ -237,23 +240,21 @@ class DatabaseInputKDBX(cacheDirectory: File,
     }
 
     @Throws(IOException::class)
-    private fun readInnerHeader(inputStream: InputStream,
+    private fun readInnerHeader(dataInputStream: InputStream,
                                 header: DatabaseHeaderKDBX) {
-
-        val dataInputStream = LittleEndianDataInputStream(inputStream)
 
         var readStream = true
         while (readStream) {
             val fieldId = dataInputStream.read().toByte()
 
-            val size = dataInputStream.readUInt().toKotlinInt()
+            val size = dataInputStream.readBytes4ToUInt().toKotlinInt()
             if (size < 0) throw IOException("Corrupted file")
 
             var data = ByteArray(0)
             try {
                 if (size > 0) {
                     if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
-                        data = dataInputStream.readBytes(size)
+                        data = dataInputStream.readBytesLength(size)
                     }
                 }
             } catch (e: Exception) {
@@ -1081,17 +1082,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
         private val TAG = DatabaseInputKDBX::class.java.name
 
         private val DEFAULT_HISTORY_DAYS = UnsignedInt(365)
-
-        @Throws(XmlPullParserException::class)
-        private fun createPullParser(readerStream: InputStream): XmlPullParser {
-            val xmlPullParserFactory = XmlPullParserFactory.newInstance()
-            xmlPullParserFactory.isNamespaceAware = false
-
-            val xpp = xmlPullParserFactory.newPullParser()
-            xpp.setInput(readerStream, null)
-
-            return xpp
-        }
     }
 
 }

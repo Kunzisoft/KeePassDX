@@ -20,7 +20,8 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.LittleEndianDataOutputStream
+import com.kunzisoft.encrypt.stream.write4BytesUInt
+import com.kunzisoft.encrypt.stream.write8BytesLong
 import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest
@@ -29,7 +30,7 @@ import kotlin.math.min
 
 class HashedBlockOutputStream : OutputStream {
 
-    private lateinit var baseStream: LittleEndianDataOutputStream
+    private lateinit var baseStream: OutputStream
     private lateinit var buffer: ByteArray
     private var bufferPos = 0
     private var bufferIndex: Long = 0
@@ -48,7 +49,7 @@ class HashedBlockOutputStream : OutputStream {
     }
 
     private fun init(os: OutputStream, bufferSize: Int) {
-        baseStream = LittleEndianDataOutputStream(os)
+        baseStream = os
         buffer = ByteArray(bufferSize)
     }
 
@@ -100,7 +101,7 @@ class HashedBlockOutputStream : OutputStream {
 
     @Throws(IOException::class)
     private fun writeHashedBlock() {
-        baseStream.writeUInt(UnsignedInt.fromKotlinLong(bufferIndex))
+        baseStream.write4BytesUInt(UnsignedInt.fromKotlinLong(bufferIndex))
         bufferIndex++
 
         if (bufferPos > 0) {
@@ -111,20 +112,19 @@ class HashedBlockOutputStream : OutputStream {
                 throw IOException("SHA-256 not implemented here.")
             }
 
-            val hash: ByteArray
             messageDigest.update(buffer, 0, bufferPos)
-            hash = messageDigest.digest()
+            val hash: ByteArray = messageDigest.digest()
             baseStream.write(hash)
 
         } else {
             // Write 32-bits of zeros
-            baseStream.writeLong(0L)
-            baseStream.writeLong(0L)
-            baseStream.writeLong(0L)
-            baseStream.writeLong(0L)
+            baseStream.write8BytesLong(0L)
+            baseStream.write8BytesLong(0L)
+            baseStream.write8BytesLong(0L)
+            baseStream.write8BytesLong(0L)
         }
 
-        baseStream.writeInt(bufferPos)
+        baseStream.write4BytesUInt(UnsignedInt(bufferPos))
 
         if (bufferPos > 0) {
             baseStream.write(buffer, 0, bufferPos)
