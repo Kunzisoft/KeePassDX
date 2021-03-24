@@ -36,12 +36,12 @@ class EncryptionTest {
     @Test
     fun testCipherFactory() {
         val key = ByteArray(32)
+        rand.nextBytes(key)
+
         val iv = ByteArray(16)
+        rand.nextBytes(iv)
 
         val plaintext = ByteArray(1024)
-
-        rand.nextBytes(key)
-        rand.nextBytes(iv)
         rand.nextBytes(plaintext)
 
         val aes = EncryptionAlgorithm.AESRijndael.cipherEngine
@@ -59,12 +59,12 @@ class EncryptionTest {
         val length = 1024
 
         val key = ByteArray(32)
+        rand.nextBytes(key)
+
         val iv = ByteArray(16)
+        rand.nextBytes(iv)
 
         val plaintext = ByteArray(length)
-
-        rand.nextBytes(key)
-        rand.nextBytes(iv)
         rand.nextBytes(plaintext)
 
         val aes = EncryptionAlgorithm.AESRijndael.cipherEngine

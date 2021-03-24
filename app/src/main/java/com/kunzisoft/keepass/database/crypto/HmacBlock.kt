@@ -20,10 +20,8 @@
 package com.kunzisoft.keepass.database.crypto
 
 import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.NullOutputStream
-import com.kunzisoft.encrypt.stream.write8BytesLong
+import com.kunzisoft.encrypt.stream.uLongTo8Bytes
 import java.io.IOException
-import java.security.DigestOutputStream
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -53,15 +51,8 @@ object HmacBlock {
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
         }
-
-        val digestOutputStream = DigestOutputStream(NullOutputStream(), hash)
-        try {
-            digestOutputStream.write8BytesLong(blockIndex)
-            digestOutputStream.write(key)
-            digestOutputStream.close()
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
+        hash.update(uLongTo8Bytes(blockIndex))
+        hash.update(key)
         return hash.digest()
     }
 }

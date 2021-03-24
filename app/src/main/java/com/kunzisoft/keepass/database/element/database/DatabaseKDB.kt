@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
-import com.kunzisoft.encrypt.stream.NullOutputStream
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -33,7 +32,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
 import java.io.InputStream
-import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -153,12 +151,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             throw IOException("SHA-256 not implemented here.")
         }
 
-        val nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, messageDigest)
-
         // Encrypt the master key a few times to make brute-force key-search harder
-        dos.write(masterSeed)
-        dos.write(AESKeyTransformerFactory.transformMasterKey(masterSeed2, masterKey, numRounds) ?: ByteArray(0))
+        messageDigest.update(masterSeed)
+        messageDigest.update(AESKeyTransformerFactory.transformMasterKey(masterSeed2, masterKey, numRounds) ?: ByteArray(0))
 
         finalKey = messageDigest.digest()
     }

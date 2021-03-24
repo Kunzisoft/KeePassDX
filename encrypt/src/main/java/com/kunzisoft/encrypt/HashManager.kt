@@ -19,9 +19,6 @@
  */
 package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.stream.NullOutputStream
-import java.io.IOException
-import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -42,17 +39,7 @@ object HashManager {
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
         }
-
-        val nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, hash)
-
-        try {
-            dos.write(data, offset, count)
-            dos.close()
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
-
+        hash.update(data, offset, count)
         return hash.digest()
     }
 }

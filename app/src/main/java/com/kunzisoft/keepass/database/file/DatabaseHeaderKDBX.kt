@@ -21,10 +21,8 @@ package com.kunzisoft.keepass.database.file
 
 import com.kunzisoft.encrypt.CrsAlgorithm
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -42,7 +40,6 @@ import java.io.InputStream
 import java.security.DigestInputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import javax.crypto.Mac
 
 class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader() {
     var innerRandomStreamKey: ByteArray = ByteArray(32)
@@ -321,13 +318,6 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
             return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
-        }
-
-        @Throws(IOException::class)
-        fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlock.getHmacKey64(key, UnsignedLong.MAX)
-            val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
-            return hmac.doFinal(header)
         }
     }
 }

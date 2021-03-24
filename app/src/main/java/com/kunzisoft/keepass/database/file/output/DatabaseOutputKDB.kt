@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.UnsignedInt
-import com.kunzisoft.encrypt.stream.NullOutputStream
 import com.kunzisoft.encrypt.stream.write2BytesUShort
 import com.kunzisoft.encrypt.stream.write4BytesUInt
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -138,10 +137,8 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
             throw DatabaseOutputException("SHA-256 not implemented here.", e)
         }
 
-        var nos = NullOutputStream()
-        val headerDos = DigestOutputStream(nos, headerDigest)
-
         // Output header for the purpose of calculating the header checksum
+        val headerDos = DigestOutputStream(NullOutputStream(), headerDigest)
         var pho = DatabaseHeaderOutputKDB(header, headerDos)
         try {
             pho.outputStart()
@@ -155,8 +152,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         headerHashBlock = getHeaderHashBuffer(headerHash)
 
         // Output database for the purpose of calculating the content checksum
-        nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, messageDigest)
+        val dos = DigestOutputStream(NullOutputStream(), messageDigest)
         val bos = BufferedOutputStream(dos)
         try {
             outputPlanGroupAndEntries(bos)
@@ -184,7 +180,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         return header
     }
 
-    @Suppress("CAST_NEVER_SUCCEEDS")
+    class NullOutputStream : OutputStream() {
+        override fun write(oneByte: Int) {}
+    }
+
     @Throws(DatabaseOutputException::class)
     fun outputPlanGroupAndEntries(outputStream: OutputStream) {
 
