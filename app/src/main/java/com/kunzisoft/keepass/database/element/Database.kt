@@ -238,9 +238,6 @@ class Database {
     val allowNoMasterKey: Boolean
         get() = mDatabaseKDBX != null
 
-    val allowEncryptionAlgorithmModification: Boolean
-        get() = availableEncryptionAlgorithms.size > 1
-
     fun getEncryptionAlgorithmName(): String {
         return mDatabaseKDB?.encryptionAlgorithm?.toString()
                 ?: mDatabaseKDBX?.encryptionAlgorithm?.toString()

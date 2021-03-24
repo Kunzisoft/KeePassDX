@@ -58,15 +58,13 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
 
         if (positiveResult) {
             database?.let { database ->
-                if (database.allowEncryptionAlgorithmModification) {
-                    if (algorithmSelected != null) {
-                        val newAlgorithm = algorithmSelected
-                        val oldAlgorithm = database.encryptionAlgorithm
-                        database.encryptionAlgorithm = newAlgorithm
+                if (algorithmSelected != null) {
+                    val newAlgorithm = algorithmSelected
+                    val oldAlgorithm = database.encryptionAlgorithm
+                    database.encryptionAlgorithm = newAlgorithm
 
-                        if (oldAlgorithm != null && newAlgorithm != null)
-                            mProgressDatabaseTaskProvider?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm, mDatabaseAutoSaveEnable)
-                    }
+                    if (oldAlgorithm != null && newAlgorithm != null)
+                        mProgressDatabaseTaskProvider?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm, mDatabaseAutoSaveEnable)
                 }
             }
         }

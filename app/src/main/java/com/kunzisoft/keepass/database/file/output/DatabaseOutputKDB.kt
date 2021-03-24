@@ -105,11 +105,11 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         header.signature2 = DatabaseHeaderKDB.DBSIG_2
         header.flags = DatabaseHeaderKDB.FLAG_SHA2
 
-        when {
-            mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
+        when (mDatabaseKDB.encryptionAlgorithm) {
+            EncryptionAlgorithm.AESRijndael -> {
                 header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_RIJNDAEL.toKotlinInt())
             }
-            mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
+            EncryptionAlgorithm.Twofish -> {
                 header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_TWOFISH.toKotlinInt())
             }
             else -> throw DatabaseOutputException("Unsupported algorithm.")

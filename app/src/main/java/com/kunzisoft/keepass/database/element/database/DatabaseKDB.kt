@@ -77,6 +77,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         get() {
             val list = ArrayList<EncryptionAlgorithm>()
             list.add(EncryptionAlgorithm.AESRijndael)
+            list.add(EncryptionAlgorithm.Twofish)
             return list
         }
 
