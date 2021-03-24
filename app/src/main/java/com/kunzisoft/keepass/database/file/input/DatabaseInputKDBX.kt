@@ -155,7 +155,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             val isPlain: InputStream
             if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
-                val decrypted = attachCipherStream(databaseInputStream, cipher)
+                val decrypted = CipherInputStream(databaseInputStream, cipher)
                 val dataDecrypted = LittleEndianDataInputStream(decrypted)
                 val storedStartBytes: ByteArray?
                 try {
@@ -192,17 +192,16 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
                 val hmIs = HmacBlockInputStream(isData, true, hmacKey)
 
-                isPlain = attachCipherStream(hmIs, cipher)
+                isPlain = CipherInputStream(hmIs, cipher)
             }
 
-            val inputStreamXml: InputStream
-            inputStreamXml = when (mDatabase.compressionAlgorithm) {
+            val inputStreamXml: InputStream = when (mDatabase.compressionAlgorithm) {
                 CompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
                 else -> isPlain
             }
 
             if (mDatabase.kdbxVersion.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
-                loadInnerHeader(inputStreamXml, header)
+                readInnerHeader(inputStreamXml, header)
             }
 
             try {
@@ -231,66 +230,57 @@ class DatabaseInputKDBX(cacheDirectory: File,
         return mDatabase
     }
 
-    private fun attachCipherStream(inputStream: InputStream, cipher: Cipher): InputStream {
-        return CipherInputStream(inputStream, cipher)
-    }
-
     @Throws(IOException::class)
-    private fun loadInnerHeader(inputStream: InputStream, header: DatabaseHeaderKDBX) {
-        val lis = LittleEndianDataInputStream(inputStream)
+    private fun readInnerHeader(inputStream: InputStream,
+                                header: DatabaseHeaderKDBX) {
 
-        while (true) {
-            if (!readInnerHeader(lis, header)) break
-        }
-    }
+        val dataInputStream = LittleEndianDataInputStream(inputStream)
 
-    @Throws(IOException::class)
-    private fun readInnerHeader(dataInputStream: LittleEndianDataInputStream,
-                                header: DatabaseHeaderKDBX): Boolean {
-        val fieldId = dataInputStream.read().toByte()
+        var readStream = true
+        while (readStream) {
+            val fieldId = dataInputStream.read().toByte()
 
-        val size = dataInputStream.readUInt().toKotlinInt()
-        if (size < 0) throw IOException("Corrupted file")
+            val size = dataInputStream.readUInt().toKotlinInt()
+            if (size < 0) throw IOException("Corrupted file")
 
-        var data = ByteArray(0)
-        try {
-            if (size > 0) {
-                if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
-                    data = dataInputStream.readBytes(size)
+            var data = ByteArray(0)
+            try {
+                if (size > 0) {
+                    if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
+                        data = dataInputStream.readBytes(size)
+                    }
                 }
+            } catch (e: Exception) {
+                // OOM only if corrupted file
+                throw IOException("Corrupted file")
             }
-        } catch (e: Exception) {
-            // OOM only if corrupted file
-            throw IOException("Corrupted file")
-        }
 
-        var result = true
-        when (fieldId) {
-            DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader -> {
-                result = false
-            }
-            DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> {
-                header.setRandomStreamID(data)
-            }
-            DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> {
-                header.innerRandomStreamKey = data
-            }
-            DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
-                // Read in a file
-                val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
-                val byteLength = size - 1
-                // No compression at this level
-                val protectedBinary = mDatabase.buildNewAttachment(
-                        isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
-                protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
-                    dataInputStream.readBytes(byteLength) { buffer ->
-                        outputStream.write(buffer)
+            readStream = true
+            when (fieldId) {
+                DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader -> {
+                    readStream = false
+                }
+                DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> {
+                    header.setRandomStreamID(data)
+                }
+                DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> {
+                    header.innerRandomStreamKey = data
+                }
+                DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
+                    // Read in a file
+                    val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
+                    val byteLength = size - 1
+                    // No compression at this level
+                    val protectedBinary = mDatabase.buildNewAttachment(
+                            isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
+                    protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
+                        dataInputStream.readBytes(byteLength) { buffer ->
+                            outputStream.write(buffer)
+                        }
                     }
                 }
             }
         }
-
-        return result
     }
 
     private enum class KdbContext {
