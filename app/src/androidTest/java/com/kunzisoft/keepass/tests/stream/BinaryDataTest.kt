@@ -93,11 +93,28 @@ class BinaryDataTest {
 
     @Test
     fun testCompressBytes() {
+        // Test random byte array
         val byteArray = ByteArray(50)
         Random.nextBytes(byteArray)
+        testCompressBytes(byteArray)
+
+        // Test empty byte array
+        testCompressBytes(ByteArray(0))
+    }
+
+    private fun testCompressBytes(byteArray: ByteArray) {
         val binaryA = binaryCache.getBinaryData("0", true)
+        binaryA.getOutputDataStream(binaryCache).use { outputStream ->
+            outputStream.write(byteArray)
+        }
         val binaryB = binaryCache.getBinaryData("1", true)
+        binaryB.getOutputDataStream(binaryCache).use { outputStream ->
+            outputStream.write(byteArray)
+        }
         val binaryC = binaryCache.getBinaryData("2", true)
+        binaryC.getOutputDataStream(binaryCache).use { outputStream ->
+            outputStream.write(byteArray)
+        }
         binaryA.compress(binaryCache)
         binaryB.compress(binaryCache)
         assertEquals("Compress bytes decompressed failed.", binaryA.isCompressed, true)
