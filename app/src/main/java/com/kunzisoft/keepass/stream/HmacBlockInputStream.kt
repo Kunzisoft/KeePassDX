@@ -91,7 +91,6 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = uLongTo8Bytes(blockIndex)
         val pbBlockSize = baseStream.readBytesLength(4)
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
@@ -102,7 +101,9 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
         buffer = baseStream.readBytesLength(blockSize.toKotlinInt())
 
         if (verify) {
-            val blockKey = HmacBlock.getHmacKey64(key, blockIndex)
+            val pbBlockIndex = uLongTo8Bytes(blockIndex)
+
+            val blockKey = HmacBlock.getHmacKey64(key, pbBlockIndex)
             val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
             hmac.update(pbBlockIndex)
             hmac.update(pbBlockSize)

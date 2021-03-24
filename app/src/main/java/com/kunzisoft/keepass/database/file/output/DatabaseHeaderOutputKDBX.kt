@@ -66,7 +66,8 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         }
 
         val hmacKey = databaseKDBX.hmacKey ?: throw DatabaseOutputException("HmacKey is not defined")
-        val hmac: Mac = HmacBlock.getHmacSha256(HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX))
+        val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
+        val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
 
         dos = DigestOutputStream(outputStream, md)
         mos = MacOutputStream(dos, hmac)

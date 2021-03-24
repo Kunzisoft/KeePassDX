@@ -88,7 +88,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
         val bufBlockIndex = uLongTo8Bytes(blockIndex)
         val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
-        val blockKey = HmacBlock.getHmacKey64(key, blockIndex)
+        val blockKey = HmacBlock.getHmacKey64(key, bufBlockIndex)
         val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
         hmac.update(bufBlockIndex)
         hmac.update(blockSizeBuf)

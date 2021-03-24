@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.encrypt.UnsignedLong
-import com.kunzisoft.encrypt.stream.uLongTo8Bytes
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.MessageDigest
@@ -44,14 +42,14 @@ object HmacBlock {
         return hmac
     }
 
-    fun getHmacKey64(key: ByteArray, blockIndex: UnsignedLong): ByteArray {
+    fun getHmacKey64(key: ByteArray, blockIndex: ByteArray): ByteArray {
         val hash: MessageDigest
         try {
             hash = MessageDigest.getInstance("SHA-512")
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
         }
-        hash.update(uLongTo8Bytes(blockIndex))
+        hash.update(blockIndex)
         hash.update(key)
         return hash.digest()
     }

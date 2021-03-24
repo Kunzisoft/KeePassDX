@@ -182,7 +182,7 @@ class ValuesTest : TestCase() {
         }
 
         val byteArrayOutputStream = ByteArrayOutputStream()
-        byteArrayOutputStream.write8BytesLong(UnsignedLong.MAX)
+        byteArrayOutputStream.write(UnsignedLong.MAX_BYTES)
         byteArrayOutputStream.close()
         val uLongMax = byteArrayOutputStream.toByteArray()
 

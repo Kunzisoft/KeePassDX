@@ -184,7 +184,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
 
-                val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX)
+                val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
                 val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
                 val headerHmac = hmac.doFinal(pbHeader)
 

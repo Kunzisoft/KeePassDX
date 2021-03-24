@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.encrypt
 
+import com.kunzisoft.encrypt.stream.longTo8Bytes
+
 class UnsignedLong(value: Long) {
 
     private var unsignedValue: Long = value
@@ -53,7 +55,7 @@ class UnsignedLong(value: Long) {
     }
 
     companion object {
-        const val MAX_VALUE: Long = -1
-        val MAX = UnsignedLong(MAX_VALUE)
+        private const val MAX_VALUE: Long = -1
+        val MAX_BYTES = longTo8Bytes(MAX_VALUE)
     }
 }
