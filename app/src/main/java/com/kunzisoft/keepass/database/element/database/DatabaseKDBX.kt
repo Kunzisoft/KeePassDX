@@ -187,7 +187,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                     CompressionAlgorithm.GZip -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
-                        if (kdbxVersion.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
+                        if (kdbxVersion.isBefore(FILE_VERSION_32_4)) {
                             compressAllBinaries()
                         }
                     }
@@ -195,9 +195,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             CompressionAlgorithm.GZip -> {
                 // In databaseV4 the header is zipped during the save, so not necessary here
-                if (kdbxVersion.toKotlinLong() >= FILE_VERSION_32_4.toKotlinLong()) {
-                    decompressAllBinaries()
-                } else {
+                if (kdbxVersion.isBefore(FILE_VERSION_32_4)) {
                     when (newCompression) {
                         CompressionAlgorithm.None -> {
                             decompressAllBinaries()
@@ -205,6 +203,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                         CompressionAlgorithm.GZip -> {
                         }
                     }
+                } else {
+                    decompressAllBinaries()
                 }
             }
         }

@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
@@ -225,7 +226,7 @@ class Database {
         // Default compression not necessary if stored in header
         mDatabaseKDBX?.let {
             return it.compressionAlgorithm == CompressionAlgorithm.GZip
-                    && it.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()
+                    && it.kdbxVersion.isBefore(FILE_VERSION_32_4)
         }
         return false
     }
