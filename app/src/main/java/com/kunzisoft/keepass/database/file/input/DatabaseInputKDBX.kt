@@ -255,7 +255,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
         var data = ByteArray(0)
         if (size > 0) {
             if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
-                // TODO OOM here
                 data = dataInputStream.readBytes(size)
             }
         }
