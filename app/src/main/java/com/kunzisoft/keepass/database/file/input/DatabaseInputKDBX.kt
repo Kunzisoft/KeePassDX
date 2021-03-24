@@ -253,10 +253,15 @@ class DatabaseInputKDBX(cacheDirectory: File,
         if (size < 0) throw IOException("Corrupted file")
 
         var data = ByteArray(0)
-        if (size > 0) {
-            if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
-                data = dataInputStream.readBytes(size)
+        try {
+            if (size > 0) {
+                if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary) {
+                    data = dataInputStream.readBytes(size)
+                }
             }
+        } catch (e: Exception) {
+            // OOM only if corrupted file
+            throw IOException("Corrupted file")
         }
 
         var result = true
