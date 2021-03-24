@@ -32,13 +32,7 @@ object CipherFactory {
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
     fun getTwofish(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
-        val cipher: Cipher = if (opmode == Cipher.ENCRYPT_MODE) {
-            Cipher.getInstance("Twofish/CBC/ZeroBytePadding")
-        } else {
-            Cipher.getInstance("Twofish/CBC/NoPadding")
-        }
-        // TODO Verify KDB TwoFish
-        // CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
+        val cipher: Cipher = Cipher.getInstance("Twofish/CBC/PKCS7PADDING")
         cipher.init(opmode, SecretKeySpec(key, "AES"), IvParameterSpec(IV))
         return cipher
     }
