@@ -152,7 +152,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 throw InvalidAlgorithmDatabaseException(e)
             }
 
-            val isPlain: InputStream
+            val plainInputStream: InputStream
             if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
                 val dataDecrypted = CipherInputStream(databaseInputStream, cipher)
@@ -170,10 +170,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     throw InvalidCredentialsDatabaseException()
                 }
 
-                isPlain = HashedBlockInputStream(dataDecrypted)
+                plainInputStream = HashedBlockInputStream(dataDecrypted)
             } else { // KDBX 4
                 val storedHash = databaseInputStream.readBytesLength(32)
-                if (!Arrays.equals(storedHash, hashOfHeader)) {
+                if (!storedHash.contentEquals(hashOfHeader)) {
                     throw InvalidCredentialsDatabaseException()
                 }
 
@@ -184,18 +184,18 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     throw InvalidCredentialsDatabaseException()
                 }
                 // Mac doesn't match
-                if (!Arrays.equals(headerHmac, storedHmac)) {
+                if (!headerHmac.contentEquals(storedHmac)) {
                     throw InvalidCredentialsDatabaseException()
                 }
 
                 val hmIs = HmacBlockInputStream(databaseInputStream, true, hmacKey)
 
-                isPlain = CipherInputStream(hmIs, cipher)
+                plainInputStream = CipherInputStream(hmIs, cipher)
             }
 
             val inputStreamXml: InputStream = when (mDatabase.compressionAlgorithm) {
-                CompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
-                else -> isPlain
+                CompressionAlgorithm.GZip -> GZIPInputStream(plainInputStream)
+                else -> plainInputStream
             }
 
             if (mDatabase.kdbxVersion.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
@@ -208,7 +208,13 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 throw LoadDatabaseException(e)
             }
 
-            readDocumentStreamed(createPullParser(inputStreamXml))
+            val xmlPullParserFactory = XmlPullParserFactory.newInstance().apply {
+                isNamespaceAware = false
+            }
+            val xmlPullParser = xmlPullParserFactory.newPullParser().apply {
+                setInput(inputStreamXml, null)
+            }
+            readDocumentStreamed(xmlPullParser)
 
         } catch (e: LoadDatabaseException) {
             throw e
@@ -1073,17 +1079,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
         private val TAG = DatabaseInputKDBX::class.java.name
 
         private val DEFAULT_HISTORY_DAYS = UnsignedInt(365)
-
-        @Throws(XmlPullParserException::class)
-        private fun createPullParser(readerStream: InputStream): XmlPullParser {
-            val xmlPullParserFactory = XmlPullParserFactory.newInstance()
-            xmlPullParserFactory.isNamespaceAware = false
-
-            val xpp = xmlPullParserFactory.newPullParser()
-            xpp.setInput(readerStream, null)
-
-            return xpp
-        }
     }
 
 }
