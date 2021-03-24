@@ -347,13 +347,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             masterKey = getFileKey(keyInputStream)
         }
 
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("No SHA-256 implementation")
-        }
-
+        val messageDigest: MessageDigest = HashManager.getHash256()
         return messageDigest.digest(masterKey)
     }
 
@@ -526,17 +520,16 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun checkKeyFileHash(data: String, hash: String): Boolean {
-        val digest: MessageDigest?
         var success = false
         try {
-            digest = MessageDigest.getInstance("SHA-256")
-            digest?.reset()
+            val digest: MessageDigest = HashManager.getHash256()
+            digest.reset()
             // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
             val dataDigest = digest.digest(Hex.decodeHex(data.toCharArray()))
                     .copyOfRange(0, 4)
                     .toHexString()
             success = dataDigest == hash
-        } catch (e: NoSuchAlgorithmException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         return success

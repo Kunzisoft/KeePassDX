@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.write2BytesUShort
 import com.kunzisoft.encrypt.stream.write4BytesUInt
@@ -121,21 +122,8 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         setIVs(header)
 
-        // Content checksum
-        val messageDigest: MessageDigest?
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.", e)
-        }
-
         // Header checksum
-        val headerDigest: MessageDigest
-        try {
-            headerDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.", e)
-        }
+        val headerDigest: MessageDigest = HashManager.getHash256()
 
         // Output header for the purpose of calculating the header checksum
         val headerDos = DigestOutputStream(NullOutputStream(), headerDigest)
@@ -151,6 +139,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         val headerHash = headerDigest.digest()
         headerHashBlock = getHeaderHashBuffer(headerHash)
 
+        // Content checksum
+        val messageDigest: MessageDigest = HashManager.getHash256()
+
         // Output database for the purpose of calculating the content checksum
         val dos = DigestOutputStream(NullOutputStream(), messageDigest)
         val bos = BufferedOutputStream(dos)
@@ -162,7 +153,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
             throw DatabaseOutputException("Failed to generate checksum.", e)
         }
 
-        header.contentsHash = messageDigest!!.digest()
+        header.contentsHash = messageDigest.digest()
 
         // Output header for real output, containing content hash
         pho = DatabaseHeaderOutputKDB(header, outputStream)

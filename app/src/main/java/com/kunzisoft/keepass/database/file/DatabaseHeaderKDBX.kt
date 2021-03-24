@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.file
 
 import com.kunzisoft.encrypt.CrsAlgorithm
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.action.node.NodeHandler
@@ -39,7 +40,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.security.DigestInputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader() {
     var innerRandomStreamKey: ByteArray = ByteArray(32)
@@ -137,12 +137,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
      */
     @Throws(IOException::class, VersionDatabaseException::class)
     fun loadFromFile(inputStream: InputStream): HeaderAndHash {
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("No SHA-256 implementation")
-        }
+        val messageDigest: MessageDigest = HashManager.getHash256()
 
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)

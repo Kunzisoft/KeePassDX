@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.encrypt.aes
 
+import com.kunzisoft.encrypt.HashManager
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import javax.crypto.Cipher
 import javax.crypto.ShortBufferException
 import javax.crypto.spec.SecretKeySpec
@@ -62,11 +62,7 @@ class AndroidAESKeyTransformer : KeyTransformer() {
         }
 
         // Hash the key
-        val messageDigest: MessageDigest = try {
-            MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not implemented here: " + e.message)
-        }
+        val messageDigest: MessageDigest = HashManager.getHash256()
         messageDigest.update(newKey)
         return messageDigest.digest()
     }

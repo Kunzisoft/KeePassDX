@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.*
@@ -35,7 +36,6 @@ import java.io.IOException
 import java.io.OutputStream
 import java.security.DigestOutputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
 
 class DatabaseHeaderOutputKDBX @Throws(IOException::class)
@@ -51,14 +51,6 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         private set
 
     init {
-
-        val md: MessageDigest
-        try {
-            md = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.", e)
-        }
-
         try {
             databaseKDBX.makeFinalKey(header.masterSeed)
         } catch (e: IOException) {
@@ -69,7 +61,8 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
         val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
 
-        dos = DigestOutputStream(outputStream, md)
+        val messageDigest: MessageDigest = HashManager.getHash256()
+        dos = DigestOutputStream(outputStream, messageDigest)
         mos = MacOutputStream(dos, hmac)
     }
 

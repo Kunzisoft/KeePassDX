@@ -19,10 +19,21 @@
  */
 package com.kunzisoft.encrypt
 
+import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object HashManager {
+
+    fun getHash256(): MessageDigest {
+        val messageDigest: MessageDigest
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256")
+        } catch (e: NoSuchAlgorithmException) {
+            throw IOException("SHA-256 not implemented here.", e)
+        }
+        return messageDigest
+    }
 
     fun hashSha256(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
         return hashGen("SHA-256", data, offset, count)

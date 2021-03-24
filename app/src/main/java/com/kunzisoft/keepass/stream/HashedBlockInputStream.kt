@@ -19,12 +19,12 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.stream.readBytes4ToUInt
 import com.kunzisoft.encrypt.stream.readBytesLength
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 
 
@@ -109,13 +109,7 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
             throw IOException("Invalid data format")
         }
 
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not implemented here.")
-        }
-
+        val messageDigest: MessageDigest = HashManager.getHash256()
         val computedHash = messageDigest.digest(buffer)
         if (computedHash.size != HASH_SIZE) {
             throw IOException("Hash wrong size")

@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.stream.write4BytesUInt
 import com.kunzisoft.encrypt.stream.write8BytesLong
 import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import kotlin.math.min
 
 class HashedBlockOutputStream : OutputStream {
@@ -105,13 +105,7 @@ class HashedBlockOutputStream : OutputStream {
         bufferIndex++
 
         if (bufferPos > 0) {
-            val messageDigest: MessageDigest
-            try {
-                messageDigest = MessageDigest.getInstance("SHA-256")
-            } catch (e: NoSuchAlgorithmException) {
-                throw IOException("SHA-256 not implemented here.")
-            }
-
+            val messageDigest: MessageDigest = HashManager.getHash256()
             messageDigest.update(buffer, 0, bufferPos)
             val hash: ByteArray = messageDigest.digest()
             baseStream.write(hash)

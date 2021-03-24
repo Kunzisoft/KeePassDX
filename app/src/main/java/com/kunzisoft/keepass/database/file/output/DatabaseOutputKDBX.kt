@@ -332,21 +332,20 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(DatabaseOutputException::class)
     override fun outputHeader(outputStream: OutputStream): DatabaseHeaderKDBX {
-
-        val header = DatabaseHeaderKDBX(mDatabaseKDBX)
-        setIVs(header)
-
-        val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)
         try {
+            val header = DatabaseHeaderKDBX(mDatabaseKDBX)
+            setIVs(header)
+
+            val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)
             pho.output()
+
+            hashOfHeader = pho.hashOfHeader
+            headerHmac = pho.headerHmac
+
+            return header
         } catch (e: IOException) {
             throw DatabaseOutputException("Failed to output the header.", e)
         }
-
-        hashOfHeader = pho.hashOfHeader
-        headerHmac = pho.headerHmac
-
-        return header
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)

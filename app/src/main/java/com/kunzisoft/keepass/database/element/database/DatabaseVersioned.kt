@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
@@ -35,7 +36,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 
 abstract class DatabaseVersioned<
@@ -101,41 +101,26 @@ abstract class DatabaseVersioned<
         val fileKey = getFileKey(keyfileInputStream)
         val passwordKey = getPasswordKey(key)
 
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
-
+        val messageDigest: MessageDigest = HashManager.getHash256()
         messageDigest.update(passwordKey)
-
         return messageDigest.digest(fileKey)
     }
 
     @Throws(IOException::class)
     protected fun getPasswordKey(key: String): ByteArray {
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
-
         val bKey: ByteArray = try {
             key.toByteArray(charset(passwordEncoding))
         } catch (e: UnsupportedEncodingException) {
             key.toByteArray()
         }
 
-        messageDigest.update(bKey, 0, bKey.size)
-
+        val messageDigest: MessageDigest = HashManager.getHash256()
+        messageDigest.update(bKey)
         return messageDigest.digest()
     }
 
     @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
-
         val keyData = keyInputStream.readBytes()
 
         // Check XML key file
@@ -155,11 +140,8 @@ abstract class DatabaseVersioned<
         }
 
         // Hash file as binary data
-        try {
-            return MessageDigest.getInstance("SHA-256").digest(keyData)
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
+        val messageDigest = HashManager.getHash256()
+        return messageDigest.digest(keyData)
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

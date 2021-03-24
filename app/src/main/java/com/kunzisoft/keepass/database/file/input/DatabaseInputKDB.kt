@@ -20,6 +20,7 @@
 
 package com.kunzisoft.keepass.database.file.input
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -37,7 +38,6 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.*
 import java.security.DigestInputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 import javax.crypto.Cipher
 
@@ -143,14 +143,8 @@ class DatabaseInputKDB(cacheDirectory: File,
                 throw IOException("Algorithm not supported.", e)
             }
 
-            val messageDigest: MessageDigest
-            try {
-                messageDigest = MessageDigest.getInstance("SHA-256")
-            } catch (e: NoSuchAlgorithmException) {
-                throw IOException("No SHA-256 algorithm")
-            }
-
             // Decrypt content
+            val messageDigest: MessageDigest = HashManager.getHash256()
             val cipherInputStream = BufferedInputStream(
                     DigestInputStream(
                             BetterCipherInputStream(databaseInputStream, cipher),

@@ -19,6 +19,7 @@
 
 package com.kunzisoft.keepass.database.element.database
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -33,7 +34,6 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -144,16 +144,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     fun makeFinalKey(masterSeed: ByteArray, masterSeed2: ByteArray, numRounds: Long) {
 
         // Write checksum Checksum
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not implemented here.")
-        }
-
-        // Encrypt the master key a few times to make brute-force key-search harder
+        val messageDigest: MessageDigest = HashManager.getHash256()
         messageDigest.update(masterSeed)
-        messageDigest.update(AESKeyTransformerFactory.transformMasterKey(masterSeed2, masterKey, numRounds) ?: ByteArray(0))
+        // Encrypt the master key a few times to make brute-force key-search harder
+        val transformedKey = AESKeyTransformerFactory.transformMasterKey(masterSeed2, masterKey, numRounds) ?: ByteArray(0)
+        messageDigest.update(transformedKey)
 
         finalKey = messageDigest.digest()
     }
