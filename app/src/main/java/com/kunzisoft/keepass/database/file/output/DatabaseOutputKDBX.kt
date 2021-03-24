@@ -122,18 +122,16 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IOException::class)
     private fun outputInnerHeader(database: DatabaseKDBX,
                                   header: DatabaseHeaderKDBX,
-                                  outputStream: OutputStream) {
-        val dataOutputStream = LittleEndianDataOutputStream(outputStream)
-
+                                  dataOutputStream: OutputStream) {
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID)
-        dataOutputStream.writeInt(4)
+        dataOutputStream.write4BytesUInt(UnsignedInt(4))
         if (header.innerRandomStream == null)
             throw IOException("Can't write innerRandomStream")
-        dataOutputStream.writeUInt(header.innerRandomStream!!.id)
+        dataOutputStream.write4BytesUInt(header.innerRandomStream!!.id)
 
         val streamKeySize = header.innerRandomStreamKey.size
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey)
-        dataOutputStream.writeInt(streamKeySize)
+        dataOutputStream.write4BytesUInt(UnsignedInt(streamKeySize))
         dataOutputStream.write(header.innerRandomStreamKey)
 
         val binaryCache = database.binaryCache
@@ -143,7 +141,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.writeUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
+            dataOutputStream.write4BytesUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (binary.isProtected) {
@@ -159,7 +157,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
 
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader)
-        dataOutputStream.writeInt(0)
+        dataOutputStream.write4BytesUInt(UnsignedInt(0))
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)

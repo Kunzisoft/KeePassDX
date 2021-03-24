@@ -33,19 +33,14 @@ object HmacBlockStream {
             throw RuntimeException(e)
         }
 
-        val nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, hash)
-        val leos = LittleEndianDataOutputStream(dos)
-
+        val digestOutputStream = DigestOutputStream(NullOutputStream(), hash)
         try {
-            leos.writeLong(blockIndex)
-            leos.write(key)
-            leos.close()
+            digestOutputStream.write8BytesLong(blockIndex)
+            digestOutputStream.write(key)
+            digestOutputStream.close()
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-
-        //assert(hashKey.length == 64);
         return hash.digest()
     }
 }

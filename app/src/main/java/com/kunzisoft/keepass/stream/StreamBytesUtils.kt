@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils.bytesToString
 import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
+import java.io.OutputStream
 import java.util.*
 
 /**
@@ -116,6 +117,22 @@ fun InputStream.readBytesLength(length: Int): ByteArray {
         buf[i] = this.read().toByte()
     }
     return buf
+}
+
+fun OutputStream.write4BytesUInt(value: UnsignedInt) {
+    this.write(uIntTo4Bytes(value))
+}
+
+fun OutputStream.writeByte(byte: Byte) {
+    this.write(byte.toInt())
+}
+
+fun OutputStream.write8BytesLong(value: Long) {
+    this.write(longTo8Bytes(value))
+}
+
+fun OutputStream.write2BytesUShort(value: Int) {
+    this.write(uShortTo2Bytes(value))
 }
 
 /**

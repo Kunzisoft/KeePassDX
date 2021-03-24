@@ -183,12 +183,10 @@ class ValuesTest : TestCase() {
             ulongBytes[i] = -1
         }
 
-        val bos = ByteArrayOutputStream()
-        val leos = LittleEndianDataOutputStream(bos)
-        leos.writeLong(UnsignedLong.MAX_VALUE)
-        leos.close()
-
-        val uLongMax = bos.toByteArray()
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        byteArrayOutputStream.write8BytesLong(UnsignedLong.MAX_VALUE)
+        byteArrayOutputStream.close()
+        val uLongMax = byteArrayOutputStream.toByteArray()
 
         assertArrayEquals(ulongBytes, uLongMax)
     }

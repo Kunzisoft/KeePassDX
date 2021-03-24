@@ -28,11 +28,9 @@ import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class HmacBlockOutputStream(outputStream: OutputStream,
+class HmacBlockOutputStream(private val baseStream: OutputStream,
                             private val key: ByteArray)
     : OutputStream() {
-
-    private val baseStream: LittleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
 
     private val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
     private var bufferPos = 0
