@@ -116,9 +116,9 @@
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
     <bool name="clipboard_notifications_default" translatable="false">false</bool>
     <string name="clear_clipboard_notification_key" translatable="false">clear_clipboard_notification_key</string>
-    <bool name="clear_clipboard_notification_default" translatable="false">true</bool>
+    <bool name="clear_clipboard_notification_default" translatable="false">false</bool>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
-    <string name="clipboard_timeout_default" translatable="false">300000</string>
+    <string name="clipboard_timeout_default" translatable="false">20000</string>
     <string name="autofill_key" translatable="false">autofill_key</string>
     <string name="autofill_explanation_key" translatable="false">autofill_explanation_key</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
