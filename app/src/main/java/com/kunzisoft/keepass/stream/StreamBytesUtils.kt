@@ -220,11 +220,11 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
     System.arraycopy(buf, 0, cDate, 0, dateSize)
 
     val readOffset = 0
-    val dw1 = UnsignedInt.fromKotlinByte(cDate[readOffset]).toKotlinInt()
-    val dw2 = UnsignedInt.fromKotlinByte(cDate[readOffset + 1]).toKotlinInt()
-    val dw3 = UnsignedInt.fromKotlinByte(cDate[readOffset + 2]).toKotlinInt()
-    val dw4 = UnsignedInt.fromKotlinByte(cDate[readOffset + 3]).toKotlinInt()
-    val dw5 = UnsignedInt.fromKotlinByte(cDate[readOffset + 4]).toKotlinInt()
+    val dw1 = cDate[readOffset].toInt() and 0xFF
+    val dw2 = cDate[readOffset + 1].toInt() and 0xFF
+    val dw3 = cDate[readOffset + 2].toInt() and 0xFF
+    val dw4 = cDate[readOffset + 3].toInt() and 0xFF
+    val dw5 = cDate[readOffset + 4].toInt() and 0xFF
 
     // Unpack 5 byte structure to date and time
     val year = dw1 shl 6 or (dw2 shr 2)

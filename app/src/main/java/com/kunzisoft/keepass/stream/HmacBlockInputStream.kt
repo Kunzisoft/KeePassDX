@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.IOException
 import java.io.InputStream
@@ -44,7 +43,7 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
             if (!readSafeBlock()) return -1
         }
 
-        val output = UnsignedInt.fromKotlinByte(buffer[bufferPos]).toKotlinInt()
+        val output = (buffer[bufferPos]).toInt() and 0xFF
         bufferPos++
 
         return output

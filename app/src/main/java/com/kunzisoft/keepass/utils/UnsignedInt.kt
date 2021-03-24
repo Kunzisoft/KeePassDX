@@ -69,13 +69,6 @@ class UnsignedInt(private var unsignedValue: Int) {
 
         val MAX_VALUE = UnsignedInt(UINT_MAX_VALUE.toInt())
 
-        /**
-         * Convert a byte to an unsigned byte
-         */
-        fun fromKotlinByte(value: Byte): UnsignedInt {
-            return UnsignedInt(value.toInt() and 0xFF)
-        }
-
         @Throws(NumberFormatException::class)
         fun fromKotlinLong(value: Long): UnsignedInt {
             if (value > UINT_MAX_VALUE)

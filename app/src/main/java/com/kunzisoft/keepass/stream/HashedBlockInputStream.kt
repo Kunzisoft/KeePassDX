@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
@@ -140,7 +139,7 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
             if (!readHashedBlock()) return -1
         }
 
-        val output = UnsignedInt.fromKotlinByte(buffer[bufferPos]).toKotlinInt()
+        val output = buffer[bufferPos].toInt() and 0xFF
         bufferPos++
 
         return output
