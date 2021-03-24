@@ -24,6 +24,7 @@ import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -35,16 +36,13 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
-import com.kunzisoft.keepass.stream.HmacBlockStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestInputStream
-import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
 class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader() {
     var innerRandomStreamKey: ByteArray = ByteArray(32)
@@ -327,19 +325,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX)
-
-            val hmac: Mac
-            try {
-                hmac = Mac.getInstance("HmacSHA256")
-                val signingKey = SecretKeySpec(blockKey, "HmacSHA256")
-                hmac.init(signingKey)
-            } catch (e: NoSuchAlgorithmException) {
-                throw IOException("No HmacAlogirthm")
-            } catch (e: InvalidKeyException) {
-                throw IOException("Invalid Hmac Key")
-            }
-
+            val blockKey = HmacBlock.getHmacKey64(key, UnsignedLong.MAX)
+            val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
             return hmac.doFinal(header)
         }
     }

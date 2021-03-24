@@ -23,12 +23,10 @@ import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.uIntTo4Bytes
 import com.kunzisoft.encrypt.stream.uLongTo8Bytes
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import java.io.IOException
 import java.io.OutputStream
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
 class HmacBlockOutputStream(private val baseStream: OutputStream,
                             private val key: ByteArray)
@@ -90,20 +88,8 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
         val bufBlockIndex = uLongTo8Bytes(blockIndex)
         val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
-        val blockHmac: ByteArray
-        val blockKey = HmacBlockStream.getHmacKey64(key, blockIndex)
-
-        val hmac: Mac
-        try {
-            hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(blockKey, "HmacSHA256")
-            hmac.init(signingKey)
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("Invalid Hmac")
-        } catch (e: InvalidKeyException) {
-            throw IOException("Invalid HMAC")
-        }
-
+        val blockKey = HmacBlock.getHmacKey64(key, blockIndex)
+        val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
         hmac.update(bufBlockIndex)
         hmac.update(blockSizeBuf)
 
@@ -111,8 +97,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
             hmac.update(buffer, 0, bufferPos)
         }
 
-        blockHmac = hmac.doFinal()
-
+        val blockHmac: ByteArray = hmac.doFinal()
         baseStream.write(blockHmac)
         baseStream.write(blockSizeBuf)
 

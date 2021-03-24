@@ -20,7 +20,7 @@
 package com.kunzisoft.encrypt.stream
 
 import com.kunzisoft.encrypt.CrsAlgorithm
-import com.kunzisoft.encrypt.CryptoUtil
+import com.kunzisoft.encrypt.HashManager
 import org.bouncycastle.crypto.engines.ChaCha7539Engine
 import org.bouncycastle.crypto.engines.Salsa20Engine
 import org.bouncycastle.crypto.params.KeyParameter
@@ -41,7 +41,7 @@ object StreamCipherFactory {
 
     private fun getSalsa20(key: ByteArray): StreamCipher {
         // Build stream cipher key
-        val key32 = CryptoUtil.hashSha256(key)
+        val key32 = HashManager.hashSha256(key)
 
         val keyParam = KeyParameter(key32)
         val ivParam = ParametersWithIV(keyParam, SALSA_IV)
@@ -54,7 +54,7 @@ object StreamCipherFactory {
 
     private fun getChaCha20(key: ByteArray): StreamCipher {
         // Build stream cipher key
-        val hash = CryptoUtil.hashSha512(key)
+        val hash = HashManager.hashSha512(key)
         val key32 = ByteArray(32)
         val iv = ByteArray(12)
 

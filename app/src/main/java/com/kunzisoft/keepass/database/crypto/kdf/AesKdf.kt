@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
-import com.kunzisoft.encrypt.CryptoUtil
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
 import com.kunzisoft.encrypt.stream.bytes16ToUuid
@@ -48,12 +48,12 @@ class AesKdf : KdfEngine() {
 
         var seed = kdfParameters.getByteArray(PARAM_SEED)
         if (seed != null && seed.size != 32) {
-            seed = CryptoUtil.hashSha256(seed)
+            seed = HashManager.hashSha256(seed)
         }
 
         var currentMasterKey = masterKey
         if (currentMasterKey.size != 32) {
-            currentMasterKey = CryptoUtil.hashSha256(currentMasterKey)
+            currentMasterKey = HashManager.hashSha256(currentMasterKey)
         }
 
         val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()

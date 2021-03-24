@@ -22,8 +22,9 @@ package com.kunzisoft.keepass.database.element.database
 import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
-import com.kunzisoft.encrypt.CryptoUtil
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.UnsignedInt
+import com.kunzisoft.encrypt.stream.longTo8Bytes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.AesEngine
@@ -56,9 +57,11 @@ import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import javax.crypto.Mac
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import kotlin.math.min
 
 
 class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
@@ -362,13 +365,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
             var transformedMasterKey = kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
             if (transformedMasterKey.size != 32) {
-                transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey)
+                transformedMasterKey = HashManager.hashSha256(transformedMasterKey)
             }
 
             val cmpKey = ByteArray(65)
             System.arraycopy(masterSeed, 0, cmpKey, 0, 32)
             System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
-            finalKey = CryptoUtil.resizeKey(cmpKey, 0, 64, dataEngine.keyLength())
+            finalKey = resizeKey(cmpKey, dataEngine.keyLength())
 
             val messageDigest: MessageDigest
             try {
@@ -381,6 +384,49 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 Arrays.fill(cmpKey, 0.toByte())
             }
         }
+    }
+
+    private fun resizeKey(inBytes: ByteArray, cbOut: Int): ByteArray {
+        if (cbOut == 0) return ByteArray(0)
+
+        val hash: ByteArray = if (cbOut <= 32) {
+            HashManager.hashSha256(inBytes, 0, 64)
+        } else {
+            HashManager.hashSha512(inBytes, 0, 64)
+        }
+
+        if (cbOut == hash.size) {
+            return hash
+        }
+
+        val ret = ByteArray(cbOut)
+        if (cbOut < hash.size) {
+            System.arraycopy(hash, 0, ret, 0, cbOut)
+        } else {
+            var pos = 0
+            var r: Long = 0
+            while (pos < cbOut) {
+                val hmac: Mac
+                try {
+                    hmac = Mac.getInstance("HmacSHA256")
+                } catch (e: NoSuchAlgorithmException) {
+                    throw RuntimeException(e)
+                }
+
+                val pbR = longTo8Bytes(r)
+                val part = hmac.doFinal(pbR)
+
+                val copy = min(cbOut - pos, part.size)
+                System.arraycopy(part, 0, ret, pos, copy)
+                pos += copy
+                r++
+
+                Arrays.fill(part, 0.toByte())
+            }
+        }
+
+        Arrays.fill(hash, 0.toByte())
+        return ret
     }
 
     override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

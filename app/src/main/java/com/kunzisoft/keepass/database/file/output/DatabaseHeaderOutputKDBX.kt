@@ -22,25 +22,23 @@ package com.kunzisoft.keepass.database.file.output
 import com.kunzisoft.encrypt.UnsignedInt
 import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.*
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.MacOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.security.DigestOutputStream
-import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
-class DatabaseHeaderOutputKDBX @Throws(DatabaseOutputException::class)
+class DatabaseHeaderOutputKDBX @Throws(IOException::class)
 constructor(private val databaseKDBX: DatabaseKDBX,
             private val header: DatabaseHeaderKDBX,
             outputStream: OutputStream) {
@@ -68,16 +66,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         }
 
         val hmacKey = databaseKDBX.hmacKey ?: throw DatabaseOutputException("HmacKey is not defined")
-        val hmac: Mac
-        try {
-            hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(HmacBlockStream.getHmacKey64(hmacKey, UnsignedLong.MAX), "HmacSHA256")
-            hmac.init(signingKey)
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException(e)
-        } catch (e: InvalidKeyException) {
-            throw DatabaseOutputException(e)
-        }
+        val hmac: Mac = HmacBlock.getHmacSha256(HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX))
 
         dos = DigestOutputStream(outputStream, md)
         mos = MacOutputStream(dos, hmac)

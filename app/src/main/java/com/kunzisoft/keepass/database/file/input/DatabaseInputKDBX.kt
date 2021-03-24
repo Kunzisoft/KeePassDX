@@ -26,6 +26,7 @@ import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.*
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
@@ -60,6 +61,7 @@ import java.util.*
 import java.util.zip.GZIPInputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
+import javax.crypto.Mac
 import kotlin.math.min
 
 class DatabaseInputKDBX(cacheDirectory: File,
@@ -181,7 +183,11 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 }
 
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
-                val headerHmac = DatabaseHeaderKDBX.computeHeaderHmac(pbHeader, hmacKey)
+
+                val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX)
+                val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
+                val headerHmac = hmac.doFinal(pbHeader)
+
                 val storedHmac = databaseInputStream.readBytesLength(32)
                 if (storedHmac.size != 32) {
                     throw InvalidCredentialsDatabaseException()

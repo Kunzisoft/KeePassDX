@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,33 +17,42 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.stream
+package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.UnsignedLong
 import com.kunzisoft.encrypt.stream.NullOutputStream
-import com.kunzisoft.encrypt.stream.write8BytesLong
 import java.io.IOException
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-object HmacBlockStream {
-    fun getHmacKey64(key: ByteArray, blockIndex: UnsignedLong): ByteArray {
+object HashManager {
+
+    fun hashSha256(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
+        return hashGen("SHA-256", data, offset, count)
+    }
+
+    fun hashSha512(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
+        return hashGen("SHA-512", data, offset, count)
+    }
+
+    private fun hashGen(transform: String, data: ByteArray, offset: Int, count: Int): ByteArray {
         val hash: MessageDigest
         try {
-            hash = MessageDigest.getInstance("SHA-512")
+            hash = MessageDigest.getInstance(transform)
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
         }
 
-        val digestOutputStream = DigestOutputStream(NullOutputStream(), hash)
+        val nos = NullOutputStream()
+        val dos = DigestOutputStream(nos, hash)
+
         try {
-            digestOutputStream.write8BytesLong(blockIndex)
-            digestOutputStream.write(key)
-            digestOutputStream.close()
+            dos.write(data, offset, count)
+            dos.close()
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+
         return hash.digest()
     }
 }
