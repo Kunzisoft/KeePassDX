@@ -129,7 +129,7 @@
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
-    <string name="keyboard_entry_timeout_default" translatable="false">300000</string>
+    <string name="keyboard_entry_timeout_default" translatable="false">30000</string>
     <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
     <bool name="keyboard_selection_entry_default" translatable="false">false</bool>
     <string name="keyboard_search_share_key" translatable="false">keyboard_search_share_key</string>
