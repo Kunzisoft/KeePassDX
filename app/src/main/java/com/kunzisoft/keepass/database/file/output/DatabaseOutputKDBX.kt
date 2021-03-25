@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
@@ -82,7 +83,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
             header = outputHeader(mOutputStream)
 
-            val osPlain: OutputStream = if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+            val osPlain: OutputStream = if (header!!.version.isBefore(FILE_VERSION_32_4)) {
                 val cos = attachStreamEncryptor(header!!, mOutputStream)
                 cos.write(header!!.streamStartBytes)
 
@@ -101,7 +102,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     else -> osPlain
                 }
 
-                if (header!!.version.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+                if (!header!!.version.isBefore(FILE_VERSION_32_4)) {
                     outputInnerHeader(mDatabaseKDBX, header!!, xmlOutputStream)
                 }
 
@@ -266,7 +267,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleGroup, mDatabaseKDBX.lastTopVisibleGroupUUID)
 
         // Seem to work properly if always in meta
-        if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong())
+        if (header!!.version.isBefore(FILE_VERSION_32_4))
             writeMetaBinaries()
 
         writeCustomData(mDatabaseKDBX.customData)
@@ -308,7 +309,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             Log.e(TAG, "Unable to retrieve header", unknownKDF)
         }
 
-        if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+        if (header.version.isBefore(FILE_VERSION_32_4)) {
             header.innerRandomStream = CrsAlgorithm.Salsa20
             header.innerRandomStreamKey = ByteArray(32)
         } else {
@@ -323,7 +324,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             throw DatabaseOutputException(e)
         }
 
-        if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+        if (header.version.isBefore(FILE_VERSION_32_4)) {
             random.nextBytes(header.streamStartBytes)
         }
 
@@ -422,7 +423,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, value: Date) {
-        if (header!!.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+        if (header!!.version.isBefore(FILE_VERSION_32_4)) {
             writeObject(name, DatabaseKDBXXML.DateFormatter.format(value))
         } else {
             val dt = DateTime(value)

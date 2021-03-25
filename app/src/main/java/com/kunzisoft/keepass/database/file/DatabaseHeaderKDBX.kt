@@ -167,7 +167,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     private fun readHeaderField(dis: InputStream): Boolean {
         val fieldID = dis.read().toByte()
 
-        val fieldSize: Int = if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
+        val fieldSize: Int = if (version.isBefore(FILE_VERSION_32_4)) {
             dis.readBytes2ToUShort()
         } else {
             dis.readBytes4ToUInt().toKotlinInt()
@@ -194,20 +194,20 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
             PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformSeed -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.TransformSeed -> if (version.isBefore(FILE_VERSION_32_4))
                 transformSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformRounds -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.TransformRounds -> if (version.isBefore(FILE_VERSION_32_4))
                 setTransformRound(fieldData)
 
             PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.isBefore(FILE_VERSION_32_4))
                 innerRandomStreamKey = fieldData
 
             PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.isBefore(FILE_VERSION_32_4))
                 setRandomStreamID(fieldData)
 
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
