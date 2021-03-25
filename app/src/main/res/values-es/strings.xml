@@ -474,7 +474,7 @@
     <string name="content">Contenido</string>
     <string name="clipboard_explanation_summary">Copiar los campos de entrada usando el portapapeles de su dispositivo</string>
     <string name="device_credential">Credenciales del dispositivo</string>
-    <string name="credential_before_click_advanced_unlock_button">Introduzca la contraseña y luego haga clic en el botón \"Desbloqueo avanzado\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Introduzca la contraseña y luego haga clic en este botón.</string>
     <string name="advanced_unlock_prompt_not_initialized">No se pudo inicializar el indicador de desbloqueo avanzado.</string>
     <string name="advanced_unlock_scanning_error">Error de desbloqueo avanzado: %1$s</string>
     <string name="advanced_unlock_not_recognized">No se pudo reconocer la impresión de desbloqueo avanzado</string>
@@ -560,4 +560,6 @@
     <string name="menu_reload_database">Recargar la base de datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
     <string name="download_canceled">¡Cancelado!</string>
+    <string name="error_duplicate_file">Los datos de archivo ya existen.</string>
+    <string name="error_upload_file">Ha habido un error al subir el archivo de datos.</string>
 </resources>
