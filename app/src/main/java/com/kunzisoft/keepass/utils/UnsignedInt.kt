@@ -44,10 +44,6 @@ class UnsignedInt(private var unsignedValue: Int) {
         return (unsignedValue and 0xFF).toByte()
     }
 
-    fun isBefore(value: UnsignedInt): Boolean {
-        return toKotlinLong() < value.toKotlinLong()
-    }
-
     override fun toString():String {
         return toKotlinLong().toString()
     }

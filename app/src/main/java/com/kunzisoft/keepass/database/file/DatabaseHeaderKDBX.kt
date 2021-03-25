@@ -167,7 +167,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     private fun readHeaderField(dis: InputStream): Boolean {
         val fieldID = dis.read().toByte()
 
-        val fieldSize: Int = if (version.isBefore(FILE_VERSION_32_4)) {
+        val fieldSize: Int = if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
             dis.readBytes2ToUShort()
         } else {
             dis.readBytes4ToUInt().toKotlinInt()
@@ -194,20 +194,20 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
             PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformSeed -> if (version.isBefore(FILE_VERSION_32_4))
+            PwDbHeaderV4Fields.TransformSeed -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 transformSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformRounds -> if (version.isBefore(FILE_VERSION_32_4))
+            PwDbHeaderV4Fields.TransformRounds -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 setTransformRound(fieldData)
 
             PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.isBefore(FILE_VERSION_32_4))
+            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 innerRandomStreamKey = fieldData
 
             PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.isBefore(FILE_VERSION_32_4))
+            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 setRandomStreamID(fieldData)
 
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
@@ -284,10 +284,6 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     private fun validVersion(version: UnsignedInt): Boolean {
         return version.toKotlinInt() and FILE_VERSION_CRITICAL_MASK.toKotlinInt() <=
                 FILE_VERSION_32_4.toKotlinInt() and FILE_VERSION_CRITICAL_MASK.toKotlinInt()
-    }
-
-    fun isVersionBefore(version: UnsignedInt) : Boolean {
-        return version.isBefore(version)
     }
 
     companion object {
