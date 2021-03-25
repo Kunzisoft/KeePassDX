@@ -50,7 +50,7 @@ object HashManager {
     fun getHash512(): MessageDigest {
         val messageDigest: MessageDigest
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-512")
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("SHA-256 not implemented here.", e)
         }
