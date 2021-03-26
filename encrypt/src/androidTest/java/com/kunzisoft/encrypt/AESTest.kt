@@ -19,8 +19,7 @@
  */
 package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.aes.AndroidAESKeyTransformer
-import com.kunzisoft.encrypt.aes.NativeAESKeyTransformer
+import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import java.io.ByteArrayInputStream
@@ -105,11 +104,8 @@ class AESTest {
         mRand.nextBytes(key)
         val rounds = 60000L
 
-        val androidAESKey = AndroidAESKeyTransformer()
-        val androidKey = androidAESKey.transformMasterKey(seed, key, rounds)
-
-        val nativeAESKey = NativeAESKeyTransformer()
-        val nativeKey = nativeAESKey.transformMasterKey(seed, key, rounds)
+        val androidKey = AESKeyTransformerFactory.transformMasterKeyInJVM(seed, key, rounds)
+        val nativeKey = AESKeyTransformerFactory.transformMasterKey(seed, key, rounds)
 
         assertArrayEquals("Does not match", androidKey, nativeKey)
     }

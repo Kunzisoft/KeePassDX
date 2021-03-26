@@ -19,26 +19,7 @@
  */
 package com.kunzisoft.encrypt.aes;
 
-import com.kunzisoft.encrypt.NativeLib;
+public class NativeAESKeyTransformer {
 
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-
-
-public class NativeAESKeyTransformer extends KeyTransformer {
-
-    public static boolean available() {
-        return NativeLib.INSTANCE.init();
-    }
-
-    @Nullable
-    @Override
-    public byte[] transformMasterKey(@Nullable byte[] seed, @Nullable byte[] key, @Nullable Long rounds) throws IOException {
-        NativeLib.INSTANCE.init();
-
-        return nTransformMasterKey(seed, key, rounds);
-    }
-
-    private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
+    public static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
 }

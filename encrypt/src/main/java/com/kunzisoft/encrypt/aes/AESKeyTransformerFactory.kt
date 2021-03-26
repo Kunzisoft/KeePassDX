@@ -19,17 +19,65 @@
  */
 package com.kunzisoft.encrypt.aes
 
-import com.kunzisoft.encrypt.NativeBlockList
+import android.annotation.SuppressLint
+import android.util.Log
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.encrypt.NativeLib
+import java.io.IOException
+import java.security.InvalidKeyException
+import javax.crypto.Cipher
+import javax.crypto.ShortBufferException
+import javax.crypto.spec.SecretKeySpec
 
-object AESKeyTransformerFactory : KeyTransformer() {
-    override fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
+object AESKeyTransformerFactory {
+
+    fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
         // Prefer the native final key implementation
-        val keyTransformer = if (!NativeBlockList.isBlocked && NativeAESKeyTransformer.available()) {
-            NativeAESKeyTransformer()
-        } else {
+        return try {
+            NativeLib.init()
+            NativeAESKeyTransformer.nTransformMasterKey(seed, key, rounds!!)
+        } catch (exception: Exception) {
+            Log.e(AESKeyTransformerFactory::class.java.simpleName, "Unable to perform native AES key transformation", exception)
             // Fall back on the android crypto implementation
-            AndroidAESKeyTransformer()
+            transformMasterKeyInJVM(seed, key, rounds)
         }
-        return keyTransformer.transformMasterKey(seed, key, rounds)
+    }
+
+    @SuppressLint("GetInstance")
+    @Throws(IOException::class)
+    fun transformMasterKeyInJVM(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray {
+        val cipher: Cipher = try {
+            Cipher.getInstance("AES/ECB/NoPadding")
+        } catch (e: Exception) {
+            throw IOException("Unable to get the cipher", e)
+        }
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(seed, "AES"))
+        } catch (e: InvalidKeyException) {
+            throw IOException("Unable to init the cipher", e)
+        }
+        if (key == null) {
+            throw IOException("Invalid key")
+        }
+        if (rounds == null) {
+            throw IOException("Invalid rounds")
+        }
+
+        // Encrypt key rounds times
+        val keyLength = key.size
+        val newKey = ByteArray(keyLength)
+        System.arraycopy(key, 0, newKey, 0, keyLength)
+        val destKey = ByteArray(keyLength)
+        for (i in 0 until rounds) {
+            try {
+                cipher.update(newKey, 0, newKey.size, destKey, 0)
+                System.arraycopy(destKey, 0, newKey, 0, newKey.size)
+            } catch (e: ShortBufferException) {
+                throw IOException("Short buffer", e)
+            }
+        }
+
+        // Hash the key
+        return HashManager.hashSha256(newKey)
     }
 }

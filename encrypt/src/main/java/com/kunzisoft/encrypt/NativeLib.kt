@@ -38,8 +38,6 @@ object NativeLib {
             isLoaded = true
             loadSuccess = true
         }
-
         return loadSuccess
     }
-
 }
