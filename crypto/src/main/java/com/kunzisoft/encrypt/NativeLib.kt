@@ -30,7 +30,7 @@ object NativeLib {
     fun init(): Boolean {
         if (!isLoaded) {
             try {
-                System.loadLibrary("final-key")
+                System.loadLibrary("aes")
                 System.loadLibrary("argon2")
             } catch (e: UnsatisfiedLinkError) {
                 return false

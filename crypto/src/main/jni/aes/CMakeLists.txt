@@ -6,7 +6,7 @@ include_directories(aes/)
 include_directories(sha/)
 
 add_library(
-    final-key SHARED
+    aes SHARED
     aes_jni.c
     aes/aescrypt.c
     aes/aeskey.c
@@ -19,4 +19,4 @@ add_library(
 
 find_library(log-lib log)
 
-target_link_libraries(final-key ${log-lib})
+target_link_libraries(aes ${log-lib})
