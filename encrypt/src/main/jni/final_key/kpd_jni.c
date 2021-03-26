@@ -422,9 +422,9 @@ uint32_t generate_key_material(void *arg) {
 #if defined(KPD_PROFILE)
   clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
   if( key1 == mk->key1 )
-    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 1 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformKey", "Thread 1 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
   else
-    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformMasterKey", "Thread 2 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
+    __android_log_print(ANDROID_LOG_INFO, "kpd_jni.c/nTransformKey", "Thread 2 master key transformation took ~%d seconds", (end.tv_sec-start.tv_sec));
 #endif
 
   if( key1 == mk->key1 ) {
@@ -438,7 +438,7 @@ uint32_t generate_key_material(void *arg) {
   return flip;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransformer_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
+JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransformer_nTransformKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
   master_key mk;
   uint32_t flip;
   pthread_t t1, t2;

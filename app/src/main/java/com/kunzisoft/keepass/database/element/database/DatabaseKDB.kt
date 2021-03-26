@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.encrypt.aes.AESKeyTransformerFactory
+import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -142,7 +142,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     @Throws(IOException::class)
     fun makeFinalKey(masterSeed: ByteArray, transformSeed: ByteArray, numRounds: Long) {
         // Encrypt the master key a few times to make brute-force key-search harder
-        val transformedKey = AESKeyTransformerFactory.transformMasterKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
+        val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
         // Write checksum Checksum
         finalKey = HashManager.hashSha256(masterSeed, transformedKey)
     }

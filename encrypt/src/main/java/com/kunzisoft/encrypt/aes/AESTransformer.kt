@@ -29,23 +29,23 @@ import javax.crypto.Cipher
 import javax.crypto.ShortBufferException
 import javax.crypto.spec.SecretKeySpec
 
-object AESKeyTransformerFactory {
+object AESTransformer {
 
-    fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
+    fun transformKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
         // Prefer the native final key implementation
         return try {
             NativeLib.init()
-            NativeAESKeyTransformer.nTransformMasterKey(seed, key, rounds!!)
+            NativeAESKeyTransformer.nTransformKey(seed, key, rounds!!)
         } catch (exception: Exception) {
-            Log.e(AESKeyTransformerFactory::class.java.simpleName, "Unable to perform native AES key transformation", exception)
+            Log.e(AESTransformer::class.java.simpleName, "Unable to perform native AES key transformation", exception)
             // Fall back on the android crypto implementation
-            transformMasterKeyInJVM(seed, key, rounds)
+            transformKeyInJVM(seed, key, rounds)
         }
     }
 
     @SuppressLint("GetInstance")
     @Throws(IOException::class)
-    fun transformMasterKeyInJVM(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray {
+    fun transformKeyInJVM(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray {
         val cipher: Cipher = try {
             Cipher.getInstance("AES/ECB/NoPadding")
         } catch (e: Exception) {
