@@ -130,7 +130,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
     // Encrypt lib
-    implementation project(path: ':encrypt')
+    implementation project(path: ':crypto')
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
