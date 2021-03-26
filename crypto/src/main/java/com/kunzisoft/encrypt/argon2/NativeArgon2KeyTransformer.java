@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,17 +17,25 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.encrypt.aes
+package com.kunzisoft.encrypt.argon2;
 
-import java.security.Provider
+import java.io.IOException;
 
-class AESProvider : Provider("AESProvider", 1.0, "") {
-    init {
-        put("Cipher.AES", NativeAESCipherSpi::class.java.name)
+public class NativeArgon2KeyTransformer {
+
+    enum CType {
+        ARGON2_D(0),
+        ARGON2_I(1),
+        ARGON2_ID(2);
+
+        int cValue = 0;
+
+        CType(int i) {
+            cValue = i;
+        }
     }
 
-    companion object {
-        private const val serialVersionUID = -3846349284296062658L
-    }
-
+    public static native byte[] nTransformKey(int type, byte[] password, byte[] salt, int parallelism,
+                                              int memory, int iterations, byte[] secretKey,
+                                              byte[] associatedData, int version) throws IOException;
 }
