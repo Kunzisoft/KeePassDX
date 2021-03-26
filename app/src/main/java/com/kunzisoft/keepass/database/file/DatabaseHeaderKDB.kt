@@ -21,9 +21,9 @@
 
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.stream.readBytesLength
-import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytesLength
 import java.io.IOException
 import java.io.InputStream
 

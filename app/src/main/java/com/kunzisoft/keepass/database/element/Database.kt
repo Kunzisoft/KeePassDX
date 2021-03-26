@@ -23,19 +23,27 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.element.database.*
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.binary.AttachmentPool
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
+import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
@@ -44,15 +52,11 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.MainCredential
-import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
-import java.security.Key
-import java.security.SecureRandom
 import java.util.*
-import javax.crypto.KeyGenerator
 import kotlin.collections.ArrayList
 
 
@@ -70,7 +74,7 @@ class Database {
     var isReadOnly = false
 
     val iconDrawableFactory = IconDrawableFactory(
-            { loadedCipherKey },
+            { binaryCache },
             { iconId -> iconsManager.getBinaryForCustomIcon(iconId) }
     )
 
@@ -92,18 +96,22 @@ class Database {
      * Cipher key regenerated when the database is loaded and closed
      * Can be used to temporarily store database elements
      */
-    var loadedCipherKey: LoadedKey?
+    var binaryCache: BinaryCache
         private set(value) {
-            mDatabaseKDB?.loadedCipherKey = value
-            mDatabaseKDBX?.loadedCipherKey = value
+            mDatabaseKDB?.binaryCache = value
+            mDatabaseKDBX?.binaryCache = value
         }
         get() {
-            return mDatabaseKDB?.loadedCipherKey ?: mDatabaseKDBX?.loadedCipherKey
+            return mDatabaseKDB?.binaryCache ?: mDatabaseKDBX?.binaryCache ?: BinaryCache()
         }
+
+    fun setCacheDirectory(cacheDirectory: File) {
+        binaryCache.cacheDirectory = cacheDirectory
+    }
 
     private val iconsManager: IconsManager
         get() {
-            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
+            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager(binaryCache)
         }
 
     fun doForEachStandardIcons(action: (IconImageStandard) -> Unit) {
@@ -125,9 +133,8 @@ class Database {
         return iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(cacheDirectory: File,
-                           result: (IconImageCustom?, BinaryData?) -> Unit) {
-        mDatabaseKDBX?.buildNewCustomIcon(cacheDirectory, null, result)
+    fun buildNewCustomIcon(result: (IconImageCustom?, BinaryData?) -> Unit) {
+        mDatabaseKDBX?.buildNewCustomIcon(null, result)
     }
 
     fun isCustomIconBinaryDuplicate(binaryData: BinaryData): Boolean {
@@ -136,7 +143,7 @@ class Database {
 
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
-        iconsManager.removeCustomIcon(customIcon.uuid)
+        iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
     }
 
     val allowName: Boolean
@@ -219,7 +226,7 @@ class Database {
         // Default compression not necessary if stored in header
         mDatabaseKDBX?.let {
             return it.compressionAlgorithm == CompressionAlgorithm.GZip
-                    && it.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()
+                    && it.kdbxVersion.isBefore(FILE_VERSION_32_4)
         }
         return false
     }
@@ -232,12 +239,9 @@ class Database {
     val allowNoMasterKey: Boolean
         get() = mDatabaseKDBX != null
 
-    val allowEncryptionAlgorithmModification: Boolean
-        get() = availableEncryptionAlgorithms.size > 1
-
-    fun getEncryptionAlgorithmName(resources: Resources): String {
-        return mDatabaseKDB?.encryptionAlgorithm?.getName(resources)
-                ?: mDatabaseKDBX?.encryptionAlgorithm?.getName(resources)
+    fun getEncryptionAlgorithmName(): String {
+        return mDatabaseKDB?.encryptionAlgorithm?.toString()
+                ?: mDatabaseKDBX?.encryptionAlgorithm?.toString()
                 ?: ""
     }
 
@@ -250,7 +254,7 @@ class Database {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
                 mDatabaseKDBX?.setDataEngine(algorithm.cipherEngine)
-                mDatabaseKDBX?.dataCipher = algorithm.dataCipher
+                mDatabaseKDBX?.cipherUuid = algorithm.uuid
             }
         }
 
@@ -272,8 +276,8 @@ class Database {
             }
         }
 
-    fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine?.getName(resources) ?: ""
+    fun getKeyDerivationName(): String {
+        return kdfEngine?.toString() ?: ""
     }
 
     var numberKeyEncryptionRounds: Long
@@ -381,23 +385,10 @@ class Database {
 
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
         val newDatabase = DatabaseKDBX(databaseName, rootName)
-        newDatabase.loadedCipherKey = LoadedKey.generateNewCipherKey()
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
-    }
-
-    class LoadedKey(val key: Key, val iv: ByteArray): Serializable {
-        companion object {
-            const val BINARY_CIPHER = "Blowfish/CBC/PKCS5Padding"
-
-            fun generateNewCipherKey(): LoadedKey {
-                val iv = ByteArray(8)
-                SecureRandom().nextBytes(iv)
-                return LoadedKey(KeyGenerator.getInstance("Blowfish").generateKey(), iv)
-            }
-        }
     }
 
     @Throws(LoadDatabaseException::class)
@@ -453,6 +444,7 @@ class Database {
                  readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
+                 isRAMSufficient: (memoryWanted: Long) -> Boolean,
                  tempCipherKey: LoadedKey,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
@@ -474,7 +466,7 @@ class Database {
             // Read database stream for the first time
             readDatabaseStream(contentResolver, uri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory)
+                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
@@ -483,7 +475,7 @@ class Database {
                                         fixDuplicateUUID)
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory)
+                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
                                 .openDatabase(databaseInputStream,
                                         mainCredential.masterPassword,
                                         keyFileInputStream,
@@ -507,6 +499,7 @@ class Database {
     @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
                    cacheDirectory: File,
+                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
                    tempCipherKey: LoadedKey,
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -515,14 +508,14 @@ class Database {
             fileUri?.let { oldDatabaseUri ->
                 readDatabaseStream(contentResolver, oldDatabaseUri,
                         { databaseInputStream ->
-                            DatabaseInputKDB(cacheDirectory)
+                            DatabaseInputKDB(cacheDirectory, isRAMSufficient)
                                     .openDatabase(databaseInputStream,
                                             masterKey,
                                             tempCipherKey,
                                             progressTaskUpdater)
                         },
                         { databaseInputStream ->
-                            DatabaseInputKDBX(cacheDirectory)
+                            DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
                                     .openDatabase(databaseInputStream,
                                             masterKey,
                                             tempCipherKey,
@@ -576,8 +569,7 @@ class Database {
 
     val attachmentPool: AttachmentPool
         get() {
-            // Binary pool is functionally only in KDBX
-            return mDatabaseKDBX?.binaryPool ?: AttachmentPool()
+            return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool(binaryCache)
         }
 
     val allowMultipleAttachments: Boolean
@@ -589,11 +581,10 @@ class Database {
             return false
         }
 
-    fun buildNewBinaryAttachment(cacheDirectory: File,
-                                 compressed: Boolean = false,
+    fun buildNewBinaryAttachment(compressed: Boolean = false,
                                  protected: Boolean = false): BinaryData? {
-        return mDatabaseKDB?.buildNewAttachment(cacheDirectory)
-                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, compressed, protected)
+        return mDatabaseKDB?.buildNewAttachment()
+                ?: mDatabaseKDBX?.buildNewAttachment( false, compressed, protected)
     }
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
@@ -668,6 +659,7 @@ class Database {
     }
 
     fun clear(filesDirectory: File? = null) {
+        binaryCache.clear()
         iconsManager.clearCache()
         iconDrawableFactory.clearCache()
         // Delete the cache of the database if present

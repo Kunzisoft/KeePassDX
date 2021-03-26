@@ -20,23 +20,21 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uLongTo8Bytes
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import java.io.IOException
 import java.io.OutputStream
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
-
 import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
-class HmacBlockOutputStream(outputStream: OutputStream,
+class HmacBlockOutputStream(private val baseStream: OutputStream,
                             private val key: ByteArray)
     : OutputStream() {
 
-    private val baseStream: LittleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
-
     private val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
     private var bufferPos = 0
-    private var blockIndex: Long = 0
+    private var blockIndex = UnsignedLong(0L)
 
     @Throws(IOException::class)
     override fun close() {
@@ -87,23 +85,11 @@ class HmacBlockOutputStream(outputStream: OutputStream,
 
     @Throws(IOException::class)
     private fun writeSafeBlock() {
-        val bufBlockIndex = longTo8Bytes(blockIndex)
+        val bufBlockIndex = uLongTo8Bytes(blockIndex)
         val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
-        val blockHmac: ByteArray
-        val blockKey = HmacBlockStream.getHmacKey64(key, blockIndex)
-
-        val hmac: Mac
-        try {
-            hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(blockKey, "HmacSHA256")
-            hmac.init(signingKey)
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("Invalid Hmac")
-        } catch (e: InvalidKeyException) {
-            throw IOException("Invalid HMAC")
-        }
-
+        val blockKey = HmacBlock.getHmacKey64(key, bufBlockIndex)
+        val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
         hmac.update(bufBlockIndex)
         hmac.update(blockSizeBuf)
 
@@ -111,8 +97,7 @@ class HmacBlockOutputStream(outputStream: OutputStream,
             hmac.update(buffer, 0, bufferPos)
         }
 
-        blockHmac = hmac.doFinal()
-
+        val blockHmac: ByteArray = hmac.doFinal()
         baseStream.write(blockHmac)
         baseStream.write(blockSizeBuf)
 
@@ -120,7 +105,7 @@ class HmacBlockOutputStream(outputStream: OutputStream,
             baseStream.write(buffer, 0, bufferPos)
         }
 
-        blockIndex++
+        blockIndex.plusOne()
         bufferPos = 0
     }
 }

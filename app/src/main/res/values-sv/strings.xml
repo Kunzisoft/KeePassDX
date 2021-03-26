@@ -116,7 +116,6 @@
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>
     <string name="content_description_remove_from_list">Ta bort</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Transformationsrundor</string>
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot bruteforce-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
@@ -127,7 +126,6 @@
     <string name="special">Specialtecken</string>
     <string name="search">Postens titel/beskrivning</string>
     <string name="search_results">Sökresultat</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Understreck</string>
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>
@@ -279,8 +277,6 @@
     <string name="html_text_dev_feature_upgrade">Glöm inte att hålla appen uppdaterad genom att installera nya versioner.</string>
     <string name="download">Ladda ner</string>
     <string name="contribute">Bidra</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="style_choose_title">Apptema</string>
     <string name="style_choose_summary">Tema som används i appen</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>

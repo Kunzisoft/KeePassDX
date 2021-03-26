@@ -19,17 +19,17 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytesLength
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 
 
-class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
+class HashedBlockInputStream(private val baseStream: InputStream) : InputStream() {
 
-    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(inputStream)
     private var bufferPos = 0
     private var buffer: ByteArray = ByteArray(0)
     private var bufferIndex: Long = 0
@@ -53,7 +53,6 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
                 if (!readHashedBlock()) {
                     return length - remaining
                 }
-
             }
 
             // Copy from buffer out
@@ -80,13 +79,13 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
 
         bufferPos = 0
 
-        val index = baseStream.readUInt()
+        val index = baseStream.readBytes4ToUInt()
         if (index.toKotlinLong() != bufferIndex) {
             throw IOException("Invalid data format")
         }
         bufferIndex++
 
-        val storedHash = baseStream.readBytes(32)
+        val storedHash = baseStream.readBytesLength(32)
         if (storedHash.size != HASH_SIZE) {
             throw IOException("Invalid data format")
         }
@@ -104,24 +103,17 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             return false
         }
 
-        buffer = baseStream.readBytes(bufferSize)
+        buffer = baseStream.readBytesLength(bufferSize)
         if (buffer.size != bufferSize) {
             throw IOException("Invalid data format")
         }
 
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not implemented here.")
-        }
-
-        val computedHash = messageDigest.digest(buffer)
+        val computedHash = HashManager.hashSha256(buffer)
         if (computedHash.size != HASH_SIZE) {
             throw IOException("Hash wrong size")
         }
 
-        if (!Arrays.equals(storedHash, computedHash)) {
+        if (!storedHash.contentEquals(computedHash)) {
             throw IOException("Hashes didn't match.")
         }
 
@@ -141,7 +133,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             if (!readHashedBlock()) return -1
         }
 
-        val output = UnsignedInt.fromKotlinByte(buffer[bufferPos]).toKotlinInt()
+        val output = buffer[bufferPos].toInt() and 0xFF
         bufferPos++
 
         return output

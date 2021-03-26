@@ -19,30 +19,26 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
-import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.keepass.utils.VariantDictionary
+import com.kunzisoft.keepass.stream.CopyInputStream
+import com.kunzisoft.keepass.utils.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestInputStream
-import java.security.InvalidKeyException
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
 class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader() {
     var innerRandomStreamKey: ByteArray = ByteArray(32)
@@ -140,33 +136,27 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
      */
     @Throws(IOException::class, VersionDatabaseException::class)
     fun loadFromFile(inputStream: InputStream): HeaderAndHash {
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("No SHA-256 implementation")
-        }
+        val messageDigest: MessageDigest = HashManager.getHash256()
 
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)
         val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
-        val littleEndianDataInputStream = LittleEndianDataInputStream(digestInputStream)
 
-        val sig1 = littleEndianDataInputStream.readUInt()
-        val sig2 = littleEndianDataInputStream.readUInt()
+        val sig1 = digestInputStream.readBytes4ToUInt()
+        val sig2 = digestInputStream.readBytes4ToUInt()
 
         if (!matchesHeader(sig1, sig2)) {
             throw VersionDatabaseException()
         }
 
-        version = littleEndianDataInputStream.readUInt() // Erase previous value
+        version = digestInputStream.readBytes4ToUInt() // Erase previous value
         if (!validVersion(version)) {
             throw VersionDatabaseException()
         }
 
         var done = false
         while (!done) {
-            done = readHeaderField(littleEndianDataInputStream)
+            done = readHeaderField(digestInputStream)
         }
 
         val hash = messageDigest.digest()
@@ -174,13 +164,13 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     @Throws(IOException::class)
-    private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
+    private fun readHeaderField(dis: InputStream): Boolean {
         val fieldID = dis.read().toByte()
 
-        val fieldSize: Int = if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
-            dis.readUShort()
+        val fieldSize: Int = if (version.isBefore(FILE_VERSION_32_4)) {
+            dis.readBytes2ToUShort()
         } else {
-            dis.readUInt().toKotlinInt()
+            dis.readBytes4ToUInt().toKotlinInt()
         }
 
         var fieldData: ByteArray? = null
@@ -204,20 +194,20 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
             PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformSeed -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.TransformSeed -> if (version.isBefore(FILE_VERSION_32_4))
                 transformSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformRounds -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.TransformRounds -> if (version.isBefore(FILE_VERSION_32_4))
                 setTransformRound(fieldData)
 
             PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.isBefore(FILE_VERSION_32_4))
                 innerRandomStreamKey = fieldData
 
             PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
+            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.isBefore(FILE_VERSION_32_4))
                 setRandomStreamID(fieldData)
 
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
@@ -244,14 +234,14 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid cipher ID.")
         }
 
-        databaseV4.dataCipher = bytes16ToUuid(pbId)
+        databaseV4.cipherUuid = bytes16ToUuid(pbId)
     }
 
     private fun setTransformRound(roundsByte: ByteArray) {
         assignAesKdfEngineIfNotExists()
-        val rounds = bytes64ToLong(roundsByte)
+        val rounds = bytes64ToULong(roundsByte)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
-        databaseV4.numberKeyEncryptionRounds = rounds
+        databaseV4.numberKeyEncryptionRounds = rounds.toKotlinLong()
     }
 
     @Throws(IOException::class)
@@ -322,24 +312,6 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
             return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
-        }
-
-        @Throws(IOException::class)
-        fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX_VALUE)
-
-            val hmac: Mac
-            try {
-                hmac = Mac.getInstance("HmacSHA256")
-                val signingKey = SecretKeySpec(blockKey, "HmacSHA256")
-                hmac.init(signingKey)
-            } catch (e: NoSuchAlgorithmException) {
-                throw IOException("No HmacAlogirthm")
-            } catch (e: InvalidKeyException) {
-                throw IOException("Invalid Hmac Key")
-            }
-
-            return hmac.doFinal(header)
         }
     }
 }

@@ -390,9 +390,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
         // If no recent files
         val createDatabaseEducationPerformed =
-                createDatabaseButtonView != null && createDatabaseButtonView!!.visibility == View.VISIBLE
+                createDatabaseButtonView != null
+                && createDatabaseButtonView!!.visibility == View.VISIBLE
                 && mAdapterDatabaseHistory != null
-                && mAdapterDatabaseHistory!!.itemCount > 0
+                && mAdapterDatabaseHistory!!.itemCount == 0
                 && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createDatabaseButtonView!!,
                 {

@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.uIntTo4Bytes
 import java.io.IOException
 import java.io.OutputStream
 

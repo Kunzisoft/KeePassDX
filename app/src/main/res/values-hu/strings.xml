@@ -119,7 +119,6 @@
     <string name="read_only">Írásvédett</string>
     <string name="read_only_warning">A KeePassDX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
     <string name="content_description_remove_from_list">Eltávolítás</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Transzformációs körök</string>
     <string name="rounds_explanation">A további titkosítási körök magasabb védelmet biztosítanak a nyers erőt használó támadások ellen, ugyanakkor jelentősen lassíthatják az adatbázis betöltését vagy mentését.</string>
@@ -130,7 +129,6 @@
     <string name="special">Speciális</string>
     <string name="search">Keresés</string>
     <string name="search_results">Találatok</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis-verzió.</string>
     <string name="uppercase">Nagybetűs</string>
@@ -315,8 +313,6 @@
     <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>
     <string name="download">Letöltés</string>
     <string name="contribute">Támogatás</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="style_choose_title">Alkalmazástéma</string>
     <string name="style_choose_summary">Az alkalmazásban használt téma</string>
     <string name="icon_pack_choose_title">Ikoncsomag</string>

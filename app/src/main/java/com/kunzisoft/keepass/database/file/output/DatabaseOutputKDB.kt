@@ -19,16 +19,16 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.crypto.CipherFactory
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.write2BytesUShort
+import com.kunzisoft.keepass.utils.write4BytesUInt
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
-import com.kunzisoft.keepass.stream.NullOutputStream
-import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -37,8 +37,6 @@ import java.security.*
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 
 class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
                         outputStream: OutputStream)
@@ -67,30 +65,21 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         val finalKey = getFinalKey(header)
 
-        val cipher: Cipher
-        cipher = try {
-            when {
-                mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael->
-                    CipherFactory.getInstance("AES/CBC/PKCS5Padding")
-                mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish ->
-                    CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
-                else ->
-                    throw Exception()
-            }
+        val cipher: Cipher = try {
+            mDatabaseKDB.encryptionAlgorithm
+                    .cipherEngine.getCipher(Cipher.ENCRYPT_MODE,
+                            finalKey ?: ByteArray(0),
+                            header.encryptionIV)
         } catch (e: Exception) {
-            throw DatabaseOutputException("Algorithm not supported.", e)
+            throw IOException("Algorithm not supported.", e)
         }
 
         try {
-            cipher.init(Cipher.ENCRYPT_MODE,
-                    SecretKeySpec(finalKey, "AES"),
-                    IvParameterSpec(header.encryptionIV))
             val cos = CipherOutputStream(mOutputStream, cipher)
             val bos = BufferedOutputStream(cos)
             outputPlanGroupAndEntries(bos)
             bos.flush()
             bos.close()
-
         } catch (e: InvalidKeyException) {
             throw DatabaseOutputException("Invalid key", e)
         } catch (e: InvalidAlgorithmParameterException) {
@@ -116,11 +105,11 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         header.signature2 = DatabaseHeaderKDB.DBSIG_2
         header.flags = DatabaseHeaderKDB.FLAG_SHA2
 
-        when {
-            mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
+        when (mDatabaseKDB.encryptionAlgorithm) {
+            EncryptionAlgorithm.AESRijndael -> {
                 header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_RIJNDAEL.toKotlinInt())
             }
-            mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
+            EncryptionAlgorithm.Twofish -> {
                 header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_TWOFISH.toKotlinInt())
             }
             else -> throw DatabaseOutputException("Unsupported algorithm.")
@@ -133,26 +122,11 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         setIVs(header)
 
-        // Content checksum
-        val messageDigest: MessageDigest?
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.", e)
-        }
-
         // Header checksum
-        val headerDigest: MessageDigest
-        try {
-            headerDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.", e)
-        }
-
-        var nos = NullOutputStream()
-        val headerDos = DigestOutputStream(nos, headerDigest)
+        val headerDigest: MessageDigest = HashManager.getHash256()
 
         // Output header for the purpose of calculating the header checksum
+        val headerDos = DigestOutputStream(NullOutputStream(), headerDigest)
         var pho = DatabaseHeaderOutputKDB(header, headerDos)
         try {
             pho.outputStart()
@@ -165,9 +139,11 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         val headerHash = headerDigest.digest()
         headerHashBlock = getHeaderHashBuffer(headerHash)
 
+        // Content checksum
+        val messageDigest: MessageDigest = HashManager.getHash256()
+
         // Output database for the purpose of calculating the content checksum
-        nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, messageDigest)
+        val dos = DigestOutputStream(NullOutputStream(), messageDigest)
         val bos = BufferedOutputStream(dos)
         try {
             outputPlanGroupAndEntries(bos)
@@ -177,7 +153,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
             throw DatabaseOutputException("Failed to generate checksum.", e)
         }
 
-        header.contentsHash = messageDigest!!.digest()
+        header.contentsHash = messageDigest.digest()
 
         // Output header for real output, containing content hash
         pho = DatabaseHeaderOutputKDB(header, outputStream)
@@ -195,17 +171,19 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         return header
     }
 
-    @Suppress("CAST_NEVER_SUCCEEDS")
+    class NullOutputStream : OutputStream() {
+        override fun write(oneByte: Int) {}
+    }
+
     @Throws(DatabaseOutputException::class)
     fun outputPlanGroupAndEntries(outputStream: OutputStream) {
-        val littleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
 
         // useHeaderHash
         if (headerHashBlock != null) {
             try {
-                littleEndianDataOutputStream.writeUShort(0x0000)
-                littleEndianDataOutputStream.writeInt(headerHashBlock!!.size)
-                littleEndianDataOutputStream.write(headerHashBlock!!)
+                outputStream.write2BytesUShort(0x0000)
+                outputStream.write4BytesUInt(UnsignedInt(headerHashBlock!!.size))
+                outputStream.write(headerHashBlock!!)
             } catch (e: IOException) {
                 throw DatabaseOutputException("Failed to output header hash.", e)
             }
@@ -217,7 +195,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         }
         // Entries
         mDatabaseKDB.doForEachEntryInIndex { entry ->
-            EntryOutputKDB(entry, outputStream, mDatabaseKDB.loadedCipherKey).output()
+            EntryOutputKDB(mDatabaseKDB, entry, outputStream).output()
         }
     }
 
@@ -252,24 +230,22 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     @Throws(IOException::class)
-    private fun writeExtData(headerDigest: ByteArray, os: OutputStream) {
-        val los = LittleEndianDataOutputStream(os)
-
-        writeExtDataField(los, 0x0001, headerDigest, headerDigest.size)
+    private fun writeExtData(headerDigest: ByteArray, outputStream: OutputStream) {
+        writeExtDataField(outputStream, 0x0001, headerDigest, headerDigest.size)
         val headerRandom = ByteArray(32)
         val rand = SecureRandom()
         rand.nextBytes(headerRandom)
-        writeExtDataField(los, 0x0002, headerRandom, headerRandom.size)
-        writeExtDataField(los, 0xFFFF, null, 0)
+        writeExtDataField(outputStream, 0x0002, headerRandom, headerRandom.size)
+        writeExtDataField(outputStream, 0xFFFF, null, 0)
 
     }
 
     @Throws(IOException::class)
-    private fun writeExtDataField(los: LittleEndianDataOutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
-        los.writeUShort(fieldType)
-        los.writeInt(fieldSize)
+    private fun writeExtDataField(outputStream: OutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
+        outputStream.write2BytesUShort(fieldType)
+        outputStream.write4BytesUInt(UnsignedInt(fieldSize))
         if (data != null) {
-            los.write(data)
+            outputStream.write(data)
         }
     }
 }

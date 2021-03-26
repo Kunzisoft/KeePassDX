@@ -354,7 +354,6 @@
     <string name="autofill_auto_search_title">Automatska pretraga</string>
     <string name="html_text_dev_feature_work_hard">Trudimo se brzo izdati ovu funkciju.</string>
     <string name="html_text_dev_feature_encourage">potičeš programere da stvore &lt;strong&gt;nove funkcije&lt;/strong&gt; i &lt;strong&gt;isprave greške&lt;/strong&gt; na osnovi tvojih napomena.</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="keyboard_auto_go_action_summary">Radnja tipke „Idi” nakon pritiskanja tipke „Polje”</string>
     <string name="html_about_contribution">Kako bismo &lt;strong&gt;zadržali našu slobodu&lt;/strong&gt;, &lt;strong&gt;ispravljali greške&lt;/strong&gt;, &lt;strong&gt;dodavali funkcije&lt;/strong&gt; i &lt;strong&gt;uvijek bili aktivni&lt;/strong&gt;, računamo na tvoj &lt;strong&gt;doprinos&lt;/strong&gt;.</string>
     <string name="autofill_web_domain_blocklist_summary">Popis blokiranja koja sprečavaju automatsko ispunjavanje web domena</string>
@@ -366,7 +365,6 @@
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="education_read_only_title">Zaštiti bazu podataka od pisanja</string>
     <string name="autofill_web_domain_blocklist_title">Popis blokiranja web domena</string>
-    <string name="kdf_AES">AES</string>
     <string name="contribution">Doprinos</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
     <string name="warning_database_read_only">Za spremanje promjena u bazi podataka, datoteci dozvoli pisanje</string>
@@ -389,12 +387,10 @@
 \n
 \nKoristi preferirani način ispunjavanja obrazaca.</string>
     <string name="filter">Filtar</string>
-    <string name="encryption_chacha20">ChaCha20</string>
     <string name="show_recent_files_title">Prikaži nedavne datoteke</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Doprinosom&lt;/strong&gt;,</string>
     <string name="education_entry_new_field_title">Dodaj prilagođena polja</string>
     <string name="education_lock_summary">Zaključaj bazu podataka brzo, aplikaciju možeš postaviti tako da bazu nakon nekog vremena zaključa i kad se ekran isključi.</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="show_recent_files_summary">Prikaži mjesto nedavnih baza podataka</string>
     <string name="education_advanced_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom.</string>
     <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj&lt;strong&gt;doprinos.&lt;/strong&gt;</string>
@@ -525,8 +521,6 @@
     <string name="temp_advanced_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za napredno otključavanje</string>
     <string name="content">Sadržaj</string>
     <string name="temp_advanced_unlock_enable_title">Privremeno napredno otključavanje</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Nije moguće ispravno obnoviti popis.</string>
     <string name="error_database_uri_null">URI baze podataka nije moguće dobiti.</string>
     <string name="autofill_inline_suggestions_title">Umetnuti prijedlozi</string>

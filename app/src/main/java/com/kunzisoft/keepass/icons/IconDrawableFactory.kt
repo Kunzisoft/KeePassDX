@@ -33,8 +33,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +48,7 @@ import kotlin.collections.HashMap
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
-class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedKey?,
+class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
                           private val retrieveCustomIconBinary : (iconId: UUID) -> BinaryData?) {
 
     /** customIconMap
@@ -69,7 +69,8 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
     private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
         val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
-        if (customIconBinary != null && customIconBinary.dataExists()) {
+        val binaryCache = retrieveBinaryCache()
+        if (binaryCache != null && customIconBinary != null && customIconBinary.dataExists()) {
             getIconDrawable(context.resources, icon.custom, customIconBinary)?.let {
                 return SuperDrawable(it)
             }
@@ -87,13 +88,13 @@ class IconDrawableFactory(private val retrieveCipherKey : () -> Database.LoadedK
      */
     private fun getIconDrawable(resources: Resources, icon: IconImageCustom, iconCustomBinary: BinaryData?): Drawable? {
         val patternIcon = PatternIcon(resources)
-        val cipherKey = retrieveCipherKey()
-        if (cipherKey != null) {
+        val binaryManager = retrieveBinaryCache()
+        if (binaryManager != null) {
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
                 iconCustomBinary?.let { binaryFile ->
                     try {
-                        var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(cipherKey))
+                        var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryManager))
                         bitmap?.let { bitmapIcon ->
                             bitmap = resize(bitmapIcon, patternIcon)
                             val createdDraw = BitmapDrawable(resources, bitmap)

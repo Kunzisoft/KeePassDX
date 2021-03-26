@@ -104,7 +104,6 @@
     <string name="progress_create">創建新資料庫中…</string>
     <string name="progress_title">工作中…</string>
     <string name="content_description_remove_from_list">移除</string>
-    <string name="encryption_rijndael">Rijndael加密(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次數</string>
     <string name="rounds_explanation">更高級的加密次數對暴力攻擊能提供額外保護，但也會增加讀取和保存的時間。</string>
@@ -114,7 +113,6 @@
     <string name="sort_db">資料庫的排序順序</string>
     <string name="special">特別</string>
     <string name="search">條目名稱/說明</string>
-    <string name="encryption_twofish">Twofish演算法</string>
     <string name="underline">強調</string>
     <string name="unsupported_db_version">不支援的資料庫版本。</string>
     <string name="uppercase">大寫</string>

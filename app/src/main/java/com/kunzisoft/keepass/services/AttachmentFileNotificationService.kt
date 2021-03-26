@@ -29,6 +29,7 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
@@ -47,6 +48,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
+
+    private var mDatabase: Database? = Database.getInstance()
 
     override fun retrieveChannelId(): String {
         return CHANNEL_ATTACHMENT_ID
@@ -285,11 +288,14 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     // Add action to the list on start
                     attachmentNotificationList.add(attachmentNotification)
 
-                    mainScope.launch {
-                        AttachmentFileAction(attachmentNotification,
-                                contentResolver).apply {
-                            listener = attachmentFileActionListener
-                        }.executeAction()
+                    mDatabase?.let { database ->
+                        mainScope.launch {
+                            AttachmentFileAction(attachmentNotification,
+                                    database,
+                                    contentResolver).apply {
+                                listener = attachmentFileActionListener
+                            }.executeAction()
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -313,6 +319,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private class AttachmentFileAction(
             private val attachmentNotification: AttachmentNotification,
+            private val database: Database,
             private val contentResolver: ContentResolver) {
 
         private val updateMinFrequency = 1000
@@ -345,6 +352,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                 when (streamDirection) {
                                     StreamDirection.UPLOAD -> {
                                         BinaryDatabaseManager.uploadToDatabase(
+                                                database,
                                                 attachmentNotification.uri,
                                                 attachment.binaryData,
                                                 contentResolver,
@@ -358,6 +366,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                     }
                                     StreamDirection.DOWNLOAD -> {
                                         BinaryDatabaseManager.downloadFromDatabase(
+                                                database,
                                                 attachmentNotification.uri,
                                                 attachment.binaryData,
                                                 contentResolver,

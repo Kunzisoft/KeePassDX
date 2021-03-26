@@ -20,18 +20,15 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment.adapter
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.ObjectNameResource
+import java.util.*
 
-import java.util.ArrayList
-
-class ListRadioItemAdapter<T : ObjectNameResource>(private val context: Context)
+class ListRadioItemAdapter<T>(private val context: Context)
     : RecyclerView.Adapter<ListRadioItemAdapter.ListRadioViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -48,7 +45,7 @@ class ListRadioItemAdapter<T : ObjectNameResource>(private val context: Context)
 
     override fun onBindViewHolder(holder: ListRadioViewHolder, position: Int) {
         val item = this.radioItemList[position]
-        holder.radioButton.text = item.getName(context.resources)
+        holder.radioButton.text = item.toString()
         holder.radioButton.isChecked = radioItemUsed != null && radioItemUsed == item
         holder.radioButton.setOnClickListener(OnItemClickListener(item))
     }

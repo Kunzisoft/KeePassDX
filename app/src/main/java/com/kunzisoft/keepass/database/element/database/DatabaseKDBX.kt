@@ -22,16 +22,21 @@ package com.kunzisoft.keepass.database.element.database
 import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.longTo8Bytes
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.CryptoUtil
-import com.kunzisoft.keepass.crypto.engine.AesEngine
-import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.AesEngine
+import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -39,33 +44,31 @@ import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.VariantDictionary
 import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import javax.crypto.Mac
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import kotlin.math.min
 
 
 class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     var hmacKey: ByteArray? = null
         private set
-    var dataCipher = AesEngine.CIPHER_UUID
+    var cipherUuid = EncryptionAlgorithm.AESRijndael.uuid
     private var dataEngine: CipherEngine = AesEngine()
     var compressionAlgorithm = CompressionAlgorithm.GZip
     var kdfParameters: KdfParameters? = null
@@ -107,8 +110,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<DeletedObject>()
     val customData = HashMap<String, String>()
-
-    var binaryPool = AttachmentPool()
 
     var localizedAppName = "KeePassDX"
 
@@ -186,7 +187,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                     CompressionAlgorithm.GZip -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
-                        if (kdbxVersion.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
+                        if (kdbxVersion.isBefore(FILE_VERSION_32_4)) {
                             compressAllBinaries()
                         }
                     }
@@ -194,9 +195,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             CompressionAlgorithm.GZip -> {
                 // In databaseV4 the header is zipped during the save, so not necessary here
-                if (kdbxVersion.toKotlinLong() >= FILE_VERSION_32_4.toKotlinLong()) {
-                    decompressAllBinaries()
-                } else {
+                if (kdbxVersion.isBefore(FILE_VERSION_32_4)) {
                     when (newCompression) {
                         CompressionAlgorithm.None -> {
                             decompressAllBinaries()
@@ -204,18 +203,18 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                         CompressionAlgorithm.GZip -> {
                         }
                     }
+                } else {
+                    decompressAllBinaries()
                 }
             }
         }
     }
 
     private fun compressAllBinaries() {
-        binaryPool.doForEachBinary { _, binary ->
+        attachmentPool.doForEachBinary { _, binary ->
             try {
-                val cipherKey = loadedCipherKey
-                        ?: throw IOException("Unable to retrieve cipher key to compress binaries")
                 // To compress, create a new binary with file
-                binary.compress(cipherKey)
+                binary.compress(binaryCache)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to compress $binary", e)
             }
@@ -223,11 +222,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun decompressAllBinaries() {
-        binaryPool.doForEachBinary { _, binary ->
+        attachmentPool.doForEachBinary { _, binary ->
             try {
-                val cipherKey = loadedCipherKey
-                        ?: throw IOException("Unable to retrieve cipher key to decompress binaries")
-                binary.decompress(cipherKey)
+                binary.decompress(binaryCache)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to decompress $binary", e)
             }
@@ -310,17 +307,15 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(cacheDirectory: File,
-                           customIconId: UUID? = null,
+    fun buildNewCustomIcon(customIconId: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.buildNewCustomIcon(cacheDirectory, customIconId, result)
+        iconsManager.buildNewCustomIcon(customIconId, result)
     }
 
-    fun addCustomIcon(cacheDirectory: File,
-                      customIconId: UUID? = null,
-                      dataSize: Int,
+    fun addCustomIcon(customIconId: UUID? = null,
+                      smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.addCustomIcon(cacheDirectory, customIconId, dataSize, result)
+        iconsManager.addCustomIcon(customIconId, smallSize, result)
     }
 
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
@@ -352,14 +347,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             masterKey = getFileKey(keyInputStream)
         }
 
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("No SHA-256 implementation")
-        }
-
-        return messageDigest.digest(masterKey)
+        return HashManager.hashSha256(masterKey)
     }
 
     @Throws(IOException::class)
@@ -370,13 +358,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
             var transformedMasterKey = kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
             if (transformedMasterKey.size != 32) {
-                transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey)
+                transformedMasterKey = HashManager.hashSha256(transformedMasterKey)
             }
 
             val cmpKey = ByteArray(65)
             System.arraycopy(masterSeed, 0, cmpKey, 0, 32)
             System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
-            finalKey = CryptoUtil.resizeKey(cmpKey, 0, 64, dataEngine.keyLength())
+            finalKey = resizeKey(cmpKey, dataEngine.keyLength())
 
             val messageDigest: MessageDigest
             try {
@@ -389,6 +377,47 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 Arrays.fill(cmpKey, 0.toByte())
             }
         }
+    }
+
+    private fun resizeKey(inBytes: ByteArray, cbOut: Int): ByteArray {
+        if (cbOut == 0) return ByteArray(0)
+
+        val messageDigest = if (cbOut <= 32) HashManager.getHash256() else HashManager.getHash512()
+        messageDigest.update(inBytes, 0, 64)
+        val hash: ByteArray = messageDigest.digest()
+
+        if (cbOut == hash.size) {
+            return hash
+        }
+
+        val ret = ByteArray(cbOut)
+        if (cbOut < hash.size) {
+            System.arraycopy(hash, 0, ret, 0, cbOut)
+        } else {
+            var pos = 0
+            var r: Long = 0
+            while (pos < cbOut) {
+                val hmac: Mac
+                try {
+                    hmac = Mac.getInstance("HmacSHA256")
+                } catch (e: NoSuchAlgorithmException) {
+                    throw RuntimeException(e)
+                }
+
+                val pbR = longTo8Bytes(r)
+                val part = hmac.doFinal(pbR)
+
+                val copy = min(cbOut - pos, part.size)
+                System.arraycopy(part, 0, ret, pos, copy)
+                pos += copy
+                r++
+
+                Arrays.fill(part, 0.toByte())
+            }
+        }
+
+        Arrays.fill(hash, 0.toByte())
+        return ret
     }
 
     override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
@@ -488,17 +517,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun checkKeyFileHash(data: String, hash: String): Boolean {
-        val digest: MessageDigest?
         var success = false
         try {
-            digest = MessageDigest.getInstance("SHA-256")
-            digest?.reset()
             // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-            val dataDigest = digest.digest(Hex.decodeHex(data.toCharArray()))
-                    .copyOfRange(0, 4)
-                    .toHexString()
+            val dataDigest = HashManager.hashSha256(Hex.decodeHex(data.toCharArray()))
+                    .copyOfRange(0, 4).toHexString()
             success = dataDigest == hash
-        } catch (e: NoSuchAlgorithmException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         return success
@@ -641,13 +666,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
-    fun buildNewAttachment(cacheDirectory: File,
+    fun buildNewAttachment(smallSize: Boolean,
                            compression: Boolean,
                            protection: Boolean,
                            binaryPoolId: Int? = null): BinaryData {
-        return binaryPool.put(binaryPoolId) { uniqueBinaryId ->
-            val fileInCache = File(cacheDirectory, uniqueBinaryId)
-            BinaryFile(fileInCache, compression, protection)
+        return attachmentPool.put(binaryPoolId) { uniqueBinaryId ->
+            binaryCache.getBinaryData(uniqueBinaryId, smallSize, compression, protection)
         }.binary
     }
 
@@ -665,7 +689,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryData>()
         if (binaries.isEmpty()) {
-            binaryPool.doForEachBinary { _, binary ->
+            attachmentPool.doForEachBinary { _, binary ->
                 binariesToRemove.add(binary)
             }
         } else {
@@ -674,7 +698,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Remove binaries from the list
         rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
             override fun operate(node: EntryKDBX): Boolean {
-                node.getAttachments(binaryPool, true).forEach {
+                node.getAttachments(attachmentPool, true).forEach {
                     binariesToRemove.remove(it.binaryData)
                 }
                 return binariesToRemove.isNotEmpty()
@@ -683,9 +707,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         // Effective removing
         binariesToRemove.forEach {
             try {
-                binaryPool.remove(it)
+                attachmentPool.remove(it)
                 if (clear)
-                    it.clear()
+                    it.clear(binaryCache)
             } catch (e: Exception) {
                 Log.w(TAG, "Unable to clean binaries", e)
             }
@@ -701,7 +725,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     override fun clearCache() {
         try {
             super.clearCache()
-            binaryPool.clear()
+            attachmentPool.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear cache", e)
         }

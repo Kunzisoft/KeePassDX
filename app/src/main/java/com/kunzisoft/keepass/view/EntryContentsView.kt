@@ -322,8 +322,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun setAttachmentCipherKey(cipherKey: Database.LoadedKey?) {
-        attachmentsAdapter.binaryCipherKey = cipherKey
+    fun setAttachmentCipherKey(database: Database?) {
+        attachmentsAdapter.database = database
     }
 
     private fun showAttachments(show: Boolean) {
