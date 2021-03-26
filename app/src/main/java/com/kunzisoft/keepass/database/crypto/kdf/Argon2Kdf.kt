@@ -21,9 +21,8 @@ package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.encrypt.argon2.Argon2Transformer
-import com.kunzisoft.encrypt.argon2.Argon2Type
 import com.kunzisoft.keepass.utils.bytes16ToUuid
+import encrypt.Encrypt
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -63,7 +62,14 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         // val secretKey = kdfParameters.getByteArray(PARAM_SECRET_KEY)
         // val assocData = kdfParameters.getByteArray(PARAM_ASSOC_DATA)
 
-        val argonType = if (type == Type.ARGON2_ID) Argon2Type.ARGON2_ID else Argon2Type.ARGON2_D
+        // With Go lib
+        return when(type) {
+            Type.ARGON2_D -> Encrypt.transformArgon2DKey(masterKey, salt, iterations, memory, parallelism.toShort(), 32)
+            else -> Encrypt.transformArgon2IDKey(masterKey, salt, iterations, memory, parallelism.toShort(), 32)
+        }
+
+        /*
+        val argonType = if (type == Type.ARGON2_ID) Argon2Type.ARGON2_ID else Argon2Type.ARGON2_ID
 
         return Argon2Transformer.transformKey(
                 argonType,
@@ -73,6 +79,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
                 memory,
                 iterations,
                 version)
+         */
     }
 
     override fun randomize(kdfParameters: KdfParameters) {

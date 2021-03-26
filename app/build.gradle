@@ -131,6 +131,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Encrypt lib
     implementation project(path: ':crypto')
+    implementation fileTree(include: ['encrypt.aar'], dir: 'libs')
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')

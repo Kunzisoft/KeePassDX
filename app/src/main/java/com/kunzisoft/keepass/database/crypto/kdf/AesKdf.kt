@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.utils.bytes16ToUuid
+import encrypt.Encrypt
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -58,7 +58,8 @@ class AesKdf : KdfEngine() {
 
         val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
 
-        return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
+        return Encrypt.transformAESKey(currentMasterKey, seed, rounds!!)
+        //return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
 
     override fun randomize(kdfParameters: KdfParameters) {
