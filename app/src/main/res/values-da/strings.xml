@@ -516,8 +516,6 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="download_canceled">Annulleret!</string>
     <string name="education_advanced_unlock_title">Avanceret database-oplåsning</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyld tilføjet.</string>
