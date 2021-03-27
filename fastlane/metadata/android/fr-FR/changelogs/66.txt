@@ -1,2 +1,3 @@
- * Correction des themes #935
+ * Correction des themes #935 #926
  * Baisse du temps du presse-papier par defaut #934
+ * Meilleures performaces d'ouverture #929 #933
