@@ -1,6 +1,7 @@
 KeePassDX(2.9.15)
  * Fix themes #935
  * Decrease default clipboard time #934
+ * Fix memory usage setting #941
 
 KeePassDX(2.9.14)
  * Add custom icons #96

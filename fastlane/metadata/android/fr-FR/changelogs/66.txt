@@ -1,2 +1,3 @@
  * Correction des themes #935
  * Baisse du temps du presse-papier par defaut #934
+ * Correction du paramètre d'usage mémoire #941
