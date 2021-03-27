@@ -1,3 +1,3 @@
  * Fix themes #935 #926
  * Decrease default clipboard time #934
- * Best opening performance #929 #933
+ * Better opening performance #929 #933
