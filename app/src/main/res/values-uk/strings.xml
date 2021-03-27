@@ -559,4 +559,6 @@
     <string name="error_upload_file">Під час передавання даних файлу сталася помилка.</string>
     <string name="error_file_to_big">Файл, який ви намагаєтеся передати, завеликий.</string>
     <string name="content_description_otp_information">Відомості про одноразовий пароль</string>
+    <string name="error_remove_file">Сталася помилка під час вилучення даних файлу.</string>
+    <string name="error_duplicate_file">Дані файлу вже існують.</string>
 </resources>

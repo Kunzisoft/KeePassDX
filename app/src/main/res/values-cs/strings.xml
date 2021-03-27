@@ -39,7 +39,7 @@
     <string name="select_to_copy">Vyberte zkopírovat %1$s do schránky</string>
     <string name="retrieving_db_key">Načítám klíč databáze…</string>
     <string name="database">Databáze</string>
-    <string name="decrypting_db">Dešifruji obsah databáze…</string>
+    <string name="decrypting_db">Dešifrování obsahu databáze…</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Číslice</string>
     <string name="select_database_file">Otevřít existující databázi</string>
@@ -88,7 +88,7 @@
     <string name="length">Délka</string>
     <string name="list_size_title">Velikost položek seznamu</string>
     <string name="list_size_summary">Velikost textu v seznamu prvků</string>
-    <string name="loading_database">Načítám databázi…</string>
+    <string name="loading_database">Načítání databáze…</string>
     <string name="lowercase">Malá písmena</string>
     <string name="hide_password_title">Skrýt hesla</string>
     <string name="hide_password_summary">Ve výchozím stavu zobrazit (***) místo hesla</string>
@@ -111,7 +111,7 @@
     <string name="no_url_handler">Pro otevření tohoto URL nainstalujte webový prohlížeč.</string>
     <string name="omit_backup_search_title">Neprohledávat položky v záloze</string>
     <string name="omit_backup_search_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
-    <string name="progress_create">Zakládám novou databázi…</string>
+    <string name="progress_create">Zakládání nové databáze…</string>
     <string name="progress_title">Pracuji…</string>
     <string name="protection">Ochrana</string>
     <string name="read_only_warning">Ke změně v databáze potřebuje KeePassDX oprávnění pro zápis.</string>
@@ -119,8 +119,8 @@
     <string name="root">Kořen</string>
     <string name="rounds">Transformační průchody</string>
     <string name="rounds_explanation">Vyšší počet šifrovacích průchodů zvýší odolnost proti útoku zkoušením všech možných hesel, ale může výrazně zpomalit načítání a ukládání.</string>
-    <string name="saving_database">Ukládám databázi…</string>
-    <string name="space">Místo</string>
+    <string name="saving_database">Ukládání databáze…</string>
+    <string name="space">Mezera</string>
     <string name="search_label">Hledat</string>
     <string name="sort_db">Přirozené řazení</string>
     <string name="special">Speciální</string>
@@ -374,7 +374,7 @@
     <string name="error_otp_period">Interval musít být mezi %1$d a %2$d vteřinami.</string>
     <string name="error_otp_digits">Token musí obsahovat mezi %1$d a %2$d číslicemi.</string>
     <string name="invalid_db_same_uuid">%1$s s totožným UUID %2$s již existuje.</string>
-    <string name="creating_database">Zakládám databázi…</string>
+    <string name="creating_database">Zakládání databáze…</string>
     <string name="menu_security_settings">Nastavení zabezpečení</string>
     <string name="menu_master_key_settings">Nastavení hlavního klíče</string>
     <string name="contains_duplicate_uuid">Databáze obsahuje duplikátní UUID.</string>
@@ -403,11 +403,11 @@
     <string name="error_save_database">Nebylo možno uložit databázi.</string>
     <string name="menu_save_database">Uložit databázi</string>
     <string name="menu_empty_recycle_bin">Vysypat koš</string>
-    <string name="command_execution">Provádím příkaz…</string>
+    <string name="command_execution">Provádění příkazu…</string>
     <string name="warning_permanently_delete_nodes">Natrvalo smazat vybrané uzly\?</string>
     <string name="keystore_not_accessible">Úložiště klíčů není řádně inicializováno.</string>
     <string name="recycle_bin_group_title">Název skupiny</string>
-    <string name="enable_auto_save_database_title">Uložit databázi automaticky</string>
+    <string name="enable_auto_save_database_title">Automatické ukládání</string>
     <string name="enable_auto_save_database_summary">Uložit databázi po každé důležité akci (v režimu \"Zápis\")</string>
     <string name="entry_attachments">Přílohy</string>
     <string name="menu_restore_entry_history">Obnovit historii</string>
@@ -415,9 +415,9 @@
     <string name="keyboard_auto_go_action_title">Akce auto-klávesy</string>
     <string name="keyboard_auto_go_action_summary">Akce klávesy \"Jít\" po stisknutí klávesy \"Kolonka\"</string>
     <string name="download_attachment">Stáhnout %1$s</string>
-    <string name="download_initialization">Zahajuji…</string>
+    <string name="download_initialization">Zahájení…</string>
     <string name="download_progression">Probíhá: %1$d%%</string>
-    <string name="download_finalization">Dokončuji…</string>
+    <string name="download_finalization">Dokončování…</string>
     <string name="download_complete">Kompletní!</string>
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>
     <string name="hide_expired_entries_summary">Propadlé záznamy nebudou ukázány</string>
@@ -437,7 +437,7 @@
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>open source</strong> a <strong>bez reklam</strong>.
 \nJe poskytován jak je, od licencí <strong>GPLv3</strong>, bez jakékoli záruky.</string>
-    <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;opravili chyby&lt;/strong&gt;,&lt;strong&gt;doplnili funkce&lt;/strong&gt; a &lt;strong&gt;byli vždy aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Abychom si <strong>udrželi svoji svobodu</strong>, <strong>mohli opravovat chyby</strong>, <strong>přidávat nové funkce</strong> a <strong>byli pořád aktivní</strong>, počítáme s Vaším <strong>přispěním</strong>.</string>
     <string name="error_create_database">Nepodařilo se vytvořit soubor databáze.</string>
     <string name="entry_add_attachment">Přidat přílohu</string>
     <string name="discard">Zavrhnout</string>
@@ -523,11 +523,11 @@
     <string name="advanced_unlock_not_recognized">Otisk pro rozšířené odemknutí nebyl rozpoznán</string>
     <string name="advanced_unlock_invalid_key">Nelze načíst klíč rozšířeného odemknutí. Prosím, smažte jej a opakujte proces rozpoznání odemknutí.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Načíst důvěrný údaj pomocí dat rozšířeného odemknutí</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Otevřít databázi pomocí rozpoznání rozšířeného odemknutí</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Otevřít pomocí rozšířeného odemykání</string>
     <string name="advanced_unlock_prompt_store_credential_message">Varování: Pokud použijete rozpoznání rozšířeného odemknutí, musíte si i nadále pamatovat hlavní heslo.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Rozpoznání rozšířeného odemknutí</string>
     <string name="open_advanced_unlock_prompt_store_credential">Pro uložení důvěrných údajů otevřete pobídku rozšířeného odemknutí</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Pro odemknutí databáze otevřete pobídku rozšířeného odemknutí</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Databázi otevřete i pomocí nabídky rozšířeného odemykání</string>
     <string name="menu_keystore_remove_key">Smazat klíč rozšířeného odemknutí</string>
     <string name="education_advanced_unlock_title">Rozšířené odemknutí databáze</string>
     <string name="advanced_unlock_timeout">Časový limit rozšířeného odemknutí</string>

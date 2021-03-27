@@ -559,4 +559,6 @@
     <string name="error_upload_file">Ошибка при загрузке данных файла.</string>
     <string name="error_file_to_big">Файл слишком большой для загрузки.</string>
     <string name="content_description_otp_information">Информация об одноразовом пароле</string>
+    <string name="error_duplicate_file">Данные файла уже существует.</string>
+    <string name="error_remove_file">Ошибка при удалении данных файла.</string>
 </resources>

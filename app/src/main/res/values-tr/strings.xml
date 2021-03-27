@@ -543,4 +543,6 @@
     <string name="error_upload_file">Dosya verileri karşıya yüklenirken bir hata oluştu.</string>
     <string name="error_file_to_big">Karşıya yüklemeye çalıştığınız dosya çok büyük.</string>
     <string name="content_description_otp_information">Tek seferlik parola bilgileri</string>
+    <string name="error_remove_file">Dosya verilerini kaldırırken bir hata oluştu.</string>
+    <string name="error_duplicate_file">Dosya verileri zaten var.</string>
 </resources>

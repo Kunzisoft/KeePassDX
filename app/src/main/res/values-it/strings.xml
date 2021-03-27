@@ -534,7 +534,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Attenzione: dovrai sempre ricordare la password principale anche se usi lo sblocco avanzato.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Riconoscimento con sblocco avanzato</string>
     <string name="device_credential">Credenziali del dispositivo</string>
-    <string name="credential_before_click_advanced_unlock_button">Inserisci la password, quindi clicca sull\'icona \"Sblocco avanzato\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
     <string name="advanced_unlock_scanning_error">Errore sblocco avanzato: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Apri il database con lo sblocco avanzato</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Autentica con lo sblocco avanzato per sbloccare il database</string>
@@ -556,4 +556,12 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="content_description_otp_information">Info password usa e getta</string>
+    <string name="icon_section_custom">Personalizzato</string>
+    <string name="icon_section_standard">Standard</string>
+    <string name="style_brightness_summary">Scegli un tema scuro o chiaro</string>
+    <string name="style_brightness_title">Luminosità del tema</string>
+    <string name="error_remove_file">Si è verificato un errore durante la rimozione del file.</string>
+    <string name="error_duplicate_file">Il file esiste già.</string>
+    <string name="error_upload_file">Si è verificato un errore durante il caricamento del file.</string>
+    <string name="error_file_to_big">Il file che stai cercando di caricare è troppo grande.</string>
 </resources>

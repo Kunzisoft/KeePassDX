@@ -559,4 +559,6 @@
     <string name="error_upload_file">上传文件数据时发生错误。</string>
     <string name="error_file_to_big">你尝试上传的文件太大。</string>
     <string name="content_description_otp_information">一次性密码信息</string>
+    <string name="error_remove_file">删除文件数据时发生了一个错误。</string>
+    <string name="error_duplicate_file">文件数据已存在。</string>
 </resources>
