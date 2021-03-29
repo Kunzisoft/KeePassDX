@@ -128,7 +128,6 @@
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
     <string name="content_description_remove_from_list">Löschen</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
@@ -139,7 +138,6 @@
     <string name="special">Spezialsymbole</string>
     <string name="search">Suchen</string>
     <string name="search_results">Suchergebnisse</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Unterstriche</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
@@ -279,8 +277,6 @@
     <string name="html_text_dev_feature_upgrade">Denken Sie daran, Ihre App auf dem neuesten Stand zu halten, indem Sie neue Versionen installieren.</string>
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="icon_pack_choose_title">Symbolpaket</string>
     <string name="icon_pack_choose_summary">In der App verwendetes Symbolpaket</string>
     <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
@@ -552,8 +548,6 @@
     <string name="advanced_unlock_not_recognized">Konnte den Abdruck des erweiterten Entsperrens nicht erkennen</string>
     <string name="advanced_unlock_invalid_key">Kann den Schlüssel zum erweiterten Entsperren nicht lesen. Bitte löschen sie ihn und wiederholen sie Prozedur zum Erkennen des Entsperrens.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extrahiere Datenbankanmeldedaten mit Daten aus erweitertem Entsperren</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Datenbank neu laden</string>

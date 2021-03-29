@@ -19,21 +19,21 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytesLength
+import com.kunzisoft.keepass.utils.uLongTo8Bytes
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import java.io.IOException
 import java.io.InputStream
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
 import java.util.*
 import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
-class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
+class HmacBlockInputStream(private val baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
 
-    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(baseStream)
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
-    private var blockIndex: Long = 0
+    private var blockIndex = UnsignedLong(0L)
     private var endOfStream = false
 
     @Throws(IOException::class)
@@ -44,7 +44,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             if (!readSafeBlock()) return -1
         }
 
-        val output = UnsignedInt.fromKotlinByte(buffer[bufferPos]).toKotlinInt()
+        val output = (buffer[bufferPos]).toInt() and 0xFF
         bufferPos++
 
         return output
@@ -67,8 +67,6 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             }
 
             val copy = (buffer.size - bufferPos).coerceAtMost(remaining)
-            assert(copy > 0)
-
             System.arraycopy(buffer, bufferPos, outBuffer, offset, copy)
             offset += copy
             bufferPos += copy
@@ -88,35 +86,25 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
     private fun readSafeBlock(): Boolean {
         if (endOfStream) return false
 
-        val storedHmac = baseStream.readBytes(32)
+        val storedHmac = baseStream.readBytesLength(32)
         if (storedHmac.size != 32) {
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = longTo8Bytes(blockIndex)
-        val pbBlockSize = baseStream.readBytes(4)
+        val pbBlockSize = baseStream.readBytesLength(4)
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
         val blockSize = bytes4ToUInt(pbBlockSize)
         bufferPos = 0
 
-        buffer = baseStream.readBytes(blockSize.toKotlinInt())
+        buffer = baseStream.readBytesLength(blockSize.toKotlinInt())
 
         if (verify) {
-            val cmpHmac: ByteArray
-            val blockKey = HmacBlockStream.getHmacKey64(key, blockIndex)
-            val hmac: Mac
-            try {
-                hmac = Mac.getInstance("HmacSHA256")
-                val signingKey = SecretKeySpec(blockKey, "HmacSHA256")
-                hmac.init(signingKey)
-            } catch (e: NoSuchAlgorithmException) {
-                throw IOException("Invalid Hmac")
-            } catch (e: InvalidKeyException) {
-                throw IOException("Invalid Hmac")
-            }
+            val pbBlockIndex = uLongTo8Bytes(blockIndex)
 
+            val blockKey = HmacBlock.getHmacKey64(key, pbBlockIndex)
+            val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
             hmac.update(pbBlockIndex)
             hmac.update(pbBlockSize)
 
@@ -124,16 +112,16 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
                 hmac.update(buffer)
             }
 
-            cmpHmac = hmac.doFinal()
+            val cmpHmac: ByteArray = hmac.doFinal()
             Arrays.fill(blockKey, 0.toByte())
 
-            if (!Arrays.equals(cmpHmac, storedHmac)) {
+            if (!cmpHmac.contentEquals(storedHmac)) {
                 throw IOException("Invalid Hmac")
             }
 
         }
 
-        blockIndex++
+        blockIndex.plusOne()
 
         if (blockSize.toKotlinLong() == 0L) {
             endOfStream = true

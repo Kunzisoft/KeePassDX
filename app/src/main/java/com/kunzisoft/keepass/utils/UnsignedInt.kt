@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.utils
 
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+
 class UnsignedInt(private var unsignedValue: Int) {
 
     constructor(unsignedValue: UnsignedInt) : this(unsignedValue.toKotlinInt())
@@ -42,6 +44,11 @@ class UnsignedInt(private var unsignedValue: Int) {
      */
     fun toKotlinByte(): Byte {
         return (unsignedValue and 0xFF).toByte()
+    }
+
+
+    fun isBefore(value: UnsignedInt): Boolean {
+        return toKotlinLong() < value.toKotlinLong()
     }
 
     override fun toString():String {
@@ -68,13 +75,6 @@ class UnsignedInt(private var unsignedValue: Int) {
         private const val UINT_MAX_VALUE: Long = 4294967295L // 2^32
 
         val MAX_VALUE = UnsignedInt(UINT_MAX_VALUE.toInt())
-
-        /**
-         * Convert a byte to an unsigned byte
-         */
-        fun fromKotlinByte(value: Byte): UnsignedInt {
-            return UnsignedInt(value.toInt() and 0xFF)
-        }
 
         @Throws(NumberFormatException::class)
         fun fromKotlinLong(value: Long): UnsignedInt {

@@ -19,15 +19,16 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.binary.AttachmentPool
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import org.apache.commons.codec.binary.Hex
 import java.io.ByteArrayInputStream
@@ -35,7 +36,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 
 abstract class DatabaseVersioned<
@@ -48,21 +48,22 @@ abstract class DatabaseVersioned<
     // Algorithm used to encrypt the database
     protected var algorithm: EncryptionAlgorithm? = null
 
-    abstract val kdfEngine: KdfEngine?
+    abstract val kdfEngine: com.kunzisoft.keepass.database.crypto.kdf.KdfEngine?
 
-    abstract val kdfAvailableList: List<KdfEngine>
+    abstract val kdfAvailableList: List<com.kunzisoft.keepass.database.crypto.kdf.KdfEngine>
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
 
     /**
+     * To manage binaries in faster way
      * Cipher key generated when the database is loaded, and destroyed when the database is closed
      * Can be used to temporarily store database elements
      */
-    var loadedCipherKey: Database.LoadedKey? = null
-
-    val iconsManager = IconsManager()
+    var binaryCache = BinaryCache()
+    val iconsManager = IconsManager(binaryCache)
+    var attachmentPool = AttachmentPool(binaryCache)
 
     var changeDuplicateId = false
 
@@ -99,42 +100,21 @@ abstract class DatabaseVersioned<
     protected fun getCompositeKey(key: String, keyfileInputStream: InputStream): ByteArray {
         val fileKey = getFileKey(keyfileInputStream)
         val passwordKey = getPasswordKey(key)
-
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
-
-        messageDigest.update(passwordKey)
-
-        return messageDigest.digest(fileKey)
+        return HashManager.hashSha256(passwordKey, fileKey)
     }
 
     @Throws(IOException::class)
     protected fun getPasswordKey(key: String): ByteArray {
-        val messageDigest: MessageDigest
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
-
         val bKey: ByteArray = try {
             key.toByteArray(charset(passwordEncoding))
         } catch (e: UnsupportedEncodingException) {
             key.toByteArray()
         }
-
-        messageDigest.update(bKey, 0, bKey.size)
-
-        return messageDigest.digest()
+        return HashManager.hashSha256(bKey)
     }
 
     @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
-
         val keyData = keyInputStream.readBytes()
 
         // Check XML key file
@@ -152,13 +132,8 @@ abstract class DatabaseVersioned<
                 // Key is not base 64, treat it as binary data
             }
         }
-
         // Hash file as binary data
-        try {
-            return MessageDigest.getInstance("SHA-256").digest(keyData)
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
+        return HashManager.hashSha256(keyData)
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

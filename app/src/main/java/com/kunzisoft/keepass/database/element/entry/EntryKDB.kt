@@ -22,7 +22,8 @@ package com.kunzisoft.keepass.database.element.entry
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.binary.AttachmentPool
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -56,7 +57,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     /** A string describing what is in binaryData  */
     var binaryDescription = ""
-    var binaryData: BinaryData? = null
+    private var binaryDataId: Int? = null
 
     // Determine if this is a MetaStream entry
     val isMetaStream: Boolean
@@ -89,7 +90,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
-        binaryData = parcel.readParcelable(BinaryData::class.java.classLoader)
+        binaryDataId = parcel.readInt()
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -108,7 +109,9 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeString(url)
         dest.writeString(notes)
         dest.writeString(binaryDescription)
-        dest.writeParcelable(binaryData, flags)
+        binaryDataId?.let {
+            dest.writeInt(it)
+        }
     }
 
     fun updateWith(source: EntryKDB) {
@@ -119,7 +122,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         url = source.url
         notes = source.notes
         binaryDescription = source.binaryDescription
-        binaryData = source.binaryData
+        binaryDataId = source.binaryDataId
     }
 
     override var username = ""
@@ -138,26 +141,39 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     override val type: Type
         get() = Type.ENTRY
 
-    fun getAttachment(): Attachment? {
-        val binary = binaryData
-        return if (binary != null)
-            Attachment(binaryDescription, binary)
-        else null
+    fun getAttachment(attachmentPool: AttachmentPool): Attachment? {
+        binaryDataId?.let { poolId ->
+            attachmentPool[poolId]?.let { binary ->
+                return Attachment(binaryDescription, binary)
+            }
+        }
+        return null
     }
 
     fun containsAttachment(): Boolean {
-        return binaryData != null
+        return binaryDataId != null
     }
 
-    fun putAttachment(attachment: Attachment) {
+    fun getBinary(attachmentPool: AttachmentPool): BinaryData? {
+        this.binaryDataId?.let {
+            return attachmentPool[it]
+        }
+        return null
+    }
+
+    fun putBinary(binaryData: BinaryData, attachmentPool: AttachmentPool) {
+        this.binaryDataId = attachmentPool.put(binaryData)
+    }
+
+    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
         this.binaryDescription = attachment.name
-        this.binaryData = attachment.binaryData
+        this.binaryDataId = attachmentPool.put(attachment.binaryData)
     }
 
     fun removeAttachment(attachment: Attachment? = null) {
         if (attachment == null || this.binaryDescription == attachment.name) {
             this.binaryDescription = ""
-            this.binaryData = null
+            this.binaryDataId = null
         }
     }
 

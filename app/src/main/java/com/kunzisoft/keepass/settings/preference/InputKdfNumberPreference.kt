@@ -23,7 +23,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.DialogPreference
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 
 open class InputKdfNumberPreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,

@@ -20,11 +20,11 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
@@ -58,15 +58,13 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
 
         if (positiveResult) {
             database?.let { database ->
-                if (database.allowEncryptionAlgorithmModification) {
-                    if (algorithmSelected != null) {
-                        val newAlgorithm = algorithmSelected
-                        val oldAlgorithm = database.encryptionAlgorithm
-                        database.encryptionAlgorithm = newAlgorithm
+                if (algorithmSelected != null) {
+                    val newAlgorithm = algorithmSelected
+                    val oldAlgorithm = database.encryptionAlgorithm
+                    database.encryptionAlgorithm = newAlgorithm
 
-                        if (oldAlgorithm != null && newAlgorithm != null)
-                            mProgressDatabaseTaskProvider?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm, mDatabaseAutoSaveEnable)
-                    }
+                    if (oldAlgorithm != null && newAlgorithm != null)
+                        mProgressDatabaseTaskProvider?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm, mDatabaseAutoSaveEnable)
                 }
             }
         }

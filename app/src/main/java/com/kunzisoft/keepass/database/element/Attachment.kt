@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.BinaryByte
-import com.kunzisoft.keepass.database.element.database.BinaryData
+import com.kunzisoft.keepass.database.element.binary.BinaryByte
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 
 
 data class Attachment(var name: String,

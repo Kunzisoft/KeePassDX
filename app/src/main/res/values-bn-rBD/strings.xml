@@ -19,4 +19,7 @@
     <string name="add_entry">এন্টরি যোগ করুন</string>
     <string name="accept">গ্রহণ</string>
     <string name="about_description">কিপাস পাসওয়ার্ড ম্যানেজারের অ্যান্ড্রয়েড বাস্তবায়ন</string>
+    <string name="clipboard_error_title">ক্লিপবোর্ড ত্রুটি</string>
+    <string name="allow">অনুমোদন</string>
+    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT এবং ACTION_OPEN_DOCUMENT অভিপ্রায় গ্রহণ করে এমন একটি ফাইল ম্যানেজার ডাটাবেস ফাইলগুলো তৈরি করা, খোলা এবং সংরক্ষণ করতে প্রয়োজন।</string>
 </resources>

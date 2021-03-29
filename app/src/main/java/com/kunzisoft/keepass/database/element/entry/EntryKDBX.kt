@@ -21,9 +21,10 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.database.AttachmentPool
+import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -32,7 +33,6 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
-import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -338,8 +338,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        // TODO unsigned long
-        usageCount = UnsignedLong(usageCount.toKotlinLong() + 1)
+        usageCount.plusOne()
     }
 
     companion object {

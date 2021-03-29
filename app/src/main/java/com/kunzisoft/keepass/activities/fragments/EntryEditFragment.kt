@@ -84,7 +84,6 @@ class EntryEditFragment: StylishFragment() {
 
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
-    private var mBinaryCipherKey: Database.LoadedKey? = null
     private var mLastFocusedEditField: FocusedEditField? = null
     private var mExtraViewToRequestFocus: EditText? = null
 
@@ -122,7 +121,9 @@ class EntryEditFragment: StylishFragment() {
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        attachmentsAdapter.binaryCipherKey = arguments?.getSerializable(KEY_BINARY_CIPHER_KEY) as? Database.LoadedKey?
+        // TODO retrieve current database with its unique key
+        attachmentsAdapter.database = Database.getInstance()
+        //attachmentsAdapter.database = arguments?.getInt(KEY_DATABASE)
         attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
                 attachmentsContainerView.collapse(true)
@@ -502,7 +503,6 @@ class EntryEditFragment: StylishFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
         outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
-        outState.putSerializable(KEY_BINARY_CIPHER_KEY, mBinaryCipherKey)
         outState.putParcelable(KEY_LAST_FOCUSED_FIELD, mLastFocusedEditField)
 
         super.onSaveInstanceState(outState)
@@ -510,15 +510,16 @@ class EntryEditFragment: StylishFragment() {
 
     companion object {
         const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
-        const val KEY_BINARY_CIPHER_KEY = "KEY_BINARY_CIPHER_KEY"
+        const val KEY_DATABASE = "KEY_DATABASE"
         const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
 
-        fun getInstance(entryInfo: EntryInfo?,
-                        loadedKey: Database.LoadedKey?): EntryEditFragment {
+        fun getInstance(entryInfo: EntryInfo?): EntryEditFragment {
+                        //database: Database?): EntryEditFragment {
             return EntryEditFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_TEMP_ENTRY_INFO, entryInfo)
-                    putSerializable(KEY_BINARY_CIPHER_KEY, loadedKey)
+                    // TODO Unique database key database.key
+                    putInt(KEY_DATABASE, 0)
                 }
             }
         }

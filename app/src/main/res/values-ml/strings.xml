@@ -151,9 +151,6 @@
     <string name="clipboard_timeout_summary">ക്ലിപ്പ്ബോർഡിലെ സ്റ്റോറേജിന്റെ ദൈർക്യം</string>
     <string name="key_derivation_function">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ</string>
     <string name="about_description">KeePass പാസ്‍വേഡ് മാനേജറിന്റെ Android നടപ്പിലാക്കൽ</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="encryption_twofish">Twofish</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="download_complete">പൂർത്തിയാക്കി!</string>
     <string name="education_create_database_title">നിങ്ങളുടെ ഡാറ്റാബേസ് ഫയൽ സൃഷ്ടിക്കുക</string>
     <string name="autofill_auto_search_title">സ്വയം തിരയൽ</string>
@@ -188,7 +185,6 @@
     <string name="database_description_title">ഡാറ്റാബേസിനെ കുറിച്ചുള്ള വിവരണം</string>
     <string name="education_field_copy_title">ഏതെങ്കിലും ഒരു ഫീൽഡ് പകർത്തുക</string>
     <string name="error_invalid_path">Path ശെരിയാണോ എന്ന് ഉറപ്പാക്കുക.</string>
-    <string name="kdf_AES">AES</string>
     <string name="extended_ASCII">വിപുലീകരിച്ച ASCII</string>
     <string name="icon_pack_choose_summary">ആപ്പിൽ ഉപയോഗിച്ചിരിക്കുന്ന ഐക്കൺ പാക്ക്</string>
     <string name="style_choose_title">അപ്പ്ലിക്കേഷന്റെ തീം</string>

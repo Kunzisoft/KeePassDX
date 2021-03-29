@@ -20,22 +20,19 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
-import com.kunzisoft.keepass.database.element.database.BinaryByte
-import com.kunzisoft.keepass.database.element.database.BinaryByte.Companion.MAX_BINARY_BYTES
-import com.kunzisoft.keepass.database.element.database.BinaryData
-import com.kunzisoft.keepass.database.element.database.BinaryFile
-import com.kunzisoft.keepass.database.element.database.CustomIconPool
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
+import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.binary.CustomIconPool
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
-import java.io.File
 import java.util.*
 
-class IconsManager {
+class IconsManager(private val binaryCache: BinaryCache) {
 
     private val standardCache = List(NB_ICONS) {
         IconImageStandard(it)
     }
-    private val customCache = CustomIconPool()
+    private val customCache = CustomIconPool(binaryCache)
 
     fun getIcon(iconId: Int): IconImageStandard {
         val searchIconId = if (IconImageStandard.isCorrectIconId(iconId)) iconId else KEY_ID
@@ -52,25 +49,18 @@ class IconsManager {
      *  Custom
      */
 
-    fun buildNewCustomIcon(cacheDirectory: File,
-                           key: UUID? = null,
+    fun buildNewCustomIcon(key: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
         // Create a binary file for a brand new custom icon
-        addCustomIcon(cacheDirectory, key, -1, result)
+        addCustomIcon(key, false, result)
     }
 
-    fun addCustomIcon(cacheDirectory: File,
-                      key: UUID? = null,
-                      dataSize: Int,
+    fun addCustomIcon(key: UUID? = null,
+                      smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
         val keyBinary = customCache.put(key) { uniqueBinaryId ->
             // Create a byte array for better performance with small data
-            if (dataSize in 1..MAX_BINARY_BYTES) {
-                BinaryByte()
-            } else {
-                val fileInCache = File(cacheDirectory, uniqueBinaryId)
-                BinaryFile(fileInCache)
-            }
+            binaryCache.getBinaryData(uniqueBinaryId, smallSize)
         }
         result.invoke(IconImageCustom(keyBinary.keys.first()), keyBinary.binary)
     }
@@ -83,11 +73,11 @@ class IconsManager {
         return customCache.isBinaryDuplicate(binaryData)
     }
 
-    fun removeCustomIcon(iconUuid: UUID) {
+    fun removeCustomIcon(binaryCache: BinaryCache, iconUuid: UUID) {
         val binary = customCache[iconUuid]
         customCache.remove(iconUuid)
         try {
-            binary?.clear()
+            binary?.clear(binaryCache)
         } catch (e: Exception) {
             Log.w(TAG, "Unable to remove custom icon binary", e)
         }

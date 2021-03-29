@@ -32,7 +32,7 @@ class InputKdfSizePreference @JvmOverloads constructor(context: Context,
 
     override fun setSummary(summary: CharSequence) {
         if (summary == UNKNOWN_VALUE_STRING) {
-            super.setSummary("")
+            super.setSummary(summary)
         } else {
             var summaryString = summary
             try {

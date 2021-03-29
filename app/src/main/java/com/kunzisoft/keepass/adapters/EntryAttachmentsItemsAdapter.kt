@@ -45,7 +45,7 @@ import kotlin.math.max
 class EntryAttachmentsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
-    var binaryCipherKey: Database.LoadedKey? = null
+    var database: Database? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
     var onBinaryPreviewLoaded: ((item: EntryAttachmentState) -> Unit)? = null
 
@@ -82,21 +82,23 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 if (entryAttachmentState.previewState == AttachmentState.NULL) {
                     entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
                     // Load the bitmap image
-                    BinaryDatabaseManager.loadBitmap(
-                            entryAttachmentState.attachment.binaryData,
-                            binaryCipherKey,
-                            mImagePreviewMaxWidth
-                    ) { imageLoaded ->
-                        if (imageLoaded == null) {
-                            entryAttachmentState.previewState = AttachmentState.ERROR
-                            visibility = View.GONE
-                            onBinaryPreviewLoaded?.invoke(entryAttachmentState)
-                        } else {
-                            entryAttachmentState.previewState = AttachmentState.COMPLETE
-                            setImageBitmap(imageLoaded)
-                            if (visibility != View.VISIBLE) {
-                                expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
-                                    onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                    database?.let { database ->
+                        BinaryDatabaseManager.loadBitmap(
+                                database,
+                                entryAttachmentState.attachment.binaryData,
+                                mImagePreviewMaxWidth
+                        ) { imageLoaded ->
+                            if (imageLoaded == null) {
+                                entryAttachmentState.previewState = AttachmentState.ERROR
+                                visibility = View.GONE
+                                onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                            } else {
+                                entryAttachmentState.previewState = AttachmentState.COMPLETE
+                                setImageBitmap(imageLoaded)
+                                if (visibility != View.VISIBLE) {
+                                    expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
+                                        onBinaryPreviewLoaded?.invoke(entryAttachmentState)
+                                    }
                                 }
                             }
                         }
@@ -123,8 +125,9 @@ class EntryAttachmentsItemsAdapter(context: Context)
         } else {
             holder.binaryFileTitle.setTextColor(mTitleColor)
         }
-        holder.binaryFileSize.text = Formatter.formatFileSize(context,
-                entryAttachmentState.attachment.binaryData.getSize())
+
+        val size = entryAttachmentState.attachment.binaryData.getSize()
+        holder.binaryFileSize.text = Formatter.formatFileSize(context, size)
         holder.binaryFileCompression.apply {
             if (entryAttachmentState.attachment.binaryData.isCompressed) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)

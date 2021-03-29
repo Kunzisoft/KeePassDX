@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
@@ -37,15 +38,15 @@ class IconImageCustom : Parcelable, IconImageDraw {
     }
 
     constructor(parcel: Parcel) {
-        uuid = parcel.readSerializable() as UUID
+        uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeParcelable(ParcelUuid(uuid), flags)
     }
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeSerializable(uuid)
     }
 
     override fun hashCode(): Int {

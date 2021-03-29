@@ -28,7 +28,7 @@
     <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?android:attr/windowBackground</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Red.Night.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Red.Night.DateTime.Dialog</item>
     </style>

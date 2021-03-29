@@ -67,7 +67,7 @@ class ClipboardHelper(private val context: Context) {
     fun getClipboard(context: Context): CharSequence {
         if (getClipboardManager()?.hasPrimaryClip() == true) {
             val data = getClipboardManager()?.primaryClip
-            if (data!!.itemCount > 0) {
+            if (data != null && data.itemCount > 0) {
                 val text = data.getItemAt(0).coerceToText(context)
                 if (text != null) {
                     return text

@@ -107,7 +107,6 @@
     <string name="progress_create">Створення нової бази даних…</string>
     <string name="progress_title">Працює…</string>
     <string name="content_description_remove_from_list">Вилучити</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
     <string name="rounds_explanation">Додаткова кількість циклів шифрування забезпечує кращий захист від грубих атак, але може дещо уповільнити завантаження та збереження.</string>
@@ -117,7 +116,6 @@
     <string name="sort_db">Звичайний порядок</string>
     <string name="special">Спеціальний</string>
     <string name="search">Введіть заголовок/опис</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Підкреслення</string>
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Великі літери</string>
@@ -271,8 +269,6 @@
     <string name="icon_pack_choose_title">Набір піктограм</string>
     <string name="style_choose_summary">Тема застосунку</string>
     <string name="style_choose_title">Тема застосунку</string>
-    <string name="kdf_AES">AES</string>
-    <string name="encryption_chacha20">ChaCha20</string>
     <string name="download_complete">Готово!</string>
     <string name="download_finalization">Завершення…</string>
     <string name="download_progression">Виконується: %1$d%%</string>
@@ -541,8 +537,6 @@
     <string name="temp_advanced_unlock_enable_title">Тимчасове розширене розблокування</string>
     <string name="advanced_unlock_tap_delete">Торкнутися, щоб видалити клавіші розширеного розблокування</string>
     <string name="content">Вміст</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="error_rebuild_list">Не вдалося належним чином відновити список.</string>
     <string name="error_database_uri_null">Неможливо отримати URI бази даних.</string>
     <string name="autofill_inline_suggestions_keyboard">Додано пропозиції автозаповнення.</string>
@@ -565,4 +559,6 @@
     <string name="error_upload_file">Під час передавання даних файлу сталася помилка.</string>
     <string name="error_file_to_big">Файл, який ви намагаєтеся передати, завеликий.</string>
     <string name="content_description_otp_information">Відомості про одноразовий пароль</string>
+    <string name="error_remove_file">Сталася помилка під час вилучення даних файлу.</string>
+    <string name="error_duplicate_file">Дані файлу вже існують.</string>
 </resources>

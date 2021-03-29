@@ -1,3 +1,9 @@
+KeePassDX(2.9.15)
+ * Fix themes #935 #926
+ * Decrease default clipboard time #934
+ * Better opening performance #929 #933
+ * Fix memory usage setting #941
+
 KeePassDX(2.9.14)
  * Add custom icons #96
  * Dark Themes #532 #714

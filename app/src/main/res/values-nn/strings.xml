@@ -106,7 +106,6 @@
     <string name="progress_create">Lager ny database …</string>
     <string name="progress_title">Arbeider …</string>
     <string name="content_description_remove_from_list">Ta vekk</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Rot</string>
     <string name="rounds">Krypteringsomgangar</string>
     <string name="rounds_explanation">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
@@ -116,7 +115,6 @@
     <string name="sort_db">DB-sortering</string>
     <string name="special">Spesial</string>
     <string name="search">Oppføringa sin tittel/skildring</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Understreking</string>
     <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>
     <string name="uppercase">Store bokstavar</string>

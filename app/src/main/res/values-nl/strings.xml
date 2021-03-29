@@ -109,7 +109,6 @@
     <string name="progress_create">Nieuwe database aanmaken…</string>
     <string name="progress_title">Bezig met verwerken…</string>
     <string name="content_description_remove_from_list">Verwijderen</string>
-    <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Hoofdmap</string>
     <string name="rounds">Encryptie-cycli</string>
     <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
@@ -119,7 +118,6 @@
     <string name="sort_db">Natuurlijke volgorde</string>
     <string name="special">Speciaal</string>
     <string name="search">Zoeken</string>
-    <string name="encryption_twofish">Twofish</string>
     <string name="underline">Onderstrepen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>
     <string name="uppercase">Hoofdletters</string>
@@ -300,8 +298,6 @@
     <string name="html_text_dev_feature_upgrade">Vergeet niet je app up-to-date te houden door nieuwe versies te installeren.</string>
     <string name="download">Downloaden</string>
     <string name="contribute">Bijdragen</string>
-    <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES</string>
     <string name="style_choose_title">App-thema</string>
     <string name="style_choose_summary">Thema gebruikt in de app</string>
     <string name="icon_pack_choose_title">Icon pack</string>
@@ -530,7 +526,7 @@
     <string name="advanced_unlock_tap_delete">Tik om geavanceerde ontgrendelingstoetsen te verwijderen</string>
     <string name="content">Inhoud</string>
     <string name="device_credential">Apparaatreferentie</string>
-    <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op de knop \"Geavanceerd ontgrendelen\".</string>
+    <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op deze knop.</string>
     <string name="advanced_unlock_prompt_not_initialized">Kan geavanceerde ontgrendelingsprompt niet initialiseren.</string>
     <string name="advanced_unlock_scanning_error">Geavanceerde ontgrendelingsfout: %1$s</string>
     <string name="advanced_unlock_not_recognized">Kan geavanceerde ontgrendelingsafdruk niet herkennen</string>
@@ -547,8 +543,6 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
-    <string name="kdf_Argon2id">Argon2id</string>
-    <string name="kdf_Argon2d">Argon2d</string>
     <string name="download_canceled">Geannuleerd!</string>
     <string name="autofill_inline_suggestions_keyboard">Suggesties voor automatisch aanvullen toegevoegd.</string>
     <string name="autofill_inline_suggestions_summary">Probeer suggesties voor automatisch aanvullen rechtstreeks vanaf een compatibel toetsenbord weer te geven</string>
@@ -560,4 +554,13 @@
     <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
     <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
+    <string name="icon_section_custom">Aangepast</string>
+    <string name="icon_section_standard">Standaard</string>
+    <string name="style_brightness_summary">Selecteer lichte of donkere thema\'s</string>
+    <string name="style_brightness_title">Helderheid van het thema</string>
+    <string name="error_remove_file">Er is een fout opgetreden bij het verwijderen van de bestandsgegevens.</string>
+    <string name="error_duplicate_file">De bestandsgegevens bestaan al.</string>
+    <string name="error_upload_file">Er is een fout opgetreden bij het uploaden van de bestandsgegevens.</string>
+    <string name="error_file_to_big">Het bestand dat je probeert te uploaden, is te groot.</string>
+    <string name="content_description_otp_information">Eenmalig wachtwoord-informatie</string>
 </resources>

@@ -19,30 +19,29 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.database.crypto.HmacBlock
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.keepass.utils.VariantDictionary
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.stream.MacOutputStream
+import com.kunzisoft.keepass.utils.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.security.DigestOutputStream
-import java.security.InvalidKeyException
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 
-class DatabaseHeaderOutputKDBX @Throws(DatabaseOutputException::class)
+class DatabaseHeaderOutputKDBX @Throws(IOException::class)
 constructor(private val databaseKDBX: DatabaseKDBX,
             private val header: DatabaseHeaderKDBX,
             outputStream: OutputStream) {
 
-    private val los: LittleEndianDataOutputStream
     private val mos: MacOutputStream
     private val dos: DigestOutputStream
     lateinit var headerHmac: ByteArray
@@ -51,14 +50,6 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         private set
 
     init {
-
-        val md: MessageDigest
-        try {
-            md = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.", e)
-        }
-
         try {
             databaseKDBX.makeFinalKey(header.masterSeed)
         } catch (e: IOException) {
@@ -66,34 +57,26 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         }
 
         val hmacKey = databaseKDBX.hmacKey ?: throw DatabaseOutputException("HmacKey is not defined")
-        val hmac: Mac
-        try {
-            hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(HmacBlockStream.getHmacKey64(hmacKey, UnsignedLong.MAX_VALUE), "HmacSHA256")
-            hmac.init(signingKey)
-        } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException(e)
-        } catch (e: InvalidKeyException) {
-            throw DatabaseOutputException(e)
-        }
+        val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
+        val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
 
-        dos = DigestOutputStream(outputStream, md)
+        val messageDigest: MessageDigest = HashManager.getHash256()
+        dos = DigestOutputStream(outputStream, messageDigest)
         mos = MacOutputStream(dos, hmac)
-        los = LittleEndianDataOutputStream(mos)
     }
 
     @Throws(IOException::class)
     fun output() {
 
-        los.writeUInt(DatabaseHeader.PWM_DBSIG_1)
-        los.writeUInt(DatabaseHeaderKDBX.DBSIG_2)
-        los.writeUInt(header.version)
+        mos.write4BytesUInt(DatabaseHeader.PWM_DBSIG_1)
+        mos.write4BytesUInt(DatabaseHeaderKDBX.DBSIG_2)
+        mos.write4BytesUInt(header.version)
 
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.dataCipher))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.cipherUuid))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, uIntTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
-        if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+        if (header.version.isBefore(FILE_VERSION_32_4)) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformSeed, header.transformSeed)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(databaseKDBX.numberKeyEncryptionRounds))
         } else {
@@ -104,7 +87,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV)
         }
 
-        if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
+        if (header.version.isBefore(FILE_VERSION_32_4)) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, uIntTo4Bytes(header.innerRandomStream!!.id))
@@ -112,14 +95,13 @@ constructor(private val databaseKDBX: DatabaseKDBX,
 
         if (databaseKDBX.containsPublicCustomData()) {
             val bos = ByteArrayOutputStream()
-            val los = LittleEndianDataOutputStream(bos)
-            VariantDictionary.serialize(databaseKDBX.publicCustomData, los)
+            VariantDictionary.serialize(databaseKDBX.publicCustomData, bos)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.PublicCustomData, bos.toByteArray())
         }
 
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.EndOfHeader, EndHeaderValue)
 
-        los.flush()
+        mos.flush()
         hashOfHeader = dos.messageDigest.digest()
         headerHmac = mos.mac
     }
@@ -127,11 +109,11 @@ constructor(private val databaseKDBX: DatabaseKDBX,
     @Throws(IOException::class)
     private fun writeHeaderField(fieldId: Byte, pbData: ByteArray?) {
         // Write the field id
-        los.write(fieldId.toInt())
+        mos.write(fieldId.toInt())
 
         if (pbData != null) {
             writeHeaderFieldSize(pbData.size)
-            los.write(pbData)
+            mos.write(pbData)
         } else {
             writeHeaderFieldSize(0)
         }
@@ -139,10 +121,10 @@ constructor(private val databaseKDBX: DatabaseKDBX,
 
     @Throws(IOException::class)
     private fun writeHeaderFieldSize(size: Int) {
-        if (header.version.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
-            los.writeUShort(size)
+        if (header.version.isBefore(FILE_VERSION_32_4)) {
+            mos.write2BytesUShort(size)
         } else {
-            los.writeInt(size)
+            mos.write4BytesUInt(UnsignedInt(size))
         }
 
     }

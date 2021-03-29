@@ -1,0 +1,4 @@
+ * Fix themes #935 #926
+ * Decrease default clipboard time #934
+ * Better opening performance #929 #933
+ * Fix memory usage setting #941
