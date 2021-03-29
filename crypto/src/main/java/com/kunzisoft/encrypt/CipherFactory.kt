@@ -7,7 +7,6 @@ import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
 import java.security.Security
-import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
@@ -40,16 +39,7 @@ object CipherFactory {
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
     fun getTwofish(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
-        val cipher: Cipher = try {
-            Cipher.getInstance("Twofish/CBC/PKCS7PADDING")
-        } catch (e: BadPaddingException) {
-            // Retry with other padding if don't work
-            if (opmode == Cipher.ENCRYPT_MODE) {
-                Cipher.getInstance("Twofish/CBC/ZeroBytePadding")
-            } else {
-                Cipher.getInstance("Twofish/CBC/NoPadding")
-            }
-        }
+        val cipher: Cipher = Cipher.getInstance("Twofish/CBC/PKCS7PADDING")
         cipher.init(opmode, SecretKeySpec(key, "AES"), IvParameterSpec(IV))
         return cipher
     }
