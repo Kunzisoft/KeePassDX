@@ -162,27 +162,31 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         // Observe list of databases
         databaseFilesViewModel.databaseFilesLoaded.observe(this) { databaseFiles ->
-            when (databaseFiles.databaseFileAction) {
-                DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
-                    mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
-                }
-                DatabaseFilesViewModel.DatabaseFileAction.ADD -> {
-                    databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
-                        mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
+            try {
+                when (databaseFiles.databaseFileAction) {
+                    DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
+                        mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
                     }
-                    GroupActivity.launch(this@FileDatabaseSelectActivity,
-                            PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
-                }
-                DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
-                    databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
-                        mAdapterDatabaseHistory?.updateDatabaseFileHistory(databaseFileToUpdate)
+                    DatabaseFilesViewModel.DatabaseFileAction.ADD -> {
+                        databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
+                            mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
+                        }
+                        GroupActivity.launch(this@FileDatabaseSelectActivity,
+                                PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
+                    }
+                    DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
+                        databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
+                            mAdapterDatabaseHistory?.updateDatabaseFileHistory(databaseFileToUpdate)
+                        }
+                    }
+                    DatabaseFilesViewModel.DatabaseFileAction.DELETE -> {
+                        databaseFiles.databaseFileToActivate?.let { databaseFileToDelete ->
+                            mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileToDelete)
+                        }
                     }
                 }
-                DatabaseFilesViewModel.DatabaseFileAction.DELETE -> {
-                    databaseFiles.databaseFileToActivate?.let { databaseFileToDelete ->
-                        mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileToDelete)
-                    }
-                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to observe database action", e)
             }
             databaseFilesViewModel.consumeAction()
         }
