@@ -27,7 +27,7 @@ class BinaryCache {
         }
     }
 
-    // Similar to file storage but much faster
+    // Similar to file storage but much faster TODO SparseArray
     private val byteArrayList = HashMap<String, ByteArray>()
 
     fun getByteArray(key: String): KeyByteArray {

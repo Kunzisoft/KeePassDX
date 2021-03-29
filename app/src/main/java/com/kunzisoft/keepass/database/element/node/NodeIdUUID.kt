@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.node
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import java.util.*
 
@@ -35,12 +36,12 @@ class NodeIdUUID : NodeId<UUID> {
     }
 
     constructor(parcel: Parcel) {
-        id = parcel.readSerializable() as UUID
+        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeSerializable(id)
+        dest.writeParcelable(ParcelUuid(id), flags)
     }
 
     override fun equals(other: Any?): Boolean {

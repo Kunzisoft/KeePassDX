@@ -25,7 +25,10 @@ import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -251,11 +254,16 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     }
 
     private fun start(bundle: Bundle? = null, actionTask: String) {
-        activity.stopService(intentDatabaseTask)
-        if (bundle != null)
-            intentDatabaseTask.putExtras(bundle)
-        intentDatabaseTask.action = actionTask
-        activity.startService(intentDatabaseTask)
+        try {
+            activity.stopService(intentDatabaseTask)
+            if (bundle != null)
+                intentDatabaseTask.putExtras(bundle)
+            intentDatabaseTask.action = actionTask
+            activity.startService(intentDatabaseTask)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to perform database action", e)
+            Toast.makeText(activity, R.string.error_start_database_action, Toast.LENGTH_LONG).show()
+        }
     }
 
     /*
@@ -590,5 +598,9 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE)
+    }
+
+    companion object {
+        private val TAG = ProgressDatabaseTaskProvider::class.java.name
     }
 }

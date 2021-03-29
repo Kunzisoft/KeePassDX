@@ -25,6 +25,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
+import android.util.Log
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
@@ -76,7 +77,11 @@ class CipherDatabaseAction(context: Context) {
                     mServiceConnection!!,
                     Context.BIND_ABOVE_CLIENT)
             if (mBinder == null) {
-                applicationContext.startService(mIntentAdvancedUnlockService)
+                try {
+                    applicationContext.startService(mIntentAdvancedUnlockService)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to start cipher action", e)
+                }
             }
         }
     }
@@ -173,5 +178,7 @@ class CipherDatabaseAction(context: Context) {
         ).execute()
     }
 
-    companion object : SingletonHolderParameter<CipherDatabaseAction, Context>(::CipherDatabaseAction)
+    companion object : SingletonHolderParameter<CipherDatabaseAction, Context>(::CipherDatabaseAction) {
+        private val TAG = CipherDatabaseAction::class.java.name
+    }
 }
