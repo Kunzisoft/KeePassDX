@@ -142,6 +142,7 @@
     <string name="error_upload_file">An error occurred while uploading the file data.</string>
     <string name="error_duplicate_file">The file data already exists.</string>
     <string name="error_remove_file">An error occurred while removing the file data.</string>
+    <string name="error_start_database_action">An error occurred while performing an action on the database.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
