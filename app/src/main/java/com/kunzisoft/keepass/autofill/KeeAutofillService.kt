@@ -101,6 +101,10 @@ class KeeAutofillService : AutofillService() {
                                 callback)
                     }
                 }
+                // else {
+                // TODO: Disable autofill for the app for API level >= 28
+                // public FillResponse.Builder disableAutofill (long duration)
+                // }
             }
         }
     }

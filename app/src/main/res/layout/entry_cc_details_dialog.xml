@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="noExcludeDescendants"
+        android:orientation="vertical"
+        android:padding="@dimen/default_margin"
+        tools:targetApi="o">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_cc_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="4dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="UnusedAttribute">
+
+                <TextView
+                    android:id="@+id/creditCardholderNameLabel"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
+                    android:importantForAutofill="no"
+                    android:labelFor="@+id/creditCardNumberField"
+                    android:text="@string/cc_cardholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/creditCardholderNameField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusedByDefault="true"
+                    android:hint="@string/cc_cardholder"
+                    android:importantForAccessibility="no"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardholderNameLabel" />
+
+                <TextView
+                    android:id="@+id/creditCardNumberLabel"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
+                    android:importantForAutofill="no"
+                    android:labelFor="@+id/creditCardNumberField"
+                    android:text="@string/cc_number"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardholderNameField" />
+
+                <EditText
+                    android:id="@+id/creditCardNumberField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusedByDefault="true"
+                    android:hint="@string/cc_number"
+                    android:importantForAccessibility="no"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardNumberLabel" />
+
+                <TextView
+                    android:id="@+id/creditCardExpirationLabel"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
+                    android:importantForAutofill="no"
+                    android:text="@string/cc_expiration"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardNumberField" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/expirationMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toStartOf="@+id/expirationYear"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardExpirationLabel" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/expirationYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:minHeight="48dp"
+                    app:layout_constraintStart_toEndOf="@+id/expirationMonth"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardExpirationLabel" />
+
+                <TextView
+                    android:id="@+id/creditCardSecurityCodeLabel"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:labelFor="@+id/creditCardSecurityCode"
+                    android:text="@string/cc_security_code"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/expirationYear" />
+
+                <!-- American Express has four digits? -->
+                <EditText
+                    android:id="@+id/creditCardSecurityCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/creditCardSecurityCodeLabel"
+                    android:ems="6"
+                    android:hint="@string/cc_security_code"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/creditCardSecurityCodeLabel" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

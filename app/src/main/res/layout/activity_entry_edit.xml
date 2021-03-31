@@ -83,6 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/validate"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:src="@drawable/ic_check_white_24dp"
         app:fabSize="mini"
         app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"

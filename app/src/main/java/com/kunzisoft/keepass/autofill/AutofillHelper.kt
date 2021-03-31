@@ -48,8 +48,11 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.CreditCardCustomFields
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -103,9 +106,9 @@ object AutofillHelper {
     }
 
     private fun buildDataset(context: Context,
-                              entryInfo: EntryInfo,
-                              struct: StructureParser.Result,
-                              inlinePresentation: InlinePresentation?): Dataset? {
+                             entryInfo: EntryInfo,
+                             struct: StructureParser.Result,
+                             inlinePresentation: InlinePresentation?): Dataset? {
         val title = makeEntryTitle(entryInfo)
         val views = newRemoteViews(context, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
@@ -114,8 +117,89 @@ object AutofillHelper {
         struct.usernameId?.let { usernameId ->
             builder.setValue(usernameId, AutofillValue.forText(entryInfo.username))
         }
-        struct.passwordId?.let { password ->
-            builder.setValue(password, AutofillValue.forText(entryInfo.password))
+        struct.passwordId?.let { passwordId ->
+            builder.setValue(passwordId, AutofillValue.forText(entryInfo.password))
+        }
+
+        for (field in entryInfo.customFields) {
+            if (field.name == CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME) {
+                struct.ccNameId?.let { ccNameId ->
+                    builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
+                }
+            }
+            if (field.name == CreditCardCustomFields.CC_NUMBER_FIELD_NAME) {
+                struct.ccnId?.let { ccnId ->
+                    builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
+                }
+            }
+            if (field.name == CreditCardCustomFields.CC_EXP_FIELD_NAME) {
+                // the database stores the expiration month and year as a String
+                // of length four in the format MMYY
+                if (field.protectedValue.stringValue.length != 4) continue
+
+                // get month (month in database entry is stored as String in the range 01..12)
+                val monthString = field.protectedValue.stringValue.substring(0, 2)
+                if (monthString !in context.resources.getStringArray(R.array.month_array)) continue
+
+                val month = monthString.toInt()
+                // get year (year in database entry is stored as String in the range 20..29)
+                val yearString = field.protectedValue.stringValue.substring(2, 4)
+                if (yearString !in context.resources.getStringArray(R.array.year_array)) continue
+
+                struct.ccExpDateId?.let {
+                    if (struct.isWebView) {
+                        // set date string as defined in https://html.spec.whatwg.org
+                        val dateString = "20$yearString\u002D$monthString"
+                        builder.setValue(it, AutofillValue.forText(dateString))
+                    } else {
+                        val calendar = Calendar.getInstance()
+                        calendar.clear()
+                        val year = "20$yearString".toInt()
+                        calendar[Calendar.YEAR] = year
+                        // Month value is 0-based. e.g., 0 for January
+                        calendar[Calendar.MONTH] = month - 1
+                        val date = calendar.timeInMillis
+                        builder.setValue(it, AutofillValue.forDate(date))
+                    }
+                }
+                struct.ccExpDateMonthId?.let {
+                    if (struct.isWebView) {
+                        builder.setValue(it, AutofillValue.forText(month.toString()))
+                    } else {
+                        if (struct.ccExpMonthOptions != null) {
+                            // index starts at 0
+                            builder.setValue(it, AutofillValue.forList(month - 1))
+                        } else {
+                            builder.setValue(it, AutofillValue.forText(month.toString()))
+                        }
+                    }
+                }
+                struct.ccExpDateYearId?.let {
+                    if (struct.isWebView) {
+                        builder.setValue(it, AutofillValue.forText(yearString))
+                    } else {
+                        if (struct.ccExpYearOptions != null) {
+                            var yearIndex = struct.ccExpYearOptions!!.indexOf(yearString)
+
+                            if (yearIndex == -1) {
+                                yearIndex = struct.ccExpYearOptions!!.indexOf("20$yearString")
+                            }
+                            if (yearIndex != -1) {
+                                builder.setValue(it, AutofillValue.forList(yearIndex))
+                            } else {
+                                builder.setValue(it, AutofillValue.forText(yearString))
+                            }
+                        } else {
+                            builder.setValue(it, AutofillValue.forText(yearString))
+                        }
+                    }
+                }
+            }
+            if (field.name == CreditCardCustomFields.CC_CVV_FIELD_NAME) {
+                struct.cvvId?.let { cvvId ->
+                    builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
+                }
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -126,8 +210,8 @@ object AutofillHelper {
 
         return try {
             builder.build()
-        } catch (e: IllegalArgumentException) {
-            // if not value be set
+        } catch (e: Exception) {
+            // at least one value must be set
             null
         }
     }
@@ -156,7 +240,7 @@ object AutofillHelper {
         val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
         val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
 
-        if (positionItem <= maxSuggestion-1
+        if (positionItem <= maxSuggestion - 1
                 && inlinePresentationSpecs.size > positionItem) {
             val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
 
@@ -191,7 +275,7 @@ object AutofillHelper {
     fun buildResponse(context: Context,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
-                      inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse {
+                      inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse? {
         val responseBuilder = FillResponse.Builder()
         // Add Header
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -208,6 +292,7 @@ object AutofillHelper {
                 }
             }
         }
+
         // Add inline suggestion for new IME and dataset
         entriesInfo.forEachIndexed { index, entryInfo ->
             val inlinePresentation = inlineSuggestionsRequest?.let {
@@ -217,9 +302,17 @@ object AutofillHelper {
                     null
                 }
             }
-            responseBuilder.addDataset(buildDataset(context, entryInfo, parseResult, inlinePresentation))
+            val dataSet = buildDataset(context, entryInfo, parseResult, inlinePresentation)
+            dataSet?.let {
+                responseBuilder.addDataset(it)
+            }
         }
-        return responseBuilder.build()
+
+        return try {
+            responseBuilder.build()
+        } catch (e: java.lang.Exception) {
+            null
+        }
     }
 
     /**

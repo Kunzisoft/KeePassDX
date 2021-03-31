@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.model.CreditCardCustomFields
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -316,6 +317,7 @@ class EntryActivity : LockingActivity() {
         // Assign custom fields
         if (mDatabase?.allowEntryCustomFields() == true) {
             entryContentsView?.clearExtraFields()
+            entryContentsView?.clearCreditCardFields()
             entryInfo.customFields.forEach { field ->
                 val label = field.name
                 // OTP field is already managed in dedicated view
@@ -326,7 +328,7 @@ class EntryActivity : LockingActivity() {
                         entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
                             clipboardHelper?.timeoutCopyToClipboard(
                                     value.toString(),
-                                    getString(R.string.copy_field, label)
+                                    getString(R.string.copy_field, CreditCardCustomFields.getLocalizedName(applicationContext, field.name))
                             )
                         }
                     } else {
@@ -340,6 +342,7 @@ class EntryActivity : LockingActivity() {
                 }
             }
         }
+
         entryContentsView?.setHiddenProtectedValue(!mShowPassword)
 
         // Manage attachments
@@ -433,15 +436,15 @@ class EntryActivity : LockingActivity() {
         val entryFieldCopyView = entryContentsView?.firstEntryFieldCopyView()
         val entryCopyEducationPerformed = entryFieldCopyView != null
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
-                        entryFieldCopyView,
-                        {
-                            val appNameString = getString(R.string.app_name)
-                            clipboardHelper?.timeoutCopyToClipboard(appNameString,
-                                    getString(R.string.copy_field, appNameString))
-                        },
-                        {
-                            performedNextEducation(entryActivityEducation, menu)
-                        })
+                entryFieldCopyView,
+                {
+                    val appNameString = getString(R.string.app_name)
+                    clipboardHelper?.timeoutCopyToClipboard(appNameString,
+                            getString(R.string.copy_field, appNameString))
+                },
+                {
+                    performedNextEducation(entryActivityEducation, menu)
+                })
 
         if (!entryCopyEducationPerformed) {
             val menuEditView = toolbar?.findViewById<View>(R.id.menu_edit)

@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.graphics.Color
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -31,6 +32,7 @@ import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.model.CreditCardCustomFields
 import com.kunzisoft.keepass.utils.UriUtil
 
 class EntryField @JvmOverloads constructor(context: Context,
@@ -103,6 +105,23 @@ class EntryField @JvmOverloads constructor(context: Context,
             }
             applyHiddenStyle(isProtected && !showButtonView.isSelected)
             if (!isProtected) linkify()
+        }
+    }
+
+    private fun setValueTextColor(color: Int) {
+        valueView.setTextColor(color)
+    }
+
+    fun checkCreditCardDetails(fieldName: String) {
+        val value = valueView.text
+
+        when (fieldName) {
+            CreditCardCustomFields.CC_CVV_FIELD_NAME ->
+                if (value.length < 3 || value.length > 4) setValueTextColor(Color.RED)
+            CreditCardCustomFields.CC_EXP_FIELD_NAME ->
+                if (value.length != 4) setValueTextColor(Color.RED)
+            CreditCardCustomFields.CC_NUMBER_FIELD_NAME ->
+                if (value.length != 16) setValueTextColor(Color.RED)
         }
     }
 

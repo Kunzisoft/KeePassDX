@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.model.CreditCardCustomFields
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -55,6 +56,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private var fontInVisibility: Boolean = false
 
+    private val entryFieldsContainerView: View
+
     private val userNameFieldView: EntryField
     private val passwordFieldView: EntryField
     private val otpFieldView: EntryField
@@ -65,6 +68,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val extraFieldsContainerView: View
     private val extraFieldsListView: ViewGroup
+
+    private val creditCardContainerView: View
+    private val creditCardFieldsListView: ViewGroup
 
     private val creationDateView: TextView
     private val modificationDateView: TextView
@@ -87,6 +93,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_entry_contents, this)
 
+        entryFieldsContainerView = findViewById(R.id.entry_fields_container)
+        entryFieldsContainerView.visibility = View.GONE
+
         userNameFieldView = findViewById(R.id.entry_user_name_field)
         userNameFieldView.setLabel(R.string.entry_user_name)
 
@@ -106,6 +115,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
         extraFieldsContainerView = findViewById(R.id.extra_fields_container)
         extraFieldsListView = findViewById(R.id.extra_fields_list)
+
+        creditCardContainerView = findViewById(R.id.credit_card_container)
+        creditCardFieldsListView = findViewById(R.id.credit_card_fields_list)
 
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
@@ -157,6 +169,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                 visibility = View.VISIBLE
                 setValue(userName)
                 applyFontVisibility(fontInVisibility)
+                showOrHideEntryFieldsContainer(false)
             } else {
                 visibility = View.GONE
             }
@@ -173,7 +186,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                 setValue(password, true)
                 applyFontVisibility(fontInVisibility)
                 activateCopyButton(allowCopyPassword)
-            }else {
+                showOrHideEntryFieldsContainer(false)
+            } else {
                 visibility = View.GONE
             }
             assignCopyButtonClickListener(onClickListener)
@@ -220,6 +234,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                     }
                 }
             }
+            showOrHideEntryFieldsContainer(false)
         } else {
             otpFieldView.visibility = View.GONE
             otpProgressView?.visibility = View.GONE
@@ -231,6 +246,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             if (url != null && url.isNotEmpty()) {
                 visibility = View.VISIBLE
                 setValue(url)
+                showOrHideEntryFieldsContainer(false)
             } else {
                 visibility = View.GONE
             }
@@ -243,6 +259,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                 visibility = View.VISIBLE
                 setValue(notes)
                 applyFontVisibility(fontInVisibility)
+                showOrHideEntryFieldsContainer(false)
             } else {
                 visibility = View.GONE
             }
@@ -283,6 +300,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
+    private fun showOrHideEntryFieldsContainer(hide: Boolean) {
+        entryFieldsContainerView.visibility = if (hide) View.GONE else View.VISIBLE
+    }
+
     /* -------------
      * Extra Fields
      * -------------
@@ -292,10 +313,18 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extraFieldsContainerView.visibility = if (hide) View.GONE else View.VISIBLE
     }
 
+    private fun showOrHideCreditCardContainer(hide: Boolean) {
+        creditCardContainerView.visibility = if (hide) View.GONE else View.VISIBLE
+    }
+
     fun addExtraField(title: String,
                       value: ProtectedString,
                       allowCopy: Boolean,
                       onCopyButtonClickListener: OnClickListener?) {
+
+        if (title in CreditCardCustomFields.CC_CUSTOM_FIELDS) {
+            return addExtraCCField(title, value, allowCopy, onCopyButtonClickListener)
+        }
 
         val entryCustomField: EntryField? = EntryField(context)
         entryCustomField?.apply {
@@ -306,15 +335,46 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)
         }
+
         entryCustomField?.let {
             extraFieldsListView.addView(it)
         }
+
         showOrHideExtraFieldsContainer(false)
+    }
+
+    private fun addExtraCCField(fieldName: String,
+                                value: ProtectedString,
+                                allowCopy: Boolean,
+                                onCopyButtonClickListener: OnClickListener?) {
+
+        val label = CreditCardCustomFields.getLocalizedName(context, fieldName)
+
+        val entryCustomField: EntryField? = EntryField(context)
+        entryCustomField?.apply {
+            setLabel(label)
+            setValue(value.toString(), value.isProtected)
+            activateCopyButton(allowCopy)
+            assignCopyButtonClickListener(onCopyButtonClickListener)
+            applyFontVisibility(fontInVisibility)
+            checkCreditCardDetails(fieldName)
+        }
+
+        entryCustomField?.let {
+            creditCardFieldsListView.addView(it)
+        }
+
+        showOrHideCreditCardContainer(false)
     }
 
     fun clearExtraFields() {
         extraFieldsListView.removeAllViews()
         showOrHideExtraFieldsContainer(true)
+    }
+
+    fun clearCreditCardFields() {
+        creditCardFieldsListView.removeAllViews()
+        showOrHideCreditCardContainer(true)
     }
 
     /* -------------
@@ -332,7 +392,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignAttachments(attachments: Set<Attachment>,
                           streamDirection: StreamDirection,
-                          onAttachmentClicked: (attachment: Attachment)->Unit) {
+                          onAttachmentClicked: (attachment: Attachment) -> Unit) {
         showAttachments(attachments.isNotEmpty())
         attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onItemClickListener = { item ->
@@ -349,7 +409,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun assignHistory(history: ArrayList<Entry>, action: (historyItem: Entry, position: Int)->Unit) {
+    fun assignHistory(history: ArrayList<Entry>, action: (historyItem: Entry, position: Int) -> Unit) {
         historyAdapter.clear()
         historyAdapter.entryHistoryList.addAll(history)
         historyAdapter.onItemClickListener = { item, position ->

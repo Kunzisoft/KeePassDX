@@ -93,12 +93,17 @@
     <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
+    <string name="entry_setup_cc">Edit credit card details</string>
     <string name="otp_type">OTP type</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Period (seconds)</string>
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
+    <string name="cc_cardholder">Cardholder</string>
+    <string name="cc_number">Credit Card Number</string>
+    <string name="cc_expiration">Expiration Date</string>
+    <string name="cc_security_code">CVV</string>
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
@@ -525,6 +530,32 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string-array name="month_array">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="year_array">
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+    </string-array>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

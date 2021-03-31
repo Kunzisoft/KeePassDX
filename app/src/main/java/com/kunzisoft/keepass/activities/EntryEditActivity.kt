@@ -57,6 +57,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
@@ -81,6 +82,7 @@ import kotlin.collections.ArrayList
 class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
+        CreditCardDetailsDialogFragment.EntryCCFieldListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
@@ -405,6 +407,11 @@ class EntryEditActivity : LockingActivity(),
         GeneratePasswordDialogFragment().show(supportFragmentManager, "PasswordGeneratorFragment")
     }
 
+    private fun addNewCreditCard() {
+        val cc = CreditCard(entryEditFragment?.getExtraFields())
+        CreditCardDetailsDialogFragment.build(cc).show(supportFragmentManager, "CreditCardDialog")
+    }
+
     /**
      * Add a new customized field
      */
@@ -453,6 +460,12 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onDeleteCustomFieldApproved(oldField: Field) {
         entryEditFragment?.removeExtraField(oldField)
+    }
+
+    override fun onNewCCFieldsApproved(ccFields: ArrayList<Field>) {
+        for (field in ccFields) {
+            entryEditFragment?.putExtraField(field)
+        }
     }
 
     /**
@@ -609,8 +622,14 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
+        val allowCustomField = mDatabase?.allowEntryCustomFields() == true
+
         menu?.findItem(R.id.menu_add_field)?.apply {
-            val allowCustomField = mDatabase?.allowEntryCustomFields() == true
+            isEnabled = allowCustomField
+            isVisible = allowCustomField
+        }
+
+        menu?.findItem(R.id.menu_add_cc)?.apply {
             isEnabled = allowCustomField
             isVisible = allowCustomField
         }
@@ -680,6 +699,10 @@ class EntryEditActivity : LockingActivity(),
         when (item.itemId) {
             R.id.menu_add_field -> {
                 addNewCustomField()
+                return true
+            }
+            R.id.menu_add_cc -> {
+                addNewCreditCard()
                 return true
             }
             R.id.menu_add_attachment -> {
