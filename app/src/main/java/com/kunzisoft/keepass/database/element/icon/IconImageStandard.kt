@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 
-class IconImageStandard : Parcelable, IconImageDraw {
+class IconImageStandard : IconImageDraw {
 
     val id: Int
 

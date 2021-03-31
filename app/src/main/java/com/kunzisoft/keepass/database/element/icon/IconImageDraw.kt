@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.database.element.icon
 
-abstract class IconImageDraw {
+import android.os.Parcelable
+
+abstract class IconImageDraw : Parcelable {
 
     var selected = false
     /**
