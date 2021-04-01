@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.documentfile.provider.DocumentFile
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.utils.UriUtil
 
 class KeyFileSelectionView @JvmOverloads constructor(context: Context,
                                                      attrs: AttributeSet? = null,
@@ -51,7 +51,7 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
         set(value) {
             mUri = value
             keyFileNameView.text = value?.let {
-                DocumentFile.fromSingleUri(context, value)?.name ?: value.path
+                UriUtil.getFileData(context, value)?.name ?: value.path
             } ?: ""
         }
 }
