@@ -349,6 +349,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         const val STR_URL = "URL"
         const val STR_NOTES = "Notes"
 
+        private const val FIXED_LENGTH_SIZE: Long = 128 // Approximate fixed length size
+
         fun newCustomNameAllowed(name: String): Boolean {
             return !(name.equals(STR_TITLE, true)
                     || name.equals(STR_USERNAME, true)
@@ -367,7 +369,5 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
                 return arrayOfNulls(size)
             }
         }
-
-        private const val FIXED_LENGTH_SIZE: Long = 128 // Approximate fixed length size
     }
 }

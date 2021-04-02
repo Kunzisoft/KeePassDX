@@ -466,16 +466,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return result
     }
 
-
-    companion object CREATOR : Parcelable.Creator<Entry> {
-        override fun createFromParcel(parcel: Parcel): Entry {
-            return Entry(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Entry?> {
-            return arrayOfNulls(size)
-        }
-
+    companion object {
         const val PMS_TAN_ENTRY = "<TAN>"
 
         /**
@@ -483,6 +474,17 @@ class Entry : Node, EntryVersionedInterface<Group> {
          */
         fun newExtraFieldNameAllowed(field: Field): Boolean {
             return EntryKDBX.newCustomNameAllowed(field.name)
+        }
+
+        @JvmField
+        val CREATOR: Parcelable.Creator<Entry> = object : Parcelable.Creator<Entry> {
+            override fun createFromParcel(parcel: Parcel): Entry {
+                return Entry(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Entry?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }
