@@ -39,6 +39,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
@@ -93,6 +94,8 @@ class EntryActivity : LockingActivity() {
     private var clipboardHelper: ClipboardHelper? = null
     private var mFirstLaunchOfActivity: Boolean = false
 
+    private var mExternalFileHelper: ExternalFileHelper? = null
+
     private var iconColor: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,6 +142,9 @@ class EntryActivity : LockingActivity() {
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
         mFirstLaunchOfActivity = savedInstanceState?.getBoolean(KEY_FIRST_LAUNCH_ACTIVITY) ?: true
+
+        // Init SAF manager
+        mExternalFileHelper = ExternalFileHelper(this)
 
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
@@ -344,7 +350,7 @@ class EntryActivity : LockingActivity() {
 
         // Manage attachments
         entryContentsView?.assignAttachments(entryInfo.attachments.toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->
-            createDocument(this, attachmentItem.name)?.let { requestCode ->
+            mExternalFileHelper?.createDocument(attachmentItem.name)?.let { requestCode ->
                 mAttachmentsToDownload[requestCode] = attachmentItem
             }
         }
@@ -380,7 +386,7 @@ class EntryActivity : LockingActivity() {
                 }
         }
 
-        onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
+        mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
             if (createdFileUri != null) {
                 mAttachmentsToDownload[requestCode]?.let { attachmentToDownload ->
                     mAttachmentFileBinderManager

@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
@@ -95,7 +95,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     private var mDatabaseKeyFileUri: Uri? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mPermissionAsked = false
     private var readOnly: Boolean = false
@@ -138,9 +138,9 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
-        mSelectFileHelper = SelectFileHelper(this@PasswordActivity)
+        mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
         keyFileSelectionView?.apply {
-            mSelectFileHelper?.selectFileOnClickViewListener?.let {
+            mExternalFileHelper?.selectFileOnClickViewListener?.let {
                 setOnClickListener(it)
                 setOnLongClickListener(it)
             }
@@ -702,7 +702,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         }
 
         var keyFileResult = false
-        mSelectFileHelper?.let {
+        mExternalFileHelper?.let {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {

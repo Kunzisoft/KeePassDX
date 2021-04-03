@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities.helpers
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -35,15 +34,15 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 
-class SelectFileHelper {
+class ExternalFileHelper {
 
-    private var activity: Activity? = null
+    private var activity: FragmentActivity? = null
     private var fragment: Fragment? = null
 
     val selectFileOnClickViewListener: SelectFileOnClickViewListener
         get() = SelectFileOnClickViewListener()
 
-    constructor(context: Activity) {
+    constructor(context: FragmentActivity) {
         this.activity = context
         this.fragment = null
     }
@@ -60,18 +59,10 @@ class SelectFileHelper {
 
         private fun onAbstractClick(longClick: Boolean = false) {
             try {
-                if (longClick) {
-                    try {
-                        openActivityWithActionGetContent()
-                    } catch (e: Exception) {
-                        openActivityWithActionOpenDocument()
-                    }
-                } else {
-                    try {
-                        openActivityWithActionOpenDocument()
-                    } catch (e: Exception) {
-                        openActivityWithActionGetContent()
-                    }
+                try {
+                    openDocument(longClick)
+                } catch (e: Exception) {
+                    openDocument(!longClick)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Enable to start the file picker activity", e)
@@ -93,6 +84,14 @@ class SelectFileHelper {
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             onAbstractClick()
             return true
+        }
+    }
+
+    fun openDocument(getContent: Boolean) {
+        if (getContent) {
+            openActivityWithActionGetContent()
+        } else {
+            openActivityWithActionOpenDocument()
         }
     }
 
@@ -187,10 +186,7 @@ class SelectFileHelper {
      * @param keyFileCallback Callback retrieve from data
      * @return true if requestCode was captured, false elsechere
      */
-    fun onActivityResultCallback(
-            requestCode: Int,
-            resultCode: Int,
-            data: Intent?,
+    fun onActivityResultCallback(requestCode: Int, resultCode: Int, data: Intent?,
             keyFileCallback: ((uri: Uri?) -> Unit)?): Boolean {
 
         when (requestCode) {
@@ -231,6 +227,50 @@ class SelectFileHelper {
         return false
     }
 
+    private fun showFileManagerDialogFragment() {
+        if (fragment != null) {
+            fragment?.parentFragmentManager
+        } else {
+            activity?.supportFragmentManager
+        }?.let { fragmentManager ->
+            FileManagerDialogFragment().show(fragmentManager, "browserDialog")
+        }
+    }
+
+    fun createDocument(titleString: String,
+                       typeString: String = "application/octet-stream"): Int? {
+
+        val idCode = getUnusedCreateFileRequestCode()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = typeString
+                    putExtra(Intent.EXTRA_TITLE, titleString)
+                }
+                if (fragment != null)
+                    fragment?.startActivityForResult(intent, idCode)
+                else
+                    activity?.startActivityForResult(intent, idCode)
+                return idCode
+            } catch (e: Exception) {
+                showFileManagerDialogFragment()
+            }
+        } else {
+            showFileManagerDialogFragment()
+        }
+        return null
+    }
+
+    fun onCreateDocumentResult(requestCode: Int, resultCode: Int, data: Intent?,
+                               action: (fileCreated: Uri?)->Unit) {
+        // Retrieve the created URI from the file manager
+        if (fileRequestCodes.contains(requestCode) && resultCode == RESULT_OK) {
+            action.invoke(data?.data)
+            fileRequestCodes.remove(requestCode)
+        }
+    }
+
     companion object {
 
         private const val TAG = "OpenFileHelper"
@@ -240,5 +280,28 @@ class SelectFileHelper {
         private const val GET_CONTENT = 25745
         private const val OPEN_DOC = 25845
         private const val FILE_BROWSE = 25645
+
+        private var CREATE_FILE_REQUEST_CODE_DEFAULT = 3853
+        private var fileRequestCodes = ArrayList<Int>()
+
+        private fun getUnusedCreateFileRequestCode(): Int {
+            val newCreateFileRequestCode = CREATE_FILE_REQUEST_CODE_DEFAULT++
+            fileRequestCodes.add(newCreateFileRequestCode)
+            return newCreateFileRequestCode
+        }
+
+        @SuppressLint("InlinedApi")
+        fun allowCreateDocumentByStorageAccessFramework(packageManager: PackageManager): Boolean {
+            return when {
+                // To check if a custom file manager can manage the ACTION_CREATE_DOCUMENT
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT -> {
+                    packageManager.queryIntentActivities(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "application/x-keepass"
+                    }, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
+                }
+                else -> true
+            }
+        }
     }
 }

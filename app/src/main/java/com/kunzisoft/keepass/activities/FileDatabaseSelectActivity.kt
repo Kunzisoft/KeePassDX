@@ -42,7 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
@@ -82,7 +82,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private var mDatabaseFileUri: Uri? = null
 
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
@@ -103,10 +103,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         createDatabaseButtonView?.setOnClickListener { createNewFile() }
 
         // Open database button
-        mSelectFileHelper = SelectFileHelper(this)
+        mExternalFileHelper = ExternalFileHelper(this)
         openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
         openDatabaseButtonView?.apply {
-            mSelectFileHelper?.selectFileOnClickViewListener?.let {
+            mExternalFileHelper?.selectFileOnClickViewListener?.let {
                 setOnClickListener(it)
                 setOnLongClickListener(it)
             }
@@ -234,7 +234,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
      * Create a new file by calling the content provider
      */
     private fun createNewFile() {
-        createDocument(this, getString(R.string.database_file_name_default) +
+        mExternalFileHelper?.createDocument( getString(R.string.database_file_name_default) +
                 getString(R.string.database_file_extension_default), "application/x-keepass")
     }
 
@@ -286,7 +286,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
-                if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
+                if (ExternalFileHelper.allowCreateDocumentByStorageAccessFramework(packageManager)) {
                     // There is an activity which can handle this intent.
                     createDatabaseButtonView?.visibility = View.VISIBLE
                 } else{
@@ -359,14 +359,14 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             if (uri != null) {
                 launchPasswordActivityWithPath(uri)
             }
         }
 
         // Retrieve the created URI from the file manager
-        onCreateDocumentResult(requestCode, resultCode, data) { databaseFileCreatedUri ->
+        mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { databaseFileCreatedUri ->
             mDatabaseFileUri = databaseFileCreatedUri
             if (mDatabaseFileUri != null) {
                 AssignMasterKeyDialogFragment.getInstance(true)
@@ -414,7 +414,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     openDatabaseButtonView!!,
                     {tapTargetView ->
                         tapTargetView?.let {
-                            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
+                            mExternalFileHelper?.selectFileOnClickViewListener?.onClick(it)
                         }
                     },
                     {}
