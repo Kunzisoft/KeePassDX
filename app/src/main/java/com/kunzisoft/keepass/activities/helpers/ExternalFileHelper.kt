@@ -291,13 +291,14 @@ class ExternalFileHelper {
         }
 
         @SuppressLint("InlinedApi")
-        fun allowCreateDocumentByStorageAccessFramework(packageManager: PackageManager): Boolean {
+        fun allowCreateDocumentByStorageAccessFramework(packageManager: PackageManager,
+                                                        typeString: String = "application/octet-stream"): Boolean {
             return when {
                 // To check if a custom file manager can manage the ACTION_CREATE_DOCUMENT
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT -> {
                     packageManager.queryIntentActivities(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                         addCategory(Intent.CATEGORY_OPENABLE)
-                        type = "application/x-keepass"
+                        type = typeString
                     }, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
                 }
                 else -> true
