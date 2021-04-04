@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -105,12 +106,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         // Open database button
         mExternalFileHelper = ExternalFileHelper(this)
         openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
-        openDatabaseButtonView?.apply {
-            mExternalFileHelper?.selectFileOnClickViewListener?.let {
-                setOnClickListener(it)
-                setOnLongClickListener(it)
-            }
-        }
+        openDatabaseButtonView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -413,9 +409,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             openDatabaseButtonView != null
                     && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
                     openDatabaseButtonView!!,
-                    {tapTargetView ->
+                    { tapTargetView ->
                         tapTargetView?.let {
-                            mExternalFileHelper?.selectFileOnClickViewListener?.onClick(it)
+                            mExternalFileHelper?.openDocument()
                         }
                     },
                     {}

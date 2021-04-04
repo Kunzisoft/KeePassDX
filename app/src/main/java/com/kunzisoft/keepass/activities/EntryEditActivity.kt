@@ -458,8 +458,8 @@ class EntryEditActivity : LockingActivity(),
     /**
      * Add a new attachment
      */
-    private fun addNewAttachment(item: MenuItem) {
-        mExternalFileHelper?.selectFileOnClickViewListener?.onMenuItemClick(item)
+    private fun addNewAttachment() {
+        mExternalFileHelper?.openDocument()
     }
 
     override fun onValidateUploadFileTooBig(attachmentToUploadUri: Uri?, fileName: String?) {
@@ -655,7 +655,7 @@ class EntryEditActivity : LockingActivity(),
                         && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
                         attachmentView,
                         {
-                            mExternalFileHelper?.selectFileOnClickViewListener?.onClick(attachmentView)
+                            mExternalFileHelper?.openDocument()
                         },
                         {
                             performedNextEducation(entryEditActivityEducation)
@@ -683,7 +683,7 @@ class EntryEditActivity : LockingActivity(),
                 return true
             }
             R.id.menu_add_attachment -> {
-                addNewAttachment(item)
+                addNewAttachment()
                 return true
             }
             R.id.menu_add_otp -> {

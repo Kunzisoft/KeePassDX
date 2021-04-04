@@ -36,6 +36,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
@@ -133,10 +134,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
 
             mExternalFileHelper = ExternalFileHelper(this)
-            keyFileSelectionView?.apply {
-                setOnClickListener(mExternalFileHelper?.selectFileOnClickViewListener)
-                setOnLongClickListener(mExternalFileHelper?.selectFileOnClickViewListener)
-            }
+            keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
 
             val dialog = builder.create()
 

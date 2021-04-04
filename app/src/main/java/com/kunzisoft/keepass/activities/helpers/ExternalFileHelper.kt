@@ -27,7 +27,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -39,9 +38,6 @@ class ExternalFileHelper {
     private var activity: FragmentActivity? = null
     private var fragment: Fragment? = null
 
-    val selectFileOnClickViewListener: SelectFileOnClickViewListener
-        get() = SelectFileOnClickViewListener()
-
     constructor(context: FragmentActivity) {
         this.activity = context
         this.fragment = null
@@ -52,42 +48,7 @@ class ExternalFileHelper {
         this.fragment = context
     }
 
-    inner class SelectFileOnClickViewListener :
-            View.OnClickListener,
-            View.OnLongClickListener,
-            MenuItem.OnMenuItemClickListener {
-
-        private fun onAbstractClick(longClick: Boolean = false) {
-            try {
-                try {
-                    openDocument(longClick)
-                } catch (e: Exception) {
-                    openDocument(!longClick)
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Enable to start the file picker activity", e)
-                // Open browser dialog
-                if (lookForOpenIntentsFilePicker())
-                    showBrowserDialog()
-            }
-        }
-
-        override fun onClick(v: View) {
-            onAbstractClick()
-        }
-
-        override fun onLongClick(v: View?): Boolean {
-            onAbstractClick(true)
-            return true
-        }
-
-        override fun onMenuItemClick(item: MenuItem?): Boolean {
-            onAbstractClick()
-            return true
-        }
-    }
-
-    fun openDocument(getContent: Boolean) {
+    fun openDocument(getContent: Boolean = false) {
         if (getContent) {
             openActivityWithActionGetContent()
         } else {
@@ -304,5 +265,20 @@ class ExternalFileHelper {
                 else -> true
             }
         }
+    }
+}
+
+fun View.setOpenDocumentClickListener(externalFileHelper: ExternalFileHelper?) {
+    externalFileHelper?.let { fileHelper ->
+        setOnClickListener {
+            fileHelper.openDocument()
+        }
+        setOnLongClickListener {
+            fileHelper.openDocument(true)
+            true
+        }
+    } ?: kotlin.run {
+        setOnClickListener(null)
+        setOnLongClickListener(null)
     }
 }

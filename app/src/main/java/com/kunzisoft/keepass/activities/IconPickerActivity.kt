@@ -35,6 +35,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
@@ -86,13 +87,7 @@ class IconPickerActivity : LockingActivity() {
 
         uploadButton = findViewById(R.id.icon_picker_upload)
         if (mDatabase?.allowCustomIcons == true) {
-            uploadButton.setOnClickListener {
-                mExternalFileHelper?.selectFileOnClickViewListener?.onClick(it)
-            }
-            uploadButton.setOnLongClickListener {
-                mExternalFileHelper?.selectFileOnClickViewListener?.onLongClick(it)
-                true
-            }
+            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
         } else {
             uploadButton.visibility = View.GONE
         }

@@ -42,10 +42,7 @@ import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -139,12 +136,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
-        keyFileSelectionView?.apply {
-            mExternalFileHelper?.selectFileOnClickViewListener?.let {
-                setOnClickListener(it)
-                setOnLongClickListener(it)
-            }
-        }
+        keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
