@@ -42,8 +42,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -82,7 +83,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private var mDatabaseFileUri: Uri? = null
 
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
@@ -103,14 +104,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         createDatabaseButtonView?.setOnClickListener { createNewFile() }
 
         // Open database button
-        mSelectFileHelper = SelectFileHelper(this)
+        mExternalFileHelper = ExternalFileHelper(this)
         openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
-        openDatabaseButtonView?.apply {
-            mSelectFileHelper?.selectFileOnClickViewListener?.let {
-                setOnClickListener(it)
-                setOnLongClickListener(it)
-            }
-        }
+        openDatabaseButtonView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -171,8 +167,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
                             mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
                         }
-                        GroupActivity.launch(this@FileDatabaseSelectActivity,
-                                PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
                     }
                     DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
                         databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
@@ -185,10 +179,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         }
                     }
                 }
+                databaseFilesViewModel.consumeAction()
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to observe database action", e)
             }
-            databaseFilesViewModel.consumeAction()
         }
 
         // Observe default database
@@ -206,6 +200,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                             val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
                             databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
                         }
+                        GroupActivity.launch(this@FileDatabaseSelectActivity,
+                                PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
                     }
                     ACTION_DATABASE_LOAD_TASK -> {
                         val database = Database.getInstance()
@@ -234,7 +230,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
      * Create a new file by calling the content provider
      */
     private fun createNewFile() {
-        createDocument(this, getString(R.string.database_file_name_default) +
+        mExternalFileHelper?.createDocument( getString(R.string.database_file_name_default) +
                 getString(R.string.database_file_extension_default), "application/x-keepass")
     }
 
@@ -286,7 +282,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
-                if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
+                if (ExternalFileHelper.allowCreateDocumentByStorageAccessFramework(packageManager)) {
                     // There is an activity which can handle this intent.
                     createDatabaseButtonView?.visibility = View.VISIBLE
                 } else{
@@ -359,14 +355,14 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             if (uri != null) {
                 launchPasswordActivityWithPath(uri)
             }
         }
 
         // Retrieve the created URI from the file manager
-        onCreateDocumentResult(requestCode, resultCode, data) { databaseFileCreatedUri ->
+        mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { databaseFileCreatedUri ->
             mDatabaseFileUri = databaseFileCreatedUri
             if (mDatabaseFileUri != null) {
                 AssignMasterKeyDialogFragment.getInstance(true)
@@ -412,9 +408,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             openDatabaseButtonView != null
                     && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
                     openDatabaseButtonView!!,
-                    {tapTargetView ->
+                    { tapTargetView ->
                         tapTargetView?.let {
-                            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
+                            mExternalFileHelper?.openDocument()
                         }
                     },
                     {}
