@@ -171,8 +171,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
                             mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
                         }
-                        GroupActivity.launch(this@FileDatabaseSelectActivity,
-                                PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
                     }
                     DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
                         databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
@@ -185,10 +183,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                         }
                     }
                 }
+                databaseFilesViewModel.consumeAction()
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to observe database action", e)
             }
-            databaseFilesViewModel.consumeAction()
         }
 
         // Observe default database
@@ -206,6 +204,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                             val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
                             databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
                         }
+                        GroupActivity.launch(this@FileDatabaseSelectActivity,
+                                PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
                     }
                     ACTION_DATABASE_LOAD_TASK -> {
                         val database = Database.getInstance()
