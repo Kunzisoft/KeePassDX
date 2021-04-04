@@ -282,8 +282,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
-                if (ExternalFileHelper.allowCreateDocumentByStorageAccessFramework(packageManager,
-                                "application/x-keepass")) {
+                if (ExternalFileHelper.allowCreateDocumentByStorageAccessFramework(packageManager)) {
                     // There is an activity which can handle this intent.
                     createDatabaseButtonView?.visibility = View.VISIBLE
                 } else{

@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.activities.helpers
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
@@ -48,21 +48,33 @@ class ExternalFileHelper {
         this.fragment = context
     }
 
-    fun openDocument(getContent: Boolean = false) {
-        if (getContent) {
-            openActivityWithActionGetContent()
+    fun openDocument(getContent: Boolean = false,
+                     typeString: String = "*/*") {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                if (getContent) {
+                    openActivityWithActionGetContent(typeString)
+                } else {
+                    openActivityWithActionOpenDocument(typeString)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to open document", e)
+                showFileManagerDialogFragment()
+            }
         } else {
-            openActivityWithActionOpenDocument()
+            showFileManagerDialogFragment()
         }
     }
 
-    @SuppressLint("InlinedApi")
-    private fun openActivityWithActionOpenDocument() {
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun openActivityWithActionOpenDocument(typeString: String) {
         val intentOpenDocument = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
+            type = typeString
             addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+            }
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         }
@@ -72,13 +84,15 @@ class ExternalFileHelper {
             activity?.startActivityForResult(intentOpenDocument, OPEN_DOC)
     }
 
-    @SuppressLint("InlinedApi")
-    private fun openActivityWithActionGetContent() {
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun openActivityWithActionGetContent(typeString: String) {
         val intentGetContent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
+            type = typeString
             addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+            }
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         }
@@ -86,60 +100,6 @@ class ExternalFileHelper {
             fragment?.startActivityForResult(intentGetContent, GET_CONTENT)
         else
             activity?.startActivityForResult(intentGetContent, GET_CONTENT)
-    }
-
-    private fun lookForOpenIntentsFilePicker(): Boolean {
-        var showBrowser = false
-        try {
-            if (isIntentAvailable(activity!!, OPEN_INTENTS_FILE_BROWSE)) {
-                val intent = Intent(OPEN_INTENTS_FILE_BROWSE)
-                if (fragment != null)
-                    fragment?.startActivityForResult(intent, FILE_BROWSE)
-                else
-                    activity?.startActivityForResult(intent, FILE_BROWSE)
-            } else {
-                showBrowser = true
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "Enable to start OPEN_INTENTS_FILE_BROWSE", e)
-            showBrowser = true
-        }
-
-        return showBrowser
-    }
-
-    /**
-     * Indicates whether the specified action can be used as an intent. This
-     * method queries the package manager for installed packages that can
-     * respond to an intent with the specified action. If no suitable package is
-     * found, this method returns false.
-     *
-     * @param context The application's environment.
-     * @param action The Intent action to check for availability.
-     *
-     * @return True if an Intent with the specified action can be sent and
-     * responded to, false otherwise.
-     */
-    private fun isIntentAvailable(context: Context, action: String): Boolean {
-        val packageManager = context.packageManager
-        val intent = Intent(action)
-        val list = packageManager.queryIntentActivities(intent,
-                PackageManager.MATCH_DEFAULT_ONLY)
-        return list.size > 0
-    }
-
-    /**
-     * Show Browser dialog to select file picker app
-     */
-    private fun showBrowserDialog() {
-        try {
-            val fileManagerDialogFragment = FileManagerDialogFragment()
-            fragment?.let {
-                fileManagerDialogFragment.show(it.parentFragmentManager, "browserDialog")
-            } ?: fileManagerDialogFragment.show((activity as FragmentActivity).supportFragmentManager, "browserDialog")
-        } catch (e: Exception) {
-            Log.e(TAG, "Can't open BrowserDialog", e)
-        }
     }
 
     /**
@@ -188,19 +148,25 @@ class ExternalFileHelper {
         return false
     }
 
+    /**
+     * Show Browser dialog to select file picker app
+     */
     private fun showFileManagerDialogFragment() {
-        if (fragment != null) {
-            fragment?.parentFragmentManager
-        } else {
-            activity?.supportFragmentManager
-        }?.let { fragmentManager ->
-            FileManagerDialogFragment().show(fragmentManager, "browserDialog")
+        try {
+            if (fragment != null) {
+                fragment?.parentFragmentManager
+            } else {
+                activity?.supportFragmentManager
+            }?.let { fragmentManager ->
+                FileManagerDialogFragment().show(fragmentManager, "browserDialog")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Can't open BrowserDialog", e)
         }
     }
 
     fun createDocument(titleString: String,
                        typeString: String = "application/octet-stream"): Int? {
-
         val idCode = getUnusedCreateFileRequestCode()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
@@ -215,6 +181,7 @@ class ExternalFileHelper {
                     activity?.startActivityForResult(intent, idCode)
                 return idCode
             } catch (e: Exception) {
+                Log.e(TAG, "Unable to create document", e)
                 showFileManagerDialogFragment()
             }
         } else {
@@ -235,8 +202,6 @@ class ExternalFileHelper {
     companion object {
 
         private const val TAG = "OpenFileHelper"
-
-        const val OPEN_INTENTS_FILE_BROWSE = "org.openintents.action.PICK_FILE"
 
         private const val GET_CONTENT = 25745
         private const val OPEN_DOC = 25845
