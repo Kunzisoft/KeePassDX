@@ -85,6 +85,8 @@ class IconPickerActivity : LockingActivity() {
 
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
+        mExternalFileHelper = ExternalFileHelper(this)
+
         uploadButton = findViewById(R.id.icon_picker_upload)
         if (mDatabase?.allowCustomIcons == true) {
             uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
@@ -118,8 +120,6 @@ class IconPickerActivity : LockingActivity() {
 
         // Focus view to reinitialize timeout
         findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this)
-
-        mExternalFileHelper = ExternalFileHelper(this)
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard
