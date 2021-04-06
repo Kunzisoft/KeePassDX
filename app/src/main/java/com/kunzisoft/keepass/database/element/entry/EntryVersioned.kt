@@ -36,6 +36,10 @@ abstract class EntryVersioned
 
     constructor(parcel: Parcel) : super(parcel)
 
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        super.writeToParcel(dest, flags)
+    }
+
     override fun nodeIndexInParentForNaturalOrder(): Int {
         if (nodeIndexInParentForNaturalOrder == -1) {
             val numberOfGroups = parent?.getChildGroups()?.size
