@@ -76,6 +76,14 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         tags = parcel.readString() ?: tags
     }
 
+    override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
+        return parcel.readParcelable(GroupKDBX::class.java.classLoader)
+    }
+
+    override fun writeParentParcelable(parent: GroupKDBX?, parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(parent, flags)
+    }
+
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
         dest.writeLong(usageCount.toKotlinLong())
@@ -136,14 +144,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun copyNodeId(nodeId: NodeId<UUID>): NodeId<UUID> {
         return NodeIdUUID(nodeId.id)
-    }
-
-    override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
-        return parcel.readParcelable(GroupKDBX::class.java.classLoader)
-    }
-
-    override fun writeParentParcelable(parent: GroupKDBX?, parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(parent, flags)
     }
 
     /**
