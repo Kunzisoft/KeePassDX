@@ -517,4 +517,21 @@ object PreferencesUtil {
                 .putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
                 .apply()
     }
+
+    fun getAppProperties(context: Context): Properties {
+        val allPreferences = PreferenceManager.getDefaultSharedPreferences(context).all
+        val properties = Properties()
+        for ((name, value) in allPreferences) {
+            properties[name] = value.toString()
+        }
+        return properties
+    }
+
+    fun setAppProperties(context: Context, properties: Properties) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().also {
+            for ((name, value) in properties) {
+                // TODO Set app properties
+            }
+        }.apply()
+    }
 }

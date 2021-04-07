@@ -355,7 +355,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        mExternalFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
             if (uri != null) {
                 launchPasswordActivityWithPath(uri)
             }

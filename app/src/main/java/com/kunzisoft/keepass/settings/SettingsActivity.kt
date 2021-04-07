@@ -24,14 +24,17 @@ import android.app.backup.BackupManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
@@ -40,6 +43,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import java.util.*
 
 open class SettingsActivity
     : LockingActivity(),
@@ -48,6 +52,8 @@ open class SettingsActivity
         PasswordEncodingDialogFragment.Listener {
 
     private var backupManager: BackupManager? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var appPropertiesFileCreationRequestCode: Int? = null
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
@@ -69,6 +75,8 @@ open class SettingsActivity
 
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
+
+        mExternalFileHelper = ExternalFileHelper(this)
 
         if (savedInstanceState?.getString(TITLE_KEY).isNullOrEmpty())
             toolbar?.setTitle(R.string.settings)
@@ -216,6 +224,13 @@ open class SettingsActivity
         hideOrShowLockButton(key)
     }
 
+    fun relaunchCurrentScreen() {
+        keepCurrentScreen()
+        startActivity(intent)
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
     /**
      * To keep the current screen when activity is reloaded
       */
@@ -235,6 +250,53 @@ open class SettingsActivity
             replaceFragment(key, reload)
     }
 
+    fun importAppProperties() {
+        mExternalFileHelper?.openDocument()
+    }
+
+    fun exportAppProperties() {
+        appPropertiesFileCreationRequestCode = mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Import app properties result
+        try {
+            mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { selectedfileUri ->
+                selectedfileUri?.let { uri ->
+                    val appProperties = Properties()
+                    contentResolver?.openInputStream(uri)?.use { inputStream ->
+                        appProperties.load(inputStream)
+                    }
+                    PreferencesUtil.setAppProperties(this, appProperties)
+                    relaunchCurrentScreen()
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to import app properties", e)
+        }
+
+        // Export app properties result
+        try {
+            if (requestCode == appPropertiesFileCreationRequestCode) {
+                mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
+                    createdFileUri?.let { uri ->
+                        contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                            PreferencesUtil
+                                    .getAppProperties(this)
+                                    .store(outputStream, getString(R.string.description_app_properties))
+                        }
+                        Toast.makeText(this, R.string.export_app_properties_success, Toast.LENGTH_LONG).show()
+                    }
+                }
+                appPropertiesFileCreationRequestCode = null
+            }
+        } catch (e: Exception) {
+            Log.e(LockingActivity.TAG, "Unable to export app properties", e)
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -243,6 +305,8 @@ open class SettingsActivity
     }
 
     companion object {
+
+        private val TAG = SettingsActivity::class.java.name
 
         private const val SHOW_LOCK = "SHOW_LOCK"
         private const val TITLE_KEY = "TITLE_KEY"

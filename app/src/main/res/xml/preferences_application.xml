@@ -150,4 +150,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/properties">
+
+        <Preference
+            android:key="@string/import_app_properties_key"
+            android:title="@string/import_app_properties_title"
+            android:summary="@string/import_app_properties_summary"/>
+        <Preference
+            android:key="@string/export_app_properties_key"
+            android:title="@string/export_app_properties_title"
+            android:summary="@string/export_app_properties_summary"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
