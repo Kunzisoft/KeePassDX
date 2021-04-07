@@ -26,7 +26,6 @@ import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
@@ -34,6 +33,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
@@ -173,7 +173,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     putExtra(FILE_URI_KEY, attachmentNotification.uri)
                 }, PendingIntent.FLAG_CANCEL_CURRENT)
 
-        val fileName = DocumentFile.fromSingleUri(this, attachmentNotification.uri)?.name ?: ""
+        val fileName = UriUtil.getFileData(this, attachmentNotification.uri)?.name
+                ?: attachmentNotification.uri.path
 
         val builder = buildNewNotification().apply {
             when (attachmentNotification.entryAttachmentState.streamDirection) {

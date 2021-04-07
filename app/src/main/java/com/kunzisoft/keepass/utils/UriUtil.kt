@@ -38,16 +38,26 @@ object UriUtil {
     fun getFileData(context: Context, fileUri: Uri?): DocumentFile? {
         if (fileUri == null)
             return null
-        return when {
-            isFileScheme(fileUri) -> {
-                fileUri.path?.let {
-                    File(it).let { file ->
-                        return DocumentFile.fromFile(file)
+        return try {
+            when {
+                isFileScheme(fileUri) -> {
+                    fileUri.path?.let {
+                        File(it).let { file ->
+                            return DocumentFile.fromFile(file)
+                        }
                     }
                 }
+                isContentScheme(fileUri) -> {
+                    DocumentFile.fromSingleUri(context, fileUri)
+                }
+                else -> {
+                    Log.e("FileData", "Content scheme not known")
+                    null
+                }
             }
-            isContentScheme(fileUri) -> DocumentFile.fromSingleUri(context, fileUri)
-            else -> null
+        } catch (e: Exception) {
+            Log.e("FileData", "Unable to get document file", e)
+            null
         }
     }
 

@@ -11,7 +11,7 @@ class BinaryCache {
      */
     var loadedCipherKey: LoadedKey = LoadedKey.generateNewCipherKey()
 
-    lateinit var cacheDirectory: File
+    var cacheDirectory: File? = null
 
     private val voidBinary = KeyByteArray(UNKNOWN, ByteArray(0))
 
@@ -19,11 +19,12 @@ class BinaryCache {
                       smallSize: Boolean = false,
                       compression: Boolean = false,
                       protection: Boolean = false): BinaryData {
-        return if (smallSize) {
+        val cacheDir = cacheDirectory
+        return if (smallSize || cacheDir == null) {
             BinaryByte(binaryId, compression, protection)
         } else {
-            val fileInCache = File(cacheDirectory, binaryId)
-            return BinaryFile(fileInCache, compression, protection)
+            val fileInCache = File(cacheDir, binaryId)
+            BinaryFile(fileInCache, compression, protection)
         }
     }
 

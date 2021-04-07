@@ -1,0 +1,1 @@
+ * Correction de petits bugs #948

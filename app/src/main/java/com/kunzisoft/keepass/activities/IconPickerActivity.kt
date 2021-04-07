@@ -34,7 +34,8 @@ import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
@@ -66,7 +67,7 @@ class IconPickerActivity : LockingActivity() {
 
     private var mDatabase: Database? = null
 
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,15 +85,11 @@ class IconPickerActivity : LockingActivity() {
 
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
+        mExternalFileHelper = ExternalFileHelper(this)
+
         uploadButton = findViewById(R.id.icon_picker_upload)
         if (mDatabase?.allowCustomIcons == true) {
-            uploadButton.setOnClickListener {
-                mSelectFileHelper?.selectFileOnClickViewListener?.onClick(it)
-            }
-            uploadButton.setOnLongClickListener {
-                mSelectFileHelper?.selectFileOnClickViewListener?.onLongClick(it)
-                true
-            }
+            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
         } else {
             uploadButton.visibility = View.GONE
         }
@@ -123,8 +120,6 @@ class IconPickerActivity : LockingActivity() {
 
         // Focus view to reinitialize timeout
         findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this)
-
-        mSelectFileHelper = SelectFileHelper(this)
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard
@@ -281,7 +276,7 @@ class IconPickerActivity : LockingActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
             addCustomIcon(uri)
         }
     }

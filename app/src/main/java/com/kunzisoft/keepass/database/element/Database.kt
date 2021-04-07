@@ -105,10 +105,6 @@ class Database {
             return mDatabaseKDB?.binaryCache ?: mDatabaseKDBX?.binaryCache ?: BinaryCache()
         }
 
-    fun setCacheDirectory(cacheDirectory: File) {
-        binaryCache.cacheDirectory = cacheDirectory
-    }
-
     private val iconsManager: IconsManager
         get() {
             return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager(binaryCache)

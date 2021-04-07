@@ -25,7 +25,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
 
-class IconImageCustom : Parcelable, IconImageDraw {
+class IconImageCustom : IconImageDraw {
 
     var uuid: UUID
 

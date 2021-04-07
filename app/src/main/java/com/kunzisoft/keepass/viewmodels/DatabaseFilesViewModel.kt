@@ -50,14 +50,18 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
         ).execute()
     }
 
+    private fun getDatabaseFilesLoadedValue(): DatabaseFileData {
+        var newValue = databaseFilesLoaded.value
+        if (newValue == null) {
+            newValue = DatabaseFileData()
+        }
+        return newValue
+    }
+
     fun loadListOfDatabases() {
         checkDefaultDatabase()
         mFileDatabaseHistoryAction?.getDatabaseFileList { databaseFileListRetrieved ->
-            var newValue = databaseFilesLoaded.value
-            if (newValue == null) {
-                newValue = DatabaseFileData()
-            }
-            newValue.apply {
+            databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                 databaseFileAction = DatabaseFileAction.NONE
                 databaseFileToActivate = null
                 databaseFileList.apply {
@@ -65,14 +69,13 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
                     addAll(databaseFileListRetrieved)
                 }
             }
-            databaseFilesLoaded.value = newValue
         }
     }
 
     fun addDatabaseFile(databaseUri: Uri, keyFileUri: Uri?) {
         mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(databaseUri, keyFileUri) { databaseFileAdded ->
             databaseFileAdded?.let { _ ->
-                databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
+                databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     this.databaseFileAction = DatabaseFileAction.ADD
                     this.databaseFileList.add(databaseFileAdded)
                     this.databaseFileToActivate = databaseFileAdded
@@ -84,7 +87,7 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun updateDatabaseFile(databaseFileToUpdate: DatabaseFile) {
         mFileDatabaseHistoryAction?.addOrUpdateDatabaseFile(databaseFileToUpdate) { databaseFileUpdated ->
             databaseFileUpdated?.let { _ ->
-                databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
+                databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     this.databaseFileAction = DatabaseFileAction.UPDATE
                     this.databaseFileList
                             .find { it.databaseUri == databaseFileUpdated.databaseUri }
@@ -104,7 +107,7 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile) {
         mFileDatabaseHistoryAction?.deleteDatabaseFile(databaseFileToDelete) { databaseFileDeleted ->
             databaseFileDeleted?.let { _ ->
-                databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
+                databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     databaseFileAction = DatabaseFileAction.DELETE
                     databaseFileToActivate = databaseFileDeleted
                     databaseFileList.remove(databaseFileDeleted)

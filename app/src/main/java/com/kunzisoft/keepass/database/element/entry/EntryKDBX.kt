@@ -56,32 +56,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var additional = ""
     var tags = ""
 
-    fun getSize(attachmentPool: AttachmentPool): Long {
-        var size = FIXED_LENGTH_SIZE
-
-        for (entry in fields.entries) {
-            size += entry.key.length.toLong()
-            size += entry.value.length().toLong()
-        }
-
-        size += getAttachmentsSize(attachmentPool)
-
-        size += autoType.defaultSequence.length.toLong()
-        for ((key, value) in autoType.entrySet()) {
-            size += key.length.toLong()
-            size += value.length.toLong()
-        }
-
-        for (entry in history) {
-            size += entry.getSize(attachmentPool)
-        }
-
-        size += overrideURL.length.toLong()
-        size += tags.length.toLong()
-
-        return size
-    }
-
     override var expires: Boolean = false
 
     constructor() : super()
@@ -100,6 +74,14 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         url = parcel.readString() ?: url
         additional = parcel.readString() ?: additional
         tags = parcel.readString() ?: tags
+    }
+
+    override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
+        return parcel.readParcelable(GroupKDBX::class.java.classLoader)
+    }
+
+    override fun writeParentParcelable(parent: GroupKDBX?, parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(parent, flags)
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -164,14 +146,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return NodeIdUUID(nodeId.id)
     }
 
-    override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
-        return parcel.readParcelable(GroupKDBX::class.java.classLoader)
-    }
-
-    override fun writeParentParcelable(parent: GroupKDBX?, parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(parent, flags)
-    }
-
     /**
      * Decode a reference key with the FieldReferencesEngine
      * @param decodeRef
@@ -227,6 +201,32 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var usageCount = UnsignedLong(0)
 
     override var locationChanged = DateInstant()
+
+    fun getSize(attachmentPool: AttachmentPool): Long {
+        var size = FIXED_LENGTH_SIZE
+
+        for (entry in fields.entries) {
+            size += entry.key.length.toLong()
+            size += entry.value.length().toLong()
+        }
+
+        size += getAttachmentsSize(attachmentPool)
+
+        size += autoType.defaultSequence.length.toLong()
+        for ((key, value) in autoType.entrySet()) {
+            size += key.length.toLong()
+            size += value.length.toLong()
+        }
+
+        for (entry in history) {
+            size += entry.getSize(attachmentPool)
+        }
+
+        size += overrideURL.length.toLong()
+        size += tags.length.toLong()
+
+        return size
+    }
 
     fun afterChangeParent() {
         locationChanged = DateInstant()
@@ -349,6 +349,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         const val STR_URL = "URL"
         const val STR_NOTES = "Notes"
 
+        private const val FIXED_LENGTH_SIZE: Long = 128 // Approximate fixed length size
+
         fun newCustomNameAllowed(name: String): Boolean {
             return !(name.equals(STR_TITLE, true)
                     || name.equals(STR_USERNAME, true)
@@ -367,7 +369,5 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
                 return arrayOfNulls(size)
             }
         }
-
-        private const val FIXED_LENGTH_SIZE: Long = 128 // Approximate fixed length size
     }
 }

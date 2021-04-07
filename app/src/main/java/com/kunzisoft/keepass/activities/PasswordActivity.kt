@@ -42,10 +42,7 @@ import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -95,7 +92,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     private var mDatabaseKeyFileUri: Uri? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mPermissionAsked = false
     private var readOnly: Boolean = false
@@ -138,13 +135,8 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
-        mSelectFileHelper = SelectFileHelper(this@PasswordActivity)
-        keyFileSelectionView?.apply {
-            mSelectFileHelper?.selectFileOnClickViewListener?.let {
-                setOnClickListener(it)
-                setOnLongClickListener(it)
-            }
-        }
+        mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
+        keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
@@ -702,7 +694,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         }
 
         var keyFileResult = false
-        mSelectFileHelper?.let {
+        mExternalFileHelper?.let {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {
