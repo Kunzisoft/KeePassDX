@@ -90,7 +90,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
-        binaryDataId = parcel.readInt()
+        val rawBinaryDataId = parcel.readInt()
+        binaryDataId = if (rawBinaryDataId == -1) null else rawBinaryDataId
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -109,9 +110,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeString(url)
         dest.writeString(notes)
         dest.writeString(binaryDescription)
-        binaryDataId?.let {
-            dest.writeInt(it)
-        }
+        dest.writeInt(binaryDataId ?: -1)
     }
 
     fun updateWith(source: EntryKDB) {
