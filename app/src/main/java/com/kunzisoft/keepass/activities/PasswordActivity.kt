@@ -695,7 +695,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
 
         var keyFileResult = false
         mExternalFileHelper?.let {
-            keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
+            keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {
                     mDatabaseKeyFileUri = uri

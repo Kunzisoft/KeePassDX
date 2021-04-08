@@ -90,6 +90,20 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 }
                 true
             }
+
+            findPreference<Preference>(getString(R.string.import_app_properties_key))?.setOnPreferenceClickListener { _ ->
+                (activity as? SettingsActivity?)?.apply {
+                    importAppProperties()
+                }
+                true
+            }
+
+            findPreference<Preference>(getString(R.string.export_app_properties_key))?.setOnPreferenceClickListener { _ ->
+                (activity as? SettingsActivity?)?.apply {
+                    exportAppProperties()
+                }
+                true
+            }
         }
     }
 
@@ -388,10 +402,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     Stylish.assignStyle(activity, styleIdString)
                     // Relaunch the current activity to redraw theme
                     (activity as? SettingsActivity?)?.apply {
-                        keepCurrentScreen()
-                        startActivity(intent)
-                        finish()
-                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        relaunchCurrentScreen()
                     }
                 }
                 styleEnabled
@@ -399,10 +410,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
             findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->
                 (activity as? SettingsActivity?)?.apply {
-                    keepCurrentScreen()
-                    startActivity(intent)
-                    finish()
-                    activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    relaunchCurrentScreen()
                 }
                 true
             }
