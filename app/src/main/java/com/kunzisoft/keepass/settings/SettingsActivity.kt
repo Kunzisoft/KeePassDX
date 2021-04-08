@@ -273,7 +273,6 @@ open class SettingsActivity
                     PreferencesUtil.setAppProperties(this, appProperties)
 
                     // Restart the current activity
-                    Stylish.assignStyle(this, PreferencesUtil.getStyle(this))
                     relaunchCurrentScreen()
                     Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
                 }

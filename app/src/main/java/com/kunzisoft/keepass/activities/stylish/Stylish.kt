@@ -37,12 +37,12 @@ object Stylish {
      * Initialize the class with a theme preference
      * @param context Context to retrieve the theme preference
      */
-    fun init(context: Context) {
+    fun load(context: Context) {
         Log.d(Stylish::class.java.name, "Attatching to " + context.packageName)
         themeString = PreferencesUtil.getStyle(context)
     }
 
-    private fun retrieveEquivalentSystemStyle(context: Context, styleString: String): String {
+    fun retrieveEquivalentSystemStyle(context: Context, styleString: String): String {
         val systemNightMode = when (PreferencesUtil.getStyleBrightness(context)) {
             context.getString(R.string.list_style_brightness_light) -> false
             context.getString(R.string.list_style_brightness_night) -> true
@@ -84,12 +84,16 @@ object Stylish {
         }
     }
 
+    fun defaultStyle(context: Context): String {
+        return context.getString(R.string.list_style_name_light)
+    }
+
     /**
      * Assign the style to the class attribute
      * @param styleString Style id String
      */
     fun assignStyle(context: Context, styleString: String) {
-        themeString = retrieveEquivalentSystemStyle(context, styleString)
+        PreferencesUtil.setStyle(context, styleString)
     }
 
     /**
