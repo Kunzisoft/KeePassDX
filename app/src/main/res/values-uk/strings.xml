@@ -561,4 +561,15 @@
     <string name="content_description_otp_information">Відомості про одноразовий пароль</string>
     <string name="error_remove_file">Сталася помилка під час вилучення даних файлу.</string>
     <string name="error_duplicate_file">Дані файлу вже існують.</string>
+    <string name="properties">Властивості</string>
+    <string name="error_export_app_properties">Помилка під час експортування властивостей застосунку</string>
+    <string name="success_export_app_properties">Властивості застосунку експортовано</string>
+    <string name="error_import_app_properties">Помилка під час імпортування властивостей застосунку</string>
+    <string name="success_import_app_properties">Властивості застосунку імпортовано</string>
+    <string name="description_app_properties">Властивості KeePassDX для керування параметрами застосунку</string>
+    <string name="export_app_properties_summary">Створити файл для експорту властивостей застосунку</string>
+    <string name="export_app_properties_title">Експорт властивостей застосунку</string>
+    <string name="import_app_properties_summary">Виберіть файл для імпорту властивостей застосунку</string>
+    <string name="import_app_properties_title">Імпорт властивостей застосунку</string>
+    <string name="error_start_database_action">Під час виконання дії з базою даних сталася помилка.</string>
 </resources>
