@@ -546,7 +546,7 @@
     <string name="autofill_inline_suggestions_summary">Mostra i suggerimenti di riempimento campi in una tastiera compatibile</string>
     <string name="autofill_inline_suggestions_title">Suggerimenti in linea</string>
     <string name="warning_database_revoked">L\'accesso al file è stato revocato dal file manager, chiudi il database e riaprilo dalla sua posizione originale.</string>
-    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvano il database o ricaricalo con gli ultimi cambiamenti.</string>
+    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvando il database o ricaricalo con gli ultimi cambiamenti.</string>
     <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
     <string name="menu_reload_database">Ricarica database</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo, la sua convalida potrebbe non generare più correttamente il token.</string>
