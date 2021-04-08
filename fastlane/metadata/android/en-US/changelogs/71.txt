@@ -1,0 +1,2 @@
+ * Import / Export app properties #839
+ * Force twofish padding compatibility #955

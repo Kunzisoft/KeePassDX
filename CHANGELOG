@@ -1,3 +1,7 @@
+KeePassDX(2.9.17)
+ * Import / Export app properties #839
+ * Force twofish padding compatibility #955
+
 KeePassDX(2.9.16)
  * Fix small bugs #948
 

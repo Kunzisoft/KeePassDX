@@ -1,0 +1,2 @@
+ * Import / Export des propriétés de l'application #839
+ * Force la compatibilité du bourrage twofish #955
