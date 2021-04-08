@@ -561,4 +561,15 @@
     <string name="content_description_otp_information">Информация об одноразовом пароле</string>
     <string name="error_duplicate_file">Данные файла уже существует.</string>
     <string name="error_remove_file">Ошибка при удалении данных файла.</string>
+    <string name="properties">Свойства</string>
+    <string name="error_export_app_properties">Ошибка при экспорте свойств приложения</string>
+    <string name="success_export_app_properties">Свойства приложения экспортированы</string>
+    <string name="error_import_app_properties">Ошибка при импорте свойств приложения</string>
+    <string name="success_import_app_properties">Свойства приложения импортированы</string>
+    <string name="description_app_properties">Свойства KeePassDX для управления настройками приложения</string>
+    <string name="export_app_properties_summary">Создайте файл для экспорта свойств приложения</string>
+    <string name="export_app_properties_title">Экспорт свойств приложения</string>
+    <string name="import_app_properties_summary">Выберите файл для импорта свойств приложения</string>
+    <string name="import_app_properties_title">Импортировать свойства приложения</string>
+    <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой данных.</string>
 </resources>
