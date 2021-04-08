@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -270,10 +271,15 @@ open class SettingsActivity
                         appProperties.load(inputStream)
                     }
                     PreferencesUtil.setAppProperties(this, appProperties)
+
+                    // Restart the current activity
+                    Stylish.assignStyle(this, PreferencesUtil.getStyle(this))
                     relaunchCurrentScreen()
+                    Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
+            Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
             Log.e(TAG, "Unable to import app properties", e)
         }
 
@@ -287,12 +293,13 @@ open class SettingsActivity
                                     .getAppProperties(this)
                                     .store(outputStream, getString(R.string.description_app_properties))
                         }
-                        Toast.makeText(this, R.string.export_app_properties_success, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.success_export_app_properties, Toast.LENGTH_LONG).show()
                     }
                 }
                 appPropertiesFileCreationRequestCode = null
             }
         } catch (e: Exception) {
+            Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
             Log.e(LockingActivity.TAG, "Unable to export app properties", e)
         }
     }

@@ -21,14 +21,17 @@ package com.kunzisoft.keepass.settings
 
 import android.app.backup.BackupManager
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
+import android.util.Log
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import java.util.*
 
@@ -519,19 +522,131 @@ object PreferencesUtil {
     }
 
     fun getAppProperties(context: Context): Properties {
-        val allPreferences = PreferenceManager.getDefaultSharedPreferences(context).all
         val properties = Properties()
-        for ((name, value) in allPreferences) {
+        for ((name, value) in PreferenceManager.getDefaultSharedPreferences(context).all) {
+            properties[name] = value.toString()
+        }
+        for ((name, value) in Education.getEducationSharedPreferences(context).all) {
             properties[name] = value.toString()
         }
         return properties
     }
 
-    fun setAppProperties(context: Context, properties: Properties) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().also {
+    private fun getStringSetFromProperties(value: String): Set<String> {
+        return value.removePrefix("[")
+                .removeSuffix("]")
+                .split(", ")
+                .toSet()
+    }
+
+    private fun putPropertiesInPreferences(properties: Properties,
+                                           preferences: SharedPreferences,
+                                           putProperty: (editor: SharedPreferences.Editor,
+                                                         name: String,
+                                                         value: String) -> Unit) {
+        preferences.edit().apply {
             for ((name, value) in properties) {
-                // TODO Set app properties
+                try {
+                    putProperty(this, name as String, value as String)
+                } catch (e:Exception) {
+                    Log.e("PreferencesUtil", "Error when trying to parse app property $name=$value", e)
+                }
             }
         }.apply()
+    }
+
+    fun setAppProperties(context: Context, properties: Properties) {
+        putPropertiesInPreferences(properties,
+                PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->
+            when (name) {
+                context.getString(R.string.allow_no_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.delete_entered_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.enable_read_only_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.omit_backup_search_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.subdomain_search_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.app_timeout_key) -> editor.putString(name, value.toLong().toString())
+                context.getString(R.string.lock_database_screen_off_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.lock_database_back_root_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.password_length_key) -> editor.putInt(name, value.toInt())
+                context.getString(R.string.list_password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
+                context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.allow_copy_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.remember_database_locations_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.hide_broken_locations_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.remember_keyfile_locations_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.biometric_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.device_credential_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.biometric_auto_open_prompt_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.temp_advanced_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.temp_advanced_unlock_timeout_key) -> editor.putString(name, value.toLong().toString())
+
+                context.getString(R.string.magic_keyboard_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.clipboard_notifications_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.clear_clipboard_notification_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.clipboard_timeout_key) -> editor.putString(name, value.toLong().toString())
+                context.getString(R.string.settings_autofill_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_notification_entry_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
+                context.getString(R.string.keyboard_selection_entry_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_search_share_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_key_sound_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_previous_database_credentials_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_previous_fill_in_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_previous_lock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_auto_search_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_ask_to_save_data_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_application_id_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
+                context.getString(R.string.autofill_web_domain_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
+
+                context.getString(R.string.setting_style_key) -> editor.putString(name, value)
+                context.getString(R.string.setting_style_brightness_key) -> editor.putString(name, value)
+                context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
+                context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.list_size_key) -> editor.putString(name, value)
+                context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
+
+                context.getString(R.string.sort_node_key) -> editor.putString(name, value)
+                context.getString(R.string.sort_group_before_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.sort_ascending_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.sort_recycle_bin_bottom_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.allow_copy_password_first_time_key) -> editor.putBoolean(name, value.toBoolean())
+            }
+        }
+
+        putPropertiesInPreferences(properties,
+                Education.getEducationSharedPreferences(context)) { editor, name, value ->
+            when (name) {
+                context.getString(R.string.education_create_db_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_select_db_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_unlock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_read_only_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_biometric_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_search_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_new_node_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_sort_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_lock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_copy_username_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_entry_edit_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_password_generator_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_entry_new_field_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_add_attachment_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_setup_OTP_key) -> editor.putBoolean(name, value.toBoolean())
+            }
+        }
     }
 }

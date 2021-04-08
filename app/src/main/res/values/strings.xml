@@ -239,7 +239,10 @@
     <string name="export_app_properties_title">Export app properties</string>
     <string name="export_app_properties_summary">Create a file to export app properties</string>
     <string name="description_app_properties">KeePassDX properties to manage app settings</string>
-    <string name="export_app_properties_success">App properties exported</string>
+    <string name="success_import_app_properties">App properties imported</string>
+    <string name="error_import_app_properties">Error during app properties importation</string>
+    <string name="success_export_app_properties">App properties exported</string>
+    <string name="error_export_app_properties">Error during app properties exportation</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
