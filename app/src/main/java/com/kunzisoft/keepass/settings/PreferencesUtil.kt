@@ -169,10 +169,14 @@ object PreferencesUtil {
      * Retrieve the text size in % (1 for 100%)
      */
     fun getListTextSize(context: Context): Float {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val listSizeString = prefs.getString(context.getString(R.string.list_size_key),
-                            context.getString(R.string.list_size_string_medium))
-        val index = context.resources.getStringArray(R.array.list_size_string_values).indexOf(listSizeString)
+        val index = try {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val listSizeString = prefs.getString(context.getString(R.string.list_size_key),
+                    context.getString(R.string.list_size_string_medium))
+            context.resources.getStringArray(R.array.list_size_string_values).indexOf(listSizeString)
+        } catch (e: Exception) {
+            1
+        }
         val typedArray = context.resources.obtainTypedArray(R.array.list_size_values)
         val listSize = typedArray.getFloat(index, 1.0F)
         typedArray.recycle()
@@ -306,11 +310,13 @@ object PreferencesUtil {
     }
 
     fun getListSort(context: Context): SortNodeEnum {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        prefs.getString(context.getString(R.string.sort_node_key),
-                SortNodeEnum.DB.name)?.let {
-            return SortNodeEnum.valueOf(it)
-        }
+        try {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            prefs.getString(context.getString(R.string.sort_node_key),
+                    SortNodeEnum.DB.name)?.let {
+                return SortNodeEnum.valueOf(it)
+            }
+        } catch (e: Exception) {}
         return SortNodeEnum.DB
     }
 
