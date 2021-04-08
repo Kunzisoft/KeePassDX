@@ -36,6 +36,9 @@ abstract class CipherEngine {
         return 16
     }
 
+    // Used only with padding workaround
+    var forcePaddingCompatibility = false
+
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
     abstract fun getCipher(opmode: Int, key: ByteArray, IV: ByteArray): Cipher
 
