@@ -542,4 +542,11 @@
     <string name="error_rebuild_list">Listen kan ikke genopbygges korrekt.</string>
     <string name="error_database_uri_null">Database-URI kan ikke hentes.</string>
     <string name="content_description_otp_information">Oplysninger om engangsadgangskode</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Advarsel: hovedadgangskoden skal stadig huskes, hvis der bruges biometrisk genkendelse.</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Åbn biometriske forespørgsel for at låse databasen op</string>
+    <string name="warning_database_revoked">Adgang til filen tilbagekaldt af filhåndteringsprogrammet, luk databasen og genåbn den fra dens placering.</string>
+    <string name="error_start_database_action">Der opstod en fejl under udførelsen af en handling på databasen.</string>
+    <string name="error_remove_file">Der opstod en fejl med at fjerne fildata.</string>
+    <string name="error_otp_type">Den existerende OTP type kunne ikke genkendes, den kan være tiden er udløbet for at lave tokens</string>
 </resources>
