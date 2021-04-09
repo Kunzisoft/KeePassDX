@@ -561,4 +561,15 @@
     <string name="content_description_otp_information">Informacje o hasłach jednorazowych</string>
     <string name="error_remove_file">Wystąpił błąd podczas usuwania danych z pliku.</string>
     <string name="error_duplicate_file">Dane pliku już istnieją.</string>
+    <string name="properties">Właściwości</string>
+    <string name="error_export_app_properties">Błąd podczas eksportowania właściwości aplikacji</string>
+    <string name="success_export_app_properties">Wyeksportowano właściwości aplikacji</string>
+    <string name="error_import_app_properties">Błąd podczas importowania właściwości aplikacji</string>
+    <string name="success_import_app_properties">Zaimportowano właściwości aplikacji</string>
+    <string name="description_app_properties">Właściwości KeePassDX do zarządzania ustawieniami aplikacji</string>
+    <string name="export_app_properties_summary">Utwórz plik, aby wyeksportować właściwości aplikacji</string>
+    <string name="export_app_properties_title">Eksportuj właściwości aplikacji</string>
+    <string name="import_app_properties_summary">Wybierz plik, aby zaimportować właściwości aplikacji</string>
+    <string name="import_app_properties_title">Importuj właściwości aplikacji</string>
+    <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
 </resources>
