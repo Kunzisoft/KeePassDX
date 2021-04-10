@@ -66,12 +66,10 @@
             android:summary="@string/clear_clipboard_notification_summary"
             android:dependency="@string/clipboard_notifications_key"
             android:defaultValue="@bool/clear_clipboard_notification_default"/>
-        <ListPreference
+        <com.kunzisoft.keepass.settings.preference.DurationDialogPreference
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
             android:summary="@string/clipboard_timeout_summary"
-            android:entries="@array/timeout_options"
-            android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/clipboard_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
         <SwitchPreference
