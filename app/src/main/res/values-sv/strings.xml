@@ -133,17 +133,6 @@
     <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.
 \n
 \nBacka upp databasfilen på ett säkert ställe efter varje ändring.</string>
-    <string-array name="timeout_options">
-        <item>5 sekunder</item>
-        <item>10 sekunder</item>
-        <item>20 sekunder</item>
-        <item>30 sekunder</item>
-        <item>1 minut</item>
-        <item>5 minuter</item>
-        <item>15 minuter</item>
-        <item>30 minuter</item>
-        <item>Aldrig</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Liten</item>
         <item>Medium</item>

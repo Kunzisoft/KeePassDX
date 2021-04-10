@@ -123,17 +123,6 @@
     <string name="education_unlock_summary">Entre com a senha e/ou com o caminho para o arquivo-chave do banco de dados.
 \n
 \nGuarde uma cópia do seu arquivo do banco em um lugar mais seguro depois de cada alteração.</string>
-    <string-array name="timeout_options">
-        <item>5 segundos</item>
-        <item>10 segundos</item>
-        <item>20 segundos</item>
-        <item>30 segundos</item>
-        <item>1 minuto</item>
-        <item>5 minutos</item>
-        <item>15 minutos</item>
-        <item>30 minutos</item>
-        <item>Nunca</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Pequeno</item>
         <item>Médio</item>

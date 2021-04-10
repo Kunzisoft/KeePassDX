@@ -576,7 +576,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     }
 
     companion object {
-
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
     }
 }

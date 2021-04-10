@@ -141,17 +141,6 @@
     <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
 \n
 \nНе забывайте сохранять копию файла базы в безопасном месте после каждого изменения.</string>
-    <string-array name="timeout_options">
-        <item>5 секунд</item>
-        <item>10 секунд</item>
-        <item>20 секунд</item>
-        <item>30 секунд</item>
-        <item>1 минута</item>
-        <item>5 минут</item>
-        <item>15 минут</item>
-        <item>30 минут</item>
-        <item>Никогда</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Мелкий</item>
         <item>Обычный</item>

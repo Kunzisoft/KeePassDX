@@ -35,8 +35,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 class KeyboardEntryNotificationService : LockNotificationService() {
 
     override val notificationId = 486
-    private var cleanNotificationTimerTask: Thread? = null
-    private var notificationTimeoutMilliSecs: Long = 0
+    private var mNotificationTimeoutMilliSecs: Long = 0
 
     private var pendingDeleteIntent: PendingIntent? = null
 
@@ -61,7 +60,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         super.onStartCommand(intent, flags, startId)
 
         //Get settings
-        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
+        mNotificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(getString(R.string.keyboard_entry_timeout_key),
                 getString(R.string.timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
 
@@ -107,27 +106,12 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         notificationManager?.cancel(notificationId)
         notificationManager?.notify(notificationId, builder.build())
 
-        stopTask(cleanNotificationTimerTask)
         // Timeout only if notification clear is available
         if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
-            if (notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
-                cleanNotificationTimerTask = Thread {
-                    val maxPos = 100
-                    val posDurationMills = notificationTimeoutMilliSecs / maxPos
-                    for (pos in maxPos downTo 0) {
-                        builder.setProgress(maxPos, pos, false)
-                        notificationManager?.notify(notificationId, builder.build())
-                        try {
-                            Thread.sleep(posDurationMills)
-                        } catch (e: InterruptedException) {
-                            break
-                        }
-                        if (pos <= 0) {
-                            stopNotificationAndSendLockIfNeeded()
-                        }
-                    }
+            if (mNotificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
+                defineTimerJob(builder, mNotificationTimeoutMilliSecs) {
+                    stopNotificationAndSendLockIfNeeded()
                 }
-                cleanNotificationTimerTask?.start()
             }
         }
     }
@@ -142,8 +126,6 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         // Remove the entry from the keyboard
         MagikIME.removeEntry(this)
 
-        stopTask(cleanNotificationTimerTask)
-        cleanNotificationTimerTask = null
         pendingDeleteIntent?.cancel()
 
         super.onDestroy()

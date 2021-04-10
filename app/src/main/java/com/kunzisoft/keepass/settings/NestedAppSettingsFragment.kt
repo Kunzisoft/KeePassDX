@@ -30,6 +30,7 @@ import android.view.autofill.AutofillManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -46,6 +47,7 @@ import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil
 
 
@@ -448,6 +450,31 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
     }
 
+    override fun onDisplayPreferenceDialog(preference: Preference?) {
+
+        var otherDialogFragment = false
+
+        var dialogFragment: DialogFragment? = null
+        // Main Preferences
+        when (preference?.key) {
+            getString(R.string.app_timeout_key),
+            getString(R.string.clipboard_timeout_key),
+            getString(R.string.temp_advanced_unlock_timeout_key) -> {
+                dialogFragment = DurationDialogFragmentCompat.newInstance(preference.key)
+            }
+            else -> otherDialogFragment = true
+        }
+
+        if (dialogFragment != null) {
+            dialogFragment.setTargetFragment(this, 0)
+            dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
+        }
+        // Could not be handled here. Try with the super method.
+        else if (otherDialogFragment) {
+            super.onDisplayPreferenceDialog(preference)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         activity?.let { activity ->
@@ -478,7 +505,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     }
 
     companion object {
-
         private const val REQUEST_CODE_AUTOFILL = 5201
+        private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
     }
 }

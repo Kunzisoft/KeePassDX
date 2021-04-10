@@ -470,17 +470,6 @@
     <string name="download_progression">進行中：%1$d%%</string>
     <string name="download_finalization">終了しています…</string>
     <string name="download_complete">完了しました！</string>
-    <string-array name="timeout_options">
-        <item>5秒</item>
-        <item>10秒</item>
-        <item>20秒</item>
-        <item>30秒</item>
-        <item>1分</item>
-        <item>5分</item>
-        <item>15分</item>
-        <item>30分</item>
-        <item>なし</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>小</item>
         <item>中</item>

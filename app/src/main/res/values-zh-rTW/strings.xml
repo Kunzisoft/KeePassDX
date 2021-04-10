@@ -117,17 +117,6 @@
     <string name="unsupported_db_version">不支援的資料庫版本。</string>
     <string name="uppercase">大寫</string>
     <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫.</string>
-    <string-array name="timeout_options">
-        <item>5秒</item>
-        <item>10秒</item>
-        <item>20秒</item>
-        <item>30秒</item>
-        <item>1分鐘</item>
-        <item>5分鐘</item>
-        <item>15分鐘</item>
-        <item>30分鐘</item>
-        <item>從不</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>小</item>
         <item>中</item>

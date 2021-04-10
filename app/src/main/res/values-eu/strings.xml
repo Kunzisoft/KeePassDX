@@ -132,17 +132,6 @@
     <string name="uppercase">Maiuskulak</string>
     <string name="version_label">Bertsioa %1$s</string>
     <string name="education_unlock_summary">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko.</string>
-    <string-array name="timeout_options">
-        <item>5 segundu</item>
-        <item>10 segundu</item>
-        <item>20 segundu</item>
-        <item>30 segundu</item>
-        <item>minutu 1</item>
-        <item>5 minutu</item>
-        <item>15 minutu</item>
-        <item>30 minutu</item>
-        <item>Inoiz ez</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Txikia</item>
         <item>Ertaina</item>

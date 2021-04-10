@@ -119,17 +119,6 @@
     <string name="education_unlock_summary">输入密码和/或密钥文件来解锁你的数据库。
 \n 
 \n记得在每次做出更改后，将数据库文件备份至安全的地方。</string>
-    <string-array name="timeout_options">
-        <item>5秒</item>
-        <item>10秒</item>
-        <item>20秒</item>
-        <item>30秒</item>
-        <item>1分钟</item>
-        <item>5分钟</item>
-        <item>15分钟</item>
-        <item>30分钟</item>
-        <item>从不</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>小</item>
         <item>中</item>
