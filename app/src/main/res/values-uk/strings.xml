@@ -123,17 +123,6 @@
     <string name="education_unlock_summary">Введіть пароль та/або файл ключа, щоб відкрити базу даних. 
 \n 
 \nСтворюйте резервну копію файлу бази даних після кожної внесеної зміни та зберігайте її у безпечному місці.</string>
-    <string-array name="timeout_options">
-        <item>5 секунд</item>
-        <item>10 секунд</item>
-        <item>20 секунд</item>
-        <item>30 секунд</item>
-        <item>1 хвилина</item>
-        <item>5 хвилин</item>
-        <item>15 хвилин</item>
-        <item>30 хвилин</item>
-        <item>Ніколи</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Малий</item>
         <item>Середній</item>
