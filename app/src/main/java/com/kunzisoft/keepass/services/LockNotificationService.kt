@@ -50,11 +50,6 @@ abstract class LockNotificationService : NotificationService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    protected fun stopTask(task: Thread?) {
-        if (task != null && task.isAlive)
-            task.interrupt()
-    }
-
     override fun onTaskRemoved(rootIntent: Intent?) {
         notificationManager?.cancel(notificationId)
 

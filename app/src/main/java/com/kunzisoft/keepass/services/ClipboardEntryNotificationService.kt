@@ -37,8 +37,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     override val notificationId = 485
     private var mEntryInfo: EntryInfo? = null
     private var clipboardHelper: ClipboardHelper? = null
-    private var notificationTimeoutMilliSecs: Long = 0
-    private var cleanCopyNotificationTimerTask: Thread? = null
+    private var mNotificationTimeoutMilliSecs: Long = 0
 
     override fun retrieveChannelId(): String {
         return CHANNEL_CLIPBOARD_ID
@@ -70,7 +69,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         mEntryInfo = intent?.getParcelableExtra(EXTRA_ENTRY_INFO)
 
         //Get settings
-        notificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
+        mNotificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
 
         when {
             intent == null -> Log.w(TAG, "null intent")
@@ -78,7 +77,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                 newNotification(mEntryInfo?.title, constructListOfField(intent))
             }
             ACTION_CLEAN_CLIPBOARD == intent.action -> {
-                stopTask(cleanCopyNotificationTimerTask)
+                mTimerJob?.cancel()
                 cleanClipboard()
                 stopNotificationAndSendLockIfNeeded()
             }
@@ -121,7 +120,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     private fun newNotification(title: String?, fieldsToAdd: ArrayList<ClipboardEntryNotificationField>) {
-        stopTask(cleanCopyNotificationTimerTask)
+        mTimerJob?.cancel()
 
         val builder = buildNewNotification()
                 .setSmallIcon(R.drawable.notification_ic_clipboard_key_24dp)
@@ -147,7 +146,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     private fun copyField(fieldToCopy: ClipboardEntryNotificationField, nextFields: ArrayList<ClipboardEntryNotificationField>) {
-        stopTask(cleanCopyNotificationTimerTask)
+        mTimerJob?.cancel()
 
         try {
             var generatedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
@@ -170,40 +169,23 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                     this, 0, cleanIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             builder.setDeleteIntent(cleanPendingIntent)
 
-            val myNotificationId = notificationId
-
-            if (notificationTimeoutMilliSecs != NEVER) {
-                cleanCopyNotificationTimerTask = Thread {
-                    val maxPos = 100
-                    val posDurationMills = notificationTimeoutMilliSecs / maxPos
-                    for (pos in maxPos downTo 0) {
-                        val newGeneratedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
-                        // New auto generated value
-                        if (generatedValue != newGeneratedValue) {
-                            generatedValue = newGeneratedValue
-                            clipboardHelper?.copyToClipboard(fieldToCopy.label, generatedValue)
-                        }
-                        builder.setProgress(maxPos, pos, false)
-                        notificationManager?.notify(myNotificationId, builder.build())
-                        try {
-                            Thread.sleep(posDurationMills)
-                        } catch (e: InterruptedException) {
-                            break
-                        }
-                        if (pos <= 0) {
-                            stopNotificationAndSendLockIfNeeded()
-                        }
+            if (mNotificationTimeoutMilliSecs != NEVER) {
+                defineTimerJob(builder, mNotificationTimeoutMilliSecs, {
+                    val newGeneratedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
+                    // New auto generated value
+                    if (generatedValue != newGeneratedValue) {
+                        generatedValue = newGeneratedValue
+                        clipboardHelper?.copyToClipboard(fieldToCopy.label, generatedValue)
                     }
-                    stopTask(cleanCopyNotificationTimerTask)
-                    notificationManager?.cancel(myNotificationId)
+                }) {
+                    stopNotificationAndSendLockIfNeeded()
                     // Clean password only if no next field
                     if (nextFields.size <= 0)
                         cleanClipboard()
                 }
-                cleanCopyNotificationTimerTask?.start()
             } else {
                 // No timer
-                notificationManager?.notify(myNotificationId, builder.build())
+                notificationManager?.notify(notificationId, builder.build())
             }
 
         } catch (e: Exception) {
@@ -228,10 +210,6 @@ class ClipboardEntryNotificationService : LockNotificationService() {
 
     override fun onDestroy() {
         cleanClipboard()
-
-        stopTask(cleanCopyNotificationTimerTask)
-        cleanCopyNotificationTimerTask = null
-
         super.onDestroy()
     }
 
