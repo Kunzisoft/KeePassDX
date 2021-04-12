@@ -565,4 +565,14 @@
     <string name="error_upload_file">Si è verificato un errore durante il caricamento del file.</string>
     <string name="error_file_to_big">Il file che stai cercando di caricare è troppo grande.</string>
     <string name="error_start_database_action">Si è verificato un errore durante l\'esecuzione di una azione sul database.</string>
+    <string name="properties">Proprietà</string>
+    <string name="error_export_app_properties">Errore durante l\'esportazione delle proprietà dell\'app</string>
+    <string name="success_export_app_properties">Proprietà dell\'app esportate</string>
+    <string name="error_import_app_properties">Errore durante l\'importazione delle proprietà dell\'app</string>
+    <string name="success_import_app_properties">Proprietà dell\'app importate</string>
+    <string name="description_app_properties">Proprietà di KeePassDX per gestire le impostazioni dell\'app</string>
+    <string name="export_app_properties_summary">Crea un file in cui esportare le proprietà dell\'app</string>
+    <string name="export_app_properties_title">Esporta le proprietà dell\'app</string>
+    <string name="import_app_properties_summary">Seleziona un file da cui importare le proprietà dell\'app</string>
+    <string name="import_app_properties_title">Importa le proprietà dell\'app</string>
 </resources>
