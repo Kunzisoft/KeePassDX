@@ -26,7 +26,7 @@
     <string name="add_entry">Aggiungi elemento</string>
     <string name="add_group">Aggiungi gruppo</string>
     <string name="encryption_algorithm">Algoritmo di cifratura</string>
-    <string name="app_timeout">Scadenza app</string>
+    <string name="app_timeout">Timeout app</string>
     <string name="app_timeout_summary">Tempo di inattività prima del blocco del database</string>
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
