@@ -125,17 +125,6 @@
     <string name="education_unlock_summary">Voer het wachtwoord en/of sleutelbestand in om je database te ontgrendelen. 
 \n 
 \nMaak na elke aanpassing een kopie van je .kdbx-bestand op een veilige locatie.</string>
-    <string-array name="timeout_options">
-        <item>5 seconden</item>
-        <item>10 seconden</item>
-        <item>20 seconden</item>
-        <item>30 seconden</item>
-        <item>1 minuut</item>
-        <item>5 minuten</item>
-        <item>15 minuten</item>
-        <item>30 minuten</item>
-        <item>Nooit</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Klein</item>
         <item>Medium</item>

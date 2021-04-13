@@ -276,7 +276,7 @@ class IconPickerActivity : LockingActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mExternalFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
             addCustomIcon(uri)
         }
     }

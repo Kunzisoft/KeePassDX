@@ -505,7 +505,7 @@ class EntryEditActivity : LockingActivity(),
             entryEditFragment?.icon = icon
         }
 
-        mExternalFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
             uri?.let { attachmentToUploadUri ->
                 UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
                     documentFile.name?.let { fileName ->

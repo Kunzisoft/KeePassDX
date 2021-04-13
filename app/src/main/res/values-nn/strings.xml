@@ -120,17 +120,6 @@
     <string name="uppercase">Store bokstavar</string>
     <string name="version_label">Utgåve %1$s</string>
     <string name="education_unlock_summary">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen.</string>
-    <string-array name="timeout_options">
-        <item>5 sekund</item>
-        <item>10 sekund</item>
-        <item>20 sekund</item>
-        <item>30 sekund</item>
-        <item>1 minutt</item>
-        <item>5 minutt</item>
-        <item>15 minutt</item>
-        <item>30 minutt</item>
-        <item>Aldri</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Liten</item>
         <item>Middels</item>

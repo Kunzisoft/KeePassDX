@@ -69,12 +69,10 @@
     <PreferenceCategory
         android:title="@string/lock">
 
-        <ListPreference
+        <com.kunzisoft.keepass.settings.preference.DurationDialogPreference
             android:key="@string/app_timeout_key"
             android:title="@string/app_timeout"
             android:summary="@string/app_timeout_summary"
-            android:entries="@array/timeout_options"
-            android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/timeout_default"/>
         <SwitchPreference
@@ -147,6 +145,20 @@
             android:summary="@string/hide_broken_locations_summary"
             android:dependency="@string/show_recent_files_key"
             android:defaultValue="@bool/hide_broken_locations_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/properties">
+
+        <Preference
+            android:key="@string/import_app_properties_key"
+            android:title="@string/import_app_properties_title"
+            android:summary="@string/import_app_properties_summary"/>
+        <Preference
+            android:key="@string/export_app_properties_key"
+            android:title="@string/export_app_properties_title"
+            android:summary="@string/export_app_properties_summary"/>
 
     </PreferenceCategory>
 

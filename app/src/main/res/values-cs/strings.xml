@@ -133,17 +133,6 @@
     <string name="education_unlock_summary">Databázi odemknete zadáním hesla a/nebo souboru s klíčem.
 \n
 \nNezapomeňte po každé úpravě zálohovat kopii svého .kdbx souboru na bezpečné místo.</string>
-    <string-array name="timeout_options">
-        <item>5 sekund</item>
-        <item>10 sekund</item>
-        <item>20 sekund</item>
-        <item>30 sekund</item>
-        <item>1 minuta</item>
-        <item>5 minut</item>
-        <item>15 minut</item>
-        <item>30 minut</item>
-        <item>Nikdy</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Malý</item>
         <item>Střední</item>

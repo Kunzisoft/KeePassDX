@@ -258,17 +258,6 @@
     <string name="html_text_dev_feature_upgrade">N’oubliez pas de garder votre application à jour en installant les nouvelles versions.</string>
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>
-    <string-array name="timeout_options">
-        <item>5 secondes</item>
-        <item>10 secondes</item>
-        <item>20 secondes</item>
-        <item>30 secondes</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>Jamais</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Petit</item>
         <item>Moyen</item>

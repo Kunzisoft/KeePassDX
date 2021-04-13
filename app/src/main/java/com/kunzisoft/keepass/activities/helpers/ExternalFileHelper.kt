@@ -104,11 +104,11 @@ class ExternalFileHelper {
 
     /**
      * To use in onActivityResultCallback in Fragment or Activity
-     * @param keyFileCallback Callback retrieve from data
-     * @return true if requestCode was captured, false elsechere
+     * @param onFileSelected Callback retrieve from data
+     * @return true if requestCode was captured, false elsewhere
      */
-    fun onActivityResultCallback(requestCode: Int, resultCode: Int, data: Intent?,
-            keyFileCallback: ((uri: Uri?) -> Unit)?): Boolean {
+    fun onOpenDocumentResult(requestCode: Int, resultCode: Int, data: Intent?,
+                             onFileSelected: ((uri: Uri?) -> Unit)?): Boolean {
 
         when (requestCode) {
             FILE_BROWSE -> {
@@ -118,7 +118,7 @@ class ExternalFileHelper {
                     if (filename != null) {
                         keyUri = UriUtil.parse(filename)
                     }
-                    keyFileCallback?.invoke(keyUri)
+                    onFileSelected?.invoke(keyUri)
                 }
                 return true
             }
@@ -138,7 +138,7 @@ class ExternalFileHelper {
                             } catch (e: Exception) {
                                 // nop
                             }
-                            keyFileCallback?.invoke(uri)
+                            onFileSelected?.invoke(uri)
                         }
                     }
                 }
@@ -190,11 +190,16 @@ class ExternalFileHelper {
         return null
     }
 
+    /**
+     * To use in onActivityResultCallback in Fragment or Activity
+     * @param onFileCreated Callback retrieve from data
+     * @return true if requestCode was captured, false elsewhere
+     */
     fun onCreateDocumentResult(requestCode: Int, resultCode: Int, data: Intent?,
-                               action: (fileCreated: Uri?)->Unit) {
+                               onFileCreated: (fileCreated: Uri?)->Unit) {
         // Retrieve the created URI from the file manager
         if (fileRequestCodes.contains(requestCode) && resultCode == RESULT_OK) {
-            action.invoke(data?.data)
+            onFileCreated.invoke(data?.data)
             fileRequestCodes.remove(requestCode)
         }
     }

@@ -31,7 +31,7 @@
     <string name="encryption">Encryption</string>
     <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="key_derivation_function">Key derivation function</string>
-    <string name="app_timeout">App timeout</string>
+    <string name="app_timeout">Timeout</string>
     <string name="app_timeout_summary">Idle time before locking the database</string>
     <string name="application">App</string>
     <string name="brackets">Brackets</string>
@@ -234,6 +234,15 @@
     <string name="show_recent_files_summary">Show locations of recent databases</string>
     <string name="hide_broken_locations_title">Hide broken database links</string>
     <string name="hide_broken_locations_summary">Hide broken links in the list of recent databases</string>
+    <string name="import_app_properties_title">Import app properties</string>
+    <string name="import_app_properties_summary">Select a file to import app properties</string>
+    <string name="export_app_properties_title">Export app properties</string>
+    <string name="export_app_properties_summary">Create a file to export app properties</string>
+    <string name="description_app_properties">KeePassDX properties to manage app settings</string>
+    <string name="success_import_app_properties">App properties imported</string>
+    <string name="error_import_app_properties">Error during app properties importation</string>
+    <string name="success_export_app_properties">App properties exported</string>
+    <string name="error_export_app_properties">Error during app properties exportation</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
@@ -302,6 +311,7 @@
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
     <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>
     <string name="database_history">History</string>
+    <string name="properties">Properties</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
     <string name="device_credential">Device credential</string>
@@ -525,31 +535,6 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
-    <string-array name="timeout_options">
-        <item>5 seconds</item>
-        <item>10 seconds</item>
-        <item>20 seconds</item>
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="large_timeout_options">
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>2 hours</item>
-        <item>5 hours</item>
-        <item>10 hours</item>
-        <item>24 hours</item>
-        <item>48 hours</item>
-        <item>1 week</item>
-        <item>1 month</item>
-        <item>Never</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Small</item>
         <item>Medium</item>

@@ -142,17 +142,6 @@
     <string name="education_unlock_summary">Inserisci la password o il file chiave per sbloccare la base di dati.
 \n
 \nEseguire il backup del file del database in un luogo sicuro dopo ogni modifica.</string>
-    <string-array name="timeout_options">
-        <item>5 secondi</item>
-        <item>10 secondi</item>
-        <item>20 secondi</item>
-        <item>30 secondi</item>
-        <item>1 minuto</item>
-        <item>5 minuti</item>
-        <item>15 minuti</item>
-        <item>30 minuti</item>
-        <item>Mai</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Piccolo</item>
         <item>Medio</item>

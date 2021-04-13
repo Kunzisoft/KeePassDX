@@ -47,6 +47,7 @@
     <string name="database_file_name_default" translatable="false">keepass</string>
     <string name="database_file_extension_default" translatable="false">.kdbx</string>
     <string name="database_default_name" translatable="false">KeePassDX Database</string>
+    <string name="app_properties_file_name" translatable="false">keepassdx.properties</string>
 
     <!--
     *******************
@@ -104,6 +105,9 @@
     <string name="temp_advanced_unlock_timeout_key" translatable="false">temp_advanced_unlock_timeout_key</string>
     <string name="temp_advanced_unlock_timeout_default" translatable="false">36000000</string>
     <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
+
+    <string name="import_app_properties_key" translatable="false">import_app_properties_key</string>
+    <string name="export_app_properties_key" translatable="false">export_app_properties_key</string>
 
     <!-- Form Filling Settings -->
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
@@ -284,31 +288,6 @@
     <string name="timeout_backup_key" translatable="false">timeout_backup_key</string>
     <string name="timeout_default" translatable="false">300000</string>
     <string name="timeout_screen_off" translatable="false">1500</string>
-    <string-array name="timeout_values">
-        <item translatable="false">5000</item>
-        <item translatable="false">10000</item>
-        <item translatable="false">20000</item>
-    	<item translatable="false">30000</item>
-    	<item translatable="false">60000</item>
-    	<item translatable="false">300000</item>
-        <item translatable="false">900000</item>
-        <item translatable="false">1800000</item>
-    	<item translatable="false">-1</item>
-    </string-array>
-    <string-array name="large_timeout_values">
-        <item translatable="false">300000</item>
-        <item translatable="false">900000</item>
-        <item translatable="false">1800000</item>
-        <item translatable="false">3600000</item>
-        <item translatable="false">7200000</item>
-        <item translatable="false">18000000</item>
-        <item translatable="false">36000000</item>
-        <item translatable="false">86400000</item>
-        <item translatable="false">172800000</item>
-        <item translatable="false">604800000</item>
-        <item translatable="false">2592000000</item>
-        <item translatable="false">-1</item>
-    </string-array>
 
     <!-- Text Size -->
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>

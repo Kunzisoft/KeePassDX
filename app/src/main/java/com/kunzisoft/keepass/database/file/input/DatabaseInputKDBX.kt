@@ -151,9 +151,11 @@ class DatabaseInputKDBX(cacheDirectory: File,
             val cipher: Cipher
             try {
                 engine = EncryptionAlgorithm.getFrom(mDatabase.cipherUuid).cipherEngine
+                engine.forcePaddingCompatibility = true
                 mDatabase.setDataEngine(engine)
                 mDatabase.encryptionAlgorithm = engine.getEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
+                engine.forcePaddingCompatibility = false
             } catch (e: Exception) {
                 throw InvalidAlgorithmDatabaseException(e)
             }
