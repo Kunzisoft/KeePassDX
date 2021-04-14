@@ -27,7 +27,7 @@
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
-    <string name="app_timeout">Uygulama zaman aşımı</string>
+    <string name="app_timeout">Zaman aşımı</string>
     <string name="app_timeout_summary">Veri tabanını kilitlemeden önceki boşta kalma süresi</string>
     <string name="application">Uygulama</string>
     <string name="brackets">Parantez</string>
