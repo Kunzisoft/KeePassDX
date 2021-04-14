@@ -24,7 +24,7 @@
     <string name="add_entry">Προσθήκη καταχώρησης</string>
     <string name="add_group">Προσθήκη ομάδας</string>
     <string name="encryption_algorithm">Αλγόριθμος κρυπτογράφησης</string>
-    <string name="app_timeout">Χρονικό όριο εφαρμογής</string>
+    <string name="app_timeout">Χρονικό όριο</string>
     <string name="app_timeout_summary">Χρόνος αδράνειας πριν από το κλείδωμα της βάσης δεδομένων</string>
     <string name="application">Εφαρμογή</string>
     <string name="menu_app_settings">Ρυθμίσεις εφαρμογής</string>
