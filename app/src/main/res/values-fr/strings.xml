@@ -26,7 +26,7 @@
     <string name="encryption">Chiffrement</string>
     <string name="encryption_algorithm">Algorithme de chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>
-    <string name="app_timeout">Délai d’expiration de l’application</string>
+    <string name="app_timeout">Délai d’expiration</string>
     <string name="app_timeout_summary">Durée d’inactivité avant le verrouillage de la base de données</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Paramètres de l’application</string>
@@ -555,7 +555,18 @@
     <string name="style_brightness_title">Luminosité de thème</string>
     <string name="error_remove_file">Une erreur s\'est produite lors de la suppression des données du fichier.</string>
     <string name="error_duplicate_file">Les données du fichier existent déjà.</string>
-    <string name="error_upload_file">Une erreur s\'est produite lors du téléchargement des données du fichier.</string>
-    <string name="error_file_to_big">Le fichier que vous essayez de téléverser est trop gros.</string>
+    <string name="error_upload_file">Une erreur est survenue lors du téléversement des données du fichier.</string>
+    <string name="error_file_to_big">Le fichier que vous essayez de téléverser est trop volumineux.</string>
     <string name="content_description_otp_information">Information sur le mot de passe à usage unique</string>
+    <string name="properties">Propriétés</string>
+    <string name="error_export_app_properties">Erreur lors de l\'exportation des propriétés de l\'application</string>
+    <string name="success_export_app_properties">Propriétés de l\'application exportées</string>
+    <string name="error_import_app_properties">Erreur lors de l\'importation des propriétés de l\'application</string>
+    <string name="success_import_app_properties">Propriétés de l\'application importées</string>
+    <string name="description_app_properties">Propriétés KeePassDX pour gérer les paramètres de l\'application</string>
+    <string name="export_app_properties_summary">Créer un fichier pour exporter les propriétés de l\'application</string>
+    <string name="export_app_properties_title">Export des propriétés de l\'app</string>
+    <string name="import_app_properties_summary">Sélectionner un fichier pour importer les propriétés de l\'application</string>
+    <string name="import_app_properties_title">Import des propriétés de l\'app</string>
+    <string name="error_start_database_action">Une erreur s\'est produite lors de l\'exécution d\'une action sur la base de données.</string>
 </resources>
