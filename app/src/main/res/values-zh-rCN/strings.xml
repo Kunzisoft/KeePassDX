@@ -24,7 +24,7 @@
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
     <string name="encryption_algorithm">加密算法</string>
-    <string name="app_timeout">离开程序锁定延时</string>
+    <string name="app_timeout">延时</string>
     <string name="app_timeout_summary">在锁定数据库前处于非活动状态的时长</string>
     <string name="application">应用</string>
     <string name="menu_app_settings">程序设置</string>
