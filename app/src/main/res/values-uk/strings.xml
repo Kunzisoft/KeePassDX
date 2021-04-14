@@ -24,7 +24,7 @@
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
-    <string name="app_timeout">Час очікування застосунку</string>
+    <string name="app_timeout">Час очікування</string>
     <string name="app_timeout_summary">Час бездіяльности до блокування бази даних</string>
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Параметри застосунку</string>
