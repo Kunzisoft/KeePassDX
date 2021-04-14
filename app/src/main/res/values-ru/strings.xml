@@ -149,7 +149,7 @@
     <string name="encryption">Шифрование</string>
     <string name="key_derivation_function">Функция формирования ключа</string>
     <string name="extended_ASCII">Расширенный набор ASCII</string>
-    <string name="error_autofill_enable_service">Сервис автозаполнения не может быть включён.</string>
+    <string name="error_autofill_enable_service">Служба автозаполнения не может быть включена.</string>
     <string name="copy_field">%1$s скопировано</string>
     <string name="menu_form_filling_settings">Заполнение форм</string>
     <string name="encryption_explanation">Алгоритм шифрования базы для всех данных.</string>
@@ -186,10 +186,10 @@
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
-    <string name="autofill_service_name">Сервис автозаполнения KeePassDX</string>
+    <string name="autofill_service_name">Служба автозаполнения KeePassDX</string>
     <string name="autofill_sign_in_prompt">Войти с помощью KeePassDX</string>
-    <string name="autofill_explanation_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
-    <string name="set_autofill_service_title">Сервис автозаполнения по умолчанию</string>
+    <string name="autofill_explanation_summary">Включите службу для быстрого заполнения форм в других приложениях</string>
+    <string name="set_autofill_service_title">Использовать службу автозаполнения</string>
     <string name="password_size_title">Длина создаваемого пароля</string>
     <string name="password_size_summary">Настройка длины создаваемых паролей по умолчанию</string>
     <string name="list_password_generator_options_title">Символы пароля</string>
@@ -273,12 +273,12 @@
     <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это &lt;strong&gt;без рекламы&lt;/strong&gt; и &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Оно не собирает ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
     <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим &lt;strong&gt;визуальным стилям&lt;/strong&gt; и особенно поможете &lt;strong&gt;реализации общественных проектов&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на вашу <strong>поддержку</strong>.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;Pro&lt;/strong&gt;-версию,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять &lt;strong&gt;новые возможности&lt;/strong&gt; и &lt;strong&gt;исправлять ошибки&lt;/strong&gt; в соответствии с вашими замечаниями.</string>
-    <string name="html_text_dev_feature_thanks">Спасибо большое за содействие.</string>
+    <string name="html_text_dev_feature_thanks">Большое спасибо за поддержку.</string>
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
@@ -414,7 +414,7 @@
     <string name="hide_expired_entries_summary">Не показывать записи с истёкшим сроком</string>
     <string name="contact">Контактная информация</string>
     <string name="contribution">Помощь проекту</string>
-    <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Для <strong>сохранения нашей независимости</strong>, <strong>исправления ошибок</strong>, <strong>добавления новых функций</strong> и <strong>поддержания разработки в активном состоянии</strong>, мы рассчитываем на вашу <strong>поддержку</strong>.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
     <string name="remember_database_locations_title">Помнить расположение баз</string>
@@ -550,4 +550,15 @@
     <string name="content_description_otp_information">Информация об одноразовом пароле</string>
     <string name="error_duplicate_file">Данные файла уже существует.</string>
     <string name="error_remove_file">Ошибка при удалении данных файла.</string>
+    <string name="properties">Свойства</string>
+    <string name="error_export_app_properties">Ошибка при экспорте свойств приложения</string>
+    <string name="success_export_app_properties">Свойства приложения экспортированы</string>
+    <string name="error_import_app_properties">Ошибка при импорте свойств приложения</string>
+    <string name="success_import_app_properties">Свойства приложения импортированы</string>
+    <string name="description_app_properties">Свойства KeePassDX для управления настройками приложения</string>
+    <string name="export_app_properties_summary">Создайте файл для экспорта свойств приложения</string>
+    <string name="export_app_properties_title">Экспорт свойств приложения</string>
+    <string name="import_app_properties_summary">Выберите файл для импорта свойств приложения</string>
+    <string name="import_app_properties_title">Импортировать свойства приложения</string>
+    <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой.</string>
 </resources>
