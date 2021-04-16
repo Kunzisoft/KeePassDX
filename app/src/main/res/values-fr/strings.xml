@@ -567,6 +567,6 @@
     <string name="export_app_properties_summary">Créer un fichier pour exporter les propriétés de l\'application</string>
     <string name="export_app_properties_title">Export des propriétés de l\'app</string>
     <string name="import_app_properties_summary">Sélectionner un fichier pour importer les propriétés de l\'application</string>
-    <string name="import_app_properties_title">Import des propriétés de l\'app</string>
+    <string name="import_app_properties_title">Importation des propriétés de l\'appli</string>
     <string name="error_start_database_action">Une erreur s\'est produite lors de l\'exécution d\'une action sur la base de données.</string>
 </resources>
