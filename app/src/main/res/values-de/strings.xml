@@ -30,7 +30,7 @@
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="encryption_algorithm">Verschlüsselungsalgorithmus</string>
-    <string name="app_timeout">App-Timeout</string>
+    <string name="app_timeout">Zeitüberschreitung</string>
     <string name="app_timeout_summary">Inaktivitätszeit vor dem Sperren der Datenbank</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-Einstellungen</string>
@@ -546,4 +546,8 @@
     <string name="error_remove_file">Beim Löschen der Datei trat ein Fehler auf.</string>
     <string name="error_duplicate_file">Die Datei gibt es bereits.</string>
     <string name="error_upload_file">Beim Hochladen der Datei trat ein Fehler auf.</string>
+    <string name="import_app_properties_title">Importieren von Anwendungeneigenschaften</string>
+    <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
+    <string name="error_otp_type">Der vorhandene Einmalpassworttyp wird von diesem Formular nicht erkannt, seine Validierung erzeugt das Token möglicherweise nicht mehr korrekt.</string>
+    <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
 </resources>
