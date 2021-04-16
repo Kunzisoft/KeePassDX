@@ -24,7 +24,7 @@
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
     <string name="encryption_algorithm">Algorytm szyfrowania</string>
-    <string name="app_timeout">Limit czasu aplikacji</string>
+    <string name="app_timeout">Koniec czasu</string>
     <string name="app_timeout_summary">Czas bezczynności przed zablokowaniem bazy danych</string>
     <string name="application">Aplikacja</string>
     <string name="menu_app_settings">Ustawienia aplikacji</string>
