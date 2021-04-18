@@ -24,7 +24,7 @@
     <string name="add_entry">Tilføj post</string>
     <string name="add_group">Tilføj gruppe</string>
     <string name="encryption_algorithm">Krypteringsalgoritme</string>
-    <string name="app_timeout">Timeout</string>
+    <string name="app_timeout">Tid udløbet</string>
     <string name="app_timeout_summary">Inaktiv tid, før databasen låses</string>
     <string name="application">Program</string>
     <string name="menu_app_settings">Indstillinger</string>
@@ -221,7 +221,7 @@
     <string name="database_description_title">Database beskrivelse</string>
     <string name="database_version_title">Databaseversion</string>
     <string name="text_appearance">Tekst</string>
-    <string name="application_appearance">Program</string>
+    <string name="application_appearance">Brugerflade</string>
     <string name="other">Øvrige</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -253,9 +253,9 @@
     <string name="education_entry_new_field_summary">Registrer et ekstra felt, tilføj en værdi og beskyt det eventuelt.</string>
     <string name="education_unlock_title">Lås databasen op</string>
     <string name="education_read_only_title">Skrivebeskyt databasen</string>
-    <string name="education_read_only_summary">Skift åbningstilstanden for sessionen. 
-\n  
-\nI \"skrivebeskyttet\" tilstand forhindres utilsigtede ændringer i databasen. 
+    <string name="education_read_only_summary">Skift åbningstilstanden for sessionen.
+\n 
+\nI \"skrivebeskyttet\" tilstand forhindres utilsigtede ændringer i databasen.
 \nI \"skrivetilstand\" kan man tilføje, slette eller redigere alle elementerne, som det ønskes.</string>
     <string name="education_field_copy_title">Kopier et felt</string>
     <string name="education_field_copy_summary">Kopier nemt et felt og indsæt det hvor det ønskes
@@ -270,14 +270,14 @@
     <string name="html_text_ad_free">I modsætning til andre programmer til adgangskodeadministration er denne &lt;strong&gt;annoncefri&lt;/strong&gt;, &lt;strong&gt;copyleft fri software&lt;/strong&gt;, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
     <string name="html_text_buy_pro">Ved at købe pro-versionen, er der adgang til &lt;strong&gt;visuel stil&lt;/strong&gt;, og det vil især hjælpe &lt;strong&gt;gennemførelsen af lokale projekter.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stil&lt;/strong&gt; er tilgængelige takket være bidrag.</string>
-    <string name="html_text_donation">For at bevare uafhængighed og altid at være aktiv, regner vi med &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
+    <string name="html_text_donation">For at bevare uafhængighed og altid at være aktiv, håber vi på dit <strong>bidrag.</strong></string>
     <string name="html_text_dev_feature">Funktionen er &lt;strong&gt;under udvikling&lt;/strong&gt;, og det kræver &lt;strong&gt;bidrag&lt;/strong&gt;, for snart at være tilgængelig.</string>
     <string name="html_text_dev_feature_buy_pro">Ved at købe &lt;strong&gt;pro&lt;/strong&gt; versionen,</string>
     <string name="html_text_dev_feature_contibute">Ved at &lt;strong&gt;bidrage&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">tilskyndes udviklerne til at lave &lt;strong&gt;nye funktioner&lt;/strong&gt; og &lt;strong&gt;rette fejl&lt;/strong&gt; i henhold bemærkninger.</string>
     <string name="html_text_dev_feature_thanks">Tak for bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Vi arbejder hårdt på hurtigt at frigive denne funktion.</string>
-    <string name="html_text_dev_feature_upgrade">Glem ikke at holde appen opdateret ved at installere nye versioner.</string>
+    <string name="html_text_dev_feature_upgrade">Husk at holde din app opdateret ved at installere den nyeste version.</string>
     <string name="download">Hent</string>
     <string name="contribute">Bidrag</string>
     <string name="style_choose_title">Tema</string>
@@ -341,7 +341,7 @@
     <string name="menu_advanced_unlock_settings">Avanceret oplåsning</string>
     <string name="biometric">Biometrisk</string>
     <string name="biometric_auto_open_prompt_title">Åbn automatisk biometrisk prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter biometri, hvis databasen er konfigureret til at bruge den</string>
+    <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter biometrisk oplåsning, hvis databasen er konfigureret til at bruge det</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Deaktiver</string>
     <string name="master_key">Hovednøgle</string>
@@ -427,7 +427,7 @@
     <string name="hide_broken_locations_title">Skjule brudte databaselinks</string>
     <string name="hide_broken_locations_summary">Skjul brudte links på listen over seneste databaser</string>
     <string name="warning_database_read_only">Giv fil skriveadgang for at gemme databasændringer</string>
-    <string name="education_setup_OTP_summary">Opsætning af engangsadgangskodestyring (HOTP / TOTP) for at generere et token anmodet om tofaktorautentisering (2FA).</string>
+    <string name="education_setup_OTP_summary">Opsætning af engangs-adgangskode-styring (HOTP / TOTP) for at generere et token anmodet af tofaktor-autentisering (2FA).</string>
     <string name="education_setup_OTP_title">Opsætning af OTP</string>
     <string name="error_create_database">Databasefilen kunne ikke oprettes.</string>
     <string name="entry_add_attachment">Tilføj vedhæng</string>
@@ -537,5 +537,29 @@
     <string name="warning_database_revoked">Adgang til filen tilbagekaldt af filhåndteringsprogrammet, luk databasen og genåbn den fra dens placering.</string>
     <string name="error_start_database_action">Der opstod en fejl under udførelsen af en handling på databasen.</string>
     <string name="error_remove_file">Der opstod en fejl med at fjerne fildata.</string>
-    <string name="error_otp_type">Den existerende OTP type kunne ikke genkendes, den kan være tiden er udløbet for at lave tokens</string>
+    <string name="error_otp_type">Den existerende OTP type kunne ikke genkendes, den kan være tiden er udløbet for at lave dette token.</string>
+    <string name="education_advanced_unlock_summary">Sammenkæd din adgangskode, med din scannede biometriske oplysninger eller enheds legitimationsoplysninger for, hurtigt at låse din database op.</string>
+    <string name="enter">Enter</string>
+    <string name="temp_advanced_unlock_timeout_summary">Varigheden af avanceret oplåsning, før indholdet slettes</string>
+    <string name="device_credential_unlock_enable_summary">Giver dig mulighed for at bruge dine enhedsoplysninger for at åbne databasen</string>
+    <string name="device_credential_unlock_enable_title">Oplåsning via enhedsoplysninger</string>
+    <string name="autofill_inline_suggestions_summary">Forsøg på at vise forslag til automatisk udfyldning direkte fra et kompatibelt tastatur</string>
+    <string name="autofill_inline_suggestions_title">Indbyggede forslag</string>
+    <string name="backspace">Tilbagetast</string>
+    <string name="advanced_unlock_timeout">Avanceret oplåsningstimeout</string>
+    <string name="temp_advanced_unlock_timeout_title">Avanceret oplåsning udløbsdato</string>
+    <string name="temp_advanced_unlock_enable_summary">Gem ikke krypteret indhold for at bruge avanceret oplåsning</string>
+    <string name="temp_advanced_unlock_enable_title">Midlertidig biometrisk oplåsning</string>
+    <string name="device_credential">Enhedsoplysninger</string>
+    <string name="properties">Egenskaber</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Åbn den biometrisk genkendelse for at gemme legitimationsoplysninger</string>
+    <string name="error_export_app_properties">Fejl under eksport af app-egenskaber</string>
+    <string name="success_export_app_properties">App-egenskaber eksporteret</string>
+    <string name="error_import_app_properties">Fejl under importering af app-egenskaber</string>
+    <string name="success_import_app_properties">App-egenskaber importeret</string>
+    <string name="description_app_properties">KeePassDX-egenskaber til at administrere app-indstillinger</string>
+    <string name="export_app_properties_summary">Opret en fil til at eksportere app-egenskaber</string>
+    <string name="export_app_properties_title">Eksporter app-egenskaber</string>
+    <string name="import_app_properties_summary">Vælg en fil for at importere app-egenskaber</string>
+    <string name="import_app_properties_title">Importer appegenskaber</string>
 </resources>
