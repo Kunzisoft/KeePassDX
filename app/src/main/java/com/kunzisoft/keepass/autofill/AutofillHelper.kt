@@ -137,14 +137,15 @@ object AutofillHelper {
                 // of length four in the format MMYY
                 if (field.protectedValue.stringValue.length != 4) continue
 
-                // get month (month in database entry is stored as String in the range 01..12)
+                // get month (month in database entry is stored as String in the format MM)
                 val monthString = field.protectedValue.stringValue.substring(0, 2)
-                if (monthString !in context.resources.getStringArray(R.array.month_array)) continue
+                val month = monthString.toIntOrNull() ?: 0
+                if (month < 1 || month > 12) continue
 
-                val month = monthString.toInt()
-                // get year (year in database entry is stored as String in the range 20..29)
+                // get year (year in database entry is stored as String in the format YY)
                 val yearString = field.protectedValue.stringValue.substring(2, 4)
-                if (yearString !in context.resources.getStringArray(R.array.year_array)) continue
+                val year = "20$yearString".toIntOrNull() ?: 0
+                if (year == 0) continue
 
                 struct.ccExpDateId?.let {
                     if (struct.isWebView) {
@@ -154,7 +155,6 @@ object AutofillHelper {
                     } else {
                         val calendar = Calendar.getInstance()
                         calendar.clear()
-                        val year = "20$yearString".toInt()
                         calendar[Calendar.YEAR] = year
                         // Month value is 0-based. e.g., 0 for January
                         calendar[Calendar.MONTH] = month - 1
@@ -164,34 +164,33 @@ object AutofillHelper {
                 }
                 struct.ccExpDateMonthId?.let {
                     if (struct.isWebView) {
-                        builder.setValue(it, AutofillValue.forText(month.toString()))
+                        builder.setValue(it, AutofillValue.forText(monthString))
                     } else {
                         if (struct.ccExpMonthOptions != null) {
                             // index starts at 0
                             builder.setValue(it, AutofillValue.forList(month - 1))
                         } else {
-                            builder.setValue(it, AutofillValue.forText(month.toString()))
+                            builder.setValue(it, AutofillValue.forText(monthString))
                         }
                     }
                 }
                 struct.ccExpDateYearId?.let {
-                    if (struct.isWebView) {
-                        builder.setValue(it, AutofillValue.forText(yearString))
-                    } else {
-                        if (struct.ccExpYearOptions != null) {
-                            var yearIndex = struct.ccExpYearOptions!!.indexOf(yearString)
+                    var autofillValue: AutofillValue? = null
 
-                            if (yearIndex == -1) {
-                                yearIndex = struct.ccExpYearOptions!!.indexOf("20$yearString")
-                            }
-                            if (yearIndex != -1) {
-                                builder.setValue(it, AutofillValue.forList(yearIndex))
-                            } else {
-                                builder.setValue(it, AutofillValue.forText(yearString))
-                            }
-                        } else {
-                            builder.setValue(it, AutofillValue.forText(yearString))
+                    struct.ccExpYearOptions?.let { options ->
+                        var yearIndex = options.indexOf(yearString)
+
+                        if (yearIndex == -1) {
+                            yearIndex = options.indexOf("20$yearString")
                         }
+                        if (yearIndex != -1) {
+                            autofillValue = AutofillValue.forList(yearIndex)
+                            builder.setValue(it, autofillValue)
+                        }
+                    }
+
+                    if (autofillValue == null) {
+                        builder.setValue(it, AutofillValue.forText("20$yearString"))
                     }
                 }
             }

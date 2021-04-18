@@ -357,7 +357,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             activateCopyButton(allowCopy)
             assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)
-            checkCreditCardDetails(fieldName)
         }
 
         entryCustomField?.let {

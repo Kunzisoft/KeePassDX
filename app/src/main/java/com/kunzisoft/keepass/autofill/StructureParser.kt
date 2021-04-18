@@ -64,7 +64,10 @@ class StructureParser(private val structure: AssistStructure) {
                 }
             }
 
-            return result
+            return if (result?.passwordId != null || result?.ccnId != null)
+                    result
+                else
+                    null
         } catch (e: Exception) {
             return null
         }
@@ -140,62 +143,88 @@ class StructureParser(private val structure: AssistStructure) {
                     return true
                 }
                 it == "cc-name" -> {
+                    Log.d(TAG, "AUTOFILL cc-name hint")
                     result?.ccNameId = autofillId
-                    result?.ccNameValue = node.autofillValue
-                    return true
+                    result?.ccName = node.autofillValue?.textValue?.toString()
                 }
                 it == View.AUTOFILL_HINT_CREDIT_CARD_NUMBER || it == "cc-number" -> {
-                    result?.ccnId = autofillId
-                    result?.ccnValue = node.autofillValue
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_NUMBER hint")
-                    return true
+                    result?.ccnId = autofillId
+                    result?.ccNumber = node.autofillValue?.textValue?.toString()
                 }
-                it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE || it == "cc-exp" -> {
+                // expect date string as defined in https://html.spec.whatwg.org, e.g. 2014-12
+                it == "cc-exp" -> {
+                    Log.d(TAG, "AUTOFILL cc-exp hint")
                     result?.ccExpDateId = autofillId
+                    node.autofillValue?.let { value ->
+                        if (value.isText && value.textValue.length == 7) {
+                            value.textValue.let { date ->
+                                result?.ccExpirationValue = date.substring(5, 7) + date.substring(2, 4)
+                            }
+                        }
+                    }
+                }
+                it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE -> {
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE hint")
-                    return true
+                    result?.ccExpDateId = autofillId
+                    node.autofillValue?.let { value ->
+                        if (value.isDate) {
+                            val calendar = Calendar.getInstance()
+                            calendar.clear()
+                            calendar.timeInMillis = value.dateValue
+                            val year = calendar.get(Calendar.YEAR).toString().substring(2,4)
+                            val month = calendar.get(Calendar.MONTH).inc().toString().padStart(2, '0')
+                            result?.ccExpirationValue = month + year
+                        }
+                    }
                 }
                 it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR || it == "cc-exp-year" -> {
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR hint")
                     result?.ccExpDateYearId = autofillId
-                    if (node.autofillValue != null) {
-                        if (node.autofillValue?.isText == true) {
-                            try {
-                                result?.ccExpDateYearValue =
-                                        node.autofillValue?.textValue.toString().toInt()
-                            } catch (e: Exception) {
-                                result?.ccExpDateYearValue = 0
-                            }
-                        }
-                    }
                     if (node.autofillOptions != null) {
                         result?.ccExpYearOptions = node.autofillOptions
                     }
-                    return true
+                    node.autofillValue?.let { value ->
+                        var year = 0
+                        try {
+                            if (value.isText) {
+                                year = value.textValue.toString().toInt()
+                            }
+                            if (value.isList) {
+                                year = node.autofillOptions?.get(value.listValue).toString().toInt()
+                            }
+                        } catch (e: Exception) {
+                            year = 0
+                        }
+                        result?.ccExpDateYearValue = year % 100
+                    }
                 }
                 it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH || it == "cc-exp-month" -> {
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH hint")
                     result?.ccExpDateMonthId = autofillId
-                    if (node.autofillValue != null) {
-                        if (node.autofillValue?.isText == true) {
-                            try {
-                                result?.ccExpDateMonthValue =
-                                        node.autofillValue?.textValue.toString().toInt()
-                            } catch (e: Exception) {
-                                result?.ccExpDateMonthValue = 0
-                            }
-                        }
-                    }
                     if (node.autofillOptions != null) {
                         result?.ccExpMonthOptions = node.autofillOptions
                     }
-                    return true
+                    node.autofillValue?.let { value ->
+                        var month = 0
+                        if (value.isText) {
+                            try {
+                                month = value.textValue.toString().toInt()
+                            } catch (e: Exception) {
+                                month = 0
+                            }
+                        }
+                        if (value.isList) {
+                            // assume list starts with January (index 0)
+                            month = value.listValue + 1
+                        }
+                        result?.ccExpDateMonthValue = month
+                    }
                 }
                 it == View.AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE || it == "cc-csc" -> {
-                    result?.cvvId = autofillId
-                    result?.cvvValue = node.autofillValue
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE hint")
-                    return true
+                    result?.cvvId = autofillId
+                    result?.cvv = node.autofillValue?.textValue?.toString()
                 }
                 // Ignore autocomplete="off"
                 // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
@@ -409,15 +438,6 @@ class StructureParser(private val structure: AssistStructure) {
             ccnId?.let {
                 all.add(it)
             }
-            ccExpDateId?.let {
-                all.add(it)
-            }
-            ccExpDateYearId?.let {
-                all.add(it)
-            }
-            ccExpDateMonthId?.let {
-                all.add(it)
-            }
             cvvId?.let {
                 all.add(it)
             }
@@ -439,28 +459,33 @@ class StructureParser(private val structure: AssistStructure) {
                     field = value
             }
 
-        // stores name of cardholder
-        var ccNameValue: AutofillValue? = null
+        var ccName: String? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
 
-        // stores credit card number
-        var ccnValue: AutofillValue? = null
+        var ccNumber: String? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
 
-        // for year of CC expiration date
+        // format MMYY
+        var ccExpirationValue: String? = null
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        // for year of CC expiration date: YY
         var ccExpDateYearValue = 0
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
-        // for month of CC expiration date
+        // for month of CC expiration date: MM
         var ccExpDateMonthValue = 0
             set(value) {
                 if (allowSaveValues)
@@ -468,9 +493,9 @@ class StructureParser(private val structure: AssistStructure) {
             }
 
         // the security code for the credit card (also called CVV)
-        var cvvValue: AutofillValue? = null
+        var cvv: String? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
     }

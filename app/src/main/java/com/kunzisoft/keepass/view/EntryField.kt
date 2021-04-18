@@ -108,23 +108,6 @@ class EntryField @JvmOverloads constructor(context: Context,
         }
     }
 
-    private fun setValueTextColor(color: Int) {
-        valueView.setTextColor(color)
-    }
-
-    fun checkCreditCardDetails(fieldName: String) {
-        val value = valueView.text
-
-        when (fieldName) {
-            CreditCardCustomFields.CC_CVV_FIELD_NAME ->
-                if (value.length < 3 || value.length > 4) setValueTextColor(Color.RED)
-            CreditCardCustomFields.CC_EXP_FIELD_NAME ->
-                if (value.length != 4) setValueTextColor(Color.RED)
-            CreditCardCustomFields.CC_NUMBER_FIELD_NAME ->
-                if (value.length != 16) setValueTextColor(Color.RED)
-        }
-    }
-
     fun setAutoLink() {
         if (!isProtected) linkify()
         changeProtectedValueParameters()

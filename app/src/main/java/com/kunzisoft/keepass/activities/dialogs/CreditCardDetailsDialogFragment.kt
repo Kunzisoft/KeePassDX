@@ -3,8 +3,6 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -13,9 +11,10 @@ import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.model.CreditCardCustomFields.buildAllFields
 import com.kunzisoft.keepass.model.CreditCard
+import com.kunzisoft.keepass.model.CreditCardCustomFields.buildAllFields
+import com.kunzisoft.keepass.model.Field
+import java.util.*
 
 class CreditCardDetailsDialogFragment : DialogFragment() {
     private var mCreditCard: CreditCard? = null
@@ -27,9 +26,6 @@ class CreditCardDetailsDialogFragment : DialogFragment() {
 
     private var mCcExpirationMonthSpinner: Spinner? = null
     private var mCcExpirationYearSpinner: Spinner? = null
-
-    private var mCcCardNumberWellFormed: Boolean = false
-    private var mCcSecurityCodeWellFormed: Boolean = false
 
     private var mPositiveButton: Button? = null
 
@@ -57,8 +53,6 @@ class CreditCardDetailsDialogFragment : DialogFragment() {
         if (d != null) {
             mPositiveButton = d.getButton(Dialog.BUTTON_POSITIVE) as Button
             mPositiveButton?.run {
-                isEnabled = mCcSecurityCodeWellFormed && mCcCardNumberWellFormed
-                attachListeners()
                 setOnClickListener {
                     submitDialog()
                 }
@@ -75,7 +69,7 @@ class CreditCardDetailsDialogFragment : DialogFragment() {
         val ccNumber = mCcCardNumber?.text?.toString() ?: ""
 
         val month = mCcExpirationMonthSpinner?.selectedItem?.toString() ?: ""
-        val year = mCcExpirationYearSpinner?.selectedItem?.toString() ?: ""
+        val year = mCcExpirationYearSpinner?.selectedItem?.toString()?.substring(2,4) ?: ""
 
         val cvv = mCcSecurityCode?.text?.toString() ?: ""
         val ccName = mCcCardholderName?.text?.toString() ?: ""
@@ -106,37 +100,43 @@ class CreditCardDetailsDialogFragment : DialogFragment() {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.entry_cc_details_dialog, null)
 
-            mCcCardholderName = root?.findViewById(R.id.creditCardholderNameField)
+            root?.run {
+                mCcCardholderName = findViewById(R.id.creditCardholderNameField)
+                mCcCardNumber = findViewById(R.id.creditCardNumberField)
+                mCcSecurityCode = findViewById(R.id.creditCardSecurityCode)
+                mCcExpirationMonthSpinner = findViewById(R.id.expirationMonth)
+                mCcExpirationYearSpinner = findViewById(R.id.expirationYear)
 
-            mCcExpirationMonthSpinner = root?.findViewById(R.id.expirationMonth)
-            mCcExpirationYearSpinner = root?.findViewById(R.id.expirationYear)
-
-            mCcCardNumber = root?.findViewById(R.id.creditCardNumberField)
-            mCcSecurityCode = root?.findViewById(R.id.creditCardSecurityCode)
-
-            mCreditCard?.let  {
-                mCcCardholderName!!.setText(it.cardholder)
-                mCcCardNumberWellFormed = true
-                mCcCardNumber!!.setText(it.number)
-                mCcSecurityCodeWellFormed = true
-                mCcSecurityCode!!.setText(it.cvv)
+                mCreditCard?.cardholder?.let {
+                    mCcCardholderName?.setText(it)
+                }
+                mCreditCard?.number?.let {
+                    mCcCardNumber?.setText(it)
+                }
+                mCreditCard?.cvv?.let {
+                    mCcSecurityCode?.setText(it)
+                }
             }
 
-            val monthAdapter = ArrayAdapter.createFromResource(requireContext(),
-                    R.array.month_array, android.R.layout.simple_spinner_item)
-            monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            mCcExpirationMonthSpinner!!.adapter = monthAdapter
+            val months = arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+            mCcExpirationMonthSpinner?.let { spinner ->
+                spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, months)
+                mCreditCard?.let { cc ->
+                    spinner.setSelection(getIndex(spinner, cc.getExpirationMonth()))
+                }
+            }
 
-            mCreditCard?.let { mCcExpirationMonthSpinner!!.setSelection(
-                    getIndex(mCcExpirationMonthSpinner!!, it.getExpirationMonth()) ) }
-
-            val yearAdapter = ArrayAdapter.createFromResource(requireContext(),
-                    R.array.year_array, android.R.layout.simple_spinner_item)
-            yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            mCcExpirationYearSpinner!!.adapter = yearAdapter
-
-            mCreditCard?.let { mCcExpirationYearSpinner!!.setSelection(
-                    getIndex(mCcExpirationYearSpinner!!, it.getExpirationYear()) ) }
+            val years = arrayOfNulls<String>(5)
+            val year = Calendar.getInstance()[Calendar.YEAR]
+            for (i in years.indices) {
+                years[i] = (year + i).toString()
+            }
+            mCcExpirationYearSpinner?.let { spinner ->
+                spinner.adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, years)
+                mCreditCard?.let { cc ->
+                    spinner.setSelection(getIndex(spinner, "20" + cc.getExpirationYear()))
+                }
+            }
 
             val builder = AlertDialog.Builder(activity)
 
@@ -155,44 +155,14 @@ class CreditCardDetailsDialogFragment : DialogFragment() {
 
     private fun getIndex(spinner: Spinner, value: String?): Int {
         for (i in 0 until spinner.count) {
-            if (spinner.getItemAtPosition(i).toString().equals(value, ignoreCase = true)) {
+            if (spinner.getItemAtPosition(i).toString() == value) {
                 return i
             }
         }
         return 0
     }
 
-    private fun attachListeners() {
-        mCcCardNumber?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val userString = s?.toString()
-                mCcCardNumberWellFormed = userString?.length == 16
-                mPositiveButton?.run {
-                    isEnabled = mCcSecurityCodeWellFormed && mCcCardNumberWellFormed
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        mCcSecurityCode?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val userString = s?.toString()
-                mCcSecurityCodeWellFormed = (userString?.length == 3 || userString?.length == 4)
-                mPositiveButton?.run {
-                    isEnabled = mCcSecurityCodeWellFormed && mCcCardNumberWellFormed
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-    }
-
     companion object {
-
         private const val KEY_CREDIT_CARD = "KEY_CREDIT_CARD"
 
         fun build(creditCard: CreditCard? = null): CreditCardDetailsDialogFragment {

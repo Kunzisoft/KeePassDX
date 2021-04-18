@@ -191,14 +191,13 @@ class EntryEditActivity : LockingActivity(),
         val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
         val searchInfo: SearchInfo? = registerInfo?.searchInfo
                 ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-        registerInfo?.username?.let {
-            tempEntryInfo?.username = it
-        }
-        registerInfo?.password?.let {
-            tempEntryInfo?.password = it
-        }
+
         searchInfo?.let { tempSearchInfo ->
             tempEntryInfo?.saveSearchInfo(mDatabase, tempSearchInfo)
+        }
+
+        registerInfo?.let { regInfo ->
+            tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
         }
 
         // Build fragment to manage entry modification
@@ -408,7 +407,25 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun addNewCreditCard() {
-        val cc = CreditCard(entryEditFragment?.getExtraFields())
+        var cardholder: String? = null
+        var number: String? = null
+        var expiration: String? = null
+        var cvv: String? = null
+
+        entryEditFragment?.getExtraFields()?.forEach() { field ->
+            when (field.name) {
+                CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME ->
+                    cardholder = field.protectedValue.stringValue
+                CreditCardCustomFields.CC_NUMBER_FIELD_NAME ->
+                    number = field.protectedValue.stringValue
+                CreditCardCustomFields.CC_EXP_FIELD_NAME ->
+                    expiration = field.protectedValue.stringValue
+                CreditCardCustomFields.CC_CVV_FIELD_NAME ->
+                    cvv = field.protectedValue.stringValue
+            }
+        }
+
+        val cc = CreditCard(cardholder, number, expiration, cvv)
         CreditCardDetailsDialogFragment.build(cc).show(supportFragmentManager, "CreditCardDialog")
     }
 
