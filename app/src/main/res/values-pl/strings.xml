@@ -120,17 +120,6 @@
     <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
 \n
 \nUtwórz kopię zapasową pliku bazy danych w bezpiecznym miejscu po każdej zmianie.</string>
-    <string-array name="timeout_options">
-        <item>5 sekund</item>
-        <item>10 sekund</item>
-        <item>20 sekund</item>
-        <item>30 sekund</item>
-        <item>1 minuta</item>
-        <item>5 minut</item>
-        <item>15 minut</item>
-        <item>30 minut</item>
-        <item>Nigdy</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Mała</item>
         <item>Średnia</item>

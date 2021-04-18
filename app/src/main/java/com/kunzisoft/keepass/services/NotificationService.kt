@@ -11,12 +11,15 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
+import kotlinx.coroutines.*
 
 
 abstract class NotificationService : Service() {
 
     protected var notificationManager: NotificationManagerCompat? = null
     private var colorNotificationAccent: Int = 0
+
+    protected var mTimerJob: Job? = null
 
     protected abstract val notificationId: Int
 
@@ -71,7 +74,33 @@ abstract class NotificationService : Service() {
         }
     }
 
+    protected fun defineTimerJob(builder: NotificationCompat.Builder,
+                                 timeoutMilliseconds: Long,
+                                 actionAfterASecond: (() -> Unit)? = null,
+                                 actionEnd: () -> Unit) {
+        mTimerJob?.cancel()
+        mTimerJob = CoroutineScope(Dispatchers.Main).launch {
+            val timeoutInSeconds = timeoutMilliseconds / 1000L
+            for (currentTime in timeoutInSeconds downTo 0) {
+                actionAfterASecond?.invoke()
+                builder.setProgress(100,
+                        (currentTime * 100 / timeoutInSeconds).toInt(),
+                        false)
+                startForeground(notificationId, builder.build())
+                delay(1000)
+                if (currentTime <= 0) {
+                    actionEnd()
+                }
+            }
+            notificationManager?.cancel(notificationId)
+            mTimerJob = null
+            cancel()
+        }
+    }
+
     override fun onDestroy() {
+        mTimerJob?.cancel()
+        mTimerJob = null
         notificationManager?.cancel(notificationId)
 
         super.onDestroy()

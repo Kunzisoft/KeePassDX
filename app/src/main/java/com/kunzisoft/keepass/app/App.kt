@@ -29,7 +29,7 @@ class App : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        Stylish.init(this)
+        Stylish.load(this)
         PRNGFixes.apply()
     }
 

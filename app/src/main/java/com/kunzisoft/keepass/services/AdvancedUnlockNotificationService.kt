@@ -10,16 +10,12 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import kotlinx.coroutines.*
 
 class AdvancedUnlockNotificationService : NotificationService() {
 
     private lateinit var mTempCipherDao: ArrayList<CipherDatabaseEntity>
 
     private var mActionTaskBinder = AdvancedUnlockBinder()
-
-    private var notificationTimeoutMilliSecs: Long = 0
-    private var mTimerJob: Job? = null
 
     inner class AdvancedUnlockBinder: Binder() {
         fun getCipherDatabase(databaseUri: Uri): CipherDatabaseEntity? {
@@ -80,23 +76,11 @@ class AdvancedUnlockNotificationService : NotificationService() {
 
         when (intent?.action) {
             ACTION_TIMEOUT -> {
-                notificationTimeoutMilliSecs = PreferencesUtil.getAdvancedUnlockTimeout(this)
+                val notificationTimeoutMilliSecs = PreferencesUtil.getAdvancedUnlockTimeout(this)
                 // Not necessarily a foreground service
                 if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
-                    mTimerJob = CoroutineScope(Dispatchers.Main).launch {
-                        val maxPos = 100
-                        val posDurationMills = notificationTimeoutMilliSecs / maxPos
-                        for (pos in maxPos downTo 0) {
-                            notificationBuilder.setProgress(maxPos, pos, false)
-                            startForeground(notificationId, notificationBuilder.build())
-                            delay(posDurationMills)
-                            if (pos <= 0) {
-                                stopSelf()
-                            }
-                        }
-                        notificationManager?.cancel(notificationId)
-                        mTimerJob = null
-                        cancel()
+                    defineTimerJob(notificationBuilder, notificationTimeoutMilliSecs) {
+                        stopSelf()
                     }
                 } else {
                     startForeground(notificationId, notificationBuilder.build())
@@ -118,7 +102,6 @@ class AdvancedUnlockNotificationService : NotificationService() {
 
     override fun onDestroy() {
         mTempCipherDao.clear()
-        mTimerJob?.cancel()
         super.onDestroy()
     }
 

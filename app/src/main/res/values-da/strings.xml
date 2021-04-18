@@ -132,17 +132,6 @@
     <string name="education_unlock_summary">Angiv en adgangskode og/eller en nøglefil til at låse databasen op.
 \n
 \nHusk at gemme en kopi af .kdbx filen i et sikkert sted efter hver ændring.</string>
-    <string-array name="timeout_options">
-        <item>5 sekunder</item>
-        <item>10 sekunder</item>
-        <item>20 sekunder</item>
-        <item>30 sekunder</item>
-        <item>1 minut</item>
-        <item>5 minutter</item>
-        <item>15 minutter</item>
-        <item>30 minutter</item>
-        <item>Aldrig</item>
-    </string-array>
     <string-array name="list_size_options">
         <item>Lille</item>
         <item>Mellem</item>

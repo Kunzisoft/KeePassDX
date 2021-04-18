@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.autofill.AutofillComponent
@@ -105,7 +105,7 @@ class EntryEditActivity : LockingActivity(),
     private var lockView: View? = null
 
     // To manage attachments
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAllowMultipleAttachments: Boolean = false
     private var mTempAttachments = ArrayList<EntryAttachmentState>()
@@ -242,7 +242,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // To retrieve attachment
-        mSelectFileHelper = SelectFileHelper(this)
+        mExternalFileHelper = ExternalFileHelper(this)
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
         // Save button
@@ -488,8 +488,8 @@ class EntryEditActivity : LockingActivity(),
     /**
      * Add a new attachment
      */
-    private fun addNewAttachment(item: MenuItem) {
-        mSelectFileHelper?.selectFileOnClickViewListener?.onMenuItemClick(item)
+    private fun addNewAttachment() {
+        mExternalFileHelper?.openDocument()
     }
 
     override fun onValidateUploadFileTooBig(attachmentToUploadUri: Uri?, fileName: String?) {
@@ -535,7 +535,7 @@ class EntryEditActivity : LockingActivity(),
             entryEditFragment?.icon = icon
         }
 
-        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
             uri?.let { attachmentToUploadUri ->
                 UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
                     documentFile.name?.let { fileName ->
@@ -691,7 +691,7 @@ class EntryEditActivity : LockingActivity(),
                         && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
                         attachmentView,
                         {
-                            mSelectFileHelper?.selectFileOnClickViewListener?.onClick(attachmentView)
+                            mExternalFileHelper?.openDocument()
                         },
                         {
                             performedNextEducation(entryEditActivityEducation)
@@ -723,7 +723,7 @@ class EntryEditActivity : LockingActivity(),
                 return true
             }
             R.id.menu_add_attachment -> {
-                addNewAttachment(item)
+                addNewAttachment()
                 return true
             }
             R.id.menu_add_otp -> {

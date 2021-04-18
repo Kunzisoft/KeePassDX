@@ -1,3 +1,11 @@
+KeePassDX(2.9.17)
+ * Import / Export app properties #839
+ * Force twofish padding compatibility #955
+ * Better timeout preference #579
+
+KeePassDX(2.9.16)
+ * Fix small bugs #948
+
 KeePassDX(2.9.15)
  * Fix themes #935 #926
  * Decrease default clipboard time #934

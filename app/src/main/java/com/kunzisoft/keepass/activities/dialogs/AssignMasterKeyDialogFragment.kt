@@ -30,13 +30,13 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
@@ -60,7 +60,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private var mListener: AssignPasswordDialogListener? = null
 
-    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
     private var mNoKeyConfirmationDialog: AlertDialog? = null
@@ -133,11 +133,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
 
-            mSelectFileHelper = SelectFileHelper(this)
-            keyFileSelectionView?.apply {
-                setOnClickListener(mSelectFileHelper?.selectFileOnClickViewListener)
-                setOnLongClickListener(mSelectFileHelper?.selectFileOnClickViewListener)
-            }
+            mExternalFileHelper = ExternalFileHelper(this)
+            keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
 
             val dialog = builder.create()
 
@@ -289,7 +286,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
             uri?.let { pathUri ->
                 UriUtil.getFileData(requireContext(), uri)?.length()?.let { lengthFile ->
                     keyFileSelectionView?.error = null

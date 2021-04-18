@@ -31,12 +31,10 @@
             android:summary="@string/keyboard_notification_entry_clear_close_summary"
             android:dependency="@string/keyboard_notification_entry_key"
             android:defaultValue="@bool/keyboard_notification_entry_clear_close_default"/>
-        <ListPreference
+        <com.kunzisoft.keepass.settings.preference.DurationDialogPreference
             android:key="@string/keyboard_entry_timeout_key"
             android:title="@string/keyboard_entry_timeout_title"
             android:summary="@string/keyboard_entry_timeout_summary"
-            android:entries="@array/timeout_options"
-            android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/keyboard_entry_timeout_title"
             android:defaultValue="@string/keyboard_entry_timeout_default"
             android:dependency="@string/keyboard_notification_entry_clear_close_key"/>

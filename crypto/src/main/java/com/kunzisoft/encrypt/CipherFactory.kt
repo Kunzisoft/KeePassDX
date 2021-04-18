@@ -38,8 +38,12 @@ object CipherFactory {
     }
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
-    fun getTwofish(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
-        val cipher: Cipher = Cipher.getInstance("Twofish/CBC/PKCS7PADDING")
+    fun getTwofish(opmode: Int, key: ByteArray, IV: ByteArray, forceCompatibility: Boolean = false): Cipher {
+        val cipher: Cipher = if (forceCompatibility) {
+            Cipher.getInstance("Twofish/CBC/NoPadding")
+        } else {
+            Cipher.getInstance("Twofish/CBC/PKCS7PADDING")
+        }
         cipher.init(opmode, SecretKeySpec(key, "AES"), IvParameterSpec(IV))
         return cipher
     }
