@@ -24,7 +24,7 @@ import android.util.Log
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.exception.EntryDatabaseException
+import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 
 class MoveNodesRunnable constructor(
@@ -47,8 +47,10 @@ class MoveNodesRunnable constructor(
             when (nodeToMove.type) {
                 Type.GROUP -> {
                     val groupToMove = nodeToMove as Group
-                    // Move group in new parent if not in the current group
-                    if (groupToMove != mNewParent
+                    // Move group if the parent change
+                    if (mOldParent != mNewParent
+                            // and if not in the current group
+                            && groupToMove != mNewParent
                             && !mNewParent.isContainedIn(groupToMove)) {
                         nodeToMove.touch(modified = true, touchParents = true)
                         database.moveGroupTo(groupToMove, mNewParent)
@@ -68,7 +70,7 @@ class MoveNodesRunnable constructor(
                         database.moveEntryTo(entryToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        setError(EntryDatabaseException())
+                        setError(MoveEntryDatabaseException())
                         break@foreachNode
                     }
                 }

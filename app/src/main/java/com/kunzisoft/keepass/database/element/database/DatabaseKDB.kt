@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
+import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -38,8 +39,6 @@ import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
-    private var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
-
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
     override val version: String
@@ -55,13 +54,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return getGroupById(NodeIdInt(groupId))
     }
 
-    // Retrieve backup group in index
     val backupGroup: GroupKDB?
         get() {
-            return if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
-                null
-            else
-                getGroupById(backupGroupId)
+            return retrieveBackup()
         }
 
     override val kdfEngine: KdfEngine
@@ -80,12 +75,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     val rootGroups: List<GroupKDB>
         get() {
-            val kids = ArrayList<GroupKDB>()
-            doForEachGroupInIndex { group ->
-                if (group.level == 0)
-                    kids.add(group)
-            }
-            return kids
+            return rootGroup?.getChildGroups() ?: ArrayList()
         }
 
     override val passwordEncoding: String
@@ -169,21 +159,14 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     override fun isInRecycleBin(group: GroupKDB): Boolean {
         var currentGroup: GroupKDB? = group
+        val currentBackupGroup = backupGroup ?: return false
 
-        // Init backup group variable
-        if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
-            findBackupGroupId()
-
-        if (backupGroup == null)
-            return false
-
-        if (currentGroup == backupGroup)
+        if (currentGroup == currentBackupGroup)
             return true
 
+        val backupGroupId = currentBackupGroup.id
         while (currentGroup != null) {
-            if (currentGroup.level == 0
-                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
-                backupGroupId = currentGroup.id
+            if (backupGroupId == currentGroup.id) {
                 return true
             }
             currentGroup = currentGroup.parent
@@ -191,13 +174,23 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return false
     }
 
-    private fun findBackupGroupId() {
-        rootGroups.forEach { currentGroup ->
-            if (currentGroup.level == 0
-                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
-                backupGroupId = currentGroup.id
+    /**
+     * Retrieve backup group with his name
+     */
+    private fun retrieveBackup(): GroupKDB? {
+        var backupGroup: GroupKDB? = null
+        val groupHandler = object: NodeHandler<GroupKDB>() {
+            override fun operate(node: GroupKDB): Boolean {
+                return if (node.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
+                    backupGroup = node
+                    false
+                } else {
+                    true
+                }
             }
         }
+        rootGroup?.doForEachChild(null, groupHandler)
+        return backupGroup
     }
 
     /**
@@ -205,8 +198,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * if it doesn't exist
      */
     fun ensureBackupExists() {
-        findBackupGroupId()
-
         if (backupGroup == null) {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
@@ -214,7 +205,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
                 icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
             }
             addGroupTo(recycleBinGroup, rootGroup)
-            backupGroupId = recycleBinGroup.id
         }
     }
 

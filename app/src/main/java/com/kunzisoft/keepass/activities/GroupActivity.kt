@@ -812,40 +812,28 @@ class GroupActivity : LockingActivity(),
 
     override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
                                   nodes: List<Node>): Boolean {
-        // Move or copy only if allowed (in root if allowed)
-        if (mCurrentGroup != mDatabase?.rootGroup
-                || mDatabase?.rootCanContainsEntry() == true) {
-
-            when (pasteMode) {
-                ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
-                    // Copy
-                    mCurrentGroup?.let { newParent ->
-                        mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
-                                nodes,
-                                newParent,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                }
-                ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
-                    // Move
-                    mCurrentGroup?.let { newParent ->
-                        mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
-                                nodes,
-                                newParent,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                }
-                else -> {
+        when (pasteMode) {
+            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                // Copy
+                mCurrentGroup?.let { newParent ->
+                    mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly && mAutoSaveEnable
+                    )
                 }
             }
-        } else {
-            coordinatorLayout?.let { coordinatorLayout ->
-                Snackbar.make(coordinatorLayout,
-                        R.string.error_copy_entry_here,
-                        Snackbar.LENGTH_LONG).asError().show()
+            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                // Move
+                mCurrentGroup?.let { newParent ->
+                    mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly && mAutoSaveEnable
+                    )
+                }
             }
+            else -> {}
         }
         finishNodeAction()
         return true

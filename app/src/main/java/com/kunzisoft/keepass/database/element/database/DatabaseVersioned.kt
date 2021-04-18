@@ -35,7 +35,6 @@ import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
-import java.security.MessageDigest
 import java.util.*
 
 abstract class DatabaseVersioned<
@@ -87,6 +86,12 @@ abstract class DatabaseVersioned<
     abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
 
     var rootGroup: Group? = null
+        set(value) {
+            field = value
+            value?.let {
+                addGroupIndex(it)
+            }
+        }
 
     @Throws(IOException::class)
     protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray

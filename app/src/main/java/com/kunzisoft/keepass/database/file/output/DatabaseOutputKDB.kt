@@ -20,15 +20,15 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.write2BytesUShort
-import com.kunzisoft.keepass.utils.write4BytesUInt
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.write2BytesUShort
+import com.kunzisoft.keepass.utils.write4BytesUInt
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -59,6 +59,8 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     override fun output() {
         // Before we output the header, we should sort our list of groups
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
+        // also remove the virtual root not present in kdb
+        val rootGroup = mDatabaseKDB.rootGroup
         sortGroupsForOutput()
 
         val header = outputHeader(mOutputStream)
@@ -86,8 +88,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
             throw DatabaseOutputException("Invalid algorithm parameter.", e)
         } catch (e: IOException) {
             throw DatabaseOutputException("Failed to output final encrypted part.", e)
+        } finally {
+            // Add again the virtual root group for better management
+            mDatabaseKDB.rootGroup = rootGroup
         }
-
     }
 
     @Throws(DatabaseOutputException::class)
@@ -201,7 +205,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
     private fun sortGroupsForOutput() {
         val groupList = ArrayList<GroupKDB>()
-        // Rebuild list according to coalation sorting order removing any orphaned groups
+        // Rebuild list according to sorting order removing any orphaned groups
         for (rootGroup in mDatabaseKDB.rootGroups) {
             sortGroup(rootGroup, groupList)
         }

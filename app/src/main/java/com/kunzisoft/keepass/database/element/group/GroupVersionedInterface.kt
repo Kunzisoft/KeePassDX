@@ -45,18 +45,20 @@ interface GroupVersionedInterface<Group: GroupVersionedInterface<Group, Entry>, 
         groupHandler.operate(this as Group)
     }
 
-    fun doForEachChild(entryHandler: NodeHandler<Entry>,
+    fun doForEachChild(entryHandler: NodeHandler<Entry>?,
                        groupHandler: NodeHandler<Group>?,
-                       stopIterationWhenGroupHandlerFails: Boolean = true): Boolean {
-        for (entry in this.getChildEntries()) {
-            if (!entryHandler.operate(entry))
-                return false
+                       stopIterationWhenGroupHandlerOperateFalse: Boolean = true): Boolean {
+        if (entryHandler != null) {
+            for (entry in this.getChildEntries()) {
+                if (!entryHandler.operate(entry))
+                    return false
+            }
         }
         for (group in this.getChildGroups()) {
             var doActionForChild = true
             if (groupHandler != null && !groupHandler.operate(group)) {
                 doActionForChild = false
-                if (stopIterationWhenGroupHandlerFails)
+                if (stopIterationWhenGroupHandlerOperateFalse)
                     return false
             }
             if (doActionForChild)

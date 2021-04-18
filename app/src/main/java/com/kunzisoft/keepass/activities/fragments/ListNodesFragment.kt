@@ -311,13 +311,17 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                         menu?.removeItem(R.id.menu_edit)
                     }
 
-                    // Copy and Move (not for groups)
+                    // Move
+                    if (readOnly
+                            || isASearchResult) {
+                        menu?.removeItem(R.id.menu_move)
+                    }
+
+                    // Copy (not allowed for group)
                     if (readOnly
                             || isASearchResult
                             || nodes.any { it.type == Type.GROUP }) {
-                        // TODO Copy For Group
                         menu?.removeItem(R.id.menu_copy)
-                        menu?.removeItem(R.id.menu_move)
                     }
 
                     // Deletion
