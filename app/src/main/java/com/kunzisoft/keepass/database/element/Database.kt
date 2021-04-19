@@ -359,6 +359,11 @@ class Database {
             return null
         }
 
+    val groupNamesNotAllowed: List<String>
+        get() {
+            return mDatabaseKDB?.groupNamesNotAllowed ?: ArrayList()
+        }
+
     fun ensureRecycleBinExists(resources: Resources) {
         mDatabaseKDB?.ensureBackupExists()
         mDatabaseKDBX?.ensureRecycleBinExists(resources)

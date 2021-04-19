@@ -1064,6 +1064,16 @@ class GroupActivity : LockingActivity(),
         }
     }
 
+    override fun isValidGroupName(name: String): GroupEditDialogFragment.Error {
+        if (name.isEmpty()) {
+            return GroupEditDialogFragment.Error(true, R.string.error_no_name)
+        }
+        if (mDatabase?.groupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null) {
+            return GroupEditDialogFragment.Error(true, R.string.error_word_reserved)
+        }
+        return GroupEditDialogFragment.Error(false, null)
+    }
+
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
                                   groupInfo: GroupInfo) {
 

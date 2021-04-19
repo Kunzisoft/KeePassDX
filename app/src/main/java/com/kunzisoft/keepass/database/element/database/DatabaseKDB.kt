@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.element.database
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -57,6 +56,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     val backupGroup: GroupKDB?
         get() {
             return retrieveBackup()
+        }
+
+    val groupNamesNotAllowed: List<String>
+        get() {
+            return listOf(BACKUP_FOLDER_TITLE)
         }
 
     override val kdfEngine: KdfEngine
@@ -248,6 +252,5 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         val TYPE = DatabaseKDB::class.java
 
         const val BACKUP_FOLDER_TITLE = "Backup"
-        private const val BACKUP_FOLDER_UNDEFINED_ID = -1
     }
 }

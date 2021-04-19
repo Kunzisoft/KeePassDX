@@ -109,6 +109,7 @@
     <string name="error_invalid_path">Make sure the path is correct.</string>
     <string name="error_invalid_OTP">Invalid OTP secret.</string>
     <string name="error_no_name">Enter a name.</string>
+    <string name="error_word_reserved">This word is reserved and cannot be used.</string>
     <string name="error_nokeyfile">Select a keyfile.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
     <string name="error_load_database">Could not load your database.</string>
