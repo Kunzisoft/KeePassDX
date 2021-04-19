@@ -154,7 +154,6 @@
     <string name="extended_ASCII">ASCII esteso</string>
     <string name="error_nokeyfile">Seleziona un file chiave.</string>
     <string name="error_autofill_enable_service">Attivazione del servizio di auto-completamento fallita.</string>
-    <string name="error_move_folder_in_itself">Non puoi spostare un gruppo in se stesso.</string>
     <string name="menu_form_filling_settings">Riempimento campi</string>
     <string name="menu_copy">Copia</string>
     <string name="menu_move">Sposta</string>

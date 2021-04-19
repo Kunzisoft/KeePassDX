@@ -268,7 +268,6 @@
     <string name="contribute">Unterstützen</string>
     <string name="icon_pack_choose_title">Symbolpaket</string>
     <string name="icon_pack_choose_summary">In der App verwendetes Symbolpaket</string>
-    <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
     <string name="menu_paste">Einfügen</string>

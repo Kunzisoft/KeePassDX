@@ -137,7 +137,6 @@
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تمكين خدمة الملء التلقائي.</string>
-    <string name="error_move_folder_in_itself">لا يمكن نقل مجموعة إلى نفسها.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
     <string name="file_browser">مدير الملفات</string>
     <string name="invalid_credentials">تعذر قراءة الإعتمادات.</string>

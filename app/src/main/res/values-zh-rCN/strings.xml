@@ -139,7 +139,6 @@
     <string name="error_load_database">无法加载数据库。</string>
     <string name="error_load_database_KDF_memory">无法加载密钥。尝试降低KDF的“内存使用”值。</string>
     <string name="error_autofill_enable_service">无法启用自动填充服务。</string>
-    <string name="error_move_folder_in_itself">无法将群组移至它自身之中。</string>
     <string name="file_not_found_content">找不到文件。请重新打开文件。</string>
     <string name="invalid_algorithm">算法无效。</string>
     <string name="keyfile_is_empty">密钥文件为空。</string>

@@ -146,7 +146,6 @@
     <string name="error_load_database">Databázi se nepodařilo načíst.</string>
     <string name="error_load_database_KDF_memory">Klíč se nepodařilo načíst, zkuste snížit \"využití paměti\" pro KDF.</string>
     <string name="error_autofill_enable_service">Službu automatického vyplňování se nepodařilo zapnout.</string>
-    <string name="error_move_folder_in_itself">Není možné přesunout skupinu do ní samotné.</string>
     <string name="file_not_found_content">Soubor nenalezen. Zkuste jej otevřít ze správce souborů.</string>
     <string name="list_entries_show_username_title">Zobrazit uživatelská jména</string>
     <string name="list_entries_show_username_summary">V seznamech záznamů zobrazit uživatelská jména</string>

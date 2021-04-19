@@ -267,7 +267,6 @@
     <string name="edit_entry">Editar entrada</string>
     <string name="error_load_database">No se pudo cargar la base de datos.</string>
     <string name="error_load_database_KDF_memory">No se pudo cargar la clave. Intente disminuir el uso de memoria de KDF.</string>
-    <string name="error_move_folder_in_itself">No puede mover un grupo dentro de sí mismo.</string>
     <string name="list_entries_show_username_title">Enseña nombres de usuario</string>
     <string name="list_entries_show_username_summary">Enseña nombres de usuador en las listras de entradas</string>
     <string name="menu_copy">Copiar</string>

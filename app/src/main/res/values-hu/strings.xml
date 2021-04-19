@@ -154,7 +154,6 @@
     <string name="error_load_database">Az adatbázis betöltése meghiúsult.</string>
     <string name="error_load_database_KDF_memory">A kulcs nem tölthető be. Próbálja meg csökkenteni a KDF „Memóriahasználatot”.</string>
     <string name="error_autofill_enable_service">Az automatikus kitöltési szolgáltatás nem engedélyezhető.</string>
-    <string name="error_move_folder_in_itself">Nem helyezheti át a csoportot saját magába.</string>
     <string name="list_entries_show_username_title">Felhasználónevek megjelenítése</string>
     <string name="list_entries_show_username_summary">Felhasználónevek megjelenítése a bejegyzéslistákban</string>
     <string name="copy_field">%1$s másolata</string>

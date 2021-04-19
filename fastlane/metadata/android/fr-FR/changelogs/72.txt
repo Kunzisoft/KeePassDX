@@ -1,1 +1,1 @@
- *
+ * Déplacement de groupes #658

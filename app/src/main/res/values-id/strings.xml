@@ -72,7 +72,6 @@
     <string name="error_copy_group_here">Anda tidak bisa menyalin grup di sini.</string>
     <string name="error_copy_entry_here">Anda tidak bisa menyalin entri di sini.</string>
     <string name="error_move_entry_here">Anda tidak bisa memindahkan entri ke sini.</string>
-    <string name="error_move_folder_in_itself">Anda tidak bisa memindahkan grup ke grup itu sendiri.</string>
     <string name="error_autofill_enable_service">Tidak bisa mengaktifkan layanan IsiOtomatis.</string>
     <string name="error_wrong_length">Masukkan bilangan bulat di bidang \"Panjang\".</string>
     <string name="error_label_exists">Label ini sudah ada.</string>

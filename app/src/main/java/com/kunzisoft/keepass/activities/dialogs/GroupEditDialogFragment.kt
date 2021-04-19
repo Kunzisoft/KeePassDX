@@ -219,14 +219,19 @@ class GroupEditDialogFragment : DialogFragment() {
     }
 
     private fun isValid(): Boolean {
-        if (nameTextView.text.toString().isEmpty()) {
-            nameTextLayoutView.error = getString(R.string.error_no_name)
-            return false
+        val error = mEditGroupListener?.isValidGroupName(nameTextView.text.toString()) ?: Error(false, null)
+        error.messageId?.let { messageId ->
+            nameTextLayoutView.error = getString(messageId)
+        } ?: kotlin.run {
+            nameTextLayoutView.error = null
         }
-        return true
+        return !error.isError
     }
 
+    data class Error(val isError: Boolean, val messageId: Int?)
+
     interface EditGroupListener {
+        fun isValidGroupName(name: String): Error
         fun approveEditGroup(action: EditGroupDialogAction,
                              groupInfo: GroupInfo)
         fun cancelEditGroup(action: EditGroupDialogAction,

@@ -120,7 +120,6 @@
     <string name="error_label_exists">このラベルはすでに存在します。</string>
     <string name="error_wrong_length">[長さ] フィールドには正の整数を入力してください。</string>
     <string name="error_autofill_enable_service">自動入力サービスを有効にできませんでした。</string>
-    <string name="error_move_folder_in_itself">グループを自分自身の中に移動することはできません。</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
     <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
     <string name="error_copy_group_here">ここではグループをコピーすることはできません。</string>
