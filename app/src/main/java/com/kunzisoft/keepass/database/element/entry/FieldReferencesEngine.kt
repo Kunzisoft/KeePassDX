@@ -23,7 +23,7 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
-import com.kunzisoft.keepass.database.search.UuidUtil
+import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 
 class FieldReferencesEngine {
