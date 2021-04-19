@@ -19,61 +19,42 @@
  */
 package com.kunzisoft.keepass.database.element.entry
 
+import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.search.EntryKDBXSearchHandler
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.database.search.UuidUtil
 import java.util.*
 
 class FieldReferencesEngine {
 
-    inner class TargetResult(var entry: EntryKDBX?, var wanted: Char)
-
-    private inner class SprContextV4 {
-
-        var databaseV4: DatabaseKDBX? = null
-        var entry: EntryKDBX
-        var refsCache: MutableMap<String, String> = HashMap()
-
-        internal constructor(db: DatabaseKDBX, entry: EntryKDBX) {
-            this.databaseV4 = db
-            this.entry = entry
-        }
-
-        internal constructor(source: SprContextV4) {
-            this.databaseV4 = source.databaseV4
-            this.entry = source.entry
-            this.refsCache = source.refsCache
-        }
-    }
-
     fun compile(text: String, entry: EntryKDBX, database: DatabaseKDBX): String {
-        return compileInternal(text, SprContextV4(database, entry), 0)
+        return compileInternal(text, SprContextKDBX(database, entry), 0)
     }
 
-    private fun compileInternal(text: String?, sprContextV4: SprContextV4?, recursionLevel: Int): String {
+    private fun compileInternal(text: String?, sprContextKDBX: SprContextKDBX?, recursionLevel: Int): String {
         if (text == null) {
             return ""
         }
-        if (sprContextV4 == null) {
+        if (sprContextKDBX == null) {
             return ""
         }
         return if (recursionLevel >= MAX_RECURSION_DEPTH) {
             ""
-        } else fillRefPlaceholders(text, sprContextV4, recursionLevel)
+        } else fillRefPlaceholders(text, sprContextKDBX, recursionLevel)
 
     }
 
-    private fun fillRefPlaceholders(textReference: String, contextV4: SprContextV4, recursionLevel: Int): String {
+    private fun fillRefPlaceholders(textReference: String, contextKDBX: SprContextKDBX, recursionLevel: Int): String {
         var text = textReference
 
-        if (contextV4.databaseV4 == null) {
+        if (contextKDBX.databaseKDBX == null) {
             return text
         }
 
         var offset = 0
         for (i in 0..19) {
-            text = fillRefsUsingCache(text, contextV4)
+            text = fillRefsUsingCache(text, contextKDBX)
 
             val start = text.indexOf(STR_REF_START, offset, true)
             if (start < 0) {
@@ -85,7 +66,7 @@ class FieldReferencesEngine {
             }
 
             val fullRef = text.substring(start, end + 1)
-            val result = findRefTarget(fullRef, contextV4)
+            val result = findRefTarget(fullRef, contextKDBX)
 
             if (result != null) {
                 val found = result.entry
@@ -103,12 +84,12 @@ class FieldReferencesEngine {
                 }
 
                 if (data != null && found != null) {
-                    val subCtx = SprContextV4(contextV4)
-                    subCtx.entry = found
+                    val subCtx = SprContextKDBX(contextKDBX)
+                    subCtx.entryKDBX = found
 
                     val innerContent = compileInternal(data, subCtx, recursionLevel + 1)
-                    addRefsToCache(fullRef, innerContent, contextV4)
-                    text = fillRefsUsingCache(text, contextV4)
+                    addRefsToCache(fullRef, innerContent, contextKDBX)
+                    text = fillRefsUsingCache(text, contextKDBX)
                 } else {
                     offset = start + 1
                 }
@@ -119,7 +100,7 @@ class FieldReferencesEngine {
         return text
     }
 
-    private fun findRefTarget(fullReference: String?, contextV4: SprContextV4): TargetResult? {
+    private fun findRefTarget(fullReference: String?, contextKDBX: SprContextKDBX): TargetResult? {
         var fullRef: String? = fullReference ?: return null
 
         fullRef = fullRef!!.toUpperCase(Locale.ENGLISH)
@@ -157,7 +138,7 @@ class FieldReferencesEngine {
         }
 
         val list = ArrayList<EntryKDBX>()
-        searchEntries(contextV4.databaseV4?.rootGroup, searchParameters, list)
+        searchEntries(contextKDBX, searchParameters, list)
 
         return if (list.size > 0) {
             TargetResult(list[0], wanted)
@@ -165,7 +146,7 @@ class FieldReferencesEngine {
 
     }
 
-    private fun addRefsToCache(ref: String?, value: String?, ctx: SprContextV4?) {
+    private fun addRefsToCache(ref: String?, value: String?, ctx: SprContextKDBX?) {
         if (ref == null) {
             return
         }
@@ -181,15 +162,17 @@ class FieldReferencesEngine {
         }
     }
 
-    private fun fillRefsUsingCache(text: String, sprContextV4: SprContextV4): String {
+    private fun fillRefsUsingCache(text: String, sprContextKDBX: SprContextKDBX): String {
         var newText = text
-        for ((key, value) in sprContextV4.refsCache) {
+        for ((key, value) in sprContextKDBX.refsCache) {
             newText = text.replace(key, value, true)
         }
         return newText
     }
 
-    private fun searchEntries(root: GroupKDBX?, searchParameters: SearchParameters?, listStorage: MutableList<EntryKDBX>?) {
+    private fun searchEntries(contextKDBX: SprContextKDBX, searchParameters: SearchParameters?, listStorage: MutableList<EntryKDBX>?) {
+
+        val root = contextKDBX.databaseKDBX?.rootGroup
         if (searchParameters == null) {
             return
         }
@@ -199,7 +182,7 @@ class FieldReferencesEngine {
 
         val terms = splitStringTerms(searchParameters.searchString)
         if (terms.size <= 1 || searchParameters.regularExpression) {
-            root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
+            root!!.doForEachChild(EntryKDBXSearchHandler(contextKDBX, searchParameters, listStorage), null)
             return
         }
 
@@ -220,7 +203,7 @@ class FieldReferencesEngine {
                 negate = searchParameters.searchString.isNotEmpty()
             }
 
-            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParameters, pgNew), null)) {
+            if (!root.doForEachChild(EntryKDBXSearchHandler(contextKDBX, searchParameters, pgNew), null)) {
                 childEntries = null
                 break
             }
@@ -277,6 +260,84 @@ class FieldReferencesEngine {
         }
 
         return list
+    }
+
+    inner class TargetResult(var entry: EntryKDBX?, var wanted: Char)
+
+    private inner class SprContextKDBX {
+
+        var databaseKDBX: DatabaseKDBX? = null
+        var entryKDBX: EntryKDBX
+        var refsCache: MutableMap<String, String> = HashMap()
+
+        constructor(databaseKDBX: DatabaseKDBX, entry: EntryKDBX) {
+            this.databaseKDBX = databaseKDBX
+            this.entryKDBX = entry
+        }
+
+        constructor(source: SprContextKDBX) {
+            this.databaseKDBX = source.databaseKDBX
+            this.entryKDBX = source.entryKDBX
+            this.refsCache = source.refsCache
+        }
+    }
+
+    private class EntryKDBXSearchHandler(private val contextKDBX: SprContextKDBX,
+                                         private val mSearchParametersKDBX: SearchParameters,
+                                         private val mListStorage: MutableList<EntryKDBX>)
+        : NodeHandler<EntryKDBX>() {
+
+        override fun operate(node: EntryKDBX): Boolean {
+            contextKDBX.databaseKDBX?.let {
+                node.startToManageFieldReferences(it)
+            }
+            if (mSearchParametersKDBX.excludeExpired
+                    && node.isCurrentlyExpires) {
+                node.stopToManageFieldReferences()
+                return true
+            }
+            if (searchStrings(node)) {
+                mListStorage.add(node)
+                node.stopToManageFieldReferences()
+                return true
+            }
+            if (searchInGroupNames(node)) {
+                mListStorage.add(node)
+                node.stopToManageFieldReferences()
+                return true
+            }
+            if (searchInUUID(node)) {
+                mListStorage.add(node)
+                node.stopToManageFieldReferences()
+                return true
+            }
+            node.stopToManageFieldReferences()
+            return true
+        }
+
+        private fun searchStrings(entry: EntryKDBX): Boolean {
+            return SearchHelper.searchInEntry(entry, mSearchParametersKDBX)
+        }
+
+        private fun searchInGroupNames(entry: EntryKDBX): Boolean {
+            if (mSearchParametersKDBX.searchInGroupNames) {
+                val parent = entry.parent
+                if (parent != null) {
+                    return parent.title
+                            .contains(mSearchParametersKDBX.searchString,
+                                    mSearchParametersKDBX.ignoreCase)
+                }
+            }
+            return false
+        }
+
+        private fun searchInUUID(entry: EntryKDBX): Boolean {
+            if (mSearchParametersKDBX.searchInUUIDs) {
+                return UuidUtil.toHexString(entry.id)
+                        .contains(mSearchParametersKDBX.searchString, true)
+            }
+            return false
+        }
     }
 
     companion object {

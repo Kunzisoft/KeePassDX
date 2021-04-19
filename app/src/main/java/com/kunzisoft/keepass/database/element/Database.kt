@@ -537,25 +537,28 @@ class Database {
                                      omitBackup: Boolean,
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-                searchQuery, SearchParameters(), omitBackup, max)
+                SearchParameters().apply {
+                    searchString = searchQuery
+                }, omitBackup, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
                                          omitBackup: Boolean,
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-                searchInfoString, SearchParameters().apply {
-            searchInTitles = true
-            searchInUserNames = false
-            searchInPasswords = false
-            searchInUrls = true
-            searchInNotes = true
-            searchInOTP = false
-            searchInOther = true
-            searchInUUIDs = false
-            searchInTags = false
-            ignoreCase = true
-        }, omitBackup, max)
+                SearchParameters().apply {
+                    searchString = searchInfoString
+                    searchInTitles = true
+                    searchInUserNames = false
+                    searchInPasswords = false
+                    searchInUrls = true
+                    searchInNotes = true
+                    searchInOTP = false
+                    searchInOther = true
+                    searchInUUIDs = false
+                    searchInTags = false
+                    ignoreCase = true
+                }, omitBackup, max)
     }
 
     val attachmentPool: AttachmentPool
