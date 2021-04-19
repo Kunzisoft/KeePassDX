@@ -89,6 +89,41 @@ class SearchHelper {
         return searchFound
     }
 
+    private fun searchInEntry(entry: Entry,
+                              searchParameters: SearchParameters): Boolean {
+        // Search all strings in the KDBX entry
+        if (searchParameters.searchInTitles) {
+            if (checkSearchQuery(entry.title, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInUserNames) {
+            if (checkSearchQuery(entry.username, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInPasswords) {
+            if (checkSearchQuery(entry.password, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInUrls) {
+            if (checkSearchQuery(entry.url, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInNotes) {
+            if (checkSearchQuery(entry.notes, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInOther) {
+            entry.getExtraFields().forEach { field ->
+                if (field.name != OTP_FIELD
+                        || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
+                    if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
+                        return true
+                }
+            }
+        }
+        return false
+    }
+
     companion object {
         const val MAX_SEARCH_ENTRY = 10
 
@@ -135,41 +170,6 @@ class SearchHelper {
                                     .removeDiacriticalMarks(),
                                     searchParameters.ignoreCase)) {
                 return true
-            }
-            return false
-        }
-
-        private fun searchInEntry(entry: Entry,
-                                  searchParameters: SearchParameters): Boolean {
-            // Search all strings in the KDBX entry
-            if (searchParameters.searchInTitles) {
-                if (checkSearchQuery(entry.title, searchParameters))
-                    return true
-            }
-            if (searchParameters.searchInUserNames) {
-                if (checkSearchQuery(entry.username, searchParameters))
-                    return true
-            }
-            if (searchParameters.searchInPasswords) {
-                if (checkSearchQuery(entry.password, searchParameters))
-                    return true
-            }
-            if (searchParameters.searchInUrls) {
-                if (checkSearchQuery(entry.url, searchParameters))
-                    return true
-            }
-            if (searchParameters.searchInNotes) {
-                if (checkSearchQuery(entry.notes, searchParameters))
-                    return true
-            }
-            if (searchParameters.searchInOther) {
-                entry.getExtraFields().forEach { field ->
-                    if (field.name != OTP_FIELD
-                            || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
-                        if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
-                            return true
-                    }
-                }
             }
             return false
         }
