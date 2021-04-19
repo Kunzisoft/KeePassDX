@@ -24,11 +24,9 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.entry.EntryKDB
-import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.StringUtil.removeDiacriticalMarks
@@ -44,7 +42,7 @@ class SearchHelper {
 
         val searchGroup = database.createGroup()
         searchGroup?.isVirtual = true
-        searchGroup?.title = "\"" + searchParameters.searchString + "\""
+        searchGroup?.title = "\"" + searchParameters.searchQuery + "\""
 
         // Search all entries
         incrementEntry = 0
@@ -78,21 +76,14 @@ class SearchHelper {
     private fun entryContainsString(database: Database,
                                     entry: Entry,
                                     searchParameters: SearchParameters): Boolean {
-        val searchQuery = searchParameters.searchString
+        val searchQuery = searchParameters.searchQuery
         // Entry don't contains string if the search string is empty
         if (searchQuery.isEmpty())
             return false
 
-        var searchFound = false
-
         database.startManageEntry(entry)
         // Search all strings in the entry
-        entry.entryKDB?.let { entryKDB ->
-            searchFound = searchInEntry(entryKDB, searchParameters)
-        }
-        entry.entryKDBX?.let { entryKDBX ->
-            searchFound = searchInEntry(entryKDBX,  searchParameters)
-        }
+        val searchFound = searchInEntry(entry, searchParameters)
         database.stopManageEntry(entry)
 
         return searchFound
@@ -136,11 +127,11 @@ class SearchHelper {
             }
         }
 
-        private fun checkString(stringToCheck: String, searchParameters: SearchParameters): Boolean {
+        fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
             if (stringToCheck.isNotEmpty()
                     && stringToCheck
                             .removeDiacriticalMarks()
-                            .contains(searchParameters.searchString
+                            .contains(searchParameters.searchQuery
                                     .removeDiacriticalMarks(),
                                     searchParameters.ignoreCase)) {
                 return true
@@ -148,56 +139,39 @@ class SearchHelper {
             return false
         }
 
-        fun searchInEntry(entryKDB: EntryKDB,
-                          searchParameters: SearchParameters): Boolean {
+        private fun searchInEntry(entry: Entry,
+                                  searchParameters: SearchParameters): Boolean {
             // Search all strings in the KDBX entry
-            when {
-                searchParameters.searchInTitles -> {
-                    if (checkString(entryKDB.title, searchParameters))
-                        return true
-                }
-                searchParameters.searchInUrls -> {
-                    if (checkString(entryKDB.url, searchParameters))
-                        return true
-                }
-                searchParameters.searchInUserNames -> {
-                    if (checkString(entryKDB.username, searchParameters))
-                        return true
-                }
-                searchParameters.searchInNotes -> {
-                    if (checkString(entryKDB.notes, searchParameters))
-                        return true
-                }
+            if (searchParameters.searchInTitles) {
+                if (checkSearchQuery(entry.title, searchParameters))
+                    return true
             }
-            return false
-        }
-
-        fun searchInEntry(entryKDBX: EntryKDBX,
-                          searchParameters: SearchParameters): Boolean {
-            var searchFound = false
-            // Search all strings in the KDBX entry
-            EntryFieldsLoop@ for((key, value) in entryKDBX.fields) {
-                if (entryKDBXKeyIsAllowedToSearch(key, searchParameters)) {
-                    val currentString = value.toString()
-                    if (checkString(currentString, searchParameters)) {
-                        searchFound = true
-                        break@EntryFieldsLoop
+            if (searchParameters.searchInUserNames) {
+                if (checkSearchQuery(entry.username, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInPasswords) {
+                if (checkSearchQuery(entry.password, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInUrls) {
+                if (checkSearchQuery(entry.url, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInNotes) {
+                if (checkSearchQuery(entry.notes, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInOther) {
+                entry.getExtraFields().forEach { field ->
+                    if (field.name != OTP_FIELD
+                            || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
+                        if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
+                            return true
                     }
                 }
             }
-            return searchFound
-        }
-
-        private fun entryKDBXKeyIsAllowedToSearch(key: String, searchParameters: SearchParameters): Boolean {
-            return when (key) {
-                EntryKDBX.STR_TITLE -> searchParameters.searchInTitles
-                EntryKDBX.STR_USERNAME -> searchParameters.searchInUserNames
-                EntryKDBX.STR_PASSWORD -> searchParameters.searchInPasswords
-                EntryKDBX.STR_URL -> searchParameters.searchInUrls
-                EntryKDBX.STR_NOTES -> searchParameters.searchInNotes
-                OtpEntryFields.OTP_FIELD -> searchParameters.searchInOTP
-                else -> searchParameters.searchInOther
-            }
+            return false
         }
     }
 }

@@ -538,7 +538,7 @@ class Database {
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
                 SearchParameters().apply {
-                    searchString = searchQuery
+                    this.searchQuery = searchQuery
                 }, omitBackup, max)
     }
 
@@ -547,7 +547,7 @@ class Database {
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
                 SearchParameters().apply {
-                    searchString = searchInfoString
+                    searchQuery = searchInfoString
                     searchInTitles = true
                     searchInUserNames = false
                     searchInPasswords = false

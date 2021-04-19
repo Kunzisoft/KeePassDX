@@ -125,7 +125,7 @@ class FieldReferencesEngine {
         val searchParameters = SearchParameters()
         searchParameters.setupNone()
 
-        searchParameters.searchString = ref.substring(4)
+        searchParameters.searchQuery = ref.substring(4)
         when (scan) {
             'T' -> searchParameters.searchInTitles = true
             'U' -> searchParameters.searchInUserNames = true
@@ -170,7 +170,9 @@ class FieldReferencesEngine {
         return newText
     }
 
-    private fun searchEntries(contextKDBX: SprContextKDBX, searchParameters: SearchParameters?, listStorage: MutableList<EntryKDBX>?) {
+    private fun searchEntries(contextKDBX: SprContextKDBX,
+                              searchParameters: SearchParameters?,
+                              listStorage: MutableList<EntryKDBX>?) {
 
         val root = contextKDBX.databaseKDBX?.rootGroup
         if (searchParameters == null) {
@@ -180,9 +182,9 @@ class FieldReferencesEngine {
             return
         }
 
-        val terms = splitStringTerms(searchParameters.searchString)
+        val terms = splitStringTerms(searchParameters.searchQuery)
         if (terms.size <= 1 || searchParameters.regularExpression) {
-            root!!.doForEachChild(EntryKDBXSearchHandler(contextKDBX, searchParameters, listStorage), null)
+            root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
             return
         }
 
@@ -190,20 +192,20 @@ class FieldReferencesEngine {
         val stringLengthComparator = Comparator<String> { lhs, rhs -> lhs.length - rhs.length }
         Collections.sort(terms, stringLengthComparator)
 
-        val fullSearch = searchParameters.searchString
+        val fullSearch = searchParameters.searchQuery
         var childEntries: List<EntryKDBX>? = root!!.getChildEntries()
         for (i in terms.indices) {
             val pgNew = ArrayList<EntryKDBX>()
 
-            searchParameters.searchString = terms[i]
+            searchParameters.searchQuery = terms[i]
 
             var negate = false
-            if (searchParameters.searchString.startsWith("-")) {
-                searchParameters.searchString = searchParameters.searchString.substring(1)
-                negate = searchParameters.searchString.isNotEmpty()
+            if (searchParameters.searchQuery.startsWith("-")) {
+                searchParameters.searchQuery = searchParameters.searchQuery.substring(1)
+                negate = searchParameters.searchQuery.isNotEmpty()
             }
 
-            if (!root.doForEachChild(EntryKDBXSearchHandler(contextKDBX, searchParameters, pgNew), null)) {
+            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParameters, pgNew), null)) {
                 childEntries = null
                 break
             }
@@ -224,7 +226,7 @@ class FieldReferencesEngine {
         if (childEntries != null) {
             listStorage.addAll(childEntries)
         }
-        searchParameters.searchString = fullSearch
+        searchParameters.searchQuery = fullSearch
     }
 
     /**
@@ -282,41 +284,54 @@ class FieldReferencesEngine {
         }
     }
 
-    private class EntryKDBXSearchHandler(private val contextKDBX: SprContextKDBX,
-                                         private val mSearchParametersKDBX: SearchParameters,
+    private class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters,
                                          private val mListStorage: MutableList<EntryKDBX>)
         : NodeHandler<EntryKDBX>() {
 
         override fun operate(node: EntryKDBX): Boolean {
-            contextKDBX.databaseKDBX?.let {
-                node.startToManageFieldReferences(it)
-            }
             if (mSearchParametersKDBX.excludeExpired
                     && node.isCurrentlyExpires) {
-                node.stopToManageFieldReferences()
                 return true
             }
             if (searchStrings(node)) {
                 mListStorage.add(node)
-                node.stopToManageFieldReferences()
                 return true
             }
             if (searchInGroupNames(node)) {
                 mListStorage.add(node)
-                node.stopToManageFieldReferences()
                 return true
             }
             if (searchInUUID(node)) {
                 mListStorage.add(node)
-                node.stopToManageFieldReferences()
                 return true
             }
-            node.stopToManageFieldReferences()
             return true
         }
 
         private fun searchStrings(entry: EntryKDBX): Boolean {
-            return SearchHelper.searchInEntry(entry, mSearchParametersKDBX)
+            var searchFound = false
+            // Search all strings in the KDBX entry
+            EntryFieldsLoop@ for((key, value) in entry.fields) {
+                if (entryKDBXKeyIsAllowedToSearch(key, mSearchParametersKDBX)) {
+                    val currentString = value.toString()
+                    if (SearchHelper.checkSearchQuery(currentString, mSearchParametersKDBX)) {
+                        searchFound = true
+                        break@EntryFieldsLoop
+                    }
+                }
+            }
+            return searchFound
+        }
+
+        private fun entryKDBXKeyIsAllowedToSearch(key: String, searchParameters: SearchParameters): Boolean {
+            return when (key) {
+                EntryKDBX.STR_TITLE -> searchParameters.searchInTitles
+                EntryKDBX.STR_USERNAME -> searchParameters.searchInUserNames
+                EntryKDBX.STR_PASSWORD -> searchParameters.searchInPasswords
+                EntryKDBX.STR_URL -> searchParameters.searchInUrls
+                EntryKDBX.STR_NOTES -> searchParameters.searchInNotes
+                else -> searchParameters.searchInOther
+            }
         }
 
         private fun searchInGroupNames(entry: EntryKDBX): Boolean {
@@ -324,7 +339,7 @@ class FieldReferencesEngine {
                 val parent = entry.parent
                 if (parent != null) {
                     return parent.title
-                            .contains(mSearchParametersKDBX.searchString,
+                            .contains(mSearchParametersKDBX.searchQuery,
                                     mSearchParametersKDBX.ignoreCase)
                 }
             }
@@ -334,7 +349,7 @@ class FieldReferencesEngine {
         private fun searchInUUID(entry: EntryKDBX): Boolean {
             if (mSearchParametersKDBX.searchInUUIDs) {
                 return UuidUtil.toHexString(entry.id)
-                        .contains(mSearchParametersKDBX.searchString, true)
+                        .contains(mSearchParametersKDBX.searchQuery, true)
             }
             return false
         }

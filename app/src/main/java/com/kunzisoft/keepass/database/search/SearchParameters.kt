@@ -24,7 +24,7 @@ package com.kunzisoft.keepass.database.search
  */
 class SearchParameters {
 
-    var searchString: String = ""
+    var searchQuery: String = ""
 
     var regularExpression = false
     var searchInTitles = true
