@@ -1,1 +1,2 @@
  * Move groups #658
+ * Improve autofill recognition #960

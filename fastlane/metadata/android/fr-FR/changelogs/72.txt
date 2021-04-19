@@ -1,1 +1,2 @@
  * Déplacement de groupes #658
+ * Amélioration de la reconnaissance automatique de formulaire #960

@@ -1,5 +1,6 @@
 KeePassDX(3.0.0)
  * Move groups #658
+ * Improve autofill recognition #960
 
 KeePassDX(2.9.17)
  * Import / Export app properties #839
