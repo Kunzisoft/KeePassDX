@@ -364,16 +364,6 @@ class Database {
             return mDatabaseKDB?.groupNamesNotAllowed ?: ArrayList()
         }
 
-    fun ensureRecycleBinExists(resources: Resources) {
-        mDatabaseKDB?.ensureBackupExists()
-        mDatabaseKDBX?.ensureRecycleBinExists(resources)
-    }
-
-    fun removeRecycleBin() {
-        // Don't allow remove backup in KDB
-        mDatabaseKDBX?.removeRecycleBin()
-    }
-
     private fun setDatabaseKDB(databaseKDB: DatabaseKDB) {
         this.mDatabaseKDB = databaseKDB
         this.mDatabaseKDBX = null
@@ -891,6 +881,16 @@ class Database {
         group.groupKDBX?.let {
             mDatabaseKDBX?.undoDeleteGroupFrom(it, parent.groupKDBX)
         }
+    }
+
+    fun ensureRecycleBinExists(resources: Resources) {
+        mDatabaseKDB?.ensureBackupExists()
+        mDatabaseKDBX?.ensureRecycleBinExists(resources)
+    }
+
+    fun removeRecycleBin() {
+        // Don't allow remove backup in KDB
+        mDatabaseKDBX?.removeRecycleBin()
     }
 
     fun canRecycle(entry: Entry): Boolean {

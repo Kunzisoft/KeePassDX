@@ -839,35 +839,48 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
+    private fun eachNodeRecyclable(nodes: List<Node>): Boolean {
+        mDatabase?.let { database ->
+            return nodes.find { node ->
+                var cannotRecycle = true
+                if (node is Entry) {
+                    cannotRecycle = !database.canRecycle(node)
+                } else if (node is Group) {
+                    cannotRecycle = !database.canRecycle(node)
+                }
+                cannotRecycle
+            } == null
+        }
+        return false
+    }
+
     private fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false): Boolean {
-        val database = mDatabase
+        mDatabase?.let { database ->
 
-        // If recycle bin enabled, ensure it exists
-        if (database != null && database.isRecycleBinEnabled) {
-            database.ensureRecycleBinExists(resources)
-        }
-
-        // If recycle bin enabled and not in recycle bin, move in recycle bin
-        if (database != null
-                && database.isRecycleBinEnabled
-                && database.recycleBin != mCurrentGroup) {
-
-            mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
-                    nodes,
-                    !mReadOnly && mAutoSaveEnable
-            )
-        }
-        // else open the dialog to confirm deletion
-        else {
-            val deleteNodesDialogFragment: DeleteNodesDialogFragment =
-            if (recycleBin) {
-                EmptyRecycleBinDialogFragment.getInstance(nodes)
-            } else {
-                DeleteNodesDialogFragment.getInstance(nodes)
+            // If recycle bin enabled, ensure it exists
+            if (database.isRecycleBinEnabled) {
+                database.ensureRecycleBinExists(resources)
             }
-            deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+
+            // If recycle bin enabled and not in recycle bin, move in recycle bin
+            if (eachNodeRecyclable(nodes)) {
+                mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
+                        nodes,
+                        !mReadOnly && mAutoSaveEnable
+                )
+            }
+            // else open the dialog to confirm deletion
+            else {
+                val deleteNodesDialogFragment: DeleteNodesDialogFragment =
+                        if (recycleBin) {
+                            EmptyRecycleBinDialogFragment.getInstance(nodes)
+                        } else {
+                            DeleteNodesDialogFragment.getInstance(nodes)
+                        }
+                deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+            }
+            finishNodeAction()
         }
-        finishNodeAction()
         return true
     }
 

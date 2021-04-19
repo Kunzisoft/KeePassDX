@@ -614,6 +614,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             return false
         if (recycleBin == null)
             return false
+        if (node is GroupKDBX
+                && recycleBin!!.isContainedIn(node))
+            return false
         if (!node.isContainedIn(recycleBin!!))
             return true
         return false
