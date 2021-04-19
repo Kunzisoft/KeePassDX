@@ -275,7 +275,6 @@
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>
-    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
     <string name="menu_copy">Copier</string>
     <string name="menu_move">Déplacer</string>
     <string name="menu_paste">Coller</string>

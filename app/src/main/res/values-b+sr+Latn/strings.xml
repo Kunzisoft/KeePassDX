@@ -85,7 +85,6 @@
     <string name="error_copy_group_here">Ovde ne možete kopirati grupu.</string>
     <string name="error_copy_entry_here">Ovde ne možete kopirati unos.</string>
     <string name="error_move_entry_here">Ovde ne možete premestiti unos.</string>
-    <string name="error_move_folder_in_itself">Ne možete premestiti grupu u samu sebe.</string>
     <string name="error_autofill_enable_service">Nije moguće omogućiti uslugu automatskog popunjavanja.</string>
     <string name="error_wrong_length">Unesite pozitivan ceo broj u polje \"Dužina\".</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>

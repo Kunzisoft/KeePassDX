@@ -168,7 +168,6 @@
     <string name="allow">Разрешить</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
     <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
-    <string name="error_move_folder_in_itself">Нельзя переместить группу в саму себя.</string>
     <string name="list_entries_show_username_title">Показывать имя</string>
     <string name="list_entries_show_username_summary">Показывать имя пользователя в списке записей</string>
     <string name="menu_copy">Копировать</string>

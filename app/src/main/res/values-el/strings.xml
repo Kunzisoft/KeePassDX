@@ -251,7 +251,6 @@
     <string name="style_choose_summary">Θέμα που χρησιμοποιείται στην εφαρμογή</string>
     <string name="icon_pack_choose_title">Πακέτο Εικονιδίων</string>
     <string name="icon_pack_choose_summary">Πακέτο εικονιδίων που χρησιμοποιείται στην εφαρμογή</string>
-    <string name="error_move_folder_in_itself">Δεν μπορείτε να μετακινήσετε μια ομάδα μέσα στον εαυτό της.</string>
     <string name="menu_copy">Αντιγραφή</string>
     <string name="menu_move">Μετακίνηση</string>
     <string name="menu_paste">Επικόλληση</string>

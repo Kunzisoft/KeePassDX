@@ -123,7 +123,7 @@ class MoveEntryDatabaseException: LoadDatabaseException {
 
 class MoveGroupDatabaseException: LoadDatabaseException {
     @StringRes
-    override var errorId: Int = R.string.error_move_folder_in_itself
+    override var errorId: Int = R.string.error_move_group_here
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }

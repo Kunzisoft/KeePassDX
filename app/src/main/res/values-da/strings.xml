@@ -145,7 +145,6 @@
     <string name="error_load_database">Databasen kunne ikke indlæses.</string>
     <string name="error_load_database_KDF_memory">Kunne ikke indlæse nøglen. Prøv at reducere KDF \"hukommelsesforbrug\".</string>
     <string name="error_autofill_enable_service">Kunne ikke aktivere autofyld tjenesten.</string>
-    <string name="error_move_folder_in_itself">Kan ikke flytte en gruppe til sig selv.</string>
     <string name="file_not_found_content">Kunne ikke finde filen. Prøv at åbne den fra filhåndtering.</string>
     <string name="list_entries_show_username_title">Vis brugernavne</string>
     <string name="list_entries_show_username_summary">Vis brugernavne i postlister</string>

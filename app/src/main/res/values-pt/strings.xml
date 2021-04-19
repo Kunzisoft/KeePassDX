@@ -13,7 +13,6 @@
     <string name="menu_paste">Colar</string>
     <string name="menu_move">Mover</string>
     <string name="menu_copy">Copiar</string>
-    <string name="error_move_folder_in_itself">Não pode mover um grupo para si mesmo.</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado na app</string>

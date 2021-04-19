@@ -128,7 +128,6 @@
     <string name="error_create_database_file">ഈ പാസ്‌വേഡും കീഫയലും ഉപയോഗിച്ച് ഡാറ്റാബേസ് സൃഷ്ടിക്കാൻ കഴിയില്ല.</string>
     <string name="error_copy_group_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു ഗ്രൂപ്പ് പകർത്താൻ കഴിയില്ല.</string>
     <string name="error_copy_entry_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു എൻ‌ട്രി പകർ‌ത്താൻ‌ കഴിയില്ല.</string>
-    <string name="error_move_folder_in_itself">നിങ്ങൾക്ക് ഒരു ഗ്രൂപ്പിനെ അതിലേക്ക് നീക്കാൻ കഴിയില്ല.</string>
     <string name="error_label_exists">ഈ ലേബൽ ഇതിനകം നിലവിലുണ്ട്.</string>
     <string name="error_string_key">ഓരോ സ്ട്രിംഗിനും ഒരു ഫീൽഡ് നാമം ഉണ്ടായിരിക്കണം.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>

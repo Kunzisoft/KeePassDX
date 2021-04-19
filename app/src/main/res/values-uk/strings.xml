@@ -217,7 +217,6 @@
     <string name="error_copy_group_here">Ви не можете копіювати групу сюди.</string>
     <string name="error_copy_entry_here">Ви не можете копіювати записи сюди.</string>
     <string name="error_move_entry_here">Ви не можете перемістити запис сюди.</string>
-    <string name="error_move_folder_in_itself">Ви не можете перемістити групу в себе саму.</string>
     <string name="error_autofill_enable_service">Не вдалось ввімкнути службу автозаповнення.</string>
     <string name="error_label_exists">Ця мітка вже існує.</string>
     <string name="error_string_key">Кожен рядок повинен мати назву поля.</string>

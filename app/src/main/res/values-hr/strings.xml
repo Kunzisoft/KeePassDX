@@ -242,7 +242,6 @@
     <string name="error_disallow_no_credentials">Barem jedan skup podataka za prijavu mora biti postavljen.</string>
     <string name="error_string_key">Svaki niz mora imati ime polja.</string>
     <string name="error_autofill_enable_service">Nije moguće aktivirati uslugu automatskog ispunjavanja.</string>
-    <string name="error_move_folder_in_itself">Nije moguće premjestiti grupu u samu sebe.</string>
     <string name="error_move_entry_here">Unos se ne može ovdje premijestiti.</string>
     <string name="error_copy_entry_here">Unos se ne može ovdje kopirati.</string>
     <string name="error_copy_group_here">Grupa se ne može ovjde kopirati.</string>

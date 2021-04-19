@@ -308,7 +308,6 @@
     <string name="error_copy_group_here">Et voi kopioida ryhmää tänne.</string>
     <string name="error_copy_entry_here">Et voi kopioida tietuetta tänne.</string>
     <string name="error_move_entry_here">Et voi siirtää tietuetta tänne.</string>
-    <string name="error_move_folder_in_itself">Et voi siirtää ryhmää itsensä sisälle.</string>
     <string name="error_autofill_enable_service">Automaattista täyttöä ei voitu ottaa käyttöön.</string>
     <string name="content_description_node_children">Solmun lapset</string>
 </resources>

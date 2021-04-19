@@ -140,7 +140,6 @@
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
     <string name="error_string_key">Każdy ciąg musi mieć nazwę pola.</string>
     <string name="error_autofill_enable_service">Nie można włączyć usługi autouzupełniania.</string>
-    <string name="error_move_folder_in_itself">Nie można przenieść grupy do samej siebie.</string>
     <string name="field_name">Nazwa pola</string>
     <string name="field_value">Wartość pola</string>
     <string name="file_not_found_content">Nie znaleziono pliku. Spróbuj ponownie otworzyć go w przeglądarce plików.</string>

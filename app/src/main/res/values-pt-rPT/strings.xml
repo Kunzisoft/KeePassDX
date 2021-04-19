@@ -148,7 +148,6 @@
     <string name="allow">Permitir</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
     <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente descarregar o \"Uso de Memória\" do KDF.</string>
-    <string name="error_move_folder_in_itself">Não pode mover um grupo para si mesmo.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de utilizador</string>
     <string name="copy_field">Cópia de %1$s</string>
     <string name="menu_form_filling_settings">Preenchimento de formulário</string>

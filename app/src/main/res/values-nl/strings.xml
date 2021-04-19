@@ -143,7 +143,6 @@
     <string name="error_load_database_KDF_memory">De sleutel kan niet worden geladen. Probeer om het \"geheugengebruik\" van KDF te verminderen.</string>
     <string name="error_string_key">Elke zin moet een veldnaam bevatten.</string>
     <string name="error_autofill_enable_service">De dienst automatisch aanvullen kan niet worden ingeschakeld.</string>
-    <string name="error_move_folder_in_itself">Een groep kan niet naar zichzelf worden verplaatst.</string>
     <string name="field_name">Veldnaam</string>
     <string name="field_value">Veldwaarde</string>
     <string name="file_not_found_content">Bestand niet gevonden. Probeer opnieuw te openen via bestandsbeheer.</string>

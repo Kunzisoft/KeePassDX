@@ -111,7 +111,6 @@
     <string name="error_string_key">Fiecare șir trebuie să aibă un nume de câmp.</string>
     <string name="error_wrong_length">Introduceți un număr întreg pozitiv în câmpul \"Lungime\".</string>
     <string name="error_autofill_enable_service">Nu s-a putut activa serviciul de completare automată.</string>
-    <string name="error_move_folder_in_itself">Nu puteți muta un grup în sine.</string>
     <string name="error_move_entry_here">Nu puteți muta o intrare aici.</string>
     <string name="error_copy_entry_here">Nu puteți copia o intrare aici.</string>
     <string name="error_copy_group_here">Nu puteți copia un grup aici.</string>

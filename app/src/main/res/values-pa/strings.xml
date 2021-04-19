@@ -244,7 +244,6 @@
     <string name="error_create_database">ਡਾਟਾਬੇਸ ਫਾਈਲ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ।</string>
     <string name="error_copy_group_here">ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>
     <string name="error_copy_entry_here">ਤੁਸੀੰ ਇਸ ਐੰਟਰੀ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>
-    <string name="error_move_folder_in_itself">ਤੁਸੀੰ ਗਰੁੱਪ ਨੂੰ ਖੁਦ ਵਿੱਚ ਨਹੀਂ ਭੇਜ ਸਕਦੇ ਹੋ।</string>
     <string name="list_password_generator_options_title">ਪਾਸਵਰਡ ਅੱਖਰ</string>
     <string name="password_size_summary">ਤਿਆਰ ਕੀਤੇ ਪਾਸਵਰਡਾਂ ਲਈ ਮੂਲ ਆਕਾਰ ਸੈੱਟ ਕਰਦਾ ਹੈ</string>
     <string name="password_size_title">ਤਿਆਰ ਕੀਤੇ ਪਾਸਵਰਡ ਦਾ ਆਕਾਰ</string>
