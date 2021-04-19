@@ -178,19 +178,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * Retrieve backup group with his name
      */
     private fun retrieveBackup(): GroupKDB? {
-        var backupGroup: GroupKDB? = null
-        val groupHandler = object: NodeHandler<GroupKDB>() {
-            override fun operate(node: GroupKDB): Boolean {
-                return if (node.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
-                    backupGroup = node
-                    false
-                } else {
-                    true
-                }
-            }
+        return rootGroup?.searchChildGroup {
+            it.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)
         }
-        rootGroup?.doForEachChild(null, groupHandler)
-        return backupGroup
     }
 
     /**

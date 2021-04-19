@@ -62,8 +62,27 @@ interface GroupVersionedInterface<Group: GroupVersionedInterface<Group, Entry>, 
                     return false
             }
             if (doActionForChild)
-                group.doForEachChild(entryHandler, groupHandler)
+                group.doForEachChild(entryHandler, groupHandler, stopIterationWhenGroupHandlerOperateFalse)
         }
         return true
+    }
+
+    fun searchChildGroup(criteria: (group: Group) -> Boolean): Group? {
+        return searchChildGroup(this, criteria)
+    }
+
+    private fun searchChildGroup(rootGroup: GroupVersionedInterface<Group, Entry>,
+                                 criteria: (group: Group) -> Boolean): Group? {
+        for (childGroup in rootGroup.getChildGroups()) {
+            if (criteria.invoke(childGroup)) {
+                return childGroup
+            } else {
+                val subGroup = searchChildGroup(childGroup, criteria)
+                if (subGroup != null) {
+                    return subGroup
+                }
+            }
+        }
+        return null
     }
 }
