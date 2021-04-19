@@ -1,2 +1,3 @@
  * Move groups #658
  * Improve autofill recognition #960
+ * Remove diacritical marks in search string #945

@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.StringUtil.removeDiacriticalMarks
 
 class SearchHelper {
 
@@ -134,7 +135,9 @@ class SearchHelper {
             while (it.hasNext()) {
                 val currentString = it.next()
                 if (currentString.isNotEmpty()
-                        && currentString.contains(searchQuery, true)) {
+                        && currentString
+                                .removeDiacriticalMarks()
+                                .contains(searchQuery.removeDiacriticalMarks(), true)) {
                         return true
                 }
             }

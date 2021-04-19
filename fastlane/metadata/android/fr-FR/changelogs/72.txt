@@ -1,2 +1,3 @@
  * Déplacement de groupes #658
  * Amélioration de la reconnaissance automatique de formulaire #960
+ * Suppression des marques diacritiques dans les chaînes de recherche #945
