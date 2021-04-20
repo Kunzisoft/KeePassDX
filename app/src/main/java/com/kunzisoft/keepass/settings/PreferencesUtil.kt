@@ -147,8 +147,10 @@ object PreferencesUtil {
 
     fun setStyle(context: Context, styleString: String) {
         var tempThemeString = styleString
-        if (tempThemeString in BuildConfig.STYLES_DISABLED) {
-            tempThemeString = Stylish.defaultStyle(context)
+        if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context)) {
+            if (tempThemeString in BuildConfig.STYLES_DISABLED) {
+                tempThemeString = Stylish.defaultStyle(context)
+            }
         }
         // Store light style to show selection in array list
         tempThemeString = Stylish.retrieveEquivalentLightStyle(context, tempThemeString)
