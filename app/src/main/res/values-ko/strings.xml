@@ -78,7 +78,6 @@
     <string name="error_string_key">각 항목은 필드 이름을 가져야 합니다.</string>
     <string name="error_wrong_length">\"길이\" 필드에는 양수를 입력하십시오.</string>
     <string name="error_autofill_enable_service">자동 채우기 서비스를 활성화할 수 없습니다.</string>
-    <string name="error_move_folder_in_itself">그룹을 자신에게 옮길 수 없습니다.</string>
     <string name="field_name">필드 이름</string>
     <string name="field_value">필드 값</string>
     <string name="file_not_found_content">파일을 찾을 수 없습니다. 파일 탐색기에서 열리는지 확인해 주세요.</string>

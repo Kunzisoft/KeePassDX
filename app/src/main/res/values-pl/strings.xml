@@ -24,7 +24,7 @@
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
     <string name="encryption_algorithm">Algorytm szyfrowania</string>
-    <string name="app_timeout">Limit czasu aplikacji</string>
+    <string name="app_timeout">Koniec czasu</string>
     <string name="app_timeout_summary">Czas bezczynności przed zablokowaniem bazy danych</string>
     <string name="application">Aplikacja</string>
     <string name="menu_app_settings">Ustawienia aplikacji</string>
@@ -140,7 +140,6 @@
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
     <string name="error_string_key">Każdy ciąg musi mieć nazwę pola.</string>
     <string name="error_autofill_enable_service">Nie można włączyć usługi autouzupełniania.</string>
-    <string name="error_move_folder_in_itself">Nie można przenieść grupy do samej siebie.</string>
     <string name="field_name">Nazwa pola</string>
     <string name="field_value">Wartość pola</string>
     <string name="file_not_found_content">Nie znaleziono pliku. Spróbuj ponownie otworzyć go w przeglądarce plików.</string>
@@ -550,4 +549,15 @@
     <string name="content_description_otp_information">Informacje o hasłach jednorazowych</string>
     <string name="error_remove_file">Wystąpił błąd podczas usuwania danych z pliku.</string>
     <string name="error_duplicate_file">Dane pliku już istnieją.</string>
+    <string name="properties">Właściwości</string>
+    <string name="error_export_app_properties">Błąd podczas eksportowania właściwości aplikacji</string>
+    <string name="success_export_app_properties">Wyeksportowano właściwości aplikacji</string>
+    <string name="error_import_app_properties">Błąd podczas importowania właściwości aplikacji</string>
+    <string name="success_import_app_properties">Zaimportowano właściwości aplikacji</string>
+    <string name="description_app_properties">Właściwości KeePassDX do zarządzania ustawieniami aplikacji</string>
+    <string name="export_app_properties_summary">Utwórz plik, aby wyeksportować właściwości aplikacji</string>
+    <string name="export_app_properties_title">Eksportuj właściwości aplikacji</string>
+    <string name="import_app_properties_summary">Wybierz plik, aby zaimportować właściwości aplikacji</string>
+    <string name="import_app_properties_title">Importuj właściwości aplikacji</string>
+    <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
 </resources>

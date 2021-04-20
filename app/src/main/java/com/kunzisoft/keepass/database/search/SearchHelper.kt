@@ -24,14 +24,105 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDB
-import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.StringUtil.removeDiacriticalMarks
 
 class SearchHelper {
+
+    private var incrementEntry = 0
+
+    fun createVirtualGroupWithSearchResult(database: Database,
+                                           searchParameters: SearchParameters,
+                                           omitBackup: Boolean,
+                                           max: Int): Group? {
+
+        val searchGroup = database.createGroup()
+        searchGroup?.isVirtual = true
+        searchGroup?.title = "\"" + searchParameters.searchQuery + "\""
+
+        // Search all entries
+        incrementEntry = 0
+        database.rootGroup?.doForEachChild(
+                object : NodeHandler<Entry>() {
+                    override fun operate(node: Entry): Boolean {
+                        if (incrementEntry >= max)
+                            return false
+                        if (entryContainsString(database, node, searchParameters)) {
+                            searchGroup?.addChildEntry(node)
+                            incrementEntry++
+                        }
+                        // Stop searching when we have max entries
+                        return incrementEntry < max
+                    }
+                },
+                object : NodeHandler<Group>() {
+                    override fun operate(node: Group): Boolean {
+                        return when {
+                            incrementEntry >= max -> false
+                            database.isGroupSearchable(node, omitBackup) -> true
+                            else -> false
+                        }
+                    }
+                },
+                false)
+
+        return searchGroup
+    }
+
+    private fun entryContainsString(database: Database,
+                                    entry: Entry,
+                                    searchParameters: SearchParameters): Boolean {
+        val searchQuery = searchParameters.searchQuery
+        // Entry don't contains string if the search string is empty
+        if (searchQuery.isEmpty())
+            return false
+
+        database.startManageEntry(entry)
+        // Search all strings in the entry
+        val searchFound = searchInEntry(entry, searchParameters)
+        database.stopManageEntry(entry)
+
+        return searchFound
+    }
+
+    private fun searchInEntry(entry: Entry,
+                              searchParameters: SearchParameters): Boolean {
+        // Search all strings in the KDBX entry
+        if (searchParameters.searchInTitles) {
+            if (checkSearchQuery(entry.title, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInUserNames) {
+            if (checkSearchQuery(entry.username, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInPasswords) {
+            if (checkSearchQuery(entry.password, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInUrls) {
+            if (checkSearchQuery(entry.url, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInNotes) {
+            if (checkSearchQuery(entry.notes, searchParameters))
+                return true
+        }
+        if (searchParameters.searchInOther) {
+            entry.getExtraFields().forEach { field ->
+                if (field.name != OTP_FIELD
+                        || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
+                    if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
+                        return true
+                }
+            }
+        }
+        return false
+    }
 
     companion object {
         const val MAX_SEARCH_ENTRY = 10
@@ -70,75 +161,17 @@ class SearchHelper {
                 onDatabaseClosed.invoke()
             }
         }
-    }
 
-    private var incrementEntry = 0
-
-    fun createVirtualGroupWithSearchResult(database: Database,
-                                           searchQuery: String,
-                                           searchParameters: SearchParameters,
-                                           omitBackup: Boolean,
-                                           max: Int): Group? {
-
-        val searchGroup = database.createGroup()
-        searchGroup?.isVirtual = true
-        searchGroup?.title = "\"" + searchQuery + "\""
-
-        // Search all entries
-        incrementEntry = 0
-        database.rootGroup?.doForEachChild(
-                object : NodeHandler<Entry>() {
-                    override fun operate(node: Entry): Boolean {
-                        if (incrementEntry >= max)
-                            return false
-                        if (entryContainsString(node, searchQuery, searchParameters)) {
-                            searchGroup?.addChildEntry(node)
-                            incrementEntry++
-                        }
-                        // Stop searching when we have max entries
-                        return incrementEntry < max
-                    }
-                },
-                object : NodeHandler<Group>() {
-                    override fun operate(node: Group): Boolean {
-                        return when {
-                            incrementEntry >= max -> false
-                            database.isGroupSearchable(node, omitBackup) -> true
-                            else -> false
-                        }
-                    }
-                },
-                false)
-
-        return searchGroup
-    }
-
-    private fun entryContainsString(entry: Entry,
-                                    searchQuery: String,
-                                    searchParameters: SearchParameters): Boolean {
-
-        // Entry don't contains string if the search string is empty
-        if (searchQuery.isEmpty())
-            return false
-
-        // Search all strings in the entry
-        var iterator: Iterator<String>? = null
-        entry.entryKDB?.let {
-            iterator = EntrySearchStringIteratorKDB(it, searchParameters)
-        }
-        entry.entryKDBX?.let {
-            iterator = EntrySearchStringIteratorKDBX(it, searchParameters)
-        }
-
-        iterator?.let {
-            while (it.hasNext()) {
-                val currentString = it.next()
-                if (currentString.isNotEmpty()
-                        && currentString.contains(searchQuery, true)) {
-                        return true
-                }
+        fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
+            if (stringToCheck.isNotEmpty()
+                    && stringToCheck
+                            .removeDiacriticalMarks()
+                            .contains(searchParameters.searchQuery
+                                    .removeDiacriticalMarks(),
+                                    searchParameters.ignoreCase)) {
+                return true
             }
+            return false
         }
-        return false
     }
 }

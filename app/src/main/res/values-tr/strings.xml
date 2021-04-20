@@ -27,7 +27,7 @@
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
-    <string name="app_timeout">Uygulama zaman aşımı</string>
+    <string name="app_timeout">Zaman aşımı</string>
     <string name="app_timeout_summary">Veri tabanını kilitlemeden önceki boşta kalma süresi</string>
     <string name="application">Uygulama</string>
     <string name="brackets">Parantez</string>
@@ -78,7 +78,6 @@
     <string name="error_string_key">Her dizginin bir alan adı olmalıdır.</string>
     <string name="error_wrong_length">\"Uzunluk\" alanına pozitif bir tam sayı girin.</string>
     <string name="error_autofill_enable_service">Otomatik doldurma hizmeti etkinleştirilemedi.</string>
-    <string name="error_move_folder_in_itself">Bir grubu kendine taşıyamazsın.</string>
     <string name="field_name">Alan adı</string>
     <string name="field_value">Alan değeri</string>
     <string name="file_not_found_content">Dosya bulunamadı. Dosya tarayıcınızda yeniden açmayı deneyin.</string>
@@ -545,4 +544,15 @@
     <string name="content_description_otp_information">Tek seferlik parola bilgileri</string>
     <string name="error_remove_file">Dosya verilerini kaldırırken bir hata oluştu.</string>
     <string name="error_duplicate_file">Dosya verileri zaten var.</string>
+    <string name="properties">Özellikler</string>
+    <string name="error_export_app_properties">Uygulama özelliklerini dışa aktarma sırasında hata oluştu</string>
+    <string name="error_import_app_properties">Uygulama özelliklerini içe aktarma sırasında hata oluştu</string>
+    <string name="success_export_app_properties">Uygulama özellikleri dışa aktarıldı</string>
+    <string name="success_import_app_properties">Uygulama özellikleri içe aktarıldı</string>
+    <string name="description_app_properties">Uygulama ayarlarını yönetmek için KeePassDX özellikleri</string>
+    <string name="export_app_properties_summary">Uygulama özelliklerini dışa aktarmak için bir dosya oluşturun</string>
+    <string name="export_app_properties_title">Uygulama özelliklerini dışa aktar</string>
+    <string name="import_app_properties_summary">Uygulama özelliklerini içe aktarmak için bir dosya seçin</string>
+    <string name="import_app_properties_title">Uygulama özelliklerini içe aktar</string>
+    <string name="error_start_database_action">Veri tabanında bir eylem gerçekleştirilirken bir hata oluştu.</string>
 </resources>

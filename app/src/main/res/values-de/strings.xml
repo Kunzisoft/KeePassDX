@@ -30,7 +30,7 @@
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
     <string name="encryption_algorithm">Verschlüsselungsalgorithmus</string>
-    <string name="app_timeout">App-Timeout</string>
+    <string name="app_timeout">Zeitüberschreitung</string>
     <string name="app_timeout_summary">Inaktivitätszeit vor dem Sperren der Datenbank</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-Einstellungen</string>
@@ -67,7 +67,7 @@
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/Arcfour-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
-    <string name="error_file_not_create">Konnte Datei nicht erstellen</string>
+    <string name="error_file_not_create">Datei konnte nicht erstellt werden</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
@@ -186,7 +186,7 @@
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet.</string>
     <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
-    <string name="memory_usage_explanation">Größe des Speichers der für die Schlüsselableitung genutzt wird.</string>
+    <string name="memory_usage_explanation">Größe des Speichers, der für die Schlüsselableitung genutzt wird.</string>
     <string name="parallelism">Parallelismus</string>
     <string name="parallelism_explanation">Grad des Parallelismus (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
@@ -268,7 +268,6 @@
     <string name="contribute">Unterstützen</string>
     <string name="icon_pack_choose_title">Symbolpaket</string>
     <string name="icon_pack_choose_summary">In der App verwendetes Symbolpaket</string>
-    <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
     <string name="menu_paste">Einfügen</string>
@@ -373,7 +372,7 @@
     <string name="entry_otp">OTP</string>
     <string name="error_invalid_OTP">Ungültiges OTP-Geheimnis.</string>
     <string name="error_disallow_no_credentials">Mindestens eine Anmeldeinformation muss festgelegt sein.</string>
-    <string name="error_copy_group_here">Eine Gruppe kann nicht hierher kopiert werden.</string>
+    <string name="error_copy_group_here">Hierher kann keine Gruppe kopiert werden.</string>
     <string name="error_otp_secret_key">Geheimschlüssel muss im Base32-Format vorliegen.</string>
     <string name="error_otp_counter">Zähler muss zwischen %1$d und %2$d eingestellt sein.</string>
     <string name="error_otp_period">Zeitraum muss zwischen %1$d und %2$d Sekunden liegen.</string>
@@ -459,7 +458,7 @@
     <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
     <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_application_id_blocklist_title">Liste gesperrter Anwendungen</string>
-    <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
+    <string name="subdomain_search_summary">Web-Domains mit Subdomain-Beschränkungen durchsuchen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
     <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
     <string name="content_description_add_item">Element hinzufügen</string>
@@ -476,7 +475,7 @@
     <string name="warning_empty_keyfile">Es wird nicht empfohlen, eine leere Schlüsseldatei hinzuzufügen.</string>
     <string name="warning_empty_keyfile_explanation">Der Inhalt der Key-Datei sollte nie geändert werden und im besten Fall zufällig generierte Daten enthalten.</string>
     <string name="warning_sure_remove_data">Sollen diese Daten trotzdem entfernt werden\?</string>
-    <string name="warning_remove_unlinked_attachment">Das Entfernen ungekoppelter Daten könnte die Größe Ihrer Datenbank reduzieren, jedoch auch Daten, die von KeePass-Plugins genutzt werden, entfernen.</string>
+    <string name="warning_remove_unlinked_attachment">Das Entfernen nicht verknüpfter Daten kann die Größe Ihrer Datenbank reduzieren, allerdings auch Daten löschen, die von KeePass-Plugins genutzt werden.</string>
     <string name="warning_replace_file">Das Hochladen dieser Datei wird die bereits Existierende ersetzen.</string>
     <string name="warning_file_too_big">Eine KeePass-Datenbank sollte nur kleine Dienstprogrammdateien beinhalten (zum Beispiel PGP-Schlüsseldateien).
 \n
@@ -507,12 +506,12 @@
     <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Warnung: Sie müssen sich immer noch an ihr Masterpasswort erinnern, wenn sie die erweiterte Entsperrerkennung verwenden.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Warnung: Sie müssen sich immer noch an Ihr Masterpasswort erinnern, wenn Sie die erweiterte Entsperrerkennung verwenden.</string>
     <string name="open_advanced_unlock_prompt_store_credential">Öffne den erweiterten Entsperrdialog zum Speichern von Anmeldeinformationen</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Öffnen des erweiterten Entsperrdialogs zum Entsperren der Datenbank</string>
-    <string name="menu_keystore_remove_key">Löschen des Schlüssels zum erweiterten Entsperren</string>
+    <string name="menu_keystore_remove_key">Schlüssel für modernes Entsperren löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Erweiterte Entsperrerkennung</string>
-    <string name="education_advanced_unlock_summary">Ihr Passwort verbinden mit Ihrem gescannten biometrischen oder berechtigen Gerät um schnell Ihre Datenbank zu entsperren.</string>
+    <string name="education_advanced_unlock_summary">Verknüpfen Sie Ihr Passwort mit Ihren gescannten Biometriedaten oder Daten zur Geräteanmeldung, um schnell Ihre Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Erweiterte Entsperrung der Datenbank</string>
     <string name="advanced_unlock_timeout">Verfallzeit der erweiterten Entsperrung</string>
     <string name="temp_advanced_unlock_timeout_summary">Dauer der erweiterten Entsperrung bevor sein Inhalt gelöscht wird</string>
@@ -520,7 +519,7 @@
     <string name="temp_advanced_unlock_enable_summary">Keinen verschlüsselten Inhalt speichern, um erweiterte Entsperrung zu benutzen</string>
     <string name="temp_advanced_unlock_enable_title">Temporäre erweiterte Entsperrung</string>
     <string name="device_credential_unlock_enable_summary">Erlaubt Ihn die Geräteanmeldedaten zum Öffnen der Datenbank zu verwenden</string>
-    <string name="advanced_unlock_tap_delete">Drücken um erweiterte Entsperrschlüssel zu löschen</string>
+    <string name="advanced_unlock_tap_delete">Drücken, um erweiterte Entsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Öffne Datenbank mit erweiterter Entsperrerkennung</string>
     <string name="enter">Eingabetaste</string>
@@ -531,7 +530,7 @@
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel, die mit der erweiterten Entsperrerkennung zusammenhängen, löschen\?</string>
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
-    <string name="credential_before_click_advanced_unlock_button">Geben sie das Passwort ein, und dann klicken sie den \"Erweitertes Entsperren\" Knopf.</string>
+    <string name="credential_before_click_advanced_unlock_button">Geben Sie das Passwort ein und klicken Sie dann auf diesen Knopf.</string>
     <string name="advanced_unlock_prompt_not_initialized">Initialisieren des erweitertes Entsperren Dialogs fehlgeschlagen.</string>
     <string name="advanced_unlock_scanning_error">Erweitertes Entsperren Fehler: %1$s</string>
     <string name="advanced_unlock_not_recognized">Konnte den Abdruck des erweiterten Entsperrens nicht erkennen</string>
@@ -540,4 +539,14 @@
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Datenbank neu laden</string>
+    <string name="warning_database_info_changed_options">Überschreiben Sie die externen Änderungen, indem Sie die Datenbank speichern, oder laden Sie sie mit den neuesten Änderungen neu.</string>
+    <string name="error_file_to_big">Die Datei, die hochgeladen werden soll, ist zu groß.</string>
+    <string name="warning_database_info_changed">Die in Ihrer Datenbank enthaltenen Informationen wurden außerhalb der App geändert.</string>
+    <string name="error_remove_file">Beim Löschen der Datei trat ein Fehler auf.</string>
+    <string name="error_duplicate_file">Die Datei gibt es bereits.</string>
+    <string name="error_upload_file">Beim Hochladen der Datei trat ein Fehler auf.</string>
+    <string name="import_app_properties_title">Importieren von Anwendungeneigenschaften</string>
+    <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
+    <string name="error_otp_type">Der vorhandene Einmalpassworttyp wird von diesem Formular nicht erkannt, seine Validierung erzeugt das Token möglicherweise nicht mehr korrekt.</string>
+    <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
 </resources>

@@ -1,0 +1,5 @@
+ * Move groups #658
+ * Improve autofill recognition #960
+ * Remove diacritical marks in search string #945
+ * Fix search in references #962
+ * Fix themes in Libre version

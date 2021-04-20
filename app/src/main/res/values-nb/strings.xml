@@ -78,7 +78,6 @@
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
     <string name="error_wrong_length">Skriv inn et positivt heltall i \"Lengde\" feltet.</string>
     <string name="error_autofill_enable_service">Autofyll-tjenesten kan ikke skrus på.</string>
-    <string name="error_move_folder_in_itself">Kan ikke flytte gruppe inn i seg selv.</string>
     <string name="field_name">Feltnavn</string>
     <string name="field_value">Feltverdi</string>
     <string name="file_not_found_content">Fant ikke filen. Prøv å åpne den fra din innholdsleverandør.</string>

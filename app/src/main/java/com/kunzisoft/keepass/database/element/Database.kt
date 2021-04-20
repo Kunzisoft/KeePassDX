@@ -23,7 +23,6 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -55,6 +54,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -359,15 +359,10 @@ class Database {
             return null
         }
 
-    fun ensureRecycleBinExists(resources: Resources) {
-        mDatabaseKDB?.ensureBackupExists()
-        mDatabaseKDBX?.ensureRecycleBinExists(resources)
-    }
-
-    fun removeRecycleBin() {
-        // Don't allow remove backup in KDB
-        mDatabaseKDBX?.removeRecycleBin()
-    }
+    val groupNamesNotAllowed: List<String>
+        get() {
+            return mDatabaseKDB?.groupNamesNotAllowed ?: ArrayList()
+        }
 
     private fun setDatabaseKDB(databaseKDB: DatabaseKDB) {
         this.mDatabaseKDB = databaseKDB
@@ -542,25 +537,28 @@ class Database {
                                      omitBackup: Boolean,
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-                searchQuery, SearchParameters(), omitBackup, max)
+                SearchParameters().apply {
+                    this.searchQuery = searchQuery
+                }, omitBackup, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
                                          omitBackup: Boolean,
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-                searchInfoString, SearchParameters().apply {
-            searchInTitles = true
-            searchInUserNames = false
-            searchInPasswords = false
-            searchInUrls = true
-            searchInNotes = true
-            searchInOTP = false
-            searchInOther = true
-            searchInUUIDs = false
-            searchInTags = false
-            ignoreCase = true
-        }, omitBackup, max)
+                SearchParameters().apply {
+                    searchQuery = searchInfoString
+                    searchInTitles = true
+                    searchInUserNames = false
+                    searchInPasswords = false
+                    searchInUrls = true
+                    searchInNotes = true
+                    searchInOTP = false
+                    searchInOther = true
+                    searchInUUIDs = false
+                    searchInTags = false
+                    ignoreCase = true
+                }, omitBackup, max)
     }
 
     val attachmentPool: AttachmentPool
@@ -790,11 +788,11 @@ class Database {
     }
 
     fun addGroupTo(group: Group, parent: Group) {
-        group.groupKDB?.let { entryKDB ->
-            mDatabaseKDB?.addGroupTo(entryKDB, parent.groupKDB)
+        group.groupKDB?.let { groupKDB ->
+            mDatabaseKDB?.addGroupTo(groupKDB, parent.groupKDB)
         }
-        group.groupKDBX?.let { entryKDBX ->
-            mDatabaseKDBX?.addGroupTo(entryKDBX, parent.groupKDBX)
+        group.groupKDBX?.let { groupKDBX ->
+            mDatabaseKDBX?.addGroupTo(groupKDBX, parent.groupKDBX)
         }
         group.afterAssignNewParent()
     }
@@ -809,11 +807,11 @@ class Database {
     }
 
     fun removeGroupFrom(group: Group, parent: Group) {
-        group.groupKDB?.let { entryKDB ->
-            mDatabaseKDB?.removeGroupFrom(entryKDB, parent.groupKDB)
+        group.groupKDB?.let { groupKDB ->
+            mDatabaseKDB?.removeGroupFrom(groupKDB, parent.groupKDB)
         }
-        group.groupKDBX?.let { entryKDBX ->
-            mDatabaseKDBX?.removeGroupFrom(entryKDBX, parent.groupKDBX)
+        group.groupKDBX?.let { groupKDBX ->
+            mDatabaseKDBX?.removeGroupFrom(groupKDBX, parent.groupKDBX)
         }
         group.afterAssignNewParent()
     }
@@ -886,6 +884,16 @@ class Database {
         group.groupKDBX?.let {
             mDatabaseKDBX?.undoDeleteGroupFrom(it, parent.groupKDBX)
         }
+    }
+
+    fun ensureRecycleBinExists(resources: Resources) {
+        mDatabaseKDB?.ensureBackupExists()
+        mDatabaseKDBX?.ensureRecycleBinExists(resources)
+    }
+
+    fun removeRecycleBin() {
+        // Don't allow remove backup in KDB
+        mDatabaseKDBX?.removeRecycleBin()
     }
 
     fun canRecycle(entry: Entry): Boolean {

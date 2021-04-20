@@ -270,7 +270,6 @@
     <string name="style_choose_summary">Tema som används i appen</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>
     <string name="icon_pack_choose_summary">Ikonpaket som används i appen</string>
-    <string name="error_move_folder_in_itself">Du kan inte lägga en grupp i sig själv.</string>
     <string name="menu_copy">Kopia</string>
     <string name="menu_move">Flytta</string>
     <string name="menu_paste">Klistra in</string>

@@ -63,6 +63,17 @@ abstract class GroupVersioned
         get() = titleGroup
         set(value) { titleGroup = value }
 
+    /**
+     *  To determine the level from the root group (root group level is -1)
+     */
+    fun getLevel(): Int {
+        var level = -1
+        parent?.let { parent ->
+            level = parent.getLevel() + 1
+        }
+        return level
+    }
+
     override fun getChildGroups(): List<Group> {
         return childGroups
     }

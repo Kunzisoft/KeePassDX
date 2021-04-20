@@ -31,14 +31,12 @@ import java.util.*
 
 class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface {
 
-    var level = 0 // short
     // Used by KeePass internally, don't use
     var groupFlags = 0
 
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        level = parcel.readInt()
         groupFlags = parcel.readInt()
     }
 
@@ -52,13 +50,11 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeInt(level)
         dest.writeInt(groupFlags)
     }
 
     fun updateWith(source: GroupKDB) {
         super.updateWith(source)
-        level = source.level
         groupFlags = source.groupFlags
     }
 
@@ -73,14 +69,11 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         return NodeIdInt(nodeId.id)
     }
 
-    override fun afterAssignNewParent() {
-        if (parent != null)
-            level = parent!!.level + 1
-    }
-
     fun setGroupId(groupId: Int) {
         this.nodeId = NodeIdInt(groupId)
     }
+
+    override fun afterAssignNewParent() {}
 
     companion object {
 

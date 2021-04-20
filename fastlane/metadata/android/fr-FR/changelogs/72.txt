@@ -1,0 +1,5 @@
+ * Déplacement de groupes #658
+ * Amélioration de la reconnaissance automatique de formulaire #960
+ * Suppression des marques diacritiques dans les chaînes de recherche #945
+ * Correction de la recherche dans les références #962
+ * Correction des thèmes dans la version Libre

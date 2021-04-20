@@ -288,6 +288,5 @@
     <string name="error_string_type">Aquest text no coincideix amb l\'element sol·licitat.</string>
     <string name="error_otp_type">L\'OTP existent no està reconegut per aquest formulari, la seva validació ja no pot generar correctament el token.</string>
     <string name="error_create_database_file">No s\'ha pogut crear una base de dades amb aquesta contrasenya i arxiu de clau.</string>
-    <string name="error_move_folder_in_itself">No pots moure un grup dintre d\'ell mateix.</string>
     <string name="error_autofill_enable_service">No s\'ha pogut habilitar el servei d\'autocompletat.</string>
 </resources>

@@ -40,6 +40,7 @@ import java.security.MessageDigest
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
+import kotlin.collections.HashMap
 
 
 /**
@@ -154,11 +155,10 @@ class DatabaseInputKDB(cacheDirectory: File,
 
             // New manual root because KDB contains multiple root groups (here available with getRootGroups())
             val newRoot = mDatabase.createGroup()
-            newRoot.level = -1
             mDatabase.rootGroup = newRoot
-            mDatabase.addGroupIndex(newRoot)
 
             // Import all nodes
+            val groupLevelList = HashMap<GroupKDB, Int>()
             var newGroup: GroupKDB? = null
             var newEntry: EntryKDB? = null
             var currentGroupNumber = 0
@@ -248,7 +248,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0008 -> {
                         newGroup?.let { group ->
-                            group.level = cipherInputStream.readBytes2ToUShort()
+                            groupLevelList.put(group, cipherInputStream.readBytes2ToUShort())
                         } ?:
                         newEntry?.let { entry ->
                             entry.notes = cipherInputStream.readBytesToString(fieldSize)
@@ -318,7 +318,7 @@ class DatabaseInputKDB(cacheDirectory: File,
             if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
                 throw InvalidCredentialsDatabaseException()
             }
-            constructTreeFromIndex()
+            constructTreeFromIndex(groupLevelList)
 
             stopContentTimer()
 
@@ -339,34 +339,40 @@ class DatabaseInputKDB(cacheDirectory: File,
         return mDatabase
     }
 
-    private fun buildTreeGroups(previousGroup: GroupKDB, currentGroup: GroupKDB, groupIterator: Iterator<GroupKDB>) {
+    private fun buildTreeGroups(groupLevelList: HashMap<GroupKDB, Int>,
+                                previousGroup: GroupKDB,
+                                currentGroup: GroupKDB,
+                                groupIterator: Iterator<GroupKDB>) {
 
-        if (currentGroup.parent == null && (previousGroup.level + 1) == currentGroup.level) {
+        val previousGroupLevel = groupLevelList[previousGroup] ?: -1
+        val currentGroupLevel = groupLevelList[currentGroup] ?: -1
+
+        if (currentGroup.parent == null && (previousGroupLevel + 1) == currentGroupLevel) {
             // Current group has an increment level compare to the previous, current group is a child
             previousGroup.addChildGroup(currentGroup)
             currentGroup.parent = previousGroup
-        } else if (previousGroup.parent != null && previousGroup.level == currentGroup.level) {
+        } else if (previousGroup.parent != null && previousGroupLevel == currentGroupLevel) {
             // In the same level, previous parent is the same as previous group
             previousGroup.parent!!.addChildGroup(currentGroup)
             currentGroup.parent = previousGroup.parent
         } else if (previousGroup.parent != null) {
             // Previous group has a higher level than the current group, check it's parent
-            buildTreeGroups(previousGroup.parent!!, currentGroup, groupIterator)
+            buildTreeGroups(groupLevelList, previousGroup.parent!!, currentGroup, groupIterator)
         }
 
         // Next current group
         if (groupIterator.hasNext()){
-            buildTreeGroups(currentGroup, groupIterator.next(), groupIterator)
+            buildTreeGroups(groupLevelList, currentGroup, groupIterator.next(), groupIterator)
         }
     }
 
-    private fun constructTreeFromIndex() {
-        mDatabase.rootGroup?.let {
+    private fun constructTreeFromIndex(groupLevelList: HashMap<GroupKDB, Int>) {
+        mDatabase.rootGroup?.let { root ->
 
             // add each group
             val groupIterator = mDatabase.getGroupIndexes().iterator()
             if (groupIterator.hasNext())
-                buildTreeGroups(it, groupIterator.next(), groupIterator)
+                buildTreeGroups(groupLevelList, root, groupIterator.next(), groupIterator)
 
             // add each child
             for (currentEntry in mDatabase.getEntryIndexes()) {

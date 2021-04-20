@@ -19,13 +19,9 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.dateTo5Bytes
-import com.kunzisoft.keepass.utils.uIntTo4Bytes
-import com.kunzisoft.keepass.utils.uShortTo2Bytes
-import com.kunzisoft.keepass.utils.writeStringToStream
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.utils.*
 import java.io.IOException
 import java.io.OutputStream
 
@@ -77,7 +73,7 @@ class GroupOutputKDB(private val mGroup: GroupKDB,
             // Level
             mOutputStream.write(LEVEL_FIELD_TYPE)
             mOutputStream.write(LEVEL_FIELD_SIZE)
-            mOutputStream.write(uShortTo2Bytes(mGroup.level))
+            mOutputStream.write(uShortTo2Bytes(mGroup.getLevel()))
 
             // Flags
             mOutputStream.write(FLAGS_FIELD_TYPE)

@@ -812,74 +812,75 @@ class GroupActivity : LockingActivity(),
 
     override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
                                   nodes: List<Node>): Boolean {
-        // Move or copy only if allowed (in root if allowed)
-        if (mCurrentGroup != mDatabase?.rootGroup
-                || mDatabase?.rootCanContainsEntry() == true) {
-
-            when (pasteMode) {
-                ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
-                    // Copy
-                    mCurrentGroup?.let { newParent ->
-                        mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
-                                nodes,
-                                newParent,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                }
-                ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
-                    // Move
-                    mCurrentGroup?.let { newParent ->
-                        mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
-                                nodes,
-                                newParent,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                }
-                else -> {
+        when (pasteMode) {
+            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                // Copy
+                mCurrentGroup?.let { newParent ->
+                    mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly && mAutoSaveEnable
+                    )
                 }
             }
-        } else {
-            coordinatorLayout?.let { coordinatorLayout ->
-                Snackbar.make(coordinatorLayout,
-                        R.string.error_copy_entry_here,
-                        Snackbar.LENGTH_LONG).asError().show()
+            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                // Move
+                mCurrentGroup?.let { newParent ->
+                    mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly && mAutoSaveEnable
+                    )
+                }
             }
+            else -> {}
         }
         finishNodeAction()
         return true
     }
 
+    private fun eachNodeRecyclable(nodes: List<Node>): Boolean {
+        mDatabase?.let { database ->
+            return nodes.find { node ->
+                var cannotRecycle = true
+                if (node is Entry) {
+                    cannotRecycle = !database.canRecycle(node)
+                } else if (node is Group) {
+                    cannotRecycle = !database.canRecycle(node)
+                }
+                cannotRecycle
+            } == null
+        }
+        return false
+    }
+
     private fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false): Boolean {
-        val database = mDatabase
+        mDatabase?.let { database ->
 
-        // If recycle bin enabled, ensure it exists
-        if (database != null && database.isRecycleBinEnabled) {
-            database.ensureRecycleBinExists(resources)
-        }
-
-        // If recycle bin enabled and not in recycle bin, move in recycle bin
-        if (database != null
-                && database.isRecycleBinEnabled
-                && database.recycleBin != mCurrentGroup) {
-
-            mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
-                    nodes,
-                    !mReadOnly && mAutoSaveEnable
-            )
-        }
-        // else open the dialog to confirm deletion
-        else {
-            val deleteNodesDialogFragment: DeleteNodesDialogFragment =
-            if (recycleBin) {
-                EmptyRecycleBinDialogFragment.getInstance(nodes)
-            } else {
-                DeleteNodesDialogFragment.getInstance(nodes)
+            // If recycle bin enabled, ensure it exists
+            if (database.isRecycleBinEnabled) {
+                database.ensureRecycleBinExists(resources)
             }
-            deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+
+            // If recycle bin enabled and not in recycle bin, move in recycle bin
+            if (eachNodeRecyclable(nodes)) {
+                mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
+                        nodes,
+                        !mReadOnly && mAutoSaveEnable
+                )
+            }
+            // else open the dialog to confirm deletion
+            else {
+                val deleteNodesDialogFragment: DeleteNodesDialogFragment =
+                        if (recycleBin) {
+                            EmptyRecycleBinDialogFragment.getInstance(nodes)
+                        } else {
+                            DeleteNodesDialogFragment.getInstance(nodes)
+                        }
+                deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+            }
+            finishNodeAction()
         }
-        finishNodeAction()
         return true
     }
 
@@ -1074,6 +1075,16 @@ class GroupActivity : LockingActivity(),
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun isValidGroupName(name: String): GroupEditDialogFragment.Error {
+        if (name.isEmpty()) {
+            return GroupEditDialogFragment.Error(true, R.string.error_no_name)
+        }
+        if (mDatabase?.groupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null) {
+            return GroupEditDialogFragment.Error(true, R.string.error_word_reserved)
+        }
+        return GroupEditDialogFragment.Error(false, null)
     }
 
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,

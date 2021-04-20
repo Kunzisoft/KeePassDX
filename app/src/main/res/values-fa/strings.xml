@@ -141,7 +141,6 @@
     <string name="error_copy_group_here">شما نمی توانید یک گروه را در اینجا کپی کنید.</string>
     <string name="error_copy_entry_here">شما نمی توانید یک ورودی را در اینجا کپی کنید.</string>
     <string name="error_move_entry_here">شما نمی توانید یک ورودی را به اینجا منتقل کنید.</string>
-    <string name="error_move_folder_in_itself">شما نمی توانید یک گروه را به خود منتقل کنید.</string>
     <string name="error_autofill_enable_service">قادر به فعال کردن سرویس پر کردن خودکار نبود.</string>
     <string name="error_wrong_length">یک عدد کامل مثبت را در زمینه \"طول\" وارد کنید.</string>
     <string name="error_label_exists">این برچسب در حال حاضر وجود دارد.</string>

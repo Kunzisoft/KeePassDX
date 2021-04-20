@@ -138,7 +138,6 @@
     <string name="entry_not_found">Não pôde encontrar dado de entrada.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
-    <string name="error_move_folder_in_itself">Você não pode mover um grupo para dentro de si mesmo.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
     <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu buscador de arquivos.</string>
@@ -237,7 +236,7 @@
     <string name="education_create_database_title">Crie um arquivo de banco de dados</string>
     <string name="education_create_database_summary">Crie seu primeiro arquivo de gerenciamento de senhas.</string>
     <string name="education_select_database_title">Abra um banco de dados existente</string>
-    <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de arquivos.</string>
+    <string name="education_select_database_summary">Abra seu arquivo de banco de dados existente a partir do navegador de arquivos.</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
     <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais. 
 \n 

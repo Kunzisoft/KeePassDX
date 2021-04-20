@@ -224,8 +224,21 @@ class StructureParser(private val structure: AssistStructure) {
                         Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
+                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {
+                        // Some forms used visible password as username
+                        if (usernameCandidate == null && usernameValueCandidate == null) {
+                            usernameCandidate = autofillId
+                            usernameValueCandidate = node.autofillValue
+                            Log.d(TAG, "Autofill visible password android text type (as username): ${showHexInputType(inputType)}")
+                        } else if (result?.passwordId == null && result?.passwordValue == null) {
+                            result?.passwordId = autofillId
+                            result?.passwordValue = node.autofillValue
+                            Log.d(TAG, "Autofill visible password android text type (as password): ${showHexInputType(inputType)}")
+                            usernameNeeded = false
+                        }
+                    }
+                    inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_PASSWORD,
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD,
                             InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD) -> {
                         result?.passwordId = autofillId
                         result?.passwordValue = node.autofillValue

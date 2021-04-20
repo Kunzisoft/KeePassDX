@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
         targetSdkVersion 30
-        versionCode = 71
-        versionName = "2.9.17"
+        versionCode = 72
+        versionName = "2.9.18"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -109,7 +109,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
     implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'androidx.biometric:biometric:1.1.0-rc01'
+    implementation 'androidx.biometric:biometric:1.1.0'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:1.3.2"
     implementation 'androidx.fragment:fragment-ktx:1.2.5'

@@ -38,8 +38,6 @@ import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
-    private var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
-
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
     override val version: String
@@ -55,13 +53,14 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return getGroupById(NodeIdInt(groupId))
     }
 
-    // Retrieve backup group in index
     val backupGroup: GroupKDB?
         get() {
-            return if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
-                null
-            else
-                getGroupById(backupGroupId)
+            return retrieveBackup()
+        }
+
+    val groupNamesNotAllowed: List<String>
+        get() {
+            return listOf(BACKUP_FOLDER_TITLE)
         }
 
     override val kdfEngine: KdfEngine
@@ -80,12 +79,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     val rootGroups: List<GroupKDB>
         get() {
-            val kids = ArrayList<GroupKDB>()
-            doForEachGroupInIndex { group ->
-                if (group.level == 0)
-                    kids.add(group)
-            }
-            return kids
+            return rootGroup?.getChildGroups() ?: ArrayList()
         }
 
     override val passwordEncoding: String
@@ -169,21 +163,14 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     override fun isInRecycleBin(group: GroupKDB): Boolean {
         var currentGroup: GroupKDB? = group
+        val currentBackupGroup = backupGroup ?: return false
 
-        // Init backup group variable
-        if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID)
-            findBackupGroupId()
-
-        if (backupGroup == null)
-            return false
-
-        if (currentGroup == backupGroup)
+        if (currentGroup == currentBackupGroup)
             return true
 
+        val backupGroupId = currentBackupGroup.id
         while (currentGroup != null) {
-            if (currentGroup.level == 0
-                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
-                backupGroupId = currentGroup.id
+            if (backupGroupId == currentGroup.id) {
                 return true
             }
             currentGroup = currentGroup.parent
@@ -191,12 +178,12 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return false
     }
 
-    private fun findBackupGroupId() {
-        rootGroups.forEach { currentGroup ->
-            if (currentGroup.level == 0
-                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
-                backupGroupId = currentGroup.id
-            }
+    /**
+     * Retrieve backup group with his name
+     */
+    private fun retrieveBackup(): GroupKDB? {
+        return rootGroup?.searchChildGroup {
+            it.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)
         }
     }
 
@@ -205,8 +192,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * if it doesn't exist
      */
     fun ensureBackupExists() {
-        findBackupGroupId()
-
         if (backupGroup == null) {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
@@ -214,7 +199,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
                 icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
             }
             addGroupTo(recycleBinGroup, rootGroup)
-            backupGroupId = recycleBinGroup.id
         }
     }
 
@@ -268,6 +252,5 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         val TYPE = DatabaseKDB::class.java
 
         const val BACKUP_FOLDER_TITLE = "Backup"
-        private const val BACKUP_FOLDER_UNDEFINED_ID = -1
     }
 }

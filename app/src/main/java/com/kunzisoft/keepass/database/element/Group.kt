@@ -368,14 +368,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDB?.nodeId = id
     }
 
-    fun getLevel(): Int {
-        return groupKDB?.level ?: -1
-    }
-
-    fun setLevel(level: Int) {
-        groupKDB?.level = level
-    }
-
     /*
       ------------
       KDBX Methods
