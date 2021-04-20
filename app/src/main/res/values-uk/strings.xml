@@ -560,4 +560,6 @@
     <string name="import_app_properties_summary">Виберіть файл для імпорту властивостей застосунку</string>
     <string name="import_app_properties_title">Імпорт властивостей застосунку</string>
     <string name="error_start_database_action">Під час виконання дії з базою даних сталася помилка.</string>
+    <string name="error_move_group_here">Ви не можете перемістити групу сюди.</string>
+    <string name="error_word_reserved">Це слово зарезервоване, його не можна використовувати.</string>
 </resources>
