@@ -18,7 +18,7 @@
  - コードはネイティブ言語（Kotlin / Java / JNI / C）で書かれています
 
 <b>Pro 機能</b>
- - カスタムテーマへのアクセス（classic deep black テーマ を含む）
+ - カスタムテーマへのアクセス
  - Steam 独自の TOTP の作成
  - 寄付ボタンの削除
 
