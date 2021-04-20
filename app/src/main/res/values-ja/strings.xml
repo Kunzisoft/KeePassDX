@@ -242,7 +242,7 @@
     <string name="sort_title">タイトル</string>
     <string name="sort_username">ユーザー名</string>
     <string name="sort_creation_time">作成日</string>
-    <string name="sort_last_modify_time">変更日</string>
+    <string name="sort_last_modify_time">変更日時</string>
     <string name="sort_last_access_time">最終アクセス</string>
     <string name="special">特殊文字</string>
     <string name="search">検索</string>
@@ -451,7 +451,7 @@
     <string name="education_donation_title">参加</string>
     <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加することを支援します。</string>
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
-    <string name="html_text_buy_pro">pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
+    <string name="html_text_buy_pro">Pro バージョンを購入すると、この<strong>ビジュアル スタイル</strong>にアクセスできるようになり、また<strong>コミュニティ プロジェクトの実現</strong>を特に支援できます。</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
     <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
@@ -541,11 +541,22 @@
     <string name="error_otp_type">既存の OTP の種類がこのフォームでは認識されていないため、フォームの検証によってトークンが正しく生成されなくなる可能性があります。</string>
     <string name="icon_section_custom">カスタム</string>
     <string name="icon_section_standard">標準</string>
-    <string name="style_brightness_summary">ライトテーマとダークテーマのどちらかを選択します</string>
+    <string name="style_brightness_summary">ライト / ダークテーマを選択します</string>
     <string name="style_brightness_title">テーマの明るさ</string>
     <string name="error_remove_file">ファイルデータの削除中にエラーが発生しました。</string>
     <string name="error_duplicate_file">ファイルデータはすでに存在します。</string>
     <string name="error_upload_file">ファイルデータのアップロード中にエラーが発生しました。</string>
     <string name="error_file_to_big">アップロードしようとしているファイルが大きすぎます。</string>
     <string name="content_description_otp_information">ワンタイムパスワードについて</string>
+    <string name="import_app_properties_summary">アプリのプロパティをインポートするファイルを選択します</string>
+    <string name="import_app_properties_title">アプリのプロパティをインポートする</string>
+    <string name="properties">プロパティ</string>
+    <string name="error_export_app_properties">アプリのプロパティのエクスポート時にエラーが発生しました</string>
+    <string name="success_export_app_properties">アプリのプロパティをエクスポートしました</string>
+    <string name="error_import_app_properties">アプリのプロパティのインポート時にエラーが発生しました</string>
+    <string name="success_import_app_properties">アプリのプロパティをインポートしました</string>
+    <string name="description_app_properties">アプリの設定を管理する KeePassDX のプロパティ</string>
+    <string name="export_app_properties_summary">アプリのプロパティをエクスポートするファイルを作成します</string>
+    <string name="export_app_properties_title">アプリのプロパティをエクスポートする</string>
+    <string name="error_start_database_action">データベースに対するアクションの実行中にエラーが発生しました。</string>
 </resources>

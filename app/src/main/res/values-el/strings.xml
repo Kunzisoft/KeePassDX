@@ -24,7 +24,7 @@
     <string name="add_entry">Προσθήκη καταχώρησης</string>
     <string name="add_group">Προσθήκη ομάδας</string>
     <string name="encryption_algorithm">Αλγόριθμος κρυπτογράφησης</string>
-    <string name="app_timeout">Χρονικό όριο εφαρμογής</string>
+    <string name="app_timeout">Χρονικό όριο</string>
     <string name="app_timeout_summary">Χρόνος αδράνειας πριν από το κλείδωμα της βάσης δεδομένων</string>
     <string name="application">Εφαρμογή</string>
     <string name="menu_app_settings">Ρυθμίσεις εφαρμογής</string>
@@ -549,4 +549,15 @@
     <string name="content_description_otp_information">Πληροφορίες One-time κωδικού πρόσβασης</string>
     <string name="error_remove_file">Παρουσιάστηκε σφάλμα κατά την κατάργηση των δεδομένων αρχείου.</string>
     <string name="error_duplicate_file">Τα δεδομένα αρχείου υπάρχουν ήδη.</string>
+    <string name="properties">Ιδιότητες</string>
+    <string name="error_export_app_properties">Σφάλμα κατά την εξαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="success_export_app_properties">Έγινε εξαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="error_import_app_properties">Σφάλμα κατά την εισαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="success_import_app_properties">Έγινε εισαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="description_app_properties">Ιδιότητες KeePassDX για διαχείριση ρυθμίσεων εφαρμογής</string>
+    <string name="export_app_properties_summary">Δημιουργήστε ένα αρχείο για εξαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="export_app_properties_title">Εξαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="import_app_properties_summary">Επιλέξτε ένα αρχείο για εισαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="import_app_properties_title">Εισαγωγή ιδιοτήτων εφαρμογής</string>
+    <string name="error_start_database_action">Παρουσιάστηκε σφάλμα κατά την εκτέλεση μιας ενέργειας στη βάση δεδομένων.</string>
 </resources>

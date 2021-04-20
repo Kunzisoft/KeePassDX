@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+    <string name="compression_gzip">Gzip</string>
+    <string name="other">Башка</string>
+    <string name="text_appearance">Текст</string>
+    <string name="disable">Сүндерү</string>
+    <string name="data">Мәгълүмат</string>
+    <string name="file_name">Файл исеме</string>
+    <string name="database_history">Тарих</string>
+    <string name="version_label">Версия %1$s</string>
+    <string name="search">Эзләү</string>
+    <string name="sort_username">Кулланучы исеме</string>
+    <string name="sort_title">Исем</string>
+    <string name="sort_ascending">Иң түбән беренче ↓</string>
+    <string name="search_label">Эзләү</string>
+    <string name="auto_focus_search_title">Тиз эзләү</string>
+    <string name="never">Беркайчан да</string>
+    <string name="menu_showpass">Серсүзне күрсәтү</string>
+    <string name="menu_search">Эзләү</string>
+    <string name="menu_open">Ачу</string>
+    <string name="menu_hide_password">Серсүзне яшерү</string>
+    <string name="menu_move">Күчү</string>
+    <string name="menu_cancel">Баш тарту</string>
+    <string name="menu_delete">Бетерү</string>
+    <string name="menu_donate">Бүләк итү</string>
+    <string name="menu_app_settings">Кушымта көйләүләре</string>
+    <string name="settings">Көйләүләр</string>
+    <string name="menu_change_key_settings">Мастер ачкычны үзгәртү</string>
+    <string name="about">Турында</string>
+    <string name="hide_password_title">Серсүзләрне яшерү</string>
+    <string name="list_entries_show_username_title">Кулланучы исемнәрен күрсәтү</string>
+    <string name="password">Серсүз</string>
+    <string name="hint_pass">Серсүз</string>
+    <string name="entry_user_name">Кулланучы исеме</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_otp">OTP</string>
+    <string name="otp_algorithm">Алгоритм</string>
+    <string name="entry_title">Исем</string>
+    <string name="save">Саклау</string>
+    <string name="entry_password">Серсүз</string>
+    <string name="entry_history">Тарих</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="entry_cancel">Баш тарту</string>
+    <string name="content_description_update_from_list">Яңарту</string>
+    <string name="application">Кушымта</string>
+</resources>

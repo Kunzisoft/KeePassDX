@@ -26,7 +26,7 @@
     <string name="add_entry">Item toevoegen</string>
     <string name="add_group">Groep toevoegen</string>
     <string name="encryption_algorithm">Algoritme</string>
-    <string name="app_timeout">App-time-out</string>
+    <string name="app_timeout">Time-out</string>
     <string name="app_timeout_summary">Tijd tot vergrendeling bij inactiviteit</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-instellingen</string>
@@ -551,4 +551,15 @@
     <string name="error_upload_file">Er is een fout opgetreden bij het uploaden van de bestandsgegevens.</string>
     <string name="error_file_to_big">Het bestand dat je probeert te uploaden, is te groot.</string>
     <string name="content_description_otp_information">Eenmalig wachtwoord-informatie</string>
+    <string name="properties">Eigenschappen</string>
+    <string name="error_export_app_properties">Fout tijdens het exporteren van app-eigenschappen</string>
+    <string name="success_export_app_properties">App-eigenschappen geëxporteerd</string>
+    <string name="error_import_app_properties">Fout tijdens het importeren van app-eigenschappen</string>
+    <string name="success_import_app_properties">App-eigenschappen geïmporteerd</string>
+    <string name="description_app_properties">KeePassDX-eigenschappen om app-instellingen te beheren</string>
+    <string name="export_app_properties_summary">Maak een bestand om app-eigenschappen te exporteren</string>
+    <string name="export_app_properties_title">App-eigenschappen exporteren</string>
+    <string name="import_app_properties_summary">Selecteer een bestand om app-eigenschappen te importeren</string>
+    <string name="import_app_properties_title">App-eigenschappen importeren</string>
+    <string name="error_start_database_action">Er is een fout opgetreden bij het uitvoeren van een actie op de database.</string>
 </resources>
