@@ -555,4 +555,6 @@
     <string name="import_app_properties_summary">Uygulama özelliklerini içe aktarmak için bir dosya seçin</string>
     <string name="import_app_properties_title">Uygulama özelliklerini içe aktar</string>
     <string name="error_start_database_action">Veri tabanında bir eylem gerçekleştirilirken bir hata oluştu.</string>
+    <string name="error_move_group_here">Bir grubu buraya taşıyamazsınız.</string>
+    <string name="error_word_reserved">Bu sözcük ayrılmıştır ve kullanılamaz.</string>
 </resources>
