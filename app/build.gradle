@@ -12,7 +12,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 30
         versionCode = 72
-        versionName = "3.0.0"
+        versionName = "2.9.18"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"

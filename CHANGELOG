@@ -1,4 +1,4 @@
-KeePassDX(3.0.0)
+KeePassDX(2.9.18)
  * Move groups #658
  * Improve autofill recognition #960
  * Remove diacritical marks in search string #945
