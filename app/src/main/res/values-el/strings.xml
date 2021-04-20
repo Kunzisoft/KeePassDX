@@ -560,4 +560,6 @@
     <string name="import_app_properties_summary">Επιλέξτε ένα αρχείο για εισαγωγή ιδιοτήτων εφαρμογής</string>
     <string name="import_app_properties_title">Εισαγωγή ιδιοτήτων εφαρμογής</string>
     <string name="error_start_database_action">Παρουσιάστηκε σφάλμα κατά την εκτέλεση μιας ενέργειας στη βάση δεδομένων.</string>
+    <string name="error_move_group_here">Δεν μπορείτε να μετακινήσετε μια ομάδα εδώ.</string>
+    <string name="error_word_reserved">Αυτή η λέξη είναι δεσμευμένη και δεν μπορεί να χρησιμοποιηθεί.</string>
 </resources>
