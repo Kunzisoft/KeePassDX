@@ -26,7 +26,7 @@
     <string name="add_entry">Aggiungi elemento</string>
     <string name="add_group">Aggiungi gruppo</string>
     <string name="encryption_algorithm">Algoritmo di cifratura</string>
-    <string name="app_timeout">Scadenza app</string>
+    <string name="app_timeout">Timeout</string>
     <string name="app_timeout_summary">Tempo di inattività prima del blocco del database</string>
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
@@ -534,7 +534,7 @@
     <string name="autofill_inline_suggestions_summary">Mostra i suggerimenti di riempimento campi in una tastiera compatibile</string>
     <string name="autofill_inline_suggestions_title">Suggerimenti in linea</string>
     <string name="warning_database_revoked">L\'accesso al file è stato revocato dal file manager, chiudi il database e riaprilo dalla sua posizione originale.</string>
-    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvano il database o ricaricalo con gli ultimi cambiamenti.</string>
+    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvando il database o ricaricalo con gli ultimi cambiamenti.</string>
     <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
     <string name="menu_reload_database">Ricarica database</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo, la sua convalida potrebbe non generare più correttamente il token.</string>
@@ -552,4 +552,15 @@
     <string name="error_duplicate_file">Il file esiste già.</string>
     <string name="error_upload_file">Si è verificato un errore durante il caricamento del file.</string>
     <string name="error_file_to_big">Il file che stai cercando di caricare è troppo grande.</string>
+    <string name="error_start_database_action">Si è verificato un errore durante l\'esecuzione di una azione sul database.</string>
+    <string name="properties">Proprietà</string>
+    <string name="error_export_app_properties">Errore durante l\'esportazione delle proprietà dell\'app</string>
+    <string name="success_export_app_properties">Proprietà dell\'app esportate</string>
+    <string name="error_import_app_properties">Errore durante l\'importazione delle proprietà dell\'app</string>
+    <string name="success_import_app_properties">Proprietà dell\'app importate</string>
+    <string name="description_app_properties">Proprietà di KeePassDX per gestire le impostazioni dell\'app</string>
+    <string name="export_app_properties_summary">Crea un file in cui esportare le proprietà dell\'app</string>
+    <string name="export_app_properties_title">Esporta le proprietà dell\'app</string>
+    <string name="import_app_properties_summary">Seleziona un file da cui importare le proprietà dell\'app</string>
+    <string name="import_app_properties_title">Importa le proprietà dell\'app</string>
 </resources>
