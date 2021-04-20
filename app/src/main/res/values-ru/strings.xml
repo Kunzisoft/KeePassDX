@@ -560,4 +560,6 @@
     <string name="import_app_properties_summary">Выберите файл для импорта свойств приложения</string>
     <string name="import_app_properties_title">Импортировать свойства приложения</string>
     <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой.</string>
+    <string name="error_move_group_here">Сюда группу переместить невозможно.</string>
+    <string name="error_word_reserved">Это слово зарезервировано и не может быть использовано.</string>
 </resources>
