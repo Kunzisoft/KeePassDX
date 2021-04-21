@@ -562,4 +562,6 @@
     <string name="import_app_properties_summary">Selecteer een bestand om app-eigenschappen te importeren</string>
     <string name="import_app_properties_title">App-eigenschappen importeren</string>
     <string name="error_start_database_action">Er is een fout opgetreden bij het uitvoeren van een actie op de database.</string>
+    <string name="error_move_group_here">Je kunt hier geen groep verplaatsen.</string>
+    <string name="error_word_reserved">Dit woord is gereserveerd en kan niet worden gebruikt.</string>
 </resources>
