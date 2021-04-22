@@ -1,0 +1,1 @@
+ * Fix search slowdown #964

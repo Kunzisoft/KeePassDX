@@ -1,3 +1,6 @@
+KeePassDX(2.9.19)
+ * Fix search slowdown #964
+
 KeePassDX(2.9.18)
  * Move groups #658
  * Improve autofill recognition #960
