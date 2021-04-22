@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.StringUtil.removeDiacriticalMarks
+import com.kunzisoft.keepass.utils.StringUtil.flattenToAscii
 
 class SearchHelper {
 
@@ -165,9 +165,8 @@ class SearchHelper {
         fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
             if (stringToCheck.isNotEmpty()
                     && stringToCheck
-                            .removeDiacriticalMarks()
-                            .contains(searchParameters.searchQuery
-                                    .removeDiacriticalMarks(),
+                            .flattenToAscii()
+                            .contains(searchParameters.searchQuery.flattenToAscii(),
                                     searchParameters.ignoreCase)) {
                 return true
             }
