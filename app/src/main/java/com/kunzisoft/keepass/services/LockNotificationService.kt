@@ -57,8 +57,8 @@ abstract class LockNotificationService : NotificationService() {
     }
 
     override fun onDestroy() {
-
         unregisterLockReceiver(mLockReceiver)
+        mLockReceiver = null
 
         super.onDestroy()
     }
