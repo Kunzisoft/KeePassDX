@@ -295,22 +295,30 @@ object OtpEntryFields {
                 secretHexField != null -> otpElement.setHexSecret(secretHexField)
                 secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field)
                 secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
-                lengthField != null -> otpElement.digits = lengthField.toIntOrNull() ?: OTP_DEFAULT_DIGITS
-                periodField != null -> otpElement.period = periodField.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
-                algorithmField != null -> otpElement.algorithm =
-                    when (algorithmField.toUpperCase(Locale.ENGLISH)) {
-                        TIMEOTP_ALGORITHM_SHA1_VALUE -> HashAlgorithm.SHA1
-                        TIMEOTP_ALGORITHM_SHA256_VALUE -> HashAlgorithm.SHA256
-                        TIMEOTP_ALGORITHM_SHA512_VALUE -> HashAlgorithm.SHA512
-                        else -> HashAlgorithm.SHA1
-                    }
                 else -> return false
+            }
+            otpElement.type = OtpType.TOTP
+            if (lengthField != null) {
+                otpElement.digits = lengthField.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+            }
+            if (lengthField != null) {
+                otpElement.digits = lengthField.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+            }
+            if (periodField != null) {
+                otpElement.period = periodField.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+            }
+            if (algorithmField != null) {
+                otpElement.algorithm =
+                        when (algorithmField.toUpperCase(Locale.ENGLISH)) {
+                            TIMEOTP_ALGORITHM_SHA1_VALUE -> HashAlgorithm.SHA1
+                            TIMEOTP_ALGORITHM_SHA256_VALUE -> HashAlgorithm.SHA256
+                            TIMEOTP_ALGORITHM_SHA512_VALUE -> HashAlgorithm.SHA512
+                            else -> HashAlgorithm.SHA1
+                        }
             }
         } catch (exception: Exception) {
             return false
         }
-
-        otpElement.type = OtpType.TOTP
         return true
     }
 
@@ -321,10 +329,10 @@ object OtpEntryFields {
                 return try {
                     // KeeOtp string format
                     val query = breakDownKeyValuePairs(plainText)
+                    otpElement.type = OtpType.TOTP
                     otpElement.setBase32Secret(query[SEED_KEY] ?: "")
                     otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
                     otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
-                    otpElement.type = OtpType.TOTP
                     true
                 } catch (exception: Exception) {
                     false
@@ -351,6 +359,7 @@ object OtpEntryFields {
                     // malformed
                     return false
                 }
+                otpElement.type = OtpType.TOTP
                 otpElement.period = matcher.group(1)?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
                 matcher.group(2)?.let { secondMatcher ->
                     try {
@@ -365,7 +374,6 @@ object OtpEntryFields {
         } catch (exception: Exception) {
             return false
         }
-        otpElement.type = OtpType.TOTP
         return true
     }
 
@@ -374,6 +382,7 @@ object OtpEntryFields {
         val secretHexField = getField(HMACOTP_SECRET_HEX_FIELD)
         val secretBase32Field = getField(HMACOTP_SECRET_BASE32_FIELD)
         val secretBase64Field = getField(HMACOTP_SECRET_BASE64_FIELD)
+        val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
         try {
             when {
                 secretField != null -> otpElement.setUTF8Secret(secretField)
@@ -382,16 +391,13 @@ object OtpEntryFields {
                 secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
                 else -> return false
             }
-
-            val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
+            otpElement.type = OtpType.HOTP
             if (secretCounterField != null) {
                 otpElement.counter = secretCounterField.toLongOrNull() ?: HOTP_INITIAL_COUNTER
             }
         } catch (exception: Exception) {
             return false
         }
-
-        otpElement.type = OtpType.HOTP
         return true
     }
 
