@@ -1,1 +1,3 @@
  * Fix search slowdown #964
+ * Fix closing notification after lock request #965
+ * Better temp advanced unlocking code implementation #965

@@ -1,5 +1,7 @@
 KeePassDX(2.9.19)
  * Fix search slowdown #964
+ * Fix closing notification after lock request #965
+ * Better temp advanced unlocking code implementation #965
 
 KeePassDX(2.9.18)
  * Move groups #658

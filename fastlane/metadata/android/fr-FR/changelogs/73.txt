@@ -1,1 +1,3 @@
  * Correction du ralentissement de la recherche #964
+ * Correction de la fermeture de notification après une requête de verrouillage #965
+ * Meilleure implémentation du déverrouillage avancé temporaire #965
