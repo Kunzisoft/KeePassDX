@@ -19,10 +19,7 @@
  */
 package com.kunzisoft.keepass.app.database
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.net.Uri
 import android.os.IBinder
 import android.util.Log
@@ -42,66 +39,95 @@ class CipherDatabaseAction(context: Context) {
     // Temp DAO to easily remove content if object no longer in memory
     private var useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
 
-    private val mIntentAdvancedUnlockService = Intent(applicationContext,
-            AdvancedUnlockNotificationService::class.java)
     private var mBinder: AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
 
-    private var mDatabaseListeners = LinkedList<DatabaseListener>()
+    private var mDatabaseListeners = LinkedList<CipherDatabaseListener>()
+    private var mAdvancedUnlockBroadcastReceiver = AdvancedUnlockNotificationService.AdvancedUnlockReceiver {
+        deleteAll()
+        removeAllDataAndDetach()
+    }
 
     fun reloadPreferences() {
         useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
     }
 
     @Synchronized
-    private fun attachService(performedAction: () -> Unit) {
-        // Check if a service is currently running else do nothing
-        if (mBinder != null) {
+    private fun serviceActionTask(startService: Boolean = false, performedAction: () -> Unit) {
+        // Check if a service is currently running else call action without info
+        if (startService && mServiceConnection == null) {
+            attachService(performedAction)
+        } else {
             performedAction.invoke()
-        } else if (mServiceConnection == null) {
-            mServiceConnection = object : ServiceConnection {
-                override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
-                    mBinder = (serviceBinder as AdvancedUnlockNotificationService.AdvancedUnlockBinder)
-                    performedAction.invoke()
-                }
-
-                override fun onServiceDisconnected(name: ComponentName?) {
-                    mBinder = null
-                    mServiceConnection = null
-                    mDatabaseListeners.forEach {
-                        it.onDatabaseCleared()
-                    }
-                }
-            }
-            applicationContext.bindService(mIntentAdvancedUnlockService,
-                    mServiceConnection!!,
-                    Context.BIND_ABOVE_CLIENT)
-            if (mBinder == null) {
-                try {
-                    applicationContext.startService(mIntentAdvancedUnlockService)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to start cipher action", e)
-                }
-            }
         }
     }
 
-    fun registerDatabaseListener(listener: DatabaseListener) {
-        mDatabaseListeners.add(listener)
+    @Synchronized
+    private fun attachService(performedAction: () -> Unit) {
+        applicationContext.registerReceiver(mAdvancedUnlockBroadcastReceiver, IntentFilter().apply {
+            addAction(AdvancedUnlockNotificationService.REMOVE_ADVANCED_UNLOCK_KEY_ACTION)
+        })
+
+        mServiceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
+                mBinder = (serviceBinder as AdvancedUnlockNotificationService.AdvancedUnlockBinder)
+                performedAction.invoke()
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                onClear()
+            }
+        }
+        try {
+            AdvancedUnlockNotificationService.bindService(applicationContext,
+                    mServiceConnection!!,
+                    Context.BIND_AUTO_CREATE)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to start cipher action", e)
+            performedAction.invoke()
+        }
     }
 
-    fun unregisterDatabaseListener(listener: DatabaseListener) {
-        mDatabaseListeners.remove(listener)
+    @Synchronized
+    private fun detachService() {
+        try {
+            applicationContext.unregisterReceiver(mAdvancedUnlockBroadcastReceiver)
+        } catch (e: Exception) {}
+
+        mServiceConnection?.let {
+            AdvancedUnlockNotificationService.unbindService(applicationContext, it)
+        }
     }
 
-    interface DatabaseListener {
-        fun onDatabaseCleared()
+    private fun removeAllDataAndDetach() {
+        detachService()
+        onClear()
+    }
+
+    fun registerDatabaseListener(listenerCipher: CipherDatabaseListener) {
+        mDatabaseListeners.add(listenerCipher)
+    }
+
+    fun unregisterDatabaseListener(listenerCipher: CipherDatabaseListener) {
+        mDatabaseListeners.remove(listenerCipher)
+    }
+
+    private fun onClear() {
+        mBinder = null
+        mServiceConnection = null
+        mDatabaseListeners.forEach {
+            it.onCipherDatabaseCleared()
+        }
+    }
+
+    interface CipherDatabaseListener {
+        fun onCipherDatabaseCleared()
     }
 
     fun getCipherDatabase(databaseUri: Uri,
                           cipherDatabaseResultListener: (CipherDatabaseEntity?) -> Unit) {
         if (useTempDao) {
-            attachService {
+            serviceActionTask {
                 cipherDatabaseResultListener.invoke(mBinder?.getCipherDatabase(databaseUri))
             }
         } else {
@@ -126,7 +152,8 @@ class CipherDatabaseAction(context: Context) {
     fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity,
                                   cipherDatabaseResultListener: (() -> Unit)? = null) {
         if (useTempDao) {
-            attachService {
+            // The only case to create service (not needed to get an info)
+            serviceActionTask(true) {
                 mBinder?.addOrUpdateCipherDatabase(cipherDatabaseEntity)
                 cipherDatabaseResultListener?.invoke()
             }
@@ -151,7 +178,7 @@ class CipherDatabaseAction(context: Context) {
     fun deleteByDatabaseUri(databaseUri: Uri,
                             cipherDatabaseResultListener: (() -> Unit)? = null) {
         if (useTempDao) {
-            attachService {
+            serviceActionTask {
                 mBinder?.deleteByDatabaseUri(databaseUri)
                 cipherDatabaseResultListener?.invoke()
             }
@@ -168,14 +195,19 @@ class CipherDatabaseAction(context: Context) {
     }
 
     fun deleteAll() {
-        attachService {
-            mBinder?.deleteAll()
+        if (useTempDao) {
+            serviceActionTask {
+                mBinder?.deleteAll()
+            }
         }
+        // To erase the residues
         IOActionTask(
                 {
                     cipherDatabaseDao.deleteAll()
                 }
         ).execute()
+        // Unbind
+        removeAllDataAndDetach()
     }
 
     companion object : SingletonHolderParameter<CipherDatabaseAction, Context>(::CipherDatabaseAction) {

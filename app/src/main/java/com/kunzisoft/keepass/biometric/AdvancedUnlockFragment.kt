@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.exception.IODatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
@@ -68,7 +67,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     private lateinit var cipherDatabaseAction : CipherDatabaseAction
 
-    private var cipherDatabaseListener: CipherDatabaseAction.DatabaseListener? = null
+    private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null
 
     // Only to fix multiple fingerprint menu #332
     private var mAllowAdvancedUnlockMenu = false
@@ -402,9 +401,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     fun connect(databaseUri: Uri) {
         showViews(true)
         this.databaseFileUri = databaseUri
-        cipherDatabaseListener = object: CipherDatabaseAction.DatabaseListener {
-            override fun onDatabaseCleared() {
-                deleteEncryptedDatabaseKey()
+        cipherDatabaseListener = object: CipherDatabaseAction.CipherDatabaseListener {
+            override fun onCipherDatabaseCleared() {
+                advancedUnlockManager?.closeBiometricPrompt()
+                checkUnlockAvailability()
             }
         }
         cipherDatabaseAction.apply {
@@ -435,14 +435,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun deleteEncryptedDatabaseKey() {
-        allowOpenBiometricPrompt = false
-        mAdvancedUnlockInfoView?.setIconViewClickListener(false, null)
         advancedUnlockManager?.closeBiometricPrompt()
         databaseFileUri?.let { databaseUri ->
             cipherDatabaseAction.deleteByDatabaseUri(databaseUri) {
                 checkUnlockAvailability()
             }
-        }
+        } ?: checkUnlockAvailability()
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -479,7 +477,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                     mBuilderListener?.retrieveCredentialForEncryption()?.let { credential ->
                         advancedUnlockManager?.encryptData(credential)
                     }
-                    AdvancedUnlockNotificationService.startServiceForTimeout(requireContext())
                 }
                 Mode.EXTRACT_CREDENTIAL -> {
                     // retrieve the encrypted value from preferences

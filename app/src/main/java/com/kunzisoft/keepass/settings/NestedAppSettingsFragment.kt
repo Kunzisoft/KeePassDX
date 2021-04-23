@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
-import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil
@@ -374,7 +373,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                     }
                                 })
                     }
-                    AdvancedUnlockNotificationService.stopService(activity.applicationContext)
                     CipherDatabaseAction.getInstance(activity.applicationContext).deleteAll()
                 }
                 .setNegativeButton(resources.getString(android.R.string.cancel)
