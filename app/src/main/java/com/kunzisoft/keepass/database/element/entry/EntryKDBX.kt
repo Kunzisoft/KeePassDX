@@ -155,7 +155,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     private fun decodeRefKey(decodeRef: Boolean, key: String): String {
         return fields[key]?.toString()?.let { text ->
             return if (decodeRef) {
-                if (mDatabase == null) text else FieldReferencesEngine().compile(text, this, mDatabase!!)
+                mDatabase?.rootGroup?.let { root ->
+                    FieldReferencesEngine(root).compile(text)
+                } ?: text
             } else text
         } ?: ""
     }

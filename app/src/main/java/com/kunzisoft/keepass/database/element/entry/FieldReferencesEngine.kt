@@ -20,40 +20,32 @@
 package com.kunzisoft.keepass.database.element.entry
 
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import java.util.*
 
-class FieldReferencesEngine {
+class FieldReferencesEngine(private val mRoot: GroupKDBX) {
 
-    fun compile(text: String, entry: EntryKDBX, database: DatabaseKDBX): String {
-        return compileInternal(text, SprContextKDBX(database, entry), 0)
+    private var refsCache: MutableMap<String, String> = HashMap()
+
+    fun compile(text: String): String {
+        return compileInternal(text, 0)
     }
 
-    private fun compileInternal(text: String?, sprContextKDBX: SprContextKDBX?, recursionLevel: Int): String {
-        if (text == null) {
-            return ""
-        }
-        if (sprContextKDBX == null) {
-            return ""
-        }
+    private fun compileInternal(text: String, recursionLevel: Int): String {
         return if (recursionLevel >= MAX_RECURSION_DEPTH) {
             ""
-        } else fillRefPlaceholders(text, sprContextKDBX, recursionLevel)
-
+        } else
+            fillRefPlaceholders(text, recursionLevel)
     }
 
-    private fun fillRefPlaceholders(textReference: String, contextKDBX: SprContextKDBX, recursionLevel: Int): String {
+    private fun fillRefPlaceholders(textReference: String, recursionLevel: Int): String {
         var text = textReference
 
-        if (contextKDBX.databaseKDBX == null) {
-            return text
-        }
-
         var offset = 0
-        for (i in 0..19) {
-            text = fillRefsUsingCache(text, contextKDBX)
+        for (i in 0..MAX_RECURSION_DEPTH) {
+            text = fillRefsUsingCache(text)
 
             val start = text.indexOf(STR_REF_START, offset, true)
             if (start < 0) {
@@ -65,7 +57,7 @@ class FieldReferencesEngine {
             }
 
             val fullRef = text.substring(start, end + 1)
-            val result = findRefTarget(fullRef, contextKDBX)
+            val result = findRefTarget(fullRef)
 
             if (result != null) {
                 val found = result.entry
@@ -83,12 +75,11 @@ class FieldReferencesEngine {
                 }
 
                 if (data != null && found != null) {
-                    val subCtx = SprContextKDBX(contextKDBX)
-                    subCtx.entryKDBX = found
-
-                    val innerContent = compileInternal(data, subCtx, recursionLevel + 1)
-                    addRefsToCache(fullRef, innerContent, contextKDBX)
-                    text = fillRefsUsingCache(text, contextKDBX)
+                    val innerContent = compileInternal(data, recursionLevel + 1)
+                    if (!refsCache.containsKey(fullRef)) {
+                        refsCache[fullRef] = innerContent
+                    }
+                    text = fillRefsUsingCache(text)
                 } else {
                     offset = start + 1
                 }
@@ -99,7 +90,7 @@ class FieldReferencesEngine {
         return text
     }
 
-    private fun findRefTarget(fullReference: String?, contextKDBX: SprContextKDBX): TargetResult? {
+    private fun findRefTarget(fullReference: String?): TargetResult? {
         var fullRef: String? = fullReference ?: return null
 
         fullRef = fullRef!!.toUpperCase(Locale.ENGLISH)
@@ -144,58 +135,23 @@ class FieldReferencesEngine {
             else -> return null
         }
 
-        var entrySearch: EntryKDBX? = null
-        contextKDBX.databaseKDBX?.rootGroup?.let { root ->
-            entrySearch = root.searchChildEntry { entry -> SearchHelper.searchInEntry(Entry(entry), searchParameters) }
+        val entrySearch: EntryKDBX? = mRoot.searchChildEntry { entry ->
+            SearchHelper.searchInEntry(Entry(entry), searchParameters)
         }
         return if (entrySearch != null) {
             TargetResult(entrySearch, wanted)
         } else null
     }
 
-    private fun addRefsToCache(ref: String?, value: String?, ctx: SprContextKDBX?) {
-        if (ref == null) {
-            return
-        }
-        if (value == null) {
-            return
-        }
-        if (ctx == null) {
-            return
-        }
-
-        if (!ctx.refsCache.containsKey(ref)) {
-            ctx.refsCache[ref] = value
-        }
-    }
-
-    private fun fillRefsUsingCache(text: String, sprContextKDBX: SprContextKDBX): String {
+    private fun fillRefsUsingCache(text: String): String {
         var newText = text
-        for ((key, value) in sprContextKDBX.refsCache) {
+        for ((key, value) in refsCache) {
             newText = text.replace(key, value, true)
         }
         return newText
     }
 
-    inner class TargetResult(var entry: EntryKDBX?, var wanted: Char)
-
-    private inner class SprContextKDBX {
-
-        var databaseKDBX: DatabaseKDBX? = null
-        var entryKDBX: EntryKDBX
-        var refsCache: MutableMap<String, String> = HashMap()
-
-        constructor(databaseKDBX: DatabaseKDBX, entry: EntryKDBX) {
-            this.databaseKDBX = databaseKDBX
-            this.entryKDBX = entry
-        }
-
-        constructor(source: SprContextKDBX) {
-            this.databaseKDBX = source.databaseKDBX
-            this.entryKDBX = source.entryKDBX
-            this.refsCache = source.refsCache
-        }
-    }
+    private data class TargetResult(var entry: EntryKDBX?, var wanted: Char)
 
     companion object {
         private const val MAX_RECURSION_DEPTH = 12
