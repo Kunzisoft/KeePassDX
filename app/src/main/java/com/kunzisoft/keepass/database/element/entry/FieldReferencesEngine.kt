@@ -19,11 +19,10 @@
  */
 package com.kunzisoft.keepass.database.element.entry
 
-import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
-import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 
 class FieldReferencesEngine {
@@ -122,9 +121,17 @@ class FieldReferencesEngine {
         val scan = Character.toUpperCase(ref[2])
         val wanted = Character.toUpperCase(ref[0])
 
-        val searchParameters = SearchParameters()
-        searchParameters.setupNone()
-
+        val searchParameters = SearchParameters().apply {
+            searchInTitles = false
+            searchInUserNames = false
+            searchInPasswords = false
+            searchInUrls = false
+            searchInNotes = false
+            searchInOTP = false
+            searchInOther = false
+            searchInUUIDs = false
+            searchInTags = false
+        }
         searchParameters.searchQuery = ref.substring(4)
         when (scan) {
             'T' -> searchParameters.searchInTitles = true
@@ -137,13 +144,13 @@ class FieldReferencesEngine {
             else -> return null
         }
 
-        val list = ArrayList<EntryKDBX>()
-        searchEntries(contextKDBX, searchParameters, list)
-
-        return if (list.size > 0) {
-            TargetResult(list[0], wanted)
+        var entrySearch: EntryKDBX? = null
+        contextKDBX.databaseKDBX?.rootGroup?.let { root ->
+            entrySearch = root.searchChildEntry { entry -> SearchHelper.searchInEntry(Entry(entry), searchParameters) }
+        }
+        return if (entrySearch != null) {
+            TargetResult(entrySearch, wanted)
         } else null
-
     }
 
     private fun addRefsToCache(ref: String?, value: String?, ctx: SprContextKDBX?) {
@@ -170,100 +177,6 @@ class FieldReferencesEngine {
         return newText
     }
 
-    private fun searchEntries(contextKDBX: SprContextKDBX,
-                              searchParameters: SearchParameters?,
-                              listStorage: MutableList<EntryKDBX>?) {
-
-        val root = contextKDBX.databaseKDBX?.rootGroup
-        if (searchParameters == null) {
-            return
-        }
-        if (listStorage == null) {
-            return
-        }
-
-        val terms = splitStringTerms(searchParameters.searchQuery)
-        if (terms.size <= 1 || searchParameters.regularExpression) {
-            root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
-            return
-        }
-
-        // Search longest term first
-        val stringLengthComparator = Comparator<String> { lhs, rhs -> lhs.length - rhs.length }
-        Collections.sort(terms, stringLengthComparator)
-
-        val fullSearch = searchParameters.searchQuery
-        var childEntries: List<EntryKDBX>? = root!!.getChildEntries()
-        for (i in terms.indices) {
-            val pgNew = ArrayList<EntryKDBX>()
-
-            searchParameters.searchQuery = terms[i]
-
-            var negate = false
-            if (searchParameters.searchQuery.startsWith("-")) {
-                searchParameters.searchQuery = searchParameters.searchQuery.substring(1)
-                negate = searchParameters.searchQuery.isNotEmpty()
-            }
-
-            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParameters, pgNew), null)) {
-                childEntries = null
-                break
-            }
-
-            childEntries = if (negate) {
-                val complement = ArrayList<EntryKDBX>()
-                for (entry in childEntries!!) {
-                    if (!pgNew.contains(entry)) {
-                        complement.add(entry)
-                    }
-                }
-                complement
-            } else {
-                pgNew
-            }
-        }
-
-        if (childEntries != null) {
-            listStorage.addAll(childEntries)
-        }
-        searchParameters.searchQuery = fullSearch
-    }
-
-    /**
-     * Create a list of String by split text when ' ', '\t', '\r' or '\n' is found
-     */
-    private fun splitStringTerms(text: String?): List<String> {
-        val list = ArrayList<String>()
-        if (text == null) {
-            return list
-        }
-
-        val stringBuilder = StringBuilder()
-        var quoted = false
-
-        for (element in text) {
-
-            if ((element == ' ' || element == '\t' || element == '\r' || element == '\n') && !quoted) {
-
-                val len = stringBuilder.length
-                when {
-                    len > 0 -> {
-                        list.add(stringBuilder.toString())
-                        stringBuilder.delete(0, len)
-                    }
-                    element == '\"' -> quoted = !quoted
-                    else -> stringBuilder.append(element)
-                }
-            }
-        }
-
-        if (stringBuilder.isNotEmpty()) {
-            list.add(stringBuilder.toString())
-        }
-
-        return list
-    }
-
     inner class TargetResult(var entry: EntryKDBX?, var wanted: Char)
 
     private inner class SprContextKDBX {
@@ -281,77 +194,6 @@ class FieldReferencesEngine {
             this.databaseKDBX = source.databaseKDBX
             this.entryKDBX = source.entryKDBX
             this.refsCache = source.refsCache
-        }
-    }
-
-    private class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters,
-                                         private val mListStorage: MutableList<EntryKDBX>)
-        : NodeHandler<EntryKDBX>() {
-
-        override fun operate(node: EntryKDBX): Boolean {
-            if (mSearchParametersKDBX.excludeExpired
-                    && node.isCurrentlyExpires) {
-                return true
-            }
-            if (searchStrings(node)) {
-                mListStorage.add(node)
-                return true
-            }
-            if (searchInGroupNames(node)) {
-                mListStorage.add(node)
-                return true
-            }
-            if (searchInUUID(node)) {
-                mListStorage.add(node)
-                return true
-            }
-            return true
-        }
-
-        private fun searchStrings(entry: EntryKDBX): Boolean {
-            var searchFound = false
-            // Search all strings in the KDBX entry
-            EntryFieldsLoop@ for((key, value) in entry.fields) {
-                if (entryKDBXKeyIsAllowedToSearch(key, mSearchParametersKDBX)) {
-                    val currentString = value.toString()
-                    if (SearchHelper.checkSearchQuery(currentString, mSearchParametersKDBX)) {
-                        searchFound = true
-                        break@EntryFieldsLoop
-                    }
-                }
-            }
-            return searchFound
-        }
-
-        private fun entryKDBXKeyIsAllowedToSearch(key: String, searchParameters: SearchParameters): Boolean {
-            return when (key) {
-                EntryKDBX.STR_TITLE -> searchParameters.searchInTitles
-                EntryKDBX.STR_USERNAME -> searchParameters.searchInUserNames
-                EntryKDBX.STR_PASSWORD -> searchParameters.searchInPasswords
-                EntryKDBX.STR_URL -> searchParameters.searchInUrls
-                EntryKDBX.STR_NOTES -> searchParameters.searchInNotes
-                else -> searchParameters.searchInOther
-            }
-        }
-
-        private fun searchInGroupNames(entry: EntryKDBX): Boolean {
-            if (mSearchParametersKDBX.searchInGroupNames) {
-                val parent = entry.parent
-                if (parent != null) {
-                    return parent.title
-                            .contains(mSearchParametersKDBX.searchQuery,
-                                    mSearchParametersKDBX.ignoreCase)
-                }
-            }
-            return false
-        }
-
-        private fun searchInUUID(entry: EntryKDBX): Boolean {
-            if (mSearchParametersKDBX.searchInUUIDs) {
-                return UuidUtil.toHexString(entry.id)
-                        .contains(mSearchParametersKDBX.searchQuery, true)
-            }
-            return false
         }
     }
 
