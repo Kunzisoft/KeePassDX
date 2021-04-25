@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.StringUtil.flattenToAscii
 import com.kunzisoft.keepass.utils.UuidUtil
 
 class SearchHelper {
@@ -177,9 +178,11 @@ class SearchHelper {
             var ignoreCase = true
             var flattenToASCII = true
             var excludeExpired = false
+            var searchOnlyInCurrentGroup = false
             */
             return stringToCheck.isNotEmpty()
-                    && stringToCheck.contains(searchParameters.searchQuery, true)
+                    && stringToCheck.flattenToAscii().contains(
+                        searchParameters.searchQuery.flattenToAscii(), true)
         }
     }
 }
