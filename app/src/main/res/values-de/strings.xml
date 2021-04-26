@@ -518,7 +518,7 @@
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keinen verschlüsselten Inhalt speichern, um moderne Entsperrung zu benutzen</string>
     <string name="temp_advanced_unlock_enable_title">Temporär moderne Entsperrung</string>
-    <string name="device_credential_unlock_enable_summary">Erlaubt Ihn die Geräteanmeldedaten zum Öffnen der Datenbank zu verwenden</string>
+    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit Ihren Geräte-Anmeldeinformationen</string>
     <string name="advanced_unlock_tap_delete">Drücken, um Schlüssel für modernes Entsperren zu löschen</string>
     <string name="content">Inhalt</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit moderner Entsperrerkennung öffnen</string>
@@ -558,4 +558,19 @@
     <string name="export_app_properties_title">App-Eigenschaften exportieren</string>
     <string name="import_app_properties_summary">Wählen Sie eine Datei zum Importieren von App-Eigenschaften</string>
     <string name="error_move_group_here">Sie können hier keine Gruppe verschieben.</string>
+    <string name="autofill_inline_suggestions_title">Automatische Ausfüllung</string>
+    <string name="error_word_reserved">Dieses Wort ist reserviert und kann nicht verwendet werden.</string>
+    <string name="icon_section_custom">Benutzerdefiniert</string>
+    <string name="icon_section_standard">Standard</string>
+    <string name="style_brightness_summary">Helles oder dunkles Thema wählen</string>
+    <string name="style_brightness_title">Designhelligkeit</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="download_canceled">Abgebrochen!</string>
+    <string name="autofill_inline_suggestions_keyboard">Vorschläge für automatisches Ausfüllen hinzugefügt.</string>
+    <string name="autofill_inline_suggestions_summary">Versuche Vorschläge zur automatischen Ausfüllung direkt von einer kompatiblen Tastatur anzuzeigen</string>
+    <string name="properties">Eigenschaften</string>
+    <string name="description_app_properties">KeePassDX-Eigenschaften zur Verwaltung der App-Einstellungen</string>
 </resources>
