@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.utils;
 
+import androidx.annotation.Nullable;
+
 import java.util.UUID;
 
 import static com.kunzisoft.keepass.utils.StreamBytesUtilsKt.uuidTo16Bytes;
@@ -46,6 +48,38 @@ public class UuidUtil {
         }
 
         return sb.toString();
+    }
+
+    public static @Nullable UUID fromHexString(String hexString) {
+        char[] charArray = hexString.toCharArray();
+
+        if (charArray.length != 32)
+            return null;
+
+        char[] leastSignificantChars = new char[16];
+        char[] mostSignificantChars = new char[16];
+
+        for (int i = 31; i >= 0; i = i-2) {
+            if (i >= 16) {
+                mostSignificantChars[32-i] = Character.toLowerCase(charArray[i]);
+                mostSignificantChars[31-i] = Character.toLowerCase(charArray[i-1]);
+            } else {
+                leastSignificantChars[16-i] = Character.toLowerCase(charArray[i]);
+                leastSignificantChars[15-i] = Character.toLowerCase(charArray[i-1]);
+            }
+        }
+        StringBuilder standardUUIDString = new StringBuilder();
+        standardUUIDString.append(leastSignificantChars);
+        standardUUIDString.append(mostSignificantChars);
+        standardUUIDString.insert(8, '-');
+        standardUUIDString.insert(13, '-');
+        standardUUIDString.insert(18, '-');
+        standardUUIDString.insert(23, '-');
+        try {
+            return UUID.fromString(standardUUIDString.toString());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // Use short to represent unsigned byte

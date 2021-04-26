@@ -77,12 +77,11 @@ class SearchHelper {
     private fun entryContainsString(database: Database,
                                     entry: Entry,
                                     searchParameters: SearchParameters): Boolean {
-        // TODO better field reference implementation
         // To search in field references
-        //database.startManageEntry(entry)
+        database.startManageEntry(entry)
         // Search all strings in the entry
         val searchFound = searchInEntry(entry, searchParameters)
-        //database.stopManageEntry(entry)
+        database.stopManageEntry(entry)
 
         return searchFound
     }

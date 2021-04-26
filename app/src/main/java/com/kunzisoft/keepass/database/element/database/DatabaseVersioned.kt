@@ -67,7 +67,7 @@ abstract class DatabaseVersioned<
     var changeDuplicateId = false
 
     private var groupIndexes = LinkedHashMap<NodeId<GroupId>, Group>()
-    private var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
+    protected var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
 
     abstract val version: String
 
@@ -269,6 +269,26 @@ abstract class DatabaseVersioned<
 
     fun getEntryById(id: NodeId<EntryId>): Entry? {
         return this.entryIndexes[id]
+    }
+
+    fun getEntryByTitle(title: String): Entry? {
+        return this.entryIndexes.values.find { entry -> entry.title == title }
+    }
+
+    fun getEntryByUsername(username: String): Entry? {
+        return this.entryIndexes.values.find { entry -> entry.username == username }
+    }
+
+    fun getEntryByURL(url: String): Entry? {
+        return this.entryIndexes.values.find { entry -> entry.url == url }
+    }
+
+    fun getEntryByPassword(password: String): Entry? {
+        return this.entryIndexes.values.find { entry -> entry.password == password }
+    }
+
+    fun getEntryByNotes(notes: String): Entry? {
+        return this.entryIndexes.values.find { entry -> entry.notes == notes }
     }
 
     fun addEntryIndex(entry: Entry) {
