@@ -26,16 +26,25 @@ import java.util.*
 
 class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
-    private var refsCache: MutableMap<String, String> = HashMap()
+    // Key : <WantedField>@<SearchIn>:<Text>
+    // Value : content
+    private var refsCache: MutableMap<String, String?> = HashMap()
 
-    fun compile(textReference: String, recursionLevel: Int = 0): String {
+    fun clear() {
+        refsCache.clear()
+    }
+
+    fun compile(textReference: String, recursionLevel: Int): String {
         return if (recursionLevel >= MAX_RECURSION_DEPTH) {
             ""
         } else
-            fillRefPlaceholders(textReference, recursionLevel)
+            fillReferencesPlaceholders(textReference, recursionLevel)
     }
 
-    private fun fillRefPlaceholders(textReference: String, recursionLevel: Int): String {
+    /**
+     * Manage placeholders with {REF:<WantedField>@<SearchIn>:<Text>}
+     */
+    private fun fillReferencesPlaceholders(textReference: String, recursionLevel: Int): String {
         var textValue = textReference
 
         var offset = 0
@@ -44,80 +53,69 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
                 && numberInlineRef <= MAX_INLINE_REF) {
             numberInlineRef++
 
-            textValue = fillRefsUsingCache(textValue)
+            textValue = fillReferencesUsingCache(textValue)
 
             val start = textValue.indexOf(STR_REF_START, offset, true)
             if (start < 0) {
                 break
             }
-            val end = textValue.indexOf(STR_REF_END, start + 1, true)
+            val end = textValue.indexOf(STR_REF_END, offset, true)
             if (end <= start) {
                 break
             }
 
-            val fullRef = textValue.substring(start, end + 1)
-            val result = findRefTarget(fullRef)
+            val reference = textValue.substring(start + STR_REF_START.length, end)
+            val fullReference = "$STR_REF_START$reference$STR_REF_END"
 
-            if (result != null) {
-                val found = result.entry
-                found?.stopToManageFieldReferences()
-                val wanted = result.wanted
-
-                var data: String? = null
-                when (wanted) {
-                    'T' -> data = found?.title
-                    'U' -> data = found?.username
-                    'A' -> data = found?.url
-                    'P' -> data = found?.password
-                    'N' -> data = found?.notes
-                    'I' -> data = found?.nodeId.toString()
+            if (!refsCache.containsKey(fullReference)) {
+                val result = findReferenceTarget(reference)
+                val entryFound = result.entry
+                val newRecursionLevel = recursionLevel + 1
+                val data: String? = when (result.wanted) {
+                    'T' -> entryFound?.decodeTitleKey(newRecursionLevel)
+                    'U' -> entryFound?.decodeUsernameKey(newRecursionLevel)
+                    'A' -> entryFound?.decodeUrlKey(newRecursionLevel)
+                    'P' -> entryFound?.decodePasswordKey(newRecursionLevel)
+                    'N' -> entryFound?.decodeNotesKey(newRecursionLevel)
+                    'I' -> UuidUtil.toHexString(entryFound?.nodeId?.id)
+                    else -> null
                 }
-
-                if (data != null && found != null) {
-                    val innerContent = compile(data, recursionLevel + 1)
-                    if (!refsCache.containsKey(fullRef)) {
-                        refsCache[fullRef] = innerContent
-                    }
-                    textValue = fillRefsUsingCache(textValue)
-                } else {
-                    offset = start + 1
-                }
+                refsCache[fullReference] = data
+                textValue = fillReferencesUsingCache(textValue)
             }
+
+            offset = end
         }
         return textValue
     }
 
-    private fun fillRefsUsingCache(text: String): String {
+    private fun fillReferencesUsingCache(text: String): String {
         var newText = text
         for ((key, value) in refsCache) {
-            newText = text.replace(key, value, true)
+            // Replace by key if value not found
+            newText = newText.replace(key, value ?: key, true)
         }
         return newText
     }
 
-    private fun findRefTarget(fullReference: String?): TargetResult? {
-        var fullRef: String? = fullReference ?: return null
+    private fun findReferenceTarget(reference: String): TargetResult {
 
-        fullRef = fullRef!!.toUpperCase(Locale.ENGLISH)
-        if (!fullRef.startsWith(STR_REF_START) || !fullRef.endsWith(STR_REF_END)) {
-            return null
-        }
+        val targetResult = TargetResult(null, 'J')
 
-        val ref = fullRef.substring(STR_REF_START.length, fullRef.length - STR_REF_END.length)
-        if (ref.length <= 4) {
-            return null
+        if (reference.length <= 4) {
+            return targetResult
         }
-        if (ref[1] != '@') {
-            return null
+        if (reference[1] != '@') {
+            return targetResult
         }
-        if (ref[3] != ':') {
-            return null
+        if (reference[3] != ':') {
+            return targetResult
         }
 
-        val searchIn = Character.toUpperCase(ref[2])
-        val wantedField = Character.toUpperCase(ref[0])
-        val searchQuery = ref.substring(4)
-        val entrySearch: EntryKDBX? = when (searchIn) {
+        targetResult.wanted = Character.toUpperCase(reference[0])
+        val searchIn = Character.toUpperCase(reference[2])
+        val searchQuery = reference.substring(4)
+        targetResult.entry = when (searchIn) {
             'T' -> mDatabase.getEntryByTitle(searchQuery)
             'U' -> mDatabase.getEntryByUsername(searchQuery)
             'A' -> mDatabase.getEntryByURL(searchQuery)
@@ -129,17 +127,16 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
                 }
             }
             'O' -> mDatabase.getEntryByCustomData(searchQuery)
-            else -> return null
+            else -> null
         }
-        return if (entrySearch != null) {
-            TargetResult(entrySearch, wantedField)
-        } else null
+        return targetResult
     }
+
     private data class TargetResult(var entry: EntryKDBX?, var wanted: Char)
 
     companion object {
-        private const val MAX_RECURSION_DEPTH = 12
-        private const val MAX_INLINE_REF = 5
+        private const val MAX_RECURSION_DEPTH = 10
+        private const val MAX_INLINE_REF = 10
         private const val STR_REF_START = "{REF:"
         private const val STR_REF_END = "}"
     }

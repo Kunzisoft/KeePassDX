@@ -27,45 +27,52 @@ import static com.kunzisoft.keepass.utils.StreamBytesUtilsKt.uuidTo16Bytes;
 
 public class UuidUtil {
 
-    public static String toHexString(UUID uuid) {
+    public static @Nullable String toHexString(@Nullable UUID uuid) {
         if (uuid == null) { return null; }
+        try {
+            byte[] buf = uuidTo16Bytes(uuid);
 
-        byte[] buf = uuidTo16Bytes(uuid);
+            int len = buf.length;
+            if (len == 0) {
+                return "";
+            }
 
-        int len = buf.length;
-        if (len == 0) { return ""; }
+            StringBuilder sb = new StringBuilder();
 
-        StringBuilder sb = new StringBuilder();
+            short bt;
+            char high, low;
+            for (byte b : buf) {
+                bt = (short) (b & 0xFF);
+                high = (char) (bt >>> 4);
+                low = (char) (bt & 0x0F);
+                sb.append(byteToChar(high));
+                sb.append(byteToChar(low));
+            }
 
-        short bt;
-        char high, low;
-        for (byte b : buf) {
-            bt = (short) (b & 0xFF);
-            high = (char) (bt >>> 4);
-            low = (char) (bt & 0x0F);
-            sb.append(byteToChar(high));
-            sb.append(byteToChar(low));
+            return sb.toString();
+        } catch (Exception e) {
+            return null;
         }
-
-        return sb.toString();
     }
 
-    public static @Nullable UUID fromHexString(String hexString) {
-        char[] charArray = hexString.toCharArray();
-
-        if (charArray.length != 32)
+    public static @Nullable UUID fromHexString(@Nullable String hexString) {
+        if (hexString == null)
             return null;
 
+        if (hexString.length() != 32)
+            return null;
+
+        char[] charArray = hexString.toLowerCase().toCharArray();
         char[] leastSignificantChars = new char[16];
         char[] mostSignificantChars = new char[16];
 
         for (int i = 31; i >= 0; i = i-2) {
             if (i >= 16) {
-                mostSignificantChars[32-i] = Character.toLowerCase(charArray[i]);
-                mostSignificantChars[31-i] = Character.toLowerCase(charArray[i-1]);
+                mostSignificantChars[32-i] = charArray[i];
+                mostSignificantChars[31-i] = charArray[i-1];
             } else {
-                leastSignificantChars[16-i] = Character.toLowerCase(charArray[i]);
-                leastSignificantChars[15-i] = Character.toLowerCase(charArray[i-1]);
+                leastSignificantChars[16-i] = charArray[i];
+                leastSignificantChars[15-i] = charArray[i-1];
             }
         }
         StringBuilder standardUUIDString = new StringBuilder();

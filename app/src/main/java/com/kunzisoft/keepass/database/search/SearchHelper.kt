@@ -156,8 +156,9 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUUIDs) {
-                return UuidUtil.toHexString(entry.nodeId.id)
-                        .contains(searchQuery, true)
+                val hexString = UuidUtil.toHexString(entry.nodeId.id)
+                if (hexString != null && hexString.contains(searchQuery, true))
+                    return true
             }
             if (searchParameters.searchInOther) {
                 entry.getExtraFields().forEach { field ->

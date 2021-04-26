@@ -344,8 +344,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Retrieve the value of a field reference
      */
-    fun getFieldReferenceValue(textReference: String): String {
-        return mFieldReferenceEngine.compile(textReference)
+    fun getFieldReferenceValue(textReference: String, recursionLevel: Int): String {
+        return mFieldReferenceEngine.compile(textReference, recursionLevel)
     }
 
     @Throws(IOException::class)
@@ -669,9 +669,20 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         this.deletedObjects.add(deletedObject)
     }
 
+    override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
+        super.addEntryTo(newEntry, parent)
+        mFieldReferenceEngine.clear()
+    }
+
+    override fun updateEntry(entry: EntryKDBX) {
+        super.updateEntry(entry)
+        mFieldReferenceEngine.clear()
+    }
+
     override fun removeEntryFrom(entryToRemove: EntryKDBX, parent: GroupKDBX?) {
         super.removeEntryFrom(entryToRemove, parent)
         deletedObjects.add(DeletedObject(entryToRemove.id))
+        mFieldReferenceEngine.clear()
     }
 
     override fun undoDeleteEntryFrom(entry: EntryKDBX, origParent: GroupKDBX?) {
@@ -742,6 +753,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     override fun clearCache() {
         try {
             super.clearCache()
+            mFieldReferenceEngine.clear()
             attachmentPool.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear cache", e)
