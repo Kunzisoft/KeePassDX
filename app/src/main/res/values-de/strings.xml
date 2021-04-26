@@ -205,7 +205,7 @@
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um schnell Formulare in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
-    <string name="biometric_delete_all_key_summary">Lösche alle Verschlüsselungsschlüssel, die mit der erweiterten Entsperrerkennung zusammenhängen</string>
+    <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperrerkennung zusammenhängen</string>
     <string name="unavailable_feature_version">Auf dem Gerät läuft Android %1$s, eine Version ab %2$s wäre aber nötig.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
     <string name="recycle_bin_title">Papierkorb-Nutzung</string>
@@ -512,8 +512,8 @@
     <string name="menu_keystore_remove_key">Schlüssel für modernes Entsperren löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Moderne Entsperrerkennung</string>
     <string name="education_advanced_unlock_summary">Verknüpfen Sie Ihr Passwort mit Ihren gescannten Biometriedaten oder Daten zur Geräteanmeldung, um schnell Ihre Datenbank zu entsperren.</string>
-    <string name="education_advanced_unlock_title">Erweiterte Entsperrung der Datenbank</string>
-    <string name="advanced_unlock_timeout">Verfallzeit der erweiterten Entsperrung</string>
+    <string name="education_advanced_unlock_title">Moderne Entsperrung der Datenbank</string>
+    <string name="advanced_unlock_timeout">Verfallzeit der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_timeout_summary">Laufzeit der modernen Entsperrung bevor ihr Inhalt gelöscht wird</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keinen verschlüsselten Inhalt speichern, um moderne Entsperrung zu benutzen</string>
@@ -527,7 +527,7 @@
     <string name="select_entry">Wähle Eintrag</string>
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
     <string name="custom_fields">Benutzerdefinierte Felder</string>
-    <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel, die mit der erweiterten Entsperrerkennung zusammenhängen, löschen\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel, die mit der modernen Entsperrerkennung zusammenhängen, löschen\?</string>
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
     <string name="credential_before_click_advanced_unlock_button">Geben Sie das Passwort ein und klicken Sie dann auf diesen Knopf.</string>
