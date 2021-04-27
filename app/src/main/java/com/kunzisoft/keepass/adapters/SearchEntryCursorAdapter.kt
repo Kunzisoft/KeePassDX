@@ -106,7 +106,6 @@ class SearchEntryCursorAdapter(private val context: Context,
 
     private fun getEntryFrom(cursor: Cursor): Entry? {
         return database.createEntry()?.apply {
-            database.startManageEntry(this)
             entryKDB?.let { entryKDB ->
                 (cursor as EntryCursorKDB).populateEntry(entryKDB,
                         { standardIconId ->
@@ -127,7 +126,6 @@ class SearchEntryCursorAdapter(private val context: Context,
                         }
                 )
             }
-            database.stopManageEntry(this)
         }
     }
 
@@ -150,12 +148,14 @@ class SearchEntryCursorAdapter(private val context: Context,
         if (searchGroup != null) {
             // Search in hide entries but not meta-stream
             for (entry in searchGroup.getFilteredChildEntries(Group.ChildFilter.getDefaults(context))) {
+                database.startManageEntry(entry)
                 entry.entryKDB?.let {
                     cursorKDB?.addEntry(it)
                 }
                 entry.entryKDBX?.let {
                     cursorKDBX?.addEntry(it)
                 }
+                database.stopManageEntry(entry)
             }
         }
 
