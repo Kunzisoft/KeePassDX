@@ -550,14 +550,16 @@
     <string name="error_duplicate_file">Данные файла уже существует.</string>
     <string name="error_remove_file">Ошибка при удалении данных файла.</string>
     <string name="properties">Свойства</string>
-    <string name="error_export_app_properties">Ошибка при экспорте свойств приложения</string>
-    <string name="success_export_app_properties">Свойства приложения экспортированы</string>
-    <string name="error_import_app_properties">Ошибка при импорте свойств приложения</string>
-    <string name="success_import_app_properties">Свойства приложения импортированы</string>
-    <string name="description_app_properties">Свойства KeePassDX для управления настройками приложения</string>
-    <string name="export_app_properties_summary">Создайте файл для экспорта свойств приложения</string>
-    <string name="export_app_properties_title">Экспорт свойств приложения</string>
-    <string name="import_app_properties_summary">Выберите файл для импорта свойств приложения</string>
-    <string name="import_app_properties_title">Импортировать свойства приложения</string>
+    <string name="error_export_app_properties">Ошибка при экспорте настроек приложения</string>
+    <string name="success_export_app_properties">Настройки приложения экспортированы</string>
+    <string name="error_import_app_properties">Ошибка при импорте настроек приложения</string>
+    <string name="success_import_app_properties">Настройки приложения импортированы</string>
+    <string name="description_app_properties">Управление настройками приложения KeePassDX</string>
+    <string name="export_app_properties_summary">Создать файл настроек приложения</string>
+    <string name="export_app_properties_title">Экспорт настроек</string>
+    <string name="import_app_properties_summary">Импортировать настройки приложения из файла</string>
+    <string name="import_app_properties_title">Импорт настроек</string>
     <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой.</string>
+    <string name="error_move_group_here">Сюда группу переместить невозможно.</string>
+    <string name="error_word_reserved">Это слово зарезервировано и не может быть использовано.</string>
 </resources>

@@ -68,7 +68,7 @@
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
     <string name="error_no_name">Inserisci un nome.</string>
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intero database.</string>
-    <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password.</string>
+    <string name="error_pass_gen_type">Selezionare almeno un tipo di generazione della password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
     <string name="error_rounds_too_large">«Livello» troppo alto. Impostato a 2147483648.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
@@ -563,4 +563,5 @@
     <string name="export_app_properties_title">Esporta le proprietà dell\'app</string>
     <string name="import_app_properties_summary">Seleziona un file da cui importare le proprietà dell\'app</string>
     <string name="import_app_properties_title">Importa le proprietà dell\'app</string>
+    <string name="error_word_reserved">Questa parola è riservata e non può essere usata.</string>
 </resources>
