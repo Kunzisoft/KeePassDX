@@ -43,7 +43,7 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockInputStream
@@ -162,7 +162,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             val plainInputStream: InputStream
-            if (mDatabase.kdbxVersion.isBefore(FILE_VERSION_32_4)) {
+            if (mDatabase.kdbxVersion.isBefore(FILE_VERSION_40)) {
 
                 val dataDecrypted = CipherInputStream(databaseInputStream, cipher)
                 val storedStartBytes: ByteArray?
@@ -211,7 +211,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 else -> plainInputStream
             }
 
-            if (!mDatabase.kdbxVersion.isBefore(FILE_VERSION_32_4)) {
+            if (!mDatabase.kdbxVersion.isBefore(FILE_VERSION_40)) {
                 readInnerHeader(inputStreamXml, header)
             }
 
@@ -848,7 +848,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         val sDate = readString(xpp)
         var utcDate: Date? = null
 
-        if (mDatabase.kdbxVersion.isBefore(FILE_VERSION_32_4)) {
+        if (mDatabase.kdbxVersion.isBefore(FILE_VERSION_40)) {
             try {
                 utcDate = DatabaseKDBXXML.DateFormatter.parse(sDate)
             } catch (e: ParseException) {
