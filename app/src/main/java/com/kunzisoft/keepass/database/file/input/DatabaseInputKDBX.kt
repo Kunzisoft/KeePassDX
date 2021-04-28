@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -518,6 +519,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 ctxGroup?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
                 ctxGroup?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
+            } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
+                ctxGroup?.tags = Tags(readString(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.GroupTimes, xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIsExpanded, ignoreCase = true)) {
@@ -579,7 +582,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemOverrideUrl, ignoreCase = true)) {
                 ctxEntry?.overrideURL = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
-                ctxEntry?.tags = readString(xpp)
+                ctxEntry?.tags = Tags(readString(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.EntryTimes, xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemString, ignoreCase = true)) {

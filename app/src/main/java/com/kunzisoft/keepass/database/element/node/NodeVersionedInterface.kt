@@ -20,20 +20,17 @@
 package com.kunzisoft.keepass.database.element.node
 
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImage
 
 interface NodeVersionedInterface<ParentGroup> : NodeTimeInterface, Parcelable {
 
     var title: String
 
-    /**
-     * @return Visual icon
-     */
     var icon: IconImage
 
-    /**
-     * @return Type of Node
-     */
+    var tags: Tags
+
     val type: Type
 
     /**

@@ -54,7 +54,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var autoType = AutoType()
     var history = ArrayList<EntryKDBX>()
     var additional = ""
-    var tags = ""
 
     override var expires: Boolean = false
 
@@ -73,7 +72,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         parcel.readTypedList(history, CREATOR)
         url = parcel.readString() ?: url
         additional = parcel.readString() ?: additional
-        tags = parcel.readString() ?: tags
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
@@ -98,7 +96,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeTypedList(history)
         dest.writeString(url)
         dest.writeString(additional)
-        dest.writeString(tags)
     }
 
     /**
@@ -125,7 +122,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             history.addAll(source.history)
         url = source.url
         additional = source.additional
-        tags = source.tags
     }
 
     fun startToManageFieldReferences(database: DatabaseKDBX) {
@@ -243,7 +239,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
 
         size += overrideURL.length.toLong()
-        size += tags.length.toLong()
+        size += tags.toString().toLong()
 
         return size
     }

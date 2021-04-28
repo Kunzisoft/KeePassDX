@@ -114,6 +114,15 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.icon = value
         }
 
+    override var tags: Tags
+        get() {
+            return entryKDB?.tags ?: entryKDBX?.tags ?: Tags()
+        }
+        set(value) {
+            entryKDB?.tags = value
+            entryKDBX?.tags = value
+        }
+
     override val type: Type
         get() = Type.ENTRY
 

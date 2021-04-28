@@ -134,6 +134,15 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             groupKDBX?.icon = value
         }
 
+    override var tags: Tags
+        get() {
+            return groupKDB?.tags ?: groupKDBX?.tags ?: Tags()
+        }
+        set(value) {
+            groupKDB?.tags = value
+            groupKDBX?.tags = value
+        }
+
     override val type: Type
         get() = Type.GROUP
 

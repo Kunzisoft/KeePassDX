@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -361,6 +362,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.icon.custom.uuid)
         }
 
+        writeTags(group.tags)
         writeTimes(group)
         writeObject(DatabaseKDBXXML.ElemIsExpanded, group.isExpanded)
         writeObject(DatabaseKDBXXML.ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence)
@@ -389,10 +391,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(DatabaseKDBXXML.ElemFgColor, entry.foregroundColor)
         writeObject(DatabaseKDBXXML.ElemBgColor, entry.backgroundColor)
         writeObject(DatabaseKDBXXML.ElemOverrideUrl, entry.overrideURL)
-        writeObject(DatabaseKDBXXML.ElemTags, entry.tags)
 
+        writeTags(entry.tags)
         writeTimes(entry)
-
         writeFields(entry.fields)
         writeEntryBinaries(entry.binaries)
         if (entry.containsCustomData()) {
@@ -656,6 +657,13 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemCustomData)
+    }
+
+    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
+    private fun writeTags(tags: Tags) {
+        if (!tags.isEmpty()) {
+            writeObject(DatabaseKDBXXML.ElemTags, tags.toString())
+        }
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
