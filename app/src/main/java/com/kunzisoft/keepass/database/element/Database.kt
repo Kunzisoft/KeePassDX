@@ -557,7 +557,6 @@ class Database {
                     searchInOther = true
                     searchInUUIDs = false
                     searchInTags = false
-                    ignoreCase = true
                 }, omitBackup, max)
     }
 

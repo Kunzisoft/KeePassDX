@@ -200,10 +200,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         if (intentAction == null && !mDatabase.loaded) {
             stopSelf()
         }
-        if (intentAction == ACTION_DATABASE_CLOSE) {
-            // Send lock action
-            sendBroadcast(Intent(LOCK_ACTION))
-        }
 
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
@@ -378,10 +374,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             ReadOnlyHelper.putReadOnlyInIntent(this, mDatabase.isReadOnly)
                         },
                         PendingIntent.FLAG_UPDATE_CURRENT)
-                val deleteIntent = Intent(this, DatabaseTaskNotificationService::class.java).apply {
-                    action = ACTION_DATABASE_CLOSE
-                }
-                val pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingDeleteIntent = PendingIntent.getBroadcast(this,
+                        4576, Intent(LOCK_ACTION), 0)
                 // Add actions in notifications
                 notificationBuilder.apply {
                     setContentText(mDatabase.name + " (" + mDatabase.version + ")")
@@ -877,7 +871,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
-        const val ACTION_DATABASE_CLOSE = "ACTION_DATABASE_CLOSE"
 
         const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
         const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"

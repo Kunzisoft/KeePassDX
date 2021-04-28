@@ -29,7 +29,8 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.StringUtil.removeDiacriticalMarks
+import com.kunzisoft.keepass.utils.StringUtil.flattenToAscii
+import com.kunzisoft.keepass.utils.UuidUtil
 
 class SearchHelper {
 
@@ -76,52 +77,13 @@ class SearchHelper {
     private fun entryContainsString(database: Database,
                                     entry: Entry,
                                     searchParameters: SearchParameters): Boolean {
-        val searchQuery = searchParameters.searchQuery
-        // Entry don't contains string if the search string is empty
-        if (searchQuery.isEmpty())
-            return false
-
+        // To search in field references
         database.startManageEntry(entry)
         // Search all strings in the entry
         val searchFound = searchInEntry(entry, searchParameters)
         database.stopManageEntry(entry)
 
         return searchFound
-    }
-
-    private fun searchInEntry(entry: Entry,
-                              searchParameters: SearchParameters): Boolean {
-        // Search all strings in the KDBX entry
-        if (searchParameters.searchInTitles) {
-            if (checkSearchQuery(entry.title, searchParameters))
-                return true
-        }
-        if (searchParameters.searchInUserNames) {
-            if (checkSearchQuery(entry.username, searchParameters))
-                return true
-        }
-        if (searchParameters.searchInPasswords) {
-            if (checkSearchQuery(entry.password, searchParameters))
-                return true
-        }
-        if (searchParameters.searchInUrls) {
-            if (checkSearchQuery(entry.url, searchParameters))
-                return true
-        }
-        if (searchParameters.searchInNotes) {
-            if (checkSearchQuery(entry.notes, searchParameters))
-                return true
-        }
-        if (searchParameters.searchInOther) {
-            entry.getExtraFields().forEach { field ->
-                if (field.name != OTP_FIELD
-                        || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
-                    if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
-                        return true
-                }
-            }
-        }
-        return false
     }
 
     companion object {
@@ -162,16 +124,66 @@ class SearchHelper {
             }
         }
 
-        fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
-            if (stringToCheck.isNotEmpty()
-                    && stringToCheck
-                            .removeDiacriticalMarks()
-                            .contains(searchParameters.searchQuery
-                                    .removeDiacriticalMarks(),
-                                    searchParameters.ignoreCase)) {
-                return true
+        /**
+         * Return true if the search query in search parameters is found in available parameters
+         */
+        fun searchInEntry(entry: Entry,
+                          searchParameters: SearchParameters): Boolean {
+            val searchQuery = searchParameters.searchQuery
+            // Entry don't contains string if the search string is empty
+            if (searchQuery.isEmpty())
+                return false
+
+            // Search all strings in the KDBX entry
+            if (searchParameters.searchInTitles) {
+                if (checkSearchQuery(entry.title, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInUserNames) {
+                if (checkSearchQuery(entry.username, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInPasswords) {
+                if (checkSearchQuery(entry.password, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInUrls) {
+                if (checkSearchQuery(entry.url, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInNotes) {
+                if (checkSearchQuery(entry.notes, searchParameters))
+                    return true
+            }
+            if (searchParameters.searchInUUIDs) {
+                val hexString = UuidUtil.toHexString(entry.nodeId.id)
+                if (hexString != null && hexString.contains(searchQuery, true))
+                    return true
+            }
+            if (searchParameters.searchInOther) {
+                entry.getExtraFields().forEach { field ->
+                    if (field.name != OTP_FIELD
+                            || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
+                        if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
+                            return true
+                    }
+                }
             }
             return false
+        }
+
+        private fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
+            /*
+            // TODO Search settings
+            var regularExpression = false
+            var ignoreCase = true
+            var flattenToASCII = true
+            var excludeExpired = false
+            var searchOnlyInCurrentGroup = false
+            */
+            return stringToCheck.isNotEmpty()
+                    && stringToCheck.flattenToAscii().contains(
+                        searchParameters.searchQuery.flattenToAscii(), true)
         }
     }
 }

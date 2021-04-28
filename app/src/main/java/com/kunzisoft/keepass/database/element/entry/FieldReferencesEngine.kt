@@ -19,344 +19,124 @@
  */
 package com.kunzisoft.keepass.database.element.entry
 
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 
-class FieldReferencesEngine {
+class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
-    fun compile(text: String, entry: EntryKDBX, database: DatabaseKDBX): String {
-        return compileInternal(text, SprContextKDBX(database, entry), 0)
+    // Key : <WantedField>@<SearchIn>:<Text>
+    // Value : content
+    private var refsCache: MutableMap<String, String?> = HashMap()
+
+    fun clear() {
+        refsCache.clear()
     }
 
-    private fun compileInternal(text: String?, sprContextKDBX: SprContextKDBX?, recursionLevel: Int): String {
-        if (text == null) {
-            return ""
-        }
-        if (sprContextKDBX == null) {
-            return ""
-        }
+    fun compile(textReference: String, recursionLevel: Int): String {
         return if (recursionLevel >= MAX_RECURSION_DEPTH) {
             ""
-        } else fillRefPlaceholders(text, sprContextKDBX, recursionLevel)
-
+        } else
+            fillReferencesPlaceholders(textReference, recursionLevel)
     }
 
-    private fun fillRefPlaceholders(textReference: String, contextKDBX: SprContextKDBX, recursionLevel: Int): String {
-        var text = textReference
-
-        if (contextKDBX.databaseKDBX == null) {
-            return text
-        }
+    /**
+     * Manage placeholders with {REF:<WantedField>@<SearchIn>:<Text>}
+     */
+    private fun fillReferencesPlaceholders(textReference: String, recursionLevel: Int): String {
+        var textValue = textReference
 
         var offset = 0
-        for (i in 0..19) {
-            text = fillRefsUsingCache(text, contextKDBX)
+        var numberInlineRef = 0
+        while (textValue.contains(STR_REF_START)
+                && numberInlineRef <= MAX_INLINE_REF) {
+            numberInlineRef++
 
-            val start = text.indexOf(STR_REF_START, offset, true)
+            textValue = fillReferencesUsingCache(textValue)
+
+            val start = textValue.indexOf(STR_REF_START, offset, true)
             if (start < 0) {
                 break
             }
-            val end = text.indexOf(STR_REF_END, start + 1, true)
+            val end = textValue.indexOf(STR_REF_END, offset, true)
             if (end <= start) {
                 break
             }
 
-            val fullRef = text.substring(start, end + 1)
-            val result = findRefTarget(fullRef, contextKDBX)
+            val reference = textValue.substring(start + STR_REF_START.length, end)
+            val fullReference = "$STR_REF_START$reference$STR_REF_END"
 
-            if (result != null) {
-                val found = result.entry
-                found?.stopToManageFieldReferences()
-                val wanted = result.wanted
-
-                var data: String? = null
-                when (wanted) {
-                    'T' -> data = found?.title
-                    'U' -> data = found?.username
-                    'A' -> data = found?.url
-                    'P' -> data = found?.password
-                    'N' -> data = found?.notes
-                    'I' -> data = found?.nodeId.toString()
+            if (!refsCache.containsKey(fullReference)) {
+                val result = findReferenceTarget(reference)
+                val entryFound = result.entry
+                val newRecursionLevel = recursionLevel + 1
+                val data: String? = when (result.wanted) {
+                    'T' -> entryFound?.decodeTitleKey(newRecursionLevel)
+                    'U' -> entryFound?.decodeUsernameKey(newRecursionLevel)
+                    'A' -> entryFound?.decodeUrlKey(newRecursionLevel)
+                    'P' -> entryFound?.decodePasswordKey(newRecursionLevel)
+                    'N' -> entryFound?.decodeNotesKey(newRecursionLevel)
+                    'I' -> UuidUtil.toHexString(entryFound?.nodeId?.id)
+                    else -> null
                 }
-
-                if (data != null && found != null) {
-                    val subCtx = SprContextKDBX(contextKDBX)
-                    subCtx.entryKDBX = found
-
-                    val innerContent = compileInternal(data, subCtx, recursionLevel + 1)
-                    addRefsToCache(fullRef, innerContent, contextKDBX)
-                    text = fillRefsUsingCache(text, contextKDBX)
-                } else {
-                    offset = start + 1
-                }
+                refsCache[fullReference] = data
+                textValue = fillReferencesUsingCache(textValue)
             }
 
+            offset = end
         }
-
-        return text
+        return textValue
     }
 
-    private fun findRefTarget(fullReference: String?, contextKDBX: SprContextKDBX): TargetResult? {
-        var fullRef: String? = fullReference ?: return null
-
-        fullRef = fullRef!!.toUpperCase(Locale.ENGLISH)
-        if (!fullRef.startsWith(STR_REF_START) || !fullRef.endsWith(STR_REF_END)) {
-            return null
-        }
-
-        val ref = fullRef.substring(STR_REF_START.length, fullRef.length - STR_REF_END.length)
-        if (ref.length <= 4) {
-            return null
-        }
-        if (ref[1] != '@') {
-            return null
-        }
-        if (ref[3] != ':') {
-            return null
-        }
-
-        val scan = Character.toUpperCase(ref[2])
-        val wanted = Character.toUpperCase(ref[0])
-
-        val searchParameters = SearchParameters()
-        searchParameters.setupNone()
-
-        searchParameters.searchQuery = ref.substring(4)
-        when (scan) {
-            'T' -> searchParameters.searchInTitles = true
-            'U' -> searchParameters.searchInUserNames = true
-            'A' -> searchParameters.searchInUrls = true
-            'P' -> searchParameters.searchInPasswords = true
-            'N' -> searchParameters.searchInNotes = true
-            'I' -> searchParameters.searchInUUIDs = true
-            'O' -> searchParameters.searchInOther = true
-            else -> return null
-        }
-
-        val list = ArrayList<EntryKDBX>()
-        searchEntries(contextKDBX, searchParameters, list)
-
-        return if (list.size > 0) {
-            TargetResult(list[0], wanted)
-        } else null
-
-    }
-
-    private fun addRefsToCache(ref: String?, value: String?, ctx: SprContextKDBX?) {
-        if (ref == null) {
-            return
-        }
-        if (value == null) {
-            return
-        }
-        if (ctx == null) {
-            return
-        }
-
-        if (!ctx.refsCache.containsKey(ref)) {
-            ctx.refsCache[ref] = value
-        }
-    }
-
-    private fun fillRefsUsingCache(text: String, sprContextKDBX: SprContextKDBX): String {
+    private fun fillReferencesUsingCache(text: String): String {
         var newText = text
-        for ((key, value) in sprContextKDBX.refsCache) {
-            newText = text.replace(key, value, true)
+        for ((key, value) in refsCache) {
+            // Replace by key if value not found
+            newText = newText.replace(key, value ?: key, true)
         }
         return newText
     }
 
-    private fun searchEntries(contextKDBX: SprContextKDBX,
-                              searchParameters: SearchParameters?,
-                              listStorage: MutableList<EntryKDBX>?) {
+    private fun findReferenceTarget(reference: String): TargetResult {
 
-        val root = contextKDBX.databaseKDBX?.rootGroup
-        if (searchParameters == null) {
-            return
-        }
-        if (listStorage == null) {
-            return
-        }
+        val targetResult = TargetResult(null, 'J')
 
-        val terms = splitStringTerms(searchParameters.searchQuery)
-        if (terms.size <= 1 || searchParameters.regularExpression) {
-            root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
-            return
+        if (reference.length <= 4) {
+            return targetResult
+        }
+        if (reference[1] != '@') {
+            return targetResult
+        }
+        if (reference[3] != ':') {
+            return targetResult
         }
 
-        // Search longest term first
-        val stringLengthComparator = Comparator<String> { lhs, rhs -> lhs.length - rhs.length }
-        Collections.sort(terms, stringLengthComparator)
-
-        val fullSearch = searchParameters.searchQuery
-        var childEntries: List<EntryKDBX>? = root!!.getChildEntries()
-        for (i in terms.indices) {
-            val pgNew = ArrayList<EntryKDBX>()
-
-            searchParameters.searchQuery = terms[i]
-
-            var negate = false
-            if (searchParameters.searchQuery.startsWith("-")) {
-                searchParameters.searchQuery = searchParameters.searchQuery.substring(1)
-                negate = searchParameters.searchQuery.isNotEmpty()
-            }
-
-            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParameters, pgNew), null)) {
-                childEntries = null
-                break
-            }
-
-            childEntries = if (negate) {
-                val complement = ArrayList<EntryKDBX>()
-                for (entry in childEntries!!) {
-                    if (!pgNew.contains(entry)) {
-                        complement.add(entry)
-                    }
-                }
-                complement
-            } else {
-                pgNew
-            }
-        }
-
-        if (childEntries != null) {
-            listStorage.addAll(childEntries)
-        }
-        searchParameters.searchQuery = fullSearch
-    }
-
-    /**
-     * Create a list of String by split text when ' ', '\t', '\r' or '\n' is found
-     */
-    private fun splitStringTerms(text: String?): List<String> {
-        val list = ArrayList<String>()
-        if (text == null) {
-            return list
-        }
-
-        val stringBuilder = StringBuilder()
-        var quoted = false
-
-        for (element in text) {
-
-            if ((element == ' ' || element == '\t' || element == '\r' || element == '\n') && !quoted) {
-
-                val len = stringBuilder.length
-                when {
-                    len > 0 -> {
-                        list.add(stringBuilder.toString())
-                        stringBuilder.delete(0, len)
-                    }
-                    element == '\"' -> quoted = !quoted
-                    else -> stringBuilder.append(element)
+        targetResult.wanted = Character.toUpperCase(reference[0])
+        val searchIn = Character.toUpperCase(reference[2])
+        val searchQuery = reference.substring(4)
+        targetResult.entry = when (searchIn) {
+            'T' -> mDatabase.getEntryByTitle(searchQuery)
+            'U' -> mDatabase.getEntryByUsername(searchQuery)
+            'A' -> mDatabase.getEntryByURL(searchQuery)
+            'P' -> mDatabase.getEntryByPassword(searchQuery)
+            'N' -> mDatabase.getEntryByNotes(searchQuery)
+            'I' -> {
+                UuidUtil.fromHexString(searchQuery)?.let { uuid ->
+                    mDatabase.getEntryById(NodeIdUUID(uuid))
                 }
             }
+            'O' -> mDatabase.getEntryByCustomData(searchQuery)
+            else -> null
         }
-
-        if (stringBuilder.isNotEmpty()) {
-            list.add(stringBuilder.toString())
-        }
-
-        return list
+        return targetResult
     }
 
-    inner class TargetResult(var entry: EntryKDBX?, var wanted: Char)
-
-    private inner class SprContextKDBX {
-
-        var databaseKDBX: DatabaseKDBX? = null
-        var entryKDBX: EntryKDBX
-        var refsCache: MutableMap<String, String> = HashMap()
-
-        constructor(databaseKDBX: DatabaseKDBX, entry: EntryKDBX) {
-            this.databaseKDBX = databaseKDBX
-            this.entryKDBX = entry
-        }
-
-        constructor(source: SprContextKDBX) {
-            this.databaseKDBX = source.databaseKDBX
-            this.entryKDBX = source.entryKDBX
-            this.refsCache = source.refsCache
-        }
-    }
-
-    private class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters,
-                                         private val mListStorage: MutableList<EntryKDBX>)
-        : NodeHandler<EntryKDBX>() {
-
-        override fun operate(node: EntryKDBX): Boolean {
-            if (mSearchParametersKDBX.excludeExpired
-                    && node.isCurrentlyExpires) {
-                return true
-            }
-            if (searchStrings(node)) {
-                mListStorage.add(node)
-                return true
-            }
-            if (searchInGroupNames(node)) {
-                mListStorage.add(node)
-                return true
-            }
-            if (searchInUUID(node)) {
-                mListStorage.add(node)
-                return true
-            }
-            return true
-        }
-
-        private fun searchStrings(entry: EntryKDBX): Boolean {
-            var searchFound = false
-            // Search all strings in the KDBX entry
-            EntryFieldsLoop@ for((key, value) in entry.fields) {
-                if (entryKDBXKeyIsAllowedToSearch(key, mSearchParametersKDBX)) {
-                    val currentString = value.toString()
-                    if (SearchHelper.checkSearchQuery(currentString, mSearchParametersKDBX)) {
-                        searchFound = true
-                        break@EntryFieldsLoop
-                    }
-                }
-            }
-            return searchFound
-        }
-
-        private fun entryKDBXKeyIsAllowedToSearch(key: String, searchParameters: SearchParameters): Boolean {
-            return when (key) {
-                EntryKDBX.STR_TITLE -> searchParameters.searchInTitles
-                EntryKDBX.STR_USERNAME -> searchParameters.searchInUserNames
-                EntryKDBX.STR_PASSWORD -> searchParameters.searchInPasswords
-                EntryKDBX.STR_URL -> searchParameters.searchInUrls
-                EntryKDBX.STR_NOTES -> searchParameters.searchInNotes
-                else -> searchParameters.searchInOther
-            }
-        }
-
-        private fun searchInGroupNames(entry: EntryKDBX): Boolean {
-            if (mSearchParametersKDBX.searchInGroupNames) {
-                val parent = entry.parent
-                if (parent != null) {
-                    return parent.title
-                            .contains(mSearchParametersKDBX.searchQuery,
-                                    mSearchParametersKDBX.ignoreCase)
-                }
-            }
-            return false
-        }
-
-        private fun searchInUUID(entry: EntryKDBX): Boolean {
-            if (mSearchParametersKDBX.searchInUUIDs) {
-                return UuidUtil.toHexString(entry.id)
-                        .contains(mSearchParametersKDBX.searchQuery, true)
-            }
-            return false
-        }
-    }
+    private data class TargetResult(var entry: EntryKDBX?, var wanted: Char)
 
     companion object {
-        private const val MAX_RECURSION_DEPTH = 12
+        private const val MAX_RECURSION_DEPTH = 10
+        private const val MAX_INLINE_REF = 10
         private const val STR_REF_START = "{REF:"
         private const val STR_REF_END = "}"
     }

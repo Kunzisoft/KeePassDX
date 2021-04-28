@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.entry.FieldReferencesEngine
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
@@ -75,6 +76,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private var kdfList: MutableList<KdfEngine> = ArrayList()
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
+    private val mFieldReferenceEngine = FieldReferencesEngine(this)
 
     var kdbxVersion = UnsignedInt(0)
     var name = ""
@@ -331,6 +333,19 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override fun containsCustomData(): Boolean {
         return customData.isNotEmpty()
+    }
+
+    fun getEntryByCustomData(customDataValue: String): EntryKDBX? {
+        return entryIndexes.values.find { entry ->
+            entry.customData.containsValue(customDataValue)
+        }
+    }
+
+    /**
+     * Retrieve the value of a field reference
+     */
+    fun getFieldReferenceValue(textReference: String, recursionLevel: Int): String {
+        return mFieldReferenceEngine.compile(textReference, recursionLevel)
     }
 
     @Throws(IOException::class)
@@ -654,9 +669,20 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         this.deletedObjects.add(deletedObject)
     }
 
+    override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
+        super.addEntryTo(newEntry, parent)
+        mFieldReferenceEngine.clear()
+    }
+
+    override fun updateEntry(entry: EntryKDBX) {
+        super.updateEntry(entry)
+        mFieldReferenceEngine.clear()
+    }
+
     override fun removeEntryFrom(entryToRemove: EntryKDBX, parent: GroupKDBX?) {
         super.removeEntryFrom(entryToRemove, parent)
         deletedObjects.add(DeletedObject(entryToRemove.id))
+        mFieldReferenceEngine.clear()
     }
 
     override fun undoDeleteEntryFrom(entry: EntryKDBX, origParent: GroupKDBX?) {
@@ -727,6 +753,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     override fun clearCache() {
         try {
             super.clearCache()
+            mFieldReferenceEngine.clear()
             attachmentPool.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear cache", e)

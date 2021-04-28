@@ -93,7 +93,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
                 value
             } else {
                 TokenCalculator.HOTP_INITIAL_COUNTER
-                throw IllegalArgumentException()
+                throw NumberFormatException()
             }
         }
 
@@ -186,7 +186,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     }
 
     companion object {
-        const val MIN_HOTP_COUNTER = 1
+        const val MIN_HOTP_COUNTER = 0
         const val MAX_HOTP_COUNTER = Long.MAX_VALUE
 
         const val MIN_TOTP_PERIOD = 1
