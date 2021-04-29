@@ -177,13 +177,13 @@ class SearchHelper {
             // TODO Search settings
             var regularExpression = false
             var ignoreCase = true
-            var removeAccents = true
+            var removeAccents = true <- Too much time, to study
             var excludeExpired = false
             var searchOnlyInCurrentGroup = false
             */
             return stringToCheck.isNotEmpty()
-                    && stringToCheck.removeAccents().contains(
-                        searchParameters.searchQuery.removeAccents(), true)
+                    && stringToCheck.contains(
+                        searchParameters.searchQuery, true)
         }
     }
 }

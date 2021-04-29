@@ -1,6 +1,6 @@
 KeePassDX(3.0.0)
  * Fix search with non-latin chars #971
- * Fix action mode with search #972
+ * Fix action mode with search #972 (rollback ignore accents #945)
 
 KeePassDX(2.9.19)
  * Fix search slowdown #964
