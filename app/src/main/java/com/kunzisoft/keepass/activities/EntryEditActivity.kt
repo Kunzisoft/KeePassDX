@@ -134,7 +134,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -322,6 +322,7 @@ class EntryEditActivity : LockingActivity(),
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mDatabase?.let { database ->
                 AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
+                        database,
                         entry.getEntryInfo(database))
             }
         }

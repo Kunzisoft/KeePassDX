@@ -149,7 +149,7 @@ class GroupActivity : LockingActivity(),
         taTextColor.recycle()
 
         // Focus view to reinitialize timeout
-        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
@@ -418,13 +418,12 @@ class GroupActivity : LockingActivity(),
 
     private fun openGroup(group: Group?, isASearch: Boolean) {
         // Check TimeoutHelper
-        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
             // Open a group in a new fragment
             val newListNodeFragment = ListNodesFragment.newInstance(group, mReadOnly, isASearch)
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             // Different animation
-            val fragmentTag: String
-            fragmentTag = if (isASearch) {
+            val fragmentTag: String = if (isASearch) {
                 fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
                         R.anim.slide_in_bottom, R.anim.slide_out_top)
                 SEARCH_FRAGMENT_TAG
@@ -679,6 +678,7 @@ class GroupActivity : LockingActivity(),
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
             mDatabase?.let { database ->
                 AutofillHelper.buildResponseAndSetResult(this,
+                        database,
                         entry.getEntryInfo(database))
             }
         }
@@ -1403,6 +1403,7 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launch(activity: Activity,
+                   database: Database,
                    readOnly: Boolean,
                    onValidateSpecialMode: () -> Unit,
                    onCancelSpecialMode: () -> Unit,
@@ -1415,7 +1416,7 @@ class GroupActivity : LockingActivity(),
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,
-                                Database.getInstance(),
+                                database,
                                 searchInfo,
                                 { _ ->
                                     // Response is build
@@ -1462,7 +1463,7 @@ class GroupActivity : LockingActivity(),
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,
-                                Database.getInstance(),
+                                database,
                                 searchInfo,
                                 { items ->
                                     // Response is build
@@ -1497,11 +1498,11 @@ class GroupActivity : LockingActivity(),
                     { searchInfo, autofillComponent ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
-                                    Database.getInstance(),
+                                    database,
                                     searchInfo,
                                     { items ->
                                         // Response is build
-                                        AutofillHelper.buildResponseAndSetResult(activity, items)
+                                        AutofillHelper.buildResponseAndSetResult(activity, database, items)
                                         onValidateSpecialMode()
                                     },
                                     {
@@ -1525,7 +1526,7 @@ class GroupActivity : LockingActivity(),
                     { registerInfo ->
                         if (!readOnly) {
                             SearchHelper.checkAutoSearchInfo(activity,
-                                    Database.getInstance(),
+                                    database,
                                     registerInfo?.searchInfo,
                                     { _ ->
                                         // No auto search, it's a registration

@@ -134,7 +134,7 @@ class EntryActivity : LockingActivity() {
         }
 
         // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)

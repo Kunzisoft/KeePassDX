@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
@@ -53,6 +54,14 @@ import com.kunzisoft.keepass.utils.UriUtil
 class NestedAppSettingsFragment : NestedSettingsFragment() {
 
     private var deleteKeysAlertDialog: AlertDialog? = null
+
+    private var mDatabase: Database? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mDatabase = Database.getInstance()
+    }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -426,7 +435,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         }
                     }
                 if (iconPackEnabled) {
-                    IconPackChooser.setSelectedIconPack(iconPackId)
+                    mDatabase?.let {
+                        IconPackChooser.setSelectedIconPack(it.iconDrawableFactory, iconPackId)
+                    }
                 }
                 iconPackEnabled
             }

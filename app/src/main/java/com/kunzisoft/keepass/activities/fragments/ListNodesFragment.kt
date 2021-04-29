@@ -63,6 +63,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
 
+    private var mDatabase: Database? = null
 
     private var readOnly: Boolean = false
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
@@ -99,6 +100,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mDatabase = Database.getInstance()
+
         setHasOptionsMenu(true)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
@@ -114,7 +117,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
 
         contextThemed?.let { context ->
-            mAdapter = NodeAdapter(context)
+            mDatabase?.let { database ->
+                mAdapter = NodeAdapter(context, database)
+            }
             mAdapter?.apply {
                 setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
                     override fun onNodeClick(node: Node) {
@@ -254,7 +259,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             R.id.menu_sort -> {
                 context?.let { context ->
                     val sortDialogFragment: SortDialogFragment =
-                            if (Database.getInstance().isRecycleBinEnabled) {
+                            if (mDatabase?.isRecycleBinEnabled == true) {
                                 SortDialogFragment.getInstance(
                                         PreferencesUtil.getListSort(context),
                                         PreferencesUtil.getAscendingSort(context),
@@ -291,49 +296,48 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
 
-                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
-                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-                } else {
-                    nodeActionSelectionMode = true
-                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
+                mDatabase?.let { database ->
+                    if (nodeActionPasteMode != PasteMode.UNDEFINED) {
+                        mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+                    } else {
+                        nodeActionSelectionMode = true
+                        mode?.menuInflater?.inflate(R.menu.node_menu, menu)
 
-                    val database = Database.getInstance()
-
-                    // Open and Edit for a single item
-                    if (nodes.size == 1) {
-                        // Edition
-                        if (readOnly
-                                || (database.isRecycleBinEnabled && nodes[0] == database.recycleBin)) {
+                        // Open and Edit for a single item
+                        if (nodes.size == 1) {
+                            // Edition
+                            if (readOnly
+                                    || (database.isRecycleBinEnabled && nodes[0] == database.recycleBin)) {
+                                menu?.removeItem(R.id.menu_edit)
+                            }
+                        } else {
+                            menu?.removeItem(R.id.menu_open)
                             menu?.removeItem(R.id.menu_edit)
                         }
-                    } else {
-                        menu?.removeItem(R.id.menu_open)
-                        menu?.removeItem(R.id.menu_edit)
+
+                        // Move
+                        if (readOnly
+                                || isASearchResult) {
+                            menu?.removeItem(R.id.menu_move)
+                        }
+
+                        // Copy (not allowed for group)
+                        if (readOnly
+                                || isASearchResult
+                                || nodes.any { it.type == Type.GROUP }) {
+                            menu?.removeItem(R.id.menu_copy)
+                        }
+
+                        // Deletion
+                        if (readOnly
+                                || (database.isRecycleBinEnabled && nodes.any { it == database.recycleBin })) {
+                            menu?.removeItem(R.id.menu_delete)
+                        }
                     }
 
-                    // Move
-                    if (readOnly
-                            || isASearchResult) {
-                        menu?.removeItem(R.id.menu_move)
-                    }
-
-                    // Copy (not allowed for group)
-                    if (readOnly
-                            || isASearchResult
-                            || nodes.any { it.type == Type.GROUP }) {
-                        menu?.removeItem(R.id.menu_copy)
-                    }
-
-                    // Deletion
-                    if (readOnly
-                            || (database.isRecycleBinEnabled && nodes.any { it == database.recycleBin })) {
-                        menu?.removeItem(R.id.menu_delete)
-                    }
+                    // Add the number of items selected in title
+                    mode?.title = nodes.size.toString()
                 }
-
-                // Add the number of items selected in title
-                mode?.title = nodes.size.toString()
-
                 return actionModeCallback.onPrepareActionMode(mode, menu)
             }
 

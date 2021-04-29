@@ -23,6 +23,7 @@ import android.content.Context
 import androidx.preference.ListPreference
 import android.util.AttributeSet
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.icons.IconPackChooser
 import java.util.*
 
@@ -44,7 +45,7 @@ class IconPackListPreference @JvmOverloads constructor(context: Context,
 
         setEntries(entries.toTypedArray())
         entryValues = values.toTypedArray()
-        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
+        IconPackChooser.getSelectedIconPack(context, Database.getInstance().iconDrawableFactory)?.let { selectedIconPack ->
             setDefaultValue(selectedIconPack.id)
         }
     }

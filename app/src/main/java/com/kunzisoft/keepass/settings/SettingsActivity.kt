@@ -91,7 +91,7 @@ open class SettingsActivity
         }
 
         // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -243,7 +243,7 @@ open class SettingsActivity
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
         if (mTimeoutEnable)
-            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
                 replaceFragment(key, reload)
             }
         else

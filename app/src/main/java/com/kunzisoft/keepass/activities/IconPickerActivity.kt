@@ -115,7 +115,7 @@ class IconPickerActivity : LockingActivity() {
         }
 
         // Focus view to reinitialize timeout
-        findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard

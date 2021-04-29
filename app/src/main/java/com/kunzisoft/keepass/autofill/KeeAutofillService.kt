@@ -54,8 +54,13 @@ class KeeAutofillService : AutofillService() {
     var autofillInlineSuggestionsEnabled: Boolean = false
     private var mLock = AtomicBoolean()
 
+    private var mDatabase: Database? = null
+
     override fun onCreate() {
         super.onCreate()
+
+        mDatabase = Database.getInstance()
+
         getPreferences()
     }
 
@@ -95,26 +100,30 @@ class KeeAutofillService : AutofillService() {
                         } else {
                             null
                         }
-                        launchSelection(searchInfo,
-                                parseResult,
-                                inlineSuggestionsRequest,
-                                callback)
+                        mDatabase?.let { database ->
+                            launchSelection(database,
+                                    searchInfo,
+                                    parseResult,
+                                    inlineSuggestionsRequest,
+                                    callback)
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun launchSelection(searchInfo: SearchInfo,
+    private fun launchSelection(database: Database,
+                                searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                 callback: FillCallback) {
         SearchHelper.checkAutoSearchInfo(this,
-                Database.getInstance(),
+                database,
                 searchInfo,
                 { items ->
                     callback.onSuccess(
-                            AutofillHelper.buildResponse(this,
+                            AutofillHelper.buildResponse(this, database,
                                     items, parseResult, inlineSuggestionsRequest)
                     )
                 },

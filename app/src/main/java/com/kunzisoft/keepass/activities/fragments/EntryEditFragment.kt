@@ -87,8 +87,12 @@ class EntryEditFragment: StylishFragment() {
     private var mLastFocusedEditField: FocusedEditField? = null
     private var mExtraViewToRequestFocus: EditText? = null
 
+    private var mDatabase: Database? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
+        mDatabase = Database.getInstance()
 
         val rootView = inflater.cloneInContext(contextThemed)
             .inflate(R.layout.fragment_entry_edit_contents, container, false)
@@ -121,8 +125,7 @@ class EntryEditFragment: StylishFragment() {
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        // TODO retrieve current database with its unique key
-        attachmentsAdapter.database = Database.getInstance()
+        attachmentsAdapter.database = mDatabase
         //attachmentsAdapter.database = arguments?.getInt(KEY_DATABASE)
         attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
@@ -142,7 +145,7 @@ class EntryEditFragment: StylishFragment() {
         iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
         taIconColor?.recycle()
 
-        rootView?.resetAppTimeoutWhenViewFocusedOrChanged(requireContext())
+        rootView?.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
 
         // Retrieve the new entry after an orientation change
         if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)
