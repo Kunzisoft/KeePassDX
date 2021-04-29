@@ -80,17 +80,22 @@ abstract class NotificationService : Service() {
                                  actionEnd: () -> Unit) {
         mTimerJob?.cancel()
         mTimerJob = CoroutineScope(Dispatchers.Main).launch {
-            val timeoutInSeconds = timeoutMilliseconds / 1000L
-            for (currentTime in timeoutInSeconds downTo 0) {
-                actionAfterASecond?.invoke()
-                builder.setProgress(100,
-                        (currentTime * 100 / timeoutInSeconds).toInt(),
-                        false)
-                startForeground(notificationId, builder.build())
-                delay(1000)
-                if (currentTime <= 0) {
-                    actionEnd()
+            if (timeoutMilliseconds > 0) {
+                val timeoutInSeconds = timeoutMilliseconds / 1000L
+                for (currentTime in timeoutInSeconds downTo 0) {
+                    actionAfterASecond?.invoke()
+                    builder.setProgress(100,
+                            (currentTime * 100 / timeoutInSeconds).toInt(),
+                            false)
+                    startForeground(notificationId, builder.build())
+                    delay(1000)
+                    if (currentTime <= 0) {
+                        actionEnd()
+                    }
                 }
+            } else {
+                // If timeout is 0, run action once
+                actionEnd()
             }
             notificationManager?.cancel(notificationId)
             mTimerJob = null
