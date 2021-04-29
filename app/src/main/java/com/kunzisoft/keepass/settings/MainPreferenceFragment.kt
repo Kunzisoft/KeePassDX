@@ -22,11 +22,9 @@ package com.kunzisoft.keepass.settings
 import android.content.Context
 import android.os.Bundle
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
 
-class MainPreferenceFragment : PreferenceFragmentCompat() {
+class MainPreferenceFragment : DatabasePreferenceFragment() {
 
     private var mCallback: Callback? = null
 
@@ -82,7 +80,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
                 false
             }
-            if (!Database.getInstance().loaded) {
+            if (mDatabase?.loaded != true) {
                 isEnabled = false
             }
         }

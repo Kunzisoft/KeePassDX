@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
+import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -29,6 +30,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
 abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCompat() {
 
@@ -38,6 +40,14 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
     private var switchElementView: CompoundButton? = null
 
     private var mOnInputTextEditorActionListener: TextView.OnEditorActionListener? = null
+
+    protected var mDatabase: Database? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mDatabase = Database.getInstance()
+    }
 
     var inputText: String
         get() = this.inputTextView?.text?.toString() ?: ""

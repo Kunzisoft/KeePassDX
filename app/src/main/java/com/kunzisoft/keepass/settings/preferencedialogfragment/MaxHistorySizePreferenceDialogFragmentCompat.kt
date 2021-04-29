@@ -32,7 +32,7 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
         super.onBindDialogView(view)
 
         setExplanationText(R.string.max_history_size_summary)
-        database?.historyMaxSize?.let { maxItemsDatabase ->
+        mDatabase?.historyMaxSize?.let { maxItemsDatabase ->
             dataByte = DataByte(maxItemsDatabase, DataByte.ByteFormat.BYTE)
                     .toBetterByteFormat()
             inputText = dataByte.number.toString()
@@ -60,7 +60,7 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 val maxHistorySize: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {

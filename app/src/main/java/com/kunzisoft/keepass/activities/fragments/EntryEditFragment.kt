@@ -37,10 +37,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
@@ -53,7 +51,7 @@ import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 
-class EntryEditFragment: StylishFragment() {
+class EntryEditFragment: DatabaseFragment() {
 
     private lateinit var entryTitleLayoutView: TextInputLayout
     private lateinit var entryTitleView: EditText
@@ -87,12 +85,8 @@ class EntryEditFragment: StylishFragment() {
     private var mLastFocusedEditField: FocusedEditField? = null
     private var mExtraViewToRequestFocus: EditText? = null
 
-    private var mDatabase: Database? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
-        mDatabase = Database.getInstance()
 
         val rootView = inflater.cloneInContext(contextThemed)
             .inflate(R.layout.fragment_entry_edit_contents, container, false)

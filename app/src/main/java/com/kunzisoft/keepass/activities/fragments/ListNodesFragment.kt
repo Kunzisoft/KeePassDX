@@ -33,9 +33,7 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.NodeAdapter
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
@@ -43,7 +41,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
-class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
+class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
@@ -62,8 +60,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
-
-    private var mDatabase: Database? = null
 
     private var readOnly: Boolean = false
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
@@ -99,8 +95,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mDatabase = Database.getInstance()
 
         setHasOptionsMenu(true)
 

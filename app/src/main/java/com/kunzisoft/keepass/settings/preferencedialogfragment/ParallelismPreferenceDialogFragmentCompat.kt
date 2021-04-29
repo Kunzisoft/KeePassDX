@@ -29,12 +29,12 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
         super.onBindDialogView(view)
 
         setExplanationText(R.string.parallelism_explanation)
-        inputText = database?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
+        inputText = mDatabase?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 val parallelism: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {

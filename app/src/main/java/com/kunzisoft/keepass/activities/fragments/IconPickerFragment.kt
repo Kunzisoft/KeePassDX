@@ -9,19 +9,15 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
-class IconPickerFragment : StylishFragment() {
+class IconPickerFragment : DatabaseFragment() {
 
     private var iconPickerPagerAdapter: IconPickerPagerAdapter? = null
     private lateinit var viewPager: ViewPager2
 
     private val iconPickerViewModel: IconPickerViewModel by activityViewModels()
-
-    private var mDatabase: Database? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -32,8 +28,6 @@ class IconPickerFragment : StylishFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mDatabase = Database.getInstance()
-
         viewPager = view.findViewById(R.id.icon_picker_pager)
         val tabLayout = view.findViewById<TabLayout>(R.id.icon_picker_tabs)
         iconPickerPagerAdapter = IconPickerPagerAdapter(this,
