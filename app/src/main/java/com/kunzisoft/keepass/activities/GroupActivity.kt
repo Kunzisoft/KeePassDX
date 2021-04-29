@@ -101,8 +101,6 @@ class GroupActivity : LockingActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
-    private var mDatabase: Database? = null
-
     private var mListNodesFragment: ListNodesFragment? = null
     private var mRequestStartupSearch = true
 
@@ -122,8 +120,6 @@ class GroupActivity : LockingActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mDatabase = Database.getInstance()
 
         // Construct main view
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))

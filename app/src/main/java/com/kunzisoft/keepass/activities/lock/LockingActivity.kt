@@ -45,6 +45,8 @@ abstract class LockingActivity : SpecialModeActivity() {
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
 
+    protected var mDatabase: Database? = null
+
     // Force readOnly if Entry Selection mode
     protected var mReadOnly: Boolean
         get() {
@@ -85,6 +87,8 @@ abstract class LockingActivity : SpecialModeActivity() {
             }
             registerLockReceiver(mLockReceiver)
         }
+
+        mDatabase = Database.getInstance()
 
         mExitLock = false
     }

@@ -102,7 +102,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
             val readOnly = database.isReadOnly
             // If database is open
             SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
+                    database,
                     searchInfo,
                     { items ->
                         // Items found

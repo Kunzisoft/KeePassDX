@@ -65,16 +65,12 @@ class IconPickerActivity : LockingActivity() {
     private var mCustomIconsSelectionMode = false
     private var mIconsSelected: List<IconImageCustom> = ArrayList()
 
-    private var mDatabase: Database? = null
-
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_icon_picker)
-
-        mDatabase = Database.getInstance()
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.title = " "

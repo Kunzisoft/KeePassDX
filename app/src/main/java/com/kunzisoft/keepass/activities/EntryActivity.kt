@@ -78,8 +78,6 @@ class EntryActivity : LockingActivity() {
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
 
-    private var mDatabase: Database? = null
-
     private var mEntry: Entry? = null
 
     private var mIsHistory: Boolean = false
@@ -108,8 +106,7 @@ class EntryActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        mDatabase = Database.getInstance()
-        mReadOnly = mDatabase!!.isReadOnly || mReadOnly
+        mReadOnly = mDatabase?.isReadOnly != false || mReadOnly
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this)
 
