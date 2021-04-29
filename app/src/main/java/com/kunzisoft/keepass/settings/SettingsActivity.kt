@@ -68,7 +68,6 @@ open class SettingsActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_toolbar)
@@ -160,7 +159,7 @@ open class SettingsActivity
     }
 
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        Database.getInstance().let { database ->
+        mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
                 if (database.validatePasswordEncoding(mainCredential)) {

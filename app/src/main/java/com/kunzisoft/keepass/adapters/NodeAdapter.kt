@@ -262,7 +262,7 @@ class NodeAdapter (private val context: Context,
      */
     fun notifyChangeSort(sortNodeEnum: SortNodeEnum,
                          sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        this.mNodeComparator = sortNodeEnum.getNodeComparator(sortNodeParameters)
+        this.mNodeComparator = sortNodeEnum.getNodeComparator(database, sortNodeParameters)
     }
 
     override fun getItemViewType(position: Int): Int {
