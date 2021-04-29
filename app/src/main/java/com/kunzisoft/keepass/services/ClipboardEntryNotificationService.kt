@@ -37,7 +37,6 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     override val notificationId = 485
     private var mEntryInfo: EntryInfo? = null
     private var clipboardHelper: ClipboardHelper? = null
-    private var mNotificationTimeoutMilliSecs: Long = 0
 
     override fun retrieveChannelId(): String {
         return CHANNEL_CLIPBOARD_ID
@@ -67,9 +66,6 @@ class ClipboardEntryNotificationService : LockNotificationService() {
 
         // Get entry info from intent
         mEntryInfo = intent?.getParcelableExtra(EXTRA_ENTRY_INFO)
-
-        //Get settings
-        mNotificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
 
         when {
             intent == null -> Log.w(TAG, "null intent")
@@ -169,8 +165,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                     this, 0, cleanIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             builder.setDeleteIntent(cleanPendingIntent)
 
-            if (mNotificationTimeoutMilliSecs != NEVER) {
-                defineTimerJob(builder, mNotificationTimeoutMilliSecs, {
+            //Get settings
+            val notificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
+            if (notificationTimeoutMilliSecs != NEVER) {
+                defineTimerJob(builder, notificationTimeoutMilliSecs, {
                     val newGeneratedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
                     // New auto generated value
                     if (generatedValue != newGeneratedValue) {
