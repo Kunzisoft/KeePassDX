@@ -12,19 +12,9 @@ object StringUtil {
         return this.replace("[\\r|\\n|\\t|\\s|\\u00A0]+".toRegex(), "")
     }
 
-    fun String.flattenToAscii(): String {
-        var string = this
-        val out = CharArray(string.length)
-        string = Normalizer.normalize(string, Normalizer.Form.NFD)
-        var j = 0
-        var i = 0
-        val n = string.length
-        while (i < n) {
-            val c = string[i]
-            if (c <= '\u007F') out[j++] = c
-            ++i
-        }
-        return String(out)
+    fun String.removeAccents(): String {
+        return Normalizer.normalize(this, Normalizer.Form.NFD)
+                .replace("\\p{Mn}+".toRegex(), "")
     }
 
     fun ByteArray.toHexString() = joinToString("") { "%02X".format(it) }

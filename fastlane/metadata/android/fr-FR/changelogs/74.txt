@@ -1,1 +1,1 @@
- *
+ * Correction de la recherche avec des caractères non latin #971

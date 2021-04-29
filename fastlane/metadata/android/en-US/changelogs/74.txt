@@ -1,1 +1,1 @@
- *
+ * Fix search with non-latin chars #971

@@ -1,5 +1,5 @@
 KeePassDX(3.0.0)
- *
+ * Fix search with non-latin chars #971
 
 KeePassDX(2.9.19)
  * Fix search slowdown #964
