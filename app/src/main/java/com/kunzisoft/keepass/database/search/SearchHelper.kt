@@ -29,7 +29,6 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.StringUtil.removeAccents
 import com.kunzisoft.keepass.utils.UuidUtil
 
 class SearchHelper {
@@ -177,13 +176,13 @@ class SearchHelper {
             // TODO Search settings
             var regularExpression = false
             var ignoreCase = true
-            var removeAccents = true
+            var removeAccents = true <- Too much time, to study
             var excludeExpired = false
             var searchOnlyInCurrentGroup = false
             */
             return stringToCheck.isNotEmpty()
-                    && stringToCheck.removeAccents().contains(
-                        searchParameters.searchQuery.removeAccents(), true)
+                    && stringToCheck.contains(
+                        searchParameters.searchQuery, true)
         }
     }
 }

@@ -1,2 +1,2 @@
  * Fix search with non-latin chars #971
- * Fix action mode with search #972
+ * Fix action mode with search #972 (rollback ignore accents #945)
