@@ -29,7 +29,6 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.StringUtil.removeAccents
 import com.kunzisoft.keepass.utils.UuidUtil
 
 class SearchHelper {
