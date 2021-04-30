@@ -234,35 +234,35 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeMeta() {
         xml.startTag(null, DatabaseKDBXXML.ElemMeta)
 
-        writeObject(DatabaseKDBXXML.ElemGenerator, mDatabaseKDBX.localizedAppName)
+        writeString(DatabaseKDBXXML.ElemGenerator, mDatabaseKDBX.localizedAppName)
 
         if (hashOfHeader != null) {
-            writeObject(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
+            writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
         }
 
-        writeObject(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
+        writeString(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbNameChanged, mDatabaseKDBX.nameChanged)
-        writeObject(DatabaseKDBXXML.ElemDbDesc, mDatabaseKDBX.description, true)
+        writeString(DatabaseKDBXXML.ElemDbDesc, mDatabaseKDBX.description, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbDescChanged, mDatabaseKDBX.descriptionChanged)
-        writeObject(DatabaseKDBXXML.ElemDbDefaultUser, mDatabaseKDBX.defaultUserName, true)
+        writeString(DatabaseKDBXXML.ElemDbDefaultUser, mDatabaseKDBX.defaultUserName, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbDefaultUserChanged, mDatabaseKDBX.defaultUserNameChanged)
-        writeObject(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays.toKotlinLong())
-        writeObject(DatabaseKDBXXML.ElemDbColor, mDatabaseKDBX.color)
+        writeLong(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays.toKotlinLong())
+        writeString(DatabaseKDBXXML.ElemDbColor, mDatabaseKDBX.color)
         writeDateInstant(DatabaseKDBXXML.ElemDbKeyChanged, mDatabaseKDBX.keyLastChanged)
-        writeObject(DatabaseKDBXXML.ElemDbKeyChangeRec, mDatabaseKDBX.keyChangeRecDays)
-        writeObject(DatabaseKDBXXML.ElemDbKeyChangeForce, mDatabaseKDBX.keyChangeForceDays)
+        writeLong(DatabaseKDBXXML.ElemDbKeyChangeRec, mDatabaseKDBX.keyChangeRecDays)
+        writeLong(DatabaseKDBXXML.ElemDbKeyChangeForce, mDatabaseKDBX.keyChangeForceDays)
 
         writeMemoryProtection(mDatabaseKDBX.memoryProtection)
 
         writeCustomIconList()
 
-        writeObject(DatabaseKDBXXML.ElemRecycleBinEnabled, mDatabaseKDBX.isRecycleBinEnabled)
+        writeBoolean(DatabaseKDBXXML.ElemRecycleBinEnabled, mDatabaseKDBX.isRecycleBinEnabled)
         writeUuid(DatabaseKDBXXML.ElemRecycleBinUuid, mDatabaseKDBX.recycleBinUUID)
         writeDateInstant(DatabaseKDBXXML.ElemRecycleBinChanged, mDatabaseKDBX.recycleBinChanged)
         writeUuid(DatabaseKDBXXML.ElemEntryTemplatesGroup, mDatabaseKDBX.entryTemplatesGroup)
         writeDateInstant(DatabaseKDBXXML.ElemEntryTemplatesGroupChanged, mDatabaseKDBX.entryTemplatesGroupChanged)
-        writeObject(DatabaseKDBXXML.ElemHistoryMaxItems, mDatabaseKDBX.historyMaxItems.toLong())
-        writeObject(DatabaseKDBXXML.ElemHistoryMaxSize, mDatabaseKDBX.historyMaxSize)
+        writeLong(DatabaseKDBXXML.ElemHistoryMaxItems, mDatabaseKDBX.historyMaxItems.toLong())
+        writeLong(DatabaseKDBXXML.ElemHistoryMaxSize, mDatabaseKDBX.historyMaxSize)
         writeUuid(DatabaseKDBXXML.ElemLastSelectedGroup, mDatabaseKDBX.lastSelectedGroupUUID)
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleGroup, mDatabaseKDBX.lastTopVisibleGroupUUID)
 
@@ -353,9 +353,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun startGroup(group: GroupKDBX) {
         xml.startTag(null, DatabaseKDBXXML.ElemGroup)
         writeUuid(DatabaseKDBXXML.ElemUuid, group.id)
-        writeObject(DatabaseKDBXXML.ElemName, group.title)
-        writeObject(DatabaseKDBXXML.ElemNotes, group.notes)
-        writeObject(DatabaseKDBXXML.ElemIcon, group.icon.standard.id.toLong())
+        writeString(DatabaseKDBXXML.ElemName, group.title)
+        writeString(DatabaseKDBXXML.ElemNotes, group.notes)
+        writeLong(DatabaseKDBXXML.ElemIcon, group.icon.standard.id.toLong())
 
         if (!group.icon.custom.isUnknown) {
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, group.icon.custom.uuid)
@@ -363,10 +363,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         writeTags(group.tags)
         writeTimes(group)
-        writeObject(DatabaseKDBXXML.ElemIsExpanded, group.isExpanded)
-        writeObject(DatabaseKDBXXML.ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence)
-        writeObject(DatabaseKDBXXML.ElemEnableAutoType, group.enableAutoType)
-        writeObject(DatabaseKDBXXML.ElemEnableSearching, group.enableSearching)
+        writeBoolean(DatabaseKDBXXML.ElemIsExpanded, group.isExpanded)
+        writeString(DatabaseKDBXXML.ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence)
+        writeBoolean(DatabaseKDBXXML.ElemEnableAutoType, group.enableAutoType)
+        writeBoolean(DatabaseKDBXXML.ElemEnableSearching, group.enableSearching)
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleEntry, group.lastTopVisibleEntry)
     }
 
@@ -381,19 +381,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemEntry)
 
         writeUuid(DatabaseKDBXXML.ElemUuid, entry.id)
-        writeObject(DatabaseKDBXXML.ElemIcon, entry.icon.standard.id.toLong())
+        writeLong(DatabaseKDBXXML.ElemIcon, entry.icon.standard.id.toLong())
 
         if (!entry.icon.custom.isUnknown) {
             writeUuid(DatabaseKDBXXML.ElemCustomIconID, entry.icon.custom.uuid)
         }
 
-        writeObject(DatabaseKDBXXML.ElemFgColor, entry.foregroundColor)
-        writeObject(DatabaseKDBXXML.ElemBgColor, entry.backgroundColor)
-        writeObject(DatabaseKDBXXML.ElemOverrideUrl, entry.overrideURL)
+        writeString(DatabaseKDBXXML.ElemFgColor, entry.foregroundColor)
+        writeString(DatabaseKDBXXML.ElemBgColor, entry.backgroundColor)
+        writeString(DatabaseKDBXXML.ElemOverrideUrl, entry.overrideURL)
 
         // Write quality check only if false
         if (!entry.qualityCheck) {
-            writeObject(DatabaseKDBXXML.ElemQualityCheck, entry.qualityCheck)
+            writeBoolean(DatabaseKDBXXML.ElemQualityCheck, entry.qualityCheck)
         }
         writeTags(entry.tags)
         writeTimes(entry)
@@ -410,7 +410,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String, value: String, filterXmlChars: Boolean = false) {
+    private fun writeString(name: String, value: String, filterXmlChars: Boolean = false) {
         var xmlString = value
 
         xml.startTag(null, name)
@@ -427,34 +427,34 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeDateInstant(name: String, value: DateInstant) {
         val date = value.date
         if (header!!.version.isBefore(FILE_VERSION_40)) {
-            writeObject(name, DatabaseKDBXXML.DateFormatter.format(date))
+            writeString(name, DatabaseKDBXXML.DateFormatter.format(date))
         } else {
             val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(DateTime(date)))
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
-            writeObject(name, b64)
+            writeString(name, b64)
         }
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String, value: Long) {
-        writeObject(name, value.toString())
+    private fun writeLong(name: String, value: Long) {
+        writeString(name, value.toString())
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String, value: Boolean?) {
+    private fun writeBoolean(name: String, value: Boolean?) {
         val text: String = when {
             value == null -> DatabaseKDBXXML.ValNull
             value -> DatabaseKDBXXML.ValTrue
             else -> DatabaseKDBXXML.ValFalse
         }
 
-        writeObject(name, text)
+        writeString(name, text)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeUuid(name: String, uuid: UUID) {
         val data = uuidTo16Bytes(uuid)
-        writeObject(name, String(Base64.encode(data, BASE_64_FLAG)))
+        writeString(name, String(Base64.encode(data, BASE_64_FLAG)))
     }
 
     /*
@@ -516,33 +516,28 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String, keyName: String, keyValue: String, valueName: String, valueValue: String) {
-        xml.startTag(null, name)
-
-        xml.startTag(null, keyName)
-        xml.text(safeXmlString(keyValue))
-        xml.endTag(null, keyName)
-
-        xml.startTag(null, valueName)
-        xml.text(safeXmlString(valueValue))
-        xml.endTag(null, valueName)
-
-        xml.endTag(null, name)
-    }
-
-    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeAutoType(autoType: AutoType) {
         xml.startTag(null, DatabaseKDBXXML.ElemAutoType)
 
-        writeObject(DatabaseKDBXXML.ElemAutoTypeEnabled, autoType.enabled)
-        writeObject(DatabaseKDBXXML.ElemAutoTypeObfuscation, autoType.obfuscationOptions.toKotlinLong())
+        writeBoolean(DatabaseKDBXXML.ElemAutoTypeEnabled, autoType.enabled)
+        writeLong(DatabaseKDBXXML.ElemAutoTypeObfuscation, autoType.obfuscationOptions.toKotlinLong())
 
         if (autoType.defaultSequence.isNotEmpty()) {
-            writeObject(DatabaseKDBXXML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true)
+            writeString(DatabaseKDBXXML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true)
         }
 
         for ((key, value) in autoType.entrySet()) {
-            writeObject(DatabaseKDBXXML.ElemAutoTypeItem, DatabaseKDBXXML.ElemWindow, key, DatabaseKDBXXML.ElemKeystrokeSequence, value)
+            xml.startTag(null, DatabaseKDBXXML.ElemAutoTypeItem)
+
+            xml.startTag(null, DatabaseKDBXXML.ElemWindow)
+            xml.text(safeXmlString(key))
+            xml.endTag(null, DatabaseKDBXXML.ElemWindow)
+
+            xml.startTag(null, DatabaseKDBXXML.ElemKeystrokeSequence)
+            xml.text(safeXmlString(value))
+            xml.endTag(null, DatabaseKDBXXML.ElemKeystrokeSequence)
+
+            xml.endTag(null, DatabaseKDBXXML.ElemAutoTypeItem)
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemAutoType)
@@ -633,11 +628,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeMemoryProtection(value: MemoryProtectionConfig) {
         xml.startTag(null, DatabaseKDBXXML.ElemMemoryProt)
 
-        writeObject(DatabaseKDBXXML.ElemProtTitle, value.protectTitle)
-        writeObject(DatabaseKDBXXML.ElemProtUserName, value.protectUserName)
-        writeObject(DatabaseKDBXXML.ElemProtPassword, value.protectPassword)
-        writeObject(DatabaseKDBXXML.ElemProtURL, value.protectUrl)
-        writeObject(DatabaseKDBXXML.ElemProtNotes, value.protectNotes)
+        writeBoolean(DatabaseKDBXXML.ElemProtTitle, value.protectTitle)
+        writeBoolean(DatabaseKDBXXML.ElemProtUserName, value.protectUserName)
+        writeBoolean(DatabaseKDBXXML.ElemProtPassword, value.protectPassword)
+        writeBoolean(DatabaseKDBXXML.ElemProtURL, value.protectUrl)
+        writeBoolean(DatabaseKDBXXML.ElemProtNotes, value.protectNotes)
 
         xml.endTag(null, DatabaseKDBXXML.ElemMemoryProt)
     }
@@ -676,7 +671,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeTags(tags: Tags) {
         if (!tags.isEmpty()) {
-            writeObject(DatabaseKDBXXML.ElemTags, tags.toString())
+            writeString(DatabaseKDBXXML.ElemTags, tags.toString())
         }
     }
 
@@ -688,8 +683,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeDateInstant(DatabaseKDBXXML.ElemCreationTime, node.creationTime)
         writeDateInstant(DatabaseKDBXXML.ElemLastAccessTime, node.lastAccessTime)
         writeDateInstant(DatabaseKDBXXML.ElemExpiryTime, node.expiryTime)
-        writeObject(DatabaseKDBXXML.ElemExpires, node.expires)
-        writeObject(DatabaseKDBXXML.ElemUsageCount, node.usageCount.toKotlinLong())
+        writeBoolean(DatabaseKDBXXML.ElemExpires, node.expires)
+        writeLong(DatabaseKDBXXML.ElemUsageCount, node.usageCount.toKotlinLong())
         writeDateInstant(DatabaseKDBXXML.ElemLocationChanged, node.locationChanged)
 
         xml.endTag(null, DatabaseKDBXXML.ElemTimes)
@@ -731,11 +726,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to write custom icon", e)
                 } finally {
-                    writeObject(DatabaseKDBXXML.ElemCustomIconItemData,
+                    writeString(DatabaseKDBXXML.ElemCustomIconItemData,
                             String(Base64.encode(customImageData, BASE_64_FLAG)))
                 }
                 if (iconCustom.name.isNotEmpty()) {
-                    writeObject(DatabaseKDBXXML.ElemName, iconCustom.name)
+                    writeString(DatabaseKDBXXML.ElemName, iconCustom.name)
                 }
                 iconCustom.lastModificationTime?.let { lastModificationTime ->
                     writeDateInstant(DatabaseKDBXXML.ElemLastModTime, lastModificationTime)
