@@ -240,7 +240,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
 
         size += overrideURL.length.toLong()
-        size += tags.toString().toLong()
+        size += tags.toString().length
 
         return size
     }
