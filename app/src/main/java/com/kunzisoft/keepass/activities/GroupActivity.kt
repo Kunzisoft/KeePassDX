@@ -382,6 +382,7 @@ class GroupActivity : LockingActivity(),
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
             if (Intent.ACTION_SEARCH == intentNotNull.action) {
+                finishNodeAction()
                 // only one instance of search in backstack
                 deletePreviousSearchGroup()
                 openGroup(retrieveCurrentGroup(intentNotNull, null), true)
