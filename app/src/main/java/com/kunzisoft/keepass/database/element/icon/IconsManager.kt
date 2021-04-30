@@ -52,17 +52,18 @@ class IconsManager(private val binaryCache: BinaryCache) {
     fun buildNewCustomIcon(key: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
         // Create a binary file for a brand new custom icon
-        addCustomIcon(key, false, result)
+        addCustomIcon(key, "", false, result)
     }
 
     fun addCustomIcon(key: UUID? = null,
+                      name: String,
                       smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
         val keyBinary = customCache.put(key) { uniqueBinaryId ->
             // Create a byte array for better performance with small data
             binaryCache.getBinaryData(uniqueBinaryId, smallSize)
         }
-        result.invoke(IconImageCustom(keyBinary.keys.first()), keyBinary.binary)
+        result.invoke(IconImageCustom(keyBinary.keys.first(), name), keyBinary.binary)
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {

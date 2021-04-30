@@ -316,9 +316,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun addCustomIcon(customIconId: UUID? = null,
+                      name: String,
                       smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.addCustomIcon(customIconId, smallSize, result)
+        iconsManager.addCustomIcon(customIconId, name, smallSize, result)
     }
 
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {

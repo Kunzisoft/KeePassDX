@@ -27,22 +27,27 @@ import java.util.*
 
 class IconImageCustom : IconImageDraw {
 
-    var uuid: UUID
+    val uuid: UUID
+    var name: String = ""
 
-    constructor() {
-        uuid = DatabaseVersioned.UUID_ZERO
+    constructor(name: String = "") {
+        this.uuid = DatabaseVersioned.UUID_ZERO
+        this.name = name
     }
 
-    constructor(uuid: UUID) {
+    constructor(uuid: UUID, name: String = "") {
         this.uuid = uuid
+        this.name = name
     }
 
     constructor(parcel: Parcel) {
         uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
+        name = parcel.readString() ?: name
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(ParcelUuid(uuid), flags)
+        dest.writeString(name)
     }
 
     override fun describeContents(): Int {

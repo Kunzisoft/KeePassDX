@@ -724,6 +724,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     writeObject(DatabaseKDBXXML.ElemCustomIconItemData,
                             String(Base64.encode(customImageData, BASE_64_FLAG)))
                 }
+                if (iconCustom.name.isNotEmpty()) {
+                    writeObject(DatabaseKDBXXML.ElemCustomIconName, iconCustom.name)
+                }
 
                 xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)
             }

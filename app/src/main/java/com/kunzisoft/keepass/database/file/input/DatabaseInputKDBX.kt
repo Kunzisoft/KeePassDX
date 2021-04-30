@@ -89,6 +89,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private var ctxHistoryBase: EntryKDBX? = null
     private var ctxDeletedObject: DeletedObject? = null
     private var customIconID = DatabaseVersioned.UUID_ZERO
+    private var customIconName: String = ""
     private var customIconData: ByteArray? = null
     private var customDataKey: String? = null
     private var customDataValue: String? = null
@@ -469,6 +470,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 if (strData.isNotEmpty()) {
                     customIconData = Base64.decode(strData, BASE_64_FLAG)
                 }
+            } else if (name.equals(DatabaseKDBXXML.ElemCustomIconName, ignoreCase = true)) {
+                customIconName = readString(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -719,7 +722,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
         } else if (ctx == KdbContext.CustomIcon && name.equals(DatabaseKDBXXML.ElemCustomIconItem, ignoreCase = true)) {
             val iconData = customIconData
             if (customIconID != DatabaseVersioned.UUID_ZERO && iconData != null) {
-                mDatabase.addCustomIcon(customIconID, isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
+                mDatabase.addCustomIcon(customIconID,
+                        customIconName,
+                        isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
                     binary?.getOutputDataStream(mDatabase.binaryCache)?.use { outputStream ->
                         outputStream.write(iconData)
                     }

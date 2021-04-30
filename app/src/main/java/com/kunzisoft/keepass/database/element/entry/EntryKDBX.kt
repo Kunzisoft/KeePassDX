@@ -327,6 +327,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return customData.isNotEmpty()
     }
 
+    override fun containsCustomIconWithName(): Boolean {
+        return icon.custom.name.isNotEmpty()
+    }
+
     fun addEntryToHistory(entry: EntryKDBX) {
         history.add(entry)
     }

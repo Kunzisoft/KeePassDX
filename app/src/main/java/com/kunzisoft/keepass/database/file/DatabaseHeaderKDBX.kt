@@ -97,10 +97,12 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         var containsCustomData = false
         var containsCustomDataWithLastModificationTime = false
         override fun operate(node: T): Boolean {
+            if (node.containsCustomIconWithName()) {
+                containsCustomIconWithName = true
+            }
             if (node.containsCustomData()) {
                 containsCustomData = true
             }
-            // TODO Custom Icon name
             // TODO Custom Icon modification time
             return true
         }
