@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
@@ -95,6 +96,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         var containsCustomIconWithNameOrLastModificationTime = false
         var containsCustomData = false
         var containsCustomDataWithLastModificationTime = false
+        var containsPreviousParentGroup = false
         override fun operate(node: T): Boolean {
             if (node.containsCustomIconWithNameOrLastModificationTime()) {
                 containsCustomIconWithNameOrLastModificationTime = true
@@ -104,6 +106,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
                 if (node.customData.containsItemWithLastModificationTime()) {
                     containsCustomDataWithLastModificationTime = true
                 }
+            }
+            if (node.previousParentGroup != DatabaseVersioned.UUID_ZERO) {
+                containsPreviousParentGroup = true
             }
             return true
         }
@@ -140,6 +145,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
                 || groupHandler.containsCustomIconWithNameOrLastModificationTime
         val containsCustomDataWithLastModificationTime = entryHandler.containsCustomDataWithLastModificationTime
                 || groupHandler.containsCustomDataWithLastModificationTime
+        val containsPreviousParentGroup = entryHandler.containsPreviousParentGroup
+                || groupHandler.containsPreviousParentGroup
 
         // https://keepass.info/help/kb/kdbx_4.html
         // If AES is not use, it's at least 4.0
@@ -151,7 +158,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         return if (containsGroupWithTag
                 || containsEntryWithPasswordQualityEstimationDisabled
                 || containsCustomIconWithNameOrLastModificationTime
-                || containsCustomDataWithLastModificationTime) {
+                || containsCustomDataWithLastModificationTime
+                || containsPreviousParentGroup) {
             FILE_VERSION_41
         } else if (kdfIsNotAes
                 || containsHeaderCustomData
