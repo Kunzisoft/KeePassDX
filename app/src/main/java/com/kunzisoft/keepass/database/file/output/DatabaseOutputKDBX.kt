@@ -671,7 +671,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.endTag(null, DatabaseKDBXXML.ElemValue)
 
         customDataItem.lastModificationTime?.let { lastModificationTime ->
-            writeObject(DatabaseKDBXXML.ElemLastAccessTime, lastModificationTime.date)
+            writeObject(DatabaseKDBXXML.ElemLastModTime, lastModificationTime.date)
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemStringDictExItem)
