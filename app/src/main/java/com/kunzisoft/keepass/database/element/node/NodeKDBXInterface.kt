@@ -29,8 +29,8 @@ interface NodeKDBXInterface : NodeTimeInterface {
     var locationChanged: DateInstant
 
     fun putCustomData(key: String, value: String)
-
     fun containsCustomData(): Boolean
+    fun containsCustomDataWithLastModificationTime(): Boolean
 
     fun containsCustomIconWithNameOrLastModificationTime() : Boolean
 

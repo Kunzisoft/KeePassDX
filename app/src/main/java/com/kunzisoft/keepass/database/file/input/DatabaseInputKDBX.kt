@@ -94,6 +94,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private var customIconData: ByteArray? = null
     private var customDataKey: String? = null
     private var customDataValue: String? = null
+    private var customDataLastModificationTime: DateInstant? = null
     private var groupCustomDataKey: String? = null
     private var groupCustomDataValue: String? = null
     private var entryCustomDataKey: String? = null
@@ -495,6 +496,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 customDataKey = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemValue, ignoreCase = true)) {
                 customDataValue = readString(xpp)
+            } else if (name.equals(DatabaseKDBXXML.ElemLastModTime, ignoreCase = true)) {
+                customDataLastModificationTime = readPwTime(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -744,13 +747,14 @@ class DatabaseInputKDBX(cacheDirectory: File,
         } else if (ctx == KdbContext.CustomData && name.equals(DatabaseKDBXXML.ElemCustomData, ignoreCase = true)) {
             return KdbContext.Meta
         } else if (ctx == KdbContext.CustomDataItem && name.equals(DatabaseKDBXXML.ElemStringDictExItem, ignoreCase = true)) {
-            if (customDataKey != null && customDataValue != null) {
-                mDatabase.putCustomData(customDataKey!!, customDataValue!!)
+            customDataKey?.let { dataKey ->
+                customDataValue?.let { dataValue ->
+                    mDatabase.putCustomData(dataKey, dataValue, customDataLastModificationTime)
+                }
             }
-
             customDataKey = null
             customDataValue = null
-
+            customDataLastModificationTime = null
             return KdbContext.CustomData
         } else if (ctx == KdbContext.Group && name.equals(DatabaseKDBXXML.ElemGroup, ignoreCase = true)) {
             if (ctxGroup != null && ctxGroup?.id == DatabaseVersioned.UUID_ZERO) {

@@ -28,6 +28,8 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -400,9 +402,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeTimes(entry)
         writeFields(entry.fields)
         writeEntryBinaries(entry.binaries)
-        if (entry.containsCustomData()) {
-            writeCustomData(entry.customData)
-        }
+        writeCustomData(entry.customData)
         writeAutoType(entry.autoType)
 
         if (!isHistory) {
@@ -647,20 +647,34 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeCustomData(customData: Map<String, String>) {
-        xml.startTag(null, DatabaseKDBXXML.ElemCustomData)
+    private fun writeCustomData(customData: CustomData) {
+        if (customData.isNotEmpty()) {
+            xml.startTag(null, DatabaseKDBXXML.ElemCustomData)
 
-        for ((key, value) in customData) {
-            writeObject(
-                    DatabaseKDBXXML.ElemStringDictExItem,
-                    DatabaseKDBXXML.ElemKey,
-                    key,
-                    DatabaseKDBXXML.ElemValue,
-                    value
-            )
+            customData.doForEachItems { customDataItem ->
+                writeCustomDataItem(customDataItem)
+            }
+
+            xml.endTag(null, DatabaseKDBXXML.ElemCustomData)
+        }
+    }
+
+    private fun writeCustomDataItem(customDataItem: CustomDataItem) {
+        xml.startTag(null, DatabaseKDBXXML.ElemStringDictExItem)
+
+        xml.startTag(null, DatabaseKDBXXML.ElemKey)
+        xml.text(safeXmlString(customDataItem.key))
+        xml.endTag(null, DatabaseKDBXXML.ElemKey)
+
+        xml.startTag(null, DatabaseKDBXXML.ElemValue)
+        xml.text(safeXmlString(customDataItem.value))
+        xml.endTag(null, DatabaseKDBXXML.ElemValue)
+
+        customDataItem.lastModificationTime?.let { lastModificationTime ->
+            writeObject(DatabaseKDBXXML.ElemLastAccessTime, lastModificationTime.date)
         }
 
-        xml.endTag(null, DatabaseKDBXXML.ElemCustomData)
+        xml.endTag(null, DatabaseKDBXXML.ElemStringDictExItem)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)

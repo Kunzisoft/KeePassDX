@@ -32,6 +32,8 @@ import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
+import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -112,7 +114,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<DeletedObject>()
-    val customData = HashMap<String, String>()
+    val customData = CustomData()
 
     var localizedAppName = "KeePassDX"
 
@@ -331,17 +333,20 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
-    fun putCustomData(label: String, value: String) {
-        this.customData[label] = value
+    fun putCustomData(label: String, value: String, lastModificationTime: DateInstant?) {
+        this.customData.put(CustomDataItem(label, value, lastModificationTime))
     }
 
     override fun containsCustomData(): Boolean {
         return customData.isNotEmpty()
     }
 
+    /**
+     * To perform a search in entry custom data
+     */
     fun getEntryByCustomData(customDataValue: String): EntryKDBX? {
         return entryIndexes.values.find { entry ->
-            entry.customData.containsValue(customDataValue)
+            entry.customData.containsItemWithValue(customDataValue)
         }
     }
 

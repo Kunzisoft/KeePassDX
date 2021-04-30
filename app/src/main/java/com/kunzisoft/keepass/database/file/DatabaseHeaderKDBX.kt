@@ -101,7 +101,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             }
             if (node.containsCustomData()) {
                 containsCustomData = true
-                // TODO Data modification time
+                if (node.containsCustomDataWithLastModificationTime()) {
+                    containsCustomDataWithLastModificationTime = true
+                }
             }
             return true
         }
@@ -142,7 +144,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         // https://keepass.info/help/kb/kdbx_4.html
         // If AES is not use, it's at least 4.0
         val kdfIsNotAes = databaseKDBX.kdfParameters?.uuid != AesKdf.CIPHER_UUID
-        val containsHeaderCustomData = databaseKDBX.containsCustomData()
+        val containsHeaderCustomData = databaseKDBX.customData.isNotEmpty()
         val containsNodeCustomData = entryHandler.containsCustomData || groupHandler.containsCustomData
 
         // Check each condition to determine version

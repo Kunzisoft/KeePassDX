@@ -23,6 +23,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
@@ -45,7 +47,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    var customData = LinkedHashMap<String, String>()
+    var customData = CustomData()
     var fields = LinkedHashMap<String, ProtectedString>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
@@ -63,7 +65,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor(parcel: Parcel) : super(parcel) {
         usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
-        customData = ParcelableUtil.readStringParcelableMap(parcel)
+        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
         fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
         binaries = ParcelableUtil.readStringIntMap(parcel)
         foregroundColor = parcel.readString() ?: foregroundColor
@@ -87,7 +89,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         super.writeToParcel(dest, flags)
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
-        ParcelableUtil.writeStringParcelableMap(dest, customData)
+        dest.writeParcelable(customData, flags)
         ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
         ParcelableUtil.writeStringIntMap(dest, binaries)
         dest.writeString(foregroundColor)
@@ -107,9 +109,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         super.updateWith(source)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
-        // Add all custom elements in map
-        customData.clear()
-        customData.putAll(source.customData)
+        customData = CustomData(source.customData)
         fields.clear()
         fields.putAll(source.fields)
         binaries.clear()
@@ -320,11 +320,15 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     }
 
     override fun putCustomData(key: String, value: String) {
-        customData[key] = value
+        customData.put(CustomDataItem(key, value))
     }
 
     override fun containsCustomData(): Boolean {
         return customData.isNotEmpty()
+    }
+
+    override fun containsCustomDataWithLastModificationTime(): Boolean {
+        return customData.containsItemWithLastModificationTime()
     }
 
     override fun containsCustomIconWithNameOrLastModificationTime(): Boolean {

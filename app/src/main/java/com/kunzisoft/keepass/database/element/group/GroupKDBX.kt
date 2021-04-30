@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.database.element.group
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -33,9 +35,8 @@ import java.util.*
 
 class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
-    private val customData = HashMap<String, String>()
+    var customData = CustomData()
     var notes = ""
-
     var isExpanded = true
     var defaultAutoTypeSequence = ""
     var enableAutoType: Boolean? = null
@@ -60,7 +61,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor(parcel: Parcel) : super(parcel) {
         usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
-        // TODO customData = ParcelableUtil.readStringParcelableMap(parcel);
+        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
         notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
@@ -83,7 +84,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         super.writeToParcel(dest, flags)
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
-        // TODO ParcelableUtil.writeStringParcelableMap(dest, customData);
+        dest.writeParcelable(customData, flags)
         dest.writeString(notes)
         dest.writeByte((if (isExpanded) 1 else 0).toByte())
         dest.writeString(defaultAutoTypeSequence)
@@ -97,10 +98,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
         // Add all custom elements in map
-        customData.clear()
-        for ((key, value) in source.customData) {
-            customData[key] = value
-        }
+        customData = CustomData(source.customData)
         notes = source.notes
         isExpanded = source.isExpanded
         defaultAutoTypeSequence = source.defaultAutoTypeSequence
@@ -118,11 +116,15 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     }
 
     override fun putCustomData(key: String, value: String) {
-        customData[key] = value
+        customData.put(CustomDataItem(key, value))
     }
 
     override fun containsCustomData(): Boolean {
         return customData.isNotEmpty()
+    }
+
+    override fun containsCustomDataWithLastModificationTime(): Boolean {
+        return customData.containsItemWithLastModificationTime()
     }
 
     override fun containsCustomIconWithNameOrLastModificationTime(): Boolean {
