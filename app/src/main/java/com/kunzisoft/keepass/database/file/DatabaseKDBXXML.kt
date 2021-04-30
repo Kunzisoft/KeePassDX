@@ -67,7 +67,6 @@ object DatabaseKDBXXML {
     const val ElemCustomIconItem = "Icon"
     const val ElemCustomIconItemID = "UUID"
     const val ElemCustomIconItemData = "Data"
-    const val ElemCustomIconName = "Name"
 
     const val ElemAutoType = "AutoType"
     const val ElemHistory = "History"

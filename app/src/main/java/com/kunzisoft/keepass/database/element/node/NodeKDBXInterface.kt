@@ -32,6 +32,6 @@ interface NodeKDBXInterface : NodeTimeInterface {
 
     fun containsCustomData(): Boolean
 
-    fun containsCustomIconWithName() : Boolean
+    fun containsCustomIconWithNameOrLastModificationTime() : Boolean
 
 }

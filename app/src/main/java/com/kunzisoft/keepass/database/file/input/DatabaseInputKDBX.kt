@@ -90,6 +90,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private var ctxDeletedObject: DeletedObject? = null
     private var customIconID = DatabaseVersioned.UUID_ZERO
     private var customIconName: String = ""
+    private var customIconLastModificationTime: DateInstant? = null
     private var customIconData: ByteArray? = null
     private var customDataKey: String? = null
     private var customDataValue: String? = null
@@ -470,8 +471,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 if (strData.isNotEmpty()) {
                     customIconData = Base64.decode(strData, BASE_64_FLAG)
                 }
-            } else if (name.equals(DatabaseKDBXXML.ElemCustomIconName, ignoreCase = true)) {
+            } else if (name.equals(DatabaseKDBXXML.ElemName, ignoreCase = true)) {
                 customIconName = readString(xpp)
+            } else if (name.equals(DatabaseKDBXXML.ElemLastModTime, ignoreCase = true)) {
+                customIconLastModificationTime = readPwTime(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -724,6 +727,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             if (customIconID != DatabaseVersioned.UUID_ZERO && iconData != null) {
                 mDatabase.addCustomIcon(customIconID,
                         customIconName,
+                        customIconLastModificationTime,
                         isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
                     binary?.getOutputDataStream(mDatabase.binaryCache)?.use { outputStream ->
                         outputStream.write(iconData)

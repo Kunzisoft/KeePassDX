@@ -92,18 +92,17 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     private open class NodeOperationHandler<T: NodeKDBXInterface> : NodeHandler<T>() {
-        var containsCustomIconWithName = false
-        var containsCustomIconWithLastModificationTime = false
+        var containsCustomIconWithNameOrLastModificationTime = false
         var containsCustomData = false
         var containsCustomDataWithLastModificationTime = false
         override fun operate(node: T): Boolean {
-            if (node.containsCustomIconWithName()) {
-                containsCustomIconWithName = true
+            if (node.containsCustomIconWithNameOrLastModificationTime()) {
+                containsCustomIconWithNameOrLastModificationTime = true
             }
             if (node.containsCustomData()) {
                 containsCustomData = true
+                // TODO Data modification time
             }
-            // TODO Custom Icon modification time
             return true
         }
     }
@@ -135,10 +134,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         // https://keepass.info/help/kb/kdbx_4.1.html
         val containsGroupWithTag = groupHandler.containsTags
         val containsEntryWithPasswordQualityEstimationDisabled = entryHandler.passwordQualityEstimationDisabled
-        val containsCustomIconWithName = entryHandler.containsCustomIconWithName
-                || groupHandler.containsCustomIconWithName
-        val containsCustomIconWithLastModificationTime = entryHandler.containsCustomIconWithLastModificationTime
-                || groupHandler.containsCustomIconWithLastModificationTime
+        val containsCustomIconWithNameOrLastModificationTime = entryHandler.containsCustomIconWithNameOrLastModificationTime
+                || groupHandler.containsCustomIconWithNameOrLastModificationTime
         val containsCustomDataWithLastModificationTime = entryHandler.containsCustomDataWithLastModificationTime
                 || groupHandler.containsCustomDataWithLastModificationTime
 
@@ -151,8 +148,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         // Check each condition to determine version
         return if (containsGroupWithTag
                 || containsEntryWithPasswordQualityEstimationDisabled
-                || containsCustomIconWithName
-                || containsCustomIconWithLastModificationTime
+                || containsCustomIconWithNameOrLastModificationTime
                 || containsCustomDataWithLastModificationTime) {
             FILE_VERSION_41
         } else if (kdfIsNotAes

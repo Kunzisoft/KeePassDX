@@ -55,7 +55,7 @@ class DateInstant : Parcelable {
         jDate = Date()
     }
 
-    protected constructor(parcel: Parcel) {
+    constructor(parcel: Parcel) {
         jDate = parcel.readSerializable() as Date
     }
 
