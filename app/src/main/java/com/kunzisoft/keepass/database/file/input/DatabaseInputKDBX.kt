@@ -734,10 +734,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     }
                 }
             }
-
             customIconID = DatabaseVersioned.UUID_ZERO
+            customIconName = ""
+            customIconLastModificationTime = null
             customIconData = null
-
             return KdbContext.CustomIcons
         } else if (ctx == KdbContext.Binaries && name.equals(DatabaseKDBXXML.ElemBinaries, ignoreCase = true)) {
             return KdbContext.Meta
