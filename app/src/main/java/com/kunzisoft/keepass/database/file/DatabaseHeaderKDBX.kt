@@ -109,7 +109,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     private inner class EntryOperationHandler: NodeOperationHandler<EntryKDBX>() {
         var passwordQualityEstimationDisabled = false
         override fun operate(node: EntryKDBX): Boolean {
-            // TODO Password quality estimation
+            if (!node.qualityCheck) {
+                passwordQualityEstimationDisabled = true
+            }
             return super.operate(node)
         }
     }

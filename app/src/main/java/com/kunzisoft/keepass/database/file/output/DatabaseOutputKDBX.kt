@@ -392,6 +392,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(DatabaseKDBXXML.ElemBgColor, entry.backgroundColor)
         writeObject(DatabaseKDBXXML.ElemOverrideUrl, entry.overrideURL)
 
+        // Write quality check only if false
+        if (!entry.qualityCheck) {
+            writeObject(DatabaseKDBXXML.ElemQualityCheck, entry.qualityCheck)
+        }
         writeTags(entry.tags)
         writeTimes(entry)
         writeFields(entry.fields)

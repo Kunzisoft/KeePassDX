@@ -51,6 +51,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
+    var qualityCheck = true
     var autoType = AutoType()
     var history = ArrayList<EntryKDBX>()
     var additional = ""

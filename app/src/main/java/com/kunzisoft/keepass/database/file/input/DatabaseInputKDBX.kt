@@ -581,6 +581,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 ctxEntry?.backgroundColor = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemOverrideUrl, ignoreCase = true)) {
                 ctxEntry?.overrideURL = readString(xpp)
+            } else if (name.equals(DatabaseKDBXXML.ElemQualityCheck, ignoreCase = true)) {
+                ctxEntry?.qualityCheck = readBool(xpp, true)
             } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
                 ctxEntry?.tags = Tags(readString(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
