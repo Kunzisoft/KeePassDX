@@ -19,30 +19,37 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.os.Parcel
+import android.os.ParcelUuid
+import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
-import java.util.Date
-import java.util.UUID
+import java.util.*
 
-class DeletedObject {
+class DeletedObject : Parcelable {
 
     var uuid: UUID = DatabaseVersioned.UUID_ZERO
-    private var mDeletionTime: Date? = null
+    private var mDeletionTime: DateInstant? = null
 
-    fun getDeletionTime(): Date {
+    constructor()
+
+    constructor(uuid: UUID, deletionTime: DateInstant = DateInstant()) {
+        this.uuid = uuid
+        this.mDeletionTime = deletionTime
+    }
+
+    constructor(parcel: Parcel) {
+        uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
+        mDeletionTime = parcel.readParcelable(DateInstant::class.java.classLoader)
+    }
+
+    fun getDeletionTime(): DateInstant {
         if (mDeletionTime == null) {
-            mDeletionTime = Date(System.currentTimeMillis())
+            mDeletionTime = DateInstant(System.currentTimeMillis())
         }
         return mDeletionTime!!
     }
 
-    fun setDeletionTime(deletionTime: Date) {
-        this.mDeletionTime = deletionTime
-    }
-
-    constructor()
-
-    constructor(uuid: UUID, deletionTime: Date = Date()) {
-        this.uuid = uuid
+    fun setDeletionTime(deletionTime: DateInstant) {
         this.mDeletionTime = deletionTime
     }
 
@@ -58,5 +65,24 @@ class DeletedObject {
 
     override fun hashCode(): Int {
         return uuid.hashCode()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(ParcelUuid(uuid), flags)
+        parcel.writeParcelable(mDeletionTime, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<DeletedObject> {
+        override fun createFromParcel(parcel: Parcel): DeletedObject {
+            return DeletedObject(parcel)
+        }
+
+        override fun newArray(size: Int): Array<DeletedObject?> {
+            return arrayOfNulls(size)
+        }
     }
 }

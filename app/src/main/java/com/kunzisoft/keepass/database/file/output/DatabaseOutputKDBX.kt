@@ -23,15 +23,12 @@ import android.util.Base64
 import android.util.Log
 import android.util.Xml
 import com.kunzisoft.encrypt.StreamCipher
-import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CipherEngine
+import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
-import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.CustomDataItem
-import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.Tags
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -244,14 +241,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
 
         writeObject(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
-        writeObject(DatabaseKDBXXML.ElemDbNameChanged, mDatabaseKDBX.nameChanged.date)
+        writeDateInstant(DatabaseKDBXXML.ElemDbNameChanged, mDatabaseKDBX.nameChanged)
         writeObject(DatabaseKDBXXML.ElemDbDesc, mDatabaseKDBX.description, true)
-        writeObject(DatabaseKDBXXML.ElemDbDescChanged, mDatabaseKDBX.descriptionChanged.date)
+        writeDateInstant(DatabaseKDBXXML.ElemDbDescChanged, mDatabaseKDBX.descriptionChanged)
         writeObject(DatabaseKDBXXML.ElemDbDefaultUser, mDatabaseKDBX.defaultUserName, true)
-        writeObject(DatabaseKDBXXML.ElemDbDefaultUserChanged, mDatabaseKDBX.defaultUserNameChanged.date)
+        writeDateInstant(DatabaseKDBXXML.ElemDbDefaultUserChanged, mDatabaseKDBX.defaultUserNameChanged)
         writeObject(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays.toKotlinLong())
         writeObject(DatabaseKDBXXML.ElemDbColor, mDatabaseKDBX.color)
-        writeObject(DatabaseKDBXXML.ElemDbKeyChanged, mDatabaseKDBX.keyLastChanged.date)
+        writeDateInstant(DatabaseKDBXXML.ElemDbKeyChanged, mDatabaseKDBX.keyLastChanged)
         writeObject(DatabaseKDBXXML.ElemDbKeyChangeRec, mDatabaseKDBX.keyChangeRecDays)
         writeObject(DatabaseKDBXXML.ElemDbKeyChangeForce, mDatabaseKDBX.keyChangeForceDays)
 
@@ -261,9 +258,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         writeObject(DatabaseKDBXXML.ElemRecycleBinEnabled, mDatabaseKDBX.isRecycleBinEnabled)
         writeUuid(DatabaseKDBXXML.ElemRecycleBinUuid, mDatabaseKDBX.recycleBinUUID)
-        writeObject(DatabaseKDBXXML.ElemRecycleBinChanged, mDatabaseKDBX.recycleBinChanged)
+        writeDateInstant(DatabaseKDBXXML.ElemRecycleBinChanged, mDatabaseKDBX.recycleBinChanged)
         writeUuid(DatabaseKDBXXML.ElemEntryTemplatesGroup, mDatabaseKDBX.entryTemplatesGroup)
-        writeObject(DatabaseKDBXXML.ElemEntryTemplatesGroupChanged, mDatabaseKDBX.entryTemplatesGroupChanged.date)
+        writeDateInstant(DatabaseKDBXXML.ElemEntryTemplatesGroupChanged, mDatabaseKDBX.entryTemplatesGroupChanged)
         writeObject(DatabaseKDBXXML.ElemHistoryMaxItems, mDatabaseKDBX.historyMaxItems.toLong())
         writeObject(DatabaseKDBXXML.ElemHistoryMaxSize, mDatabaseKDBX.historyMaxSize)
         writeUuid(DatabaseKDBXXML.ElemLastSelectedGroup, mDatabaseKDBX.lastSelectedGroupUUID)
@@ -427,13 +424,12 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String, value: Date) {
+    private fun writeDateInstant(name: String, value: DateInstant) {
+        val date = value.date
         if (header!!.version.isBefore(FILE_VERSION_40)) {
-            writeObject(name, DatabaseKDBXXML.DateFormatter.format(value))
+            writeObject(name, DatabaseKDBXXML.DateFormatter.format(date))
         } else {
-            val dt = DateTime(value)
-            val seconds = DateKDBXUtil.convertDateToKDBX4Time(dt)
-            val buf = longTo8Bytes(seconds)
+            val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(DateTime(date)))
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeObject(name, b64)
         }
@@ -597,7 +593,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemDeletedObject)
 
         writeUuid(DatabaseKDBXXML.ElemUuid, value.uuid)
-        writeObject(DatabaseKDBXXML.ElemDeletionTime, value.getDeletionTime())
+        writeDateInstant(DatabaseKDBXXML.ElemDeletionTime, value.getDeletionTime())
 
         xml.endTag(null, DatabaseKDBXXML.ElemDeletedObject)
     }
@@ -671,7 +667,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.endTag(null, DatabaseKDBXXML.ElemValue)
 
         customDataItem.lastModificationTime?.let { lastModificationTime ->
-            writeObject(DatabaseKDBXXML.ElemLastModTime, lastModificationTime.date)
+            writeDateInstant(DatabaseKDBXXML.ElemLastModTime, lastModificationTime)
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemStringDictExItem)
@@ -688,13 +684,13 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeTimes(node: NodeKDBXInterface) {
         xml.startTag(null, DatabaseKDBXXML.ElemTimes)
 
-        writeObject(DatabaseKDBXXML.ElemLastModTime, node.lastModificationTime.date)
-        writeObject(DatabaseKDBXXML.ElemCreationTime, node.creationTime.date)
-        writeObject(DatabaseKDBXXML.ElemLastAccessTime, node.lastAccessTime.date)
-        writeObject(DatabaseKDBXXML.ElemExpiryTime, node.expiryTime.date)
+        writeDateInstant(DatabaseKDBXXML.ElemLastModTime, node.lastModificationTime)
+        writeDateInstant(DatabaseKDBXXML.ElemCreationTime, node.creationTime)
+        writeDateInstant(DatabaseKDBXXML.ElemLastAccessTime, node.lastAccessTime)
+        writeDateInstant(DatabaseKDBXXML.ElemExpiryTime, node.expiryTime)
         writeObject(DatabaseKDBXXML.ElemExpires, node.expires)
         writeObject(DatabaseKDBXXML.ElemUsageCount, node.usageCount.toKotlinLong())
-        writeObject(DatabaseKDBXXML.ElemLocationChanged, node.locationChanged.date)
+        writeDateInstant(DatabaseKDBXXML.ElemLocationChanged, node.locationChanged)
 
         xml.endTag(null, DatabaseKDBXXML.ElemTimes)
     }
@@ -742,7 +738,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     writeObject(DatabaseKDBXXML.ElemName, iconCustom.name)
                 }
                 iconCustom.lastModificationTime?.let { lastModificationTime ->
-                    writeObject(DatabaseKDBXXML.ElemLastModTime, lastModificationTime.date)
+                    writeDateInstant(DatabaseKDBXXML.ElemLastModTime, lastModificationTime)
                 }
 
                 xml.endTag(null, DatabaseKDBXXML.ElemCustomIconItem)

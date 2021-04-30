@@ -105,7 +105,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     var isRecycleBinEnabled = true
     var recycleBinUUID: UUID = UUID_ZERO
-    var recycleBinChanged = Date()
+    var recycleBinChanged = DateInstant()
     var entryTemplatesGroup = UUID_ZERO
     var entryTemplatesGroupChanged = DateInstant()
     var historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS
@@ -617,14 +617,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             addGroupTo(recycleBinGroup, rootGroup)
             recycleBinUUID = recycleBinGroup.id
-            recycleBinChanged = recycleBinGroup.lastModificationTime.date
+            recycleBinChanged = recycleBinGroup.lastModificationTime
         }
     }
 
     fun removeRecycleBin() {
         if (recycleBin != null) {
             recycleBinUUID = UUID_ZERO
-            recycleBinChanged = DateInstant().date
+            recycleBinChanged = DateInstant()
         }
     }
 
