@@ -78,7 +78,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
         tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
-        previousParentGroup = parcel.readParcelable(ParcelUuid::class.java.classLoader) ?: DatabaseVersioned.UUID_ZERO
+        previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
         autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
         url = parcel.readString() ?: url

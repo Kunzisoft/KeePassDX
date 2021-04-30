@@ -76,7 +76,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         lastTopVisibleEntry = parcel.readSerializable() as UUID
         tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
-        previousParentGroup = parcel.readParcelable(ParcelUuid::class.java.classLoader) ?: DatabaseVersioned.UUID_ZERO
+        previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
