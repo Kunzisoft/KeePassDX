@@ -407,10 +407,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.isExpanded = expanded
     }
 
-    fun containsCustomData(): Boolean {
-        return groupKDBX?.containsCustomData() ?: false
-    }
-
     /*
       ------------
       Converter

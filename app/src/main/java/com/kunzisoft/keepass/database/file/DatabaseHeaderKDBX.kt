@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -99,9 +99,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             if (node.containsCustomIconWithNameOrLastModificationTime()) {
                 containsCustomIconWithNameOrLastModificationTime = true
             }
-            if (node.containsCustomData()) {
+            if (node.customData.isNotEmpty()) {
                 containsCustomData = true
-                if (node.containsCustomDataWithLastModificationTime()) {
+                if (node.customData.containsItemWithLastModificationTime()) {
                     containsCustomDataWithLastModificationTime = true
                 }
             }

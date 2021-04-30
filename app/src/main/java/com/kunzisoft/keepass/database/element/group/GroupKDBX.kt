@@ -23,7 +23,6 @@ import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
@@ -37,7 +36,9 @@ import java.util.*
 
 class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
-    var customData = CustomData()
+    override var usageCount = UnsignedLong(0)
+    override var locationChanged = DateInstant()
+    override var customData = CustomData()
     var notes = ""
     var isExpanded = true
     var defaultAutoTypeSequence = ""
@@ -117,24 +118,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         previousParentGroup = source.previousParentGroup
     }
 
-    override var usageCount = UnsignedLong(0)
-
-    override var locationChanged = DateInstant()
-
     override fun afterAssignNewParent() {
         locationChanged = DateInstant()
-    }
-
-    override fun putCustomData(key: String, value: String) {
-        customData.put(CustomDataItem(key, value))
-    }
-
-    override fun containsCustomData(): Boolean {
-        return customData.isNotEmpty()
-    }
-
-    override fun containsCustomDataWithLastModificationTime(): Boolean {
-        return customData.containsItemWithLastModificationTime()
     }
 
     override fun containsCustomIconWithNameOrLastModificationTime(): Boolean {

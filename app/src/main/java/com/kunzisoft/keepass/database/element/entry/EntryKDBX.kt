@@ -22,8 +22,10 @@ package com.kunzisoft.keepass.database.element.entry
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
@@ -34,6 +36,7 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -46,7 +49,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    var customData = CustomData()
+    override var usageCount = UnsignedLong(0)
+    override var locationChanged = DateInstant()
+    override var customData = CustomData()
     var fields = LinkedHashMap<String, ProtectedString>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
@@ -222,10 +227,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    override var usageCount = UnsignedLong(0)
-
-    override var locationChanged = DateInstant()
-
     fun getSize(attachmentPool: AttachmentPool): Long {
         var size = FIXED_LENGTH_SIZE
 
@@ -324,18 +325,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             size += attachmentPool[poolId]?.getSize() ?: 0
         }
         return size
-    }
-
-    override fun putCustomData(key: String, value: String) {
-        customData.put(CustomDataItem(key, value))
-    }
-
-    override fun containsCustomData(): Boolean {
-        return customData.isNotEmpty()
-    }
-
-    override fun containsCustomDataWithLastModificationTime(): Boolean {
-        return customData.containsItemWithLastModificationTime()
     }
 
     override fun containsCustomIconWithNameOrLastModificationTime(): Boolean {

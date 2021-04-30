@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -331,14 +330,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun getCustomIcon(iconUuid: UUID): IconImageCustom {
         return this.iconsManager.getIcon(iconUuid)
-    }
-
-    fun putCustomData(label: String, value: String, lastModificationTime: DateInstant?) {
-        this.customData.put(CustomDataItem(label, value, lastModificationTime))
-    }
-
-    override fun containsCustomData(): Boolean {
-        return customData.isNotEmpty()
     }
 
     /**

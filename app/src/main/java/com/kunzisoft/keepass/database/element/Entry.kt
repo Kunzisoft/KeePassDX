@@ -386,10 +386,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return entryKDBX?.getSize(attachmentPool) ?: 0L
     }
 
-    fun containsCustomData(): Boolean {
-        return entryKDBX?.containsCustomData() ?: false
-    }
-
     /*
       ------------
       Converter
