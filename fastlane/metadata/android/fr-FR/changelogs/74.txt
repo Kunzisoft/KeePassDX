@@ -1,0 +1,3 @@
+ * Correction de la recherche avec des caractères non latin #971
+ * Correction du mode action avec la recherche #972 (retour arrière des accents ignorés #945)
+ * Correction de l'expiration de temps à 0s #974
