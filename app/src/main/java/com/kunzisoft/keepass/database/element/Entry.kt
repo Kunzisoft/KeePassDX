@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
@@ -114,13 +115,16 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.icon = value
         }
 
-    override var tags: Tags
-        get() {
-            return entryKDB?.tags ?: entryKDBX?.tags ?: Tags()
-        }
+    var tags: Tags
+        get() = entryKDBX?.tags ?: Tags()
         set(value) {
-            entryKDB?.tags = value
             entryKDBX?.tags = value
+        }
+
+    var previousParentGroup: UUID
+        get() = entryKDBX?.previousParentGroup ?: DatabaseVersioned.UUID_ZERO
+        set(value) {
+            entryKDBX?.previousParentGroup = value
         }
 
     override val type: Type

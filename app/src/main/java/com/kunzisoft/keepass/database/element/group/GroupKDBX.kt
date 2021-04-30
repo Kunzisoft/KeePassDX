@@ -20,10 +20,12 @@
 package com.kunzisoft.keepass.database.element.group
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -42,6 +44,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var enableAutoType: Boolean? = null
     var enableSearching: Boolean? = null
     var lastTopVisibleEntry: UUID = DatabaseVersioned.UUID_ZERO
+    override var tags = Tags()
+    override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
 
     override var expires: Boolean = false
 
@@ -70,6 +74,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         val isSearchingEnabled = parcel.readInt()
         enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         lastTopVisibleEntry = parcel.readSerializable() as UUID
+        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
+        previousParentGroup = parcel.readParcelable(ParcelUuid::class.java.classLoader) ?: DatabaseVersioned.UUID_ZERO
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
@@ -91,6 +97,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
         dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
         dest.writeSerializable(lastTopVisibleEntry)
+        dest.writeParcelable(tags, flags)
+        dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
     }
 
     fun updateWith(source: GroupKDBX) {
@@ -105,6 +113,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         enableAutoType = source.enableAutoType
         enableSearching = source.enableSearching
         lastTopVisibleEntry = source.lastTopVisibleEntry
+        tags = source.tags
+        previousParentGroup = source.previousParentGroup
     }
 
     override var usageCount = UnsignedLong(0)

@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -362,6 +363,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         }
 
         writeTags(group.tags)
+        writePreviousParentGroup(group.previousParentGroup)
         writeTimes(group)
         writeBoolean(DatabaseKDBXXML.ElemIsExpanded, group.isExpanded)
         writeString(DatabaseKDBXXML.ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence)
@@ -396,6 +398,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeBoolean(DatabaseKDBXXML.ElemQualityCheck, entry.qualityCheck)
         }
         writeTags(entry.tags)
+        writePreviousParentGroup(entry.previousParentGroup)
         writeTimes(entry)
         writeFields(entry.fields)
         writeEntryBinaries(entry.binaries)
@@ -672,6 +675,13 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun writeTags(tags: Tags) {
         if (!tags.isEmpty()) {
             writeString(DatabaseKDBXXML.ElemTags, tags.toString())
+        }
+    }
+
+    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
+    private fun writePreviousParentGroup(previousParentGroup: UUID) {
+        if (previousParentGroup != DatabaseVersioned.UUID_ZERO) {
+            writeUuid(DatabaseKDBXXML.ElemPreviousParentGroup, previousParentGroup)
         }
     }
 

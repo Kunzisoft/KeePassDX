@@ -20,13 +20,16 @@
 package com.kunzisoft.keepass.database.element.node
 
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.utils.UnsignedLong
+import java.util.*
 
 interface NodeKDBXInterface : NodeTimeInterface {
 
     var usageCount: UnsignedLong
-
     var locationChanged: DateInstant
+    var tags: Tags
+    var previousParentGroup: UUID
 
     fun putCustomData(key: String, value: String)
     fun containsCustomData(): Boolean

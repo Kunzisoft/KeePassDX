@@ -529,7 +529,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
                 ctxGroup?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
-                ctxGroup?.tags = Tags(readString(xpp))
+                ctxGroup?.tags = readTags(xpp)
+            } else if (name.equals(DatabaseKDBXXML.ElemPreviousParentGroup, ignoreCase = true)) {
+                ctxGroup?.previousParentGroup = readUuid(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.GroupTimes, xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIsExpanded, ignoreCase = true)) {
@@ -593,7 +595,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemQualityCheck, ignoreCase = true)) {
                 ctxEntry?.qualityCheck = readBool(xpp, true)
             } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
-                ctxEntry?.tags = Tags(readString(xpp))
+                ctxEntry?.tags = readTags(xpp)
+            } else if (name.equals(DatabaseKDBXXML.ElemPreviousParentGroup, ignoreCase = true)) {
+                ctxEntry?.previousParentGroup = readUuid(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.EntryTimes, xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemString, ignoreCase = true)) {
@@ -877,6 +881,11 @@ class DatabaseInputKDBX(cacheDirectory: File,
         }
 
         return DateInstant(utcDate ?: Date(0L))
+    }
+
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readTags(xpp: XmlPullParser): Tags {
+        return Tags(readString(xpp))
     }
 
     @Throws(XmlPullParserException::class, IOException::class)

@@ -20,14 +20,13 @@
 package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.CustomDataItem
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -53,6 +52,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
+    override var tags = Tags()
+    override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
     var qualityCheck = true
     var autoType = AutoType()
     var history = ArrayList<EntryKDBX>()
@@ -71,6 +72,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
+        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
+        previousParentGroup = parcel.readParcelable(ParcelUuid::class.java.classLoader) ?: DatabaseVersioned.UUID_ZERO
         autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
         url = parcel.readString() ?: url
@@ -95,6 +98,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)
+        dest.writeParcelable(tags, flags)
+        dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
         dest.writeParcelable(autoType, flags)
         dest.writeTypedList(history)
         dest.writeString(url)
@@ -117,6 +122,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         foregroundColor = source.foregroundColor
         backgroundColor = source.backgroundColor
         overrideURL = source.overrideURL
+        tags = source.tags
+        previousParentGroup = source.previousParentGroup
         autoType = AutoType(source.autoType)
         history.clear()
         if (copyHistory)

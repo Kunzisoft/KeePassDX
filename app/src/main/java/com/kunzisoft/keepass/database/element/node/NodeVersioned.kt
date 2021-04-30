@@ -23,7 +23,6 @@ package com.kunzisoft.keepass.database.element.node
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -48,7 +47,6 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         this.nodeId = parcel.readParcelable(NodeId::class.java.classLoader) ?: nodeId
         this.parent = this.readParentParcelable(parcel)
         this.icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
-        this.tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
         this.creationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: creationTime
         this.lastModificationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: lastModificationTime
         this.lastAccessTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: lastAccessTime
@@ -60,7 +58,6 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         dest.writeParcelable(nodeId, flags)
         writeParentParcelable(parent, dest, flags)
         dest.writeParcelable(icon, flags)
-        dest.writeParcelable(tags, flags)
         dest.writeParcelable(creationTime, flags)
         dest.writeParcelable(lastModificationTime, flags)
         dest.writeParcelable(lastAccessTime, flags)
@@ -76,7 +73,6 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         this.nodeId = copyNodeId(source.nodeId)
         this.parent = source.parent
         this.icon = source.icon
-        this.tags = source.tags
         this.creationTime = DateInstant(source.creationTime)
         this.lastModificationTime = DateInstant(source.lastModificationTime)
         this.lastAccessTime = DateInstant(source.lastAccessTime)
@@ -92,8 +88,6 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
     final override var parent: Parent? = null
 
     final override var icon: IconImage = IconImage()
-
-    final override var tags: Tags = Tags()
 
     final override var creationTime: DateInstant = DateInstant()
 

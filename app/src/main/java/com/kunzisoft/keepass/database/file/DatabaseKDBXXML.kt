@@ -82,6 +82,7 @@ object DatabaseKDBXXML {
     const val ElemQualityCheck = "QualityCheck"
     const val ElemTimes = "Times"
     const val ElemTags = "Tags"
+    const val ElemPreviousParentGroup = "PreviousParentGroup"
 
     const val ElemCreationTime = "CreationTime"
     const val ElemLastModTime = "LastModificationTime"
