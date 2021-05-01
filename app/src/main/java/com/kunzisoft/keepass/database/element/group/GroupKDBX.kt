@@ -122,10 +122,6 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         locationChanged = DateInstant()
     }
 
-    override fun containsCustomIconWithNameOrLastModificationTime(): Boolean {
-        return icon.custom.name.isNotEmpty() || icon.custom.lastModificationTime != null
-    }
-
     companion object {
 
         @JvmField

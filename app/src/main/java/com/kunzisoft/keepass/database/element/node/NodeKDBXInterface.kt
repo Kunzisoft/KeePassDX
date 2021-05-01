@@ -32,6 +32,4 @@ interface NodeKDBXInterface : NodeTimeInterface {
     var customData: CustomData
     var tags: Tags
     var previousParentGroup: UUID
-
-    fun containsCustomIconWithNameOrLastModificationTime() : Boolean
 }

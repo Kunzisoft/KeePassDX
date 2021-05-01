@@ -31,6 +31,10 @@ class CustomIconPool(private val binaryCache: BinaryCache) : BinaryPool<UUID>(bi
         return newUUID
     }
 
+    fun any(predicate: (IconImageCustom)-> Boolean): Boolean {
+        return customIcons.any { predicate(it.value) }
+    }
+
     fun doForEachCustomIcon(action: (customIcon: IconImageCustom, binary: BinaryData) -> Unit) {
         doForEachBinary { key, binary ->
             action.invoke(customIcons[key] ?: IconImageCustom(key), binary)

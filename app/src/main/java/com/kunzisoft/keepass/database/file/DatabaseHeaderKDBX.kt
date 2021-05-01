@@ -93,13 +93,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     private open class NodeOperationHandler<T: NodeKDBXInterface> : NodeHandler<T>() {
-        var containsCustomIconWithNameOrLastModificationTime = false
         var containsCustomData = false
         var containsCustomDataWithLastModificationTime = false
         override fun operate(node: T): Boolean {
-            if (node.containsCustomIconWithNameOrLastModificationTime()) {
-                containsCustomIconWithNameOrLastModificationTime = true
-            }
             if (node.customData.isNotEmpty()) {
                 containsCustomData = true
                 if (node.customData.containsItemWithLastModificationTime()) {
@@ -137,8 +133,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         // https://keepass.info/help/kb/kdbx_4.1.html
         val containsGroupWithTag = groupHandler.containsTags
         val containsEntryWithPasswordQualityEstimationDisabled = entryHandler.passwordQualityEstimationDisabled
-        val containsCustomIconWithNameOrLastModificationTime = entryHandler.containsCustomIconWithNameOrLastModificationTime
-                || groupHandler.containsCustomIconWithNameOrLastModificationTime
+        val containsCustomIconWithNameOrLastModificationTime = databaseKDBX.iconsManager.containsCustomIconWithNameOrLastModificationTime()
         val containsCustomDataWithLastModificationTime = entryHandler.containsCustomDataWithLastModificationTime
                 || groupHandler.containsCustomDataWithLastModificationTime
 

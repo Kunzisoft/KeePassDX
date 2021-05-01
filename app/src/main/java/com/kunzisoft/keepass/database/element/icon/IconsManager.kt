@@ -90,6 +90,12 @@ class IconsManager(binaryCache: BinaryCache) {
         customCache.doForEachCustomIcon(action)
     }
 
+    fun containsCustomIconWithNameOrLastModificationTime(): Boolean {
+        return customCache.any { customIcon ->
+            customIcon.name.isNotEmpty() || customIcon.lastModificationTime != null
+        }
+    }
+
     /**
      * Clear the cache of icons
      */
