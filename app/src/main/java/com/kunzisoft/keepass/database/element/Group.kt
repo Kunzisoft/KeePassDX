@@ -141,11 +141,13 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             groupKDBX?.tags = value
         }
 
-    var previousParentGroup: UUID
+    var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
         get() = groupKDBX?.previousParentGroup ?: DatabaseVersioned.UUID_ZERO
-        set(value) {
-            groupKDBX?.previousParentGroup = value
-        }
+        private set
+
+    fun setPreviousParentGroup(previousParent: Group?) {
+        groupKDBX?.previousParentGroup = previousParent?.groupKDBX?.id ?: DatabaseVersioned.UUID_ZERO
+    }
 
     override val type: Type
         get() = Type.GROUP

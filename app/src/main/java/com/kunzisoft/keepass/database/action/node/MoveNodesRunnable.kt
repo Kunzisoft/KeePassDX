@@ -52,8 +52,9 @@ class MoveNodesRunnable constructor(
                             // and if not in the current group
                             && groupToMove != mNewParent
                             && !mNewParent.isContainedIn(groupToMove)) {
-                        nodeToMove.touch(modified = true, touchParents = true)
+                        groupToMove.touch(modified = true, touchParents = true)
                         database.moveGroupTo(groupToMove, mNewParent)
+                        groupToMove.setPreviousParentGroup(mOldParent)
                     } else {
                         // Only finish thread
                         setError(MoveGroupDatabaseException())
@@ -66,8 +67,9 @@ class MoveNodesRunnable constructor(
                     if (mOldParent != mNewParent
                             // and root can contains entry
                             && (mNewParent != database.rootGroup || database.rootCanContainsEntry())) {
-                        nodeToMove.touch(modified = true, touchParents = true)
+                        entryToMove.touch(modified = true, touchParents = true)
                         database.moveEntryTo(entryToMove, mNewParent)
+                        entryToMove.setPreviousParentGroup(mOldParent)
                     } else {
                         // Only finish thread
                         setError(MoveEntryDatabaseException())
