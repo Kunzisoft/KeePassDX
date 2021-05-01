@@ -94,10 +94,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private var customDataLastModificationTime: DateInstant? = null
     private var groupCustomDataKey: String? = null
     private var groupCustomDataValue: String? = null
-    private var groupCustomDataLastModificationTime: DateInstant? = null
     private var entryCustomDataKey: String? = null
     private var entryCustomDataValue: String? = null
-    private var entryCustomDataLastModificationTime: DateInstant? = null
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
@@ -575,7 +573,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.GroupCustomDataItem -> when {
                 name.equals(DatabaseKDBXXML.ElemKey, ignoreCase = true) -> groupCustomDataKey = readString(xpp)
                 name.equals(DatabaseKDBXXML.ElemValue, ignoreCase = true) -> groupCustomDataValue = readString(xpp)
-                name.equals(DatabaseKDBXXML.ElemValue, ignoreCase = true) -> groupCustomDataLastModificationTime = readDateInstant(xpp)
+                name.equals(DatabaseKDBXXML.ElemLastModTime, ignoreCase = true) -> readDateInstant(xpp) // Ignore
                 else -> readUnknown(xpp)
             }
 
@@ -626,7 +624,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.EntryCustomDataItem -> when {
                 name.equals(DatabaseKDBXXML.ElemKey, ignoreCase = true) -> entryCustomDataKey = readString(xpp)
                 name.equals(DatabaseKDBXXML.ElemValue, ignoreCase = true) -> entryCustomDataValue = readString(xpp)
-                name.equals(DatabaseKDBXXML.ElemValue, ignoreCase = true) -> entryCustomDataLastModificationTime = readDateInstant(xpp)
+                name.equals(DatabaseKDBXXML.ElemLastModTime, ignoreCase = true) -> readDateInstant(xpp) // Ignore
                 else -> readUnknown(xpp)
             }
 
@@ -784,13 +782,11 @@ class DatabaseInputKDBX(cacheDirectory: File,
         } else if (ctx == KdbContext.GroupCustomDataItem && name.equals(DatabaseKDBXXML.ElemStringDictExItem, ignoreCase = true)) {
             groupCustomDataKey?.let { customDataKey ->
                 groupCustomDataValue?.let { customDataValue ->
-                    ctxGroup?.customData?.put(CustomDataItem(customDataKey,
-                            customDataValue, groupCustomDataLastModificationTime))
+                    ctxGroup?.customData?.put(CustomDataItem(customDataKey, customDataValue))
                 }
             }
             groupCustomDataKey = null
             groupCustomDataValue = null
-            groupCustomDataLastModificationTime = null
             return KdbContext.GroupCustomData
 
         } else if (ctx == KdbContext.Entry && name.equals(DatabaseKDBXXML.ElemEntry, ignoreCase = true)) {
@@ -838,13 +834,11 @@ class DatabaseInputKDBX(cacheDirectory: File,
         } else if (ctx == KdbContext.EntryCustomDataItem && name.equals(DatabaseKDBXXML.ElemStringDictExItem, ignoreCase = true)) {
             entryCustomDataKey?.let { customDataKey ->
                 entryCustomDataValue?.let { customDataValue ->
-                    ctxEntry?.customData?.put(CustomDataItem(customDataKey,
-                            customDataValue, entryCustomDataLastModificationTime))
+                    ctxEntry?.customData?.put(CustomDataItem(customDataKey, customDataValue))
                 }
             }
             entryCustomDataKey = null
             entryCustomDataValue = null
-            entryCustomDataLastModificationTime = null
             return KdbContext.EntryCustomData
         } else if (ctx == KdbContext.EntryHistory && name.equals(DatabaseKDBXXML.ElemHistory, ignoreCase = true)) {
             entryInHistory = false
