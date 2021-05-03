@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.model.CreditCardCustomFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.ExpirationView
@@ -53,7 +54,7 @@ import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 
-class EntryEditFragment: StylishFragment() {
+class EntryEditFragment : StylishFragment() {
 
     private lateinit var entryTitleLayoutView: TextInputLayout
     private lateinit var entryTitleView: EditText
@@ -91,7 +92,7 @@ class EntryEditFragment: StylishFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         val rootView = inflater.cloneInContext(contextThemed)
-            .inflate(R.layout.fragment_entry_edit_contents, container, false)
+                .inflate(R.layout.fragment_entry_edit_contents, container, false)
 
         fontInVisibility = PreferencesUtil.fieldFontIsInVisibility(requireContext())
 
@@ -152,7 +153,8 @@ class EntryEditFragment: StylishFragment() {
         }
 
         if (savedInstanceState?.containsKey(KEY_LAST_FOCUSED_FIELD) == true) {
-            mLastFocusedEditField = savedInstanceState.getParcelable(KEY_LAST_FOCUSED_FIELD) ?: mLastFocusedEditField
+            mLastFocusedEditField = savedInstanceState.getParcelable(KEY_LAST_FOCUSED_FIELD)
+                    ?: mLastFocusedEditField
         }
 
         populateViewsWithEntry()
@@ -185,7 +187,8 @@ class EntryEditFragment: StylishFragment() {
                 {
                     try {
                         (activity as? EntryEditActivity?)?.performedNextEducation(entryEditActivityEducation)
-                    } catch (ignore: Exception) {}
+                    } catch (ignore: Exception) {
+                    }
                 }
         )
     }
@@ -306,7 +309,7 @@ class EntryEditFragment: StylishFragment() {
      */
 
     private var mExtraFieldsList: MutableList<Field> = ArrayList()
-    private var mOnEditButtonClickListener: ((item: Field)->Unit)? = null
+    private var mOnEditButtonClickListener: ((item: Field) -> Unit)? = null
 
     private fun buildViewFromField(extraField: Field): View? {
         val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -316,7 +319,15 @@ class EntryEditFragment: StylishFragment() {
         val extraFieldValueContainer: TextInputLayout? = itemView?.findViewById(R.id.entry_extra_field_value_container)
         extraFieldValueContainer?.endIconMode = if (extraField.protectedValue.isProtected)
              TextInputLayout.END_ICON_PASSWORD_TOGGLE else TextInputLayout.END_ICON_NONE
-        extraFieldValueContainer?.hint = extraField.name
+
+        when (extraField.name) {
+            CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_cardholder)
+            CreditCardCustomFields.CC_EXP_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_expiration)
+            CreditCardCustomFields.CC_NUMBER_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_number)
+            CreditCardCustomFields.CC_CVV_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_security_code)
+            else -> extraFieldValueContainer?.hint = extraField.name
+        }
+
         extraFieldValueContainer?.id = View.NO_ID
 
         val extraFieldValue: TextInputEditText? = itemView?.findViewById(R.id.entry_extra_field_value)
@@ -365,21 +376,24 @@ class EntryEditFragment: StylishFragment() {
      * Remove all children and add new views for each field
      */
     fun assignExtraFields(fields: List<Field>,
-                          onEditButtonClickListener: ((item: Field)->Unit)?) {
+                          onEditButtonClickListener: ((item: Field) -> Unit)?) {
         extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
         // Reinit focused field
         mExtraFieldsList.clear()
         mExtraFieldsList.addAll(fields)
         extraFieldsListView.removeAllViews()
+
+
         fields.forEach {
             extraFieldsListView.addView(buildViewFromField(it))
         }
+
         // Request last focus
         mLastFocusedEditField?.let { focusField ->
             mExtraViewToRequestFocus?.apply {
                 requestFocus()
                 setSelection(focusField.cursorSelectionStart,
-                                focusField.cursorSelectionEnd)
+                        focusField.cursorSelectionEnd)
             }
         }
         mLastFocusedEditField = null
@@ -457,7 +471,7 @@ class EntryEditFragment: StylishFragment() {
 
     fun assignAttachments(attachments: List<Attachment>,
                           streamDirection: StreamDirection,
-                          onDeleteItem: (attachment: Attachment)->Unit) {
+                          onDeleteItem: (attachment: Attachment) -> Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
         attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
@@ -474,7 +488,7 @@ class EntryEditFragment: StylishFragment() {
     }
 
     fun putAttachment(attachment: EntryAttachmentState,
-                      onPreviewLoaded: (()-> Unit)? = null) {
+                      onPreviewLoaded: (() -> Unit)? = null) {
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter.putItem(attachment)
         attachmentsAdapter.onBinaryPreviewLoaded = {
