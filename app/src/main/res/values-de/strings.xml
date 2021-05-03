@@ -497,11 +497,11 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
-    <string name="autofill_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
-    <string name="autofill_ask_to_save_data_summary">Speichern von Daten anfordern, wenn ein Formular überprüft wird</string>
-    <string name="autofill_ask_to_save_data_title">Speichern von Daten anfordern</string>
+    <string name="autofill_save_search_info_summary">Suchdaten bei manueller Auswahl einer Eingabe wenn möglich speichern</string>
+    <string name="autofill_ask_to_save_data_summary">Nachfragen, ob die Daten gespeichert werden sollen, wenn ein Formular ausgefüllt ist</string>
+    <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
-    <string name="autofill_close_database_summary">Datenbank nach der Auswahl des automatischen Ausfüllens schließen</string>
+    <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
     <string name="keyboard_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
     <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
@@ -516,8 +516,8 @@
     <string name="advanced_unlock_timeout">Verfallzeit der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_timeout_summary">Laufzeit der modernen Entsperrung bevor ihr Inhalt gelöscht wird</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
-    <string name="temp_advanced_unlock_enable_summary">Keinen verschlüsselten Inhalt speichern, um moderne Entsperrung zu benutzen</string>
-    <string name="temp_advanced_unlock_enable_title">Temporäre moderne Entsperrung</string>
+    <string name="temp_advanced_unlock_enable_summary">Keine zur modernen Entsperrung verwendeten, verschlüsselten Inhalte speichern</string>
+    <string name="temp_advanced_unlock_enable_title">Befristete moderne Entsperrung</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit Ihren Geräte-Anmeldeinformationen</string>
     <string name="advanced_unlock_tap_delete">Drücken, um Schlüssel für modernes Entsperren zu löschen</string>
     <string name="content">Inhalt</string>
@@ -558,7 +558,7 @@
     <string name="export_app_properties_title">App-Eigenschaften exportieren</string>
     <string name="import_app_properties_summary">Datei zum Importieren von App-Eigenschaften auswählen</string>
     <string name="error_move_group_here">Sie können hier keine Gruppe verschieben.</string>
-    <string name="autofill_inline_suggestions_title">Automatische Ausfüllung</string>
+    <string name="autofill_inline_suggestions_title">Ausfüllvorschläge</string>
     <string name="error_word_reserved">Dieses Wort ist reserviert und kann nicht verwendet werden.</string>
     <string name="icon_section_custom">Benutzerdefiniert</string>
     <string name="icon_section_standard">Standard</string>
@@ -570,7 +570,7 @@
     <string name="unit_byte">B</string>
     <string name="download_canceled">Abgebrochen!</string>
     <string name="autofill_inline_suggestions_keyboard">Vorschläge für automatisches Ausfüllen hinzugefügt.</string>
-    <string name="autofill_inline_suggestions_summary">Versuche Vorschläge zur automatischen Ausfüllung direkt von einer kompatiblen Tastatur anzuzeigen</string>
+    <string name="autofill_inline_suggestions_summary">Wenn möglich unmittelbar Vorschläge zum automatischen Ausfüllen auf einer kompatiblen Tastatur anzeigen</string>
     <string name="properties">Eigenschaften</string>
     <string name="description_app_properties">KeePassDX-Eigenschaften zur Verwaltung der App-Einstellungen</string>
 </resources>
