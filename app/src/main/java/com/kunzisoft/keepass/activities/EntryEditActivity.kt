@@ -646,7 +646,7 @@ class EntryEditActivity : LockingActivity(),
             isVisible = allowCustomField
         }
 
-        menu?.findItem(R.id.menu_add_cc)?.apply {
+        menu?.findItem(R.id.menu_add_credit_card)?.apply {
             isEnabled = allowCustomField
             isVisible = allowCustomField
         }
@@ -718,7 +718,7 @@ class EntryEditActivity : LockingActivity(),
                 addNewCustomField()
                 return true
             }
-            R.id.menu_add_cc -> {
+            R.id.menu_add_credit_card -> {
                 addNewCreditCard()
                 return true
             }
