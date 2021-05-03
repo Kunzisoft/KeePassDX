@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
@@ -680,7 +681,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writePreviousParentGroup(previousParentGroup: UUID) {
-        if (previousParentGroup != DatabaseVersioned.UUID_ZERO) {
+        if (!header!!.version.isBefore(FILE_VERSION_41)
+                && previousParentGroup != DatabaseVersioned.UUID_ZERO) {
             writeUuid(DatabaseKDBXXML.ElemPreviousParentGroup, previousParentGroup)
         }
     }
