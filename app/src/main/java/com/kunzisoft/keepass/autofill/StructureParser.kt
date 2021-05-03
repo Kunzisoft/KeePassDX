@@ -36,7 +36,7 @@ import kotlin.collections.ArrayList
 @RequiresApi(api = Build.VERSION_CODES.O)
 class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
-
+    private var usernameNeeded = true
     private var usernameIdCandidate: AutofillId? = null
     private var usernameValueCandidate: AutofillValue? = null
 
@@ -309,8 +309,8 @@ class StructureParser(private val structure: AssistStructure) {
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {
                         // Some forms used visible password as username
-                        if (usernameCandidate == null && usernameValueCandidate == null) {
-                            usernameCandidate = autofillId
+                        if (usernameIdCandidate == null && usernameValueCandidate == null) {
+                            usernameIdCandidate = autofillId
                             usernameValueCandidate = node.autofillValue
                             Log.d(TAG, "Autofill visible password android text type (as username): ${showHexInputType(inputType)}")
                         } else if (result?.passwordId == null && result?.passwordValue == null) {
