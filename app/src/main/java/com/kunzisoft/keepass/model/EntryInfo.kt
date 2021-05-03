@@ -166,19 +166,19 @@ class EntryInfo : NodeInfo {
             creditCard?.let { cc ->
                 cc.cardholder?.let {
                     val v = ProtectedString(false, it)
-                    addUniqueField(Field(CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME, v))
+                    addUniqueField(Field(TemplatesCustomFields.CC_CARDHOLDER_FIELD_NAME, v))
                 }
                 cc.expiration?.let {
                     val v = ProtectedString(false, it)
-                    addUniqueField(Field(CreditCardCustomFields.CC_EXP_FIELD_NAME, v))
+                    addUniqueField(Field(TemplatesCustomFields.CC_EXP_FIELD_NAME, v))
                 }
                 cc.number?.let {
                     val v = ProtectedString(false, it)
-                    addUniqueField(Field(CreditCardCustomFields.CC_NUMBER_FIELD_NAME, v))
+                    addUniqueField(Field(TemplatesCustomFields.CC_NUMBER_FIELD_NAME, v))
                 }
                 cc.cvv?.let {
                     val v = ProtectedString(true, it)
-                    addUniqueField(Field(CreditCardCustomFields.CC_CVV_FIELD_NAME, v))
+                    addUniqueField(Field(TemplatesCustomFields.CC_CVV_FIELD_NAME, v))
                 }
             }
         }

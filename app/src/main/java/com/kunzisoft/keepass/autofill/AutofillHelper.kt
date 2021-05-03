@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.CreditCardCustomFields
+import com.kunzisoft.keepass.model.TemplatesCustomFields
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
@@ -122,17 +122,17 @@ object AutofillHelper {
         }
 
         for (field in entryInfo.customFields) {
-            if (field.name == CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CC_CARDHOLDER_FIELD_NAME) {
                 struct.ccNameId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == CreditCardCustomFields.CC_NUMBER_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CC_NUMBER_FIELD_NAME) {
                 struct.ccnId?.let { ccnId ->
                     builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == CreditCardCustomFields.CC_EXP_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CC_EXP_FIELD_NAME) {
                 // the database stores the expiration month and year as a String
                 // of length four in the format MMYY
                 if (field.protectedValue.stringValue.length != 4) continue
@@ -194,7 +194,7 @@ object AutofillHelper {
                     }
                 }
             }
-            if (field.name == CreditCardCustomFields.CC_CVV_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CC_CVV_FIELD_NAME) {
                 struct.cvvId?.let { cvvId ->
                     builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
@@ -309,7 +309,7 @@ object AutofillHelper {
 
         return try {
             responseBuilder.build()
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             null
         }
     }

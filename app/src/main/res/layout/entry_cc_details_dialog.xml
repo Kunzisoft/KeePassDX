@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:labelFor="@+id/creditCardNumberField"
-                    android:text="@string/cc_cardholder"
+                    android:text="@string/credit_card_cardholder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:focusedByDefault="true"
-                    android:hint="@string/cc_cardholder"
+                    android:hint="@string/credit_card_cardholder"
                     android:inputType="textPersonName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/creditCardholderNameLabel" />
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:labelFor="@+id/creditCardNumberField"
-                    android:text="@string/cc_number"
+                    android:text="@string/credit_card_number"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/creditCardholderNameField" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:focusedByDefault="true"
-                    android:hint="@string/cc_number"
+                    android:hint="@string/credit_card_number"
                     android:inputType="number"
                     android:maxLength="16"
                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
                     style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cc_expiration"
+                    android:text="@string/credit_card_expiration"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/creditCardNumberField" />
 
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:labelFor="@+id/creditCardSecurityCode"
-                    android:text="@string/cc_security_code"
+                    android:text="@string/credit_card_security_code"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/expirationYear" />
 
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/creditCardSecurityCodeLabel"
                     android:ems="6"
-                    android:hint="@string/cc_security_code"
+                    android:hint="@string/credit_card_security_code"
                     android:inputType="number"
                     android:maxLength="4"
                     app:layout_constraintStart_toStartOf="parent"

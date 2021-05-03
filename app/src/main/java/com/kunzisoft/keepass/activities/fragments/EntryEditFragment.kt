@@ -46,7 +46,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
-import com.kunzisoft.keepass.model.CreditCardCustomFields
+import com.kunzisoft.keepass.model.TemplatesCustomFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.ExpirationView
@@ -319,15 +319,7 @@ class EntryEditFragment : StylishFragment() {
         val extraFieldValueContainer: TextInputLayout? = itemView?.findViewById(R.id.entry_extra_field_value_container)
         extraFieldValueContainer?.endIconMode = if (extraField.protectedValue.isProtected)
              TextInputLayout.END_ICON_PASSWORD_TOGGLE else TextInputLayout.END_ICON_NONE
-
-        when (extraField.name) {
-            CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_cardholder)
-            CreditCardCustomFields.CC_EXP_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_expiration)
-            CreditCardCustomFields.CC_NUMBER_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_number)
-            CreditCardCustomFields.CC_CVV_FIELD_NAME -> extraFieldValueContainer?.hint = context?.getString(R.string.cc_security_code)
-            else -> extraFieldValueContainer?.hint = extraField.name
-        }
-
+        extraFieldValueContainer?.hint = TemplatesCustomFields.getLocalizedName(context, extraField.name)
         extraFieldValueContainer?.id = View.NO_ID
 
         val extraFieldValue: TextInputEditText? = itemView?.findViewById(R.id.entry_extra_field_value)

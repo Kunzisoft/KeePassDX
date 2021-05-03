@@ -142,19 +142,20 @@ class StructureParser(private val structure: AssistStructure) {
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
-                it == "cc-name" -> {
-                    Log.d(TAG, "AUTOFILL cc-name hint")
+                it.contains("cc-name", true) -> {
+                    Log.d(TAG, "Autofill credit card name hint")
                     result?.ccNameId = autofillId
                     result?.ccName = node.autofillValue?.textValue?.toString()
                 }
-                it == View.AUTOFILL_HINT_CREDIT_CARD_NUMBER || it == "cc-number" -> {
-                    Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_NUMBER hint")
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_NUMBER, true)
+                        || it.contains("cc-number", true) -> {
+                    Log.d(TAG, "Autofill credit card number hint")
                     result?.ccnId = autofillId
                     result?.ccNumber = node.autofillValue?.textValue?.toString()
                 }
                 // expect date string as defined in https://html.spec.whatwg.org, e.g. 2014-12
-                it == "cc-exp" -> {
-                    Log.d(TAG, "AUTOFILL cc-exp hint")
+                it.contains("cc-exp", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration date hint")
                     result?.ccExpDateId = autofillId
                     node.autofillValue?.let { value ->
                         if (value.isText && value.textValue.length == 7) {
@@ -164,8 +165,8 @@ class StructureParser(private val structure: AssistStructure) {
                         }
                     }
                 }
-                it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE -> {
-                    Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE hint")
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE, true) -> {
+                    Log.d(TAG, "Autofill credit card expiration date hint")
                     result?.ccExpDateId = autofillId
                     node.autofillValue?.let { value ->
                         if (value.isDate) {
@@ -178,8 +179,9 @@ class StructureParser(private val structure: AssistStructure) {
                         }
                     }
                 }
-                it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR || it == "cc-exp-year" -> {
-                    Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR hint")
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR, true)
+                        || it.contains("cc-exp-year", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration year hint")
                     result?.ccExpDateYearId = autofillId
                     if (node.autofillOptions != null) {
                         result?.ccExpYearOptions = node.autofillOptions
@@ -199,7 +201,8 @@ class StructureParser(private val structure: AssistStructure) {
                         result?.ccExpDateYearValue = year % 100
                     }
                 }
-                it == View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH || it == "cc-exp-month" -> {
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH, true)
+                        || it.contains("cc-exp-month", true) -> {
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH hint")
                     result?.ccExpDateMonthId = autofillId
                     if (node.autofillOptions != null) {
@@ -208,10 +211,10 @@ class StructureParser(private val structure: AssistStructure) {
                     node.autofillValue?.let { value ->
                         var month = 0
                         if (value.isText) {
-                            try {
-                                month = value.textValue.toString().toInt()
+                            month = try {
+                                value.textValue.toString().toInt()
                             } catch (e: Exception) {
-                                month = 0
+                                0
                             }
                         }
                         if (value.isList) {
@@ -221,7 +224,8 @@ class StructureParser(private val structure: AssistStructure) {
                         result?.ccExpDateMonthValue = month
                     }
                 }
-                it == View.AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE || it == "cc-csc" -> {
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE, true)
+                        || it.contains("cc-csc", true) -> {
                     Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE hint")
                     result?.cvvId = autofillId
                     result?.cvv = node.autofillValue?.textValue?.toString()

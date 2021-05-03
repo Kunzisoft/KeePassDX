@@ -412,15 +412,15 @@ class EntryEditActivity : LockingActivity(),
         var expiration: String? = null
         var cvv: String? = null
 
-        entryEditFragment?.getExtraFields()?.forEach() { field ->
+        entryEditFragment?.getExtraFields()?.forEach { field ->
             when (field.name) {
-                CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME ->
+                TemplatesCustomFields.CC_CARDHOLDER_FIELD_NAME ->
                     cardholder = field.protectedValue.stringValue
-                CreditCardCustomFields.CC_NUMBER_FIELD_NAME ->
+                TemplatesCustomFields.CC_NUMBER_FIELD_NAME ->
                     number = field.protectedValue.stringValue
-                CreditCardCustomFields.CC_EXP_FIELD_NAME ->
+                TemplatesCustomFields.CC_EXP_FIELD_NAME ->
                     expiration = field.protectedValue.stringValue
-                CreditCardCustomFields.CC_CVV_FIELD_NAME ->
+                TemplatesCustomFields.CC_CVV_FIELD_NAME ->
                     cvv = field.protectedValue.stringValue
             }
         }

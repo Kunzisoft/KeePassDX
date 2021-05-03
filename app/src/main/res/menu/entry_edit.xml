@@ -40,8 +40,8 @@
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="always" />
     <item android:id="@+id/menu_add_cc"
-        android:icon="@drawable/ic_baseline_credit_card_24"
-        android:title="Add CC"
+        android:icon="@drawable/ic_credit_card_white_24dp"
+        android:title="@string/entry_setup_credit_card"
         android:orderInCategory="95"
         app:showAsAction="always" />
 </menu>

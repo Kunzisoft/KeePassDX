@@ -42,7 +42,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.model.CreditCardCustomFields
+import com.kunzisoft.keepass.model.TemplatesCustomFields
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -68,9 +68,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val extraFieldsContainerView: View
     private val extraFieldsListView: ViewGroup
-
-    private val creditCardContainerView: View
-    private val creditCardFieldsListView: ViewGroup
 
     private val creationDateView: TextView
     private val modificationDateView: TextView
@@ -115,9 +112,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
         extraFieldsContainerView = findViewById(R.id.extra_fields_container)
         extraFieldsListView = findViewById(R.id.extra_fields_list)
-
-        creditCardContainerView = findViewById(R.id.credit_card_container)
-        creditCardFieldsListView = findViewById(R.id.credit_card_fields_list)
 
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
@@ -313,67 +307,26 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extraFieldsContainerView.visibility = if (hide) View.GONE else View.VISIBLE
     }
 
-    private fun showOrHideCreditCardContainer(hide: Boolean) {
-        creditCardContainerView.visibility = if (hide) View.GONE else View.VISIBLE
-    }
-
     fun addExtraField(title: String,
                       value: ProtectedString,
                       allowCopy: Boolean,
                       onCopyButtonClickListener: OnClickListener?) {
 
-        if (title in CreditCardCustomFields.CC_CUSTOM_FIELDS) {
-            return addExtraCCField(title, value, allowCopy, onCopyButtonClickListener)
-        }
-
-        val entryCustomField: EntryField? = EntryField(context)
-        entryCustomField?.apply {
-            setLabel(title)
+        extraFieldsListView.addView(EntryField(context).apply {
+            setLabel(TemplatesCustomFields.getLocalizedName(context, title))
             setValue(value.toString(), value.isProtected)
             setAutoLink()
             activateCopyButton(allowCopy)
             assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)
-        }
-
-        entryCustomField?.let {
-            extraFieldsListView.addView(it)
-        }
+        })
 
         showOrHideExtraFieldsContainer(false)
-    }
-
-    private fun addExtraCCField(fieldName: String,
-                                value: ProtectedString,
-                                allowCopy: Boolean,
-                                onCopyButtonClickListener: OnClickListener?) {
-
-        val label = CreditCardCustomFields.getLocalizedName(context, fieldName)
-
-        val entryCustomField: EntryField? = EntryField(context)
-        entryCustomField?.apply {
-            setLabel(label)
-            setValue(value.toString(), value.isProtected)
-            activateCopyButton(allowCopy)
-            assignCopyButtonClickListener(onCopyButtonClickListener)
-            applyFontVisibility(fontInVisibility)
-        }
-
-        entryCustomField?.let {
-            creditCardFieldsListView.addView(it)
-        }
-
-        showOrHideCreditCardContainer(false)
     }
 
     fun clearExtraFields() {
         extraFieldsListView.removeAllViews()
         showOrHideExtraFieldsContainer(true)
-    }
-
-    fun clearCreditCardFields() {
-        creditCardFieldsListView.removeAllViews()
-        showOrHideCreditCardContainer(true)
     }
 
     /* -------------

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.CreditCard
-import com.kunzisoft.keepass.model.CreditCardCustomFields.buildAllFields
+import com.kunzisoft.keepass.model.TemplatesCustomFields.buildAllFields
 import com.kunzisoft.keepass.model.Field
 import java.util.*
 
@@ -140,7 +140,7 @@ class CreditCardDetailsDialogFragment : DialogFragment() {
 
             val builder = AlertDialog.Builder(activity)
 
-            builder.setView(root).setTitle(R.string.entry_setup_cc)
+            builder.setView(root).setTitle(R.string.entry_setup_credit_card)
                     .setPositiveButton(android.R.string.ok, null)
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
 

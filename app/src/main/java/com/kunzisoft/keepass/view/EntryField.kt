@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.graphics.Color
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -32,7 +31,6 @@ import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
-import com.kunzisoft.keepass.model.CreditCardCustomFields
 import com.kunzisoft.keepass.utils.UriUtil
 
 class EntryField @JvmOverloads constructor(context: Context,

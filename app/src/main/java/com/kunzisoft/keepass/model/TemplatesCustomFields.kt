@@ -4,7 +4,7 @@ import android.content.Context
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 
-object CreditCardCustomFields {
+object TemplatesCustomFields {
     const val CC_CARDHOLDER_FIELD_NAME = "CREDIT_CARD_CARDHOLDER"
     const val CC_NUMBER_FIELD_NAME = "CREDIT_CARD_NUMBER"
     const val CC_EXP_FIELD_NAME = "CREDIT_CARD_EXPIRATION"
@@ -13,12 +13,14 @@ object CreditCardCustomFields {
     val CC_CUSTOM_FIELDS = arrayOf(CC_CARDHOLDER_FIELD_NAME, CC_NUMBER_FIELD_NAME,
             CC_EXP_FIELD_NAME, CC_CVV_FIELD_NAME)
 
-    fun getLocalizedName(context: Context, fieldName: String): String {
+    fun getLocalizedName(context: Context?, fieldName: String): String {
+        if (context == null)
+            return fieldName
         return when (fieldName) {
-            CC_CARDHOLDER_FIELD_NAME -> context.getString(R.string.cc_cardholder)
-            CC_NUMBER_FIELD_NAME -> context.getString(R.string.cc_number)
-            CC_EXP_FIELD_NAME -> context.getString(R.string.cc_expiration)
-            CC_CVV_FIELD_NAME -> context.getString(R.string.cc_security_code)
+            CC_CARDHOLDER_FIELD_NAME -> context.getString(R.string.credit_card_cardholder)
+            CC_NUMBER_FIELD_NAME -> context.getString(R.string.credit_card_number)
+            CC_EXP_FIELD_NAME -> context.getString(R.string.credit_card_expiration)
+            CC_CVV_FIELD_NAME -> context.getString(R.string.credit_card_security_code)
             else -> fieldName
         }
     }
