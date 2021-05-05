@@ -1,5 +1,5 @@
 KeePassDX(3.0.0)
- *
+ * Fix show button consistency #980
 
 KeePassDX(2.9.20)
  * Fix search with non-latin chars #971

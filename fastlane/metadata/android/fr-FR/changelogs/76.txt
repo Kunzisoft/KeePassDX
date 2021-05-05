@@ -1,1 +1,1 @@
- *
+ * Correction de la consistance du bouton de visibilité #980

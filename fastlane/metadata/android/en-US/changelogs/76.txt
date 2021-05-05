@@ -1,1 +1,1 @@
- *
+ * Fix show button consistency #980
