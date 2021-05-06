@@ -29,7 +29,7 @@
 		android:id="@+id/entry_edit_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/card_view_margin_bottom"
+		android:layout_marginTop="2dp"
 		android:layout_marginStart="@dimen/card_view_margin"
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
@@ -71,6 +71,7 @@
 
 			<!-- Username -->
 			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/entry_edit_container_user_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
@@ -127,6 +128,7 @@
 
 			<!--  URL -->
 			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/entry_edit_container_url"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
@@ -149,6 +151,7 @@
 
 			<!-- Notes -->
 			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/entry_edit_container_notes"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 

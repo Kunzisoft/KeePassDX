@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
@@ -56,15 +57,20 @@ import com.kunzisoft.keepass.view.expand
 
 class EntryEditFragment : StylishFragment() {
 
+    private var mTemplate: Template = Template.STANDARD
+
     private lateinit var entryTitleLayoutView: TextInputLayout
     private lateinit var entryTitleView: EditText
     private lateinit var entryIconView: ImageView
+    private lateinit var entryUserNameLayoutView: TextInputLayout
     private lateinit var entryUserNameView: EditText
+    private lateinit var entryUrlLayoutView: TextInputLayout
     private lateinit var entryUrlView: EditText
     private lateinit var entryPasswordLayoutView: TextInputLayout
     private lateinit var entryPasswordView: EditText
     private lateinit var entryPasswordGeneratorView: View
     private lateinit var entryExpirationView: ExpirationView
+    private lateinit var entryNotesLayoutView: TextInputLayout
     private lateinit var entryNotesView: EditText
     private lateinit var extraFieldsContainerView: View
     private lateinit var extraFieldsListView: ViewGroup
@@ -103,7 +109,9 @@ class EntryEditFragment : StylishFragment() {
             setOnIconViewClickListener?.invoke(mEntryInfo.icon)
         }
 
+        entryUserNameLayoutView = rootView.findViewById(R.id.entry_edit_container_user_name)
         entryUserNameView = rootView.findViewById(R.id.entry_edit_user_name)
+        entryUrlLayoutView = rootView.findViewById(R.id.entry_edit_container_url)
         entryUrlView = rootView.findViewById(R.id.entry_edit_url)
         entryPasswordLayoutView = rootView.findViewById(R.id.entry_edit_container_password)
         entryPasswordView = rootView.findViewById(R.id.entry_edit_password)
@@ -114,6 +122,7 @@ class EntryEditFragment : StylishFragment() {
         entryExpirationView = rootView.findViewById(R.id.entry_edit_expiration)
         entryExpirationView.setOnDateClickListener = setOnDateClickListener
 
+        entryNotesLayoutView = rootView.findViewById(R.id.entry_edit_container_notes)
         entryNotesView = rootView.findViewById(R.id.entry_edit_notes)
 
         extraFieldsContainerView = rootView.findViewById(R.id.extra_fields_container)
@@ -158,6 +167,9 @@ class EntryEditFragment : StylishFragment() {
         }
 
         populateViewsWithEntry()
+        assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
+            setOnRemoveAttachment?.invoke(attachment)
+        }
 
         return rootView
     }
@@ -193,21 +205,73 @@ class EntryEditFragment : StylishFragment() {
         )
     }
 
+    fun assignTemplate(template: Template) {
+        this.mTemplate = template
+        populateViewsWithEntry()
+    }
+
     private fun populateViewsWithEntry() {
-        // Set info in view
-        icon = mEntryInfo.icon
-        title = mEntryInfo.title
-        username = mEntryInfo.username
-        url = mEntryInfo.url
-        password = mEntryInfo.password
-        expires = mEntryInfo.expires
-        expiryTime = mEntryInfo.expiryTime
-        notes = mEntryInfo.notes
-        assignExtraFields(mEntryInfo.customFields) { fields ->
-            setOnEditCustomField?.invoke(fields)
-        }
-        assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
-            setOnRemoveAttachment?.invoke(attachment)
+        if (mTemplate == Template.STANDARD) {
+            entryIconView.visibility = View.VISIBLE
+            entryUserNameLayoutView.visibility = View.VISIBLE
+            entryUserNameView.visibility = View.VISIBLE
+            entryUrlLayoutView.visibility = View.VISIBLE
+            entryUrlView.visibility = View.VISIBLE
+            entryPasswordLayoutView.visibility = View.VISIBLE
+            entryPasswordView.visibility = View.VISIBLE
+            entryPasswordGeneratorView.visibility = View.VISIBLE
+            entryExpirationView.visibility = View.VISIBLE
+            entryNotesLayoutView.visibility = View.VISIBLE
+            entryNotesView.visibility = View.VISIBLE
+
+            // Set info in view
+            icon = mEntryInfo.icon
+            title = mEntryInfo.title
+            username = mEntryInfo.username
+            url = mEntryInfo.url
+            password = mEntryInfo.password
+            expires = mEntryInfo.expires
+            expiryTime = mEntryInfo.expiryTime
+            notes = mEntryInfo.notes
+
+            assignExtraFields(mEntryInfo.customFields) { fields ->
+                setOnEditCustomField?.invoke(fields)
+            }
+        } else {
+
+            entryIconView.visibility = View.GONE
+            entryUserNameLayoutView.visibility = View.GONE
+            entryUserNameView.visibility = View.GONE
+            entryUrlLayoutView.visibility = View.GONE
+            entryUrlView.visibility = View.GONE
+            entryPasswordLayoutView.visibility = View.GONE
+            entryPasswordView.visibility = View.GONE
+            entryPasswordGeneratorView.visibility = View.GONE
+            entryExpirationView.visibility = if (mTemplate.containsAttributeWithTitle("@exp_date")) View.VISIBLE else View.GONE
+            entryNotesLayoutView.visibility = View.GONE
+            entryNotesView.visibility = View.GONE
+
+            // TODO Set normal fields in order
+
+            /*
+            TODO wish behaviour when template are modified to not loose data?
+             entry custom fields no longer match template fields
+            mEntryInfo.customFields.filter { field ->
+                // Show only attributes in the template
+                if (mTemplate != Template.STANDARD) {
+                    mTemplate.containsAttributeWithTitle(field.name)
+                } else
+                    true
+            }*/
+            // Build field list with only templates one, add corresponding entry extra fields
+            val listFields = mTemplate.getFields()
+            mEntryInfo.customFields.forEach { entryField ->
+                val fieldIndex = listFields.indexOf(entryField)
+                if (fieldIndex != -1) {
+                    listFields[fieldIndex].protectedValue = entryField.protectedValue
+                }
+            }
+            assignExtraFields(listFields)
         }
     }
 
@@ -311,9 +375,13 @@ class EntryEditFragment : StylishFragment() {
     private var mExtraFieldsList: MutableList<Field> = ArrayList()
     private var mOnEditButtonClickListener: ((item: Field) -> Unit)? = null
 
-    private fun buildViewFromField(extraField: Field): View? {
+    private fun buildViewFromField(extraField: Field, modifiable: Boolean = true): View? {
         val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        val itemView: View? = inflater?.inflate(R.layout.item_entry_edit_extra_field, extraFieldsListView, false)
+        val itemView: View? = if (modifiable) {
+            inflater?.inflate(R.layout.item_entry_edit_extra_field_modifiable, extraFieldsListView, false)
+        } else {
+            inflater?.inflate(R.layout.item_entry_edit_extra_field, extraFieldsListView, false)
+        }
         itemView?.id = View.NO_ID
 
         val extraFieldValueContainer: TextInputLayout? = itemView?.findViewById(R.id.entry_extra_field_value_container)
@@ -337,11 +405,14 @@ class EntryEditFragment : StylishFragment() {
             mExtraViewToRequestFocus = extraFieldValue
         }
 
-        val extraFieldEditButton: View? = itemView?.findViewById(R.id.entry_extra_field_edit)
-        extraFieldEditButton?.setOnClickListener {
-            mOnEditButtonClickListener?.invoke(extraField)
+        if (modifiable) {
+            val extraFieldEditButton: View? = itemView?.findViewById(R.id.entry_extra_field_edit)
+            extraFieldEditButton?.visibility = View.VISIBLE
+            extraFieldEditButton?.setOnClickListener {
+                mOnEditButtonClickListener?.invoke(extraField)
+            }
+            extraFieldEditButton?.id = View.NO_ID
         }
-        extraFieldEditButton?.id = View.NO_ID
 
         return itemView
     }
@@ -365,10 +436,11 @@ class EntryEditFragment : StylishFragment() {
     }
 
     /**
-     * Remove all children and add new views for each field
+     * Remove all children and add new views for each field,
+     * if [onEditButtonClickListener] is null, extra fields are not modifiable
      */
-    fun assignExtraFields(fields: List<Field>,
-                          onEditButtonClickListener: ((item: Field) -> Unit)?) {
+    private fun assignExtraFields(fields: List<Field>,
+                                  onEditButtonClickListener: ((item: Field) -> Unit)? = null) {
         extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
         // Reinit focused field
         mExtraFieldsList.clear()
@@ -377,7 +449,8 @@ class EntryEditFragment : StylishFragment() {
 
 
         fields.forEach {
-            extraFieldsListView.addView(buildViewFromField(it))
+            extraFieldsListView.addView(buildViewFromField(it,
+                    onEditButtonClickListener != null))
         }
 
         // Request last focus

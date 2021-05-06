@@ -32,8 +32,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.DatePicker
-import android.widget.TimePicker
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -48,6 +47,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
@@ -55,6 +55,9 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateAttribute
+import com.kunzisoft.keepass.database.element.template.TemplateType
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.model.CreditCard
@@ -99,6 +102,7 @@ class EntryEditActivity : LockingActivity(),
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
+    private var templateSelectorSpinner: Spinner? = null
     private var entryEditFragment: EntryEditFragment? = null
     private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
@@ -198,6 +202,31 @@ class EntryEditActivity : LockingActivity(),
 
         registerInfo?.let { regInfo ->
             tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
+        }
+
+        // Build template selector
+        val templates = ArrayList<Template>()
+
+        // TODO Dynamic templates
+        templates.add(Template.STANDARD)
+        templates.add(Template(UUID.randomUUID(), "Credit Card",
+                IconImageStandard(37).getIconImageToDraw(), ArrayList<TemplateAttribute>().apply {
+            add(TemplateAttribute(0, "Number", TemplateType.INLINE))
+            add(TemplateAttribute(1, "CVV", TemplateType.INLINE.apply { protected = true }))
+            add(TemplateAttribute(2, "PIN", TemplateType.INLINE.apply { protected = true }))
+            add(TemplateAttribute(3, "Card holder", TemplateType.INLINE))
+            add(TemplateAttribute(4, "@exp_date", TemplateType.DATETIME))
+        }))
+
+        templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
+        templateSelectorSpinner?.apply {
+            adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
+            onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    entryEditFragment?.assignTemplate(templates[position])
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
         }
 
         // Build fragment to manage entry modification

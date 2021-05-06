@@ -55,7 +55,13 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/card_view_margin_bottom">
+                <Spinner
+                    android:id="@+id/entry_edit_template_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/entry_edit_contents"
                     android:layout_width="0dp"
@@ -63,7 +69,7 @@
                     app:layout_constraintWidth_percent="@dimen/content_percent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
