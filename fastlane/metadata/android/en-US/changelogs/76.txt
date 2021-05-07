@@ -1,1 +1,2 @@
  * Fix show button consistency #980
+ * Fix persistent notification #979
