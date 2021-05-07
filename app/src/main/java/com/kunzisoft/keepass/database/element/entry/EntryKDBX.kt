@@ -20,12 +20,15 @@
 package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -33,6 +36,7 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -45,16 +49,20 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    var customData = LinkedHashMap<String, String>()
+    override var usageCount = UnsignedLong(0)
+    override var locationChanged = DateInstant()
+    override var customData = CustomData()
     var fields = LinkedHashMap<String, ProtectedString>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
+    override var tags = Tags()
+    override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
+    var qualityCheck = true
     var autoType = AutoType()
     var history = ArrayList<EntryKDBX>()
     var additional = ""
-    var tags = ""
 
     override var expires: Boolean = false
 
@@ -63,17 +71,18 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor(parcel: Parcel) : super(parcel) {
         usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
-        customData = ParcelableUtil.readStringParcelableMap(parcel)
+        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
         fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
         binaries = ParcelableUtil.readStringIntMap(parcel)
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
+        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
+        previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
         autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
         url = parcel.readString() ?: url
         additional = parcel.readString() ?: additional
-        tags = parcel.readString() ?: tags
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
@@ -88,17 +97,18 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         super.writeToParcel(dest, flags)
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
-        ParcelableUtil.writeStringParcelableMap(dest, customData)
+        dest.writeParcelable(customData, flags)
         ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
         ParcelableUtil.writeStringIntMap(dest, binaries)
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)
+        dest.writeParcelable(tags, flags)
+        dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
         dest.writeParcelable(autoType, flags)
         dest.writeTypedList(history)
         dest.writeString(url)
         dest.writeString(additional)
-        dest.writeString(tags)
     }
 
     /**
@@ -109,9 +119,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         super.updateWith(source)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
-        // Add all custom elements in map
-        customData.clear()
-        customData.putAll(source.customData)
+        customData = CustomData(source.customData)
         fields.clear()
         fields.putAll(source.fields)
         binaries.clear()
@@ -119,13 +127,14 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         foregroundColor = source.foregroundColor
         backgroundColor = source.backgroundColor
         overrideURL = source.overrideURL
+        tags = source.tags
+        previousParentGroup = source.previousParentGroup
         autoType = AutoType(source.autoType)
         history.clear()
         if (copyHistory)
             history.addAll(source.history)
         url = source.url
         additional = source.additional
-        tags = source.tags
     }
 
     fun startToManageFieldReferences(database: DatabaseKDBX) {
@@ -218,10 +227,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    override var usageCount = UnsignedLong(0)
-
-    override var locationChanged = DateInstant()
-
     fun getSize(attachmentPool: AttachmentPool): Long {
         var size = FIXED_LENGTH_SIZE
 
@@ -243,7 +248,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
 
         size += overrideURL.length.toLong()
-        size += tags.length.toLong()
+        size += tags.toString().length
 
         return size
     }
@@ -320,14 +325,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             size += attachmentPool[poolId]?.getSize() ?: 0
         }
         return size
-    }
-
-    override fun putCustomData(key: String, value: String) {
-        customData[key] = value
-    }
-
-    override fun containsCustomData(): Boolean {
-        return customData.isNotEmpty()
     }
 
     fun addEntryToHistory(entry: EntryKDBX) {

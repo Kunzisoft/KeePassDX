@@ -22,4 +22,11 @@
     <string name="clipboard_error_title">ক্লিপবোর্ড ত্রুটি</string>
     <string name="allow">অনুমোদন</string>
     <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT এবং ACTION_OPEN_DOCUMENT অভিপ্রায় গ্রহণ করে এমন একটি ফাইল ম্যানেজার ডাটাবেস ফাইলগুলো তৈরি করা, খোলা এবং সংরক্ষণ করতে প্রয়োজন।</string>
+    <string name="digits">ডিজিট</string>
+    <string name="database">তথ্যভিত্তি</string>
+    <string name="content_description_remove_from_list">সরাও</string>
+    <string name="content_description_update_from_list">হালনাগাদ</string>
+    <string name="discard">বাতিল</string>
+    <string name="validate">সত্যায়ন</string>
+    <string name="content_description_background">পটভূমি</string>
 </resources>

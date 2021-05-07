@@ -24,7 +24,7 @@
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
     <string name="encryption_algorithm">Šifrovací algoritmus</string>
-    <string name="app_timeout">Časový limit</string>
+    <string name="app_timeout">Časový limit překročen</string>
     <string name="app_timeout_summary">Doba nečinnosti, po které se aplikace zamkne</string>
     <string name="application">Aplikace</string>
     <string name="menu_app_settings">Nastavení aplikace</string>
@@ -548,4 +548,19 @@
     <string name="error_upload_file">Během nahrávání souboru došlo k chybě.</string>
     <string name="error_file_to_big">Soubor, který se pokoušíte nahrát, je příliš velký.</string>
     <string name="content_description_otp_information">Info o jednorázovém hesle</string>
+    <string name="properties">Vlastnosti</string>
+    <string name="error_export_app_properties">Během exportu vlastností aplikace došlo k chybě</string>
+    <string name="success_export_app_properties">Vlastnosti aplikace byly exportovány</string>
+    <string name="error_import_app_properties">Během importu vlastností aplikace došlo k chybě</string>
+    <string name="success_import_app_properties">Vlastnosti aplikace byly importovány</string>
+    <string name="description_app_properties">Vlastnosti KeePassDX pro správu aplikačních nastavení</string>
+    <string name="export_app_properties_summary">Pro export vlastností aplikace založte soubor</string>
+    <string name="export_app_properties_title">Exportovat vlastnosti aplikace</string>
+    <string name="import_app_properties_summary">Pro import vlastostí aplikace zvolte soubor</string>
+    <string name="import_app_properties_title">Importovat vlastnosti aplikace</string>
+    <string name="error_start_database_action">Během akce v databázi došlo k chybě.</string>
+    <string name="error_remove_file">Při odstraňování dat soboru došlo k chybě.</string>
+    <string name="error_duplicate_file">Datový soubor již existuje.</string>
+    <string name="error_move_group_here">Sem skupinu přesunout nemůžete.</string>
+    <string name="error_word_reserved">Toto slovo je rezervováno a nelze je použít.</string>
 </resources>

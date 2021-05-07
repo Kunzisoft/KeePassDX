@@ -31,7 +31,7 @@
     <string name="encryption">暗号化</string>
     <string name="encryption_algorithm">暗号化アルゴリズム</string>
     <string name="key_derivation_function">鍵導出関数</string>
-    <string name="app_timeout">アプリのタイムアウト</string>
+    <string name="app_timeout">タイムアウト</string>
     <string name="app_timeout_summary">この期間アプリの操作がなかった場合、データベースをロックします</string>
     <string name="application">アプリ</string>
     <string name="brackets">かっこ</string>
@@ -559,4 +559,6 @@
     <string name="export_app_properties_summary">アプリのプロパティをエクスポートするファイルを作成します</string>
     <string name="export_app_properties_title">アプリのプロパティをエクスポートする</string>
     <string name="error_start_database_action">データベースに対するアクションの実行中にエラーが発生しました。</string>
+    <string name="error_word_reserved">この単語は予約語のため使用できません。</string>
+    <string name="error_move_group_here">グループをここに移動できません。</string>
 </resources>

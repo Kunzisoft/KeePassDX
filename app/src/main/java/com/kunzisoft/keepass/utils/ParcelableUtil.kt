@@ -52,7 +52,7 @@ object ParcelableUtil {
 
     // For writing map with string key to a Parcel
     fun <V : Parcelable> writeStringParcelableMap(
-            parcel: Parcel, flags: Int, map: LinkedHashMap<String, V>) {
+            parcel: Parcel, flags: Int, map: HashMap<String, V>) {
         parcel.writeInt(map.size)
         for ((key, value) in map) {
             parcel.writeString(key)

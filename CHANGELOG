@@ -1,3 +1,8 @@
+KeePassDX(2.10.0)
+ * Manage new database format 4.1 #956
+ * Fix show button consistency #980
+ * Fix persistent notification #979
+
 KeePassDX(2.9.20)
  * Fix search with non-latin chars #971
  * Fix action mode with search #972 (rollback ignore accents #945)

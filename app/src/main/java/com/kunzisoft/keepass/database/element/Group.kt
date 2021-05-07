@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
@@ -133,6 +134,20 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             groupKDB?.icon = value
             groupKDBX?.icon = value
         }
+
+    var tags: Tags
+        get() = groupKDBX?.tags ?: Tags()
+        set(value) {
+            groupKDBX?.tags = value
+        }
+
+    var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
+        get() = groupKDBX?.previousParentGroup ?: DatabaseVersioned.UUID_ZERO
+        private set
+
+    fun setPreviousParentGroup(previousParent: Group?) {
+        groupKDBX?.previousParentGroup = previousParent?.groupKDBX?.id ?: DatabaseVersioned.UUID_ZERO
+    }
 
     override val type: Type
         get() = Type.GROUP
@@ -392,10 +407,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun setExpanded(expanded: Boolean) {
         groupKDBX?.isExpanded = expanded
-    }
-
-    fun containsCustomData(): Boolean {
-        return groupKDBX?.containsCustomData() ?: false
     }
 
     /*

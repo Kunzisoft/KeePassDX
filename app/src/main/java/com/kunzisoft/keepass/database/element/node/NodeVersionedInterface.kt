@@ -25,15 +25,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 interface NodeVersionedInterface<ParentGroup> : NodeTimeInterface, Parcelable {
 
     var title: String
-
-    /**
-     * @return Visual icon
-     */
     var icon: IconImage
-
-    /**
-     * @return Type of Node
-     */
     val type: Type
 
     /**
