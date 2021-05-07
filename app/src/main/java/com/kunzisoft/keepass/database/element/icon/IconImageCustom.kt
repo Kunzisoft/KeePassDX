@@ -22,27 +22,38 @@ package com.kunzisoft.keepass.database.element.icon
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.*
 
 class IconImageCustom : IconImageDraw {
 
-    var uuid: UUID
+    val uuid: UUID
+    var name: String = ""
+    var lastModificationTime: DateInstant? = null
 
-    constructor() {
-        uuid = DatabaseVersioned.UUID_ZERO
+    constructor(name: String = "", lastModificationTime: DateInstant? = null) {
+        this.uuid = DatabaseVersioned.UUID_ZERO
+        this.name = name
+        this.lastModificationTime = lastModificationTime
     }
 
-    constructor(uuid: UUID) {
+    constructor(uuid: UUID, name: String = "", lastModificationTime: DateInstant? = null) {
         this.uuid = uuid
+        this.name = name
+        this.lastModificationTime = lastModificationTime
     }
 
     constructor(parcel: Parcel) {
         uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
+        name = parcel.readString() ?: name
+        lastModificationTime = parcel.readParcelable(DateInstant::class.java.classLoader)
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(ParcelUuid(uuid), flags)
+        dest.writeString(name)
+        dest.writeParcelable(lastModificationTime, flags)
     }
 
     override fun describeContents(): Int {
