@@ -1,0 +1,2 @@
+ * Correction de la consistance du bouton de visibilité #980
+ * Correction de la notification persistante #979
