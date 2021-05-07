@@ -367,7 +367,7 @@
     <string name="contribution">Doprinos</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
     <string name="warning_database_read_only">Za spremanje promjena u bazi podataka, datoteci dozvoli pisanje</string>
-    <string name="app_timeout">Istek vremena aplikacije</string>
+    <string name="app_timeout">Istek vremena</string>
     <string name="content_description_repeat_toggle_password_visibility">Ponovo uklj/isklj vidljivosti lozinke</string>
     <string name="warning_password_encoding">Izbjegni u lozinkama koristiti znakove koji su izvan formata kodiranja teksta u datoteci baze podataka (neprepoznati znakovi pretvaraju se u isto slovo).</string>
     <string name="rounds_explanation">Dodatni prolazi šifriranja pružaju veću zaštitu od brutalnih napada, ali stvarno mogu usporiti učitavanje i spremanje.</string>
@@ -555,4 +555,6 @@
     <string name="import_app_properties_summary">Odaberi datoteku za uvoz svojstva aplikacije</string>
     <string name="import_app_properties_title">Uvezi svojstva aplikacije</string>
     <string name="error_start_database_action">Došlo je do greške tijekom izvođenja radnje u bazi podataka.</string>
+    <string name="error_move_group_here">Grupa se ne može ovdje premjestiti.</string>
+    <string name="error_word_reserved">Ova je riječ rezervirana i ne može se koristiti.</string>
 </resources>
