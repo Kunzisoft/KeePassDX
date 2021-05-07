@@ -1,4 +1,5 @@
 KeePassDX(2.10.0)
+ * Manage new database format 4.1 #956
  * Fix show button consistency #980
  * Fix persistent notification #979
 
