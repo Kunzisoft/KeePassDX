@@ -337,8 +337,6 @@ abstract class DatabaseVersioned<
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
 
-    abstract fun containsCustomData(): Boolean
-
     fun addGroupTo(newGroup: Group, parent: Group?) {
         // Add tree to parent tree
         parent?.addChildGroup(newGroup)

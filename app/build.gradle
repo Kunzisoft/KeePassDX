@@ -11,7 +11,7 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
         targetSdkVersion 30
-        versionCode = 76
+        versionCode = 77
         versionName = "3.0.0"
         multiDexEnabled true
 

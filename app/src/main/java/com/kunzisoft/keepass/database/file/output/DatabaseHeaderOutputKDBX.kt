@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.stream.MacOutputStream
 import com.kunzisoft.keepass.utils.*
 import java.io.ByteArrayOutputStream
@@ -76,7 +76,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, uIntTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
-        if (header.version.isBefore(FILE_VERSION_32_4)) {
+        if (header.version.isBefore(FILE_VERSION_40)) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformSeed, header.transformSeed)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(databaseKDBX.numberKeyEncryptionRounds))
         } else {
@@ -87,7 +87,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV)
         }
 
-        if (header.version.isBefore(FILE_VERSION_32_4)) {
+        if (header.version.isBefore(FILE_VERSION_40)) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, uIntTo4Bytes(header.innerRandomStream!!.id))
@@ -121,7 +121,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
 
     @Throws(IOException::class)
     private fun writeHeaderFieldSize(size: Int) {
-        if (header.version.isBefore(FILE_VERSION_32_4)) {
+        if (header.version.isBefore(FILE_VERSION_40)) {
             mos.write2BytesUShort(size)
         } else {
             mos.write4BytesUInt(UnsignedInt(size))

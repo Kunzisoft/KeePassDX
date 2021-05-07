@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.utils
 
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-
 class UnsignedInt(private var unsignedValue: Int) {
 
     constructor(unsignedValue: UnsignedInt) : this(unsignedValue.toKotlinInt())

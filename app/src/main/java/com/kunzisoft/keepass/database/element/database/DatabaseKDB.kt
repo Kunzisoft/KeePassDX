@@ -157,10 +157,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return this.iconsManager.getIcon(iconId)
     }
 
-    override fun containsCustomData(): Boolean {
-        return false
-    }
-
     override fun isInRecycleBin(group: GroupKDB): Boolean {
         var currentGroup: GroupKDB? = group
         val currentBackupGroup = backupGroup ?: return false

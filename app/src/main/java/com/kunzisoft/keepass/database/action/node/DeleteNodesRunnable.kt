@@ -31,41 +31,47 @@ class DeleteNodesRunnable(context: Context,
                           afterActionNodesFinish: AfterActionNodesFinish)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
-    private var mParent: Group? = null
+    private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false
 
     private var mNodesToDeleteBackup = ArrayList<Node>()
 
     override fun nodeAction() {
 
-        foreachNode@ for(currentNode in mNodesToDelete) {
-            mParent = currentNode.parent
-            mParent?.touch(modified = false, touchParents = true)
+        foreachNode@ for(nodeToDelete in mNodesToDelete) {
+            mOldParent = nodeToDelete.parent
+            mOldParent?.touch(modified = false, touchParents = true)
 
-            when (currentNode.type) {
+            when (nodeToDelete.type) {
                 Type.GROUP -> {
+                    val groupToDelete = nodeToDelete as Group
                     // Create a copy to keep the old ref and remove it visually
-                    mNodesToDeleteBackup.add(Group(currentNode as Group))
+                    mNodesToDeleteBackup.add(Group(groupToDelete))
                     // Remove Node from parent
-                    mCanRecycle = database.canRecycle(currentNode)
+                    mCanRecycle = database.canRecycle(groupToDelete)
                     if (mCanRecycle) {
-                        database.recycle(currentNode, context.resources)
+                        groupToDelete.touch(modified = false, touchParents = true)
+                        database.recycle(groupToDelete, context.resources)
+                        groupToDelete.setPreviousParentGroup(mOldParent)
                     } else {
-                        database.deleteGroup(currentNode)
+                        database.deleteGroup(groupToDelete)
                     }
                 }
                 Type.ENTRY -> {
+                    val entryToDelete = nodeToDelete as Entry
                     // Create a copy to keep the old ref and remove it visually
-                    mNodesToDeleteBackup.add(Entry(currentNode as Entry))
+                    mNodesToDeleteBackup.add(Entry(entryToDelete))
                     // Remove Node from parent
-                    mCanRecycle = database.canRecycle(currentNode)
+                    mCanRecycle = database.canRecycle(entryToDelete)
                     if (mCanRecycle) {
-                        database.recycle(currentNode, context.resources)
+                        entryToDelete.touch(modified = false, touchParents = true)
+                        database.recycle(entryToDelete, context.resources)
+                        entryToDelete.setPreviousParentGroup(mOldParent)
                     } else {
-                        database.deleteEntry(currentNode)
+                        database.deleteEntry(entryToDelete)
                     }
                     // Remove the oldest attachments
-                    currentNode.getAttachments(database.attachmentPool).forEach {
+                    entryToDelete.getAttachments(database.attachmentPool).forEach {
                         database.removeAttachmentIfNotUsed(it)
                     }
                 }
@@ -76,7 +82,7 @@ class DeleteNodesRunnable(context: Context,
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             if (mCanRecycle) {
-                mParent?.let {
+                mOldParent?.let {
                     mNodesToDeleteBackup.forEach { backupNode ->
                         when (backupNode.type) {
                             Type.GROUP -> {
