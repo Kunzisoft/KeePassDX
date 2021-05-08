@@ -76,7 +76,7 @@ object ParcelableUtil {
         val map = LinkedHashMap<String, V>(size)
         for (i in 0 until size) {
             val key: String? = parcel.readString()
-            val value: V? = vClass.cast(parcel.readParcelable(vClass.classLoader))
+            val value: V? = parcel.readParcelable(vClass.classLoader)
             if (key != null && value != null)
                 map[key] = value
         }
