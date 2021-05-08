@@ -22,13 +22,14 @@
 	android:id="@+id/entry_table"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="vertical">
+	android:orientation="vertical"
+	android:paddingTop="10dp">
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/card_view_margin"
+		android:layout_marginTop="2dp"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		android:layout_marginStart="@dimen/card_view_margin"
 		android:layout_marginEnd="@dimen/card_view_margin"
@@ -101,6 +102,7 @@
 		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="2dp"
 		android:layout_marginStart="@dimen/card_view_margin"
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
