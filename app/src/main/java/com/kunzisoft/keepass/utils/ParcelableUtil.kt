@@ -42,8 +42,12 @@ object ParcelableUtil {
         val size = parcel.readInt()
         val map = HashMap<K, V>(size)
         for (i in 0 until size) {
-            val key: K? = kClass.cast(parcel.readParcelable(kClass.classLoader))
-            val value: V? = vClass.cast(parcel.readParcelable(vClass.classLoader))
+            val key: K? = try {
+                parcel.readParcelable(kClass.classLoader)
+            } catch (e: Exception) { null }
+            val value: V? = try {
+                parcel.readParcelable(vClass.classLoader)
+            } catch (e: Exception) { null }
             if (key != null && value != null)
                 map[key] = value
         }
@@ -76,7 +80,9 @@ object ParcelableUtil {
         val map = LinkedHashMap<String, V>(size)
         for (i in 0 until size) {
             val key: String? = parcel.readString()
-            val value: V? = parcel.readParcelable(vClass.classLoader)
+            val value: V? = try {
+                parcel.readParcelable(vClass.classLoader)
+            } catch (e: Exception) { null }
             if (key != null && value != null)
                 map[key] = value
         }
