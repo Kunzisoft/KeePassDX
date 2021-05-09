@@ -42,6 +42,7 @@ import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
@@ -219,6 +220,22 @@ object AutofillHelper {
             }
             responseBuilder.addDataset(buildDataset(context, entryInfo, parseResult, inlinePresentation))
         }
+
+        if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+            val manualSelectionView = newRemoteViews(context, context.getString(R.string.autofill_manual_selection_prompt), null)
+            val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(context,
+                    null, null)
+            val builder = Dataset.Builder(manualSelectionView)
+            parseResult.usernameId?.let { autofillId ->
+                builder.setValue(autofillId, AutofillValue.forText("dummy"))
+            }
+            parseResult.passwordId?.let { autofillId ->
+                builder.setValue(autofillId, AutofillValue.forText("dummy"))
+            }
+            builder.setAuthentication(intentSender)
+            responseBuilder.addDataset(builder.build())
+        }
+
         return responseBuilder.build()
     }
 

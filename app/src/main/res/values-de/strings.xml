@@ -445,6 +445,9 @@
     <string name="validate">Validieren</string>
     <string name="autofill_auto_search_summary">Suchergebnisse automatisch nach Web-Domain oder Anwendungs-ID vorschlagen</string>
     <string name="autofill_auto_search_title">Automatische Suche</string>
+    <string name="autofill_manual_selection_prompt">Eintrag auswählen...</string>
+    <string name="autofill_manual_selection_title">Manuelle Auswahl</string>
+    <string name="autofill_manual_selection_summary">Manuelle Auswahl des Datenbank-Eintrags ermöglichen</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
     <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
     <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
