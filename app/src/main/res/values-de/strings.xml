@@ -363,7 +363,6 @@
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
     <string name="entry_setup_otp">Einmalpasswort einrichten</string>
-    <string name="entry_setup_credit_card">Kreditkarte hinzufügen</string>
     <string name="otp_type">OTP-Typ</string>
     <string name="otp_secret">Geheimnis</string>
     <string name="otp_period">Zeitraum (Sekunden)</string>

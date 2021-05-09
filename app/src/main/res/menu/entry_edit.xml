@@ -33,12 +33,6 @@
         android:orderInCategory="93"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_add_credit_card"
-        android:icon="@drawable/ic_credit_card_white_24dp"
-        android:title="@string/entry_setup_credit_card"
-        android:orderInCategory="94"
-        app:iconTint="?attr/colorControlNormal"
-        app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_add_field"
         android:icon="@drawable/ic_new_field_white_24dp"
         android:title="@string/entry_add_field"

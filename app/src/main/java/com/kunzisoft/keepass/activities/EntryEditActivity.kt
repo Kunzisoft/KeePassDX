@@ -85,7 +85,6 @@ import kotlin.collections.ArrayList
 class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
-        CreditCardDetailsDialogFragment.EntryCCFieldListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
@@ -435,29 +434,6 @@ class EntryEditActivity : LockingActivity(),
         GeneratePasswordDialogFragment().show(supportFragmentManager, "PasswordGeneratorFragment")
     }
 
-    private fun addNewCreditCard() {
-        var cardholder: String? = null
-        var number: String? = null
-        var expiration: String? = null
-        var cvv: String? = null
-
-        entryEditFragment?.getCustomFields()?.forEach { field ->
-            when (field.name) {
-                TemplatesCustomFields.CC_CARDHOLDER_FIELD_NAME ->
-                    cardholder = field.protectedValue.stringValue
-                TemplatesCustomFields.CC_NUMBER_FIELD_NAME ->
-                    number = field.protectedValue.stringValue
-                TemplatesCustomFields.CC_EXP_FIELD_NAME ->
-                    expiration = field.protectedValue.stringValue
-                TemplatesCustomFields.CC_CVV_FIELD_NAME ->
-                    cvv = field.protectedValue.stringValue
-            }
-        }
-
-        val cc = CreditCard(cardholder, number, expiration, cvv)
-        CreditCardDetailsDialogFragment.build(cc).show(supportFragmentManager, "CreditCardDialog")
-    }
-
     /**
      * Add a new customized field
      */
@@ -488,10 +464,6 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onDeleteCustomFieldApproved(oldField: Field) {
         entryEditFragment?.removeCustomField(oldField)
-    }
-
-    override fun onNewCCFieldsApproved(ccFields: ArrayList<Field>) {
-        // TODO Remove
     }
 
     /**
@@ -655,11 +627,6 @@ class EntryEditActivity : LockingActivity(),
             isVisible = allowCustomField
         }
 
-        menu?.findItem(R.id.menu_add_credit_card)?.apply {
-            isEnabled = allowCustomField
-            isVisible = allowCustomField
-        }
-
         // Attachment not compatible below KitKat
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             menu?.findItem(R.id.menu_add_attachment)?.isVisible = false
@@ -725,10 +692,6 @@ class EntryEditActivity : LockingActivity(),
         when (item.itemId) {
             R.id.menu_add_field -> {
                 addNewCustomField()
-                return true
-            }
-            R.id.menu_add_credit_card -> {
-                addNewCreditCard()
                 return true
             }
             R.id.menu_add_attachment -> {

@@ -93,7 +93,6 @@
     <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
-    <string name="entry_setup_credit_card">Edit credit card details</string>
     <string name="otp_type">OTP type</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Period (seconds)</string>
