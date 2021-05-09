@@ -104,7 +104,7 @@ class Template : Parcelable {
         const val STANDARD_USERNAME = "username"
         const val STANDARD_PASSWORD = "password"
         const val STANDARD_URL = "url"
-        const val STANDARD_EXPIRES = "expires"
+        const val STANDARD_EXPIRATION = "expires"
         const val STANDARD_NOTES = "notes"
 
         val STANDARD: Template
@@ -118,7 +118,7 @@ class Template : Parcelable {
                             ArrayList<String>().apply { add(OPTION_PASSWORD_GENERATOR) })
                     )
                     add(TemplateAttribute(STANDARD_URL, TemplateType.URL))
-                    add(TemplateAttribute(STANDARD_EXPIRES, TemplateType.DATETIME))
+                    add(TemplateAttribute(STANDARD_EXPIRATION, TemplateType.DATETIME))
                     add(TemplateAttribute(STANDARD_NOTES, TemplateType.MULTILINE))
                 })
                 sections.add(mainSection)
@@ -131,7 +131,7 @@ class Template : Parcelable {
                 add(STANDARD_USERNAME)
                 add(STANDARD_PASSWORD)
                 add(STANDARD_URL)
-                add(STANDARD_EXPIRES)
+                add(STANDARD_EXPIRATION)
                 add(STANDARD_NOTES)
             }.firstOrNull { it.equals(name, true) } != null
         }

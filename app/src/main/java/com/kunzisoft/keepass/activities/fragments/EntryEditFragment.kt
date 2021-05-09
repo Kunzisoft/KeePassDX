@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_EXPIRES
+import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_NOTES
 import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_PASSWORD
 import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_TITLE
@@ -89,9 +89,9 @@ class EntryEditFragment : StylishFragment() {
     private var iconColor: Int = 0
 
     var drawFactory: IconDrawableFactory? = null
-    var setOnDateClickListener: (() -> Unit)? = null
     var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
     var setOnIconViewClickListener: ((IconImage) -> Unit)? = null
+    var onDateTimeClickListener: ((DateInstant) -> Unit)? = null
     var mOnEditCustomField: ((Field) -> Unit)? = null
     var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
 
@@ -169,7 +169,7 @@ class EntryEditFragment : StylishFragment() {
         super.onDetach()
 
         drawFactory = null
-        setOnDateClickListener = null
+        onDateTimeClickListener = null
         setOnPasswordGeneratorClickListener = null
         setOnIconViewClickListener = null
         setOnRemoveAttachment = null
@@ -207,106 +207,105 @@ class EntryEditFragment : StylishFragment() {
     private fun populateViewsWithEntry() {
         val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
 
-        context?.let { context ->
-            // Set info in view
-            setIcon(mEntryInfo.icon)
-            entryTitleView.text = mEntryInfo.title
+        // Set info in view
+        setIcon(mEntryInfo.icon)
+        entryTitleView.text = mEntryInfo.title
 
-            // Build each template section
-            templateContainerView.removeAllViews()
-            mCustomFields.clear()
+        // Build each template section
+        templateContainerView.removeAllViews()
+        mCustomFields.clear()
 
-            mTemplate?.sections?.forEach { templateSection ->
+        mTemplate?.sections?.forEach { templateSection ->
 
-                val sectionView: View? = mInflater?.inflate(R.layout.view_template_section, templateContainerView, false)
-                val sectionContainerView = sectionView?.findViewById<ViewGroup>(R.id.template_section_container)
-                val sectionListView = sectionView?.findViewById<ViewGroup>(R.id.template_section_container_list)
-                sectionView?.id = ViewCompat.generateViewId()
-                sectionContainerView?.id = ViewCompat.generateViewId()
-                sectionListView?.id = ViewCompat.generateViewId()
+            val sectionView: View? = mInflater?.inflate(R.layout.view_template_section, templateContainerView, false)
+            val sectionContainerView = sectionView?.findViewById<ViewGroup>(R.id.template_section_container)
+            val sectionListView = sectionView?.findViewById<ViewGroup>(R.id.template_section_container_list)
+            sectionView?.id = ViewCompat.generateViewId()
+            sectionContainerView?.id = ViewCompat.generateViewId()
+            sectionListView?.id = ViewCompat.generateViewId()
 
-                customFieldsContainerView = null
+            customFieldsContainerView = null
 
-                // Build each attribute
-                templateSection.attributes.forEach { templateAttribute ->
-                    var fieldTag = FIELD_CUSTOM_TAG
+            // Build each attribute
+            templateSection.attributes.forEach { templateAttribute ->
+                var fieldTag = FIELD_CUSTOM_TAG
 
-                    val fieldValue = when (templateAttribute.label.toLowerCase(Locale.ENGLISH)) {
-                        STANDARD_TITLE -> {
-                            throw Exception("title cannot be in template attribute")
-                        }
-                        STANDARD_USERNAME -> {
-                            fieldTag = FIELD_USERNAME_TAG
-                            mEntryInfo.username
-                        }
-                        STANDARD_PASSWORD -> {
-                            fieldTag = FIELD_PASSWORD_TAG
-                            mEntryInfo.password
-                        }
-                        STANDARD_URL -> {
-                            fieldTag = FIELD_URL_TAG
-                            mEntryInfo.url
-                        }
-                        STANDARD_EXPIRES -> {
-                            fieldTag = FIELD_EXPIRES_TAG
-                            mEntryInfo.expiryTime
-                                    .getDateTimeString(context.resources)
-                            // TODO Tests
-                        }
-                        STANDARD_NOTES -> {
-                            fieldTag = FIELD_NOTES_TAG
-                            mEntryInfo.notes
-                        }
-                        else -> {
-                            // Retrieve custom field value if exists to populate template
-                            val index = customFieldsNotConsumed.indexOfFirst { field ->
-                                field.name.equals(templateAttribute.label, true)
-                            }
-                            if (index != -1) {
-                                val templateCustomField = customFieldsNotConsumed.removeAt(index)
-                                templateCustomField.protectedValue.toString()
-                            } else {
-                                ""
-                            }
-                            // TODO Other type
-                        }
+                val fieldValue = when (templateAttribute.label.toLowerCase(Locale.ENGLISH)) {
+                    STANDARD_TITLE -> {
+                        throw Exception("title cannot be in template attribute")
                     }
-
-                    val templateField = Field(templateAttribute.label,
-                            ProtectedString(templateAttribute.protected, fieldValue))
-                    val attributeView = buildView(sectionListView,
-                            templateAttribute,
-                            templateField,
-                            fieldTag)
-                    // Add created view to this parent
-                    sectionListView?.addView(attributeView)
+                    STANDARD_USERNAME -> {
+                        fieldTag = FIELD_USERNAME_TAG
+                        mEntryInfo.username
+                    }
+                    STANDARD_PASSWORD -> {
+                        fieldTag = FIELD_PASSWORD_TAG
+                        mEntryInfo.password
+                    }
+                    STANDARD_URL -> {
+                        fieldTag = FIELD_URL_TAG
+                        mEntryInfo.url
+                    }
+                    STANDARD_EXPIRATION -> {
+                        fieldTag = FIELD_EXPIRES_TAG
+                        if (mEntryInfo.expires)
+                            mEntryInfo.expiryTime.toString()
+                        else
+                            ""
+                    }
+                    STANDARD_NOTES -> {
+                        fieldTag = FIELD_NOTES_TAG
+                        mEntryInfo.notes
+                    }
+                    else -> {
+                        // Retrieve custom field value if exists to populate template
+                        val index = customFieldsNotConsumed.indexOfFirst { field ->
+                            field.name.equals(templateAttribute.label, true)
+                        }
+                        if (index != -1) {
+                            val templateCustomField = customFieldsNotConsumed.removeAt(index)
+                            templateCustomField.protectedValue.toString()
+                        } else {
+                            ""
+                        }
+                        // TODO Other type
+                    }
                 }
 
-                // Add standard fields not in template
-
-                // Add custom fields not in template
-                if (templateSection.dynamic) {
-                    customFieldsNotConsumed.forEach { customDynamicField ->
-                        val fieldView = buildViewForCustomField(sectionListView, customDynamicField)
-                        sectionListView?.addView(fieldView)
-                    }
-                    customFieldsContainerView = sectionListView
-                    /*
-                    // Request last focus
-                    mLastFocusedEditField?.let { focusField ->
-                        mExtraViewToRequestFocus?.apply {
-                            requestFocus()
-                            setSelection(focusField.cursorSelectionStart,
-                                    focusField.cursorSelectionEnd)
-                        }
-                    }
-                    mLastFocusedEditField = null
-                     */
-                }
-
-                // Add build view to parent
-                templateContainerView.addView(sectionView)
+                val templateField = Field(templateAttribute.label,
+                        ProtectedString(templateAttribute.protected, fieldValue))
+                val attributeView = buildViewForTemplateField(sectionListView,
+                        templateAttribute,
+                        templateField,
+                        fieldTag)
+                // Add created view to this parent
+                sectionListView?.addView(attributeView)
             }
+
+            // Add standard fields not in template
+
+            // Add custom fields not in template
+            if (templateSection.dynamic) {
+                customFieldsNotConsumed.forEach { customDynamicField ->
+                    val fieldView = buildViewForCustomField(sectionListView, customDynamicField)
+                    sectionListView?.addView(fieldView)
+                }
+                customFieldsContainerView = sectionListView
+                /*
+                // Request last focus
+                mLastFocusedEditField?.let { focusField ->
+                    mExtraViewToRequestFocus?.apply {
+                        requestFocus()
+                        setSelection(focusField.cursorSelectionStart,
+                                focusField.cursorSelectionEnd)
+                    }
+                }
+                mLastFocusedEditField = null
+                 */
+            }
+
+            // Add build view to parent
+            templateContainerView.addView(sectionView)
         }
     }
 
@@ -317,30 +316,24 @@ class EntryEditFragment : StylishFragment() {
                 TemplateType.INLINE,
                 field.protectedValue.isProtected,
                 ArrayList<String>().apply { add(OPTION_EDITION) })
-        return buildView(rootView, customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
+        return buildViewForTemplateField(rootView, customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
 
-    private fun buildView(rootView: ViewGroup?,
-                          templateAttribute: TemplateAttribute,
-                          field: Field,
-                          fieldTag: String): View? {
+    private fun buildViewForTemplateField(rootView: ViewGroup?,
+                                          templateAttribute: TemplateAttribute,
+                                          field: Field,
+                                          fieldTag: String): View? {
         // Build main view depending on type
-        val itemView: View? =
-                when (templateAttribute.type) {
+        val itemView: View? = when (templateAttribute.type) {
                     TemplateType.INLINE,
                     TemplateType.URL,
                     TemplateType.MULTILINE -> {
-                        // Add an action icon if needed
-                        if (templateAttribute.containsActionOption()) {
-                            mInflater?.inflate(R.layout.view_entry_edit_field_action, rootView, false)
-                        } else {
-                            mInflater?.inflate(R.layout.view_entry_edit_field, rootView, false)
-                        }
+                        buildLinearTextView(rootView, templateAttribute, field, fieldTag)
                     }
                     TemplateType.DATE,
                     TemplateType.TIME,
                     TemplateType.DATETIME -> {
-                        ExpirationView(requireContext())
+                        buildDataTimeView(rootView, templateAttribute, field, fieldTag)
                     }
                     TemplateType.LISTBOX -> TODO()
                     TemplateType.POPOUT -> TODO()
@@ -348,6 +341,25 @@ class EntryEditFragment : StylishFragment() {
 
                     //TODO Password
                 }
+        itemView?.id = ViewCompat.generateViewId()
+
+        // Add new custom view id to the custom field list
+        if (fieldTag == FIELD_CUSTOM_TAG) {
+            mCustomFields[field.name] = FieldId(itemView!!.id, field.protectedValue.isProtected)
+        }
+        return itemView
+    }
+
+    private fun buildLinearTextView(rootView: ViewGroup?,
+                                    templateAttribute: TemplateAttribute,
+                                    field: Field,
+                                    fieldTag: String): View? {
+        // Add an action icon if needed
+        val itemView = if (templateAttribute.containsActionOption()) {
+            mInflater?.inflate(R.layout.view_entry_edit_field_action, rootView, false)
+        } else {
+            mInflater?.inflate(R.layout.view_entry_edit_field, rootView, false)
+        }
 
         // Value View
         val fieldTextView: TextInputEditText? = itemView?.findViewById(R.id.edit_field_text)
@@ -416,12 +428,27 @@ class EntryEditFragment : StylishFragment() {
         // Generate unique id for each view to prevent bugs
         fieldTextLayout?.id = ViewCompat.generateViewId()
         fieldButtonView?.id = ViewCompat.generateViewId()
-        itemView?.id = ViewCompat.generateViewId()
 
-        if (fieldTag == FIELD_CUSTOM_TAG) {
-            mCustomFields[field.name] = FieldId(itemView!!.id, field.protectedValue.isProtected)
-        }
         return itemView
+    }
+
+    private fun buildDataTimeView(rootView: ViewGroup?,
+                                  templateAttribute: TemplateAttribute,
+                                  field: Field,
+                                  fieldTag: String): View? {
+        // TODO view with unique id
+        return ExpirationView(requireContext()).apply {
+            this.label = field.name
+            this.expires = field.protectedValue.toString().isNotEmpty()
+            this.expiryTime = try {
+                DateInstant(field.protectedValue.toString())
+            } catch (e: Exception) {
+                this.expires = false
+                DateInstant.NEVER_EXPIRE
+            }
+            this.setOnDateClickListener = onDateTimeClickListener
+            this.tag = FIELD_EXPIRES_TAG
+        }
     }
 
     private fun populateEntryWithViews() {
@@ -443,7 +470,13 @@ class EntryEditFragment : StylishFragment() {
             mEntryInfo.url = it
         }
 
-        mEntryInfo.expiryTime = expiryTime
+        val expirationView: ExpirationView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
+        expirationView?.expires?.let {
+            mEntryInfo.expires = it
+        }
+        expirationView?.expiryTime?.let {
+            mEntryInfo.expiryTime = it
+        }
 
         val notesView: EditText? = templateContainerView.findViewWithTag(FIELD_NOTES_TAG)
         notesView?.text?.toString()?.let {
@@ -464,19 +497,20 @@ class EntryEditFragment : StylishFragment() {
     }
 
     fun setPassword(password: String) {
+        mEntryInfo.password = password
         val passwordView: EditText? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
         passwordView?.setText(password)
     }
 
-    var expiryTime: DateInstant
-        get() {
-            val expirationView: ExpirationView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-            return expirationView?.expiryTime ?: DateInstant()
-        }
-        set(value) {
-            val expirationView: ExpirationView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-            expirationView?.expiryTime = value
-        }
+    fun setExpiryTime(expiration: DateInstant) {
+        mEntryInfo.expiryTime = expiration
+        val expirationView: ExpirationView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
+        expirationView?.expiryTime = expiration
+    }
+
+    fun getExpiryTime(): DateInstant {
+        return mEntryInfo.expiryTime
+    }
 
     /* -------------
      * Extra Fields

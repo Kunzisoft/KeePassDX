@@ -214,7 +214,7 @@ class EntryEditActivity : LockingActivity(),
             add(TemplateAttribute("CVV", TemplateType.INLINE, true))
             add(TemplateAttribute("PIN", TemplateType.INLINE, true))
             add(TemplateAttribute("Card holder", TemplateType.INLINE))
-            add(TemplateAttribute("@exp_date", TemplateType.DATETIME))
+            add(TemplateAttribute("Expires", TemplateType.DATETIME))
         })))
 
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
@@ -238,7 +238,7 @@ class EntryEditActivity : LockingActivity(),
                 .commit()
         entryEditFragment?.apply {
             drawFactory = mDatabase?.iconDrawableFactory
-            setOnDateClickListener = {
+            onDateTimeClickListener = { expiryTime ->
                 expiryTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
                     val defaultYear = dateTime.year
@@ -734,14 +734,14 @@ class EntryEditActivity : LockingActivity(),
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            entryEditFragment?.expiryTime?.date?.let { expiresDate ->
+            entryEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
                 // Save the date
-                entryEditFragment?.expiryTime =
+                entryEditFragment?.setExpiryTime(
                         DateInstant(DateTime(expiresDate)
                                 .withYear(year)
                                 .withMonthOfYear(month + 1)
                                 .withDayOfMonth(day)
-                                .toDate())
+                                .toDate()))
                 // Launch the time picker
                 val dateTime = DateTime(expiresDate)
                 val defaultHour = dateTime.hourOfDay
@@ -753,13 +753,13 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        entryEditFragment?.expiryTime?.date?.let { expiresDate ->
+        entryEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
             // Save the date
-            entryEditFragment?.expiryTime =
+            entryEditFragment?.setExpiryTime(
                     DateInstant(DateTime(expiresDate)
                             .withHourOfDay(hours)
                             .withMinuteOfHour(minutes)
-                            .toDate())
+                            .toDate()))
         }
     }
 

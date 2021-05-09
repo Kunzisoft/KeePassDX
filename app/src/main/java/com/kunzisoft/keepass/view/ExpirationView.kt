@@ -51,7 +51,7 @@ class ExpirationView @JvmOverloads constructor(context: Context,
 
     private var fontInVisibility: Boolean = false
 
-    var setOnDateClickListener: (() -> Unit)? = null
+    var setOnDateClickListener: ((DateInstant) -> Unit)? = null
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -63,7 +63,7 @@ class ExpirationView @JvmOverloads constructor(context: Context,
 
         entryExpiresTextView.setOnClickListener {
             if (entryExpiresCheckBox.isChecked)
-                setOnDateClickListener?.invoke()
+                setOnDateClickListener?.invoke(expiryTime)
         }
         entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
             assignExpiresDateText()
@@ -80,10 +80,6 @@ class ExpirationView @JvmOverloads constructor(context: Context,
         }
         if (fontInVisibility)
             entryExpiresTextView.applyFontVisibility()
-    }
-
-    fun setLabel(@StringRes stringId: Int) {
-        this.label = context.getString(stringId)
     }
 
     var label: String
