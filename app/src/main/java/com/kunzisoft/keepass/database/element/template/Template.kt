@@ -23,8 +23,7 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.template.TemplateAttribute.CREATOR.OPTION_PASSWORD_GENERATOR
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,19 +33,29 @@ class Template : Parcelable {
     var uuid: UUID = DatabaseVersioned.UUID_ZERO
     var title = ""
     var icon = IconImage()
-    var attributes: List<TemplateAttribute> = ArrayList()
+    var sections: MutableList<TemplateSection> = ArrayList()
         private set
 
     constructor(uuid: UUID,
                 title: String,
                 icon: IconImage,
-                attributes: List<TemplateAttribute>,
+                section: TemplateSection,
+                version: Int = 1): this(uuid, title, icon, ArrayList<TemplateSection>().apply {
+        add(section)
+    }, version)
+
+    constructor(uuid: UUID,
+                title: String,
+                icon: IconImage,
+                sections: List<TemplateSection>,
                 version: Int = 1) {
         this.version = version
         this.uuid = uuid
         this.title = title
         this.icon = icon
-        this.attributes = attributes
+        this.sections.clear()
+        this.sections.addAll(sections)
+        this.sections.add(TemplateSection()) // Add dynamic section at end
     }
 
     constructor(parcel: Parcel) {
@@ -54,7 +63,7 @@ class Template : Parcelable {
         uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: uuid
         title = parcel.readString() ?: title
         icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
-        parcel.readList(attributes, TemplateAttribute::class.java.classLoader)
+        parcel.readList(sections, TemplateSection::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -62,32 +71,11 @@ class Template : Parcelable {
         parcel.writeParcelable(ParcelUuid(uuid), flags)
         parcel.writeString(title)
         parcel.writeParcelable(icon, flags)
-        parcel.writeList(attributes)
+        parcel.writeList(sections)
     }
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    fun getFields(): List<Field> {
-        return attributes
-                .sortedBy { it.position }
-                .map { attribute ->
-                    val protected = ProtectedString(attribute.type.protected, "")
-                    when (attribute.type) {
-                        TemplateType.INLINE -> {
-                            Field(attribute.title, protected)
-                        }
-                        else -> {
-                            // TODO other types
-                            Field(attribute.title, protected)
-                        }
-                    }
-                }
-    }
-
-    fun containsAttributeWithTitle(title: String): Boolean {
-        return attributes.firstOrNull { attribute -> attribute.title.equals(title, true) } != null
     }
 
     override fun equals(other: Any?): Boolean {
@@ -112,6 +100,40 @@ class Template : Parcelable {
             return arrayOfNulls(size)
         }
 
-        val STANDARD = Template(DatabaseVersioned.UUID_ZERO, "Standard", IconImage(), ArrayList())
+        const val STANDARD_TITLE = "title"
+        const val STANDARD_USERNAME = "username"
+        const val STANDARD_PASSWORD = "password"
+        const val STANDARD_URL = "url"
+        const val STANDARD_EXPIRES = "expires"
+        const val STANDARD_NOTES = "notes"
+
+        val STANDARD: Template
+            get() {
+                val sections = ArrayList<TemplateSection>()
+                val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+                    add(TemplateAttribute(STANDARD_USERNAME, TemplateType.INLINE))
+                    add(TemplateAttribute(STANDARD_PASSWORD,
+                            TemplateType.INLINE,
+                            true,
+                            ArrayList<String>().apply { add(OPTION_PASSWORD_GENERATOR) })
+                    )
+                    add(TemplateAttribute(STANDARD_URL, TemplateType.URL))
+                    add(TemplateAttribute(STANDARD_EXPIRES, TemplateType.DATETIME))
+                    add(TemplateAttribute(STANDARD_NOTES, TemplateType.MULTILINE))
+                })
+                sections.add(mainSection)
+                return Template(DatabaseVersioned.UUID_ZERO, "Standard", IconImage(), sections)
+            }
+
+        fun isStandardFieldName(name: String): Boolean {
+            return ArrayList<String>().apply {
+                add(STANDARD_TITLE)
+                add(STANDARD_USERNAME)
+                add(STANDARD_PASSWORD)
+                add(STANDARD_URL)
+                add(STANDARD_EXPIRES)
+                add(STANDARD_NOTES)
+            }.firstOrNull { it.equals(name, true) } != null
+        }
     }
 }

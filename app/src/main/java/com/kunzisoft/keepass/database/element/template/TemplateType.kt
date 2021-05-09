@@ -18,16 +18,17 @@
  */
 package com.kunzisoft.keepass.database.element.template
 
-enum class TemplateType(var value: String, var protected: Boolean = false) {
+enum class TemplateType(var value: String) {
+
     INLINE("Inline"),
-    INLINE_URL("Inline URL"),
+    URL("Inline URL"),
+    MULTILINE("Multiline"),
     DATE("Date"),
+    TIME("Time"),
     DATETIME("Date Time"),
     LISTBOX("Listbox"),
     POPOUT("Popout"),
-    RICH_TEXTBOX("Rich Textbox"),
-
-    DIVIDER("Divider"); // To visually divide a section
+    RICH_TEXTBOX("Rich Textbox");
 
     companion object {
         val PROTECTED = "Protected"

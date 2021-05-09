@@ -43,6 +43,7 @@ class ExpirationView @JvmOverloads constructor(context: Context,
                                                defStyle: Int = 0)
     : ConstraintLayout(context, attrs, defStyle) {
 
+    private var entryExpiresLabelView: TextView
     private var entryExpiresTextView: TextView
     private var entryExpiresCheckBox: CompoundButton
 
@@ -56,6 +57,7 @@ class ExpirationView @JvmOverloads constructor(context: Context,
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_expiration, this)
 
+        entryExpiresLabelView = findViewById(R.id.expiration_label)
         entryExpiresTextView = findViewById(R.id.expiration_text)
         entryExpiresCheckBox = findViewById(R.id.expiration_checkbox)
 
@@ -79,6 +81,18 @@ class ExpirationView @JvmOverloads constructor(context: Context,
         if (fontInVisibility)
             entryExpiresTextView.applyFontVisibility()
     }
+
+    fun setLabel(@StringRes stringId: Int) {
+        this.label = context.getString(stringId)
+    }
+
+    var label: String
+        get() {
+            return entryExpiresLabelView.text.toString()
+        }
+        set(value) {
+            entryExpiresLabelView.text = value
+        }
 
     var expires: Boolean
         get() {

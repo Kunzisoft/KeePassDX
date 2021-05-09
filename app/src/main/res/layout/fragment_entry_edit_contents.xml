@@ -36,13 +36,14 @@
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/extra_fields_container">
+		app:layout_constraintBottom_toTopOf="@+id/template_fields_container">
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/card_view_padding">
 
+			<!-- Icon -->
 			<androidx.appcompat.widget.AppCompatImageButton
 				android:id="@+id/entry_edit_icon_button"
 				android:layout_width="wrap_content"
@@ -52,140 +53,31 @@
 				android:contentDescription="@string/content_description_entry_icon"
 				android:layout_gravity="center"/>
 
-			<!--  Title -->
+			<!-- Title -->
 			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/entry_edit_container_title"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
-
 				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/entry_edit_title"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:inputType="text"
 					android:importantForAccessibility="no"
 					android:importantForAutofill="no"
-					android:maxLines="1"
-					android:hint="@string/entry_title"/>
-			</com.google.android.material.textfield.TextInputLayout>
-
-			<!-- Username -->
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/entry_edit_container_user_name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/entry_edit_user_name"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
 					android:inputType="textNoSuggestions"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
 					android:maxLines="1"
-					android:hint="@string/entry_user_name"/>
-			</com.google.android.material.textfield.TextInputLayout>
-
-			<!-- Password -->
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/entry_edit_container_password"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:endIconMode="password_toggle"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_edit_password_generator_button">
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/entry_edit_password"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:inputType="textPassword|textMultiLine"
-						android:importantForAccessibility="no"
-						android:importantForAutofill="no"
-						android:imeOptions="flagNoPersonalizedLearning"
-						android:ems="10"
-						android:maxLines="10"
-						android:hint="@string/entry_password"/>
-				</com.google.android.material.textfield.TextInputLayout>
-
-				<androidx.appcompat.widget.AppCompatImageView
-					android:id="@+id/entry_edit_password_generator_button"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="8dp"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:src="@drawable/ic_generate_password_white_24dp"
-					android:contentDescription="@string/generate_password"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
-			</androidx.constraintlayout.widget.ConstraintLayout>
-
-			<!--  URL -->
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/entry_edit_container_url"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/entry_edit_url"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="textUri"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:maxLines="1"
-					android:hint="@string/entry_url"/>
-			</com.google.android.material.textfield.TextInputLayout>
-
-			<!-- Expiration -->
-			<com.kunzisoft.keepass.view.ExpirationView
-				android:id="@+id/entry_edit_expiration"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
-
-			<!-- Notes -->
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/entry_edit_container_notes"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/entry_edit_notes"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:gravity="start"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:inputType="textMultiLine"
-					android:hint="@string/entry_notes"/>
+					android:hint="@string/entry_title"
+					tools:ignore="UnusedAttribute" />
 			</com.google.android.material.textfield.TextInputLayout>
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
-	<androidx.cardview.widget.CardView
-		android:id="@+id/extra_fields_container"
+	<LinearLayout
+		android:id="@+id/template_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container"
-		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container">
-		<LinearLayout
-			android:id="@+id/extra_fields_list"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/card_view_padding"
-			android:orientation="vertical" />
-	</androidx.cardview.widget.CardView>
+		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container"
+		android:orientation="vertical" />
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_attachments_container"
@@ -196,7 +88,7 @@
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
-		app:layout_constraintTop_toBottomOf="@+id/extra_fields_container"
+		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
 		app:layout_constraintBottom_toBottomOf="parent">
 		<LinearLayout
 			android:layout_height="wrap_content"

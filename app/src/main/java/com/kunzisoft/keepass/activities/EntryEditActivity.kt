@@ -57,10 +57,10 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
+import com.kunzisoft.keepass.database.element.template.TemplateSection
 import com.kunzisoft.keepass.database.element.template.TemplateType
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
-import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
@@ -210,13 +210,13 @@ class EntryEditActivity : LockingActivity(),
         // TODO Dynamic templates
         templates.add(Template.STANDARD)
         templates.add(Template(UUID.randomUUID(), "Credit Card",
-                IconImageStandard(37).getIconImageToDraw(), ArrayList<TemplateAttribute>().apply {
-            add(TemplateAttribute(0, "Number", TemplateType.INLINE))
-            add(TemplateAttribute(1, "CVV", TemplateType.INLINE.apply { protected = true }))
-            add(TemplateAttribute(2, "PIN", TemplateType.INLINE.apply { protected = true }))
-            add(TemplateAttribute(3, "Card holder", TemplateType.INLINE))
-            add(TemplateAttribute(4, "@exp_date", TemplateType.DATETIME))
-        }))
+                IconImageStandard(37).getIconImageToDraw(), TemplateSection(ArrayList<TemplateAttribute>().apply {
+            add(TemplateAttribute("Number", TemplateType.INLINE))
+            add(TemplateAttribute("CVV", TemplateType.INLINE, true))
+            add(TemplateAttribute("PIN", TemplateType.INLINE, true))
+            add(TemplateAttribute("Card holder", TemplateType.INLINE))
+            add(TemplateAttribute("@exp_date", TemplateType.DATETIME))
+        })))
 
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         templateSelectorSpinner?.apply {
@@ -260,7 +260,7 @@ class EntryEditActivity : LockingActivity(),
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
                 removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
             }
-            setOnEditCustomField = { field ->
+            mOnEditCustomField = { field ->
                 editCustomField(field)
             }
         }
@@ -441,7 +441,7 @@ class EntryEditActivity : LockingActivity(),
         var expiration: String? = null
         var cvv: String? = null
 
-        entryEditFragment?.getExtraFields()?.forEach { field ->
+        entryEditFragment?.getCustomFields()?.forEach { field ->
             when (field.name) {
                 TemplatesCustomFields.CC_CARDHOLDER_FIELD_NAME ->
                     cardholder = field.protectedValue.stringValue
@@ -469,49 +469,29 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
     }
 
-    private fun verifyNameField(field: Field,
-                                actionIfNewName: () -> Unit) {
-        var extraFieldAlreadyContainsName = false
-        entryEditFragment?.getExtraFields()?.forEach {
-            if (it.name.equals(field.name, true))
-                extraFieldAlreadyContainsName = true
-        }
-
-        if (!extraFieldAlreadyContainsName
-                && Entry.newExtraFieldNameAllowed(field)) {
-            actionIfNewName.invoke()
-        } else {
-            Log.e(TAG, "Unable to create the new field, field name already exists")
-            coordinatorLayout?.let {
-                Snackbar.make(it, R.string.error_field_name_already_exists, Snackbar.LENGTH_LONG).asError().show()
-            }
+    private fun showAddCustomFieldError() {
+        coordinatorLayout?.let {
+            Snackbar.make(it, R.string.error_field_name_already_exists, Snackbar.LENGTH_LONG).asError().show()
         }
     }
 
     override fun onNewCustomFieldApproved(newField: Field) {
-        verifyNameField(newField) {
-            entryEditFragment?.putExtraField(newField)
-        }
+        if (entryEditFragment?.putCustomField(newField) != true)
+            showAddCustomFieldError()
     }
 
     override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        if (oldField.name.equals(newField.name, true)) {
-            entryEditFragment?.replaceExtraField(oldField, newField)
-        } else {
-            verifyNameField(newField) {
-                entryEditFragment?.replaceExtraField(oldField, newField)
-            }
+        if (entryEditFragment?.replaceCustomField(oldField, newField) != true) {
+            showAddCustomFieldError()
         }
     }
 
     override fun onDeleteCustomFieldApproved(oldField: Field) {
-        entryEditFragment?.removeExtraField(oldField)
+        entryEditFragment?.removeCustomField(oldField)
     }
 
     override fun onNewCCFieldsApproved(ccFields: ArrayList<Field>) {
-        for (field in ccFields) {
-            entryEditFragment?.putExtraField(field)
-        }
+        // TODO Remove
     }
 
     /**
@@ -561,7 +541,7 @@ class EntryEditActivity : LockingActivity(),
         super.onActivityResult(requestCode, resultCode, data)
 
         IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            entryEditFragment?.icon = icon
+            entryEditFragment?.setIcon(icon)
         }
 
         mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
@@ -783,7 +763,7 @@ class EntryEditActivity : LockingActivity(),
         val otpField = OtpEntryFields.buildOtpField(otpElement, titleOTP, usernameOTP)
         mEntry?.putExtraField(Field(otpField.name, otpField.protectedValue))
         entryEditFragment?.apply {
-            putExtraField(otpField)
+            putCustomField(otpField)
         }
     }
 
@@ -829,7 +809,7 @@ class EntryEditActivity : LockingActivity(),
 
     override fun acceptPassword(bundle: Bundle) {
         bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID)?.let {
-            entryEditFragment?.password = it
+            entryEditFragment?.setPassword(it)
         }
 
         entryEditActivityEducation?.let {
