@@ -69,10 +69,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val extraFieldsContainerView: View
     private val extraFieldsListView: ViewGroup
 
+    private val expiresDateView: TextView
     private val creationDateView: TextView
     private val modificationDateView: TextView
     private val expiresImageView: ImageView
-    private val expiresDateView: TextView
 
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
@@ -121,10 +121,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 
+        expiresDateView = findViewById(R.id.entry_expires_date)
         creationDateView = findViewById(R.id.entry_created)
         modificationDateView = findViewById(R.id.entry_modified)
         expiresImageView = findViewById(R.id.entry_expires_image)
-        expiresDateView = findViewById(R.id.entry_expires_date)
 
         historyContainerView = findViewById(R.id.entry_history_container)
         historyListView = findViewById(R.id.entry_history_list)
@@ -260,14 +260,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun assignCreationDate(date: DateInstant) {
-        creationDateView.text = date.getDateTimeString(resources)
-    }
-
-    fun assignModificationDate(date: DateInstant) {
-        modificationDateView.text = date.getDateTimeString(resources)
-    }
-
     fun setExpires(isExpires: Boolean, expiryTime: DateInstant) {
         expiresImageView.visibility = if (isExpires) View.VISIBLE else View.GONE
         expiresDateView.text = if (isExpires) {
@@ -275,6 +267,14 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         } else {
             resources.getString(R.string.never)
         }
+    }
+
+    fun assignCreationDate(date: DateInstant) {
+        creationDateView.text = date.getDateTimeString(resources)
+    }
+
+    fun assignModificationDate(date: DateInstant) {
+        modificationDateView.text = date.getDateTimeString(resources)
     }
 
     fun assignUUID(uuid: UUID) {

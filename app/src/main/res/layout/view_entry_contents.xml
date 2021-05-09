@@ -144,6 +144,32 @@
 			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 
+			<!-- Expires -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_expires_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_expires"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<androidx.appcompat.widget.AppCompatImageView
+					android:id="@+id/entry_expires_image"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_gravity="center_vertical"
+					android:src="@drawable/ic_info_white_24dp"
+					android:contentDescription="@string/content_description_file_information"
+					android:tint="@color/red"/>
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_expires_date"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+			</LinearLayout>
+
 			<!-- Created -->
 			<androidx.appcompat.widget.AppCompatTextView
 				android:id="@+id/entry_created_label"
@@ -178,32 +204,6 @@
 				android:layout_height="wrap_content"
 				android:text="@string/entry_accessed"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-
-			<!-- Expires -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/entry_expires_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_expires"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
-				<androidx.appcompat.widget.AppCompatImageView
-					android:id="@+id/entry_expires_image"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:layout_gravity="center_vertical"
-					android:src="@drawable/ic_info_white_24dp"
-					android:contentDescription="@string/content_description_file_information"
-					android:tint="@color/red"/>
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_expires_date"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-			</LinearLayout>
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
