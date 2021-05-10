@@ -1,3 +1,6 @@
+KeePassDX(2.10.1)
+ * Fix parcelable with custom data #986
+
 KeePassDX(2.10.0)
  * Manage new database format 4.1 #956
  * Fix show button consistency #980
