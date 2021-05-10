@@ -17,7 +17,7 @@ class CustomData : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        ParcelableUtil.readStringParcelableMap(parcel, CustomData::class.java)
+        ParcelableUtil.readStringParcelableMap(parcel, CustomDataItem::class.java)
     }
 
     fun get(key: String): CustomDataItem? {
