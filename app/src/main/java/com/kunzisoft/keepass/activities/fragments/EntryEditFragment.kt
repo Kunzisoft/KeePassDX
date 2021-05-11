@@ -60,7 +60,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.ExpirationView
+import com.kunzisoft.keepass.view.DateTimeView
 import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -248,10 +248,7 @@ class EntryEditFragment : StylishFragment() {
                     }
                     STANDARD_EXPIRATION -> {
                         fieldTag = FIELD_EXPIRES_TAG
-                        if (mEntryInfo.expires)
-                            mEntryInfo.expiryTime.toString()
-                        else
-                            ""
+                        mEntryInfo.getExpiresStringValue()
                     }
                     STANDARD_NOTES -> {
                         fieldTag = FIELD_NOTES_TAG
@@ -268,7 +265,6 @@ class EntryEditFragment : StylishFragment() {
                         } else {
                             ""
                         }
-                        // TODO Other type
                     }
                 }
 
@@ -333,7 +329,7 @@ class EntryEditFragment : StylishFragment() {
                     TemplateType.DATE,
                     TemplateType.TIME,
                     TemplateType.DATETIME -> {
-                        buildDataTimeView(rootView, templateAttribute, field, fieldTag)
+                        buildDataTimeView(templateAttribute, field, fieldTag)
                     }
                     TemplateType.LISTBOX -> TODO()
                     TemplateType.POPOUT -> TODO()
@@ -354,6 +350,7 @@ class EntryEditFragment : StylishFragment() {
                                     templateAttribute: TemplateAttribute,
                                     field: Field,
                                     fieldTag: String): View? {
+        // TODO As dedicated view
         // Add an action icon if needed
         val itemView = if (templateAttribute.containsActionOption()) {
             mInflater?.inflate(R.layout.view_entry_edit_field_action, rootView, false)
@@ -432,22 +429,32 @@ class EntryEditFragment : StylishFragment() {
         return itemView
     }
 
-    private fun buildDataTimeView(rootView: ViewGroup?,
-                                  templateAttribute: TemplateAttribute,
+    private fun buildDataTimeView(templateAttribute: TemplateAttribute,
                                   field: Field,
                                   fieldTag: String): View? {
-        // TODO view with unique id
-        return ExpirationView(requireContext()).apply {
-            this.label = field.name
-            this.expires = field.protectedValue.toString().isNotEmpty()
-            this.expiryTime = try {
-                DateInstant(field.protectedValue.toString())
-            } catch (e: Exception) {
-                this.expires = false
-                DateInstant.NEVER_EXPIRE
+        return context?.let {
+            DateTimeView(it).apply {
+                label = field.name
+                try {
+                    val value = field.protectedValue.toString()
+                    activation = value.trim().isNotEmpty()
+                    dateTime = DateInstant(value,
+                            when (templateAttribute.type) {
+                                TemplateType.DATE -> DateInstant.Type.DATE
+                                TemplateType.TIME -> DateInstant.Type.TIME
+                                else -> DateInstant.Type.DATE_TIME
+                            })
+                } catch (e: Exception) {
+                    activation = false
+                    dateTime = when (templateAttribute.type) {
+                                TemplateType.DATE -> DateInstant.IN_ONE_MONTH_DATE
+                                TemplateType.TIME -> DateInstant.IN_ONE_HOUR_TIME
+                                else -> DateInstant.IN_ONE_MONTH_DATE_TIME
+                            }
+                }
+                setOnDateClickListener = onDateTimeClickListener
+                tag = fieldTag
             }
-            this.setOnDateClickListener = onDateTimeClickListener
-            this.tag = FIELD_EXPIRES_TAG
         }
     }
 
@@ -470,11 +477,11 @@ class EntryEditFragment : StylishFragment() {
             mEntryInfo.url = it
         }
 
-        val expirationView: ExpirationView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-        expirationView?.expires?.let {
+        val expirationView: DateTimeView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
+        expirationView?.activation?.let {
             mEntryInfo.expires = it
         }
-        expirationView?.expiryTime?.let {
+        expirationView?.dateTime?.let {
             mEntryInfo.expiryTime = it
         }
 
@@ -485,7 +492,7 @@ class EntryEditFragment : StylishFragment() {
 
         mEntryInfo.customFields = getCustomFields()
         mEntryInfo.otpModel = OtpEntryFields.parseFields { key ->
-            getCustomFields().firstOrNull { it.name == key }?.protectedValue?.toString()
+            getCustomField(key)?.protectedValue?.toString()
         }?.otpModel
 
         mEntryInfo.attachments = getAttachments()
@@ -504,8 +511,8 @@ class EntryEditFragment : StylishFragment() {
 
     fun setExpiryTime(expiration: DateInstant) {
         mEntryInfo.expiryTime = expiration
-        val expirationView: ExpirationView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-        expirationView?.expiryTime = expiration
+        val expirationView: DateTimeView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
+        expirationView?.dateTime = expiration
     }
 
     fun getExpiryTime(): DateInstant {
@@ -529,17 +536,26 @@ class EntryEditFragment : StylishFragment() {
     }
 
     private fun getCustomField(fieldName: String): Field? {
-        var editView: EditText?
         mCustomFields[fieldName]?.let { fieldId ->
-            editView = templateContainerView
+            val editView = templateContainerView
                     .findViewById<View?>(fieldId.viewId)
-                    ?.findViewWithTag(FIELD_CUSTOM_TAG)
-            return Field(fieldName, ProtectedString(fieldId.protected, editView?.text?.toString() ?: ""))
+                    ?.findViewWithTag<View?>(FIELD_CUSTOM_TAG)
+            if (editView is EditText) {
+                return Field(fieldName,
+                        ProtectedString(fieldId.protected, editView.text?.toString() ?: "")
+                )
+            }
+            if (editView is DateTimeView) {
+                val value = if (editView.activation) editView.dateTime.toString() else ""
+                return Field(fieldName,
+                        ProtectedString(fieldId.protected, value)
+                )
+            }
         } // TODO other view type
         return null
     }
 
-    fun getCustomFields(): List<Field> {
+    private fun getCustomFields(): List<Field> {
         // TODO focus ?
         return mCustomFields.map {
             getCustomField(it.key)!!

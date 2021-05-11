@@ -12,7 +12,7 @@ open class NodeInfo() : Parcelable {
     var creationTime: DateInstant = DateInstant()
     var lastModificationTime: DateInstant = DateInstant()
     var expires: Boolean = false
-    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH
+    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
 
     constructor(parcel: Parcel) : this() {
         title = parcel.readString() ?: title
@@ -30,6 +30,13 @@ open class NodeInfo() : Parcelable {
         parcel.writeParcelable(lastModificationTime, flags)
         parcel.writeInt(if (expires) 1 else 0)
         parcel.writeParcelable(expiryTime, flags)
+    }
+
+    fun getExpiresStringValue(): String {
+        return if (expires)
+            expiryTime.toString()
+        else
+            ""
     }
 
     override fun describeContents(): Int {

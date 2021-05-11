@@ -23,6 +23,8 @@ import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
+import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.writeEnum
 import org.joda.time.Duration
 import org.joda.time.Instant
 import java.text.SimpleDateFormat
@@ -31,24 +33,36 @@ import java.util.*
 class DateInstant : Parcelable {
 
     private var jDate: Date = Date()
+    private var mType: Type = Type.DATE_TIME
 
     val date: Date
         get() = jDate
 
+    val type: Type
+        get() = mType
+
     constructor(source: DateInstant) {
         this.jDate = Date(source.jDate.time)
+        this.mType = source.mType
     }
 
-    constructor(date: Date) {
+    constructor(date: Date, type: Type = Type.DATE_TIME) {
         jDate = Date(date.time)
+        mType = type
     }
 
-    constructor(millis: Long) {
+    constructor(millis: Long, type: Type = Type.DATE_TIME) {
         jDate = Date(millis)
+        mType = type
     }
 
-    constructor(string: String) {
-        jDate = dateFormat.parse(string) ?: jDate
+    constructor(string: String, type: Type = Type.DATE_TIME) {
+        jDate = when (type) {
+            Type.DATE -> dateFormat.parse(string) ?: jDate
+            Type.TIME -> timeFormat.parse(string) ?: jDate
+            else -> dateTimeFormat.parse(string) ?: jDate
+        }
+        mType = type
     }
 
     constructor() {
@@ -56,62 +70,79 @@ class DateInstant : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        jDate = parcel.readSerializable() as Date
+        jDate = parcel.readSerializable() as? Date? ?: jDate
+        mType = parcel.readEnum<Type>() ?: mType
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    fun getDateTimeString(resources: Resources): String {
-        return Companion.getDateTimeString(resources, this.date)
-    }
-
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeSerializable(date)
+        dest.writeSerializable(jDate)
+        dest.writeEnum(mType)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
+    fun getDateTimeString(resources: Resources): String {
+        return when (mType) {
+            Type.DATE -> getDateString(resources, jDate)
+            Type.TIME -> getTimeString(resources, jDate)
+            else -> Companion.getDateTimeString(resources, jDate)
         }
-        if (other == null) {
-            return false
-        }
-        if (javaClass != other.javaClass) {
-            return false
-        }
-
-        val date = other as DateInstant
-        return isSameDate(jDate, date.jDate)
-    }
-
-    override fun hashCode(): Int {
-        return jDate.hashCode()
     }
 
     override fun toString(): String {
-        return dateFormat.format(jDate)
+        return when (type) {
+            Type.DATE -> dateFormat.format(jDate)
+            Type.TIME -> timeFormat.format(jDate)
+            else -> dateTimeFormat.format(jDate)
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DateInstant) return false
+
+        if (jDate != other.jDate) return false
+        if (mType != other.mType) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = jDate.hashCode()
+        result = 31 * result + mType.hashCode()
+        return result
+    }
+
+    enum class Type {
+        DATE_TIME, DATE, TIME
     }
 
     companion object {
 
-        val NEVER_EXPIRE = neverExpire
-        val IN_ONE_MONTH = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
-        private val dateFormat = SimpleDateFormat.getDateTimeInstance()
+        val NEVER_EXPIRES = neverExpires()
+        val IN_ONE_MONTH_DATE_TIME = DateInstant(
+                Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE_TIME)
+        val IN_ONE_MONTH_DATE = DateInstant(
+                Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE)
+        val IN_ONE_HOUR_TIME = DateInstant(
+                Instant.now().plus(Duration.standardHours(1)).toDate(), Type.TIME)
 
-        private val neverExpire: DateInstant
-            get() {
-                val cal = Calendar.getInstance()
-                cal.set(Calendar.YEAR, 2999)
-                cal.set(Calendar.MONTH, 11)
-                cal.set(Calendar.DAY_OF_MONTH, 28)
-                cal.set(Calendar.HOUR, 23)
-                cal.set(Calendar.MINUTE, 59)
-                cal.set(Calendar.SECOND, 59)
+        private val dateTimeFormat = SimpleDateFormat.getDateTimeInstance()
+        private val dateFormat = SimpleDateFormat.getDateInstance()
+        private val timeFormat = SimpleDateFormat.getTimeInstance()
 
-                return DateInstant(cal.time)
-            }
+        private fun neverExpires(): DateInstant {
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.YEAR, 2999)
+            cal.set(Calendar.MONTH, 11)
+            cal.set(Calendar.DAY_OF_MONTH, 28)
+            cal.set(Calendar.HOUR, 23)
+            cal.set(Calendar.MINUTE, 59)
+            cal.set(Calendar.SECOND, 59)
+            return DateInstant(cal.time)
+        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<DateInstant> = object : Parcelable.Creator<DateInstant> {
@@ -148,6 +179,20 @@ class DateInstant : Parcelable {
                         java.text.DateFormat.SHORT,
                         ConfigurationCompat.getLocales(resources.configuration)[0])
                             .format(date)
+        }
+
+        fun getDateString(resources: Resources, date: Date): String {
+            return java.text.DateFormat.getDateInstance(
+                    java.text.DateFormat.MEDIUM,
+                    ConfigurationCompat.getLocales(resources.configuration)[0])
+                    .format(date)
+        }
+
+        fun getTimeString(resources: Resources, date: Date): String {
+            return java.text.DateFormat.getTimeInstance(
+                    java.text.DateFormat.SHORT,
+                    ConfigurationCompat.getLocales(resources.configuration)[0])
+                    .format(date)
         }
     }
 }

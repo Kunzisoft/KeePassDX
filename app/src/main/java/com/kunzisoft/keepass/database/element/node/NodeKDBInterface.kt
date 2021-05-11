@@ -28,11 +28,11 @@ interface NodeKDBInterface : NodeTimeInterface {
         // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
         // it is not expires
         get() = LocalDateTime(expiryTime.date)
-                .isBefore(LocalDateTime.fromDateFields(DateInstant.NEVER_EXPIRE.date)
+                .isBefore(LocalDateTime.fromDateFields(DateInstant.NEVER_EXPIRES.date)
                         .minusMonths(1))
         set(value) {
             if (!value)
-                expiryTime = DateInstant.NEVER_EXPIRE
+                expiryTime = DateInstant.NEVER_EXPIRES
         }
 }
 

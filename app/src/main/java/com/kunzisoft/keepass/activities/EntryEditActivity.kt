@@ -215,6 +215,9 @@ class EntryEditActivity : LockingActivity(),
             add(TemplateAttribute("PIN", TemplateType.INLINE, true))
             add(TemplateAttribute("Card holder", TemplateType.INLINE))
             add(TemplateAttribute("Expires", TemplateType.DATETIME))
+            add(TemplateAttribute("Test", TemplateType.DATE))
+            add(TemplateAttribute("Test2", TemplateType.TIME))
+            add(TemplateAttribute("Test3", TemplateType.DATE))
         })))
 
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)

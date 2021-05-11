@@ -20,34 +20,26 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.StringRes
-import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.text.util.LinkifyCompat
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
 
-class ExpirationView @JvmOverloads constructor(context: Context,
-                                               attrs: AttributeSet? = null,
-                                               defStyle: Int = 0)
+class DateTimeView @JvmOverloads constructor(context: Context,
+                                             attrs: AttributeSet? = null,
+                                             defStyle: Int = 0)
     : ConstraintLayout(context, attrs, defStyle) {
 
-    private var entryExpiresLabelView: TextView
+    private var entryExpiresLabelView: TextInputLayout
     private var entryExpiresTextView: TextView
     private var entryExpiresCheckBox: CompoundButton
 
-    private var expiresInstant: DateInstant = DateInstant.IN_ONE_MONTH
+    private var mDateTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
 
     private var fontInVisibility: Boolean = false
 
@@ -63,7 +55,7 @@ class ExpirationView @JvmOverloads constructor(context: Context,
 
         entryExpiresTextView.setOnClickListener {
             if (entryExpiresCheckBox.isChecked)
-                setOnDateClickListener?.invoke(expiryTime)
+                setOnDateClickListener?.invoke(dateTime)
         }
         entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
             assignExpiresDateText()
@@ -74,7 +66,7 @@ class ExpirationView @JvmOverloads constructor(context: Context,
 
     private fun assignExpiresDateText() {
         entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
-            expiresInstant.getDateTimeString(resources)
+            mDateTime.getDateTimeString(resources)
         } else {
             resources.getString(R.string.never)
         }
@@ -84,34 +76,37 @@ class ExpirationView @JvmOverloads constructor(context: Context,
 
     var label: String
         get() {
-            return entryExpiresLabelView.text.toString()
+            return entryExpiresLabelView.hint.toString()
         }
         set(value) {
-            entryExpiresLabelView.text = value
+            entryExpiresLabelView.hint = value
         }
 
-    var expires: Boolean
+    var activation: Boolean
         get() {
             return entryExpiresCheckBox.isChecked
         }
         set(value) {
             if (!value) {
-                expiresInstant = DateInstant.IN_ONE_MONTH
+                mDateTime = when (mDateTime.type) {
+                    DateInstant.Type.DATE_TIME -> DateInstant.IN_ONE_MONTH_DATE_TIME
+                    DateInstant.Type.DATE -> DateInstant.IN_ONE_MONTH_DATE
+                    DateInstant.Type.TIME -> DateInstant.IN_ONE_HOUR_TIME
+                }
             }
             entryExpiresCheckBox.isChecked = value
             assignExpiresDateText()
         }
 
-    var expiryTime: DateInstant
+    var dateTime: DateInstant
         get() {
-            return if (expires)
-                expiresInstant
+            return if (activation)
+                mDateTime
             else
-                DateInstant.NEVER_EXPIRE
+                DateInstant.NEVER_EXPIRES
         }
         set(value) {
-            if (expires)
-                expiresInstant = value
+            mDateTime = value
             assignExpiresDateText()
         }
 }

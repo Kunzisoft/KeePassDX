@@ -95,7 +95,7 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
 
     final override var lastAccessTime: DateInstant = DateInstant()
 
-    final override var expiryTime: DateInstant = DateInstant.NEVER_EXPIRE
+    final override var expiryTime: DateInstant = DateInstant.NEVER_EXPIRES
 
     final override val isCurrentlyExpires: Boolean
         get() = expires
