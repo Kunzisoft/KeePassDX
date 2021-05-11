@@ -100,6 +100,9 @@ class EntryEditFragment : StylishFragment() {
     private var mLastFocusedEditField: FocusedEditField? = null
     private var mExtraViewToRequestFocus: EditText? = null
 
+    // Current date time selection
+    private var mTempDateTimeView: DateTimeView? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
@@ -452,7 +455,10 @@ class EntryEditFragment : StylishFragment() {
                                 else -> DateInstant.IN_ONE_MONTH_DATE_TIME
                             }
                 }
-                setOnDateClickListener = onDateTimeClickListener
+                setOnDateClickListener = { dateInstant ->
+                    mTempDateTimeView = this
+                    onDateTimeClickListener?.invoke(dateInstant)
+                }
                 tag = fieldTag
             }
         }
@@ -509,14 +515,18 @@ class EntryEditFragment : StylishFragment() {
         passwordView?.setText(password)
     }
 
-    fun setExpiryTime(expiration: DateInstant) {
-        mEntryInfo.expiryTime = expiration
-        val expirationView: DateTimeView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-        expirationView?.dateTime = expiration
+    /* -------------
+     * Date Time selection
+     * -------------
+     */
+
+    fun setCurrentDateTimeSelection(expiration: DateInstant) {
+        // TODO fix orientation change
+        mTempDateTimeView?.dateTime = expiration
     }
 
-    fun getExpiryTime(): DateInstant {
-        return mEntryInfo.expiryTime
+    fun getCurrentDateTimeSelection(): DateInstant? {
+        return mTempDateTimeView?.dateTime
     }
 
     /* -------------

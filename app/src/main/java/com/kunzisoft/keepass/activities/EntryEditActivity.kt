@@ -241,14 +241,11 @@ class EntryEditActivity : LockingActivity(),
                 .commit()
         entryEditFragment?.apply {
             drawFactory = mDatabase?.iconDrawableFactory
-            onDateTimeClickListener = { expiryTime ->
-                expiryTime.date.let { expiresDate ->
-                    val dateTime = DateTime(expiresDate)
-                    val defaultYear = dateTime.year
-                    val defaultMonth = dateTime.monthOfYear-1
-                    val defaultDay = dateTime.dayOfMonth
-                    DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
-                            .show(supportFragmentManager, "DatePickerFragment")
+            onDateTimeClickListener = { dateInstant ->
+                if (dateInstant.type == DateInstant.Type.TIME) {
+                    selectTime(dateInstant)
+                } else {
+                    selectDate(dateInstant)
                 }
             }
             setOnPasswordGeneratorClickListener = View.OnClickListener {
@@ -733,36 +730,53 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
+    // Launch the date picker
+    private fun selectDate(dateInstant: DateInstant) {
+        val dateTime = DateTime(dateInstant.date)
+        val defaultYear = dateTime.year
+        val defaultMonth = dateTime.monthOfYear - 1
+        val defaultDay = dateTime.dayOfMonth
+        DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
+                .show(supportFragmentManager, "DatePickerFragment")
+    }
+
+    // Launch the time picker
+    private fun selectTime(dateInstant: DateInstant) {
+        val dateTime = DateTime(dateInstant.date)
+        val defaultHour = dateTime.hourOfDay
+        val defaultMinute = dateTime.minuteOfHour
+        TimePickerFragment.getInstance(defaultHour, defaultMinute)
+                .show(supportFragmentManager, "TimePickerFragment")
+    }
+
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            entryEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
+            entryEditFragment?.getCurrentDateTimeSelection()?.let { instant ->
                 // Save the date
-                entryEditFragment?.setExpiryTime(
-                        DateInstant(DateTime(expiresDate)
+                entryEditFragment?.setCurrentDateTimeSelection(
+                        DateInstant(DateTime(instant.date)
                                 .withYear(year)
                                 .withMonthOfYear(month + 1)
                                 .withDayOfMonth(day)
-                                .toDate()))
-                // Launch the time picker
-                val dateTime = DateTime(expiresDate)
-                val defaultHour = dateTime.hourOfDay
-                val defaultMinute = dateTime.minuteOfHour
-                TimePickerFragment.getInstance(defaultHour, defaultMinute)
-                        .show(supportFragmentManager, "TimePickerFragment")
+                                .toDate(), instant.type))
+                if (instant.type == DateInstant.Type.DATE_TIME) {
+                    selectTime(instant)
+                }
             }
         }
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        entryEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
+        entryEditFragment?.getCurrentDateTimeSelection()?.let { instant ->
             // Save the date
-            entryEditFragment?.setExpiryTime(
-                    DateInstant(DateTime(expiresDate)
+            entryEditFragment?.setCurrentDateTimeSelection(
+                    DateInstant(DateTime(instant.date)
                             .withHourOfDay(hours)
                             .withMinuteOfHour(minutes)
-                            .toDate()))
+                            .toDate(), instant.type)
+            )
         }
     }
 
