@@ -68,9 +68,9 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
             val fullReference = "$STR_REF_START$reference$STR_REF_END"
 
             if (!refsCache.containsKey(fullReference)) {
-                val result = findReferenceTarget(reference)
-                val entryFound = result.entry
                 val newRecursionLevel = recursionLevel + 1
+                val result = findReferenceTarget(reference, newRecursionLevel)
+                val entryFound = result.entry
                 val data: String? = when (result.wanted) {
                     'T' -> entryFound?.decodeTitleKey(newRecursionLevel)
                     'U' -> entryFound?.decodeUsernameKey(newRecursionLevel)
@@ -98,7 +98,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
         return newText
     }
 
-    private fun findReferenceTarget(reference: String): TargetResult {
+    private fun findReferenceTarget(reference: String, recursionLevel: Int): TargetResult {
 
         val targetResult = TargetResult(null, 'J')
 
@@ -116,11 +116,11 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
         val searchIn = Character.toUpperCase(reference[2])
         val searchQuery = reference.substring(4)
         targetResult.entry = when (searchIn) {
-            'T' -> mDatabase.getEntryByTitle(searchQuery)
-            'U' -> mDatabase.getEntryByUsername(searchQuery)
-            'A' -> mDatabase.getEntryByURL(searchQuery)
-            'P' -> mDatabase.getEntryByPassword(searchQuery)
-            'N' -> mDatabase.getEntryByNotes(searchQuery)
+            'T' -> mDatabase.getEntryByTitle(searchQuery, recursionLevel)
+            'U' -> mDatabase.getEntryByUsername(searchQuery, recursionLevel)
+            'A' -> mDatabase.getEntryByURL(searchQuery, recursionLevel)
+            'P' -> mDatabase.getEntryByPassword(searchQuery, recursionLevel)
+            'N' -> mDatabase.getEntryByNotes(searchQuery, recursionLevel)
             'I' -> {
                 UuidUtil.fromHexString(searchQuery)?.let { uuid ->
                     mDatabase.getEntryById(NodeIdUUID(uuid))

@@ -1,1 +1,1 @@
- *
+ * Fix fields references #987

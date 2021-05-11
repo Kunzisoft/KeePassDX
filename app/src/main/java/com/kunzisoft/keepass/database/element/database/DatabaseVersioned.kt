@@ -271,26 +271,6 @@ abstract class DatabaseVersioned<
         return this.entryIndexes[id]
     }
 
-    fun getEntryByTitle(title: String): Entry? {
-        return this.entryIndexes.values.find { entry -> entry.title.equals(title, true) }
-    }
-
-    fun getEntryByUsername(username: String): Entry? {
-        return this.entryIndexes.values.find { entry -> entry.username.equals(username, true) }
-    }
-
-    fun getEntryByURL(url: String): Entry? {
-        return this.entryIndexes.values.find { entry -> entry.url.equals(url, true) }
-    }
-
-    fun getEntryByPassword(password: String): Entry? {
-        return this.entryIndexes.values.find { entry -> entry.password.equals(password, true) }
-    }
-
-    fun getEntryByNotes(notes: String): Entry? {
-        return this.entryIndexes.values.find { entry -> entry.notes.equals(notes, true) }
-    }
-
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
