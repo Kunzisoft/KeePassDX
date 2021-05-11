@@ -1,5 +1,5 @@
 KeePassDX(2.10.2)
- *
+ * Fix search fields references #987
 
 KeePassDX(2.10.1)
  * Fix parcelable with custom data #986

@@ -22,13 +22,13 @@ package com.kunzisoft.keepass.database.element.entry
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.UuidUtil
-import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
     // Key : <WantedField>@<SearchIn>:<Text>
     // Value : content
-    private var refsCache: MutableMap<String, String?> = HashMap()
+    private var refsCache = ConcurrentHashMap<String, String?>()
 
     fun clear() {
         refsCache.clear()
@@ -91,9 +91,9 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
     private fun fillReferencesUsingCache(text: String): String {
         var newText = text
-        for ((key, value) in refsCache) {
+        refsCache.keys.forEach { key ->
             // Replace by key if value not found
-            newText = newText.replace(key, value ?: key, true)
+            newText = newText.replace(key, refsCache[key] ?: key, true)
         }
         return newText
     }

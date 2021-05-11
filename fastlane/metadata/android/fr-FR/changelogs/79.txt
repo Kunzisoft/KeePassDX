@@ -1,1 +1,1 @@
- * Correction des références de champs #987
+ * Correction de la recherche des références de champs #987
