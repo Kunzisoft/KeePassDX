@@ -23,6 +23,12 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_EXPIRATION
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_NOTES
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_PASSWORD
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_TITLE
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_URL
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_USERNAME
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -97,13 +103,6 @@ class Template : Parcelable {
         override fun newArray(size: Int): Array<Template?> {
             return arrayOfNulls(size)
         }
-
-        const val STANDARD_TITLE = "title"
-        const val STANDARD_USERNAME = "username"
-        const val STANDARD_PASSWORD = "password"
-        const val STANDARD_URL = "url"
-        const val STANDARD_EXPIRATION = "expires"
-        const val STANDARD_NOTES = "notes"
 
         val STANDARD: Template
             get() {

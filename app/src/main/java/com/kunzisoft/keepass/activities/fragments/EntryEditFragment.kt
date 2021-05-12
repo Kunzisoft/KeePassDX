@@ -40,18 +40,18 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_EXPIRATION
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_NOTES
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_PASSWORD
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_TITLE
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_URL
-import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_USERNAME
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_EXPIRATION
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_NOTES
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_PASSWORD
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_TITLE
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_URL
+import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_USERNAME
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
@@ -260,10 +260,10 @@ class EntryEditFragment : StylishFragment() {
                         }
                     }
 
-                    val templateField = Field(templateAttribute.label,
-                            ProtectedString(templateAttribute.protected, fieldValue))
-                    val attributeView = buildViewForTemplateField(templateAttribute,
-                            templateField,
+                    val attributeView = buildViewForTemplateField(
+                            templateAttribute,
+                            Field(templateAttribute.label,
+                                    ProtectedString(templateAttribute.protected, fieldValue)),
                             fieldTag)
 
                     // Add created view to this parent
@@ -342,7 +342,6 @@ class EntryEditFragment : StylishFragment() {
                 label = TemplatesCustomFields.getLocalizedName(context, field.name)
                 setProtection(field.protectedValue.isProtected)
                 setValue(field.protectedValue.toString(), when (templateAttribute.type) {
-                    TemplateAttributeType.URL -> EntryEditFieldView.TextType.URI
                     TemplateAttributeType.MULTILINE -> EntryEditFieldView.TextType.MULTI_LINE
                     else -> EntryEditFieldView.TextType.NORMAL
                 })
@@ -376,7 +375,7 @@ class EntryEditFragment : StylishFragment() {
                                   field: Field): View? {
         return context?.let {
             DateTimeView(it).apply {
-                label = field.name
+                label = TemplatesCustomFields.getLocalizedName(context, field.name)
                 try {
                     val value = field.protectedValue.toString()
                     activation = value.trim().isNotEmpty()
@@ -436,7 +435,7 @@ class EntryEditFragment : StylishFragment() {
 
         mEntryInfo.customFields = getCustomFields()
         mEntryInfo.otpModel = OtpEntryFields.parseFields { key ->
-            getCustomField(key)?.protectedValue?.toString()
+            getCustomField(key).protectedValue.toString()
         }?.otpModel
 
         mEntryInfo.attachments = getAttachments()
@@ -449,8 +448,8 @@ class EntryEditFragment : StylishFragment() {
 
     fun setPassword(password: String) {
         mEntryInfo.password = password
-        val passwordView: EditText? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-        passwordView?.setText(password)
+        val passwordView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
+        passwordView?.value = password
     }
 
     /* -------------
@@ -476,37 +475,32 @@ class EntryEditFragment : StylishFragment() {
     private data class FieldId(var viewId: Int, var protected: Boolean)
 
     private fun isStandardFieldName(name: String): Boolean {
-        return Template.isStandardFieldName(name)
+        return TemplatesCustomFields.isStandardFieldName(name)
     }
 
     private fun containsCustomFieldName(name: String): Boolean {
         return mCustomFields.keys.firstOrNull { it.equals(name, true) } != null
     }
 
-    private fun getCustomField(fieldName: String): Field? {
+    private fun getCustomField(fieldName: String): Field {
         mCustomFields[fieldName]?.let { fieldId ->
-            val editView = templateContainerView
-                    .findViewById<View?>(fieldId.viewId)
-                    ?.findViewWithTag<View?>(FIELD_CUSTOM_TAG)
+            val editView: View? = templateContainerView.findViewById(fieldId.viewId)
+                    ?: customFieldsContainerView.findViewById(fieldId.viewId)
             if (editView is EntryEditFieldView) {
-                return Field(fieldName,
-                        ProtectedString(fieldId.protected, editView.value)
-                )
+                return Field(fieldName, ProtectedString(fieldId.protected, editView.value))
             }
             if (editView is DateTimeView) {
                 val value = if (editView.activation) editView.dateTime.toString() else ""
-                return Field(fieldName,
-                        ProtectedString(fieldId.protected, value)
-                )
+                return Field(fieldName, ProtectedString(fieldId.protected, value))
             }
         } // TODO other view type
-        return null
+        return Field(fieldName, ProtectedString(false, ""))
     }
 
     private fun getCustomFields(): List<Field> {
         // TODO focus ?
         return mCustomFields.map {
-            getCustomField(it.key)!!
+            getCustomField(it.key)
         }
     }
 
@@ -515,12 +509,12 @@ class EntryEditFragment : StylishFragment() {
      */
     fun putCustomField(customField: Field): Boolean {
         return if (!isStandardFieldName(customField.name)) {
-            customFieldsContainerView?.visibility = View.VISIBLE
+            customFieldsContainerView.visibility = View.VISIBLE
             if (containsCustomFieldName(customField.name)) {
                 replaceCustomField(customField, customField)
             } else {
                 val newCustomView = buildViewForCustomField(customField)
-                customFieldsContainerView?.addView(newCustomView)
+                customFieldsContainerView.addView(newCustomView)
                 mCustomFields[customField.name] = FieldId(newCustomView!!.id, customField.protectedValue.isProtected)
                 newCustomView.requestFocus()
                 true
@@ -538,7 +532,7 @@ class EntryEditFragment : StylishFragment() {
             if (containsCustomFieldName(oldField.name)) {
                 mCustomFields[oldField.name]?.viewId?.let { viewId ->
                     templateContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
-                        val oldValue = getCustomField(oldField.name)?.protectedValue?.toString() ?: ""
+                        val oldValue = getCustomField(oldField.name).protectedValue.toString()
 
                         val parentGroup = viewToReplace.parent as ViewGroup
                         val indexInParent = parentGroup.indexOfChild(viewToReplace)
@@ -564,7 +558,7 @@ class EntryEditFragment : StylishFragment() {
     fun removeCustomField(oldCustomField: Field) {
         val previousSize = mCustomFields.size
         mCustomFields[oldCustomField.name]?.viewId?.let { viewId ->
-            customFieldsContainerView?.findViewById<View>(viewId)?.let { viewToRemove ->
+            customFieldsContainerView.findViewById<View>(viewId)?.let { viewToRemove ->
                 viewToRemove.collapse(true) {
                     mCustomFields.remove(oldCustomField.name)
 

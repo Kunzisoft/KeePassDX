@@ -49,17 +49,13 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
             return valueView.text?.toString() ?: ""
         }
         set(value) {
-            setValue(value, TextType.NORMAL)
+            valueView.text = value ?: ""
         }
 
     fun setValue(value: String?, valueType: TextType) {
         when (valueType) {
             TextType.NORMAL -> {
                 valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_VARIATION_NORMAL
-                valueView.maxLines = 1
-            }
-            TextType.URI -> {
-                valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_VARIATION_URI
                 valueView.maxLines = 1
             }
             TextType.MULTI_LINE -> {
@@ -88,6 +84,6 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     }
 
     enum class TextType {
-        NORMAL, URI, MULTI_LINE
+        NORMAL, MULTI_LINE
     }
 }

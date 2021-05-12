@@ -122,17 +122,17 @@ object AutofillHelper {
         }
 
         for (field in entryInfo.customFields) {
-            if (field.name == TemplatesCustomFields.CC_CARDHOLDER_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CREDIT_CARD_CARDHOLDER) {
                 struct.ccNameId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplatesCustomFields.CC_NUMBER_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CREDIT_CARD_NUMBER) {
                 struct.ccnId?.let { ccnId ->
                     builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplatesCustomFields.CC_EXP_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CREDIT_CARD_EXPIRATION) {
                 // the database stores the expiration month and year as a String
                 // of length four in the format MMYY
                 if (field.protectedValue.stringValue.length != 4) continue
@@ -194,7 +194,7 @@ object AutofillHelper {
                     }
                 }
             }
-            if (field.name == TemplatesCustomFields.CC_CVV_FIELD_NAME) {
+            if (field.name == TemplatesCustomFields.CREDIT_CARD_CVV) {
                 struct.cvvId?.let { cvvId ->
                     builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
