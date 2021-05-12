@@ -58,7 +58,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateSection
-import com.kunzisoft.keepass.database.element.template.TemplateType
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
@@ -210,14 +210,14 @@ class EntryEditActivity : LockingActivity(),
         templates.add(Template.STANDARD)
         templates.add(Template(UUID.randomUUID(), "Credit Card",
                 IconImageStandard(37).getIconImageToDraw(), TemplateSection(ArrayList<TemplateAttribute>().apply {
-            add(TemplateAttribute("Number", TemplateType.INLINE))
-            add(TemplateAttribute("CVV", TemplateType.INLINE, true))
-            add(TemplateAttribute("PIN", TemplateType.INLINE, true))
-            add(TemplateAttribute("Card holder", TemplateType.INLINE))
-            add(TemplateAttribute("Expires", TemplateType.DATETIME))
-            add(TemplateAttribute("Test", TemplateType.DATE))
-            add(TemplateAttribute("Test2", TemplateType.TIME))
-            add(TemplateAttribute("Test3", TemplateType.DATE))
+            add(TemplateAttribute("Number", TemplateAttributeType.INLINE))
+            add(TemplateAttribute("CVV", TemplateAttributeType.INLINE, true))
+            add(TemplateAttribute("PIN", TemplateAttributeType.INLINE, true))
+            add(TemplateAttribute("Card holder", TemplateAttributeType.INLINE))
+            add(TemplateAttribute("Expires", TemplateAttributeType.DATETIME))
+            add(TemplateAttribute("Test", TemplateAttributeType.DATE))
+            add(TemplateAttribute("Test2", TemplateAttributeType.TIME))
+            add(TemplateAttribute("Test3", TemplateAttributeType.DATE))
         })))
 
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
@@ -248,18 +248,19 @@ class EntryEditActivity : LockingActivity(),
                     selectDate(dateInstant)
                 }
             }
-            setOnPasswordGeneratorClickListener = View.OnClickListener {
+            onPasswordGeneratorClickListener = { field ->
+                // TODO reuse generator
                 openPasswordGenerator()
             }
             // Add listener to the icon
-            setOnIconViewClickListener = { iconImage ->
+            onIconClickListener = { iconImage ->
                 IconPickerActivity.launch(this@EntryEditActivity, iconImage)
             }
-            setOnRemoveAttachment = { attachment ->
+            onRemoveAttachment = { attachment ->
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
                 removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
             }
-            mOnEditCustomField = { field ->
+            onEditCustomFieldClickListener = { field ->
                 editCustomField(field)
             }
         }

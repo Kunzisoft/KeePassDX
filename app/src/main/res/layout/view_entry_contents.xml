@@ -42,28 +42,28 @@
 			android:orientation="vertical">
 
 			<!-- Username -->
-			<com.kunzisoft.keepass.view.EntryField
+			<com.kunzisoft.keepass.view.EntryFieldView
 				android:id="@+id/entry_user_name_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:visibility="gone" />
 
 			<!-- Password -->
-			<com.kunzisoft.keepass.view.EntryField
+			<com.kunzisoft.keepass.view.EntryFieldView
 				android:id="@+id/entry_password_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:visibility="gone" />
 
 			<!-- OTP -->
-			<com.kunzisoft.keepass.view.EntryField
+			<com.kunzisoft.keepass.view.EntryFieldView
 				android:id="@+id/entry_otp_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:visibility="gone" />
 
 			<!--  URL -->
-			<com.kunzisoft.keepass.view.EntryField
+			<com.kunzisoft.keepass.view.EntryFieldView
 				android:id="@+id/entry_url_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
 				android:visibility="gone" />
 
 			<!-- Notes -->
-			<com.kunzisoft.keepass.view.EntryField
+			<com.kunzisoft.keepass.view.EntryFieldView
 				android:id="@+id/entry_notes_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

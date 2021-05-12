@@ -24,17 +24,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
@@ -52,16 +47,15 @@ import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD
 import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_URL
 import com.kunzisoft.keepass.database.element.template.Template.CREATOR.STANDARD_USERNAME
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
-import com.kunzisoft.keepass.database.element.template.TemplateAttribute.CREATOR.OPTION_EDITION
-import com.kunzisoft.keepass.database.element.template.TemplateAttribute.CREATOR.OPTION_PASSWORD_GENERATOR
-import com.kunzisoft.keepass.database.element.template.TemplateType
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.DateTimeView
-import com.kunzisoft.keepass.view.applyFontVisibility
+import com.kunzisoft.keepass.view.EntryEditFieldView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import java.util.*
@@ -75,8 +69,7 @@ class EntryEditFragment : StylishFragment() {
     private var mInflater: LayoutInflater? = null
 
     private lateinit var entryIconView: ImageView
-    private lateinit var entryTitleView: TextView
-
+    private lateinit var entryTitleView: EntryEditFieldView
     private lateinit var templateContainerView: ViewGroup
 
     private var customFieldsContainerView: ViewGroup? = null
@@ -89,11 +82,11 @@ class EntryEditFragment : StylishFragment() {
     private var iconColor: Int = 0
 
     var drawFactory: IconDrawableFactory? = null
-    var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
-    var setOnIconViewClickListener: ((IconImage) -> Unit)? = null
+    var onIconClickListener: ((IconImage) -> Unit)? = null
+    var onPasswordGeneratorClickListener: ((Field) -> Unit)? = null
     var onDateTimeClickListener: ((DateInstant) -> Unit)? = null
-    var mOnEditCustomField: ((Field) -> Unit)? = null
-    var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
+    var onEditCustomFieldClickListener: ((Field) -> Unit)? = null
+    var onRemoveAttachment: ((Attachment) -> Unit)? = null
 
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
@@ -115,11 +108,10 @@ class EntryEditFragment : StylishFragment() {
 
         entryIconView = rootView.findViewById(R.id.entry_edit_icon_button)
         entryIconView.setOnClickListener {
-            setOnIconViewClickListener?.invoke(mEntryInfo.icon)
+            onIconClickListener?.invoke(mEntryInfo.icon)
         }
 
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
-
         templateContainerView = rootView.findViewById(R.id.template_fields_container)
 
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
@@ -162,7 +154,7 @@ class EntryEditFragment : StylishFragment() {
 
         populateViewsWithEntry()
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
-            setOnRemoveAttachment?.invoke(attachment)
+            onRemoveAttachment?.invoke(attachment)
         }
 
         return rootView
@@ -173,10 +165,10 @@ class EntryEditFragment : StylishFragment() {
 
         drawFactory = null
         onDateTimeClickListener = null
-        setOnPasswordGeneratorClickListener = null
-        setOnIconViewClickListener = null
-        setOnRemoveAttachment = null
-        mOnEditCustomField = null
+        onPasswordGeneratorClickListener = null
+        onIconClickListener = null
+        onRemoveAttachment = null
+        onEditCustomFieldClickListener = null
     }
 
     fun getEntryInfo(): EntryInfo {
@@ -212,7 +204,10 @@ class EntryEditFragment : StylishFragment() {
 
         // Set info in view
         setIcon(mEntryInfo.icon)
-        entryTitleView.text = mEntryInfo.title
+        entryTitleView.apply {
+            label = getString(R.string.entry_title)
+            setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
+        }
 
         // Build each template section
         templateContainerView.removeAllViews()
@@ -273,8 +268,7 @@ class EntryEditFragment : StylishFragment() {
 
                 val templateField = Field(templateAttribute.label,
                         ProtectedString(templateAttribute.protected, fieldValue))
-                val attributeView = buildViewForTemplateField(sectionListView,
-                        templateAttribute,
+                val attributeView = buildViewForTemplateField(templateAttribute,
                         templateField,
                         fieldTag)
                 // Add created view to this parent
@@ -286,7 +280,7 @@ class EntryEditFragment : StylishFragment() {
             // Add custom fields not in template
             if (templateSection.dynamic) {
                 customFieldsNotConsumed.forEach { customDynamicField ->
-                    val fieldView = buildViewForCustomField(sectionListView, customDynamicField)
+                    val fieldView = buildViewForCustomField(customDynamicField)
                     sectionListView?.addView(fieldView)
                 }
                 customFieldsContainerView = sectionListView
@@ -308,39 +302,38 @@ class EntryEditFragment : StylishFragment() {
         }
     }
 
-    private fun buildViewForCustomField(rootView: ViewGroup?,
-                                        field: Field): View? {
+    private fun buildViewForCustomField(field: Field): View? {
         val customFieldTemplateAttribute = TemplateAttribute(
                 field.name,
-                TemplateType.INLINE,
+                TemplateAttributeType.INLINE,
                 field.protectedValue.isProtected,
-                ArrayList<String>().apply { add(OPTION_EDITION) })
-        return buildViewForTemplateField(rootView, customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
+                TemplateAttributeAction.CUSTOM_EDITION)
+        return buildViewForTemplateField(customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
 
-    private fun buildViewForTemplateField(rootView: ViewGroup?,
-                                          templateAttribute: TemplateAttribute,
+    private fun buildViewForTemplateField(templateAttribute: TemplateAttribute,
                                           field: Field,
                                           fieldTag: String): View? {
         // Build main view depending on type
         val itemView: View? = when (templateAttribute.type) {
-                    TemplateType.INLINE,
-                    TemplateType.URL,
-                    TemplateType.MULTILINE -> {
-                        buildLinearTextView(rootView, templateAttribute, field, fieldTag)
+                    TemplateAttributeType.INLINE,
+                    TemplateAttributeType.URL,
+                    TemplateAttributeType.MULTILINE -> {
+                        buildLinearTextView(templateAttribute, field)
                     }
-                    TemplateType.DATE,
-                    TemplateType.TIME,
-                    TemplateType.DATETIME -> {
-                        buildDataTimeView(templateAttribute, field, fieldTag)
+                    TemplateAttributeType.DATE,
+                    TemplateAttributeType.TIME,
+                    TemplateAttributeType.DATETIME -> {
+                        buildDataTimeView(templateAttribute, field)
                     }
-                    TemplateType.LISTBOX -> TODO()
-                    TemplateType.POPOUT -> TODO()
-                    TemplateType.RICH_TEXTBOX -> TODO()
+                    TemplateAttributeType.LISTBOX -> TODO()
+                    TemplateAttributeType.POPOUT -> TODO()
+                    TemplateAttributeType.RICH_TEXTBOX -> TODO()
 
                     //TODO Password
                 }
         itemView?.id = ViewCompat.generateViewId()
+        itemView?.tag = fieldTag
 
         // Add new custom view id to the custom field list
         if (fieldTag == FIELD_CUSTOM_TAG) {
@@ -349,92 +342,46 @@ class EntryEditFragment : StylishFragment() {
         return itemView
     }
 
-    private fun buildLinearTextView(rootView: ViewGroup?,
-                                    templateAttribute: TemplateAttribute,
-                                    field: Field,
-                                    fieldTag: String): View? {
-        // TODO As dedicated view
+    private fun buildLinearTextView(templateAttribute: TemplateAttribute,
+                                    field: Field): View? {
         // Add an action icon if needed
-        val itemView = if (templateAttribute.containsActionOption()) {
-            mInflater?.inflate(R.layout.view_entry_edit_field_action, rootView, false)
-        } else {
-            mInflater?.inflate(R.layout.view_entry_edit_field, rootView, false)
-        }
-
-        // Value View
-        val fieldTextView: TextInputEditText? = itemView?.findViewById(R.id.edit_field_text)
-        when (templateAttribute.type) {
-            TemplateType.INLINE -> {
-                fieldTextView?.inputType?.let {
-                    fieldTextView.inputType = it or EditorInfo.TYPE_TEXT_VARIATION_NORMAL
-                }
-                fieldTextView?.maxLines = 1
-            }
-            TemplateType.URL -> {
-                fieldTextView?.inputType?.let {
-                    fieldTextView.inputType = it or EditorInfo.TYPE_TEXT_VARIATION_URI
-                }
-                fieldTextView?.maxLines = 1
-            }
-            TemplateType.MULTILINE -> {
-                fieldTextView?.inputType?.let {
-                    fieldTextView.inputType = it or EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
-                }
-                fieldTextView?.maxEms = 40
-                fieldTextView?.maxLines = 40
-            }
-            else -> {}
-        }
-        if (field.protectedValue.isProtected) {
-            fieldTextView?.inputType?.let {
-                fieldTextView.inputType = it or EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
-            }
-        }
-        fieldTextView?.setText(field.protectedValue.toString())
-        if (fontInVisibility)
-            fieldTextView?.applyFontVisibility()
-        // To retrieve each fields
-        fieldTextView?.id = ViewCompat.generateViewId()
-        fieldTextView?.tag = fieldTag
-
-        if (mLastFocusedEditField?.field == field) {
-            mExtraViewToRequestFocus = fieldTextView
-        }
-
-        // Label view
-        val fieldTextLayout: TextInputLayout? = itemView?.findViewById(R.id.edit_field_text_layout)
-        if (field.protectedValue.isProtected) {
-            fieldTextLayout?.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
-        }
-        fieldTextLayout?.hint = TemplatesCustomFields.getLocalizedName(context, field.name)
-
-        // Add action button and attach listener
-        val fieldButtonView: ImageView? = itemView?.findViewById(R.id.edit_field_action_button)
-        templateAttribute.options.forEach { option ->
-            when (option) {
-                OPTION_EDITION -> {
-                    fieldButtonView?.setOnClickListener {
-                        mOnEditCustomField?.invoke(field)
+        return context?.let {
+            EntryEditFieldView(it).apply {
+                label = TemplatesCustomFields.getLocalizedName(context, field.name)
+                setProtection(field.protectedValue.isProtected)
+                setValue(field.protectedValue.toString(), when (templateAttribute.type) {
+                    TemplateAttributeType.URL -> EntryEditFieldView.TextType.URI
+                    TemplateAttributeType.MULTILINE -> EntryEditFieldView.TextType.MULTI_LINE
+                    else -> EntryEditFieldView.TextType.NORMAL
+                })
+                when (templateAttribute.action) {
+                    TemplateAttributeAction.NONE -> {
+                        setOnActionClickListener(null)
+                    }
+                    TemplateAttributeAction.CUSTOM_EDITION -> {
+                        setOnActionClickListener({
+                            onEditCustomFieldClickListener?.invoke(field)
+                        }, R.drawable.ic_more_white_24dp)
+                    }
+                    TemplateAttributeAction.PASSWORD_GENERATION -> {
+                        setOnActionClickListener({
+                            onPasswordGeneratorClickListener?.invoke(field)
+                        }, R.drawable.ic_generate_password_white_24dp)
                     }
                 }
-                OPTION_PASSWORD_GENERATOR -> {
-                    fieldButtonView?.setImageDrawable(ContextCompat.getDrawable(requireContext(),
-                            R.drawable.ic_generate_password_white_24dp))
-                    fieldButtonView?.setOnClickListener(setOnPasswordGeneratorClickListener) // TODO generic
+                templateAttribute.options.forEach { option ->
+                    // TODO options
                 }
+                if (mLastFocusedEditField?.field == field) {
+                    // TODO mExtraViewToRequestFocus = fieldTextView
+                }
+                applyFontVisibility(fontInVisibility)
             }
         }
-
-        // Generate unique id for each view to prevent bugs
-        fieldTextLayout?.id = ViewCompat.generateViewId()
-        fieldButtonView?.id = ViewCompat.generateViewId()
-
-        return itemView
     }
 
     private fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                  field: Field,
-                                  fieldTag: String): View? {
+                                  field: Field): View? {
         return context?.let {
             DateTimeView(it).apply {
                 label = field.name
@@ -443,15 +390,15 @@ class EntryEditFragment : StylishFragment() {
                     activation = value.trim().isNotEmpty()
                     dateTime = DateInstant(value,
                             when (templateAttribute.type) {
-                                TemplateType.DATE -> DateInstant.Type.DATE
-                                TemplateType.TIME -> DateInstant.Type.TIME
+                                TemplateAttributeType.DATE -> DateInstant.Type.DATE
+                                TemplateAttributeType.TIME -> DateInstant.Type.TIME
                                 else -> DateInstant.Type.DATE_TIME
                             })
                 } catch (e: Exception) {
                     activation = false
                     dateTime = when (templateAttribute.type) {
-                                TemplateType.DATE -> DateInstant.IN_ONE_MONTH_DATE
-                                TemplateType.TIME -> DateInstant.IN_ONE_HOUR_TIME
+                                TemplateAttributeType.DATE -> DateInstant.IN_ONE_MONTH_DATE
+                                TemplateAttributeType.TIME -> DateInstant.IN_ONE_HOUR_TIME
                                 else -> DateInstant.IN_ONE_MONTH_DATE_TIME
                             }
                 }
@@ -459,27 +406,26 @@ class EntryEditFragment : StylishFragment() {
                     mTempDateTimeView = this
                     onDateTimeClickListener?.invoke(dateInstant)
                 }
-                tag = fieldTag
             }
         }
     }
 
     private fun populateEntryWithViews() {
         // Icon already populate
-        mEntryInfo.title = entryTitleView.text.toString()
+        mEntryInfo.title = entryTitleView.value
 
-        val userNameView: EditText? = templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
-        userNameView?.text?.toString()?.let {
+        val userNameView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
+        userNameView?.value?.let {
             mEntryInfo.username = it
         }
 
-        val passwordView: EditText? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-        passwordView?.text?.toString()?.let {
+        val passwordView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
+        passwordView?.value?.let {
             mEntryInfo.password = it
         }
 
-        val urlView: EditText? = templateContainerView.findViewWithTag(FIELD_URL_TAG)
-        urlView?.text?.toString()?.let {
+        val urlView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_URL_TAG)
+        urlView?.value?.let {
             mEntryInfo.url = it
         }
 
@@ -491,8 +437,8 @@ class EntryEditFragment : StylishFragment() {
             mEntryInfo.expiryTime = it
         }
 
-        val notesView: EditText? = templateContainerView.findViewWithTag(FIELD_NOTES_TAG)
-        notesView?.text?.toString()?.let {
+        val notesView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_NOTES_TAG)
+        notesView?.value?.let {
             mEntryInfo.notes = it
         }
 
@@ -550,9 +496,9 @@ class EntryEditFragment : StylishFragment() {
             val editView = templateContainerView
                     .findViewById<View?>(fieldId.viewId)
                     ?.findViewWithTag<View?>(FIELD_CUSTOM_TAG)
-            if (editView is EditText) {
+            if (editView is EntryEditFieldView) {
                 return Field(fieldName,
-                        ProtectedString(fieldId.protected, editView.text?.toString() ?: "")
+                        ProtectedString(fieldId.protected, editView.value)
                 )
             }
             if (editView is DateTimeView) {
@@ -581,7 +527,7 @@ class EntryEditFragment : StylishFragment() {
             if (containsCustomFieldName(customField.name)) {
                 replaceCustomField(customField, customField)
             } else {
-                val newCustomView = buildViewForCustomField(customFieldsContainerView, customField)
+                val newCustomView = buildViewForCustomField(customField)
                 customFieldsContainerView?.addView(newCustomView)
                 mCustomFields[customField.name] = FieldId(newCustomView!!.id, customField.protectedValue.isProtected)
                 newCustomView.requestFocus()
@@ -610,7 +556,7 @@ class EntryEditFragment : StylishFragment() {
                                 ProtectedString(newField.protectedValue.isProtected, oldValue))
                         mCustomFields.remove(oldField.name)
 
-                        val newCustomView = buildViewForCustomField(parentGroup, newCustomFieldWithValue)
+                        val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
                         parentGroup.addView(newCustomView, indexInParent)
                         mCustomFields[newCustomFieldWithValue.name] = FieldId(newCustomView!!.id,
                                 newCustomFieldWithValue.protectedValue.isProtected)

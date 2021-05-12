@@ -23,7 +23,6 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.template.TemplateAttribute.CREATOR.OPTION_PASSWORD_GENERATOR
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -111,15 +110,15 @@ class Template : Parcelable {
             get() {
                 val sections = ArrayList<TemplateSection>()
                 val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
-                    add(TemplateAttribute(STANDARD_USERNAME, TemplateType.INLINE))
+                    add(TemplateAttribute(STANDARD_USERNAME, TemplateAttributeType.INLINE))
                     add(TemplateAttribute(STANDARD_PASSWORD,
-                            TemplateType.INLINE,
+                            TemplateAttributeType.INLINE,
                             true,
-                            ArrayList<String>().apply { add(OPTION_PASSWORD_GENERATOR) })
+                            TemplateAttributeAction.PASSWORD_GENERATION)
                     )
-                    add(TemplateAttribute(STANDARD_URL, TemplateType.URL))
-                    add(TemplateAttribute(STANDARD_EXPIRATION, TemplateType.DATETIME))
-                    add(TemplateAttribute(STANDARD_NOTES, TemplateType.MULTILINE))
+                    add(TemplateAttribute(STANDARD_URL, TemplateAttributeType.URL))
+                    add(TemplateAttribute(STANDARD_EXPIRATION, TemplateAttributeType.DATETIME))
+                    add(TemplateAttribute(STANDARD_NOTES, TemplateAttributeType.MULTILINE))
                 })
                 sections.add(mainSection)
                 return Template(DatabaseVersioned.UUID_ZERO, "Standard", IconImage(), sections)

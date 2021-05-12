@@ -24,30 +24,28 @@ import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
 data class TemplateAttribute(var label: String,
-                             var type: TemplateType,
+                             var type: TemplateAttributeType,
                              var protected: Boolean = false,
+                             var action: TemplateAttributeAction = TemplateAttributeAction.NONE,
                              var options: List<String> = ArrayList()): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readEnum<TemplateType>() ?: TemplateType.INLINE,
+            parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.INLINE,
             parcel.readByte() != 0.toByte(),
+            parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE,
             parcel.createStringArrayList() ?: ArrayList())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(label)
         parcel.writeEnum(type)
         parcel.writeByte(if (protected) 1 else 0)
+        parcel.writeEnum(action)
         parcel.writeStringList(options)
     }
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    fun containsActionOption(): Boolean {
-        return options.find { it.equals(OPTION_PASSWORD_GENERATOR, true)
-                || it.equals(OPTION_EDITION, true)} != null
     }
 
     companion object CREATOR : Parcelable.Creator<TemplateAttribute> {
@@ -58,9 +56,5 @@ data class TemplateAttribute(var label: String,
         override fun newArray(size: Int): Array<TemplateAttribute?> {
             return arrayOfNulls(size)
         }
-
-        // TODO Better options with enum
-        const val OPTION_PASSWORD_GENERATOR = "PASSWORD_GENERATOR"
-        const val OPTION_EDITION = "EDITION"
     }
 }

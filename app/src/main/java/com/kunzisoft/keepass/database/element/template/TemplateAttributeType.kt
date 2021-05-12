@@ -18,7 +18,7 @@
  */
 package com.kunzisoft.keepass.database.element.template
 
-enum class TemplateType(var value: String) {
+enum class TemplateAttributeType(var value: String) {
 
     INLINE("Inline"),
     URL("Inline URL"),

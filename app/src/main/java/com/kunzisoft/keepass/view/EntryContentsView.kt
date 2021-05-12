@@ -58,11 +58,11 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val entryFieldsContainerView: View
 
-    private val userNameFieldView: EntryField
-    private val passwordFieldView: EntryField
-    private val otpFieldView: EntryField
-    private val urlFieldView: EntryField
-    private val notesFieldView: EntryField
+    private val userNameFieldView: EntryFieldView
+    private val passwordFieldView: EntryFieldView
+    private val otpFieldView: EntryFieldView
+    private val urlFieldView: EntryFieldView
+    private val notesFieldView: EntryFieldView
 
     private var otpRunnable: Runnable? = null
 
@@ -288,7 +288,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extraFieldsListView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryField)
+                if (childCustomView is EntryFieldView)
                     childCustomView.hiddenProtectedValue = hiddenProtectedValue
             }
         }
@@ -312,7 +312,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                       allowCopy: Boolean,
                       onCopyButtonClickListener: OnClickListener?) {
 
-        extraFieldsListView.addView(EntryField(context).apply {
+        extraFieldsListView.addView(EntryFieldView(context).apply {
             setLabel(TemplatesCustomFields.getLocalizedName(context, title))
             setValue(value.toString(), value.isProtected)
             setAutoLink()

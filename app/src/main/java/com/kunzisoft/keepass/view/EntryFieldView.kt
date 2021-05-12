@@ -33,9 +33,9 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.utils.UriUtil
 
-class EntryField @JvmOverloads constructor(context: Context,
-                                           attrs: AttributeSet? = null,
-                                           defStyle: Int = 0)
+class EntryFieldView @JvmOverloads constructor(context: Context,
+                                               attrs: AttributeSet? = null,
+                                               defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
     private val labelView: TextView
@@ -55,7 +55,7 @@ class EntryField @JvmOverloads constructor(context: Context,
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.item_entry_field, this)
+        inflater?.inflate(R.layout.view_entry_field, this)
 
         labelView = findViewById(R.id.entry_field_label)
         valueView = findViewById(R.id.entry_field_value)

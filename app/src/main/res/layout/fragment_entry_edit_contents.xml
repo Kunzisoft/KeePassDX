@@ -54,20 +54,10 @@
 				android:layout_gravity="center"/>
 
 			<!-- Title -->
-			<com.google.android.material.textfield.TextInputLayout
+			<com.kunzisoft.keepass.view.EntryEditFieldView
+				android:id="@+id/entry_edit_title"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/entry_edit_title"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:inputType="textNoSuggestions"
-					android:maxLines="1"
-					android:hint="@string/entry_title"
-					tools:ignore="UnusedAttribute" />
-			</com.google.android.material.textfield.TextInputLayout>
+				android:layout_height="wrap_content" />
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
