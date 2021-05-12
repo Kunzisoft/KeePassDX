@@ -49,7 +49,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
             return valueView.text?.toString() ?: ""
         }
         set(value) {
-            valueView.text = value ?: ""
+            valueView.text = value
         }
 
     fun setValue(value: String?, valueType: TextType) {

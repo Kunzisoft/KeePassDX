@@ -39,17 +39,25 @@ class SectionView @JvmOverloads constructor(context: Context,
         inflater?.inflate(R.layout.view_section, this)
 
         containerSectionView = findViewById(R.id.section_container)
+        containerSectionView.visibility = View.GONE
     }
 
     fun addAttributeView(view: View?) {
-        containerSectionView.visibility = View.VISIBLE
-        view?.let {
-            containerSectionView.addView(it)
-        }
+        containerSectionView.postDelayed({
+            containerSectionView.apply {
+                alpha = 0f
+                visibility = View.VISIBLE
+                addView(view)
+                animate()
+                        .alpha(1f)
+                        .setDuration(200)
+                        .setListener(null)
+            }
+        }, 200)
     }
 
     fun clear() {
-        containerSectionView.removeAllViews()
         containerSectionView.visibility = View.GONE
+        containerSectionView.removeAllViews()
     }
 }

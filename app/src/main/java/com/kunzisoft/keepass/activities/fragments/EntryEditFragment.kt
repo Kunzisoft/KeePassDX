@@ -149,7 +149,6 @@ class EntryEditFragment : StylishFragment() {
                     ?: mLastFocusedEditField
         }
 
-        populateViewsWithEntry()
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
             onRemoveAttachment?.invoke(attachment)
         }
@@ -265,7 +264,6 @@ class EntryEditFragment : StylishFragment() {
                             Field(templateAttribute.label,
                                     ProtectedString(templateAttribute.protected, fieldValue)),
                             fieldTag)
-
                     // Add created view to this parent
                     sectionView.addAttributeView(attributeView)
                 }
