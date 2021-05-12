@@ -54,10 +54,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.DateTimeView
-import com.kunzisoft.keepass.view.EntryEditFieldView
-import com.kunzisoft.keepass.view.collapse
-import com.kunzisoft.keepass.view.expand
+import com.kunzisoft.keepass.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -71,8 +68,7 @@ class EntryEditFragment : StylishFragment() {
     private lateinit var entryIconView: ImageView
     private lateinit var entryTitleView: EntryEditFieldView
     private lateinit var templateContainerView: ViewGroup
-
-    private var customFieldsContainerView: ViewGroup? = null
+    private lateinit var customFieldsContainerView: SectionView
 
     private lateinit var attachmentsContainerView: View
     private lateinit var attachmentsListView: RecyclerView
@@ -113,6 +109,7 @@ class EntryEditFragment : StylishFragment() {
 
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
         templateContainerView = rootView.findViewById(R.id.template_fields_container)
+        customFieldsContainerView = rootView.findViewById(R.id.custom_fields_container)
 
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
@@ -200,105 +197,100 @@ class EntryEditFragment : StylishFragment() {
     }
 
     private fun populateViewsWithEntry() {
-        val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
+        context?.let { context ->
 
-        // Set info in view
-        setIcon(mEntryInfo.icon)
-        entryTitleView.apply {
-            label = getString(R.string.entry_title)
-            setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
-        }
-
-        // Build each template section
-        templateContainerView.removeAllViews()
-        mCustomFields.clear()
-
-        mTemplate?.sections?.forEach { templateSection ->
-
-            val sectionView: View? = mInflater?.inflate(R.layout.view_template_section, templateContainerView, false)
-            val sectionContainerView = sectionView?.findViewById<ViewGroup>(R.id.template_section_container)
-            val sectionListView = sectionView?.findViewById<ViewGroup>(R.id.template_section_container_list)
-            sectionView?.id = ViewCompat.generateViewId()
-            sectionContainerView?.id = ViewCompat.generateViewId()
-            sectionListView?.id = ViewCompat.generateViewId()
-
-            customFieldsContainerView = null
-
-            // Build each attribute
-            templateSection.attributes.forEach { templateAttribute ->
-                var fieldTag = FIELD_CUSTOM_TAG
-
-                val fieldValue = when (templateAttribute.label.toLowerCase(Locale.ENGLISH)) {
-                    STANDARD_TITLE -> {
-                        throw Exception("title cannot be in template attribute")
-                    }
-                    STANDARD_USERNAME -> {
-                        fieldTag = FIELD_USERNAME_TAG
-                        mEntryInfo.username
-                    }
-                    STANDARD_PASSWORD -> {
-                        fieldTag = FIELD_PASSWORD_TAG
-                        mEntryInfo.password
-                    }
-                    STANDARD_URL -> {
-                        fieldTag = FIELD_URL_TAG
-                        mEntryInfo.url
-                    }
-                    STANDARD_EXPIRATION -> {
-                        fieldTag = FIELD_EXPIRES_TAG
-                        mEntryInfo.getExpiresStringValue()
-                    }
-                    STANDARD_NOTES -> {
-                        fieldTag = FIELD_NOTES_TAG
-                        mEntryInfo.notes
-                    }
-                    else -> {
-                        // Retrieve custom field value if exists to populate template
-                        val index = customFieldsNotConsumed.indexOfFirst { field ->
-                            field.name.equals(templateAttribute.label, true)
-                        }
-                        if (index != -1) {
-                            val templateCustomField = customFieldsNotConsumed.removeAt(index)
-                            templateCustomField.protectedValue.toString()
-                        } else {
-                            ""
-                        }
-                    }
-                }
-
-                val templateField = Field(templateAttribute.label,
-                        ProtectedString(templateAttribute.protected, fieldValue))
-                val attributeView = buildViewForTemplateField(templateAttribute,
-                        templateField,
-                        fieldTag)
-                // Add created view to this parent
-                sectionListView?.addView(attributeView)
+            // Set info in view
+            setIcon(mEntryInfo.icon)
+            entryTitleView.apply {
+                label = getString(R.string.entry_title)
+                setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
             }
 
-            // Add standard fields not in template
+            // Build each template section
+            templateContainerView.removeAllViews()
+            customFieldsContainerView.clear()
+            mCustomFields.clear()
+
+            val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
+            mTemplate?.sections?.forEach { templateSection ->
+
+                val sectionView = SectionView(context)
+
+                // Build each attribute
+                templateSection.attributes.forEach { templateAttribute ->
+                    val fieldTag: String
+                    val fieldValue: String
+
+                    when (templateAttribute.label.toLowerCase(Locale.ENGLISH)) {
+                        STANDARD_TITLE -> {
+                            throw Exception("title cannot be in template attribute")
+                        }
+                        STANDARD_USERNAME -> {
+                            fieldTag = FIELD_USERNAME_TAG
+                            fieldValue = mEntryInfo.username
+                        }
+                        STANDARD_PASSWORD -> {
+                            fieldTag = FIELD_PASSWORD_TAG
+                            fieldValue = mEntryInfo.password
+                        }
+                        STANDARD_URL -> {
+                            fieldTag = FIELD_URL_TAG
+                            fieldValue = mEntryInfo.url
+                        }
+                        STANDARD_EXPIRATION -> {
+                            fieldTag = FIELD_EXPIRES_TAG
+                            fieldValue = mEntryInfo.getExpiresStringValue()
+                        }
+                        STANDARD_NOTES -> {
+                            fieldTag = FIELD_NOTES_TAG
+                            fieldValue = mEntryInfo.notes
+                        }
+                        else -> {
+                            fieldTag = FIELD_CUSTOM_TAG
+                            // Retrieve custom field value if exists to populate template
+                            val index = customFieldsNotConsumed.indexOfFirst { field ->
+                                field.name.equals(templateAttribute.label, true)
+                            }
+                            fieldValue = if (index != -1) {
+                                val templateCustomField = customFieldsNotConsumed.removeAt(index)
+                                templateCustomField.protectedValue.toString()
+                            } else {
+                                ""
+                            }
+                        }
+                    }
+
+                    val templateField = Field(templateAttribute.label,
+                            ProtectedString(templateAttribute.protected, fieldValue))
+                    val attributeView = buildViewForTemplateField(templateAttribute,
+                            templateField,
+                            fieldTag)
+
+                    // Add created view to this parent
+                    sectionView.addAttributeView(attributeView)
+                }
+
+                // Add build view to parent
+                templateContainerView.addView(sectionView)
+            }
 
             // Add custom fields not in template
-            if (templateSection.dynamic) {
-                customFieldsNotConsumed.forEach { customDynamicField ->
-                    val fieldView = buildViewForCustomField(customDynamicField)
-                    sectionListView?.addView(fieldView)
-                }
-                customFieldsContainerView = sectionListView
-                /*
-                // Request last focus
-                mLastFocusedEditField?.let { focusField ->
-                    mExtraViewToRequestFocus?.apply {
-                        requestFocus()
-                        setSelection(focusField.cursorSelectionStart,
-                                focusField.cursorSelectionEnd)
-                    }
-                }
-                mLastFocusedEditField = null
-                 */
+            customFieldsNotConsumed.forEach { customDynamicField ->
+                val fieldView = buildViewForCustomField(customDynamicField)
+                customFieldsContainerView.addAttributeView(fieldView)
             }
 
-            // Add build view to parent
-            templateContainerView.addView(sectionView)
+            /*
+            // Request last focus
+            mLastFocusedEditField?.let { focusField ->
+                mExtraViewToRequestFocus?.apply {
+                    requestFocus()
+                    setSelection(focusField.cursorSelectionStart,
+                            focusField.cursorSelectionEnd)
+                }
+            }
+            mLastFocusedEditField = null
+             */
         }
     }
 

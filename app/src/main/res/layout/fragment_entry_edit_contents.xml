@@ -66,8 +66,17 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container"
-		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container"
+		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"
 		android:orientation="vertical" />
+
+	<com.kunzisoft.keepass.view.SectionView
+		android:id="@+id/custom_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="2dp"
+		android:layout_marginBottom="@dimen/card_view_margin_bottom"
+		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
+		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container" />
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_attachments_container"
@@ -78,7 +87,7 @@
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
-		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
+		app:layout_constraintTop_toBottomOf="@+id/custom_fields_container"
 		app:layout_constraintBottom_toBottomOf="parent">
 		<LinearLayout
 			android:layout_height="wrap_content"

@@ -54,7 +54,6 @@ class Template : Parcelable {
         this.icon = icon
         this.sections.clear()
         this.sections.addAll(sections)
-        this.sections.add(TemplateSection()) // Add dynamic section at end
     }
 
     constructor(parcel: Parcel) {
