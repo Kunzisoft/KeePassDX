@@ -20,7 +20,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
 
     private val labelView: TextInputLayout
     private val valueView: TextView
-    private val actionImageButton: ImageButton
+    private var actionImageButton: ImageButton? = null
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -34,6 +34,10 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     fun applyFontVisibility(fontInVisibility: Boolean) {
         if (fontInVisibility)
             valueView.applyFontVisibility()
+    }
+
+    fun getActionImageView(): View? {
+        return actionImageButton
     }
 
     var label: String
@@ -77,10 +81,10 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     fun setOnActionClickListener(onActionClickListener: OnClickListener? = null,
                                  @DrawableRes actionImageId: Int? = null) {
         actionImageId?.let {
-            actionImageButton.setImageDrawable(ContextCompat.getDrawable(context, it))
+            actionImageButton?.setImageDrawable(ContextCompat.getDrawable(context, it))
         }
-        actionImageButton.setOnClickListener(onActionClickListener)
-        actionImageButton.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
+        actionImageButton?.setOnClickListener(onActionClickListener)
+        actionImageButton?.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
     }
 
     enum class TextType {

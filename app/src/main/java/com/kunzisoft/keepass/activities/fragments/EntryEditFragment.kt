@@ -31,6 +31,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.EntryEditActivity
+import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
@@ -173,21 +175,28 @@ class EntryEditFragment : StylishFragment() {
     }
 
     fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
-        return false // TODO education
-        /*
-        return entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                entryPasswordGeneratorView,
-                {
-                    GeneratePasswordDialogFragment().show(parentFragmentManager, "PasswordGeneratorFragment")
-                },
-                {
-                    try {
-                        (activity as? EntryEditActivity?)?.performedNextEducation(entryEditActivityEducation)
-                    } catch (ignore: Exception) {
+        val generatePasswordView = templateContainerView
+                .findViewWithTag<EntryEditFieldView?>(FIELD_PASSWORD_TAG)
+                ?.getActionImageView()
+        return if (generatePasswordView != null) {
+            entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+                    generatePasswordView,
+                    {
+                        GeneratePasswordDialogFragment
+                                .getInstance(Field(STANDARD_PASSWORD, ProtectedString(true, mEntryInfo.password)))
+                                .show(parentFragmentManager, "PasswordGeneratorFragment")
+                    },
+                    {
+                        try {
+                            (activity as? EntryEditActivity?)
+                                    ?.performedNextEducation(entryEditActivityEducation)
+                        } catch (ignore: Exception) {
+                        }
                     }
-                }
-        )
-         */
+            )
+        } else {
+            false
+        }
     }
 
     fun assignTemplate(template: Template) {
@@ -319,10 +328,9 @@ class EntryEditFragment : StylishFragment() {
                     TemplateAttributeType.LISTBOX -> TODO()
                     TemplateAttributeType.POPOUT -> TODO()
                     TemplateAttributeType.RICH_TEXTBOX -> TODO()
-
-                    //TODO Password
                 }
-        itemView?.id = ViewCompat.generateViewId()
+        // Custom id defined by field name, use getViewByField(field: Field) to retrieve it
+        itemView?.id = field.name.hashCode()
         itemView?.tag = fieldTag
 
         // Add new custom view id to the custom field list
@@ -439,21 +447,30 @@ class EntryEditFragment : StylishFragment() {
         mEntryInfo.attachments = getAttachments()
     }
 
+    /* -------------
+     * External value update
+     * -------------
+     */
+
+    private fun getViewByField(field: Field): View? {
+        val viewId = field.name.hashCode()
+        return templateContainerView.findViewById(viewId)
+                ?: customFieldsContainerView.findViewById(viewId)
+    }
+
     fun setIcon(iconImage: IconImage) {
         mEntryInfo.icon = iconImage
         drawFactory?.assignDatabaseIcon(entryIconView, iconImage, iconColor)
     }
 
-    fun setPassword(password: String) {
-        mEntryInfo.password = password
-        val passwordView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-        passwordView?.value = password
+    fun setPassword(passwordField: Field) {
+        val passwordValue = passwordField.protectedValue.stringValue
+        mEntryInfo.password = passwordValue
+        val passwordView = getViewByField(passwordField)
+        if (passwordView is EntryEditFieldView?) {
+            passwordView?.value = passwordValue
+        }
     }
-
-    /* -------------
-     * Date Time selection
-     * -------------
-     */
 
     fun setCurrentDateTimeSelection(expiration: DateInstant) {
         // TODO fix orientation change

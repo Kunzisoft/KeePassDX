@@ -55,10 +55,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.database.element.template.TemplateAttribute
-import com.kunzisoft.keepass.database.element.template.TemplateSection
-import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
+import com.kunzisoft.keepass.database.element.template.*
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
@@ -218,6 +215,7 @@ class EntryEditActivity : LockingActivity(),
             add(TemplateAttribute("Test", TemplateAttributeType.DATE))
             add(TemplateAttribute("Test2", TemplateAttributeType.TIME))
             add(TemplateAttribute("Test3", TemplateAttributeType.DATE))
+            add(TemplateAttribute("Another password", TemplateAttributeType.INLINE, true, TemplateAttributeAction.PASSWORD_GENERATION))
         })))
 
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
@@ -249,8 +247,9 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             onPasswordGeneratorClickListener = { field ->
-                // TODO reuse generator
-                openPasswordGenerator()
+                GeneratePasswordDialogFragment
+                        .getInstance(field)
+                        .show(supportFragmentManager, "PasswordGeneratorFragment")
             }
             // Add listener to the icon
             onIconClickListener = { iconImage ->
@@ -426,13 +425,6 @@ class EntryEditActivity : LockingActivity(),
         mAttachmentFileBinderManager?.unregisterProgressTask()
 
         super.onPause()
-    }
-
-    /**
-     * Open the password generator fragment
-     */
-    private fun openPasswordGenerator() {
-        GeneratePasswordDialogFragment().show(supportFragmentManager, "PasswordGeneratorFragment")
     }
 
     /**
@@ -788,17 +780,14 @@ class EntryEditActivity : LockingActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    override fun acceptPassword(bundle: Bundle) {
-        bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID)?.let {
-            entryEditFragment?.setPassword(it)
-        }
-
+    override fun acceptPassword(passwordField: Field) {
+        entryEditFragment?.setPassword(passwordField)
         entryEditActivityEducation?.let {
             Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
     }
 
-    override fun cancelPassword(bundle: Bundle) {
+    override fun cancelPassword(passwordField: Field) {
         // Do nothing here
     }
 
