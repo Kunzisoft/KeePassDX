@@ -26,7 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.core.view.ViewCompat
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -57,6 +57,7 @@ import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_USERNAME
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
+import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -92,7 +93,8 @@ class EntryEditFragment : StylishFragment() {
     private var mExtraViewToRequestFocus: EditText? = null
 
     // Current date time selection
-    private var mTempDateTimeView: DateTimeView? = null
+    @IdRes
+    private var mTempDateTimeViewId: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -149,6 +151,9 @@ class EntryEditFragment : StylishFragment() {
         if (savedInstanceState?.containsKey(KEY_LAST_FOCUSED_FIELD) == true) {
             mLastFocusedEditField = savedInstanceState.getParcelable(KEY_LAST_FOCUSED_FIELD)
                     ?: mLastFocusedEditField
+        }
+        if (savedInstanceState?.containsKey(KEY_SELECTION_DATE_TIME_ID) == true) {
+            mTempDateTimeViewId = savedInstanceState.getInt(KEY_SELECTION_DATE_TIME_ID)
         }
 
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
@@ -400,7 +405,7 @@ class EntryEditFragment : StylishFragment() {
                             }
                 }
                 setOnDateClickListener = { dateInstant ->
-                    mTempDateTimeView = this
+                    mTempDateTimeViewId = id
                     onDateTimeClickListener?.invoke(dateInstant)
                 }
             }
@@ -452,8 +457,11 @@ class EntryEditFragment : StylishFragment() {
      * -------------
      */
 
-    private fun getViewByField(field: Field): View? {
-        val viewId = field.name.hashCode()
+    private fun getFieldViewByField(field: Field): View? {
+        return getFieldViewById(field.name.hashCode())
+    }
+
+    private fun getFieldViewById(@IdRes viewId: Int): View? {
         return templateContainerView.findViewById(viewId)
                 ?: customFieldsContainerView.findViewById(viewId)
     }
@@ -466,19 +474,48 @@ class EntryEditFragment : StylishFragment() {
     fun setPassword(passwordField: Field) {
         val passwordValue = passwordField.protectedValue.stringValue
         mEntryInfo.password = passwordValue
-        val passwordView = getViewByField(passwordField)
+        val passwordView = getFieldViewByField(passwordField)
         if (passwordView is EntryEditFieldView?) {
             passwordView?.value = passwordValue
         }
     }
 
-    fun setCurrentDateTimeSelection(expiration: DateInstant) {
-        // TODO fix orientation change
-        mTempDateTimeView?.dateTime = expiration
+    private fun setCurrentDateTimeSelection(action: (dateInstant: DateInstant) -> DateInstant) {
+        mTempDateTimeViewId?.let { viewId ->
+            val dateTimeView = getFieldViewById(viewId)
+            if (dateTimeView is DateTimeView) {
+                dateTimeView.dateTime = DateInstant(
+                        action.invoke(dateTimeView.dateTime).date,
+                        dateTimeView.dateTime.type)
+            }
+        }
     }
 
-    fun getCurrentDateTimeSelection(): DateInstant? {
-        return mTempDateTimeView?.dateTime
+    fun setDate(year: Int, month: Int, day: Int) {
+        // Save the date
+        setCurrentDateTimeSelection { instant ->
+            val newDateInstant = DateInstant(DateTime(instant.date)
+                        .withYear(year)
+                        .withMonthOfYear(month + 1)
+                        .withDayOfMonth(day)
+                        .toDate(), instant.type)
+            if (instant.type == DateInstant.Type.DATE_TIME) {
+                val instantTime = DateInstant(instant.date, DateInstant.Type.TIME)
+                // Trick to recall selection with time
+                onDateTimeClickListener?.invoke(instantTime)
+            }
+            newDateInstant
+        }
+    }
+
+    fun setTime(hours: Int, minutes: Int) {
+        // Save the time
+        setCurrentDateTimeSelection { instant ->
+            DateInstant(DateTime(instant.date)
+                    .withHourOfDay(hours)
+                    .withMinuteOfHour(minutes)
+                    .toDate(), instant.type)
+        }
     }
 
     /* -------------
@@ -649,6 +686,9 @@ class EntryEditFragment : StylishFragment() {
         populateEntryWithViews()
         outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
         outState.putParcelable(KEY_LAST_FOCUSED_FIELD, mLastFocusedEditField)
+        mTempDateTimeViewId?.let {
+            outState.putInt(KEY_SELECTION_DATE_TIME_ID, it)
+        }
 
         super.onSaveInstanceState(outState)
     }
@@ -657,6 +697,7 @@ class EntryEditFragment : StylishFragment() {
         const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
         const val KEY_DATABASE = "KEY_DATABASE"
         const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
+        const val KEY_SELECTION_DATE_TIME_ID = "KEY_SELECTION_DATE_TIME_ID"
 
         private const val FIELD_USERNAME_TAG = "FIELD_USERNAME_TAG"
         private const val FIELD_PASSWORD_TAG = "FIELD_PASSWORD_TAG"

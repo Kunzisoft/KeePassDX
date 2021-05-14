@@ -746,31 +746,12 @@ class EntryEditActivity : LockingActivity(),
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            entryEditFragment?.getCurrentDateTimeSelection()?.let { instant ->
-                // Save the date
-                entryEditFragment?.setCurrentDateTimeSelection(
-                        DateInstant(DateTime(instant.date)
-                                .withYear(year)
-                                .withMonthOfYear(month + 1)
-                                .withDayOfMonth(day)
-                                .toDate(), instant.type))
-                if (instant.type == DateInstant.Type.DATE_TIME) {
-                    selectTime(instant)
-                }
-            }
+            entryEditFragment?.setDate(year, month, day)
         }
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        entryEditFragment?.getCurrentDateTimeSelection()?.let { instant ->
-            // Save the date
-            entryEditFragment?.setCurrentDateTimeSelection(
-                    DateInstant(DateTime(instant.date)
-                            .withHourOfDay(hours)
-                            .withMinuteOfHour(minutes)
-                            .toDate(), instant.type)
-            )
-        }
+        entryEditFragment?.setTime(hours, minutes)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
