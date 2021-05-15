@@ -208,7 +208,6 @@ class EntryEditFragment : StylishFragment() {
     }
 
     fun assignTemplate(template: Template) {
-        populateEntryWithViews()
         this.mTemplate = template
         populateViewsWithEntry()
     }
