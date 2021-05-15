@@ -505,7 +505,7 @@ class EntryEditFragment : StylishFragment() {
     }
 
     /* -------------
-     * Extra Fields
+     * Custom Fields
      * -------------
      */
 
@@ -565,26 +565,24 @@ class EntryEditFragment : StylishFragment() {
      */
     fun replaceCustomField(oldField: Field, newField: Field): Boolean {
         if (!isStandardFieldName(newField.name)) {
-            if (containsCustomFieldName(oldField.name)) {
-                mCustomFields[oldField.name]?.viewId?.let { viewId ->
-                    templateContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
-                        val oldValue = getCustomField(oldField.name).protectedValue.toString()
+            mCustomFields[oldField.name]?.viewId?.let { viewId ->
+                customFieldsContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
+                    val oldValue = getCustomField(oldField.name).protectedValue.toString()
 
-                        val parentGroup = viewToReplace.parent as ViewGroup
-                        val indexInParent = parentGroup.indexOfChild(viewToReplace)
-                        parentGroup.removeView(viewToReplace)
+                    val parentGroup = viewToReplace.parent as ViewGroup
+                    val indexInParent = parentGroup.indexOfChild(viewToReplace)
+                    parentGroup.removeView(viewToReplace)
 
-                        val newCustomFieldWithValue = Field(newField.name,
-                                ProtectedString(newField.protectedValue.isProtected, oldValue))
-                        mCustomFields.remove(oldField.name)
+                    val newCustomFieldWithValue = Field(newField.name,
+                            ProtectedString(newField.protectedValue.isProtected, oldValue))
+                    mCustomFields.remove(oldField.name)
 
-                        val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
-                        parentGroup.addView(newCustomView, indexInParent)
-                        mCustomFields[newCustomFieldWithValue.name] = FieldId(newCustomView!!.id,
-                                newCustomFieldWithValue.protectedValue.isProtected)
-                        newCustomView.requestFocus()
-                        return true
-                    }
+                    val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
+                    parentGroup.addView(newCustomView, indexInParent)
+                    mCustomFields[newCustomFieldWithValue.name] = FieldId(newCustomView!!.id,
+                            newCustomFieldWithValue.protectedValue.isProtected)
+                    newCustomView.requestFocus()
+                    return true
                 }
             }
         }

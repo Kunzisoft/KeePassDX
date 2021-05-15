@@ -56,22 +56,20 @@ class SectionView @JvmOverloads constructor(context: Context,
 
     override fun addView(child: View?) {
         visibility = View.VISIBLE
-        // TODO Smoother but prevent keep focus on orientation change
-        // containerSectionView.postDelayed({
-            containerSectionView.apply {
-                alpha = 0f
-                addView(child)
-                animate()
-                        .alpha(1f)
-                        .setDuration(200)
-                        .setListener(null)
-            }
-        //}, 200)
+        containerSectionView.apply {
+            alpha = 0f
+            addView(child)
+            animate()
+                    .alpha(1f)
+                    .setDuration(200)
+                    .setListener(null)
+        }
     }
 
     fun removeViewById(@IdRes viewId: Int, onFinish: ((View) ->Unit)? = null) {
         containerSectionView.findViewById<View?>(viewId)?.let { viewToRemove ->
             viewToRemove.collapse(true) {
+                containerSectionView.removeView(viewToRemove)
                 onFinish?.invoke(viewToRemove)
                 // Hide section if needed
                 try {
