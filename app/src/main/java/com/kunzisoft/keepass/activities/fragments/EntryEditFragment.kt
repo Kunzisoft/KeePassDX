@@ -24,7 +24,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,7 +63,7 @@ import kotlin.collections.LinkedHashMap
 
 class EntryEditFragment : StylishFragment() {
 
-    private var mTemplate: Template? = null
+    private var mTemplate: Template = Template.STANDARD
 
     private var mInflater: LayoutInflater? = null
 
@@ -89,8 +88,6 @@ class EntryEditFragment : StylishFragment() {
 
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
-    private var mLastFocusedEditField: FocusedEditField? = null
-    private var mExtraViewToRequestFocus: EditText? = null
 
     // Current date time selection
     @IdRes
@@ -148,13 +145,14 @@ class EntryEditFragment : StylishFragment() {
             mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
         }
 
-        if (savedInstanceState?.containsKey(KEY_LAST_FOCUSED_FIELD) == true) {
-            mLastFocusedEditField = savedInstanceState.getParcelable(KEY_LAST_FOCUSED_FIELD)
-                    ?: mLastFocusedEditField
+        if (savedInstanceState?.containsKey(KEY_TEMPLATE) == true) {
+            mTemplate = savedInstanceState.getParcelable(KEY_TEMPLATE) ?: mTemplate
         }
         if (savedInstanceState?.containsKey(KEY_SELECTION_DATE_TIME_ID) == true) {
             mTempDateTimeViewId = savedInstanceState.getInt(KEY_SELECTION_DATE_TIME_ID)
         }
+
+        populateViewsWithEntry()
 
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
             onRemoveAttachment?.invoke(attachment)
@@ -204,6 +202,10 @@ class EntryEditFragment : StylishFragment() {
         }
     }
 
+    fun getTemplate(): Template {
+        return mTemplate
+    }
+
     fun assignTemplate(template: Template) {
         this.mTemplate = template
         populateViewsWithEntry()
@@ -211,6 +213,10 @@ class EntryEditFragment : StylishFragment() {
 
     private fun populateViewsWithEntry() {
         context?.let { context ->
+            // Build each template section
+            templateContainerView.removeAllViews()
+            customFieldsContainerView.clear()
+            mCustomFields.clear()
 
             // Set info in view
             setIcon(mEntryInfo.icon)
@@ -219,13 +225,8 @@ class EntryEditFragment : StylishFragment() {
                 setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
             }
 
-            // Build each template section
-            templateContainerView.removeAllViews()
-            customFieldsContainerView.clear()
-            mCustomFields.clear()
-
             val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
-            mTemplate?.sections?.forEach { templateSection ->
+            mTemplate.sections.forEach { templateSection ->
 
                 val sectionView = SectionView(context)
 
@@ -291,18 +292,6 @@ class EntryEditFragment : StylishFragment() {
                 val fieldView = buildViewForCustomField(customDynamicField)
                 customFieldsContainerView.addAttributeView(fieldView)
             }
-
-            /*
-            // Request last focus
-            mLastFocusedEditField?.let { focusField ->
-                mExtraViewToRequestFocus?.apply {
-                    requestFocus()
-                    setSelection(focusField.cursorSelectionStart,
-                            focusField.cursorSelectionEnd)
-                }
-            }
-            mLastFocusedEditField = null
-             */
         }
     }
 
@@ -373,9 +362,6 @@ class EntryEditFragment : StylishFragment() {
                 }
                 templateAttribute.options.forEach { option ->
                     // TODO options
-                }
-                if (mLastFocusedEditField?.field == field) {
-                    // TODO mExtraViewToRequestFocus = fieldTextView
                 }
                 applyFontVisibility(fontInVisibility)
             }
@@ -550,7 +536,6 @@ class EntryEditFragment : StylishFragment() {
     }
 
     private fun getCustomFields(): List<Field> {
-        // TODO focus ?
         return mCustomFields.map {
             getCustomField(it.key)
         }
@@ -685,7 +670,7 @@ class EntryEditFragment : StylishFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
         outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
-        outState.putParcelable(KEY_LAST_FOCUSED_FIELD, mLastFocusedEditField)
+        outState.putParcelable(KEY_TEMPLATE, mTemplate)
         mTempDateTimeViewId?.let {
             outState.putInt(KEY_SELECTION_DATE_TIME_ID, it)
         }
@@ -695,8 +680,8 @@ class EntryEditFragment : StylishFragment() {
 
     companion object {
         const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
+        const val KEY_TEMPLATE = "KEY_TEMPLATE"
         const val KEY_DATABASE = "KEY_DATABASE"
-        const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
         const val KEY_SELECTION_DATE_TIME_ID = "KEY_SELECTION_DATE_TIME_ID"
 
         private const val FIELD_USERNAME_TAG = "FIELD_USERNAME_TAG"

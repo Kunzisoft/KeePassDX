@@ -43,7 +43,7 @@ class SectionView @JvmOverloads constructor(context: Context,
     }
 
     fun addAttributeView(view: View?) {
-        containerSectionView.postDelayed({
+        //TODO containerSectionView.postDelayed({
             containerSectionView.apply {
                 alpha = 0f
                 visibility = View.VISIBLE
@@ -53,7 +53,7 @@ class SectionView @JvmOverloads constructor(context: Context,
                         .setDuration(200)
                         .setListener(null)
             }
-        }, 200)
+        //}, 200)
     }
 
     fun clear() {

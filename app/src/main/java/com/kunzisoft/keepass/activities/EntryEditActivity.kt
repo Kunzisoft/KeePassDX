@@ -223,7 +223,12 @@ class EntryEditActivity : LockingActivity(),
             adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
             onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    entryEditFragment?.assignTemplate(templates[position])
+                    val newTemplate = templates[position]
+                    entryEditFragment?.apply {
+                        if (getTemplate() != newTemplate) {
+                            assignTemplate(newTemplate)
+                        }
+                    }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }

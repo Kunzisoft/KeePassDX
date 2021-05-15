@@ -21,23 +21,16 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
                                                    defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle) {
 
-    private val labelViewId = ViewCompat.generateViewId()
-    private val valueViewId = ViewCompat.generateViewId()
-    private val actionImageButtonId = ViewCompat.generateViewId()
+    private var labelViewId = ViewCompat.generateViewId()
+    private var valueViewId = ViewCompat.generateViewId()
+    private var actionImageButtonId = ViewCompat.generateViewId()
 
     private val labelView = TextInputLayout(context).apply {
-        id = labelViewId
         layoutParams = LayoutParams(
                 LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT).also {
-                    it.addRule(LEFT_OF, actionImageButtonId)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.addRule(START_OF, actionImageButtonId)
-            }
-        }
+                LayoutParams.WRAP_CONTENT)
     }
     private val valueView = TextInputEditText(context).apply {
-        id = valueViewId
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
@@ -53,7 +46,6 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     }
     private var actionImageButton = AppCompatImageButton(
             ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
-        id = actionImageButtonId
         layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT).also {
@@ -73,9 +65,28 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
 
     init {
         // Manually write view to avoid view id bugs
+        buildViews()
         labelView.addView(valueView)
         addView(labelView)
         addView(actionImageButton)
+    }
+
+    private fun buildViews() {
+        labelView.apply {
+            id = labelViewId
+            layoutParams = (layoutParams as LayoutParams?).also {
+                it?.addRule(LEFT_OF, actionImageButtonId)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    it?.addRule(START_OF, actionImageButtonId)
+                }
+            }
+        }
+        valueView.apply {
+            id = valueViewId
+        }
+        actionImageButton.apply {
+            id = actionImageButtonId
+        }
     }
 
     fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -93,6 +104,11 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             labelView.hint = value
+            // Define views Ids with label value
+            labelViewId = "labelViewId $value".hashCode()
+            valueViewId = "valueViewId $value".hashCode()
+            actionImageButtonId = "actionImageButtonId $value".hashCode()
+            buildViews()
         }
 
     var value: String

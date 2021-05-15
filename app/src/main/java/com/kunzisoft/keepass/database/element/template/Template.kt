@@ -121,16 +121,5 @@ class Template : Parcelable {
                 sections.add(mainSection)
                 return Template(DatabaseVersioned.UUID_ZERO, "Standard", IconImage(), sections)
             }
-
-        fun isStandardFieldName(name: String): Boolean {
-            return ArrayList<String>().apply {
-                add(STANDARD_TITLE)
-                add(STANDARD_USERNAME)
-                add(STANDARD_PASSWORD)
-                add(STANDARD_URL)
-                add(STANDARD_EXPIRATION)
-                add(STANDARD_NOTES)
-            }.firstOrNull { it.equals(name, true) } != null
-        }
     }
 }
