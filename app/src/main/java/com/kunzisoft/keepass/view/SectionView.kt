@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -21,33 +21,46 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.annotation.IdRes
+import androidx.cardview.widget.CardView
 import com.kunzisoft.keepass.R
 
 class SectionView @JvmOverloads constructor(context: Context,
                                             attrs: AttributeSet? = null,
                                             defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle) {
+    : CardView(context, attrs, defStyle) {
 
-    private val containerSectionView: ViewGroup
-
-    init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_section, this)
-
-        containerSectionView = findViewById(R.id.section_container)
-        containerSectionView.visibility = View.GONE
+    private var containerSectionView = LinearLayout(context).apply {
+        val margin = resources.getDimension(R.dimen.card_view_padding).toInt()
+        layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT).also {
+            it.setMargins(margin, margin, margin, margin)
+        }
+        orientation = LinearLayout.VERTICAL
     }
 
-    fun addAttributeView(view: View?) {
-        //TODO containerSectionView.postDelayed({
+    init {
+        val marginHorizontal = resources.getDimension(R.dimen.card_view_margin_horizontal).toInt()
+        val marginVertical = resources.getDimension(R.dimen.card_view_margin_vertical).toInt()
+        layoutParams = LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT).also {
+            it.setMargins(marginHorizontal, marginVertical, marginHorizontal, marginVertical)
+        }
+        visibility = View.GONE
+        super.addView(containerSectionView)
+    }
+
+    override fun addView(child: View?) {
+        visibility = View.VISIBLE
+        // TODO Smoother but prevent keep focus on orientation change
+        // containerSectionView.postDelayed({
             containerSectionView.apply {
                 alpha = 0f
-                visibility = View.VISIBLE
-                addView(view)
+                addView(child)
                 animate()
                         .alpha(1f)
                         .setDuration(200)
@@ -56,8 +69,24 @@ class SectionView @JvmOverloads constructor(context: Context,
         //}, 200)
     }
 
-    fun clear() {
-        containerSectionView.visibility = View.GONE
+    fun removeViewById(@IdRes viewId: Int, onFinish: ((View) ->Unit)? = null) {
+        containerSectionView.findViewById<View?>(viewId)?.let { viewToRemove ->
+            viewToRemove.collapse(true) {
+                onFinish?.invoke(viewToRemove)
+                // Hide section if needed
+                try {
+                    if (containerSectionView.childCount == 0) {
+                        collapse(true)
+                    }
+                } catch (e: Exception) {
+                    visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    override fun removeAllViews() {
         containerSectionView.removeAllViews()
+        visibility = View.GONE
     }
 }

@@ -56,7 +56,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="@dimen/card_view_margin_bottom">
+                android:paddingTop="@dimen/card_view_margin_vertical"
+                android:paddingBottom="@dimen/card_view_margin_vertical">
                 <Spinner
                     android:id="@+id/entry_edit_template_selector"
                     android:layout_width="match_parent"

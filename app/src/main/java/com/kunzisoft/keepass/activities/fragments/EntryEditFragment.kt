@@ -89,6 +89,7 @@ class EntryEditFragment : StylishFragment() {
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
 
+    private var mCustomFields = LinkedHashMap<String, FieldId>() // <label>, <viewId>
     // Current date time selection
     @IdRes
     private var mTempDateTimeViewId: Int? = null
@@ -212,23 +213,25 @@ class EntryEditFragment : StylishFragment() {
     }
 
     private fun populateViewsWithEntry() {
-        context?.let { context ->
-            // Build each template section
-            templateContainerView.removeAllViews()
-            customFieldsContainerView.clear()
-            mCustomFields.clear()
+        // Build each template section
+        templateContainerView.removeAllViews()
+        customFieldsContainerView.removeAllViews()
+        mCustomFields.clear()
 
-            // Set info in view
-            setIcon(mEntryInfo.icon)
-            entryTitleView.apply {
-                label = getString(R.string.entry_title)
-                setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
-            }
+        // Set info in view
+        setIcon(mEntryInfo.icon)
+        entryTitleView.apply {
+            label = getString(R.string.entry_title)
+            setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
+        }
 
+        activity?.let { context ->
             val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
             mTemplate.sections.forEach { templateSection ->
 
-                val sectionView = SectionView(context)
+                val sectionView = SectionView(context, null, R.attr.cardViewStyle)
+                // Add build view to parent
+                templateContainerView.addView(sectionView)
 
                 // Build each attribute
                 templateSection.attributes.forEach { templateAttribute ->
@@ -280,17 +283,14 @@ class EntryEditFragment : StylishFragment() {
                                     ProtectedString(templateAttribute.protected, fieldValue)),
                             fieldTag)
                     // Add created view to this parent
-                    sectionView.addAttributeView(attributeView)
+                    sectionView.addView(attributeView)
                 }
-
-                // Add build view to parent
-                templateContainerView.addView(sectionView)
             }
 
             // Add custom fields not in template
             customFieldsNotConsumed.forEach { customDynamicField ->
                 val fieldView = buildViewForCustomField(customDynamicField)
-                customFieldsContainerView.addAttributeView(fieldView)
+                customFieldsContainerView.addView(fieldView)
             }
         }
     }
@@ -509,7 +509,6 @@ class EntryEditFragment : StylishFragment() {
      * -------------
      */
 
-    private var mCustomFields = LinkedHashMap<String, FieldId>() // <label>, <viewId>
     private data class FieldId(var viewId: Int, var protected: Boolean)
 
     private fun isStandardFieldName(name: String): Boolean {
@@ -593,23 +592,9 @@ class EntryEditFragment : StylishFragment() {
     }
 
     fun removeCustomField(oldCustomField: Field) {
-        val previousSize = mCustomFields.size
         mCustomFields[oldCustomField.name]?.viewId?.let { viewId ->
-            customFieldsContainerView.findViewById<View>(viewId)?.let { viewToRemove ->
-                viewToRemove.collapse(true) {
-                    mCustomFields.remove(oldCustomField.name)
-
-                    // TODO collapse empty section
-                    /*
-                    val newSize = mCustomFields.size
-                    if (previousSize > 0 && newSize == 0) {
-                        extraFieldsContainerView.collapse(true)
-                    } else if (previousSize == 0 && newSize == 1) {
-                        extraFieldsContainerView.expand(true)
-                    }
-                    */
-                }
-            }
+            customFieldsContainerView.removeViewById(viewId)
+            mCustomFields.remove(oldCustomField.name)
         }
     }
 

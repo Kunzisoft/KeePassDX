@@ -23,18 +23,14 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:paddingTop="10dp">
+	android:paddingTop="@dimen/card_view_margin_vertical"
+	android:paddingBottom="@dimen/card_view_margin_vertical">
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="2dp"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -85,11 +81,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:visibility="gone"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:id="@+id/extra_fields_list"
 			android:layout_width="match_parent"
@@ -102,12 +94,7 @@
 		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="2dp"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -133,11 +120,7 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -211,11 +194,7 @@
 		android:id="@+id/entry_history_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -299,11 +278,7 @@
 		android:id="@+id/entry_UUID_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/card_view_margin"
-		android:layout_marginEnd="@dimen/card_view_margin"
-		android:layout_marginLeft="@dimen/card_view_margin"
-		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/card_view_margin_bottom">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"

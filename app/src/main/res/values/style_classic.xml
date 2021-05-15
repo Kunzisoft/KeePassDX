@@ -91,7 +91,7 @@
         <item name="android:windowBackground">@color/white_grey_lighter</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Clear" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.Clear" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/white_grey_lighter</item>
     </style>
 
@@ -155,7 +155,7 @@
         <item name="android:windowBackground">@color/black_lighter</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Dark" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.Dark" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_light</item>
     </style>
 </resources>
