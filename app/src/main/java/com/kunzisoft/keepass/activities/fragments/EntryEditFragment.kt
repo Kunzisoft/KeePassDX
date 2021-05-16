@@ -154,7 +154,9 @@ class EntryEditFragment : StylishFragment() {
             mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
         }
 
-        if (savedInstanceState?.containsKey(KEY_TEMPLATE) == true) {
+        if (arguments?.containsKey(KEY_TEMPLATE) == true)
+            mTemplate = arguments?.getParcelable(KEY_TEMPLATE) ?: mTemplate
+        else if (savedInstanceState?.containsKey(KEY_TEMPLATE) == true) {
             mTemplate = savedInstanceState.getParcelable(KEY_TEMPLATE) ?: mTemplate
         }
         if (savedInstanceState?.containsKey(KEY_SELECTION_DATE_TIME_ID) == true) {
@@ -218,8 +220,8 @@ class EntryEditFragment : StylishFragment() {
     }
 
     fun assignTemplate(template: Template) {
-        populateEntryWithViews()
         this.mTemplate = template
+        // TODO Add custom template UUID
         populateViewsWithEntry()
         rootView.showByFading()
     }
@@ -325,7 +327,6 @@ class EntryEditFragment : StylishFragment() {
         // Build main view depending on type
         val itemView: View? = when (templateAttribute.type) {
                     TemplateAttributeType.INLINE,
-                    TemplateAttributeType.URL,
                     TemplateAttributeType.MULTILINE -> {
                         buildLinearTextView(templateAttribute, field)
                     }
@@ -334,9 +335,6 @@ class EntryEditFragment : StylishFragment() {
                     TemplateAttributeType.DATETIME -> {
                         buildDataTimeView(templateAttribute, field)
                     }
-                    TemplateAttributeType.LISTBOX -> TODO()
-                    TemplateAttributeType.POPOUT -> TODO()
-                    TemplateAttributeType.RICH_TEXTBOX -> TODO()
                 }
         // Custom id defined by field name, use getViewByField(field: Field) to retrieve it
         itemView?.id = field.name.hashCode()
@@ -689,11 +687,13 @@ class EntryEditFragment : StylishFragment() {
         private const val FIELD_NOTES_TAG = "FIELD_NOTES_TAG"
         private const val FIELD_CUSTOM_TAG = "FIELD_CUSTOM_TAG"
 
-        fun getInstance(entryInfo: EntryInfo?): EntryEditFragment {
+        fun getInstance(entryInfo: EntryInfo?,
+                        template: Template?): EntryEditFragment {
                         //database: Database?): EntryEditFragment {
             return EntryEditFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_TEMP_ENTRY_INFO, entryInfo)
+                    putParcelable(KEY_TEMPLATE, template)
                     // TODO Unique database key database.key
                     putInt(KEY_DATABASE, 0)
                 }

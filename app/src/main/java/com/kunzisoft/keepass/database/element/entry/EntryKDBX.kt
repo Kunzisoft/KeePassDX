@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -226,6 +227,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectNotes
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
+
+    fun getCustomFieldValue(label: String): String {
+        return decodeRefKey(mDecodeRef, label, 0)
+    }
 
     fun getSize(attachmentPool: AttachmentPool): Long {
         var size = FIXED_LENGTH_SIZE

@@ -45,6 +45,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
+import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
@@ -79,6 +81,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
+    private val mTemplateEngine = TemplateEngine(this)
 
     var kdbxVersion = UnsignedInt(0)
     var name = ""
@@ -332,9 +335,25 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
+    fun getTemplates(): List<Template> {
+        return mTemplateEngine.getTemplates()
+    }
+
+    fun getTemplate(entry: EntryKDBX): Template? {
+        return mTemplateEngine.getTemplate(entry)
+    }
+
     /*
      * Search methods
      */
+
+    fun getGroupById(id: UUID): GroupKDBX? {
+        return this.getGroupById(NodeIdUUID(id))
+    }
+
+    fun getEntryById(id: UUID): EntryKDBX? {
+        return this.getEntryById(NodeIdUUID(id))
+    }
 
     fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
         return this.entryIndexes.values.find { entry ->

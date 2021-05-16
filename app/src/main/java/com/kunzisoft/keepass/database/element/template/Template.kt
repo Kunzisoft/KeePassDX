@@ -114,7 +114,7 @@ class Template : Parcelable {
                             true,
                             TemplateAttributeAction.PASSWORD_GENERATION)
                     )
-                    add(TemplateAttribute(STANDARD_URL, TemplateAttributeType.URL))
+                    add(TemplateAttribute(STANDARD_URL, TemplateAttributeType.INLINE))
                     add(TemplateAttribute(STANDARD_EXPIRATION, TemplateAttributeType.DATETIME))
                     add(TemplateAttribute(STANDARD_NOTES, TemplateAttributeType.MULTILINE))
                 })

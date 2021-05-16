@@ -202,27 +202,15 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Build template selector
-        val templates = ArrayList<Template>()
-
-        // TODO Dynamic templates
-        templates.add(Template.STANDARD)
-        templates.add(Template(UUID.randomUUID(), "Credit Card",
-                IconImageStandard(37).getIconImageToDraw(), TemplateSection(ArrayList<TemplateAttribute>().apply {
-            add(TemplateAttribute("Number", TemplateAttributeType.INLINE))
-            add(TemplateAttribute("CVV", TemplateAttributeType.INLINE, true))
-            add(TemplateAttribute("PIN", TemplateAttributeType.INLINE, true))
-            add(TemplateAttribute("Card holder", TemplateAttributeType.INLINE))
-            add(TemplateAttribute("Expires", TemplateAttributeType.DATETIME))
-            add(TemplateAttribute("Test", TemplateAttributeType.DATE))
-            add(TemplateAttribute("Test2", TemplateAttributeType.TIME))
-            add(TemplateAttribute("Test3", TemplateAttributeType.DATE))
-            add(TemplateAttribute("Another password", TemplateAttributeType.INLINE, true, TemplateAttributeAction.PASSWORD_GENERATION))
-        })))
+        val templates = mDatabase?.getTemplates()
+        val entryTemplate: Template? = mEntry?.let {
+            mDatabase?.getTemplate(it)
+        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
 
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo)
+            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, entryTemplate)
         }
         entryEditFragment?.apply {
             drawFactory = mDatabase?.iconDrawableFactory
@@ -263,17 +251,22 @@ class EntryEditActivity : LockingActivity(),
         // Change template dynamically
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         templateSelectorSpinner?.apply {
-            adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
-            onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val newTemplate = templates[position]
-                    entryEditFragment?.apply {
-                        if (getTemplate() != newTemplate) {
-                            assignTemplate(newTemplate)
+            if (templates != null && templates.isNotEmpty()) {
+                adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
+                setSelection(templates.indexOf(entryTemplate))
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val newTemplate = templates[position]
+                        entryEditFragment?.apply {
+                            if (getTemplate() != newTemplate) {
+                                assignTemplate(newTemplate)
+                            }
                         }
                     }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            } else {
+                visibility = View.GONE
             }
         }
 

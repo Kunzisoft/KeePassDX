@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -140,6 +141,17 @@ class Database {
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
         iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
+    }
+
+    fun getTemplates(): List<Template> {
+        return mDatabaseKDBX?.getTemplates() ?: listOf()
+    }
+
+    fun getTemplate(entry: Entry): Template? {
+        entry.entryKDBX?.let { entryKDBX ->
+            return mDatabaseKDBX?.getTemplate(entryKDBX)
+        }
+        return null
     }
 
     val allowName: Boolean

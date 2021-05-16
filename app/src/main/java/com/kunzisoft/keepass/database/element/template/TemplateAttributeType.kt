@@ -18,19 +18,10 @@
  */
 package com.kunzisoft.keepass.database.element.template
 
-enum class TemplateAttributeType(var value: String) {
-
-    INLINE("Inline"),
-    URL("Inline URL"),
-    MULTILINE("Multiline"),
-    DATE("Date"),
-    TIME("Time"),
-    DATETIME("Date Time"),
-    LISTBOX("Listbox"),
-    POPOUT("Popout"),
-    RICH_TEXTBOX("Rich Textbox");
-
-    companion object {
-        val PROTECTED = "Protected"
-    }
+enum class TemplateAttributeType {
+    INLINE,
+    MULTILINE,
+    DATE,
+    TIME,
+    DATETIME
 }
