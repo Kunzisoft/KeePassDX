@@ -158,6 +158,23 @@ fun View.expand(animate: Boolean = true,
     }.start()
 }
 
+fun View.hideByFading() {
+    alpha = 1f
+    animate()
+            .alpha(0f)
+            .setDuration(400)
+            .setListener(null)
+}
+
+fun View.showByFading() {
+    // Trick to keep the focus
+    alpha = 0.01f
+    animate()
+            .alpha(1f)
+            .setDuration(400)
+            .setListener(null)
+}
+
 fun View.updateLockPaddingLeft() {
     updatePadding(resources.getDimensionPixelSize(
             if (PreferencesUtil.showLockDatabaseButton(context)) {

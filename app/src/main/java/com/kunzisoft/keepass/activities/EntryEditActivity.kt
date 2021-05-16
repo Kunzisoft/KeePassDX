@@ -38,6 +38,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -218,30 +219,11 @@ class EntryEditActivity : LockingActivity(),
             add(TemplateAttribute("Another password", TemplateAttributeType.INLINE, true, TemplateAttributeAction.PASSWORD_GENERATION))
         })))
 
-        templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
-        templateSelectorSpinner?.apply {
-            adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
-            onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val newTemplate = templates[position]
-                    entryEditFragment?.apply {
-                        if (getTemplate() != newTemplate) {
-                            assignTemplate(newTemplate)
-                        }
-                    }
-                }
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-        }
-
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
             entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo)
         }
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.entry_edit_contents, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
-                .commit()
         entryEditFragment?.apply {
             drawFactory = mDatabase?.iconDrawableFactory
             onDateTimeClickListener = { dateInstant ->
@@ -266,6 +248,32 @@ class EntryEditActivity : LockingActivity(),
             }
             onEditCustomFieldClickListener = { field ->
                 editCustomField(field)
+            }
+        }
+
+        // To show Fragment asynchronously
+        lifecycleScope.launchWhenResumed {
+            entryEditFragment?.let { fragment ->
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.entry_edit_contents, fragment, ENTRY_EDIT_FRAGMENT_TAG)
+                        .commit()
+            }
+        }
+
+        // Change template dynamically
+        templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
+        templateSelectorSpinner?.apply {
+            adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
+            onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val newTemplate = templates[position]
+                    entryEditFragment?.apply {
+                        if (getTemplate() != newTemplate) {
+                            assignTemplate(newTemplate)
+                        }
+                    }
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
 

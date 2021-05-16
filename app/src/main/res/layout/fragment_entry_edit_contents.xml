@@ -26,7 +26,7 @@
 	android:layout_height="wrap_content">
 
 	<androidx.cardview.widget.CardView
-		android:id="@+id/entry_edit_container"
+		android:id="@+id/entry_edit_header_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle"
@@ -60,7 +60,7 @@
 		android:id="@+id/template_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container"
+		app:layout_constraintTop_toBottomOf="@+id/entry_edit_header_container"
 		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"
 		android:orientation="vertical" />
 

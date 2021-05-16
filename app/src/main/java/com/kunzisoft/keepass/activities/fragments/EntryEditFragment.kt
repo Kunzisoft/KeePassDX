@@ -68,12 +68,13 @@ class EntryEditFragment : StylishFragment() {
 
     private var mInflater: LayoutInflater? = null
 
+    private lateinit var rootView: View
     private lateinit var entryIconView: ImageView
     private lateinit var entryTitleView: EntryEditFieldView
     private lateinit var templateContainerView: ViewGroup
     private lateinit var customFieldsContainerView: SectionView
 
-    private lateinit var attachmentsContainerView: View
+    private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private lateinit var attachmentsAdapter: EntryAttachmentsItemsAdapter
 
@@ -99,7 +100,7 @@ class EntryEditFragment : StylishFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.cloneInContext(contextThemed)
+        rootView = inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.fragment_entry_edit_contents, container, false)
 
         mInflater = inflater
@@ -110,7 +111,6 @@ class EntryEditFragment : StylishFragment() {
         entryIconView.setOnClickListener {
             onIconClickListener?.invoke(mEntryInfo.icon)
         }
-
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
         templateContainerView = rootView.findViewById(R.id.template_fields_container)
         // To fix card view margin in KitKat-
@@ -145,7 +145,7 @@ class EntryEditFragment : StylishFragment() {
         iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
         taIconColor?.recycle()
 
-        rootView?.resetAppTimeoutWhenViewFocusedOrChanged(requireContext())
+        rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext())
 
         // Retrieve the new entry after an orientation change
         if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)
@@ -166,6 +166,8 @@ class EntryEditFragment : StylishFragment() {
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
             onRemoveAttachment?.invoke(attachment)
         }
+
+        rootView.showByFading()
 
         return rootView
     }
@@ -219,6 +221,7 @@ class EntryEditFragment : StylishFragment() {
         populateEntryWithViews()
         this.mTemplate = template
         populateViewsWithEntry()
+        rootView.showByFading()
     }
 
     private fun populateViewsWithEntry() {

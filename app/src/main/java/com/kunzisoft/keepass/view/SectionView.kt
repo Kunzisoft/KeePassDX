@@ -56,14 +56,7 @@ class SectionView @JvmOverloads constructor(context: Context,
 
     override fun addView(child: View?) {
         visibility = View.VISIBLE
-        containerSectionView.apply {
-            alpha = 0f
-            addView(child)
-            animate()
-                    .alpha(1f)
-                    .setDuration(200)
-                    .setListener(null)
-        }
+        containerSectionView.addView(child)
     }
 
     fun removeViewById(@IdRes viewId: Int, onFinish: ((View) ->Unit)? = null) {
