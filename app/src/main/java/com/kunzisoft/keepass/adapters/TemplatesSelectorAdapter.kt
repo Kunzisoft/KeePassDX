@@ -21,7 +21,7 @@ class TemplatesSelectorAdapter(context: Context,
     private var mIconColor = Color.BLACK
 
     init {
-        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
+        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         mIconColor = taIconColor.getColor(0, Color.BLACK)
         taIconColor.recycle()
     }
