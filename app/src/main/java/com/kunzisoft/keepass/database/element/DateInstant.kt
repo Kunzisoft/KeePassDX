@@ -91,6 +91,14 @@ class DateInstant : Parcelable {
         }
     }
 
+    fun getMonthInt(): Int {
+        return Companion.getMonthInt(jDate)
+    }
+
+    fun getYearInt(): Int {
+        return Companion.getYearInt(jDate)
+    }
+
     override fun toString(): String {
         return when (type) {
             Type.DATE -> dateFormat.format(jDate)
@@ -173,11 +181,21 @@ class DateInstant : Parcelable {
 
         }
 
+        fun getMonthInt(date: Date): Int {
+            val dateFormat = SimpleDateFormat("MM", Locale.ENGLISH)
+            return dateFormat.format(date).toInt()
+        }
+
+        fun getYearInt(date: Date): Int {
+            val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+            return dateFormat.format(date).toInt()
+        }
+
         fun getDateTimeString(resources: Resources, date: Date): String {
             return java.text.DateFormat.getDateTimeInstance(
-                        java.text.DateFormat.MEDIUM,
-                        java.text.DateFormat.SHORT,
-                        ConfigurationCompat.getLocales(resources.configuration)[0])
+                    java.text.DateFormat.MEDIUM,
+                    java.text.DateFormat.SHORT,
+                    ConfigurationCompat.getLocales(resources.configuration)[0])
                             .format(date)
         }
 

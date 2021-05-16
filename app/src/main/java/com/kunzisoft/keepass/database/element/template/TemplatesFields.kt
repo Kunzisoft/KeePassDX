@@ -1,9 +1,9 @@
-package com.kunzisoft.keepass.model
+package com.kunzisoft.keepass.database.element.template
 
 import android.content.Context
 import com.kunzisoft.keepass.R
 
-object TemplatesCustomFields {
+object TemplatesFields {
 
     const val STANDARD_TITLE = "title"
     const val STANDARD_USERNAME = "username"
@@ -14,7 +14,6 @@ object TemplatesCustomFields {
 
     const val CREDIT_CARD_CARDHOLDER = "Card holder"
     const val CREDIT_CARD_NUMBER = "Number"
-    const val CREDIT_CARD_EXPIRATION = "@exp_date"
     const val CREDIT_CARD_CVV = "CVV"
     private const val CREDIT_CARD_PIN = "PIN"
 
@@ -42,9 +41,10 @@ object TemplatesCustomFields {
 
             CREDIT_CARD_CARDHOLDER -> context.getString(R.string.credit_card_cardholder)
             CREDIT_CARD_NUMBER -> context.getString(R.string.credit_card_number)
-            CREDIT_CARD_EXPIRATION -> context.getString(R.string.credit_card_expiration)
             CREDIT_CARD_CVV -> context.getString(R.string.credit_card_security_code)
             CREDIT_CARD_PIN -> context.getString(R.string.credit_card_pin)
+
+            // TODO Others translations
             else -> fieldName
         }
     }

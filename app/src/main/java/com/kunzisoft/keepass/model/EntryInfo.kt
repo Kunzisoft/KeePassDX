@@ -24,6 +24,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.template.TemplatesFields
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -166,19 +167,19 @@ class EntryInfo : NodeInfo {
             creditCard?.let { cc ->
                 cc.cardholder?.let {
                     val v = ProtectedString(false, it)
-                    addUniqueField(Field(TemplatesCustomFields.CREDIT_CARD_CARDHOLDER, v))
+                    addUniqueField(Field(TemplatesFields.CREDIT_CARD_CARDHOLDER, v))
                 }
                 cc.expiration?.let {
-                    val v = ProtectedString(false, it)
-                    addUniqueField(Field(TemplatesCustomFields.CREDIT_CARD_EXPIRATION, v))
+                    expires = true
+                    // TODO Expiration expiryTime = it
                 }
                 cc.number?.let {
                     val v = ProtectedString(false, it)
-                    addUniqueField(Field(TemplatesCustomFields.CREDIT_CARD_NUMBER, v))
+                    addUniqueField(Field(TemplatesFields.CREDIT_CARD_NUMBER, v))
                 }
                 cc.cvv?.let {
                     val v = ProtectedString(true, it)
-                    addUniqueField(Field(TemplatesCustomFields.CREDIT_CARD_CVV, v))
+                    addUniqueField(Field(TemplatesFields.CREDIT_CARD_CVV, v))
                 }
             }
         }

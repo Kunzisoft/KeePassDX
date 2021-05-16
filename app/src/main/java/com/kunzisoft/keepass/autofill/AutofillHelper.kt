@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.TemplatesCustomFields
+import com.kunzisoft.keepass.database.element.template.TemplatesFields
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
@@ -121,80 +121,71 @@ object AutofillHelper {
             builder.setValue(passwordId, AutofillValue.forText(entryInfo.password))
         }
 
+        if (entryInfo.expires) {
+            // get month (month in database entry is stored as String in the format MM)
+            val month = entryInfo.expiryTime.getMonthInt()
+            // get year (year in database entry is stored as String in the format YY)
+            val year = entryInfo.expiryTime.getYearInt()
+
+            struct.ccExpDateId?.let {
+                if (struct.isWebView) {
+                    // set date string as defined in https://html.spec.whatwg.org
+                    val dateString = "$year\u002D$month"
+                    builder.setValue(it, AutofillValue.forText(dateString))
+                } else {
+                    val calendar = Calendar.getInstance()
+                    calendar.clear()
+                    calendar[Calendar.YEAR] = year
+                    // Month value is 0-based. e.g., 0 for January
+                    calendar[Calendar.MONTH] = month - 1
+                    val date = calendar.timeInMillis
+                    builder.setValue(it, AutofillValue.forDate(date))
+                }
+            }
+            struct.ccExpDateMonthId?.let {
+                if (struct.isWebView) {
+                    builder.setValue(it, AutofillValue.forText(month.toString()))
+                } else {
+                    if (struct.ccExpMonthOptions != null) {
+                        // index starts at 0
+                        builder.setValue(it, AutofillValue.forList(month - 1))
+                    } else {
+                        builder.setValue(it, AutofillValue.forText(month.toString()))
+                    }
+                }
+            }
+            struct.ccExpDateYearId?.let {
+                var autofillValue: AutofillValue? = null
+
+                struct.ccExpYearOptions?.let { options ->
+                    var yearIndex = options.indexOf(year.toString().substring(0, 2))
+
+                    if (yearIndex == -1) {
+                        yearIndex = options.indexOf(year.toString())
+                    }
+                    if (yearIndex != -1) {
+                        autofillValue = AutofillValue.forList(yearIndex)
+                        builder.setValue(it, autofillValue)
+                    }
+                }
+
+                if (autofillValue == null) {
+                    builder.setValue(it, AutofillValue.forText(year.toString()))
+                }
+            }
+        }
         for (field in entryInfo.customFields) {
-            if (field.name == TemplatesCustomFields.CREDIT_CARD_CARDHOLDER) {
+            if (field.name == TemplatesFields.CREDIT_CARD_CARDHOLDER) {
                 struct.ccNameId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplatesCustomFields.CREDIT_CARD_NUMBER) {
+            if (field.name == TemplatesFields.CREDIT_CARD_NUMBER) {
                 struct.ccnId?.let { ccnId ->
                     builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplatesCustomFields.CREDIT_CARD_EXPIRATION) {
-                // the database stores the expiration month and year as a String
-                // of length four in the format MMYY
-                if (field.protectedValue.stringValue.length != 4) continue
-
-                // get month (month in database entry is stored as String in the format MM)
-                val monthString = field.protectedValue.stringValue.substring(0, 2)
-                val month = monthString.toIntOrNull() ?: 0
-                if (month < 1 || month > 12) continue
-
-                // get year (year in database entry is stored as String in the format YY)
-                val yearString = field.protectedValue.stringValue.substring(2, 4)
-                val year = "20$yearString".toIntOrNull() ?: 0
-                if (year == 0) continue
-
-                struct.ccExpDateId?.let {
-                    if (struct.isWebView) {
-                        // set date string as defined in https://html.spec.whatwg.org
-                        val dateString = "20$yearString\u002D$monthString"
-                        builder.setValue(it, AutofillValue.forText(dateString))
-                    } else {
-                        val calendar = Calendar.getInstance()
-                        calendar.clear()
-                        calendar[Calendar.YEAR] = year
-                        // Month value is 0-based. e.g., 0 for January
-                        calendar[Calendar.MONTH] = month - 1
-                        val date = calendar.timeInMillis
-                        builder.setValue(it, AutofillValue.forDate(date))
-                    }
-                }
-                struct.ccExpDateMonthId?.let {
-                    if (struct.isWebView) {
-                        builder.setValue(it, AutofillValue.forText(monthString))
-                    } else {
-                        if (struct.ccExpMonthOptions != null) {
-                            // index starts at 0
-                            builder.setValue(it, AutofillValue.forList(month - 1))
-                        } else {
-                            builder.setValue(it, AutofillValue.forText(monthString))
-                        }
-                    }
-                }
-                struct.ccExpDateYearId?.let {
-                    var autofillValue: AutofillValue? = null
-
-                    struct.ccExpYearOptions?.let { options ->
-                        var yearIndex = options.indexOf(yearString)
-
-                        if (yearIndex == -1) {
-                            yearIndex = options.indexOf("20$yearString")
-                        }
-                        if (yearIndex != -1) {
-                            autofillValue = AutofillValue.forList(yearIndex)
-                            builder.setValue(it, autofillValue)
-                        }
-                    }
-
-                    if (autofillValue == null) {
-                        builder.setValue(it, AutofillValue.forText("20$yearString"))
-                    }
-                }
-            }
-            if (field.name == TemplatesCustomFields.CREDIT_CARD_CVV) {
+            if (field.name == TemplatesFields.CREDIT_CARD_CVV) {
                 struct.cvvId?.let { cvvId ->
                     builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
                 }

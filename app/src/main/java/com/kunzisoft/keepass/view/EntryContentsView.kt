@@ -42,7 +42,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.model.TemplatesCustomFields
+import com.kunzisoft.keepass.database.element.template.TemplatesFields
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -313,7 +313,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                       onCopyButtonClickListener: OnClickListener?) {
 
         extraFieldsListView.addView(EntryFieldView(context).apply {
-            setLabel(TemplatesCustomFields.getLocalizedName(context, title))
+            setLabel(TemplatesFields.getLocalizedName(context, title))
             setValue(value.toString(), value.isProtected)
             setAutoLink()
             activateCopyButton(allowCopy)

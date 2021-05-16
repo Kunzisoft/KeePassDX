@@ -3,8 +3,10 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 
-data class CreditCard(val cardholder: String?, val number: String?,
-                 val expiration: String?, val cvv: String?) : Parcelable {
+data class CreditCard(val cardholder: String?,
+                      val number: String?,
+                      val expiration: String?,
+                      val cvv: String?) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -18,22 +20,6 @@ data class CreditCard(val cardholder: String?, val number: String?,
         parcel.writeString(number)
         parcel.writeString(expiration)
         parcel.writeString(cvv)
-    }
-
-    fun getExpirationMonth(): String {
-        return if (expiration?.length == 4) {
-            expiration.substring(0, 2)
-        } else {
-            ""
-        }
-    }
-
-    fun getExpirationYear(): String {
-        return if (expiration?.length == 4) {
-            expiration.substring(2, 4)
-        } else {
-            ""
-        }
     }
 
     override fun describeContents(): Int {

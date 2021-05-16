@@ -73,7 +73,11 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
                     try {
                         val attributeName = key.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
-                        attribute.attribute.label = value.stringValue
+                        var referenceLabel = value.stringValue
+                        if (referenceLabel.equals(TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION, true)) {
+                            referenceLabel = TemplatesFields.STANDARD_EXPIRATION
+                        }
+                        attribute.attribute.label = referenceLabel
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to retrieve template position", e)
                     }
@@ -154,6 +158,7 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
         private const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
         private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title"
+        private const val TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION = "@exp_date"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PROTECTED = "Protected"
         private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE = "Inline"

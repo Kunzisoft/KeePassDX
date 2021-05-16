@@ -23,12 +23,11 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_EXPIRATION
-import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_NOTES
-import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_PASSWORD
-import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_TITLE
-import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_URL
-import com.kunzisoft.keepass.model.TemplatesCustomFields.STANDARD_USERNAME
+import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_EXPIRATION
+import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_NOTES
+import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_PASSWORD
+import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_URL
+import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_USERNAME
 import java.util.*
 import kotlin.collections.ArrayList
 

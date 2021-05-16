@@ -101,7 +101,6 @@
     <string name="otp_algorithm">Algorithm</string>
     <string name="credit_card_cardholder">Cardholder</string>
     <string name="credit_card_number">Number</string>
-    <string name="credit_card_expiration">Expiration</string>
     <string name="credit_card_security_code">CVV</string>
     <string name="credit_card_pin">PIN</string>
     <string name="entry_otp">OTP</string>
