@@ -70,7 +70,7 @@
                     app:layout_constraintWidth_percent="@dimen/content_percent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector" />
+                    app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

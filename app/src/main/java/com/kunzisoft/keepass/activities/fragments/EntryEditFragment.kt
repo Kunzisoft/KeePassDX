@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.activities.fragments
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -112,6 +113,12 @@ class EntryEditFragment : StylishFragment() {
 
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
         templateContainerView = rootView.findViewById(R.id.template_fields_container)
+        // To fix card view margin in KitKat-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            val paddingVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
+            val paddingHorizontal = resources.getDimensionPixelSize(R.dimen.card_view_margin_horizontal)
+            templateContainerView.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
+        }
         customFieldsContainerView = rootView.findViewById(R.id.custom_fields_container)
 
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)

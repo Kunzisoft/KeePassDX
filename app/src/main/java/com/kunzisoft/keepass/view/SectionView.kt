@@ -25,6 +25,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.cardview.widget.CardView
+import androidx.core.view.setPadding
 import com.kunzisoft.keepass.R
 
 class SectionView @JvmOverloads constructor(context: Context,
@@ -33,18 +34,17 @@ class SectionView @JvmOverloads constructor(context: Context,
     : CardView(context, attrs, defStyle) {
 
     private var containerSectionView = LinearLayout(context).apply {
-        val margin = resources.getDimension(R.dimen.card_view_padding).toInt()
+        val padding = resources.getDimensionPixelSize(R.dimen.card_view_padding)
         layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT).also {
-            it.setMargins(margin, margin, margin, margin)
-        }
+                LinearLayout.LayoutParams.WRAP_CONTENT)
+        setPadding(padding)
         orientation = LinearLayout.VERTICAL
     }
 
     init {
-        val marginHorizontal = resources.getDimension(R.dimen.card_view_margin_horizontal).toInt()
-        val marginVertical = resources.getDimension(R.dimen.card_view_margin_vertical).toInt()
+        val marginHorizontal = resources.getDimensionPixelSize(R.dimen.card_view_margin_horizontal)
+        val marginVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
         layoutParams = LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT).also {
