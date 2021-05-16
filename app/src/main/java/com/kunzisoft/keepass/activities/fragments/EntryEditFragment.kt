@@ -77,6 +77,7 @@ class EntryEditFragment : StylishFragment() {
     private lateinit var attachmentsAdapter: EntryAttachmentsItemsAdapter
 
     private var fontInVisibility: Boolean = false
+    private var mHideProtectedValue: Boolean = false
     private var iconColor: Int = 0
 
     var drawFactory: IconDrawableFactory? = null
@@ -213,19 +214,22 @@ class EntryEditFragment : StylishFragment() {
     }
 
     private fun populateViewsWithEntry() {
-        // Build each template section
-        templateContainerView.removeAllViews()
-        customFieldsContainerView.removeAllViews()
-        mCustomFields.clear()
-
-        // Set info in view
-        setIcon(mEntryInfo.icon)
-        entryTitleView.apply {
-            label = getString(R.string.entry_title)
-            setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
-        }
-
         activity?.let { context ->
+            // Retrieve preferences
+            mHideProtectedValue = PreferencesUtil.hideProtectedValue(context)
+
+            // Build each template section
+            templateContainerView.removeAllViews()
+            customFieldsContainerView.removeAllViews()
+            mCustomFields.clear()
+
+            // Set info in view
+            setIcon(mEntryInfo.icon)
+            entryTitleView.apply {
+                label = getString(R.string.entry_title)
+                setValue(mEntryInfo.title, EntryEditFieldView.TextType.NORMAL)
+            }
+
             val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
             mTemplate.sections.forEach { templateSection ->
 
@@ -340,7 +344,7 @@ class EntryEditFragment : StylishFragment() {
         return context?.let {
             EntryEditFieldView(it).apply {
                 label = TemplatesCustomFields.getLocalizedName(context, field.name)
-                setProtection(field.protectedValue.isProtected)
+                setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 setValue(field.protectedValue.toString(), when (templateAttribute.type) {
                     TemplateAttributeType.MULTILINE -> EntryEditFieldView.TextType.MULTI_LINE
                     else -> EntryEditFieldView.TextType.NORMAL

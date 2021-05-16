@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
@@ -134,10 +135,14 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         valueView.setText(value ?: "")
     }
 
-    fun setProtection(protection: Boolean) {
+    fun setProtection(protection: Boolean, hiddenProtectedValue: Boolean) {
         if (protection) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
+            labelView.editText?.transformationMethod = if (hiddenProtectedValue)
+                PasswordTransformationMethod.getInstance()
+            else
+                null
         }
     }
 

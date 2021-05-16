@@ -87,7 +87,7 @@ class EntryActivity : LockingActivity() {
     private var mEntryLastVersion: Entry? = null
     private var mEntryHistoryPosition: Int = -1
 
-    private var mShowPassword: Boolean = false
+    private var mHideProtectedValue: Boolean = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
@@ -111,8 +111,6 @@ class EntryActivity : LockingActivity() {
 
         mDatabase = Database.getInstance()
         mReadOnly = mDatabase!!.isReadOnly || mReadOnly
-
-        mShowPassword = !PreferencesUtil.isPasswordMask(this)
 
         // Retrieve the textColor to tint the icon
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
@@ -177,6 +175,8 @@ class EntryActivity : LockingActivity() {
         } else {
             View.GONE
         }
+
+        mHideProtectedValue = PreferencesUtil.hideProtectedValue(this)
 
         // Get Entry from UUID
         try {
@@ -349,7 +349,7 @@ class EntryActivity : LockingActivity() {
             }
         }
 
-        entryContentsView?.setHiddenProtectedValue(!mShowPassword)
+        entryContentsView?.setHiddenProtectedValue(mHideProtectedValue)
 
         // Manage attachments
         entryContentsView?.assignAttachments(entryInfo.attachments.toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->

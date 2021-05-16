@@ -340,7 +340,7 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.sort_recycle_bin_bottom_default))
     }
 
-    fun isPasswordMask(context: Context): Boolean {
+    fun hideProtectedValue(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.hide_password_key),
                 context.resources.getBoolean(R.bool.hide_password_default))
