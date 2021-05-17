@@ -335,6 +335,32 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
+    fun isTemplatesGroupEnabled(): Boolean {
+        return entryTemplatesGroup != UUID_ZERO
+    }
+
+    fun enableTemplatesGroup(enable: Boolean) {
+        if (enable) {
+            // TODO Build default templates group
+            setTemplatesGroup(UUID_ZERO)
+        } else {
+            entryTemplatesGroup = UUID_ZERO
+            mTemplateEngine.clearCache()
+        }
+    }
+
+    fun getTemplatesGroup(): GroupKDBX? {
+        if (isTemplatesGroupEnabled()) {
+            return getGroupById(entryTemplatesGroup)
+        }
+        return null
+    }
+
+    fun setTemplatesGroup(uuid: UUID) {
+        entryTemplatesGroup = uuid
+        entryTemplatesGroupChanged = DateInstant()
+    }
+
     fun getTemplates(): List<Template> {
         return mTemplateEngine.getTemplates()
     }

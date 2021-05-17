@@ -12,22 +12,27 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
     private val mCacheTemplates = HashMap<UUID, Template>()
 
     fun getTemplates(): List<Template> {
-        // TODO retrieve template group
         val templates = mutableListOf<Template>()
         try {
-            val templateGroup = databaseKDBX.getGroupById(UUID.fromString("48071a4e-9577-af41-adbc-723e17a1f2ac"))
+            val templateGroup = databaseKDBX.getTemplatesGroup()
             mCacheTemplates.clear()
-            templates.add(Template.STANDARD)
-            templateGroup?.getChildEntries()?.forEach { templateEntry ->
-                getTemplateFromTemplateEntry(templateEntry)?.let {
-                    mCacheTemplates[templateEntry.id] = it
+            if (templateGroup != null) {
+                templates.add(Template.STANDARD)
+                templateGroup.getChildEntries().forEach { templateEntry ->
+                    getTemplateFromTemplateEntry(templateEntry)?.let {
+                        mCacheTemplates[templateEntry.id] = it
+                    }
                 }
+                templates.addAll(mCacheTemplates.values)
             }
-            templates.addAll(mCacheTemplates.values)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to get templates from group", e)
         }
         return templates
+    }
+
+    fun clearCache() {
+        mCacheTemplates.clear()
     }
 
     private fun getTemplateByCache(uuid: UUID): Template? {

@@ -371,6 +371,28 @@ class Database {
             return null
         }
 
+    /**
+     * Determine if a configurable templates group is available or not for this version of database
+     * @return true if a configurable templates group available
+     */
+    val allowConfigurableTemplatesGroup: Boolean
+        get() = mDatabaseKDBX != null
+
+    // Maybe another templates method with KDBX5
+    var isTemplatesEnabled: Boolean
+        get() = mDatabaseKDBX?.isTemplatesGroupEnabled() ?: false
+        set(value) {
+            mDatabaseKDBX?.enableTemplatesGroup(value)
+        }
+
+    val templatesGroup: Group?
+        get() {
+            mDatabaseKDBX?.getTemplatesGroup()?.let {
+                return Group(it)
+            }
+            return null
+        }
+
     val groupNamesNotAllowed: List<String>
         get() {
             return mDatabaseKDB?.groupNamesNotAllowed ?: ArrayList()

@@ -34,12 +34,14 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UuidUtil
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
@@ -53,6 +55,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var dbCustomColorPref: DialogColorPreference? = null
     private var dbDataCompressionPref: Preference? = null
     private var recycleBinGroupPref: Preference? = null
+    private var templatesGroupPref: Preference? = null
     private var dbMaxHistoryItemsPref: InputNumberPreference? = null
     private var dbMaxHistorySizePref: InputNumberPreference? = null
     private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
@@ -146,10 +149,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                 dbCompressionPrefCategory?.isVisible = false
             }
 
+            // Recycle bin
             val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
             recycleBinGroupPref = findPreference(getString(R.string.recycle_bin_group_key))
-
-            // Recycle bin
             if (mDatabase.allowConfigurableRecycleBin) {
                 val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
                 recycleBinEnablePref?.apply {
@@ -158,6 +160,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                         setOnPreferenceChangeListener { _, newValue ->
                             val recycleBinEnabled = newValue as Boolean
                             mDatabase.isRecycleBinEnabled = recycleBinEnabled
+                            // TODO Change method
                             if (recycleBinEnabled) {
                                 mDatabase.ensureRecycleBinExists(resources)
                             } else {
@@ -180,6 +183,34 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                 dbRecycleBinPrefCategory?.isVisible = false
             }
 
+            // Templates
+            val templatesGroupPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_templates_key))
+            templatesGroupPref = findPreference(getString(R.string.templates_group_uuid_key))
+            if (mDatabase.allowConfigurableTemplatesGroup) {
+                val templatesEnablePref: SwitchPreference? = findPreference(getString(R.string.templates_group_enable_key))
+                templatesEnablePref?.apply {
+                    isChecked = mDatabase.isTemplatesEnabled
+                    isEnabled = if (!mDatabaseReadOnly) {
+                        setOnPreferenceChangeListener { _, newValue ->
+                            val templatesEnabled = newValue as Boolean
+                            mDatabase.isTemplatesEnabled = templatesEnabled
+                            refreshTemplatesGroup()
+                            // Save the database if not in readonly mode
+                            (context as SettingsActivity?)?.
+                            mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
+                            true
+                        }
+                        true
+                    } else {
+                        false
+                    }
+                }
+                // Recycle Bin group
+                refreshTemplatesGroup()
+            } else {
+                templatesGroupPrefCategory?.isVisible = false
+            }
+
             // History
             findPreference<PreferenceCategory>(getString(R.string.database_category_history_key))
                     ?.isVisible = mDatabase.manageHistory == true
@@ -199,10 +230,33 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
         }
     }
 
+    private fun groupSummary(group: Group?): String? {
+        val groupTitle = group?.title
+        val groupUUID = group?.nodeIdKDBX?.let {
+            UuidUtil.toHexString(it.id)
+        }
+        if (groupTitle == null
+                || groupUUID == null)
+            return null
+        return "$groupTitle ($groupUUID)"
+    }
+
     private fun refreshRecycleBinGroup() {
         recycleBinGroupPref?.apply {
             if (mDatabase.isRecycleBinEnabled) {
-                summary = mDatabase.recycleBin?.title
+                summary = groupSummary(mDatabase.recycleBin)
+                isEnabled = true
+            } else {
+                summary = null
+                isEnabled = false
+            }
+        }
+    }
+
+    private fun refreshTemplatesGroup() {
+        templatesGroupPref?.apply {
+            if (mDatabase.isTemplatesEnabled) {
+                summary = groupSummary(mDatabase.templatesGroup)
                 isEnabled = true
             } else {
                 summary = null

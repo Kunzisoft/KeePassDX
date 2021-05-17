@@ -376,6 +376,9 @@
     <string name="recycle_bin_title">Recycle bin usage</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" group before deleting</string>
     <string name="recycle_bin_group_title">Recycle bin group</string>
+    <string name="templates_group_enable_title">Templates usage</string>
+    <string name="templates_group_enable_summary">Use dynamic templates to fill in the fields of an entry</string>
+    <string name="templates_group_uuid_title">Templates group</string>
     <string name="max_history_items_title">Maximum number</string>
     <string name="max_history_items_summary">Limit the number of history items per entry</string>
     <string name="max_history_size_title">Maximum size</string>
@@ -408,6 +411,7 @@
     <string name="compression_none">None</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
+    <string name="templates">Recycle bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
