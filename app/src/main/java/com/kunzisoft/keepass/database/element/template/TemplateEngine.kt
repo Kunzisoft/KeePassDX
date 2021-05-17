@@ -3,6 +3,8 @@ package com.kunzisoft.keepass.database.element.template
 import android.util.Log
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.HashMap
@@ -29,6 +31,16 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
             Log.e(TAG, "Unable to get templates from group", e)
         }
         return templates
+    }
+
+    fun createNewTemplatesGroup(): GroupKDBX {
+        return databaseKDBX.createGroup().apply {
+            title = TEMPLATE_GROUP_NAME
+            icon.standard = databaseKDBX.getStandardIcon(IconImageStandard.FOLDER_ID)
+            enableAutoType = false
+            enableSearching = false
+            isExpanded = false
+        }
     }
 
     fun clearCache() {
@@ -159,6 +171,7 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
         private data class TemplateAttributePosition(var position: Int, var attribute: TemplateAttribute)
 
         private val TAG = TemplateEngine::class.java.name
+        private const val TEMPLATE_GROUP_NAME = "Templates"
         private const val TEMPLATE_LABEL_VERSION = "_etm_template"
         private const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"

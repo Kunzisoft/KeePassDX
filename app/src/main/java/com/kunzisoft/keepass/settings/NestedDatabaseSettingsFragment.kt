@@ -159,13 +159,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                     isEnabled = if (!mDatabaseReadOnly) {
                         setOnPreferenceChangeListener { _, newValue ->
                             val recycleBinEnabled = newValue as Boolean
-                            mDatabase.isRecycleBinEnabled = recycleBinEnabled
-                            // TODO Change method
-                            if (recycleBinEnabled) {
-                                mDatabase.ensureRecycleBinExists(resources)
-                            } else {
-                                mDatabase.removeRecycleBin()
-                            }
+                            mDatabase.enableRecycleBin(recycleBinEnabled, resources)
                             refreshRecycleBinGroup()
                             // Save the database if not in readonly mode
                             (context as SettingsActivity?)?.
@@ -193,7 +187,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                     isEnabled = if (!mDatabaseReadOnly) {
                         setOnPreferenceChangeListener { _, newValue ->
                             val templatesEnabled = newValue as Boolean
-                            mDatabase.isTemplatesEnabled = templatesEnabled
+                            mDatabase.enableTemplates(templatesEnabled)
                             refreshTemplatesGroup()
                             // Save the database if not in readonly mode
                             (context as SettingsActivity?)?.

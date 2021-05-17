@@ -353,12 +353,18 @@ class Database {
     val allowConfigurableRecycleBin: Boolean
         get() = mDatabaseKDBX != null
 
-    var isRecycleBinEnabled: Boolean
+    val isRecycleBinEnabled: Boolean
         // Backup is always enabled in KDB database
         get() = mDatabaseKDB != null || mDatabaseKDBX?.isRecycleBinEnabled ?: false
-        set(value) {
-            mDatabaseKDBX?.isRecycleBinEnabled = value
+
+    fun enableRecycleBin(enable: Boolean, resources: Resources) {
+        mDatabaseKDBX?.isRecycleBinEnabled = enable
+        if (enable) {
+            ensureRecycleBinExists(resources)
+        } else {
+            removeRecycleBin()
         }
+    }
 
     val recycleBin: Group?
         get() {
@@ -379,11 +385,12 @@ class Database {
         get() = mDatabaseKDBX != null
 
     // Maybe another templates method with KDBX5
-    var isTemplatesEnabled: Boolean
+    val isTemplatesEnabled: Boolean
         get() = mDatabaseKDBX?.isTemplatesGroupEnabled() ?: false
-        set(value) {
-            mDatabaseKDBX?.enableTemplatesGroup(value)
-        }
+
+    fun enableTemplates(enable: Boolean) {
+        mDatabaseKDBX?.enableTemplatesGroup(enable)
+    }
 
     val templatesGroup: Group?
         get() {

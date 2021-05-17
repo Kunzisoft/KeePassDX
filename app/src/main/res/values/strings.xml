@@ -411,7 +411,7 @@
     <string name="compression_none">None</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
-    <string name="templates">Recycle bin</string>
+    <string name="templates">Templates</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>

@@ -341,8 +341,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun enableTemplatesGroup(enable: Boolean) {
         if (enable) {
-            // TODO Build default templates group
-            setTemplatesGroup(UUID_ZERO)
+            val uuidTemplatesGroup = mTemplateEngine.createNewTemplatesGroup()
+
+            addGroupTo(uuidTemplatesGroup, rootGroup)
+            entryTemplatesGroup = uuidTemplatesGroup.id
+            entryTemplatesGroupChanged = uuidTemplatesGroup.lastModificationTime
         } else {
             entryTemplatesGroup = UUID_ZERO
             mTemplateEngine.clearCache()
@@ -354,11 +357,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             return getGroupById(entryTemplatesGroup)
         }
         return null
-    }
-
-    fun setTemplatesGroup(uuid: UUID) {
-        entryTemplatesGroup = uuid
-        entryTemplatesGroupChanged = DateInstant()
     }
 
     fun getTemplates(): List<Template> {
