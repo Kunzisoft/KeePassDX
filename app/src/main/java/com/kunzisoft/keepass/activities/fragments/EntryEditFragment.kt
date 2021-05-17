@@ -42,15 +42,15 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.*
-import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_NOTES
 import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_PASSWORD
 import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_TITLE
 import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_URL
 import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_USERNAME
+import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
@@ -218,7 +218,6 @@ class EntryEditFragment : StylishFragment() {
 
     fun assignTemplate(template: Template) {
         this.mTemplate = template
-        // TODO Add custom template UUID
         populateViewsWithEntry()
         rootView.showByFading()
     }
@@ -241,6 +240,12 @@ class EntryEditFragment : StylishFragment() {
             }
 
             val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
+            // Ignore Template field
+            customFieldsNotConsumed.indexOfFirst { it.name == TemplateEngine.TEMPLATE_ENTRY_UUID }.let {
+                if (it != -1)
+                    customFieldsNotConsumed.removeAt(it)
+            }
+
             mTemplate.sections.forEach { templateSection ->
 
                 val sectionView = SectionView(context, null, R.attr.cardViewStyle)
@@ -440,7 +445,17 @@ class EntryEditFragment : StylishFragment() {
             mEntryInfo.notes = it
         }
 
-        mEntryInfo.customFields = getCustomFields()
+        mEntryInfo.customFields = mCustomFields.map {
+            getCustomField(it.key)
+        }.toMutableList().also { customFields ->
+            // Add template field
+            if (mTemplate != Template.STANDARD) {
+                TemplatesFields.getTemplateUUIDField(mTemplate)?.let { templateField ->
+                    customFields.add(templateField)
+                }
+            }
+        }
+
         mEntryInfo.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel
@@ -540,14 +555,8 @@ class EntryEditFragment : StylishFragment() {
                 val value = if (editView.activation) editView.dateTime.toString() else ""
                 return Field(fieldName, ProtectedString(fieldId.protected, value))
             }
-        } // TODO other view type
-        return Field(fieldName, ProtectedString(false, ""))
-    }
-
-    private fun getCustomFields(): List<Field> {
-        return mCustomFields.map {
-            getCustomField(it.key)
         }
+        return Field(fieldName, ProtectedString(false, ""))
     }
 
     /**

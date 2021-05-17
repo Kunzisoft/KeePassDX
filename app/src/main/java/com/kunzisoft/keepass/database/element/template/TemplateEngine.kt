@@ -173,7 +173,7 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
         private val TAG = TemplateEngine::class.java.name
         private const val TEMPLATE_GROUP_NAME = "Templates"
         private const val TEMPLATE_LABEL_VERSION = "_etm_template"
-        private const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
+        const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
         private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title"
         private const val TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION = "@exp_date"

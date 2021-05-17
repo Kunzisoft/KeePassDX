@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.database.element.template.TemplatesFields
@@ -326,7 +327,9 @@ class EntryActivity : LockingActivity() {
             entryInfo.customFields.forEach { field ->
                 val label = field.name
                 // OTP field is already managed in dedicated view
-                if (label != OtpEntryFields.OTP_TOKEN_FIELD) {
+                // Template UUID must not be shown
+                if (label != OtpEntryFields.OTP_TOKEN_FIELD
+                        && label != TemplateEngine.TEMPLATE_ENTRY_UUID) {
                     val value = field.protectedValue
                     val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                     if (allowCopyProtectedField) {

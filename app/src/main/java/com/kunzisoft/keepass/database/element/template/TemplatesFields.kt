@@ -2,6 +2,9 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.content.Context
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.utils.UuidUtil
 
 object TemplatesFields {
 
@@ -47,5 +50,13 @@ object TemplatesFields {
             // TODO Others translations
             else -> fieldName
         }
+    }
+
+    fun getTemplateUUIDField(template: Template): Field? {
+        UuidUtil.toHexString(template.uuid)?.let { uuidString ->
+            return Field(TemplateEngine.TEMPLATE_ENTRY_UUID,
+                    ProtectedString(false, uuidString))
+        }
+        return null
     }
 }
