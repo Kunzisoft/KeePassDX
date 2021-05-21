@@ -436,7 +436,7 @@
     <string name="database_opened">Base de datos abierta</string>
     <string name="education_add_attachment_title">Adjuntar</string>
     <string name="education_add_attachment_summary">Cargue un archivo adjunto a la entrada para guardar datos externos importantes.</string>
-    <string name="hide_expired_entries_summary">Las entradas caducadas no se muestran</string>
+    <string name="hide_expired_entries_summary">Las entradas caducadas no se están mostrando</string>
     <string name="warning_remove_unlinked_attachment">La eliminación de datos no vinculados puede disminuir el tamaño de su base de datos, pero también puede eliminar los datos usados por los complementos de KeePass.</string>
     <string name="warning_file_too_big">Se supone que una base de datos KeePass contiene solo pequeños archivos de utilidad (como archivos de clave PGP).
 \n
@@ -548,7 +548,7 @@
     <string name="content_description_otp_information">Información de contraseña de un solo uso</string>
     <string name="icon_section_custom">Personalizado</string>
     <string name="icon_section_standard">Estándar</string>
-    <string name="style_brightness_summary">Seleccione tema claro u oscuro</string>
+    <string name="style_brightness_summary">Seleccionar temas oscuros o claros</string>
     <string name="style_brightness_title">Brillo del tema</string>
     <string name="properties">Propiedades</string>
     <string name="error_import_app_properties">Error al importar las propiedades de la aplicación</string>
