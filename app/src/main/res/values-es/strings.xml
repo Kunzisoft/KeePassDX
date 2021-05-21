@@ -542,8 +542,8 @@
     <string name="menu_reload_database">Recargar la base de datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
     <string name="download_canceled">¡Cancelado!</string>
-    <string name="error_duplicate_file">Los datos de archivo ya existen.</string>
-    <string name="error_upload_file">Ha habido un error al subir el archivo de datos.</string>
+    <string name="error_duplicate_file">Los datos del archivo ya existen.</string>
+    <string name="error_upload_file">Ha habido un error al subir los datos del archivo.</string>
     <string name="description_app_properties">Propiedades de KeePassDX para gestionar la configuración de la aplicación</string>
     <string name="content_description_otp_information">Información de contraseña de un solo uso</string>
     <string name="icon_section_custom">Personalizado</string>
