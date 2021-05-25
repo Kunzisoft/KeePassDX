@@ -71,7 +71,7 @@
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
-    <string name="error_nokeyfile">Schlüsseldatei wählen.</string>
+    <string name="error_nokeyfile">Schlüsseldatei auswählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt sein.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
