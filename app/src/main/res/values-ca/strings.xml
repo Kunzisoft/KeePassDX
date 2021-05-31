@@ -25,7 +25,7 @@
     <string name="add_entry">Afegeix entrada</string>
     <string name="add_group">Afegeix grup</string>
     <string name="encryption_algorithm">Algoritme de xifrat</string>
-    <string name="app_timeout">Temps d\'espera de l\'aplicació</string>
+    <string name="app_timeout">Temps d\'espera esgotat</string>
     <string name="app_timeout_summary">Temps d\'inactivitat abans de blocar la base de dades</string>
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Configuració de l\'aplicació</string>
@@ -289,4 +289,6 @@
     <string name="error_otp_type">L\'OTP existent no està reconegut per aquest formulari, la seva validació ja no pot generar correctament el token.</string>
     <string name="error_create_database_file">No s\'ha pogut crear una base de dades amb aquesta contrasenya i arxiu de clau.</string>
     <string name="error_autofill_enable_service">No s\'ha pogut habilitar el servei d\'autocompletat.</string>
+    <string name="content_description_node_children">Nodes fill</string>
+    <string name="key_derivation_function">Funció de derivació de clau</string>
 </resources>

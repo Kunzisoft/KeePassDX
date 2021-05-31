@@ -45,8 +45,8 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
                 entry.expires
         ))
 
-        for (element in entry.customFields.entries) {
-            extraFieldCursor.addExtraField(entryId, element.key, element.value)
+        entry.doForEachDecodedCustomField { key, value ->
+            extraFieldCursor.addExtraField(entryId, key, value)
         }
 
         entryId++

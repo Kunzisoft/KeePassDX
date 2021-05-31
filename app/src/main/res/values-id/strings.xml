@@ -160,7 +160,7 @@
     <string name="extended_ASCII">ASCII Diperluas</string>
     <string name="brackets">Tanda Kurung</string>
     <string name="application">Aplikasi</string>
-    <string name="app_timeout">Batas Waktu Aplikasi</string>
+    <string name="app_timeout">Waktu habis</string>
     <string name="key_derivation_function">Fungsi Derivasi Kunci</string>
     <string name="encryption_algorithm">Algoritma Enkripsi</string>
     <string name="encryption">Enkripsi</string>

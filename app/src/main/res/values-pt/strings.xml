@@ -177,7 +177,7 @@
     <string name="field_name">Nome do campo</string>
     <string name="error_autofill_enable_service">Não pôde ser ativado o serviço de preenchimento automático.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
-    <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
+    <string name="error_string_key">Um nome do campo é necessário para cada cadeia.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
@@ -255,7 +255,7 @@
     <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>
     <string name="auto_focus_search_title">Pesquisa rápida</string>
     <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Cesto da reciclagem\" dos resultados da busca</string>
-    <string name="omit_backup_search_title">Não procurar por entradas no backup ou na lixeira</string>
+    <string name="omit_backup_search_title">Não procurar por entradas no backup ou no lixo</string>
     <string name="about">Sobre</string>
     <string name="hide_password_summary">Mascarar palavras-passe (***) por predefinição</string>
     <string name="hide_password_title">Esconder palavras-passe</string>
@@ -452,7 +452,7 @@
     <string name="add_group">Adicionar grupo</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="accept">Aceitar</string>
-    <string name="device_credential">Credencial do dispositivo</string>
+    <string name="device_credential">Credencial do aparelho</string>
     <string name="advanced_unlock_prompt_not_initialized">Incapaz de inicializar o desbloqueio antecipado.</string>
     <string name="advanced_unlock_scanning_error">Erro de desbloqueio avançado: %1$s</string>
     <string name="advanced_unlock_not_recognized">Não conseguia reconhecer impressão de desbloqueio avançado</string>

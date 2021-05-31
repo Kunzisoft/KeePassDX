@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.entry
 
+import android.util.Log
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.UuidUtil
@@ -53,38 +54,42 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
                 && numberInlineRef <= MAX_INLINE_REF) {
             numberInlineRef++
 
-            textValue = fillReferencesUsingCache(textValue)
-
-            val start = textValue.indexOf(STR_REF_START, offset, true)
-            if (start < 0) {
-                break
-            }
-            val end = textValue.indexOf(STR_REF_END, offset, true)
-            if (end <= start) {
-                break
-            }
-
-            val reference = textValue.substring(start + STR_REF_START.length, end)
-            val fullReference = "$STR_REF_START$reference$STR_REF_END"
-
-            if (!refsCache.containsKey(fullReference)) {
-                val newRecursionLevel = recursionLevel + 1
-                val result = findReferenceTarget(reference, newRecursionLevel)
-                val entryFound = result.entry
-                val data: String? = when (result.wanted) {
-                    'T' -> entryFound?.decodeTitleKey(newRecursionLevel)
-                    'U' -> entryFound?.decodeUsernameKey(newRecursionLevel)
-                    'A' -> entryFound?.decodeUrlKey(newRecursionLevel)
-                    'P' -> entryFound?.decodePasswordKey(newRecursionLevel)
-                    'N' -> entryFound?.decodeNotesKey(newRecursionLevel)
-                    'I' -> UuidUtil.toHexString(entryFound?.nodeId?.id)
-                    else -> null
-                }
-                refsCache[fullReference] = data
+            try {
                 textValue = fillReferencesUsingCache(textValue)
-            }
 
-            offset = end
+                val start = textValue.indexOf(STR_REF_START, offset, true)
+                if (start < 0) {
+                    break
+                }
+                val end = textValue.indexOf(STR_REF_END, offset, true)
+                if (end <= start) {
+                    break
+                }
+
+                val reference = textValue.substring(start + STR_REF_START.length, end)
+                val fullReference = "$STR_REF_START$reference$STR_REF_END"
+
+                if (!refsCache.containsKey(fullReference)) {
+                    val newRecursionLevel = recursionLevel + 1
+                    val result = findReferenceTarget(reference, newRecursionLevel)
+                    val entryFound = result.entry
+                    val data: String? = when (result.wanted) {
+                        'T' -> entryFound?.decodeTitleKey(newRecursionLevel)
+                        'U' -> entryFound?.decodeUsernameKey(newRecursionLevel)
+                        'A' -> entryFound?.decodeUrlKey(newRecursionLevel)
+                        'P' -> entryFound?.decodePasswordKey(newRecursionLevel)
+                        'N' -> entryFound?.decodeNotesKey(newRecursionLevel)
+                        'I' -> UuidUtil.toHexString(entryFound?.nodeId?.id)
+                        else -> null
+                    }
+                    refsCache[fullReference] = data
+                    textValue = fillReferencesUsingCache(textValue)
+                }
+
+                offset = end
+            } catch (e: Exception) {
+                Log.e(TAG, "Error when fill placeholders by reference", e)
+            }
         }
         return textValue
     }
@@ -139,5 +144,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
         private const val MAX_INLINE_REF = 10
         private const val STR_REF_START = "{REF:"
         private const val STR_REF_END = "}"
+
+        private val TAG = FieldReferencesEngine::class.java.name
     }
 }
