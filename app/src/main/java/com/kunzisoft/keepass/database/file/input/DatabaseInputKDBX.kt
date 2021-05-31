@@ -807,7 +807,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryString && name.equals(DatabaseKDBXXML.ElemString, ignoreCase = true)) {
             if (ctxStringName != null && ctxStringValue != null)
-                ctxEntry?.putExtraField(ctxStringName!!, ctxStringValue!!)
+                ctxEntry?.putField(ctxStringName!!, ctxStringValue!!)
             ctxStringName = null
             ctxStringValue = null
 

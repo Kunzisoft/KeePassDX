@@ -283,8 +283,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getExtraFields(): List<Field> {
         val extraFields = ArrayList<Field>()
         entryKDBX?.let {
-            for (field in it.customFields) {
-                extraFields.add(Field(field.key, field.value))
+            it.doForEachDecodedCustomField { key, value ->
+                extraFields.add(Field(key, value))
             }
         }
         return extraFields
@@ -294,7 +294,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Update or add an extra field to the list (standard or custom)
      */
     fun putExtraField(field: Field) {
-        entryKDBX?.putExtraField(field.name, field.protectedValue)
+        entryKDBX?.putField(field.name, field.protectedValue)
     }
 
     private fun addExtraFields(fields: List<Field>) {
@@ -310,7 +310,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getOtpElement(): OtpElement? {
         entryKDBX?.let {
             return OtpEntryFields.parseFields { key ->
-                it.customFields[key]?.toString()
+                it.getField(key)?.toString()
             }
         }
         return null

@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
+import java.util.function.BiConsumer
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
@@ -265,23 +266,30 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
                 || key == STR_NOTES)
     }
 
-    var customFields = LinkedHashMap<String, ProtectedString>()
-        get() {
-            field.clear()
-            for ((key, value) in fields) {
-                if (!isStandardField(key)) {
-                    field[key] = ProtectedString(value.isProtected, decodeRefKey(mDecodeRef, key, 0))
-                }
+    fun doForEachDecodedCustomField(action: (key: String, value: ProtectedString) -> Unit) {
+        val iterator = fields.entries.iterator()
+        while (iterator.hasNext()) {
+            val mapEntry = iterator.next()
+            if (!isStandardField(mapEntry.key)) {
+                action.invoke(mapEntry.key,
+                        ProtectedString(mapEntry.value.isProtected,
+                                decodeRefKey(mDecodeRef, mapEntry.key, 0)
+                        )
+                )
             }
-            return field
         }
+    }
+
+    fun getField(key: String): ProtectedString? {
+        return fields[key]
+    }
+
+    fun putField(label: String, value: ProtectedString) {
+        fields[label] = value
+    }
 
     fun removeAllFields() {
         fields.clear()
-    }
-
-    fun putExtraField(label: String, value: ProtectedString) {
-        fields[label] = value
     }
 
     /**
