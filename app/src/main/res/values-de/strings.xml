@@ -71,7 +71,7 @@
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
-    <string name="error_nokeyfile">Schlüsseldatei wählen.</string>
+    <string name="error_nokeyfile">Schlüsseldatei auswählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt sein.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
@@ -454,7 +454,7 @@
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
-    <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen unterlassen wird</string>
+    <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
     <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_application_id_blocklist_title">Liste gesperrter Anwendungen</string>
