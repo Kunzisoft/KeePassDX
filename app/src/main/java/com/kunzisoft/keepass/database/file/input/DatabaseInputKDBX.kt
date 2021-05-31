@@ -824,7 +824,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryAutoTypeItem && name.equals(DatabaseKDBXXML.ElemAutoTypeItem, ignoreCase = true)) {
             if (ctxATName != null && ctxATSeq != null)
-                ctxEntry?.autoType?.put(ctxATName!!, ctxATSeq!!)
+                ctxEntry?.autoType?.add(ctxATName!!, ctxATSeq!!)
             ctxATName = null
             ctxATSeq = null
 

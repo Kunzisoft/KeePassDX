@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
-import java.util.function.BiConsumer
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
@@ -239,7 +238,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         size += getAttachmentsSize(attachmentPool)
 
         size += autoType.defaultSequence.length.toLong()
-        for ((key, value) in autoType.entrySet()) {
+        autoType.doForEachAutoTypeItem { key, value ->
             size += key.length.toLong()
             size += value.length.toLong()
         }
