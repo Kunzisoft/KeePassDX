@@ -100,7 +100,7 @@
     <string name="minus">减号</string>
     <string name="never">从不</string>
     <string name="no_results">没有搜索结果</string>
-    <string name="no_url_handler">需要安装网络浏览器才能打开这个URL。</string>
+    <string name="no_url_handler">需要安装网络浏览器才能打开这个网址。</string>
     <string name="progress_create">正在新建数据库…</string>
     <string name="progress_title">正在处理…</string>
     <string name="content_description_remove_from_list">移除</string>
@@ -317,7 +317,7 @@
     <string name="keyboard_selection_entry_title">条目选择</string>
     <string name="keyboard_selection_entry_summary">在查看条目时，在专用键盘中显示输入字段</string>
     <string name="delete_entered_password_title">删除密码</string>
-    <string name="delete_entered_password_summary">在连接数据库尝试后删除输入的密码</string>
+    <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
     <string name="content_description_node_children">子节点</string>
     <string name="content_description_add_node">增加节点</string>
@@ -432,7 +432,7 @@
     <string name="entry_add_attachment">添加附件</string>
     <string name="discard_changes">放弃更改？</string>
     <string name="validate">验证</string>
-    <string name="autofill_auto_search_summary">自动推荐从网站域名或应用程序中搜索的结果</string>
+    <string name="autofill_auto_search_summary">自动建议匹配的网址域名或应用程序 ID 的搜索结果</string>
     <string name="autofill_auto_search_title">自动搜索</string>
     <string name="lock_database_show_button_summary">在用户界面中显示锁定数据库按钮</string>
     <string name="lock_database_show_button_title">显示锁定数据库按钮</string>
@@ -444,11 +444,11 @@
     <string name="autofill_block_restart">重新启动包含该表单的应用程序以激活拦截。</string>
     <string name="autofill_block">阻止自动填充</string>
     <string name="autofill_web_domain_blocklist_summary">禁止在下列域名中自动填充凭证</string>
-    <string name="autofill_web_domain_blocklist_title">Web 域名黑名单</string>
+    <string name="autofill_web_domain_blocklist_title">网址域名黑名单</string>
     <string name="autofill_application_id_blocklist_summary">禁止应用程序自动填充的黑名单</string>
     <string name="autofill_application_id_blocklist_title">应用拦截列表</string>
     <string name="filter">过滤器</string>
-    <string name="subdomain_search_summary">搜索带有子域约束的web域</string>
+    <string name="subdomain_search_summary">搜索带有子域约束的网址域名</string>
     <string name="subdomain_search_title">子域搜索</string>
     <string name="error_string_type">文本和请求的条目不匹配.</string>
     <string name="content_description_add_item">添加条目</string>
@@ -509,7 +509,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">警告：即使您使用高级解锁识别，您仍然需要记住您的主密码。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高级解锁识别</string>
     <string name="open_advanced_unlock_prompt_store_credential">点击以打开高级解锁提示来存储凭证</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">点击以使用生物识别解锁</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">点击以使用高级识别解锁</string>
     <string name="menu_keystore_remove_key">删除高级解锁密钥</string>
     <string name="enter">输入</string>
     <string name="backspace">退格键</string>
