@@ -68,7 +68,7 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
     private fun getTemplateFromTemplateEntry(templateEntry: EntryKDBX): Template? {
         var templateVersion: Int? = null
         val attributes = HashMap<String, TemplateAttributePosition>()
-        for ((key, value) in templateEntry.customFields) {
+        templateEntry.doForEachDecodedCustomField { key, value ->
             when {
                 key.equals(TEMPLATE_LABEL_VERSION, true) -> {
                     try {
