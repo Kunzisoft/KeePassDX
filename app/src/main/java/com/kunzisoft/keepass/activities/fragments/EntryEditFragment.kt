@@ -48,7 +48,10 @@ import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_UR
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_USERNAME
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
@@ -61,8 +64,6 @@ class EntryEditFragment: DatabaseFragment() {
 
     private var mTemplate: Template = Template.STANDARD
 
-    private var mInflater: LayoutInflater? = null
-
     private lateinit var rootView: View
     private lateinit var entryIconView: ImageView
     private lateinit var entryTitleView: EntryEditFieldView
@@ -71,7 +72,7 @@ class EntryEditFragment: DatabaseFragment() {
 
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
-    private lateinit var attachmentsAdapter: EntryAttachmentsItemsAdapter
+    private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
     private var fontInVisibility: Boolean = false
     private var mHideProtectedValue: Boolean = false
@@ -96,9 +97,7 @@ class EntryEditFragment: DatabaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         rootView = inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_entry_edit_contents, container, false)
-
-        mInflater = inflater
+                .inflate(R.layout.fragment_entry_edit, container, false)
 
         fontInVisibility = PreferencesUtil.fieldFontIsInVisibility(requireContext())
 
@@ -119,9 +118,9 @@ class EntryEditFragment: DatabaseFragment() {
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        attachmentsAdapter.database = mDatabase
+        attachmentsAdapter?.database = mDatabase
         //attachmentsAdapter.database = arguments?.getInt(KEY_DATABASE)
-        attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
+        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
                 attachmentsContainerView.collapse(true)
             } else if (previousSize == 0 && newSize == 1) {
@@ -142,10 +141,10 @@ class EntryEditFragment: DatabaseFragment() {
         rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
 
         // Retrieve the new entry after an orientation change
-        if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)
-            mEntryInfo = arguments?.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
-        else if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
-            mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
+        if (arguments?.containsKey(KEY_ENTRY_INFO) == true)
+            mEntryInfo = arguments?.getParcelable(KEY_ENTRY_INFO) ?: mEntryInfo
+        else if (savedInstanceState?.containsKey(KEY_ENTRY_INFO) == true) {
+            mEntryInfo = savedInstanceState.getParcelable(KEY_ENTRY_INFO) ?: mEntryInfo
         }
 
         if (arguments?.containsKey(KEY_TEMPLATE) == true)
@@ -164,7 +163,6 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         rootView.showByFading()
-
         return rootView
     }
 
@@ -618,57 +616,59 @@ class EntryEditFragment: DatabaseFragment() {
      */
 
     fun getAttachments(): List<Attachment> {
-        return attachmentsAdapter.itemsList.map { it.attachment }
+        return attachmentsAdapter?.itemsList?.map { it.attachment } ?: listOf()
     }
 
     fun assignAttachments(attachments: List<Attachment>,
                           streamDirection: StreamDirection,
                           onDeleteItem: (attachment: Attachment) -> Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
-        attachmentsAdapter.onDeleteButtonClickListener = { item ->
+        attachmentsAdapter?.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
+        attachmentsAdapter?.onDeleteButtonClickListener = { item ->
             onDeleteItem.invoke(item.attachment)
         }
     }
 
     fun containsAttachment(): Boolean {
-        return !attachmentsAdapter.isEmpty()
+        return attachmentsAdapter?.isEmpty() != true
     }
 
     fun containsAttachment(attachment: EntryAttachmentState): Boolean {
-        return attachmentsAdapter.contains(attachment)
+        return attachmentsAdapter?.contains(attachment) ?: false
     }
 
     fun putAttachment(attachment: EntryAttachmentState,
                       onPreviewLoaded: (() -> Unit)? = null) {
         attachmentsContainerView.visibility = View.VISIBLE
-        attachmentsAdapter.putItem(attachment)
-        attachmentsAdapter.onBinaryPreviewLoaded = {
+        attachmentsAdapter?.putItem(attachment)
+        attachmentsAdapter?.onBinaryPreviewLoaded = {
             onPreviewLoaded?.invoke()
         }
     }
 
     fun removeAttachment(attachment: EntryAttachmentState) {
-        attachmentsAdapter.removeItem(attachment)
+        attachmentsAdapter?.removeItem(attachment)
     }
 
     fun clearAttachments() {
-        attachmentsAdapter.clear()
+        attachmentsAdapter?.clear()
     }
 
     fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
         attachmentsListView.postDelayed({
-            position.invoke(attachmentsContainerView.y
-                    + attachmentsListView.y
-                    + (attachmentsListView.getChildAt(attachmentsAdapter.indexOf(attachment))?.y
-                    ?: 0F)
-            )
+            attachmentsAdapter?.indexOf(attachment)?.let { index ->
+                position.invoke(attachmentsContainerView.y
+                        + attachmentsListView.y
+                        + (attachmentsListView.getChildAt(index)?.y
+                        ?: 0F)
+                )
+            }
         }, 250)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
-        outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
+        outState.putParcelable(KEY_ENTRY_INFO, mEntryInfo)
         outState.putParcelable(KEY_TEMPLATE, mTemplate)
         mTempDateTimeViewId?.let {
             outState.putInt(KEY_SELECTION_DATE_TIME_ID, it)
@@ -678,10 +678,10 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     companion object {
-        const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
-        const val KEY_TEMPLATE = "KEY_TEMPLATE"
-        const val KEY_DATABASE = "KEY_DATABASE"
-        const val KEY_SELECTION_DATE_TIME_ID = "KEY_SELECTION_DATE_TIME_ID"
+        private const val KEY_ENTRY_INFO = "KEY_ENTRY_INFO"
+        private const val KEY_TEMPLATE = "KEY_TEMPLATE"
+        private const val KEY_DATABASE = "KEY_DATABASE"
+        private const val KEY_SELECTION_DATE_TIME_ID = "KEY_SELECTION_DATE_TIME_ID"
 
         private const val FIELD_USERNAME_TAG = "FIELD_USERNAME_TAG"
         private const val FIELD_PASSWORD_TAG = "FIELD_PASSWORD_TAG"
@@ -695,7 +695,7 @@ class EntryEditFragment: DatabaseFragment() {
                         //database: Database?): EntryEditFragment {
             return EntryEditFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY_TEMP_ENTRY_INFO, entryInfo)
+                    putParcelable(KEY_ENTRY_INFO, entryInfo)
                     putParcelable(KEY_TEMPLATE, template)
                     // TODO Unique database key database.key
                     putInt(KEY_DATABASE, 0)

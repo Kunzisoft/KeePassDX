@@ -32,28 +32,26 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
@@ -61,11 +59,10 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
-import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
-import com.kunzisoft.keepass.view.EntryContentsView
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -75,23 +72,18 @@ class EntryActivity : LockingActivity() {
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
-    private var entryContentsView: EntryContentsView? = null
     private var entryProgress: ProgressBar? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
 
-    private var mEntry: Entry? = null
+    private var mEntryFragment: EntryFragment? = null
 
-    private var mIsHistory: Boolean = false
-    private var mEntryLastVersion: Entry? = null
-    private var mEntryHistoryPosition: Int = -1
-
-    private var mHideProtectedValue: Boolean = false
+    private var mEntryHistory: EntryViewModel.EntryHistory? = null
+    private val mEntryViewModel: EntryViewModel by viewModels()
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
 
-    private var clipboardHelper: ClipboardHelper? = null
     private var mFirstLaunchOfActivity: Boolean = false
 
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -123,9 +115,6 @@ class EntryActivity : LockingActivity() {
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
-        entryContentsView = findViewById(R.id.entry_contents)
-        entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
-        entryContentsView?.setAttachmentCipherKey(mDatabase)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
 
@@ -136,8 +125,6 @@ class EntryActivity : LockingActivity() {
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
-        // Init the clipboard helper
-        clipboardHelper = ClipboardHelper(this)
         mFirstLaunchOfActivity = savedInstanceState?.getBoolean(KEY_FIRST_LAUNCH_ACTIVITY) ?: true
 
         // Init SAF manager
@@ -145,6 +132,83 @@ class EntryActivity : LockingActivity() {
 
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
+
+        mEntryFragment = supportFragmentManager.findFragmentByTag(ENTRY_FRAGMENT_TAG) as? EntryFragment?
+        if (mEntryFragment == null) {
+            mEntryFragment = EntryFragment.getInstance()
+        }
+        // To show Fragment asynchronously
+        lifecycleScope.launchWhenResumed {
+            mEntryFragment?.let { fragment ->
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.entry_content, fragment, ENTRY_FRAGMENT_TAG)
+                        .commit()
+            }
+        }
+
+        // Get Entry from UUID
+        try {
+            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { keyEntry ->
+                // Remove extras to consume only one time
+                intent.removeExtra(KEY_ENTRY)
+                val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+                intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
+                mEntryViewModel.selectEntry(keyEntry, historyPosition)
+            }
+        } catch (e: ClassCastException) {
+            Log.e(TAG, "Unable to retrieve the entry key")
+        }
+
+        mEntryViewModel.entry.observe(this) { entryHistory ->
+            mEntryHistory = entryHistory
+            // Update last access time.
+            entryHistory?.entry?.let { entry ->
+                // Fill data in resume to update from EntryEditActivity
+                fillEntryDataInContentsView(entry)
+                // Refresh Menu
+                invalidateOptionsMenu()
+
+                val entryInfo = entry.getEntryInfo(mDatabase)
+                // Manage entry copy to start notification if allowed
+                if (mFirstLaunchOfActivity) {
+                    // Manage entry to launch copying notification if allowed
+                    ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
+                    // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
+                    if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
+                        MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
+                    }
+                }
+            }
+        }
+
+        mEntryViewModel.otpElement.observe(this) { otpElement ->
+            when (otpElement.type) {
+                // Only add token if HOTP
+                OtpType.HOTP -> {
+                    entryProgress?.visibility = View.GONE
+                }
+                // Refresh view if TOTP
+                OtpType.TOTP -> {
+                    entryProgress?.apply {
+                        max = otpElement.period
+                        progress = otpElement.secondsRemaining
+                        visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+
+        mEntryViewModel.attachmentSelected.observe(this) { attachmentSelected ->
+            mExternalFileHelper?.createDocument(attachmentSelected.name)?.let { requestCode ->
+                mAttachmentsToDownload[requestCode] = attachmentSelected
+            }
+        }
+
+        mEntryViewModel.historySelected.observe(this) { historySelected ->
+            historySelected.entry?.let { entry ->
+                launch(this, entry, mReadOnly, historySelected.historyPosition)
+            }
+        }
 
         mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             when (actionTask) {
@@ -174,59 +238,12 @@ class EntryActivity : LockingActivity() {
             View.GONE
         }
 
-        mHideProtectedValue = PreferencesUtil.hideProtectedValue(this)
-
-        // Get Entry from UUID
-        try {
-            val keyEntry: NodeId<UUID>? = intent.getParcelableExtra(KEY_ENTRY)
-            if (keyEntry != null) {
-                mEntry = mDatabase?.getEntryById(keyEntry)
-                mEntryLastVersion = mEntry
-            }
-        } catch (e: ClassCastException) {
-            Log.e(TAG, "Unable to retrieve the entry key")
-        }
-
-        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, mEntryHistoryPosition)
-        mEntryHistoryPosition = historyPosition
-        if (historyPosition >= 0) {
-            mIsHistory = true
-            mEntry = mEntry?.getHistory()?.get(historyPosition)
-        }
-
-        if (mEntry == null) {
-            Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
-
-        // Update last access time.
-        mEntry?.touch(modified = false, touchParents = false)
-
-        mEntry?.let { entry ->
-            // Fill data in resume to update from EntryEditActivity
-            fillEntryDataInContentsView(entry)
-            // Refresh Menu
-            invalidateOptionsMenu()
-
-            val entryInfo = entry.getEntryInfo(mDatabase)
-            // Manage entry copy to start notification if allowed
-            if (mFirstLaunchOfActivity) {
-                // Manage entry to launch copying notification if allowed
-                ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
-                // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
-                if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                    MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
-                }
-            }
-        }
-
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     if (entryAttachmentState.streamDirection != StreamDirection.UPLOAD) {
-                        entryContentsView?.putAttachment(entryAttachmentState)
+                        mEntryFragment?.putAttachment(entryAttachmentState)
                     }
                 }
             }
@@ -241,6 +258,10 @@ class EntryActivity : LockingActivity() {
         super.onPause()
     }
 
+    private fun isHistory(): Boolean {
+        return mEntryHistory?.historyPosition != -1
+    }
+
     private fun fillEntryDataInContentsView(entry: Entry) {
 
         val entryInfo = entry.getEntryInfo(mDatabase)
@@ -251,142 +272,26 @@ class EntryActivity : LockingActivity() {
         }
 
         // Assign title text
-        val entryTitle = entryInfo.title
+        val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id
         collapsingToolbarLayout?.title = entryTitle
         toolbar?.title = entryTitle
 
-        // Assign basic fields
-        entryContentsView?.assignUserName(entryInfo.username) {
-            clipboardHelper?.timeoutCopyToClipboard(entryInfo.username,
-                    getString(R.string.copy_field,
-                            getString(R.string.entry_user_name)))
-        }
-
-        val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
-                PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)
-        val allowCopyPasswordAndProtectedFields =
-                PreferencesUtil.allowCopyPasswordAndProtectedFields(this)
-
-        val showWarningClipboardDialogOnClickListener = View.OnClickListener {
-            AlertDialog.Builder(this@EntryActivity)
-                    .setMessage(getString(R.string.allow_copy_password_warning) +
-                            "\n\n" +
-                            getString(R.string.clipboard_warning))
-                    .create().apply {
-                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) { dialog, _ ->
-                            PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
-                            dialog.dismiss()
-                            fillEntryDataInContentsView(entry)
-                        }
-                        setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable)) { dialog, _ ->
-                            PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, false)
-                            dialog.dismiss()
-                            fillEntryDataInContentsView(entry)
-                        }
-                        show()
-                    }
-        }
-
-        val onPasswordCopyClickListener: View.OnClickListener? = if (allowCopyPasswordAndProtectedFields) {
-            View.OnClickListener {
-                clipboardHelper?.timeoutCopyToClipboard(entryInfo.password,
-                        getString(R.string.copy_field,
-                                getString(R.string.entry_password)))
-            }
-        } else {
-            // If dialog not already shown
-            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
-                showWarningClipboardDialogOnClickListener
-            } else {
-                null
-            }
-        }
-        entryContentsView?.assignPassword(entryInfo.password,
-                allowCopyPasswordAndProtectedFields,
-                onPasswordCopyClickListener)
-
-        //Assign OTP field
-        entry.getOtpElement()?.let { otpElement ->
-            entryContentsView?.assignOtp(otpElement, entryProgress) {
-                clipboardHelper?.timeoutCopyToClipboard(
-                        otpElement.token,
-                        getString(R.string.copy_field, getString(R.string.entry_otp))
-                )
-            }
-        }
-
-        entryContentsView?.assignURL(entryInfo.url)
-        entryContentsView?.assignNotes(entryInfo.notes)
-
-        // Assign custom fields
-        if (mDatabase?.allowEntryCustomFields() == true) {
-            entryContentsView?.clearExtraFields()
-            entryInfo.customFields.forEach { field ->
-                val label = field.name
-                // OTP field is already managed in dedicated view
-                // Template UUID must not be shown
-                if (label != OtpEntryFields.OTP_TOKEN_FIELD
-                        && label != TemplateEngine.TEMPLATE_ENTRY_UUID) {
-                    val value = field.protectedValue
-                    val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
-                    if (allowCopyProtectedField) {
-                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
-                            clipboardHelper?.timeoutCopyToClipboard(
-                                    value.toString(),
-                                    getString(R.string.copy_field,
-                                            TemplateField.getLocalizedName(applicationContext, field.name))
-                            )
-                        }
-                    } else {
-                        // If dialog not already shown
-                        if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
-                            entryContentsView?.addExtraField(label, value, allowCopyProtectedField, showWarningClipboardDialogOnClickListener)
-                        } else {
-                            entryContentsView?.addExtraField(label, value, allowCopyProtectedField, null)
-                        }
-                    }
-                }
-            }
-        }
-
-        entryContentsView?.setHiddenProtectedValue(mHideProtectedValue)
-
-        // Manage attachments
-        entryContentsView?.assignAttachments(entryInfo.attachments.toSet(), StreamDirection.DOWNLOAD) { attachmentItem ->
-            mExternalFileHelper?.createDocument(attachmentItem.name)?.let { requestCode ->
-                mAttachmentsToDownload[requestCode] = attachmentItem
-            }
-        }
-
-        // Assign dates
-        entryContentsView?.assignCreationDate(entryInfo.creationTime)
-        entryContentsView?.assignModificationDate(entryInfo.lastModificationTime)
-        entryContentsView?.setExpires(entryInfo.expires, entryInfo.expiryTime)
-
-        // Manage history
-        historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
-        if (mIsHistory) {
+        // Assign history dedicated view
+        historyView?.visibility = if (isHistory()) View.VISIBLE else View.GONE
+        if (isHistory()) {
             val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
             collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
             taColorAccent.recycle()
         }
-        entryContentsView?.assignHistory(entry.getHistory()) { historyItem, position ->
-            launch(this, historyItem, mReadOnly, position)
-        }
-
-        // Assign special data
-        entryContentsView?.assignUUID(entry.nodeId.id)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE ->
-                // Not directly get the entry from intent data but from database
-                mEntry?.let {
-                    fillEntryDataInContentsView(it)
-                }
+            EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
+                mEntryViewModel.reloadEntry()
+            }
         }
 
         mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
@@ -406,10 +311,10 @@ class EntryActivity : LockingActivity() {
         MenuUtil.contributionMenuInflater(inflater, menu)
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
-        if (mIsHistory && !mReadOnly) {
+        if (isHistory() && !mReadOnly) {
             inflater.inflate(R.menu.entry_history, menu)
         }
-        if (mIsHistory || mReadOnly) {
+        if (isHistory() || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -421,10 +326,10 @@ class EntryActivity : LockingActivity() {
         gotoUrl?.apply {
             // In API >= 11 onCreateOptionsMenu may be called before onCreate completes
             // so mEntry may not be set
-            if (mEntry == null) {
+            if (mEntryHistory?.entry == null) {
                 isVisible = false
             } else {
-                if (mEntry?.url?.isEmpty() != false) {
+                if (mEntryHistory?.entry?.url?.isEmpty() != false) {
                     // disable button if url is not available
                     isVisible = false
                 }
@@ -439,14 +344,12 @@ class EntryActivity : LockingActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
-        val entryFieldCopyView = entryContentsView?.firstEntryFieldCopyView()
+        val entryFieldCopyView: View? = mEntryFragment?.firstEntryFieldCopyView()
         val entryCopyEducationPerformed = entryFieldCopyView != null
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
                 entryFieldCopyView,
                 {
-                    val appNameString = getString(R.string.app_name)
-                    clipboardHelper?.timeoutCopyToClipboard(appNameString,
-                            getString(R.string.copy_field, appNameString))
+                    mEntryFragment?.launchEntryCopyEducationAction()
                 },
                 {
                     performedNextEducation(entryActivityEducation, menu)
@@ -474,13 +377,13 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                mEntry?.let {
+                mEntryHistory?.entry?.let {
                     EntryEditActivity.launch(this@EntryActivity, it)
                 }
                 return true
             }
             R.id.menu_goto_url -> {
-                var url: String = mEntry?.url ?: ""
+                var url: String = mEntryHistory?.entry?.url ?: ""
 
                 // Default http:// if no protocol specified
                 if (!url.contains("://")) {
@@ -491,18 +394,18 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_restore_entry_history -> {
-                mEntryLastVersion?.let { mainEntry ->
+                mEntryHistory?.lastEntryVersion?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
                             mainEntry,
-                            mEntryHistoryPosition,
+                            mEntryHistory?.historyPosition ?: -1,
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
             R.id.menu_delete_entry_history -> {
-                mEntryLastVersion?.let { mainEntry ->
+                mEntryHistory?.lastEntryVersion?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
                             mainEntry,
-                            mEntryHistoryPosition,
+                            mEntryHistory?.historyPosition ?: -1,
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
@@ -526,7 +429,7 @@ class EntryActivity : LockingActivity() {
     override fun finish() {
         // Transit data in previous Activity after an update
         Intent().apply {
-            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry)
+            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntryHistory?.entry)
             setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, this)
         }
         super.finish()
@@ -539,6 +442,8 @@ class EntryActivity : LockingActivity() {
 
         const val KEY_ENTRY = "KEY_ENTRY"
         const val KEY_ENTRY_HISTORY_POSITION = "KEY_ENTRY_HISTORY_POSITION"
+
+        const val ENTRY_FRAGMENT_TAG = "ENTRY_FRAGMENT_TAG"
 
         fun launch(activity: Activity, entry: Entry, readOnly: Boolean, historyPosition: Int? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {

@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent" />
                 <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/entry_edit_contents"
+                    android:id="@+id/entry_edit_content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintWidth_percent="@dimen/content_percent"

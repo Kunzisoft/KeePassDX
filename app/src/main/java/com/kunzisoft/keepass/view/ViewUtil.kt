@@ -168,7 +168,7 @@ fun View.hideByFading() {
 
 fun View.showByFading() {
     // Trick to keep the focus
-    alpha = 0.01f
+    alpha = 0.0001f
     animate()
             .alpha(1f)
             .setDuration(400)

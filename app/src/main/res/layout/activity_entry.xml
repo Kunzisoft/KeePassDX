@@ -113,8 +113,8 @@
                     android:text="@string/entry_history"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.kunzisoft.keepass.view.EntryContentsView
-                android:id="@+id/entry_contents"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/entry_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent="@dimen/content_percent"

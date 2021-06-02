@@ -238,7 +238,7 @@ class EntryEditActivity : LockingActivity(),
         lifecycleScope.launchWhenResumed {
             entryEditFragment?.let { fragment ->
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.entry_edit_contents, fragment, ENTRY_EDIT_FRAGMENT_TAG)
+                        .replace(R.id.entry_edit_content, fragment, ENTRY_EDIT_FRAGMENT_TAG)
                         .commit()
             }
         }
