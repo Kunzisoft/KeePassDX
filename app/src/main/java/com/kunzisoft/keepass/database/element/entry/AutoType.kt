@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
-
-import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedInt
 
 class AutoType : Parcelable {
@@ -30,7 +28,7 @@ class AutoType : Parcelable {
     var enabled = true
     var obfuscationOptions = OBF_OPT_NONE
     var defaultSequence = ""
-    private var windowSeqPairs = LinkedHashMap<String, String>()
+    private var windowSeqPairs = ArrayList<AutoTypeItem>()
 
     constructor()
 
@@ -38,16 +36,15 @@ class AutoType : Parcelable {
         this.enabled = autoType.enabled
         this.obfuscationOptions = autoType.obfuscationOptions
         this.defaultSequence = autoType.defaultSequence
-        for ((key, value) in autoType.windowSeqPairs) {
-            this.windowSeqPairs[key] = value
-        }
+        this.windowSeqPairs.clear()
+        this.windowSeqPairs.addAll(autoType.windowSeqPairs)
     }
 
     constructor(parcel: Parcel) {
         this.enabled = parcel.readByte().toInt() != 0
         this.obfuscationOptions = UnsignedInt(parcel.readInt())
         this.defaultSequence = parcel.readString() ?: defaultSequence
-        this.windowSeqPairs = ParcelableUtil.readStringParcelableMap(parcel)
+        parcel.readTypedList(this.windowSeqPairs, AutoTypeItem.CREATOR)
     }
 
     override fun describeContents(): Int {
@@ -58,15 +55,43 @@ class AutoType : Parcelable {
         dest.writeByte((if (enabled) 1 else 0).toByte())
         dest.writeInt(obfuscationOptions.toKotlinInt())
         dest.writeString(defaultSequence)
-        ParcelableUtil.writeStringParcelableMap(dest, windowSeqPairs)
+        dest.writeTypedList(windowSeqPairs)
     }
 
-    fun put(key: String, value: String) {
-        windowSeqPairs[key] = value
+    fun add(key: String, value: String) {
+        windowSeqPairs.add(AutoTypeItem(key, value))
     }
 
-    fun entrySet(): Set<MutableMap.MutableEntry<String, String>> {
-        return windowSeqPairs.entries
+    fun doForEachAutoTypeItem(action: (key: String, value: String) -> Unit) {
+        windowSeqPairs.forEach {
+            action.invoke(it.key, it.value)
+        }
+    }
+
+    private data class AutoTypeItem(var key: String, var value: String): Parcelable {
+        constructor(parcel: Parcel) : this(
+                parcel.readString() ?: "",
+                parcel.readString() ?: "") {
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(key)
+            parcel.writeString(value)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<AutoTypeItem> {
+            override fun createFromParcel(parcel: Parcel): AutoTypeItem {
+                return AutoTypeItem(parcel)
+            }
+
+            override fun newArray(size: Int): Array<AutoTypeItem?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 
     companion object {

@@ -26,7 +26,7 @@
     <string name="add_entry">Añadir entrada</string>
     <string name="add_group">Añadir grupo</string>
     <string name="encryption_algorithm">Algoritmo de cifrado</string>
-    <string name="app_timeout">Tiempo de espera de la aplicación excedido</string>
+    <string name="app_timeout">Tiempo de espera excedido</string>
     <string name="app_timeout_summary">Inactividad antes del bloqueo de aplicación</string>
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
@@ -436,7 +436,7 @@
     <string name="database_opened">Base de datos abierta</string>
     <string name="education_add_attachment_title">Adjuntar</string>
     <string name="education_add_attachment_summary">Cargue un archivo adjunto a la entrada para guardar datos externos importantes.</string>
-    <string name="hide_expired_entries_summary">Las entradas caducadas no se muestran</string>
+    <string name="hide_expired_entries_summary">Las entradas caducadas no se están mostrando</string>
     <string name="warning_remove_unlinked_attachment">La eliminación de datos no vinculados puede disminuir el tamaño de su base de datos, pero también puede eliminar los datos usados por los complementos de KeePass.</string>
     <string name="warning_file_too_big">Se supone que una base de datos KeePass contiene solo pequeños archivos de utilidad (como archivos de clave PGP).
 \n
@@ -492,7 +492,7 @@
     <string name="hide_expired_entries_title">Ocultar las entradas expiradas</string>
     <string name="keyboard_search_share_title">Buscar información compartida</string>
     <string name="upload_attachment">Subir %1$s</string>
-    <string name="education_setup_OTP_summary">Configurar la gestión de contraseñas de una sola vez (HOTP / TOTP) para generar un token solicitado para la autenticación de dos factores (2FA).</string>
+    <string name="education_setup_OTP_summary">Configurar la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un token solicitado para la autenticación de dos factores (2FA).</string>
     <string name="education_setup_OTP_title">Establecer la contaseña de un solo uso</string>
     <string name="education_advanced_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
     <string name="education_advanced_unlock_title">Desbloqueo avanzado de la base de datos</string>
@@ -542,6 +542,26 @@
     <string name="menu_reload_database">Recargar la base de datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
     <string name="download_canceled">¡Cancelado!</string>
-    <string name="error_duplicate_file">Los datos de archivo ya existen.</string>
-    <string name="error_upload_file">Ha habido un error al subir el archivo de datos.</string>
+    <string name="error_duplicate_file">Los datos del archivo ya existen.</string>
+    <string name="error_upload_file">Error al subir datos del archivo.</string>
+    <string name="description_app_properties">Propiedades de KeePassDX para gestionar la configuración de la aplicación</string>
+    <string name="content_description_otp_information">Información de contraseña de un solo uso</string>
+    <string name="icon_section_custom">Personalizado</string>
+    <string name="icon_section_standard">Estándar</string>
+    <string name="style_brightness_summary">Seleccionar temas oscuros o claros</string>
+    <string name="style_brightness_title">Brillo del tema</string>
+    <string name="properties">Propiedades</string>
+    <string name="error_import_app_properties">Error al importar las propiedades de la aplicación</string>
+    <string name="error_export_app_properties">Error al exportar las propiedades de la aplicación</string>
+    <string name="success_export_app_properties">Propiedades de la aplicación exportadas</string>
+    <string name="success_import_app_properties">Propiedades de la aplicación importadas</string>
+    <string name="export_app_properties_summary">Cree un archivo para exportar las propiedades de la aplicación</string>
+    <string name="export_app_properties_title">Exportar propiedades de la aplicación</string>
+    <string name="import_app_properties_summary">Seleccione un archivo para importar las propiedades de la aplicación</string>
+    <string name="import_app_properties_title">Importar propiedades de la aplicación</string>
+    <string name="error_start_database_action">Ocurrió un error al realizar una acción en la base de datos.</string>
+    <string name="error_remove_file">Ocurrió un error al eliminar los datos del archivo.</string>
+    <string name="error_file_to_big">El archivo que está tratando de cargar es demasiado grande.</string>
+    <string name="error_move_group_here">No puede mover un grupo aquí.</string>
+    <string name="error_word_reserved">Esta palabra está reservada y no se puede usar.</string>
 </resources>

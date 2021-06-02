@@ -1,0 +1,2 @@
+ * Correction de la recherche des références de champs #987
+ * Correction des Auto-Types avec la même clé #997

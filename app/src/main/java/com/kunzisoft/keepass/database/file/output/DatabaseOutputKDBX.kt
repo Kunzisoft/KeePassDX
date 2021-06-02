@@ -530,7 +530,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeString(DatabaseKDBXXML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true)
         }
 
-        for ((key, value) in autoType.entrySet()) {
+        autoType.doForEachAutoTypeItem { key, value ->
             xml.startTag(null, DatabaseKDBXXML.ElemAutoTypeItem)
 
             xml.startTag(null, DatabaseKDBXXML.ElemWindow)
