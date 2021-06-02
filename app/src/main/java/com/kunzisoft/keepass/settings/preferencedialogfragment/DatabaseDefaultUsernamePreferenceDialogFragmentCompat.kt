@@ -27,11 +27,11 @@ class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePrefer
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        inputText = database?.defaultUsername?: ""
+        inputText = mDatabase?.defaultUsername?: ""
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        database?.let { database ->
+        mDatabase?.let { database ->
             if (positiveResult) {
                 val newDefaultUsername = inputText
                 val oldDefaultUsername = database.defaultUsername

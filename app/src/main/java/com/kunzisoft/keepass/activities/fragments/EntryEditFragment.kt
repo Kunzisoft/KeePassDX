@@ -34,10 +34,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -59,7 +57,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
-class EntryEditFragment : StylishFragment() {
+class EntryEditFragment: DatabaseFragment() {
 
     private var mTemplate: Template = Template.STANDARD
 
@@ -121,8 +119,7 @@ class EntryEditFragment : StylishFragment() {
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        // TODO retrieve current database with its unique key
-        attachmentsAdapter.database = Database.getInstance()
+        attachmentsAdapter.database = mDatabase
         //attachmentsAdapter.database = arguments?.getInt(KEY_DATABASE)
         attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
@@ -142,7 +139,7 @@ class EntryEditFragment : StylishFragment() {
         iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
         taIconColor?.recycle()
 
-        rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext())
+        rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
 
         // Retrieve the new entry after an orientation change
         if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)

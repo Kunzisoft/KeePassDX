@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
-import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -69,7 +68,6 @@ open class SettingsActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_toolbar)
@@ -92,7 +90,7 @@ open class SettingsActivity
         }
 
         // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -161,7 +159,7 @@ open class SettingsActivity
     }
 
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        Database.getInstance().let { database ->
+        mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
                 if (database.validatePasswordEncoding(mainCredential)) {
@@ -244,7 +242,7 @@ open class SettingsActivity
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
         if (mTimeoutEnable)
-            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
                 replaceFragment(key, reload)
             }
         else

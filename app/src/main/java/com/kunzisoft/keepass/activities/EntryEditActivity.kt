@@ -89,8 +89,6 @@ class EntryEditActivity : LockingActivity(),
         FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
 
-    private var mDatabase: Database? = null
-
     // Refs of an entry and group in database, are not modifiable
     private var mEntry: Entry? = null
     private var mParent: Group? = null
@@ -139,13 +137,10 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-
-        // Likely the app has been killed exit the activity
-        mDatabase = Database.getInstance()
 
         var tempEntryInfo: EntryInfo? = null
 
@@ -362,6 +357,7 @@ class EntryEditActivity : LockingActivity(),
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mDatabase?.let { database ->
                 AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
+                        database,
                         entry.getEntryInfo(database))
             }
         }

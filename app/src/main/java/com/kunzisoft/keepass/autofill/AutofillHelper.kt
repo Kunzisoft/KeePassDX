@@ -88,13 +88,14 @@ object AutofillHelper {
     }
 
     private fun newRemoteViews(context: Context,
+                               database: Database,
                                remoteViewsText: String,
                                remoteViewsIcon: IconImage? = null): RemoteViews {
         val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
         presentation.setTextViewText(R.id.autofill_entry_text, remoteViewsText)
         if (remoteViewsIcon != null) {
             try {
-                Database.getInstance().iconDrawableFactory.getBitmapFromIcon(context,
+                database.iconDrawableFactory.getBitmapFromIcon(context,
                         remoteViewsIcon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
                     presentation.setImageViewBitmap(R.id.autofill_entry_icon, bitmap)
                 }
@@ -106,11 +107,12 @@ object AutofillHelper {
     }
 
     private fun buildDataset(context: Context,
+                             database: Database,
                              entryInfo: EntryInfo,
                              struct: StructureParser.Result,
                              inlinePresentation: InlinePresentation?): Dataset? {
         val title = makeEntryTitle(entryInfo)
-        val views = newRemoteViews(context, title, entryInfo.icon)
+        val views = newRemoteViews(context, database, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
         builder.setId(entryInfo.id)
 
@@ -209,9 +211,11 @@ object AutofillHelper {
     /**
      * Method to assign a drawable to a new icon from a database icon
      */
-    private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
+    private fun buildIconFromEntry(context: Context,
+                                   database: Database,
+                                   entryInfo: EntryInfo): Icon? {
         try {
-            Database.getInstance().iconDrawableFactory.getBitmapFromIcon(context,
+            database.iconDrawableFactory.getBitmapFromIcon(context,
                     entryInfo.icon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
                 return Icon.createWithBitmap(bitmap)
             }
@@ -224,6 +228,7 @@ object AutofillHelper {
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
     private fun buildInlinePresentationForEntry(context: Context,
+                                                database: Database,
                                                 inlineSuggestionsRequest: InlineSuggestionsRequest,
                                                 positionItem: Int,
                                                 entryInfo: EntryInfo): InlinePresentation? {
@@ -252,7 +257,7 @@ object AutofillHelper {
                         setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
                             setTintBlendMode(BlendMode.DST)
                         })
-                        buildIconFromEntry(context, entryInfo)?.let { icon ->
+                        buildIconFromEntry(context, database, entryInfo)?.let { icon ->
                             setEndIcon(icon.apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
@@ -263,6 +268,7 @@ object AutofillHelper {
     }
 
     fun buildResponse(context: Context,
+                      database: Database,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
                       inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse? {
@@ -287,12 +293,12 @@ object AutofillHelper {
         entriesInfo.forEachIndexed { index, entryInfo ->
             val inlinePresentation = inlineSuggestionsRequest?.let {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    buildInlinePresentationForEntry(context, inlineSuggestionsRequest, index, entryInfo)
+                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, index, entryInfo)
                 } else {
                     null
                 }
             }
-            val dataSet = buildDataset(context, entryInfo, parseResult, inlinePresentation)
+            val dataSet = buildDataset(context, database, entryInfo, parseResult, inlinePresentation)
             dataSet?.let {
                 responseBuilder.addDataset(it)
             }
@@ -308,14 +314,18 @@ object AutofillHelper {
     /**
      * Build the Autofill response for one entry
      */
-    fun buildResponseAndSetResult(activity: Activity, entryInfo: EntryInfo) {
-        buildResponseAndSetResult(activity, ArrayList<EntryInfo>().apply { add(entryInfo) })
+    fun buildResponseAndSetResult(activity: Activity,
+                                  database: Database,
+                                  entryInfo: EntryInfo) {
+        buildResponseAndSetResult(activity, database, ArrayList<EntryInfo>().apply { add(entryInfo) })
     }
 
     /**
      * Build the Autofill response for many entry
      */
-    fun buildResponseAndSetResult(activity: Activity, entriesInfo: List<EntryInfo>) {
+    fun buildResponseAndSetResult(activity: Activity,
+                                  database: Database,
+                                  entriesInfo: List<EntryInfo>) {
         if (entriesInfo.isEmpty()) {
             activity.setResult(Activity.RESULT_CANCELED)
         } else {
@@ -328,9 +338,9 @@ object AutofillHelper {
                         if (inlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }
-                        buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
+                        buildResponse(activity, database, entriesInfo, result, inlineSuggestionsRequest)
                     } else {
-                        buildResponse(activity, entriesInfo, result, null)
+                        buildResponse(activity, database, entriesInfo, result, null)
                     }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")

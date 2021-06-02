@@ -27,12 +27,12 @@ class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogF
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        inputText = database?.name ?: ""
+        inputText = mDatabase?.name ?: ""
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 val newName = inputText
                 val oldName = database.name
                 database.name = newName

@@ -50,7 +50,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
             kdfAdapter.setRadioItemSelectedCallback(this)
             recyclerView.adapter = kdfAdapter
 
-            database?.let { database ->
+            mDatabase?.let { database ->
                 kdfEngineSelected = database.kdfEngine?.apply {
                     kdfAdapter.setItems(database.availableKdfEngines, this)
                 }
@@ -60,7 +60,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 if (database.allowKdfModification) {
                     val newKdfEngine = kdfEngineSelected
                     val oldKdfEngine = database.kdfEngine

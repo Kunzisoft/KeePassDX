@@ -46,7 +46,11 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : AppCompatActivity() {
 
+    private var mDatabase: Database? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        mDatabase = Database.getInstance()
 
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
@@ -60,7 +64,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        launchSelection(searchInfo)
+                        mDatabase?.let { database ->
+                            launchSelection(database, searchInfo)
+                        }
                     }
                 }
                 SpecialMode.REGISTRATION -> {
@@ -69,7 +75,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        launchRegistration(searchInfo, registerInfo)
+                        mDatabase?.let { database ->
+                            launchRegistration(database, searchInfo, registerInfo)
+                        }
                     }
                 }
                 else -> {
@@ -83,7 +91,8 @@ class AutofillLauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    private fun launchSelection(searchInfo: SearchInfo) {
+    private fun launchSelection(database: Database,
+                                searchInfo: SearchInfo) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
 
@@ -98,21 +107,19 @@ class AutofillLauncherActivity : AppCompatActivity() {
             setResult(Activity.RESULT_CANCELED)
             finish()
         } else {
-            val database = Database.getInstance()
-            val readOnly = database.isReadOnly
             // If database is open
             SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
+                    database,
                     searchInfo,
                     { items ->
                         // Items found
-                        AutofillHelper.buildResponseAndSetResult(this, items)
+                        AutofillHelper.buildResponseAndSetResult(this, database, items)
                         finish()
                     },
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                readOnly,
+                                database.isReadOnly,
                                 autofillComponent,
                                 searchInfo,
                                 false)
@@ -127,7 +134,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchRegistration(searchInfo: SearchInfo, registerInfo: RegisterInfo?) {
+    private fun launchRegistration(database: Database,
+                                   searchInfo: SearchInfo,
+                                   registerInfo: RegisterInfo?) {
         if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
                         PreferencesUtil.applicationIdBlocklist(this))
                 || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
@@ -135,7 +144,6 @@ class AutofillLauncherActivity : AppCompatActivity() {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
         } else {
-            val database = Database.getInstance()
             val readOnly = database.isReadOnly
             SearchHelper.checkAutoSearchInfo(this,
                     database,

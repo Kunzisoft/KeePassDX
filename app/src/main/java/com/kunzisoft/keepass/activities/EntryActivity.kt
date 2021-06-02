@@ -80,8 +80,6 @@ class EntryActivity : LockingActivity() {
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
 
-    private var mDatabase: Database? = null
-
     private var mEntry: Entry? = null
 
     private var mIsHistory: Boolean = false
@@ -110,8 +108,7 @@ class EntryActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        mDatabase = Database.getInstance()
-        mReadOnly = mDatabase!!.isReadOnly || mReadOnly
+        mReadOnly = mDatabase?.isReadOnly != false || mReadOnly
 
         // Retrieve the textColor to tint the icon
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
@@ -137,7 +134,7 @@ class EntryActivity : LockingActivity() {
         }
 
         // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)

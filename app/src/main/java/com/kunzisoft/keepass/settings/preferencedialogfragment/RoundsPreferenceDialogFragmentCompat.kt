@@ -30,12 +30,12 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
         super.onBindDialogView(view)
 
         explanationText = getString(R.string.rounds_explanation)
-        inputText = database?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
+        inputText = mDatabase?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 var rounds: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {

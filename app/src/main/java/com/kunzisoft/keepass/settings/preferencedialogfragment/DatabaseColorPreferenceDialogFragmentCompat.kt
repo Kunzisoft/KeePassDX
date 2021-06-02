@@ -55,7 +55,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         val fragmentManager = childFragmentManager
         chromaColorFragment = fragmentManager.findFragmentByTag(TAG_FRAGMENT_COLORS) as ChromaColorFragment?
 
-        database?.let { database ->
+        mDatabase?.let { database ->
             val initColor = try {
                 enableSwitchView.isChecked = true
                 Color.parseColor(database.customColor)
@@ -80,7 +80,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
 
             onColorSelectedListener?.invoke(customColorEnable, currentColor)
 
-            database?.let { database ->
+            mDatabase?.let { database ->
                 val newColor = if (customColorEnable) {
                     ChromaUtil.getFormattedColorString(currentColor, false)
                 } else {

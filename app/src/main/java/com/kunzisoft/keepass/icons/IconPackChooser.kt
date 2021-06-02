@@ -90,10 +90,10 @@ object IconPackChooser {
 
     }
 
-    fun setSelectedIconPack(iconPackIdString: String?) {
+    fun setSelectedIconPack(iconDrawableFactory: IconDrawableFactory, iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
-                Database.getInstance().iconDrawableFactory.clearCache()
+                iconDrawableFactory.clearCache()
                 iconPackSelected = iconPack
                 break
             }
@@ -106,10 +106,10 @@ object IconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack currently in usage
      */
-    fun getSelectedIconPack(context: Context): IconPack? {
+    fun getSelectedIconPack(context: Context, iconDrawableFactory: IconDrawableFactory): IconPack? {
         build(context)
         if (iconPackSelected == null)
-            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
+            setSelectedIconPack(iconDrawableFactory, PreferencesUtil.getIconPackSelectedId(context))
         return iconPackSelected
     }
 

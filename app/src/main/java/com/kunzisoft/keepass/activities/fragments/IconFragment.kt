@@ -28,9 +28,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.IconPickerAdapter
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -38,14 +36,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
+abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
         IconPickerAdapter.IconPickerListener<T> {
 
     protected lateinit var iconsGridView: RecyclerView
     protected lateinit var iconPickerAdapter: IconPickerAdapter<T>
     protected var iconActionSelectionMode = false
-
-    protected var mDatabase: Database? = null
 
     protected val iconPickerViewModel: IconPickerViewModel by activityViewModels()
 
@@ -55,8 +51,6 @@ abstract class IconFragment<T: IconImageDraw> : StylishFragment(),
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        mDatabase = Database.getInstance()
 
         // Retrieve the textColor to tint the icon
         val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))

@@ -87,8 +87,12 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
+    private var mDatabase: Database? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mDatabase = Database.getInstance()
 
         mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(applicationContext)
 
@@ -204,9 +208,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                                 PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
                     }
                     ACTION_DATABASE_LOAD_TASK -> {
-                        val database = Database.getInstance()
+                        val database = mDatabase
                         if (result.isSuccess
-                                && database.loaded) {
+                                && database?.loaded == true) {
                             launchGroupActivity(database)
                         } else {
                             var resultError = ""
@@ -253,6 +257,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private fun launchGroupActivity(database: Database) {
         GroupActivity.launch(this,
+                database,
                 database.isReadOnly,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
@@ -296,8 +301,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             }
         }
 
-        val database = Database.getInstance()
-        if (database.loaded) {
+        val database = mDatabase
+        if (database?.loaded == true) {
             launchGroupActivity(database)
         } else {
             // Construct adapter with listeners
