@@ -79,8 +79,10 @@ object DatabaseKDBXXML {
     const val ElemFgColor = "ForegroundColor"
     const val ElemBgColor = "BackgroundColor"
     const val ElemOverrideUrl = "OverrideURL"
+    const val ElemQualityCheck = "QualityCheck"
     const val ElemTimes = "Times"
     const val ElemTags = "Tags"
+    const val ElemPreviousParentGroup = "PreviousParentGroup"
 
     const val ElemCreationTime = "CreationTime"
     const val ElemLastModTime = "LastModificationTime"

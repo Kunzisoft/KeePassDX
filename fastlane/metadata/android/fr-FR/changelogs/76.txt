@@ -1,0 +1,3 @@
+ * Gestion du nouveau format de base de données 4.1 #956
+ * Correction de la consistance du bouton de visibilité #980
+ * Correction de la notification persistante #979

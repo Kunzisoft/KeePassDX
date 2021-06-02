@@ -560,4 +560,6 @@
     <string name="import_app_properties_summary">Wybierz plik, aby zaimportować właściwości aplikacji</string>
     <string name="import_app_properties_title">Importuj właściwości aplikacji</string>
     <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
+    <string name="error_move_group_here">Nie możesz przenieść tutaj grupy.</string>
+    <string name="error_word_reserved">To słowo jest zastrzeżone i nie może być używane.</string>
 </resources>

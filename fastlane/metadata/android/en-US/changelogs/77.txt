@@ -1,0 +1,1 @@
+ * Fix parcelable with custom data #986

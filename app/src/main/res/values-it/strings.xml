@@ -564,4 +564,5 @@
     <string name="import_app_properties_summary">Seleziona un file da cui importare le proprietà dell\'app</string>
     <string name="import_app_properties_title">Importa le proprietà dell\'app</string>
     <string name="error_word_reserved">Questa parola è riservata e non può essere usata.</string>
+    <string name="error_move_group_here">Non è possibile spostare un gruppo qui.</string>
 </resources>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
@@ -95,6 +96,12 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
     override fun onBindViewHolder(holder: CustomIconViewHolder, position: Int) {
         val icon = iconList[position]
         iconDrawableFactory?.assignDatabaseIcon(holder.iconImageView, icon, tintIcon)
+        icon.getIconImageToDraw().custom.name.let { iconName ->
+            holder.iconTextView.apply {
+                text = iconName
+                visibility = if (iconName.isNotEmpty()) View.VISIBLE else View.GONE
+            }
+        }
         holder.iconContainerView.isSelected = icon.selected
         holder.itemView.setOnClickListener {
             iconPickerListener?.onIconClickListener(icon)
@@ -117,5 +124,6 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
     inner class CustomIconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var iconContainerView: ViewGroup = itemView.findViewById(R.id.icon_container)
         var iconImageView: ImageView = itemView.findViewById(R.id.icon_image)
+        var iconTextView: TextView = itemView.findViewById(R.id.icon_name)
     }
 }

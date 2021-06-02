@@ -223,7 +223,7 @@
     <string name="application_appearance">Brugerflade</string>
     <string name="other">Øvrige</string>
     <string name="keyboard">Tastatur</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_title">Magi keyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktiver et brugerdefineret tastatur, der udfylder adgangskoder og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillad ingen hovednøgle</string>
     <string name="allow_no_password_summary">Tillader at trykke på knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
@@ -283,8 +283,8 @@
     <string name="style_choose_summary">Tema, der bruges i programmet</string>
     <string name="icon_pack_choose_title">Ikonpakke</string>
     <string name="icon_pack_choose_summary">Ikonpakke, der anvendes</string>
-    <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
+    <string name="keyboard_name">Magi keyboard</string>
+    <string name="keyboard_label">Magi keyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard indstillinger</string>
     <string name="keyboard_entry_category">Post</string>
     <string name="keyboard_entry_timeout_title">Udløbstid</string>
@@ -300,7 +300,7 @@
     <string name="keyboard_keys_category">Taster</string>
     <string name="keyboard_key_vibrate_title">Vibrerende tastetryk</string>
     <string name="keyboard_key_sound_title">Hørbare tastetryk</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Byg %1$s</string>
     <string name="keyboard_entry_timeout_summary">Tidsudløb for at rydde indtastning</string>
     <string name="entry_notes">Noter</string>
     <string name="selection_mode">Valgstilstand</string>
@@ -426,7 +426,7 @@
     <string name="hide_broken_locations_title">Skjule brudte databaselinks</string>
     <string name="hide_broken_locations_summary">Skjul brudte links på listen over seneste databaser</string>
     <string name="warning_database_read_only">Giv fil skriveadgang for at gemme databasændringer</string>
-    <string name="education_setup_OTP_summary">Opsætning af engangs-adgangskode-styring (HOTP / TOTP) for at generere et token anmodet af tofaktor-autentisering (2FA).</string>
+    <string name="education_setup_OTP_summary">Sæt op engangs-adgangskode-styring (HOTP / TOTP) for at generere et token anmodet af tofaktor-autentisering (2FA).</string>
     <string name="education_setup_OTP_title">Opsætning af OTP</string>
     <string name="error_create_database">Databasefilen kunne ikke oprettes.</string>
     <string name="entry_add_attachment">Tilføj vedhæng</string>
@@ -537,7 +537,7 @@
     <string name="error_start_database_action">Der opstod en fejl under udførelsen af en handling på databasen.</string>
     <string name="error_remove_file">Der opstod en fejl med at fjerne fildata.</string>
     <string name="error_otp_type">Den existerende OTP type kunne ikke genkendes, den kan være tiden er udløbet for at lave dette token.</string>
-    <string name="education_advanced_unlock_summary">Sammenkæd din adgangskode, med din scannede biometriske oplysninger eller enheds legitimationsoplysninger for, hurtigt at låse din database op.</string>
+    <string name="education_advanced_unlock_summary">Sammenkæd din adgangskode, med din scannede biometriske oplysninger eller enheds legitimationsoplysninger for hurtigt oplåsning af din database.</string>
     <string name="enter">Enter</string>
     <string name="temp_advanced_unlock_timeout_summary">Varigheden af avanceret oplåsning, før indholdet slettes</string>
     <string name="device_credential_unlock_enable_summary">Giver dig mulighed for at bruge dine enhedsoplysninger for at åbne databasen</string>
@@ -561,4 +561,6 @@
     <string name="export_app_properties_title">Eksporter app-egenskaber</string>
     <string name="import_app_properties_summary">Vælg en fil for at importere app-egenskaber</string>
     <string name="import_app_properties_title">Importer appegenskaber</string>
+    <string name="error_move_group_here">Du kan flytte en gruppe her.</string>
+    <string name="error_word_reserved">Dette ord er reseveret og kan ikke bruges.</string>
 </resources>

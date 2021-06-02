@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
@@ -113,6 +114,20 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDB?.icon = value
             entryKDBX?.icon = value
         }
+
+    var tags: Tags
+        get() = entryKDBX?.tags ?: Tags()
+        set(value) {
+            entryKDBX?.tags = value
+        }
+
+    var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
+        get() = entryKDBX?.previousParentGroup ?: DatabaseVersioned.UUID_ZERO
+        private set
+
+    fun setPreviousParentGroup(previousParent: Group?) {
+        entryKDBX?.previousParentGroup = previousParent?.groupKDBX?.id ?: DatabaseVersioned.UUID_ZERO
+    }
 
     override val type: Type
         get() = Type.ENTRY
@@ -268,8 +283,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getExtraFields(): List<Field> {
         val extraFields = ArrayList<Field>()
         entryKDBX?.let {
-            for (field in it.customFields) {
-                extraFields.add(Field(field.key, field.value))
+            it.doForEachDecodedCustomField { key, value ->
+                extraFields.add(Field(key, value))
             }
         }
         return extraFields
@@ -279,7 +294,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Update or add an extra field to the list (standard or custom)
      */
     fun putExtraField(field: Field) {
-        entryKDBX?.putExtraField(field.name, field.protectedValue)
+        entryKDBX?.putField(field.name, field.protectedValue)
     }
 
     private fun addExtraFields(fields: List<Field>) {
@@ -295,7 +310,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getOtpElement(): OtpElement? {
         entryKDBX?.let {
             return OtpEntryFields.parseFields { key ->
-                it.customFields[key]?.toString()
+                it.getField(key)?.toString()
             }
         }
         return null
@@ -371,10 +386,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     fun getSize(attachmentPool: AttachmentPool): Long {
         return entryKDBX?.getSize(attachmentPool) ?: 0L
-    }
-
-    fun containsCustomData(): Boolean {
-        return entryKDBX?.containsCustomData() ?: false
     }
 
     /*

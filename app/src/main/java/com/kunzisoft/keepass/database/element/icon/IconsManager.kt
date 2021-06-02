@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.icon
 
 import android.util.Log
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.binary.CustomIconPool
@@ -27,7 +28,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.K
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.util.*
 
-class IconsManager(private val binaryCache: BinaryCache) {
+class IconsManager(binaryCache: BinaryCache) {
 
     private val standardCache = List(NB_ICONS) {
         IconImageStandard(it)
@@ -52,17 +53,15 @@ class IconsManager(private val binaryCache: BinaryCache) {
     fun buildNewCustomIcon(key: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
         // Create a binary file for a brand new custom icon
-        addCustomIcon(key, false, result)
+        addCustomIcon(key, "", null, false, result)
     }
 
     fun addCustomIcon(key: UUID? = null,
+                      name: String,
+                      lastModificationTime: DateInstant?,
                       smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        val keyBinary = customCache.put(key) { uniqueBinaryId ->
-            // Create a byte array for better performance with small data
-            binaryCache.getBinaryData(uniqueBinaryId, smallSize)
-        }
-        result.invoke(IconImageCustom(keyBinary.keys.first()), keyBinary.binary)
+        customCache.put(key, name, lastModificationTime, smallSize, result)
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
@@ -88,8 +87,12 @@ class IconsManager(private val binaryCache: BinaryCache) {
     }
 
     fun doForEachCustomIcon(action: (IconImageCustom, BinaryData) -> Unit) {
-        customCache.doForEachBinary { key, binary ->
-            action.invoke(IconImageCustom(key), binary)
+        customCache.doForEachCustomIcon(action)
+    }
+
+    fun containsCustomIconWithNameOrLastModificationTime(): Boolean {
+        return customCache.any { customIcon ->
+            customIcon.name.isNotEmpty() || customIcon.lastModificationTime != null
         }
     }
 

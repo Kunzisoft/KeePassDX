@@ -46,10 +46,10 @@ class EntryField @JvmOverloads constructor(context: Context,
 
     var hiddenProtectedValue: Boolean
         get() {
-            return showButtonView.isSelected
+            return !showButtonView.isSelected
         }
         set(value) {
-            showButtonView.isSelected = !value
+            showButtonView.isSelected = value
             changeProtectedValueParameters()
         }
 
@@ -101,7 +101,7 @@ class EntryField @JvmOverloads constructor(context: Context,
             } else {
                 setTextIsSelectable(true)
             }
-            applyHiddenStyle(isProtected && !showButtonView.isSelected)
+            applyHiddenStyle(isProtected && showButtonView.isSelected)
             if (!isProtected) linkify()
         }
     }

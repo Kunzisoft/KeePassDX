@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="feedback">प्रतिक्रिया</string>
+    <string name="feedback">प्प्रतिपुष्टिा</string>
     <string name="homepage">होमपेज</string>
     <string name="about_description">एंड्रॉयड पर आधारित KeePass पासवर्ड मैनेजर</string>
     <string name="accept">स्वीकार</string>
@@ -35,7 +35,7 @@
     <string name="extended_ASCII">विस्तारित ASCII</string>
     <string name="allow">अनुमति दें</string>
     <string name="clipboard_cleared">क्लिपबोर्ड साफ कर दिया</string>
-    <string name="clipboard_error_title">क्लिपबोर्ड त्रुटि</string>
+    <string name="clipboard_error_title">क्लिपबोर्ड एरर</string>
     <string name="clipboard_error">सैमसंग के कुछ एंड्रॉइड फोन क्लिपबोर्ड का उपयोग नहीं करने देंगे।</string>
     <string name="clipboard_error_clear">क्लिपबोर्ड को साफ़ नहीं किया जा सका</string>
     <string name="clipboard_timeout">क्लिपबोर्ड टाइमआउट</string>
@@ -104,7 +104,7 @@
     <string name="otp_counter">काउंटर</string>
     <string name="otp_digits">अंक</string>
     <string name="otp_algorithm">एल्गोरिथ्म</string>
-    <string name="entry_otp">OTP</string>
+    <string name="entry_otp">ओटीप</string>
     <string name="error_invalid_OTP">अमान्य ओटीपी गुप्त।</string>
     <string name="error_disallow_no_credentials">कम से कम एक क्रेडेंशियल सेट किया जाना चाहिए।</string>
 </resources>

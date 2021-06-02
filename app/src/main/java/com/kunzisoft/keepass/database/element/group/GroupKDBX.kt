@@ -20,8 +20,11 @@
 package com.kunzisoft.keepass.database.element.group
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -33,14 +36,17 @@ import java.util.*
 
 class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
-    private val customData = HashMap<String, String>()
+    override var usageCount = UnsignedLong(0)
+    override var locationChanged = DateInstant()
+    override var customData = CustomData()
     var notes = ""
-
     var isExpanded = true
     var defaultAutoTypeSequence = ""
     var enableAutoType: Boolean? = null
     var enableSearching: Boolean? = null
     var lastTopVisibleEntry: UUID = DatabaseVersioned.UUID_ZERO
+    override var tags = Tags()
+    override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
 
     override var expires: Boolean = false
 
@@ -60,7 +66,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor(parcel: Parcel) : super(parcel) {
         usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
-        // TODO customData = ParcelableUtil.readStringParcelableMap(parcel);
+        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
         notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
@@ -69,6 +75,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         val isSearchingEnabled = parcel.readInt()
         enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         lastTopVisibleEntry = parcel.readSerializable() as UUID
+        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
+        previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
@@ -83,13 +91,15 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         super.writeToParcel(dest, flags)
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
-        // TODO ParcelableUtil.writeStringParcelableMap(dest, customData);
+        dest.writeParcelable(customData, flags)
         dest.writeString(notes)
         dest.writeByte((if (isExpanded) 1 else 0).toByte())
         dest.writeString(defaultAutoTypeSequence)
         dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
         dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
         dest.writeSerializable(lastTopVisibleEntry)
+        dest.writeParcelable(tags, flags)
+        dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
     }
 
     fun updateWith(source: GroupKDBX) {
@@ -97,32 +107,19 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
         // Add all custom elements in map
-        customData.clear()
-        for ((key, value) in source.customData) {
-            customData[key] = value
-        }
+        customData = CustomData(source.customData)
         notes = source.notes
         isExpanded = source.isExpanded
         defaultAutoTypeSequence = source.defaultAutoTypeSequence
         enableAutoType = source.enableAutoType
         enableSearching = source.enableSearching
         lastTopVisibleEntry = source.lastTopVisibleEntry
+        tags = source.tags
+        previousParentGroup = source.previousParentGroup
     }
-
-    override var usageCount = UnsignedLong(0)
-
-    override var locationChanged = DateInstant()
 
     override fun afterAssignNewParent() {
         locationChanged = DateInstant()
-    }
-
-    override fun putCustomData(key: String, value: String) {
-        customData[key] = value
-    }
-
-    override fun containsCustomData(): Boolean {
-        return customData.isNotEmpty()
     }
 
     companion object {

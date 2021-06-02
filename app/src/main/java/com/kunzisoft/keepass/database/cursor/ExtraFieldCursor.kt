@@ -42,7 +42,7 @@ class ExtraFieldCursor : MatrixCursor(arrayOf(
     }
 
     fun populateExtraFieldInEntry(pwEntry: EntryKDBX) {
-        pwEntry.putExtraField(getString(getColumnIndex(COLUMN_LABEL)),
+        pwEntry.putField(getString(getColumnIndex(COLUMN_LABEL)),
                 ProtectedString(getInt(getColumnIndex(COLUMN_PROTECTION)) > 0,
                         getString(getColumnIndex(COLUMN_VALUE))))
     }

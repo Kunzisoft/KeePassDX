@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
+import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -45,8 +46,9 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -102,7 +104,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     var isRecycleBinEnabled = true
     var recycleBinUUID: UUID = UUID_ZERO
-    var recycleBinChanged = Date()
+    var recycleBinChanged = DateInstant()
     var entryTemplatesGroup = UUID_ZERO
     var entryTemplatesGroupChanged = DateInstant()
     var historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS
@@ -111,7 +113,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<DeletedObject>()
-    val customData = HashMap<String, String>()
+    val customData = CustomData()
 
     var localizedAppName = "KeePassDX"
 
@@ -128,7 +130,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     constructor(databaseName: String, rootName: String) {
         name = databaseName
-        kdbxVersion = FILE_VERSION_32_3
+        kdbxVersion = FILE_VERSION_31
         val group = createGroup().apply {
             title = rootName
             icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
@@ -139,8 +141,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     override val version: String
         get() {
             val kdbxStringVersion = when(kdbxVersion) {
-                FILE_VERSION_32_3 -> "3.1"
-                FILE_VERSION_32_4 -> "4.0"
+                FILE_VERSION_31 -> "3.1"
+                FILE_VERSION_40 -> "4.0"
+                FILE_VERSION_41 -> "4.1"
                 else -> "UNKNOWN"
             }
             return "KeePass 2 - KDBX$kdbxStringVersion"
@@ -188,7 +191,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                     CompressionAlgorithm.GZip -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
-                        if (kdbxVersion.isBefore(FILE_VERSION_32_4)) {
+                        if (kdbxVersion.isBefore(FILE_VERSION_40)) {
                             compressAllBinaries()
                         }
                     }
@@ -196,7 +199,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             CompressionAlgorithm.GZip -> {
                 // In databaseV4 the header is zipped during the save, so not necessary here
-                if (kdbxVersion.isBefore(FILE_VERSION_32_4)) {
+                if (kdbxVersion.isBefore(FILE_VERSION_40)) {
                     when (newCompression) {
                         CompressionAlgorithm.None -> {
                             decompressAllBinaries()
@@ -314,9 +317,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun addCustomIcon(customIconId: UUID? = null,
+                      name: String,
+                      lastModificationTime: DateInstant?,
                       smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.addCustomIcon(customIconId, smallSize, result)
+        iconsManager.addCustomIcon(customIconId, name, lastModificationTime, smallSize, result)
     }
 
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
@@ -327,17 +332,43 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
-    fun putCustomData(label: String, value: String) {
-        this.customData[label] = value
+    /*
+     * Search methods
+     */
+
+    fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
+        return this.entryIndexes.values.find { entry ->
+            entry.decodeTitleKey(recursionLevel).equals(title, true)
+        }
     }
 
-    override fun containsCustomData(): Boolean {
-        return customData.isNotEmpty()
+    fun getEntryByUsername(username: String, recursionLevel: Int): EntryKDBX? {
+        return this.entryIndexes.values.find { entry ->
+            entry.decodeUsernameKey(recursionLevel).equals(username, true)
+        }
+    }
+
+    fun getEntryByURL(url: String, recursionLevel: Int): EntryKDBX? {
+        return this.entryIndexes.values.find { entry ->
+            entry.decodeUrlKey(recursionLevel).equals(url, true)
+        }
+    }
+
+    fun getEntryByPassword(password: String, recursionLevel: Int): EntryKDBX? {
+        return this.entryIndexes.values.find { entry ->
+            entry.decodePasswordKey(recursionLevel).equals(password, true)
+        }
+    }
+
+    fun getEntryByNotes(notes: String, recursionLevel: Int): EntryKDBX? {
+        return this.entryIndexes.values.find { entry ->
+            entry.decodeNotesKey(recursionLevel).equals(notes, true)
+        }
     }
 
     fun getEntryByCustomData(customDataValue: String): EntryKDBX? {
         return entryIndexes.values.find { entry ->
-            entry.customData.containsValue(customDataValue)
+            entry.customData.containsItemWithValue(customDataValue)
         }
     }
 
@@ -608,14 +639,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             addGroupTo(recycleBinGroup, rootGroup)
             recycleBinUUID = recycleBinGroup.id
-            recycleBinChanged = recycleBinGroup.lastModificationTime.date
+            recycleBinChanged = recycleBinGroup.lastModificationTime
         }
     }
 
     fun removeRecycleBin() {
         if (recycleBin != null) {
             recycleBinUUID = UUID_ZERO
-            recycleBinChanged = DateInstant().date
+            recycleBinChanged = DateInstant()
         }
     }
 

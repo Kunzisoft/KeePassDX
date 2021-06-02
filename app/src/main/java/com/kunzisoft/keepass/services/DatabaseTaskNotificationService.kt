@@ -280,8 +280,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                         stopSelf()
                                     } else {
                                         // Restart the service to open lock notification
-                                        startService(Intent(applicationContext,
-                                                DatabaseTaskNotificationService::class.java))
+                                        try {
+                                            startService(Intent(applicationContext,
+                                                    DatabaseTaskNotificationService::class.java))
+                                        } catch (e: IllegalStateException) {}
                                     }
                                 }
                             }

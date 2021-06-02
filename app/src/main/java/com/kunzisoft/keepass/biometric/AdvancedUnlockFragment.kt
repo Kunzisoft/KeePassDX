@@ -124,8 +124,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onResume() {
         super.onResume()
-        mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(requireContext())
-        mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())
+        context?.let {
+            mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(it)
+            mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(it)
+        }
         keepConnection = false
     }
 
@@ -175,34 +177,36 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
      * Check unlock availability and change the current mode depending of device's state
      */
     fun checkUnlockAvailability() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            allowOpenBiometricPrompt = true
-            if (PreferencesUtil.isBiometricUnlockEnable(requireContext())) {
-                mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
+        context?.let { context ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                allowOpenBiometricPrompt = true
+                if (PreferencesUtil.isBiometricUnlockEnable(context)) {
+                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
 
-                // biometric not supported (by API level or hardware) so keep option hidden
-                // or manually disable
-                val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
-                if (!PreferencesUtil.isAdvancedUnlockEnable(requireContext())
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-                    toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
-                } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
-                    toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
-                } else {
-                    // biometric is available but not configured, show icon but in disabled state with some information
-                    if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-                        toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                    // biometric not supported (by API level or hardware) so keep option hidden
+                    // or manually disable
+                    val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
+                    if (!PreferencesUtil.isAdvancedUnlockEnable(context)
+                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                        toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
+                    } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
+                        toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
                     } else {
-                        selectMode()
+                        // biometric is available but not configured, show icon but in disabled state with some information
+                        if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
+                            toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                        } else {
+                            selectMode()
+                        }
                     }
-                }
-            } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(requireContext())) {
-                mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
-                if (AdvancedUnlockManager.isDeviceSecure(requireContext())) {
-                    selectMode()
-                } else {
-                    toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
+                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
+                    if (AdvancedUnlockManager.isDeviceSecure(context)) {
+                        selectMode()
+                    } else {
+                        toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                    }
                 }
             }
         }
@@ -260,7 +264,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     private fun openBiometricSetting() {
         mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
             // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
-            requireContext().startActivity(Intent(Settings.ACTION_SETTINGS))
+            context?.startActivity(Intent(Settings.ACTION_SETTINGS))
         }
     }
 
@@ -295,9 +299,11 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
         setAdvancedUnlockedMessageView("")
 
-        mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
-            onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
-                    requireContext().getString(R.string.credential_before_click_advanced_unlock_button))
+        context?.let { context ->
+            mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
+                onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
+                        context.getString(R.string.credential_before_click_advanced_unlock_button))
+            }
         }
     }
 
