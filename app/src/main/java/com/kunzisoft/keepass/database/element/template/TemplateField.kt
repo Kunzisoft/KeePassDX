@@ -6,7 +6,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.utils.UuidUtil
 
-object TemplatesFields {
+object TemplateField {
 
     const val STANDARD_TITLE = "title"
     const val STANDARD_USERNAME = "username"
@@ -15,10 +15,34 @@ object TemplatesFields {
     const val STANDARD_EXPIRATION = "expires"
     const val STANDARD_NOTES = "notes"
 
+    const val CREDIT_CARD_TITLE = "Credit Card"
     const val CREDIT_CARD_CARDHOLDER = "Card holder"
     const val CREDIT_CARD_NUMBER = "Number"
     const val CREDIT_CARD_CVV = "CVV"
-    private const val CREDIT_CARD_PIN = "PIN"
+    const val CREDIT_CARD_PIN = "PIN"
+
+    const val ID_CARD_TITLE = "ID Card"
+    const val ID_CARD_NUMBER = "Number"
+    const val ID_CARD_NAME = "Name"
+    const val ID_CARD_PLACE_OF_ISSUE = "Place of issue"
+    const val ID_CARD_DATE_OF_ISSUE = "Date of issue"
+
+    const val EMAIL_TITLE = "E-mail"
+    const val EMAIL_ADDRESS = "E-mail address"
+    const val EMAIL_URL = "URL"
+    const val EMAIL_PASSWORD = "Password"
+
+    const val WIRELESS_LAN_TITLE = "Wireless LAN"
+    const val WIRELESS_LAN_SSID = "SSID"
+    const val WIRELESS_LAN_PASSWORD = "Password"
+
+    const val SECURE_NOTE_TITLE = "Secure Note"
+    const val SECURE_NOTE_NOTES = "Notes"
+
+    const val MEMBERSHIP_TITLE = "Membership"
+    const val MEMBERSHIP_Number = "Number"
+    const val MEMBERSHIP_URL = "URL"
+    const val MEMBERSHIP_EXPIRATION = "@exp_date"
 
     fun isStandardFieldName(name: String): Boolean {
         return arrayOf(

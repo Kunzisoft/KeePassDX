@@ -42,12 +42,12 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.*
-import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_EXPIRATION
-import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_NOTES
-import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_PASSWORD
-import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_TITLE
-import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_URL
-import com.kunzisoft.keepass.database.element.template.TemplatesFields.STANDARD_USERNAME
+import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_EXPIRATION
+import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_NOTES
+import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_PASSWORD
+import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_TITLE
+import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_URL
+import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_USERNAME
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.*
@@ -354,7 +354,7 @@ class EntryEditFragment : StylishFragment() {
         // Add an action icon if needed
         return context?.let {
             EntryEditFieldView(it).apply {
-                label = TemplatesFields.getLocalizedName(context, field.name)
+                label = TemplateField.getLocalizedName(context, field.name)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 setValue(field.protectedValue.toString(), when (templateAttribute.type) {
                     TemplateAttributeType.MULTILINE -> EntryEditFieldView.TextType.MULTI_LINE
@@ -387,7 +387,7 @@ class EntryEditFragment : StylishFragment() {
                                   field: Field): View? {
         return context?.let {
             DateTimeView(it).apply {
-                label = TemplatesFields.getLocalizedName(context, field.name)
+                label = TemplateField.getLocalizedName(context, field.name)
                 try {
                     val value = field.protectedValue.toString()
                     activation = value.trim().isNotEmpty()
@@ -450,7 +450,7 @@ class EntryEditFragment : StylishFragment() {
         }.toMutableList().also { customFields ->
             // Add template field
             if (mTemplate != Template.STANDARD) {
-                TemplatesFields.getTemplateUUIDField(mTemplate)?.let { templateField ->
+                TemplateField.getTemplateUUIDField(mTemplate)?.let { templateField ->
                     customFields.add(templateField)
                 }
             }
@@ -537,7 +537,7 @@ class EntryEditFragment : StylishFragment() {
     private data class FieldId(var viewId: Int, var protected: Boolean)
 
     private fun isStandardFieldName(name: String): Boolean {
-        return TemplatesFields.isStandardFieldName(name)
+        return TemplateField.isStandardFieldName(name)
     }
 
     private fun containsCustomFieldName(name: String): Boolean {

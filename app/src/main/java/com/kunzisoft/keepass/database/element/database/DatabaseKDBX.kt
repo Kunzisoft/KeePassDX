@@ -339,10 +339,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return entryTemplatesGroup != UUID_ZERO
     }
 
-    fun enableTemplatesGroup(enable: Boolean) {
+    fun enableTemplatesGroup(enable: Boolean, resources: Resources) {
         if (enable) {
-            val uuidTemplatesGroup = mTemplateEngine.createNewTemplatesGroup()
-
+            val uuidTemplatesGroup = mTemplateEngine.createNewTemplatesGroup(resources)
             addGroupTo(uuidTemplatesGroup, rootGroup)
             entryTemplatesGroup = uuidTemplatesGroup.id
             entryTemplatesGroupChanged = uuidTemplatesGroup.lastModificationTime

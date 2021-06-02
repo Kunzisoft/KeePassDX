@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.database.element.template.TemplatesFields
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -337,7 +337,7 @@ class EntryActivity : LockingActivity() {
                             clipboardHelper?.timeoutCopyToClipboard(
                                     value.toString(),
                                     getString(R.string.copy_field,
-                                            TemplatesFields.getLocalizedName(applicationContext, field.name))
+                                            TemplateField.getLocalizedName(applicationContext, field.name))
                             )
                         }
                     } else {

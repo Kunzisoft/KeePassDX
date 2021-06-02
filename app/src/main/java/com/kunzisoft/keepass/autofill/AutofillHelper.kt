@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.database.element.template.TemplatesFields
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
@@ -175,17 +175,17 @@ object AutofillHelper {
             }
         }
         for (field in entryInfo.customFields) {
-            if (field.name == TemplatesFields.CREDIT_CARD_CARDHOLDER) {
+            if (field.name == TemplateField.CREDIT_CARD_CARDHOLDER) {
                 struct.ccNameId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplatesFields.CREDIT_CARD_NUMBER) {
+            if (field.name == TemplateField.CREDIT_CARD_NUMBER) {
                 struct.ccnId?.let { ccnId ->
                     builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplatesFields.CREDIT_CARD_CVV) {
+            if (field.name == TemplateField.CREDIT_CARD_CVV) {
                 struct.cvvId?.let { cvvId ->
                     builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
                 }

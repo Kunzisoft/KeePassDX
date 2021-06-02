@@ -1,6 +1,8 @@
 package com.kunzisoft.keepass.database.element.template
 
+import android.content.res.Resources
 import android.util.Log
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -33,9 +35,9 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
         return templates
     }
 
-    fun createNewTemplatesGroup(): GroupKDBX {
+    fun createNewTemplatesGroup(resources: Resources): GroupKDBX {
         return databaseKDBX.createGroup().apply {
-            title = TEMPLATE_GROUP_NAME
+            title = getDefaultTemplateGroupName(resources)
             icon.standard = databaseKDBX.getStandardIcon(IconImageStandard.FOLDER_ID)
             enableAutoType = false
             enableSearching = false
@@ -92,7 +94,7 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         var referenceLabel = value.stringValue
                         if (referenceLabel.equals(TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION, true)) {
-                            referenceLabel = TemplatesFields.STANDARD_EXPIRATION
+                            referenceLabel = TemplateField.STANDARD_EXPIRATION
                         }
                         attribute.attribute.label = referenceLabel
                     } catch (e: Exception) {
@@ -171,7 +173,6 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
         private data class TemplateAttributePosition(var position: Int, var attribute: TemplateAttribute)
 
         private val TAG = TemplateEngine::class.java.name
-        private const val TEMPLATE_GROUP_NAME = "Templates"
         private const val TEMPLATE_LABEL_VERSION = "_etm_template"
         const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
@@ -187,5 +188,9 @@ class TemplateEngine(private val databaseKDBX: DatabaseKDBX) {
         private const val TEMPLATE_ATTRIBUTE_TYPE_LISTBOX = "Listbox"
         private const val TEMPLATE_ATTRIBUTE_TYPE_POPOUT = "Popout"
         private const val TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX = "Rich Textbox"
+
+        fun getDefaultTemplateGroupName(resources: Resources): String {
+            return resources.getString(R.string.templates)
+        }
     }
 }

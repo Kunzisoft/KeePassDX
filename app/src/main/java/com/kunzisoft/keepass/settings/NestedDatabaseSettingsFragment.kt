@@ -187,7 +187,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                     isEnabled = if (!mDatabaseReadOnly) {
                         setOnPreferenceChangeListener { _, newValue ->
                             val templatesEnabled = newValue as Boolean
-                            mDatabase.enableTemplates(templatesEnabled)
+                            mDatabase.enableTemplates(templatesEnabled, resources)
                             refreshTemplatesGroup()
                             // Save the database if not in readonly mode
                             (context as SettingsActivity?)?.
