@@ -72,10 +72,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.ToolbarAction
-import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.view.updateLockPaddingLeft
+import com.kunzisoft.keepass.view.*
 import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
@@ -102,6 +99,7 @@ class EntryEditActivity : LockingActivity(),
     private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
     private var lockView: View? = null
+    private var loadingView: ProgressBar? = null
 
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -135,6 +133,8 @@ class EntryEditActivity : LockingActivity(),
         lockView?.setOnClickListener {
             lockAndExit()
         }
+
+        loadingView = findViewById(R.id.loading)
 
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
@@ -236,6 +236,7 @@ class EntryEditActivity : LockingActivity(),
 
         // To show Fragment asynchronously
         lifecycleScope.launchWhenResumed {
+            loadingView?.hideByFading()
             entryEditFragment?.let { fragment ->
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.entry_edit_content, fragment, ENTRY_EDIT_FRAGMENT_TAG)

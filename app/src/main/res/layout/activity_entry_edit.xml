@@ -46,6 +46,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.AppBarLayout>
 
+        <ProgressBar
+            android:id="@+id/loading"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminate="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/entry_edit_scroll"
             android:layout_width="match_parent"

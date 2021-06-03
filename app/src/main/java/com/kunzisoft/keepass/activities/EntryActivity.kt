@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
@@ -75,6 +76,7 @@ class EntryActivity : LockingActivity() {
     private var entryProgress: ProgressBar? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
+    private var loadingView: ProgressBar? = null
 
     private var mEntryFragment: EntryFragment? = null
 
@@ -117,6 +119,7 @@ class EntryActivity : LockingActivity() {
         historyView = findViewById(R.id.history_container)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
+        loadingView = findViewById(R.id.loading)
 
         lockView?.setOnClickListener {
             lockAndExit()
@@ -139,6 +142,7 @@ class EntryActivity : LockingActivity() {
         }
         // To show Fragment asynchronously
         lifecycleScope.launchWhenResumed {
+            loadingView?.hideByFading()
             mEntryFragment?.let { fragment ->
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.entry_content, fragment, ENTRY_FRAGMENT_TAG)

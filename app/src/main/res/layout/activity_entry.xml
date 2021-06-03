@@ -125,6 +125,14 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <include
         layout="@layout/view_button_lock"
         android:layout_width="@dimen/lock_button_size"
