@@ -143,7 +143,7 @@ class Database {
         iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
     }
 
-    fun getTemplates(templateCreation: Boolean = false): List<Template> {
+    fun getTemplates(templateCreation: Boolean): List<Template> {
         return mDatabaseKDBX?.getTemplates(templateCreation) ?: listOf()
     }
 
@@ -152,6 +152,24 @@ class Database {
             return mDatabaseKDBX?.getTemplate(entryKDBX)
         }
         return null
+    }
+
+    fun decodeTemplateEntry(entry: Entry): Entry {
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.decodeTemplateEntry(it)?.let { decode ->
+                return Entry(decode)
+            }
+        }
+        return entry
+    }
+
+    fun encodeTemplateEntry(entry: Entry): Entry {
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.encodeTemplateEntry(it)?.let { encode ->
+                return Entry(encode)
+            }
+        }
+        return entry
     }
 
     val allowName: Boolean

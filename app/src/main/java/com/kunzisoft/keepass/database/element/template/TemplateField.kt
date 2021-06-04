@@ -3,6 +3,8 @@ package com.kunzisoft.keepass.database.element.template
 import android.content.Context
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.utils.UuidUtil
 
@@ -55,24 +57,28 @@ object TemplateField {
         ).firstOrNull { it.equals(name, true) } != null
     }
 
-    fun getLocalizedName(context: Context?, fieldName: String): String {
+    fun getLocalizedName(context: Context?, name: String): String {
         if (context == null)
-            return fieldName
-        return when (fieldName) {
+            return name
+        return when (name) {
             STANDARD_TITLE -> context.getString(R.string.entry_title)
             STANDARD_USERNAME -> context.getString(R.string.entry_user_name)
             STANDARD_PASSWORD -> context.getString(R.string.entry_password)
             STANDARD_URL -> context.getString(R.string.entry_url)
             STANDARD_EXPIRATION -> context.getString(R.string.entry_expires)
+            TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION -> context.getString(R.string.entry_expires)
             STANDARD_NOTES -> context.getString(R.string.entry_notes)
 
+            TEMPLATE_LABEL_VERSION -> context.getString(R.string.templates_version)
+
+            CREDIT_CARD_TITLE -> context.getString(R.string.credit_card)
             CREDIT_CARD_CARDHOLDER -> context.getString(R.string.credit_card_cardholder)
             CREDIT_CARD_NUMBER -> context.getString(R.string.credit_card_number)
             CREDIT_CARD_CVV -> context.getString(R.string.credit_card_security_code)
             CREDIT_CARD_PIN -> context.getString(R.string.credit_card_pin)
 
             // TODO Others translations
-            else -> fieldName
+            else -> name
         }
     }
 

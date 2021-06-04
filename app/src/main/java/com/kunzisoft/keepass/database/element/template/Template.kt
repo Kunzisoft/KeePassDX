@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.BUILD_ID
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_NOTES
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_PASSWORD
@@ -61,6 +62,15 @@ class Template : Parcelable {
         this.icon = icon
         this.sections.clear()
         this.sections.addAll(sections)
+    }
+
+    constructor(template: Template) {
+        this.version = template.version
+        this.uuid = template.uuid
+        this.title = template.title
+        this.icon = template.icon
+        this.sections.clear()
+        this.sections.addAll(template.sections)
     }
 
     constructor(parcel: Parcel) {
@@ -113,6 +123,7 @@ class Template : Parcelable {
                     add(TemplateAttribute(STANDARD_PASSWORD,
                             TemplateAttributeType.INLINE,
                             true,
+                            "",
                             TemplateAttributeAction.PASSWORD_GENERATION)
                     )
                     add(TemplateAttribute(STANDARD_URL, TemplateAttributeType.INLINE))
@@ -120,15 +131,24 @@ class Template : Parcelable {
                     add(TemplateAttribute(STANDARD_NOTES, TemplateAttributeType.MULTILINE))
                 })
                 sections.add(mainSection)
-                return Template(DatabaseVersioned.UUID_ZERO, "Standard", IconImage(), sections)
+                return Template(DatabaseVersioned.UUID_ZERO,
+                        "Standard",
+                        IconImage(),
+                        sections)
             }
 
         val CREATION: Template
             get() {
+                val sections = ArrayList<TemplateSection>()
+                val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+                    add(TemplateAttribute(TEMPLATE_LABEL_VERSION, TemplateAttributeType.INLINE))
+                    // Dynamic part after this
+                })
+                sections.add(mainSection)
                 return Template(UUID(0, 1),
                         "Template",
                         IconImage(IconImageStandard(BUILD_ID)),
-                        listOf())
+                        sections)
             }
     }
 }

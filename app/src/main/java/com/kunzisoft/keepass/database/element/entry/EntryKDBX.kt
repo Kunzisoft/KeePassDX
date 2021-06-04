@@ -37,7 +37,6 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
-import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -290,6 +289,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     fun putField(label: String, value: ProtectedString) {
         fields[label] = value
+    }
+
+    fun removeField(label: String) {
+        fields.remove(label)
     }
 
     fun removeAllFields() {

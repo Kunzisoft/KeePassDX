@@ -36,8 +36,8 @@ class EntryInfo : NodeInfo {
     var password: String = ""
     var url: String = ""
     var notes: String = ""
-    var customFields: List<Field> = ArrayList()
-    var attachments: List<Attachment> = ArrayList()
+    var customFields: List<Field> = listOf()
+    var attachments: List<Attachment> = listOf()
     var otpModel: OtpModel? = null
 
     constructor() : super()

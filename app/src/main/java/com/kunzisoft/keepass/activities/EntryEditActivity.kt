@@ -160,6 +160,7 @@ class EntryEditActivity : LockingActivity(),
                     entry.parent = mParent
                 }
             }
+            checkIfTemplate()
             tempEntryInfo = mEntry?.getEntryInfo(mDatabase, true)
         }
 
@@ -169,7 +170,9 @@ class EntryEditActivity : LockingActivity(),
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon from parent if not a folder
             val parentIcon = mParent?.icon
-            tempEntryInfo = mDatabase?.createEntry()?.getEntryInfo(mDatabase, true)
+            mEntry = mDatabase?.createEntry()
+            checkIfTemplate()
+            tempEntryInfo = mEntry?.getEntryInfo(mDatabase, true)
             // Set default icon
             if (parentIcon != null) {
                 if (parentIcon.custom.isUnknown
@@ -184,6 +187,12 @@ class EntryEditActivity : LockingActivity(),
             tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
         }
 
+        // Build template selector
+        val templates = mDatabase?.getTemplates(mIsTemplate)
+        val entryTemplate: Template? = mEntry?.let {
+            mDatabase?.getTemplate(it)
+        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
+
         // Retrieve data from registration
         val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
         val searchInfo: SearchInfo? = registerInfo?.searchInfo
@@ -196,15 +205,6 @@ class EntryEditActivity : LockingActivity(),
         registerInfo?.let { regInfo ->
             tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
         }
-
-        // Build template selector
-        mIsTemplate = mDatabase?.templatesGroup?.let {
-            mDatabase?.templatesGroup == mParent
-        } ?: false
-        val templates = mDatabase?.getTemplates(mIsTemplate)
-        val entryTemplate: Template? = mEntry?.let {
-            mDatabase?.getTemplate(it)
-        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
 
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
@@ -337,6 +337,17 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             coordinatorLayout?.showActionErrorIfNeeded(result)
+        }
+    }
+
+    private fun checkIfTemplate() {
+        mIsTemplate = mDatabase?.templatesGroup?.let {
+            mDatabase?.templatesGroup == mParent
+        } ?: false
+        if (mIsTemplate) {
+            mEntry?.let {
+                mEntry = mDatabase?.decodeTemplateEntry(it)
+            }
         }
     }
 
@@ -564,7 +575,8 @@ class EntryEditActivity : LockingActivity(),
             } else {
                 // Create a clone
                 Entry(mEntry!!)
-            }?.let { newEntry ->
+            }?.let {
+                var newEntry = it
 
                 // Do not save entry in upload progression
                 mTempAttachments.forEach { attachmentState ->
@@ -587,6 +599,11 @@ class EntryEditActivity : LockingActivity(),
 
                 // Build info
                 newEntry.setEntryInfo(mDatabase, newEntryInfo)
+
+                // Encode entry properties for template
+                if (mIsTemplate) {
+                    newEntry = mDatabase?.encodeTemplateEntry(newEntry) ?: newEntry
+                }
 
                 // Delete temp attachment if not used
                 mTempAttachments.forEach { tempAttachmentState ->

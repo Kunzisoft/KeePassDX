@@ -99,6 +99,7 @@
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
+    <string name="credit_card">Credit Card</string>
     <string name="credit_card_cardholder">Cardholder</string>
     <string name="credit_card_number">Number</string>
     <string name="credit_card_security_code">CVV</string>
@@ -379,6 +380,7 @@
     <string name="templates_group_enable_title">Templates usage</string>
     <string name="templates_group_enable_summary">Use dynamic templates to fill in the fields of an entry</string>
     <string name="templates_group_uuid_title">Templates group</string>
+    <string name="templates_version">Version</string>
     <string name="max_history_items_title">Maximum number</string>
     <string name="max_history_items_summary">Limit the number of history items per entry</string>
     <string name="max_history_size_title">Maximum size</string>

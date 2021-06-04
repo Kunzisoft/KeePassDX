@@ -314,6 +314,7 @@ class EntryEditFragment: DatabaseFragment() {
                 field.name,
                 TemplateAttributeType.INLINE,
                 field.protectedValue.isProtected,
+                field.protectedValue.stringValue,
                 TemplateAttributeAction.CUSTOM_EDITION)
         return buildViewForTemplateField(customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
@@ -444,7 +445,8 @@ class EntryEditFragment: DatabaseFragment() {
             getCustomField(it.key)
         }.toMutableList().also { customFields ->
             // Add template field
-            if (mTemplate != Template.STANDARD) {
+            if (mTemplate != Template.STANDARD
+                    && mTemplate != Template.CREATION) {
                 TemplateField.getTemplateUUIDField(mTemplate)?.let { templateField ->
                     customFields.add(templateField)
                 }

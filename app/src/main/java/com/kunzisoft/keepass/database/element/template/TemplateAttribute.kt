@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.utils.writeEnum
 data class TemplateAttribute(var label: String,
                              var type: TemplateAttributeType,
                              var protected: Boolean = false,
+                             var defaultValue: String = "",
                              var action: TemplateAttributeAction = TemplateAttributeAction.NONE,
                              var options: List<String> = ArrayList()): Parcelable {
 
@@ -33,6 +34,7 @@ data class TemplateAttribute(var label: String,
             parcel.readString() ?: "",
             parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.INLINE,
             parcel.readByte() != 0.toByte(),
+            parcel.readString() ?: "",
             parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE,
             parcel.createStringArrayList() ?: ArrayList())
 
@@ -40,6 +42,7 @@ data class TemplateAttribute(var label: String,
         parcel.writeString(label)
         parcel.writeEnum(type)
         parcel.writeByte(if (protected) 1 else 0)
+        parcel.writeString(defaultValue)
         parcel.writeEnum(action)
         parcel.writeStringList(options)
     }
