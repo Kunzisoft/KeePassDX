@@ -75,6 +75,7 @@ class IconImageStandard : IconImageDraw {
     companion object {
 
         const val KEY_ID = 0
+        const val BUILD_ID = 6
         const val TRASH_ID = 43
         const val FOLDER_ID = 48
 

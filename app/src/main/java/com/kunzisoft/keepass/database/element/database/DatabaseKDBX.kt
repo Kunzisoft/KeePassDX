@@ -358,8 +358,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return null
     }
 
-    fun getTemplates(): List<Template> {
-        return mTemplateEngine.getTemplates()
+    fun getTemplates(templateCreation: Boolean): List<Template> {
+        return mTemplateEngine.getTemplates(templateCreation)
     }
 
     fun getTemplate(entry: EntryKDBX): Template? {

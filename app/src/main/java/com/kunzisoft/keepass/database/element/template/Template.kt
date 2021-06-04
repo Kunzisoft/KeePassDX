@@ -23,6 +23,8 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.BUILD_ID
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_NOTES
 import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_PASSWORD
@@ -119,6 +121,14 @@ class Template : Parcelable {
                 })
                 sections.add(mainSection)
                 return Template(DatabaseVersioned.UUID_ZERO, "Standard", IconImage(), sections)
+            }
+
+        val CREATION: Template
+            get() {
+                return Template(UUID(0, 1),
+                        "Template",
+                        IconImage(IconImageStandard(BUILD_ID)),
+                        listOf())
             }
     }
 }

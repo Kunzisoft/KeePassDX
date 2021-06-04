@@ -90,6 +90,7 @@ class EntryEditActivity : LockingActivity(),
     private var mEntry: Entry? = null
     private var mParent: Group? = null
     private var mIsNew: Boolean = false
+    private var mIsTemplate: Boolean = false
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
@@ -197,7 +198,10 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Build template selector
-        val templates = mDatabase?.getTemplates()
+        mIsTemplate = mDatabase?.templatesGroup?.let {
+            mDatabase?.templatesGroup == mParent
+        } ?: false
+        val templates = mDatabase?.getTemplates(mIsTemplate)
         val entryTemplate: Template? = mEntry?.let {
             mDatabase?.getTemplate(it)
         } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
@@ -434,11 +438,19 @@ class EntryEditActivity : LockingActivity(),
      * Add a new customized field
      */
     private fun addNewCustomField() {
-        EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
+        //if (mIsTemplate) {
+            // TODO Custom Dialog to add a complete template field
+        //} else {
+            EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
+        //}
     }
 
     private fun editCustomField(field: Field) {
-        EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
+        //if (mIsTemplate) {
+        // TODO Custom Dialog to edit a complete template field
+        //} else {
+            EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
+        //}
     }
 
     private fun showAddCustomFieldError() {
@@ -620,19 +632,23 @@ class EntryEditActivity : LockingActivity(),
 
         menu?.findItem(R.id.menu_add_field)?.apply {
             isEnabled = allowCustomField
-            isVisible = allowCustomField
+            isVisible = isEnabled
         }
 
-        // Attachment not compatible below KitKat
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            menu?.findItem(R.id.menu_add_attachment)?.isVisible = false
+        menu?.findItem(R.id.menu_add_attachment)?.apply {
+            // Attachment not compatible below KitKat
+            isEnabled = !mIsTemplate
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+            isVisible = isEnabled
         }
 
         menu?.findItem(R.id.menu_add_otp)?.apply {
             val allowOTP = mDatabase?.allowOTP == true
-            isEnabled = allowOTP
             // OTP not compatible below KitKat
-            isVisible = allowOTP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+            isEnabled = allowOTP
+                    && !mIsTemplate
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+            isVisible = isEnabled
         }
 
         entryEditActivityEducation?.let {
