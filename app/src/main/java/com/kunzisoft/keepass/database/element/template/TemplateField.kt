@@ -6,6 +6,8 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.PREFIX_DECODED_TEMPLATE
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.SUFFIX_DECODED_TEMPLATE
 import com.kunzisoft.keepass.utils.UuidUtil
 
 object TemplateField {
@@ -58,8 +60,11 @@ object TemplateField {
     }
 
     fun getLocalizedName(context: Context?, name: String): String {
-        if (context == null)
+        if (context == null
+                || name.startsWith(PREFIX_DECODED_TEMPLATE)
+                && name.endsWith(SUFFIX_DECODED_TEMPLATE))
             return name
+
         return when (name) {
             STANDARD_TITLE -> context.getString(R.string.entry_title)
             STANDARD_USERNAME -> context.getString(R.string.entry_user_name)

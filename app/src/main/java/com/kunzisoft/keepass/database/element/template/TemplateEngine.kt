@@ -201,7 +201,8 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val newFields = arrayOfNulls<Field>(attributes.size)
         attributes.values.forEach {
             // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
-            newFields[it.position] = Field(PREFIX_DECODED_TEMPLATE + it.attribute.label, ProtectedString(false, it.attribute.defaultValue))
+            newFields[it.position] = Field(PREFIX_DECODED_TEMPLATE + it.attribute.label + SUFFIX_DECODED_TEMPLATE,
+                    ProtectedString(false, it.attribute.defaultValue))
         }
         newFields.forEach { field ->
             field?.let {
@@ -217,7 +218,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         }
         var index = 0
         templateEntry.doForEachDecodedCustomField { field ->
-            val label = field.name.removePrefix(PREFIX_DECODED_TEMPLATE)
+            val label = field.name.removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE)
             val value = field.protectedValue
             when {
                 label.equals(TEMPLATE_LABEL_VERSION, true) -> {
@@ -248,7 +249,8 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         private data class TemplateAttributePosition(var position: Int, var attribute: TemplateAttribute)
 
         private val TAG = TemplateEngine::class.java.name
-        const val PREFIX_DECODED_TEMPLATE = "€_"
+        const val PREFIX_DECODED_TEMPLATE = "["
+        const val SUFFIX_DECODED_TEMPLATE = "]"
         const val TEMPLATE_LABEL_VERSION = "_etm_template"
         const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"

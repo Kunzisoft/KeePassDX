@@ -31,12 +31,18 @@ class EntryViewModel: ViewModel() {
 
     fun selectEntry(nodeIdUUID: NodeId<UUID>?, historyPosition: Int) {
         if (nodeIdUUID != null) {
+            // Manage current version and history
             val entryLastVersion = mDatabase.getEntryById(nodeIdUUID)
             var entry = entryLastVersion
             if (historyPosition > -1) {
                 entry = entry?.getHistory()?.get(historyPosition)
             }
+            // To update current modification time
             entry?.touch(modified = false, touchParents = false)
+            // To simplify template field visibility
+            entry?.let {
+                entry = mDatabase.decodeTemplateEntry(it)
+            }
             _entry.value = EntryHistory(entry, entryLastVersion, historyPosition)
         } else {
             _entry.value = EntryHistory(null, null)
