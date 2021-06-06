@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
@@ -52,7 +53,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var usageCount = UnsignedLong(0)
     override var locationChanged = DateInstant()
     override var customData = CustomData()
-    var fields = LinkedHashMap<String, ProtectedString>()
+    var fields = mutableListOf<Field>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
     var backgroundColor = ""
@@ -72,7 +73,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
         customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
-        fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
+        parcel.readList(fields, Field::class.java.classLoader)
         binaries = ParcelableUtil.readStringIntMap(parcel)
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
@@ -98,7 +99,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
-        ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
+        dest.writeList(fields)
         ParcelableUtil.writeStringIntMap(dest, binaries)
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
@@ -121,7 +122,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         locationChanged = DateInstant(source.locationChanged)
         customData = CustomData(source.customData)
         fields.clear()
-        fields.putAll(source.fields)
+        fields.addAll(source.fields)
         binaries.clear()
         binaries.putAll(source.binaries)
         foregroundColor = source.foregroundColor
@@ -165,7 +166,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      * @return
      */
     private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): String {
-        return fields[key]?.toString()?.let { text ->
+        return fields.find { it.name == key }?.protectedValue?.stringValue?.let { text ->
             return if (decodeRef) {
                 mDatabase?.getFieldReferenceValue(text, recursionLevel) ?: text
             } else text
@@ -180,7 +181,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         get() = decodeTitleKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectTitle
-            fields[STR_TITLE] = ProtectedString(protect, value)
+            fields.find { it.name == STR_TITLE }?.protectedValue = ProtectedString(protect, value)
         }
 
     fun decodeUsernameKey(recursionLevel: Int): String {
@@ -191,7 +192,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         get() = decodeUsernameKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUserName
-            fields[STR_USERNAME] = ProtectedString(protect, value)
+            fields.find { it.name == STR_USERNAME }?.protectedValue = ProtectedString(protect, value)
         }
 
     fun decodePasswordKey(recursionLevel: Int): String {
@@ -202,7 +203,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         get() = decodePasswordKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectPassword
-            fields[STR_PASSWORD] = ProtectedString(protect, value)
+            fields.find { it.name == STR_PASSWORD }?.protectedValue = ProtectedString(protect, value)
         }
 
     fun decodeUrlKey(recursionLevel: Int): String {
@@ -213,7 +214,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         get() = decodeUrlKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUrl
-            fields[STR_URL] = ProtectedString(protect, value)
+            fields.find { it.name == STR_URL }?.protectedValue = ProtectedString(protect, value)
         }
 
     fun decodeNotesKey(recursionLevel: Int): String {
@@ -224,7 +225,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         get() = decodeNotesKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectNotes
-            fields[STR_NOTES] = ProtectedString(protect, value)
+            fields.find { it.name == STR_NOTES }?.protectedValue = ProtectedString(protect, value)
         }
 
     fun getCustomFieldValue(label: String): String {
@@ -234,9 +235,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     fun getSize(attachmentPool: AttachmentPool): Long {
         var size = FIXED_LENGTH_SIZE
 
-        for (entry in fields.entries) {
-            size += entry.key.length.toLong()
-            size += entry.value.length().toLong()
+        for (entry in fields) {
+            size += entry.name.length.toLong()
+            size += entry.protectedValue.length().toLong()
         }
 
         size += getAttachmentsSize(attachmentPool)
@@ -269,30 +270,40 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
                 || key == STR_NOTES)
     }
 
-    fun doForEachDecodedCustomField(action: (key: String, value: ProtectedString) -> Unit) {
-        val iterator = fields.entries.iterator()
+    fun doForEachDecodedCustomField(action: (field: Field) -> Unit) {
+        val iterator = fields.iterator()
         while (iterator.hasNext()) {
             val mapEntry = iterator.next()
-            if (!isStandardField(mapEntry.key)) {
-                action.invoke(mapEntry.key,
-                        ProtectedString(mapEntry.value.isProtected,
-                                decodeRefKey(mDecodeRef, mapEntry.key, 0)
-                        )
+            if (!isStandardField(mapEntry.name)) {
+                action.invoke(Field(mapEntry.name,
+                        ProtectedString(mapEntry.protectedValue.isProtected,
+                                decodeRefKey(mDecodeRef, mapEntry.name, 0)
+                        ))
                 )
             }
         }
     }
 
-    fun getField(key: String): ProtectedString? {
-        return fields[key]
+    fun getFieldValue(key: String): ProtectedString? {
+        return fields.find { it.name == key }?.protectedValue
+    }
+
+    fun putField(field: Field) {
+        val index = fields.indexOf(field)
+        if (index >= 0) {
+            fields.removeAt(index)
+            fields.add(index, field)
+        } else {
+            fields.add(field)
+        }
     }
 
     fun putField(label: String, value: ProtectedString) {
-        fields[label] = value
+        putField(Field(label, value))
     }
 
-    fun removeField(label: String) {
-        fields.remove(label)
+    fun removeField(field: Field) {
+        fields.remove(field)
     }
 
     fun removeAllFields() {

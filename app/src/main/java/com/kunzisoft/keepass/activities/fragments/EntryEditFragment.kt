@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrCha
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.*
@@ -50,7 +51,6 @@ import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -58,7 +58,6 @@ import com.kunzisoft.keepass.view.*
 import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
 
 class EntryEditFragment: DatabaseFragment() {
 
@@ -88,7 +87,7 @@ class EntryEditFragment: DatabaseFragment() {
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
 
-    private var mCustomFields = LinkedHashMap<String, FieldId>() // <label>, <viewId>
+    private var mCustomFieldIds = mutableListOf<FieldId>()
     // Current date time selection
     @IdRes
     private var mTempDateTimeViewId: Int? = null
@@ -225,7 +224,7 @@ class EntryEditFragment: DatabaseFragment() {
             // Build each template section
             templateContainerView.removeAllViews()
             customFieldsContainerView.removeAllViews()
-            mCustomFields.clear()
+            mCustomFieldIds.clear()
 
             // Set info in view
             setIcon(mEntryInfo.icon)
@@ -340,7 +339,10 @@ class EntryEditFragment: DatabaseFragment() {
 
         // Add new custom view id to the custom field list
         if (fieldTag == FIELD_CUSTOM_TAG) {
-            mCustomFields[field.name] = FieldId(itemView!!.id, field.protectedValue.isProtected)
+            val indexOldItem = indexCustomFieldIdByName(field.name)
+            if (indexOldItem > 0)
+                mCustomFieldIds.removeAt(indexOldItem)
+            mCustomFieldIds.add(FieldId(field.name, itemView!!.id, field.protectedValue.isProtected))
         }
         return itemView
     }
@@ -441,8 +443,8 @@ class EntryEditFragment: DatabaseFragment() {
             mEntryInfo.notes = it
         }
 
-        mEntryInfo.customFields = mCustomFields.map {
-            getCustomField(it.key)
+        mEntryInfo.customFields = mCustomFieldIds.map {
+            getCustomField(it.label)
         }.toMutableList().also { customFields ->
             // Add template field
             if (mTemplate != Template.STANDARD
@@ -531,18 +533,22 @@ class EntryEditFragment: DatabaseFragment() {
      * -------------
      */
 
-    private data class FieldId(var viewId: Int, var protected: Boolean)
+    private data class FieldId(var label: String, var viewId: Int, var protected: Boolean)
 
     private fun isStandardFieldName(name: String): Boolean {
         return TemplateField.isStandardFieldName(name)
     }
 
-    private fun containsCustomFieldName(name: String): Boolean {
-        return mCustomFields.keys.firstOrNull { it.equals(name, true) } != null
+    private fun customFieldIdByName(name: String): FieldId? {
+        return mCustomFieldIds.find { it.label.equals(name, true) }
+    }
+
+    private fun indexCustomFieldIdByName(name: String): Int {
+        return mCustomFieldIds.indexOfFirst { it.label.equals(name, true) }
     }
 
     private fun getCustomField(fieldName: String): Field {
-        mCustomFields[fieldName]?.let { fieldId ->
+        customFieldIdByName(fieldName)?.let { fieldId ->
             val editView: View? = templateContainerView.findViewById(fieldId.viewId)
                     ?: customFieldsContainerView.findViewById(fieldId.viewId)
             if (editView is EntryEditFieldView) {
@@ -562,12 +568,14 @@ class EntryEditFragment: DatabaseFragment() {
     fun putCustomField(customField: Field): Boolean {
         return if (!isStandardFieldName(customField.name)) {
             customFieldsContainerView.visibility = View.VISIBLE
-            if (containsCustomFieldName(customField.name)) {
+            if (indexCustomFieldIdByName(customField.name) >= 0) {
                 replaceCustomField(customField, customField)
             } else {
                 val newCustomView = buildViewForCustomField(customField)
                 customFieldsContainerView.addView(newCustomView)
-                mCustomFields[customField.name] = FieldId(newCustomView!!.id, customField.protectedValue.isProtected)
+                mCustomFieldIds.add(FieldId(customField.name,
+                        newCustomView!!.id,
+                        customField.protectedValue.isProtected))
                 newCustomView.requestFocus()
                 true
             }
@@ -581,7 +589,7 @@ class EntryEditFragment: DatabaseFragment() {
      */
     fun replaceCustomField(oldField: Field, newField: Field): Boolean {
         if (!isStandardFieldName(newField.name)) {
-            mCustomFields[oldField.name]?.viewId?.let { viewId ->
+            customFieldIdByName(oldField.name)?.viewId?.let { viewId ->
                 customFieldsContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
                     val oldValue = getCustomField(oldField.name).protectedValue.toString()
 
@@ -591,12 +599,15 @@ class EntryEditFragment: DatabaseFragment() {
 
                     val newCustomFieldWithValue = Field(newField.name,
                             ProtectedString(newField.protectedValue.isProtected, oldValue))
-                    mCustomFields.remove(oldField.name)
+                    val oldPosition = indexCustomFieldIdByName(oldField.name)
+                    if (oldPosition > 0)
+                        mCustomFieldIds.removeAt(oldPosition)
 
                     val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
                     parentGroup.addView(newCustomView, indexInParent)
-                    mCustomFields[newCustomFieldWithValue.name] = FieldId(newCustomView!!.id,
-                            newCustomFieldWithValue.protectedValue.isProtected)
+                    mCustomFieldIds.add(oldPosition, FieldId(newCustomFieldWithValue.name,
+                            newCustomView!!.id,
+                            newCustomFieldWithValue.protectedValue.isProtected))
                     newCustomView.requestFocus()
                     return true
                 }
@@ -606,9 +617,12 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     fun removeCustomField(oldCustomField: Field) {
-        mCustomFields[oldCustomField.name]?.viewId?.let { viewId ->
-            customFieldsContainerView.removeViewById(viewId)
-            mCustomFields.remove(oldCustomField.name)
+        val indexOldField = indexCustomFieldIdByName(oldCustomField.name)
+        if (indexOldField > 0) {
+            mCustomFieldIds[indexOldField].viewId.let { viewId ->
+                customFieldsContainerView.removeViewById(viewId)
+            }
+            mCustomFieldIds.removeAt(indexOldField)
         }
     }
 

@@ -8,7 +8,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.HashMap
@@ -74,20 +74,22 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
     }
 
     private fun conditionCustomFields(attributes: HashMap<String, TemplateAttributePosition>,
-                                      key: String, value: String,
+                                      field: Field,
                                       actionForEachAttributePrefix: ((TemplateAttributePosition) -> Unit)?,
                                       retrieveTemplateVersion: (Int?) -> Unit) {
+        val label = field.name
+        val value = field.protectedValue.stringValue
         when {
-            key.equals(TEMPLATE_LABEL_VERSION, true) -> {
+            label.equals(TEMPLATE_LABEL_VERSION, true) -> {
                 try {
                     retrieveTemplateVersion.invoke(value.toIntOrNull())
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to retrieve template version", e)
                 }
             }
-            key.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX) -> {
+            label.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX) -> {
                 try {
-                    val attributeName = key.substring(TEMPLATE_ATTRIBUTE_POSITION_PREFIX.length)
+                    val attributeName = label.substring(TEMPLATE_ATTRIBUTE_POSITION_PREFIX.length)
                     val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                     attribute.position = value.toInt()
                     actionForEachAttributePrefix?.invoke(attribute)
@@ -95,9 +97,9 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     Log.e(TAG, "Unable to retrieve template position", e)
                 }
             }
-            key.startsWith(TEMPLATE_ATTRIBUTE_TITLE_PREFIX) -> {
+            label.startsWith(TEMPLATE_ATTRIBUTE_TITLE_PREFIX) -> {
                 try {
-                    val attributeName = key.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
+                    val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
                     val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                     attribute.attribute.label = value
                     actionForEachAttributePrefix?.invoke(attribute)
@@ -105,9 +107,9 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     Log.e(TAG, "Unable to retrieve template title", e)
                 }
             }
-            key.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX) -> {
+            label.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX) -> {
                 try {
-                    val attributeName = key.substring(TEMPLATE_ATTRIBUTE_TYPE_PREFIX.length)
+                    val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TYPE_PREFIX.length)
                     val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                     if (value.contains(TEMPLATE_ATTRIBUTE_TYPE_PROTECTED, true)) {
                         attribute.attribute.protected = true
@@ -147,8 +149,8 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
     private fun getTemplateFromTemplateEntry(templateEntry: EntryKDBX): Template? {
         var templateVersion: Int? = null
         val attributes = HashMap<String, TemplateAttributePosition>()
-        templateEntry.doForEachDecodedCustomField { key, value ->
-            conditionCustomFields(attributes, key, value.stringValue, null) {
+        templateEntry.doForEachDecodedCustomField { field ->
+            conditionCustomFields(attributes, field, null) {
                 templateVersion = it
             }
         }
@@ -187,12 +189,12 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val entryCopy = EntryKDBX().apply {
             updateWith(templateEntry)
         }
-        templateEntry.doForEachDecodedCustomField { key, value ->
-            conditionCustomFields(attributes, key, value.stringValue, {
-                if (key.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX)) {
-                    it.attribute.defaultValue = value.stringValue
+        templateEntry.doForEachDecodedCustomField { field ->
+            conditionCustomFields(attributes, field, {
+                if (field.name.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX)) {
+                    it.attribute.defaultValue = field.protectedValue.stringValue
                 }
-                entryCopy.removeField(key)
+                entryCopy.removeField(field)
             }, { })
         }
 
@@ -202,7 +204,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         }
         newFields.forEach { field ->
             field?.let {
-                entryCopy.putField(field.name, field.protectedValue)
+                entryCopy.putField(field)
             }
         }
         return entryCopy
@@ -213,25 +215,27 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
             updateWith(templateEntry)
         }
         var index = 0
-        templateEntry.doForEachDecodedCustomField { key, value ->
+        templateEntry.doForEachDecodedCustomField { field ->
+            val label = field.name
+            val value = field.protectedValue
             when {
-                key.equals(TEMPLATE_LABEL_VERSION, true) -> {
+                label.equals(TEMPLATE_LABEL_VERSION, true) -> {
                     // Keep template version as is
                 }
                 else -> {
-                    entryCopy.putField(TEMPLATE_ATTRIBUTE_POSITION_PREFIX+'_'+key,
+                    entryCopy.removeField(field)
+                    entryCopy.putField(TEMPLATE_ATTRIBUTE_POSITION_PREFIX+'_'+label,
                             ProtectedString(false, index.toString()))
-                    entryCopy.putField(TEMPLATE_ATTRIBUTE_TITLE_PREFIX+'_'+key,
-                            ProtectedString(false, key))
+                    entryCopy.putField(TEMPLATE_ATTRIBUTE_TITLE_PREFIX+'_'+label,
+                            ProtectedString(false, label))
                     // Add protected string if needed
                     var typeString = value.stringValue
                     if (value.isProtected
                             && !typeString.contains(TEMPLATE_ATTRIBUTE_TYPE_PROTECTED)) {
                         typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString"
                     }
-                    entryCopy.putField(TEMPLATE_ATTRIBUTE_TYPE_PREFIX+'_'+key,
+                    entryCopy.putField(TEMPLATE_ATTRIBUTE_TYPE_PREFIX+'_'+label,
                             ProtectedString(false, typeString))
-                    entryCopy.removeField(key)
                     index++
                 }
             }

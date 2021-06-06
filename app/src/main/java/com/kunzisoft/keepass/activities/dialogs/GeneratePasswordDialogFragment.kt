@@ -28,7 +28,7 @@ import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.*
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper

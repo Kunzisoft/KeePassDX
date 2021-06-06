@@ -5,7 +5,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.utils.UuidUtil
 
 object TemplateField {
