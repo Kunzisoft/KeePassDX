@@ -46,14 +46,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ProgressBar
-            android:id="@+id/loading"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:indeterminate="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/entry_edit_scroll"
             android:layout_width="match_parent"
@@ -83,6 +75,14 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@+id/entry_edit_coordinator_layout" />
 
     <com.kunzisoft.keepass.view.ToolbarAction
         android:id="@+id/entry_edit_bottom_bar"

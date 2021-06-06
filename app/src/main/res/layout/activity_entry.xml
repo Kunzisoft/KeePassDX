@@ -128,10 +128,12 @@
     <ProgressBar
         android:id="@+id/loading"
         style="?android:attr/progressBarStyleHorizontal"
-        android:indeterminate="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:layout_anchor="@+id/entry_scroll"
+        app:layout_anchorGravity="top|center" />
 
     <include
         layout="@layout/view_button_lock"
