@@ -400,7 +400,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeTags(entry.tags)
         writePreviousParentGroup(entry.previousParentGroup)
         writeTimes(entry)
-        writeFields(entry.fields)
+        writeFields(entry.getFields())
         writeEntryBinaries(entry.binaries)
         writeCustomData(entry.customData)
         writeAutoType(entry.autoType)
