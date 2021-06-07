@@ -33,11 +33,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -73,6 +75,7 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
@@ -102,6 +105,9 @@ class EntryEditActivity : LockingActivity(),
     private var validateButton: View? = null
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
+
+    private var mEntryInfo: EntryInfo? = null
+    private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -201,10 +207,12 @@ class EntryEditActivity : LockingActivity(),
             tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
         }
 
+        mEntryEditViewModel.setEntryInfo(tempEntryInfo)
+
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mEntryTemplate)
+            entryEditFragment = EntryEditFragment.getInstance()
         }
         entryEditFragment?.apply {
             drawFactory = mDatabase?.iconDrawableFactory
@@ -255,15 +263,89 @@ class EntryEditActivity : LockingActivity(),
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         val newTemplate = templates[position]
                         entryEditFragment?.apply {
-                            if (getTemplate() != newTemplate) {
-                                assignTemplate(newTemplate)
-                            }
+                            mEntryEditViewModel.assignTemplate(newTemplate)
                         }
                     }
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
             } else {
                 visibility = View.GONE
+            }
+        }
+
+        mEntryEditViewModel.entryInfo.observe(this) { entryInfo ->
+            mEntryInfo = entryInfo
+        }
+
+        mEntryEditViewModel.responseSaveEntry.observe(this) { entryInfoSaved ->
+            // Get the temp entry
+            entryInfoSaved?.let { newEntryInfo ->
+                if (mIsNew) {
+                    // Create new one
+                    mDatabase?.createEntry()
+                } else {
+                    // Create a clone
+                    Entry(mEntry!!)
+                }?.let {
+                    var newEntry = it
+
+                    // Do not save entry in upload progression
+                    mTempAttachments.forEach { attachmentState ->
+                        if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                            when (attachmentState.downloadState) {
+                                AttachmentState.START,
+                                AttachmentState.IN_PROGRESS,
+                                AttachmentState.CANCELED,
+                                AttachmentState.ERROR -> {
+                                    // Remove attachment not finished from info
+                                    newEntryInfo.attachments = newEntryInfo.attachments.toMutableList().apply {
+                                        remove(attachmentState.attachment)
+                                    }
+                                }
+                                else -> {
+                                }
+                            }
+                        }
+                    }
+
+                    // Build info
+                    newEntry.setEntryInfo(mDatabase, newEntryInfo)
+
+                    // Encode entry properties for template
+                    mEntryTemplate?.let { template ->
+                        newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template)
+                                ?: newEntry
+                    }
+
+                    // Delete temp attachment if not used
+                    mTempAttachments.forEach { tempAttachmentState ->
+                        val tempAttachment = tempAttachmentState.attachment
+                        mDatabase?.attachmentPool?.let { binaryPool ->
+                            if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                                mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
+                            }
+                        }
+                    }
+
+                    // Open a progress dialog and save entry
+                    if (mIsNew) {
+                        mParent?.let { parent ->
+                            mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
+                                    newEntry,
+                                    parent,
+                                    !mReadOnly && mAutoSaveEnable
+                            )
+                        }
+                    } else {
+                        mEntry?.let { oldEntry ->
+                            mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
+                                    oldEntry,
+                                    newEntry,
+                                    !mReadOnly && mAutoSaveEnable
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -558,7 +640,7 @@ class EntryEditActivity : LockingActivity(),
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
         // and open the dialog to set up the OTP
-        SetOTPDialogFragment.build(entryEditFragment?.getEntryInfo()?.otpModel)
+        SetOTPDialogFragment.build(mEntryInfo?.otpModel)
                 .show(supportFragmentManager, "addOTPDialog")
     }
 
@@ -567,74 +649,7 @@ class EntryEditActivity : LockingActivity(),
      */
     private fun saveEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        // Get the temp entry
-        entryEditFragment?.getEntryInfo()?.let { newEntryInfo ->
-
-            if (mIsNew) {
-                // Create new one
-                mDatabase?.createEntry()
-            } else {
-                // Create a clone
-                Entry(mEntry!!)
-            }?.let {
-                var newEntry = it
-
-                // Do not save entry in upload progression
-                mTempAttachments.forEach { attachmentState ->
-                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
-                        when (attachmentState.downloadState) {
-                            AttachmentState.START,
-                            AttachmentState.IN_PROGRESS,
-                            AttachmentState.CANCELED,
-                            AttachmentState.ERROR -> {
-                                // Remove attachment not finished from info
-                                newEntryInfo.attachments = newEntryInfo.attachments.toMutableList().apply {
-                                    remove(attachmentState.attachment)
-                                }
-                            }
-                            else -> {
-                            }
-                        }
-                    }
-                }
-
-                // Build info
-                newEntry.setEntryInfo(mDatabase, newEntryInfo)
-
-                // Encode entry properties for template
-                val template = entryEditFragment?.getTemplate() ?: Template.STANDARD // TODO Move
-                newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template) ?: newEntry
-
-                // Delete temp attachment if not used
-                mTempAttachments.forEach { tempAttachmentState ->
-                    val tempAttachment = tempAttachmentState.attachment
-                    mDatabase?.attachmentPool?.let { binaryPool ->
-                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                            mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
-                        }
-                    }
-                }
-
-                // Open a progress dialog and save entry
-                if (mIsNew) {
-                    mParent?.let { parent ->
-                        mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                                newEntry,
-                                parent,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                } else {
-                    mEntry?.let { oldEntry ->
-                        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                                oldEntry,
-                                newEntry,
-                                !mReadOnly && mAutoSaveEnable
-                        )
-                    }
-                }
-            }
-        }
+        mEntryEditViewModel.sendRequestSaveEntry()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -743,7 +758,7 @@ class EntryEditActivity : LockingActivity(),
         var titleOTP: String? = null
         var usernameOTP: String? = null
         // Build a temp entry to get title and username (by ref)
-        entryEditFragment?.getEntryInfo()?.let { entryInfo ->
+        mEntryInfo?.let { entryInfo ->
             val entryTemp = mDatabase?.createEntry()
             entryTemp?.setEntryInfo(mDatabase, entryInfo)
             mDatabase?.startManageEntry(entryTemp)

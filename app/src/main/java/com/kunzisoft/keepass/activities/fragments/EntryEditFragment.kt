@@ -27,6 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.IdRes
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -55,11 +56,10 @@ import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
 
 class EntryEditFragment: DatabaseFragment() {
-
-    private var mTemplate: Template = Template.STANDARD
 
     private lateinit var rootView: View
     private lateinit var entryIconView: ImageView
@@ -82,8 +82,10 @@ class EntryEditFragment: DatabaseFragment() {
     var onEditCustomFieldClickListener: ((Field) -> Unit)? = null
     var onRemoveAttachment: ((Attachment) -> Unit)? = null
 
+    private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
     // Elements to modify the current entry
     private var mEntryInfo = EntryInfo()
+    private var mTemplate = Template.STANDARD
 
     private var mCustomFieldIds = mutableListOf<FieldId>()
     // Current date time selection
@@ -137,23 +139,25 @@ class EntryEditFragment: DatabaseFragment() {
 
         rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
 
-        // Retrieve the new entry after an orientation change
-        if (arguments?.containsKey(KEY_ENTRY_INFO) == true)
-            mEntryInfo = arguments?.getParcelable(KEY_ENTRY_INFO) ?: mEntryInfo
-        else if (savedInstanceState?.containsKey(KEY_ENTRY_INFO) == true) {
-            mEntryInfo = savedInstanceState.getParcelable(KEY_ENTRY_INFO) ?: mEntryInfo
-        }
-
-        if (arguments?.containsKey(KEY_TEMPLATE) == true)
-            mTemplate = arguments?.getParcelable(KEY_TEMPLATE) ?: mTemplate
-        else if (savedInstanceState?.containsKey(KEY_TEMPLATE) == true) {
-            mTemplate = savedInstanceState.getParcelable(KEY_TEMPLATE) ?: mTemplate
-        }
         if (savedInstanceState?.containsKey(KEY_SELECTION_DATE_TIME_ID) == true) {
             mTempDateTimeViewId = savedInstanceState.getInt(KEY_SELECTION_DATE_TIME_ID)
         }
 
-        populateViewsWithEntry()
+        mEntryEditViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
+            mEntryInfo = entryInfo
+            populateViewsWithEntry()
+        }
+
+        mEntryEditViewModel.template.observe(viewLifecycleOwner) { template ->
+            mTemplate = template
+            populateViewsWithEntry()
+            rootView.showByFading()
+        }
+
+        mEntryEditViewModel.requestSaveEntry.observe(viewLifecycleOwner) {
+            populateEntryWithViews()
+            mEntryEditViewModel.setResponseSaveEntry(mEntryInfo)
+        }
 
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
             onRemoveAttachment?.invoke(attachment)
@@ -172,11 +176,6 @@ class EntryEditFragment: DatabaseFragment() {
         onIconClickListener = null
         onRemoveAttachment = null
         onEditCustomFieldClickListener = null
-    }
-
-    fun getEntryInfo(): EntryInfo {
-        populateEntryWithViews()
-        return mEntryInfo
     }
 
     fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
@@ -202,16 +201,6 @@ class EntryEditFragment: DatabaseFragment() {
         } else {
             false
         }
-    }
-
-    fun getTemplate(): Template {
-        return mTemplate
-    }
-
-    fun assignTemplate(template: Template) {
-        this.mTemplate = template
-        populateViewsWithEntry()
-        rootView.showByFading()
     }
 
     private fun populateViewsWithEntry() {
@@ -669,8 +658,6 @@ class EntryEditFragment: DatabaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
-        outState.putParcelable(KEY_ENTRY_INFO, mEntryInfo)
-        outState.putParcelable(KEY_TEMPLATE, mTemplate)
         mTempDateTimeViewId?.let {
             outState.putInt(KEY_SELECTION_DATE_TIME_ID, it)
         }
@@ -679,9 +666,6 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     companion object {
-        private const val KEY_ENTRY_INFO = "KEY_ENTRY_INFO"
-        private const val KEY_TEMPLATE = "KEY_TEMPLATE"
-        private const val KEY_DATABASE = "KEY_DATABASE"
         private const val KEY_SELECTION_DATE_TIME_ID = "KEY_SELECTION_DATE_TIME_ID"
 
         private const val FIELD_USERNAME_TAG = "FIELD_USERNAME_TAG"
@@ -691,16 +675,9 @@ class EntryEditFragment: DatabaseFragment() {
         private const val FIELD_NOTES_TAG = "FIELD_NOTES_TAG"
         private const val FIELD_CUSTOM_TAG = "FIELD_CUSTOM_TAG"
 
-        fun getInstance(entryInfo: EntryInfo?,
-                        template: Template?): EntryEditFragment {
-                        //database: Database?): EntryEditFragment {
+        fun getInstance(): EntryEditFragment {
             return EntryEditFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_ENTRY_INFO, entryInfo)
-                    putParcelable(KEY_TEMPLATE, template)
-                    // TODO Unique database key database.key
-                    putInt(KEY_DATABASE, 0)
-                }
+                arguments = Bundle().apply {}
             }
         }
     }

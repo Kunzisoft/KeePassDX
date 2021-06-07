@@ -43,14 +43,14 @@ class EntryViewModel: ViewModel() {
             entry?.let {
                entry = mDatabase.decodeEntryWithTemplateConfiguration(it)
             }
-            _entry.value = EntryHistory(entry, entryLastVersion, historyPosition)
+            _entry.value = EntryHistory(nodeIdUUID, entry, entryLastVersion, historyPosition)
         } else {
-            _entry.value = EntryHistory(null, null)
+            _entry.value = EntryHistory(null, null, null)
         }
     }
 
     fun reloadEntry() {
-        _entry.value = entry.value
+        selectEntry(entry.value?.nodeIdUUID, entry.value?.historyPosition ?: -1)
     }
 
     fun onOtpElementUpdated(optElement: OtpElement) {
@@ -62,19 +62,22 @@ class EntryViewModel: ViewModel() {
     }
 
     fun onHistorySelected(item: Entry, position: Int) {
-        _historySelected.value = EntryHistory(item, null, position)
+        _historySelected.value = EntryHistory(item.nodeId, item, null, position)
     }
 
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
-    data class EntryHistory(var entry: Entry?,
+    data class EntryHistory(var nodeIdUUID: NodeId<UUID>?,
+                            var entry: Entry?,
                             var lastEntryVersion: Entry?,
                             var historyPosition: Int = -1): Parcelable {
         constructor(parcel: Parcel) : this(
+                parcel.readParcelable(NodeId::class.java.classLoader),
                 parcel.readParcelable(Entry::class.java.classLoader),
                 parcel.readParcelable(Entry::class.java.classLoader),
                 parcel.readInt())
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeParcelable(nodeIdUUID, flags)
             parcel.writeParcelable(entry, flags)
             parcel.writeParcelable(lastEntryVersion, flags)
             parcel.writeInt(historyPosition)
