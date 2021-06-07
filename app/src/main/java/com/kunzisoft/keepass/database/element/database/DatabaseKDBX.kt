@@ -369,12 +369,20 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return mTemplateEngine.getTemplate(entry)
     }
 
-    fun decodeTemplateEntry(entryKDBX: EntryKDBX): EntryKDBX {
-        return mTemplateEngine.decodeTemplateEntry(entryKDBX)
+    fun decodeEntryWithTemplateConfiguration(entryKDBX: EntryKDBX, entryIsTemplate: Boolean): EntryKDBX {
+        return if (entryIsTemplate) {
+            mTemplateEngine.decodeTemplateEntry(entryKDBX)
+        } else {
+            mTemplateEngine.removeMetaTemplateRecognitionFromEntry(entryKDBX)
+        }
     }
 
-    fun encodeTemplateEntry(entryKDBX: EntryKDBX): EntryKDBX {
-        return mTemplateEngine.encodeTemplateEntry(entryKDBX)
+    fun encodeEntryWithTemplateConfiguration(entryKDBX: EntryKDBX, entryIsTemplate: Boolean, template: Template): EntryKDBX {
+        return if (entryIsTemplate) {
+            mTemplateEngine.encodeTemplateEntry(entryKDBX)
+        } else {
+            mTemplateEngine.addMetaTemplateRecognitionToEntry(template, entryKDBX)
+        }
     }
 
     /*

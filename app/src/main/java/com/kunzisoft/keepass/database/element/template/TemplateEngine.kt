@@ -192,12 +192,15 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val entryCopy = EntryKDBX().apply {
             updateWith(templateEntry)
         }
-        templateEntry.doForEachDecodedCustomField { field, ->
+        // Remove template version
+        entryCopy.removeField(TEMPLATE_LABEL_VERSION)
+        // Dynamic attributes
+        templateEntry.doForEachDecodedCustomField { field ->
             conditionCustomFields(attributes, field, {
                 if (field.name.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX)) {
                     it.attribute.defaultValue = field.protectedValue.stringValue
                 }
-                entryCopy.removeField(field)
+                entryCopy.removeField(field.name)
             }, { })
         }
 
@@ -219,6 +222,9 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val entryCopy = EntryKDBX().apply {
             updateWith(templateEntry)
         }
+        // Add template version
+        entryCopy.putField(TEMPLATE_LABEL_VERSION, ProtectedString(false, "1"))
+        // Dynamic attributes
         var index = 0
         templateEntry.doForEachDecodedCustomField { field ->
             val label = field.name.removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE)
@@ -228,7 +234,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     // Keep template version as is
                 }
                 else -> {
-                    entryCopy.removeField(field)
+                    entryCopy.removeField(field.name)
                     entryCopy.putField(TEMPLATE_ATTRIBUTE_POSITION_PREFIX+'_'+label,
                             ProtectedString(false, index.toString()))
                     entryCopy.putField(TEMPLATE_ATTRIBUTE_TITLE_PREFIX+'_'+label,
@@ -248,13 +254,45 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return entryCopy
     }
 
+    private fun getTemplateUUIDField(template: Template): Field? {
+        UuidUtil.toHexString(template.uuid)?.let { uuidString ->
+            return Field(TEMPLATE_ENTRY_UUID,
+                    ProtectedString(false, uuidString))
+        }
+        return null
+    }
+
+    fun removeMetaTemplateRecognitionFromEntry(entry: EntryKDBX): EntryKDBX {
+        val entryCopy = EntryKDBX().apply {
+            updateWith(entry)
+        }
+        entryCopy.removeField(TEMPLATE_ENTRY_UUID)
+        return entryCopy
+    }
+
+    fun addMetaTemplateRecognitionToEntry(template: Template, entry: EntryKDBX): EntryKDBX {
+        val entryCopy = EntryKDBX().apply {
+            updateWith(entry)
+        }
+        // Add template field
+        if (template != Template.STANDARD
+                && template != Template.CREATION) {
+            getTemplateUUIDField(template)?.let { templateField ->
+                entryCopy.putField(templateField)
+            }
+        } else {
+            entryCopy.removeField(TEMPLATE_ENTRY_UUID)
+        }
+        return entryCopy
+    }
+
     companion object {
         private data class TemplateAttributePosition(var position: Int, var attribute: TemplateAttribute)
 
         private val TAG = TemplateEngine::class.java.name
 
-        const val PREFIX_DECODED_TEMPLATE = "["
-        const val SUFFIX_DECODED_TEMPLATE = "]"
+        private const val PREFIX_DECODED_TEMPLATE = "["
+        private const val SUFFIX_DECODED_TEMPLATE = "]"
 
         // Custom template ref
         private const val TEMPLATE_ATTRIBUTE_TITLE = "@title"
@@ -265,8 +303,8 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         private const val TEMPLATE_ATTRIBUTE_EXPIRES = "@expires"
         private const val TEMPLATE_ATTRIBUTE_NOTES = "@notes"
 
-        const val TEMPLATE_LABEL_VERSION = "_etm_template"
-        const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
+        private const val TEMPLATE_LABEL_VERSION = "_etm_template"
+        private const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
         private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type"
@@ -282,6 +320,11 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
         fun getDefaultTemplateGroupName(resources: Resources): String {
             return resources.getString(R.string.templates)
+        }
+
+        fun isTemplateNameAttribute(name: String): Boolean {
+            return name.startsWith(PREFIX_DECODED_TEMPLATE)
+                    && name.endsWith(SUFFIX_DECODED_TEMPLATE)
         }
 
         fun decodeTemplateAttribute(name: String): String {

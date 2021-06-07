@@ -25,7 +25,6 @@ import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.BUILD_ID
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_EXPIRATION
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_NOTES
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_PASSWORD
@@ -141,8 +140,7 @@ class Template : Parcelable {
             get() {
                 val sections = ArrayList<TemplateSection>()
                 val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
-                    add(TemplateAttribute(TEMPLATE_LABEL_VERSION, TemplateAttributeType.INLINE))
-                    // Dynamic part after this
+                    // Dynamic part
                 })
                 sections.add(mainSection)
                 return Template(UUID(0, 1),

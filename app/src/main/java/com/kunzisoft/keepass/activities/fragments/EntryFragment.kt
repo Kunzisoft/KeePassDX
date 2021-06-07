@@ -250,9 +250,7 @@ class EntryFragment: DatabaseFragment() {
                 entryInfo?.customFields?.forEach { field ->
                     val label = field.name
                     // OTP field is already managed in dedicated view
-                    // Template UUID must not be shown
-                    if (label != OtpEntryFields.OTP_TOKEN_FIELD
-                            && label != TemplateEngine.TEMPLATE_ENTRY_UUID) {
+                    if (label != OtpEntryFields.OTP_TOKEN_FIELD) {
                         val value = field.protectedValue
                         val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                         if (allowCopyProtectedField) {

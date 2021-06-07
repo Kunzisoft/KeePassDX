@@ -56,8 +56,6 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
 import org.joda.time.DateTime
-import java.util.*
-import kotlin.collections.ArrayList
 
 class EntryEditFragment: DatabaseFragment() {
 
@@ -234,11 +232,6 @@ class EntryEditFragment: DatabaseFragment() {
             }
 
             val customFieldsNotConsumed = ArrayList(mEntryInfo.customFields)
-            // Ignore Template field
-            customFieldsNotConsumed.indexOfFirst { it.name == TemplateEngine.TEMPLATE_ENTRY_UUID }.let {
-                if (it != -1)
-                    customFieldsNotConsumed.removeAt(it)
-            }
 
             mTemplate.sections.forEach { templateSection ->
 
@@ -445,14 +438,6 @@ class EntryEditFragment: DatabaseFragment() {
 
         mEntryInfo.customFields = mCustomFieldIds.map {
             getCustomField(it.label)
-        }.toMutableList().also { customFields ->
-            // Add template field
-            if (mTemplate != Template.STANDARD
-                    && mTemplate != Template.CREATION) {
-                TemplateField.getTemplateUUIDField(mTemplate)?.let { templateField ->
-                    customFields.add(templateField)
-                }
-            }
         }
 
         mEntryInfo.otpModel = OtpEntryFields.parseFields { key ->

@@ -154,18 +154,25 @@ class Database {
         return null
     }
 
-    fun decodeTemplateEntry(entry: Entry): Entry {
+    fun entryIsTemplate(entry: Entry?): Boolean {
+        // Define is current entry is a template (in direct template group)
+        if (entry == null || templatesGroup == null)
+            return false
+        return templatesGroup == entry.parent
+    }
+
+    fun decodeEntryWithTemplateConfiguration(entry: Entry): Entry {
         entry.entryKDBX?.let {
-            mDatabaseKDBX?.decodeTemplateEntry(it)?.let { decode ->
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, entryIsTemplate(entry))?.let { decode ->
                 return Entry(decode)
             }
         }
         return entry
     }
 
-    fun encodeTemplateEntry(entry: Entry): Entry {
+    fun encodeEntryWithTemplateConfiguration(entry: Entry, template: Template): Entry {
         entry.entryKDBX?.let {
-            mDatabaseKDBX?.encodeTemplateEntry(it)?.let { encode ->
+            mDatabaseKDBX?.encodeEntryWithTemplateConfiguration(it, entryIsTemplate(entry), template)?.let { encode ->
                 return Entry(encode)
             }
         }

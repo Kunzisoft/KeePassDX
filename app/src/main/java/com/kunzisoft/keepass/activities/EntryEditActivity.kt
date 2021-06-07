@@ -91,6 +91,7 @@ class EntryEditActivity : LockingActivity(),
     private var mParent: Group? = null
     private var mIsNew: Boolean = false
     private var mIsTemplate: Boolean = false
+    private var mEntryTemplate: Template? = null
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
@@ -187,12 +188,6 @@ class EntryEditActivity : LockingActivity(),
             tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
         }
 
-        // Build template selector
-        val templates = mDatabase?.getTemplates(mIsTemplate)
-        val entryTemplate: Template? = mEntry?.let {
-            mDatabase?.getTemplate(it)
-        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
-
         // Retrieve data from registration
         val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
         val searchInfo: SearchInfo? = registerInfo?.searchInfo
@@ -209,7 +204,7 @@ class EntryEditActivity : LockingActivity(),
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, entryTemplate)
+            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mEntryTemplate)
         }
         entryEditFragment?.apply {
             drawFactory = mDatabase?.iconDrawableFactory
@@ -251,9 +246,11 @@ class EntryEditActivity : LockingActivity(),
         // Change template dynamically
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         templateSelectorSpinner?.apply {
+            // Build template selector
+            val templates = mDatabase?.getTemplates(mIsTemplate)
             if (templates != null && templates.isNotEmpty()) {
                 adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
-                setSelection(templates.indexOf(entryTemplate))
+                setSelection(templates.indexOf(mEntryTemplate))
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         val newTemplate = templates[position]
@@ -341,13 +338,17 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun checkIfTemplate() {
-        mIsTemplate = mDatabase?.templatesGroup?.let {
-            mDatabase?.templatesGroup == mParent
-        } ?: false
-        if (mIsTemplate) {
-            mEntry?.let {
-                mEntry = mDatabase?.decodeTemplateEntry(it)
-            }
+        // Define is current entry is a template (in direct template group)
+        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+
+        val templates = mDatabase?.getTemplates(mIsTemplate)
+        mEntryTemplate = mEntry?.let {
+            mDatabase?.getTemplate(it)
+        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
+
+        // Decode the entry
+        mEntry?.let {
+            mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
         }
     }
 
@@ -601,9 +602,8 @@ class EntryEditActivity : LockingActivity(),
                 newEntry.setEntryInfo(mDatabase, newEntryInfo)
 
                 // Encode entry properties for template
-                if (mIsTemplate) {
-                    newEntry = mDatabase?.encodeTemplateEntry(newEntry) ?: newEntry
-                }
+                val template = entryEditFragment?.getTemplate() ?: Template.STANDARD // TODO Move
+                newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template) ?: newEntry
 
                 // Delete temp attachment if not used
                 mTempAttachments.forEach { tempAttachmentState ->

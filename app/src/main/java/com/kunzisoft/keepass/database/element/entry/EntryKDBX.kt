@@ -297,8 +297,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         fields[label] = value
     }
 
-    fun removeField(field: Field) {
-        fields.remove(field.name)
+    fun removeField(name: String) {
+        fields.remove(name)
     }
 
     fun removeAllFields() {

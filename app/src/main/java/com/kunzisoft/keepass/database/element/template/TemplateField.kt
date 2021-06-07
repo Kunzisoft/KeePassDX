@@ -2,11 +2,6 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.content.Context
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.PREFIX_DECODED_TEMPLATE
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.SUFFIX_DECODED_TEMPLATE
-import com.kunzisoft.keepass.utils.UuidUtil
 
 object TemplateField {
 
@@ -47,8 +42,7 @@ object TemplateField {
 
     fun getLocalizedName(context: Context?, name: String): String {
         if (context == null
-                || name.startsWith(PREFIX_DECODED_TEMPLATE)
-                && name.endsWith(SUFFIX_DECODED_TEMPLATE))
+                || TemplateEngine.isTemplateNameAttribute(name))
             return name
 
         return when {
@@ -78,13 +72,5 @@ object TemplateField {
 
             else -> name
         }
-    }
-
-    fun getTemplateUUIDField(template: Template): Field? {
-        UuidUtil.toHexString(template.uuid)?.let { uuidString ->
-            return Field(TemplateEngine.TEMPLATE_ENTRY_UUID,
-                    ProtectedString(false, uuidString))
-        }
-        return null
     }
 }
