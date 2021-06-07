@@ -41,7 +41,7 @@ class EntryViewModel: ViewModel() {
             entry?.touch(modified = false, touchParents = false)
             // To simplify template field visibility
             entry?.let {
-                entry = mDatabase.decodeTemplateEntry(it)
+               // TODO  entry = mDatabase.decodeTemplateEntry(it)
             }
             _entry.value = EntryHistory(entry, entryLastVersion, historyPosition)
         } else {

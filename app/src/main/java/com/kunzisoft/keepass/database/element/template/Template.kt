@@ -26,11 +26,11 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.BUILD_ID
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_EXPIRATION
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_NOTES
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_PASSWORD
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_URL
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_USERNAME
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_EXPIRATION
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_NOTES
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_PASSWORD
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_URL
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_USERNAME
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -119,16 +119,16 @@ class Template : Parcelable {
             get() {
                 val sections = ArrayList<TemplateSection>()
                 val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
-                    add(TemplateAttribute(STANDARD_USERNAME, TemplateAttributeType.INLINE))
-                    add(TemplateAttribute(STANDARD_PASSWORD,
+                    add(TemplateAttribute(LABEL_USERNAME, TemplateAttributeType.INLINE))
+                    add(TemplateAttribute(LABEL_PASSWORD,
                             TemplateAttributeType.INLINE,
                             true,
                             "",
                             TemplateAttributeAction.PASSWORD_GENERATION)
                     )
-                    add(TemplateAttribute(STANDARD_URL, TemplateAttributeType.INLINE))
-                    add(TemplateAttribute(STANDARD_EXPIRATION, TemplateAttributeType.DATETIME))
-                    add(TemplateAttribute(STANDARD_NOTES, TemplateAttributeType.MULTILINE))
+                    add(TemplateAttribute(LABEL_URL, TemplateAttributeType.INLINE))
+                    add(TemplateAttribute(LABEL_EXPIRATION, TemplateAttributeType.DATETIME))
+                    add(TemplateAttribute(LABEL_NOTES, TemplateAttributeType.MULTILINE))
                 })
                 sections.add(mainSection)
                 return Template(DatabaseVersioned.UUID_ZERO,

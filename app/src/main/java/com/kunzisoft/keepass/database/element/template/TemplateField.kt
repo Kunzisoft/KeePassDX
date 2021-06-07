@@ -3,8 +3,6 @@ package com.kunzisoft.keepass.database.element.template
 import android.content.Context
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.TEMPLATE_LABEL_VERSION
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.PREFIX_DECODED_TEMPLATE
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.SUFFIX_DECODED_TEMPLATE
@@ -12,50 +10,38 @@ import com.kunzisoft.keepass.utils.UuidUtil
 
 object TemplateField {
 
-    const val STANDARD_TITLE = "title"
-    const val STANDARD_USERNAME = "username"
-    const val STANDARD_PASSWORD = "password"
-    const val STANDARD_URL = "url"
-    const val STANDARD_EXPIRATION = "expires"
-    const val STANDARD_NOTES = "notes"
+    const val LABEL_TITLE = "Title"
+    const val LABEL_USERNAME = "Username"
+    const val LABEL_PASSWORD = "Password"
+    const val LABEL_URL = "URL"
+    const val LABEL_EXPIRATION = "Expires"
+    const val LABEL_NOTES = "Notes"
 
-    const val CREDIT_CARD_TITLE = "Credit Card"
-    const val CREDIT_CARD_CARDHOLDER = "Card holder"
-    const val CREDIT_CARD_NUMBER = "Number"
-    const val CREDIT_CARD_CVV = "CVV"
-    const val CREDIT_CARD_PIN = "PIN"
-
-    const val ID_CARD_TITLE = "ID Card"
-    const val ID_CARD_NUMBER = "Number"
-    const val ID_CARD_NAME = "Name"
-    const val ID_CARD_PLACE_OF_ISSUE = "Place of issue"
-    const val ID_CARD_DATE_OF_ISSUE = "Date of issue"
-
-    const val EMAIL_TITLE = "E-mail"
-    const val EMAIL_ADDRESS = "E-mail address"
-    const val EMAIL_URL = "URL"
-    const val EMAIL_PASSWORD = "Password"
-
-    const val WIRELESS_LAN_TITLE = "Wireless LAN"
-    const val WIRELESS_LAN_SSID = "SSID"
-    const val WIRELESS_LAN_PASSWORD = "Password"
-
-    const val SECURE_NOTE_TITLE = "Secure Note"
-    const val SECURE_NOTE_NOTES = "Notes"
-
-    const val MEMBERSHIP_TITLE = "Membership"
-    const val MEMBERSHIP_Number = "Number"
-    const val MEMBERSHIP_URL = "URL"
-    const val MEMBERSHIP_EXPIRATION = "@exp_date"
+    const val LABEL_VERSION = "Version"
+    const val LABEL_CREDIT_CARD = "Credit Card"
+    const val LABEL_CARD_CARDHOLDER = "Card holder"
+    const val LABEL_NUMBER = "Number"
+    const val LABEL_CVV = "CVV"
+    const val LABEL_PIN = "PIN"
+    const val LABEL_ID_CARD = "ID Card"
+    const val LABEL_NAME = "Name"
+    const val LABEL_PLACE_OF_ISSUE = "Place of issue"
+    const val LABEL_DATE_OF_ISSUE = "Date of issue"
+    const val LABEL_EMAIL_TITLE = "E-mail"
+    const val LABEL_EMAIL_ADDRESS = "E-mail address"
+    const val LABEL_WIRELESS_LAN = "Wireless LAN"
+    const val LABEL_SSID = "SSID"
+    const val LABEL_SECURE_NOTE = "Secure Note"
+    const val LABEL_MEMBERSHIP = "Membership"
 
     fun isStandardFieldName(name: String): Boolean {
         return arrayOf(
-                STANDARD_TITLE,
-                STANDARD_USERNAME,
-                STANDARD_PASSWORD,
-                STANDARD_URL,
-                STANDARD_EXPIRATION,
-                STANDARD_NOTES
+                LABEL_TITLE,
+                LABEL_USERNAME,
+                LABEL_PASSWORD,
+                LABEL_URL,
+                LABEL_EXPIRATION,
+                LABEL_NOTES
         ).firstOrNull { it.equals(name, true) } != null
     }
 
@@ -65,24 +51,31 @@ object TemplateField {
                 && name.endsWith(SUFFIX_DECODED_TEMPLATE))
             return name
 
-        return when (name) {
-            STANDARD_TITLE -> context.getString(R.string.entry_title)
-            STANDARD_USERNAME -> context.getString(R.string.entry_user_name)
-            STANDARD_PASSWORD -> context.getString(R.string.entry_password)
-            STANDARD_URL -> context.getString(R.string.entry_url)
-            STANDARD_EXPIRATION -> context.getString(R.string.entry_expires)
-            TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION -> context.getString(R.string.entry_expires)
-            STANDARD_NOTES -> context.getString(R.string.entry_notes)
+        return when {
+            LABEL_TITLE.equals(name, true) -> context.getString(R.string.entry_title)
+            LABEL_USERNAME.equals(name, true) -> context.getString(R.string.entry_user_name)
+            LABEL_PASSWORD.equals(name, true) -> context.getString(R.string.entry_password)
+            LABEL_URL.equals(name, true) -> context.getString(R.string.entry_url)
+            LABEL_EXPIRATION.equals(name, true) -> context.getString(R.string.entry_expires)
+            LABEL_NOTES.equals(name, true) -> context.getString(R.string.entry_notes)
 
-            TEMPLATE_LABEL_VERSION -> context.getString(R.string.templates_version)
+            LABEL_VERSION.equals(name, true) -> context.getString(R.string.version)
+            LABEL_CREDIT_CARD.equals(name, true) -> context.getString(R.string.credit_card)
+            LABEL_CARD_CARDHOLDER.equals(name, true) -> context.getString(R.string.credit_card_cardholder)
+            LABEL_NUMBER.equals(name, true) -> context.getString(R.string.credit_card_number)
+            LABEL_CVV.equals(name, true) -> context.getString(R.string.credit_card_security_code)
+            LABEL_PIN.equals(name, true) -> context.getString(R.string.credit_card_pin)
+            LABEL_ID_CARD.equals(name, true) -> context.getString(R.string.id_card)
+            LABEL_NAME.equals(name, true) -> context.getString(R.string.name)
+            LABEL_PLACE_OF_ISSUE.equals(name, true) -> context.getString(R.string.place_of_issue)
+            LABEL_DATE_OF_ISSUE.equals(name, true) -> context.getString(R.string.date_of_issue)
+            LABEL_EMAIL_TITLE.equals(name, true) -> context.getString(R.string.email)
+            LABEL_EMAIL_ADDRESS.equals(name, true) -> context.getString(R.string.email_address)
+            LABEL_WIRELESS_LAN.equals(name, true) -> context.getString(R.string.vireless_lan)
+            LABEL_SSID.equals(name, true) -> context.getString(R.string.ssid)
+            LABEL_SECURE_NOTE.equals(name, true) -> context.getString(R.string.secure_note)
+            LABEL_MEMBERSHIP.equals(name, true) -> context.getString(R.string.membership)
 
-            CREDIT_CARD_TITLE -> context.getString(R.string.credit_card)
-            CREDIT_CARD_CARDHOLDER -> context.getString(R.string.credit_card_cardholder)
-            CREDIT_CARD_NUMBER -> context.getString(R.string.credit_card_number)
-            CREDIT_CARD_CVV -> context.getString(R.string.credit_card_security_code)
-            CREDIT_CARD_PIN -> context.getString(R.string.credit_card_pin)
-
-            // TODO Others translations
             else -> name
         }
     }

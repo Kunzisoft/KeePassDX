@@ -158,7 +158,10 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return templateVersion?.let { version ->
             val templateAttributes = arrayOfNulls<TemplateAttribute>(attributes.size)
             attributes.values.forEach {
-                templateAttributes[it.position] = it.attribute
+                val attribute = it.attribute.apply {
+                    this.label = decodeTemplateAttribute(this.label)
+                }
+                templateAttributes[it.position] = attribute
             }
             val templateSections = mutableListOf<TemplateSection>()
             val templateSection = TemplateSection(templateAttributes.filterNotNull())
@@ -249,14 +252,24 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         private data class TemplateAttributePosition(var position: Int, var attribute: TemplateAttribute)
 
         private val TAG = TemplateEngine::class.java.name
+
         const val PREFIX_DECODED_TEMPLATE = "["
         const val SUFFIX_DECODED_TEMPLATE = "]"
+
+        // Custom template ref
+        private const val TEMPLATE_ATTRIBUTE_TITLE = "@title"
+        private const val TEMPLATE_ATTRIBUTE_USERNAME = "@username"
+        private const val TEMPLATE_ATTRIBUTE_PASSWORD = "@password"
+        private const val TEMPLATE_ATTRIBUTE_URL = "@url"
+        private const val TEMPLATE_ATTRIBUTE_EXP_DATE = "@exp_date"
+        private const val TEMPLATE_ATTRIBUTE_EXPIRES = "@expires"
+        private const val TEMPLATE_ATTRIBUTE_NOTES = "@notes"
+
         const val TEMPLATE_LABEL_VERSION = "_etm_template"
         const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
         private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type"
-        const val TEMPLATE_ATTRIBUTE_TITLE_EXPIRATION = "@exp_date"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PROTECTED = "Protected"
         private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE = "Inline"
         private const val TEMPLATE_ATTRIBUTE_TYPE_MULTILINE = "Multiline"
@@ -269,6 +282,20 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
         fun getDefaultTemplateGroupName(resources: Resources): String {
             return resources.getString(R.string.templates)
+        }
+
+        fun decodeTemplateAttribute(name: String): String {
+            return when {
+                TEMPLATE_LABEL_VERSION.equals(name, true) -> TemplateField.LABEL_VERSION
+                TEMPLATE_ATTRIBUTE_TITLE.equals(name, true) -> TemplateField.LABEL_TITLE
+                TEMPLATE_ATTRIBUTE_USERNAME.equals(name, true) -> TemplateField.LABEL_USERNAME
+                TEMPLATE_ATTRIBUTE_PASSWORD.equals(name, true) -> TemplateField.LABEL_PASSWORD
+                TEMPLATE_ATTRIBUTE_URL.equals(name, true) -> TemplateField.LABEL_URL
+                TEMPLATE_ATTRIBUTE_EXP_DATE.equals(name, true) -> TemplateField.LABEL_EXPIRATION
+                TEMPLATE_ATTRIBUTE_EXPIRES.equals(name, true) -> TemplateField.LABEL_EXPIRATION
+                TEMPLATE_ATTRIBUTE_NOTES.equals(name, true) -> TemplateField.LABEL_NOTES
+                else -> name
+            }
         }
     }
 }

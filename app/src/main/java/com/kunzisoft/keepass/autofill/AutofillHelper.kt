@@ -177,17 +177,17 @@ object AutofillHelper {
             }
         }
         for (field in entryInfo.customFields) {
-            if (field.name == TemplateField.CREDIT_CARD_CARDHOLDER) {
+            if (field.name == TemplateField.LABEL_CARD_CARDHOLDER) {
                 struct.ccNameId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplateField.CREDIT_CARD_NUMBER) {
+            if (field.name == TemplateField.LABEL_NUMBER) {
                 struct.ccnId?.let { ccnId ->
                     builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
-            if (field.name == TemplateField.CREDIT_CARD_CVV) {
+            if (field.name == TemplateField.LABEL_CVV) {
                 struct.cvvId?.let { cvvId ->
                     builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
                 }

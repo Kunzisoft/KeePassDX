@@ -41,12 +41,12 @@ import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.*
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_EXPIRATION
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_NOTES
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_PASSWORD
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_TITLE
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_URL
-import com.kunzisoft.keepass.database.element.template.TemplateField.STANDARD_USERNAME
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_EXPIRATION
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_NOTES
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_PASSWORD
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_TITLE
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_URL
+import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_USERNAME
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -190,7 +190,7 @@ class EntryEditFragment: DatabaseFragment() {
                     generatePasswordView,
                     {
                         GeneratePasswordDialogFragment
-                                .getInstance(Field(STANDARD_PASSWORD, ProtectedString(true, mEntryInfo.password)))
+                                .getInstance(Field(LABEL_PASSWORD, ProtectedString(true, mEntryInfo.password)))
                                 .show(parentFragmentManager, "PasswordGeneratorFragment")
                     },
                     {
@@ -251,27 +251,27 @@ class EntryEditFragment: DatabaseFragment() {
                     val fieldTag: String
                     val fieldValue: String
 
-                    when (templateAttribute.label.toLowerCase(Locale.ENGLISH)) {
-                        STANDARD_TITLE -> {
+                    when {
+                        templateAttribute.label.equals(LABEL_TITLE, true) -> {
                             throw Exception("title cannot be in template attribute")
                         }
-                        STANDARD_USERNAME -> {
+                        templateAttribute.label.equals(LABEL_USERNAME, true) -> {
                             fieldTag = FIELD_USERNAME_TAG
                             fieldValue = mEntryInfo.username
                         }
-                        STANDARD_PASSWORD -> {
+                        templateAttribute.label.equals(LABEL_PASSWORD, true) -> {
                             fieldTag = FIELD_PASSWORD_TAG
                             fieldValue = mEntryInfo.password
                         }
-                        STANDARD_URL -> {
+                        templateAttribute.label.equals(LABEL_URL, true) -> {
                             fieldTag = FIELD_URL_TAG
                             fieldValue = mEntryInfo.url
                         }
-                        STANDARD_EXPIRATION -> {
+                        templateAttribute.label.equals(LABEL_EXPIRATION, true) -> {
                             fieldTag = FIELD_EXPIRES_TAG
                             fieldValue = mEntryInfo.getExpiresStringValue()
                         }
-                        STANDARD_NOTES -> {
+                        templateAttribute.label.equals(LABEL_NOTES, true) -> {
                             fieldTag = FIELD_NOTES_TAG
                             fieldValue = mEntryInfo.notes
                         }
