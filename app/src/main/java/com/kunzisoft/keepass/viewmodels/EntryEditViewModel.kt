@@ -3,24 +3,21 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryInfo
 
 
 class EntryEditViewModel: ViewModel() {
-
-    private val mDatabase = Database.getInstance()
-
-    val entryInfo : LiveData<EntryInfo> get() = _entryInfo
+    
+    val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo  = MutableLiveData<EntryInfo>()
 
-    val requestSaveEntry : LiveData<EntryInfo> get() = _requestSaveEntry
+    val saveEntryRequested : LiveData<EntryInfo> get() = _requestSaveEntry
     private val _requestSaveEntry = SingleLiveEvent<EntryInfo>()
-    val responseSaveEntry : LiveData<EntryInfo> get() = _responseSaveEntry
+    val saveEntryResponded : LiveData<EntryInfo> get() = _responseSaveEntry
     private val _responseSaveEntry = SingleLiveEvent<EntryInfo>()
 
-    val template : LiveData<Template> get() = _template
+    val templateChanged : LiveData<Template> get() = _template
     private val _template = SingleLiveEvent<Template>()
 
     fun setEntryInfo(entryInfo: EntryInfo?) {
@@ -28,7 +25,7 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun sendRequestSaveEntry() {
-        _requestSaveEntry.value = entryInfo.value
+        _requestSaveEntry.value = entryInfoLoaded.value
     }
 
     fun setResponseSaveEntry(entryInfo: EntryInfo?) {
@@ -36,7 +33,7 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun assignTemplate(template: Template) {
-        if (this.template.value != template) {
+        if (this.templateChanged.value != template) {
             _template.value = template
         }
     }

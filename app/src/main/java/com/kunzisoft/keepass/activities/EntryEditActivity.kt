@@ -39,7 +39,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -92,7 +91,6 @@ class EntryEditActivity : LockingActivity(),
     // Refs of an entry and group in database, are not modifiable
     private var mEntry: Entry? = null
     private var mParent: Group? = null
-    private var mIsNew: Boolean = false
     private var mIsTemplate: Boolean = false
     private var mEntryTemplate: Template? = null
 
@@ -150,59 +148,59 @@ class EntryEditActivity : LockingActivity(),
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
-        var tempEntryInfo: EntryInfo? = null
-
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let {
-            mIsNew = false
             // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
-
             // Retrieve the parent
             mEntry?.let { entry ->
-                mParent = entry.parent
                 // If no parent, add root group as parent
-                if (mParent == null) {
-                    mParent = mDatabase?.rootGroup
-                    entry.parent = mParent
+                if (entry.parent == null) {
+                    entry.parent = mDatabase?.rootGroup
                 }
             }
-            checkIfTemplate()
-            tempEntryInfo = mEntry?.getEntryInfo(mDatabase, true)
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
-            mIsNew = true
             mParent = mDatabase?.getGroupById(it)
-            // Add the default icon from parent if not a folder
-            val parentIcon = mParent?.icon
-            mEntry = mDatabase?.createEntry()
-            checkIfTemplate()
-            tempEntryInfo = mEntry?.getEntryInfo(mDatabase, true)
-            // Set default icon
-            if (parentIcon != null) {
-                if (parentIcon.custom.isUnknown
-                        && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
-                    tempEntryInfo?.icon = IconImage(parentIcon.standard)
+            mEntry = mDatabase?.createEntry().apply {
+                // Add the default icon from parent if not a folder
+                val parentIcon = mParent?.icon
+                // Set default icon
+                if (parentIcon != null) {
+                    if (parentIcon.custom.isUnknown
+                            && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
+                        this?.icon = IconImage(parentIcon.standard)
+                    }
+                    if (!parentIcon.custom.isUnknown) {
+                        this?.icon = IconImage(parentIcon.custom)
+                    }
                 }
-                if (!parentIcon.custom.isUnknown) {
-                    tempEntryInfo?.icon = IconImage(parentIcon.custom)
-                }
+                // Set default username
+                this?.username = mDatabase?.defaultUsername ?: ""
             }
-            // Set default username
-            tempEntryInfo?.username = mDatabase?.defaultUsername ?: ""
         }
 
+        // Define is current entry is a template (in direct template group)
+        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+        val templates = mDatabase?.getTemplates(mIsTemplate)
+        mEntryTemplate = mEntry?.let {
+            mDatabase?.getTemplate(it)
+        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
+        // Decode the entry
+        mEntry?.let {
+            mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
+        }
+
+        val tempEntryInfo: EntryInfo? = mEntry?.getEntryInfo(mDatabase, true)
         // Retrieve data from registration
         val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
         val searchInfo: SearchInfo? = registerInfo?.searchInfo
                 ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-
         searchInfo?.let { tempSearchInfo ->
             tempEntryInfo?.saveSearchInfo(mDatabase, tempSearchInfo)
         }
-
         registerInfo?.let { regInfo ->
             tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
         }
@@ -255,7 +253,6 @@ class EntryEditActivity : LockingActivity(),
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         templateSelectorSpinner?.apply {
             // Build template selector
-            val templates = mDatabase?.getTemplates(mIsTemplate)
             if (templates != null && templates.isNotEmpty()) {
                 adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
                 setSelection(templates.indexOf(mEntryTemplate))
@@ -273,21 +270,16 @@ class EntryEditActivity : LockingActivity(),
             }
         }
 
-        mEntryEditViewModel.entryInfo.observe(this) { entryInfo ->
+        mEntryEditViewModel.entryInfoLoaded.observe(this) { entryInfo ->
             mEntryInfo = entryInfo
         }
 
-        mEntryEditViewModel.responseSaveEntry.observe(this) { entryInfoSaved ->
+        mEntryEditViewModel.saveEntryResponded.observe(this) { entryInfoSaved ->
             // Get the temp entry
             entryInfoSaved?.let { newEntryInfo ->
-                if (mIsNew) {
-                    // Create new one
-                    mDatabase?.createEntry()
-                } else {
+                mEntry?.let {
                     // Create a clone
-                    Entry(mEntry!!)
-                }?.let {
-                    var newEntry = it
+                    var newEntry = Entry(it)
 
                     // Do not save entry in upload progression
                     mTempAttachments.forEach { attachmentState ->
@@ -328,7 +320,7 @@ class EntryEditActivity : LockingActivity(),
                     }
 
                     // Open a progress dialog and save entry
-                    if (mIsNew) {
+                    if (isEntryCreation()) {
                         mParent?.let { parent ->
                             mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
                                     newEntry,
@@ -419,19 +411,8 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    private fun checkIfTemplate() {
-        // Define is current entry is a template (in direct template group)
-        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
-
-        val templates = mDatabase?.getTemplates(mIsTemplate)
-        mEntryTemplate = mEntry?.let {
-            mDatabase?.getTemplate(it)
-        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
-
-        // Decode the entry
-        mEntry?.let {
-            mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
-        }
+    private fun isEntryCreation() : Boolean {
+        return mParent != null
     }
 
     private fun entryValidatedForSave() {
@@ -859,7 +840,7 @@ class EntryEditActivity : LockingActivity(),
                 val intentEntry = Intent()
                 bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry)
                 intentEntry.putExtras(bundle)
-                if (mIsNew) {
+                if (isEntryCreation()) {
                     setResult(ADD_ENTRY_RESULT_CODE, intentEntry)
                 } else {
                     setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry)

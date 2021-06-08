@@ -143,18 +143,18 @@ class EntryEditFragment: DatabaseFragment() {
             mTempDateTimeViewId = savedInstanceState.getInt(KEY_SELECTION_DATE_TIME_ID)
         }
 
-        mEntryEditViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
+        mEntryEditViewModel.entryInfoLoaded.observe(viewLifecycleOwner) { entryInfo ->
             mEntryInfo = entryInfo
             populateViewsWithEntry()
         }
 
-        mEntryEditViewModel.template.observe(viewLifecycleOwner) { template ->
+        mEntryEditViewModel.templateChanged.observe(viewLifecycleOwner) { template ->
             mTemplate = template
             populateViewsWithEntry()
             rootView.showByFading()
         }
 
-        mEntryEditViewModel.requestSaveEntry.observe(viewLifecycleOwner) {
+        mEntryEditViewModel.saveEntryRequested.observe(viewLifecycleOwner) {
             populateEntryWithViews()
             mEntryEditViewModel.setResponseSaveEntry(mEntryInfo)
         }
