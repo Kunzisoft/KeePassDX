@@ -40,6 +40,7 @@ class EntryInfo : NodeInfo {
     var customFields: List<Field> = listOf()
     var attachments: List<Attachment> = listOf()
     var otpModel: OtpModel? = null
+    var isTemplate: Boolean = false
 
     constructor() : super()
 
@@ -52,6 +53,7 @@ class EntryInfo : NodeInfo {
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
+        isTemplate = parcel.readByte().toInt() != 0
     }
 
     override fun describeContents(): Int {
@@ -68,6 +70,7 @@ class EntryInfo : NodeInfo {
         parcel.writeArray(customFields.toTypedArray())
         parcel.writeArray(attachments.toTypedArray())
         parcel.writeParcelable(otpModel, flags)
+        parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }
 
     fun containsCustomFieldsProtected(): Boolean {

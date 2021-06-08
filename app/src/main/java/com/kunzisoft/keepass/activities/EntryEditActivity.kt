@@ -61,7 +61,6 @@ import com.kunzisoft.keepass.database.element.template.*
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -88,12 +87,6 @@ class EntryEditActivity : LockingActivity(),
         FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
 
-    // Refs of an entry and group in database, are not modifiable
-    private var mEntry: Entry? = null
-    private var mParent: Group? = null
-    private var mIsTemplate: Boolean = false
-    private var mEntryTemplate: Template? = null
-
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
@@ -104,14 +97,17 @@ class EntryEditActivity : LockingActivity(),
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
 
-    private var mEntryInfo: EntryInfo? = null
+    private var mParent : Group? = null
+    private var mEntry : Entry? = null
+    private var mIsTemplate: Boolean = false
+    private var mEntryTemplate: Template = Template.STANDARD
+    private var mTempAttachments = mutableListOf<EntryAttachmentState>()
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAllowMultipleAttachments: Boolean = false
-    private var mTempAttachments = ArrayList<EntryAttachmentState>()
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -184,10 +180,12 @@ class EntryEditActivity : LockingActivity(),
 
         // Define is current entry is a template (in direct template group)
         mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
-        val templates = mDatabase?.getTemplates(mIsTemplate)
+
+        // Default template
         mEntryTemplate = mEntry?.let {
             mDatabase?.getTemplate(it)
-        } ?: if (templates?.isNotEmpty() == true) Template.STANDARD else null
+        } ?: Template.STANDARD
+
         // Decode the entry
         mEntry?.let {
             mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
@@ -205,37 +203,41 @@ class EntryEditActivity : LockingActivity(),
             tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
         }
 
-        mEntryEditViewModel.setEntryInfo(tempEntryInfo)
-
         // Build fragment to manage entry modification
         entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
         if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance()
+            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mEntryTemplate)
+        }
+
+        mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
+            IconPickerActivity.launch(this@EntryEditActivity, iconImage)
+        }
+        mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
+            if (dateInstant.type == DateInstant.Type.TIME) {
+                selectTime(dateInstant)
+            } else {
+                selectDate(dateInstant)
+            }
+        }
+        mEntryEditViewModel.requestPasswordSelection.observe(this) { passwordField ->
+            GeneratePasswordDialogFragment
+                    .getInstance(passwordField)
+                    .show(supportFragmentManager, "PasswordGeneratorFragment")
+        }
+        mEntryEditViewModel.requestCustomFieldEdition.observe(this) { field ->
+            editCustomField(field)
+        }
+        mEntryEditViewModel.onCustomFieldError.observe(this) {
+            coordinatorLayout?.let {
+                Snackbar.make(it, R.string.error_field_name_already_exists, Snackbar.LENGTH_LONG)
+                        .asError()
+                        .show()
+            }
         }
         entryEditFragment?.apply {
-            drawFactory = mDatabase?.iconDrawableFactory
-            onDateTimeClickListener = { dateInstant ->
-                if (dateInstant.type == DateInstant.Type.TIME) {
-                    selectTime(dateInstant)
-                } else {
-                    selectDate(dateInstant)
-                }
-            }
-            onPasswordGeneratorClickListener = { field ->
-                GeneratePasswordDialogFragment
-                        .getInstance(field)
-                        .show(supportFragmentManager, "PasswordGeneratorFragment")
-            }
-            // Add listener to the icon
-            onIconClickListener = { iconImage ->
-                IconPickerActivity.launch(this@EntryEditActivity, iconImage)
-            }
             onRemoveAttachment = { attachment ->
                 mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
                 removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
-            }
-            onEditCustomFieldClickListener = { field ->
-                editCustomField(field)
             }
         }
 
@@ -252,15 +254,16 @@ class EntryEditActivity : LockingActivity(),
         // Change template dynamically
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         templateSelectorSpinner?.apply {
+            val templates = mDatabase?.getTemplates(mIsTemplate) ?: listOf()
             // Build template selector
-            if (templates != null && templates.isNotEmpty()) {
+            if (templates.isNotEmpty()) {
                 adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
                 setSelection(templates.indexOf(mEntryTemplate))
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val newTemplate = templates[position]
+                        mEntryTemplate = templates[position]
                         entryEditFragment?.apply {
-                            mEntryEditViewModel.assignTemplate(newTemplate)
+                            mEntryEditViewModel.assignTemplate(mEntryTemplate)
                         }
                     }
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -270,80 +273,64 @@ class EntryEditActivity : LockingActivity(),
             }
         }
 
-        mEntryEditViewModel.entryInfoLoaded.observe(this) { entryInfo ->
-            mEntryInfo = entryInfo
-        }
+        // Build new entry from the entry info retrieved
+        mEntryEditViewModel.onEntryInfoUpdated.observe(this) { entryInfo ->
 
-        mEntryEditViewModel.saveEntryResponded.observe(this) { entryInfoSaved ->
-            // Get the temp entry
-            entryInfoSaved?.let { newEntryInfo ->
-                mEntry?.let {
-                    // Create a clone
-                    var newEntry = Entry(it)
+            mEntry?.let { oldEntry ->
+                // Create a clone
+                var newEntry = Entry(oldEntry)
 
-                    // Do not save entry in upload progression
-                    mTempAttachments.forEach { attachmentState ->
-                        if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
-                            when (attachmentState.downloadState) {
-                                AttachmentState.START,
-                                AttachmentState.IN_PROGRESS,
-                                AttachmentState.CANCELED,
-                                AttachmentState.ERROR -> {
-                                    // Remove attachment not finished from info
-                                    newEntryInfo.attachments = newEntryInfo.attachments.toMutableList().apply {
-                                        remove(attachmentState.attachment)
-                                    }
-                                }
-                                else -> {
+                // Do not save entry in upload progression
+                mTempAttachments.forEach { attachmentState ->
+                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                        when (attachmentState.downloadState) {
+                            AttachmentState.START,
+                            AttachmentState.IN_PROGRESS,
+                            AttachmentState.CANCELED,
+                            AttachmentState.ERROR -> {
+                                // Remove attachment not finished from info
+                                entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
+                                    remove(attachmentState.attachment)
                                 }
                             }
-                        }
-                    }
-
-                    // Build info
-                    newEntry.setEntryInfo(mDatabase, newEntryInfo)
-
-                    // Encode entry properties for template
-                    mEntryTemplate?.let { template ->
-                        newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template)
-                                ?: newEntry
-                    }
-
-                    // Delete temp attachment if not used
-                    mTempAttachments.forEach { tempAttachmentState ->
-                        val tempAttachment = tempAttachmentState.attachment
-                        mDatabase?.attachmentPool?.let { binaryPool ->
-                            if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                                mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
+                            else -> {
                             }
-                        }
-                    }
-
-                    // Open a progress dialog and save entry
-                    if (isEntryCreation()) {
-                        mParent?.let { parent ->
-                            mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                                    newEntry,
-                                    parent,
-                                    !mReadOnly && mAutoSaveEnable
-                            )
-                        }
-                    } else {
-                        mEntry?.let { oldEntry ->
-                            mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                                    oldEntry,
-                                    newEntry,
-                                    !mReadOnly && mAutoSaveEnable
-                            )
                         }
                     }
                 }
-            }
-        }
 
-        // Retrieve temp attachments in case of deletion
-        if (savedInstanceState?.containsKey(TEMP_ATTACHMENTS) == true) {
-            mTempAttachments = savedInstanceState.getParcelableArrayList(TEMP_ATTACHMENTS) ?: mTempAttachments
+                // Build info
+                newEntry.setEntryInfo(mDatabase, entryInfo)
+
+                // Encode entry properties for template
+                newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, mEntryTemplate)
+                        ?: newEntry
+
+                // Delete temp attachment if not used
+                mTempAttachments.forEach { tempAttachmentState ->
+                    val tempAttachment = tempAttachmentState.attachment
+                    mDatabase?.attachmentPool?.let { binaryPool ->
+                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                            mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
+                        }
+                    }
+                }
+
+                // Open a progress dialog and save entry
+                mParent?.let { parent ->
+                    mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
+                            newEntry,
+                            parent,
+                            !mReadOnly && mAutoSaveEnable
+                    )
+                } ?: run {
+                    mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
+                            oldEntry,
+                            newEntry,
+                            !mReadOnly && mAutoSaveEnable
+                    )
+                }
+            }
         }
 
         // To retrieve attachment
@@ -372,26 +359,25 @@ class EntryEditActivity : LockingActivity(),
                             }
                             if (newNodes.size == 1) {
                                 (newNodes[0] as? Entry?)?.let { entry ->
-                                    mEntry = entry
                                     EntrySelectionHelper.doSpecialAction(intent,
                                             {
                                                 // Finish naturally
-                                                finishForEntryResult()
+                                                finishForEntryResult(actionTask, entry)
                                             },
                                             {
                                                 // Nothing when search retrieved
                                             },
                                             {
-                                                entryValidatedForSave()
+                                                entryValidatedForSave(actionTask, entry)
                                             },
                                             {
-                                                entryValidatedForKeyboardSelection(entry)
+                                                entryValidatedForKeyboardSelection(actionTask, entry)
                                             },
                                             { _, _ ->
                                                 entryValidatedForAutofillSelection(entry)
                                             },
                                             {
-                                                entryValidatedForAutofillRegistration()
+                                                entryValidatedForAutofillRegistration(actionTask, entry)
                                             }
                                     )
                                 }
@@ -411,16 +397,12 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    private fun isEntryCreation() : Boolean {
-        return mParent != null
-    }
-
-    private fun entryValidatedForSave() {
+    private fun entryValidatedForSave(actionTask: String, entry: Entry) {
         onValidateSpecialMode()
-        finishForEntryResult()
+        finishForEntryResult(actionTask, entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(actionTask: String, entry: Entry) {
         // Populate Magikeyboard with entry
         mDatabase?.let { database ->
             populateKeyboardAndMoveAppToBackground(this,
@@ -429,7 +411,7 @@ class EntryEditActivity : LockingActivity(),
         }
         onValidateSpecialMode()
         // Don't keep activity history for entry edition
-        finishForEntryResult()
+        finishForEntryResult(actionTask, entry)
     }
 
     private fun entryValidatedForAutofillSelection(entry: Entry) {
@@ -444,9 +426,9 @@ class EntryEditActivity : LockingActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForAutofillRegistration() {
+    private fun entryValidatedForAutofillRegistration(actionTask: String, entry: Entry) {
         onValidateSpecialMode()
-        finishForEntryResult()
+        finishForEntryResult(actionTask, entry)
     }
 
     override fun onResume() {
@@ -474,7 +456,8 @@ class EntryEditActivity : LockingActivity(),
                                 getAttachmentViewPosition(entryAttachmentState) {
                                     scrollView?.smoothScrollTo(0, it.toInt())
                                 }
-                            }            // Add in temp list
+                            }
+                            // Add in temp list
                             mTempAttachments.add(entryAttachmentState)
                         }
                         AttachmentState.IN_PROGRESS -> {
@@ -528,25 +511,16 @@ class EntryEditActivity : LockingActivity(),
         //}
     }
 
-    private fun showAddCustomFieldError() {
-        coordinatorLayout?.let {
-            Snackbar.make(it, R.string.error_field_name_already_exists, Snackbar.LENGTH_LONG).asError().show()
-        }
-    }
-
     override fun onNewCustomFieldApproved(newField: Field) {
-        if (entryEditFragment?.putCustomField(newField) != true)
-            showAddCustomFieldError()
+        mEntryEditViewModel.addCustomField(newField)
     }
 
     override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        if (entryEditFragment?.replaceCustomField(oldField, newField) != true) {
-            showAddCustomFieldError()
-        }
+        mEntryEditViewModel.editCustomField(oldField, newField)
     }
 
     override fun onDeleteCustomFieldApproved(oldField: Field) {
-        entryEditFragment?.removeCustomField(oldField)
+        mEntryEditViewModel.removeCustomField(oldField)
     }
 
     /**
@@ -596,7 +570,7 @@ class EntryEditActivity : LockingActivity(),
         super.onActivityResult(requestCode, resultCode, data)
 
         IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            entryEditFragment?.setIcon(icon)
+            mEntryEditViewModel.selectIcon(icon)
         }
 
         mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
@@ -618,11 +592,8 @@ class EntryEditActivity : LockingActivity(),
     /**
      * Set up OTP (HOTP or TOTP) and add it as extra field
      */
-    private fun setupOTP() {
-        // Retrieve the current otpElement if exists
-        // and open the dialog to set up the OTP
-        SetOTPDialogFragment.build(mEntryInfo?.otpModel)
-                .show(supportFragmentManager, "addOTPDialog")
+    private fun setupOtp() {
+        entryEditFragment?.setupOtp()
     }
 
     /**
@@ -630,7 +601,7 @@ class EntryEditActivity : LockingActivity(),
      */
     private fun saveEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        mEntryEditViewModel.sendRequestSaveEntry()
+        mEntryEditViewModel.requestEntryInfoUpdate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -705,7 +676,7 @@ class EntryEditActivity : LockingActivity(),
                             && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
                             setupOtpView,
                             {
-                                setupOTP()
+                                setupOtp()
                             }
                     )
                 }
@@ -724,7 +695,7 @@ class EntryEditActivity : LockingActivity(),
                 return true
             }
             R.id.menu_add_otp -> {
-                setupOTP()
+                setupOtp()
                 return true
             }
             android.R.id.home -> {
@@ -736,23 +707,7 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onOtpCreated(otpElement: OtpElement) {
-        var titleOTP: String? = null
-        var usernameOTP: String? = null
-        // Build a temp entry to get title and username (by ref)
-        mEntryInfo?.let { entryInfo ->
-            val entryTemp = mDatabase?.createEntry()
-            entryTemp?.setEntryInfo(mDatabase, entryInfo)
-            mDatabase?.startManageEntry(entryTemp)
-            titleOTP = entryTemp?.title
-            usernameOTP = entryTemp?.username
-            mDatabase?.stopManageEntry(mEntry)
-        }
-        // Update the otp field with otpauth:// url
-        val otpField = OtpEntryFields.buildOtpField(otpElement, titleOTP, usernameOTP)
-        mEntry?.putExtraField(Field(otpField.name, otpField.protectedValue))
-        entryEditFragment?.apply {
-            putCustomField(otpField)
-        }
+        entryEditFragment?.onOtpCreated(otpElement)
     }
 
     // Launch the date picker
@@ -778,23 +733,16 @@ class EntryEditActivity : LockingActivity(),
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            entryEditFragment?.setDate(year, month, day)
+            mEntryEditViewModel.selectDate(year, month, day)
         }
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        entryEditFragment?.setTime(hours, minutes)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-
-        outState.putParcelableArrayList(TEMP_ATTACHMENTS, mTempAttachments)
-
-        super.onSaveInstanceState(outState)
+        mEntryEditViewModel.selectTime(hours, minutes)
     }
 
     override fun acceptPassword(passwordField: Field) {
-        entryEditFragment?.setPassword(passwordField)
+        mEntryEditViewModel.selectPassword(passwordField)
         entryEditActivityEducation?.let {
             Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
         }
@@ -832,17 +780,18 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    private fun finishForEntryResult() {
+    private fun finishForEntryResult(actionTask: String, entry: Entry) {
         // Assign entry callback as a result
         try {
-            mEntry?.let { entry ->
-                val bundle = Bundle()
-                val intentEntry = Intent()
-                bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry)
-                intentEntry.putExtras(bundle)
-                if (isEntryCreation()) {
+            val bundle = Bundle()
+            val intentEntry = Intent()
+            bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry)
+            intentEntry.putExtras(bundle)
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_ENTRY_TASK -> {
                     setResult(ADD_ENTRY_RESULT_CODE, intentEntry)
-                } else {
+                }
+                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
                     setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry)
                 }
             }
@@ -860,9 +809,6 @@ class EntryEditActivity : LockingActivity(),
         // Keys for current Activity
         const val KEY_ENTRY = "entry"
         const val KEY_PARENT = "parent"
-
-        // SaveInstanceState
-        const val TEMP_ATTACHMENTS = "TEMP_ATTACHMENTS"
 
         // Keys for callback
         const val ADD_ENTRY_RESULT_CODE = 31

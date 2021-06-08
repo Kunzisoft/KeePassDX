@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -34,6 +35,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
@@ -53,13 +55,14 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
 
-class EntryEditFragment: DatabaseFragment() {
+class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListener {
 
     private lateinit var rootView: View
     private lateinit var entryIconView: ImageView
@@ -76,10 +79,6 @@ class EntryEditFragment: DatabaseFragment() {
     private var iconColor: Int = 0
 
     var drawFactory: IconDrawableFactory? = null
-    var onIconClickListener: ((IconImage) -> Unit)? = null
-    var onPasswordGeneratorClickListener: ((Field) -> Unit)? = null
-    var onDateTimeClickListener: ((DateInstant) -> Unit)? = null
-    var onEditCustomFieldClickListener: ((Field) -> Unit)? = null
     var onRemoveAttachment: ((Attachment) -> Unit)? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
@@ -102,7 +101,7 @@ class EntryEditFragment: DatabaseFragment() {
 
         entryIconView = rootView.findViewById(R.id.entry_edit_icon_button)
         entryIconView.setOnClickListener {
-            onIconClickListener?.invoke(mEntryInfo.icon)
+            mEntryEditViewModel.requestIconSelection(mEntryInfo.icon)
         }
         entryTitleView = rootView.findViewById(R.id.entry_edit_title)
         templateContainerView = rootView.findViewById(R.id.template_fields_container)
@@ -139,24 +138,94 @@ class EntryEditFragment: DatabaseFragment() {
 
         rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
 
+        // Retrieve the new entry after an orientation change
+        if (arguments?.containsKey(KEY_ENTRY_INFO) == true)
+            mEntryInfo = arguments?.getParcelable(KEY_ENTRY_INFO) ?: mEntryInfo
+        else if (savedInstanceState?.containsKey(KEY_ENTRY_INFO) == true) {
+            mEntryInfo = savedInstanceState.getParcelable(KEY_ENTRY_INFO) ?: mEntryInfo
+        }
+
+        if (arguments?.containsKey(KEY_TEMPLATE) == true)
+            mTemplate = arguments?.getParcelable(KEY_TEMPLATE) ?: mTemplate
+        else if (savedInstanceState?.containsKey(KEY_TEMPLATE) == true) {
+            mTemplate = savedInstanceState.getParcelable(KEY_TEMPLATE) ?: mTemplate
+        }
+
         if (savedInstanceState?.containsKey(KEY_SELECTION_DATE_TIME_ID) == true) {
             mTempDateTimeViewId = savedInstanceState.getInt(KEY_SELECTION_DATE_TIME_ID)
         }
 
-        mEntryEditViewModel.entryInfoLoaded.observe(viewLifecycleOwner) { entryInfo ->
-            mEntryInfo = entryInfo
-            populateViewsWithEntry()
-        }
+        populateViewsWithEntry()
 
-        mEntryEditViewModel.templateChanged.observe(viewLifecycleOwner) { template ->
+        mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
             mTemplate = template
             populateViewsWithEntry()
             rootView.showByFading()
         }
 
-        mEntryEditViewModel.saveEntryRequested.observe(viewLifecycleOwner) {
+        mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
             populateEntryWithViews()
-            mEntryEditViewModel.setResponseSaveEntry(mEntryInfo)
+            mEntryEditViewModel.updateEntryInfo(mEntryInfo)
+        }
+
+        mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) {
+            setIcon(it)
+        }
+
+        mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) {
+            setPassword(it)
+        }
+
+        mEntryEditViewModel.onDateSelected.observe(viewLifecycleOwner) {
+            // Save the date
+            setCurrentDateTimeSelection { instant ->
+                val newDateInstant = DateInstant(DateTime(instant.date)
+                        .withYear(it.year)
+                        .withMonthOfYear(it.month + 1)
+                        .withDayOfMonth(it.day)
+                        .toDate(), instant.type)
+                if (instant.type == DateInstant.Type.DATE_TIME) {
+                    val instantTime = DateInstant(instant.date, DateInstant.Type.TIME)
+                    // Trick to recall selection with time
+                    mEntryEditViewModel.requestDateTimeSelection(instantTime)
+                }
+                newDateInstant
+            }
+        }
+
+        mEntryEditViewModel.onTimeSelected.observe(viewLifecycleOwner) {
+            // Save the time
+            setCurrentDateTimeSelection { instant ->
+                DateInstant(DateTime(instant.date)
+                        .withHourOfDay(it.hours)
+                        .withMinuteOfHour(it.minutes)
+                        .toDate(), instant.type)
+            }
+        }
+
+        mEntryEditViewModel.onCustomFieldEdited.observe(viewLifecycleOwner) { fieldAction ->
+            // Field to add
+            if (fieldAction.oldField == null) {
+                fieldAction.newField?.let {
+                    if (!putCustomField(it)) {
+                        mEntryEditViewModel.showCustomFieldEditionError()
+                    }
+                }
+            }
+            // Field to replace
+            fieldAction.oldField?.let {
+                fieldAction.newField?.let {
+                    if (!replaceCustomField(fieldAction.oldField, fieldAction.newField)) {
+                        mEntryEditViewModel.showCustomFieldEditionError()
+                    }
+                }
+            }
+            // Field to remove
+            if (fieldAction.newField == null) {
+                fieldAction.oldField?.let {
+                    removeCustomField(it)
+                }
+            }
         }
 
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
@@ -167,15 +236,17 @@ class EntryEditFragment: DatabaseFragment() {
         return rootView
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        drawFactory = mDatabase?.iconDrawableFactory
+    }
+
     override fun onDetach() {
         super.onDetach()
 
         drawFactory = null
-        onDateTimeClickListener = null
-        onPasswordGeneratorClickListener = null
-        onIconClickListener = null
         onRemoveAttachment = null
-        onEditCustomFieldClickListener = null
     }
 
     fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
@@ -346,12 +417,12 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                     TemplateAttributeAction.CUSTOM_EDITION -> {
                         setOnActionClickListener({
-                            onEditCustomFieldClickListener?.invoke(field)
+                            mEntryEditViewModel.requestCustomFieldEdition(field)
                         }, R.drawable.ic_more_white_24dp)
                     }
                     TemplateAttributeAction.PASSWORD_GENERATION -> {
                         setOnActionClickListener({
-                            onPasswordGeneratorClickListener?.invoke(field)
+                            mEntryEditViewModel.requestPasswordSelection(field)
                         }, R.drawable.ic_generate_password_white_24dp)
                     }
                 }
@@ -387,7 +458,7 @@ class EntryEditFragment: DatabaseFragment() {
                 }
                 setOnDateClickListener = { dateInstant ->
                     mTempDateTimeViewId = id
-                    onDateTimeClickListener?.invoke(dateInstant)
+                    mEntryEditViewModel.requestDateTimeSelection(dateInstant)
                 }
             }
         }
@@ -450,12 +521,12 @@ class EntryEditFragment: DatabaseFragment() {
                 ?: customFieldsContainerView.findViewById(viewId)
     }
 
-    fun setIcon(iconImage: IconImage) {
+    private fun setIcon(iconImage: IconImage) {
         mEntryInfo.icon = iconImage
         drawFactory?.assignDatabaseIcon(entryIconView, iconImage, iconColor)
     }
 
-    fun setPassword(passwordField: Field) {
+    private fun setPassword(passwordField: Field) {
         val passwordValue = passwordField.protectedValue.stringValue
         mEntryInfo.password = passwordValue
         val passwordView = getFieldViewByField(passwordField)
@@ -472,33 +543,6 @@ class EntryEditFragment: DatabaseFragment() {
                         action.invoke(dateTimeView.dateTime).date,
                         dateTimeView.dateTime.type)
             }
-        }
-    }
-
-    fun setDate(year: Int, month: Int, day: Int) {
-        // Save the date
-        setCurrentDateTimeSelection { instant ->
-            val newDateInstant = DateInstant(DateTime(instant.date)
-                        .withYear(year)
-                        .withMonthOfYear(month + 1)
-                        .withDayOfMonth(day)
-                        .toDate(), instant.type)
-            if (instant.type == DateInstant.Type.DATE_TIME) {
-                val instantTime = DateInstant(instant.date, DateInstant.Type.TIME)
-                // Trick to recall selection with time
-                onDateTimeClickListener?.invoke(instantTime)
-            }
-            newDateInstant
-        }
-    }
-
-    fun setTime(hours: Int, minutes: Int) {
-        // Save the time
-        setCurrentDateTimeSelection { instant ->
-            DateInstant(DateTime(instant.date)
-                    .withHourOfDay(hours)
-                    .withMinuteOfHour(minutes)
-                    .toDate(), instant.type)
         }
     }
 
@@ -539,7 +583,7 @@ class EntryEditFragment: DatabaseFragment() {
     /**
      * Update a custom field or create a new one if doesn't exists, the old value is lost
      */
-    fun putCustomField(customField: Field): Boolean {
+    private fun putCustomField(customField: Field): Boolean {
         return if (!isStandardFieldName(customField.name)) {
             customFieldsContainerView.visibility = View.VISIBLE
             if (indexCustomFieldIdByName(customField.name) >= 0) {
@@ -561,7 +605,7 @@ class EntryEditFragment: DatabaseFragment() {
     /**
      * Update a custom field and keep the old value
      */
-    fun replaceCustomField(oldField: Field, newField: Field): Boolean {
+    private fun replaceCustomField(oldField: Field, newField: Field): Boolean {
         if (!isStandardFieldName(newField.name)) {
             customFieldIdByName(oldField.name)?.viewId?.let { viewId ->
                 customFieldsContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
@@ -590,7 +634,7 @@ class EntryEditFragment: DatabaseFragment() {
         return false
     }
 
-    fun removeCustomField(oldCustomField: Field) {
+    private fun removeCustomField(oldCustomField: Field) {
         val indexOldField = indexCustomFieldIdByName(oldCustomField.name)
         if (indexOldField > 0) {
             mCustomFieldIds[indexOldField].viewId.let { viewId ->
@@ -598,6 +642,19 @@ class EntryEditFragment: DatabaseFragment() {
             }
             mCustomFieldIds.removeAt(indexOldField)
         }
+    }
+
+    fun setupOtp() {
+        // Retrieve the current otpElement if exists
+        // and open the dialog to set up the OTP
+        SetOTPDialogFragment.build(mEntryInfo.otpModel)
+                .show(parentFragmentManager, "addOTPDialog")
+    }
+
+    override fun onOtpCreated(otpElement: OtpElement) {
+        // Update the otp field with otpauth:// url
+        val otpField = OtpEntryFields.buildOtpField(otpElement, mEntryInfo.title, mEntryInfo.username)
+        putCustomField(Field(otpField.name, otpField.protectedValue))
     }
 
     /* -------------
@@ -658,6 +715,8 @@ class EntryEditFragment: DatabaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         populateEntryWithViews()
+        outState.putParcelable(KEY_ENTRY_INFO, mEntryInfo)
+        outState.putParcelable(KEY_TEMPLATE, mTemplate)
         mTempDateTimeViewId?.let {
             outState.putInt(KEY_SELECTION_DATE_TIME_ID, it)
         }
@@ -666,6 +725,8 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     companion object {
+        private const val KEY_ENTRY_INFO = "KEY_ENTRY_INFO"
+        private const val KEY_TEMPLATE = "KEY_TEMPLATE"
         private const val KEY_SELECTION_DATE_TIME_ID = "KEY_SELECTION_DATE_TIME_ID"
 
         private const val FIELD_USERNAME_TAG = "FIELD_USERNAME_TAG"
@@ -675,9 +736,13 @@ class EntryEditFragment: DatabaseFragment() {
         private const val FIELD_NOTES_TAG = "FIELD_NOTES_TAG"
         private const val FIELD_CUSTOM_TAG = "FIELD_CUSTOM_TAG"
 
-        fun getInstance(): EntryEditFragment {
+        fun getInstance(entryInfo: EntryInfo?,
+                        template: Template?): EntryEditFragment {
             return EntryEditFragment().apply {
-                arguments = Bundle().apply {}
+                arguments = Bundle().apply {
+                    putParcelable(KEY_ENTRY_INFO, entryInfo)
+                    putParcelable(KEY_TEMPLATE, template)
+                }
             }
         }
     }

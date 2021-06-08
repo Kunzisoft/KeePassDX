@@ -1,42 +1,113 @@
 package com.kunzisoft.keepass.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryInfo
 
 
 class EntryEditViewModel: ViewModel() {
-    
-    val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfo
-    private val _entryInfo  = MutableLiveData<EntryInfo>()
 
-    val saveEntryRequested : LiveData<EntryInfo> get() = _requestSaveEntry
-    private val _requestSaveEntry = SingleLiveEvent<EntryInfo>()
-    val saveEntryResponded : LiveData<EntryInfo> get() = _responseSaveEntry
-    private val _responseSaveEntry = SingleLiveEvent<EntryInfo>()
+    val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
+    private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
+    val onEntryInfoUpdated : LiveData<EntryInfo> get() = _onEntryInfoUpdated
+    private val _onEntryInfoUpdated = SingleLiveEvent<EntryInfo>()
 
-    val templateChanged : LiveData<Template> get() = _template
-    private val _template = SingleLiveEvent<Template>()
+    val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
+    private val _onTemplateChanged = SingleLiveEvent<Template>()
 
-    fun setEntryInfo(entryInfo: EntryInfo?) {
-        _entryInfo.value = entryInfo
+    val requestIconSelection : LiveData<IconImage> get() = _requestIconSelection
+    private val _requestIconSelection = SingleLiveEvent<IconImage>()
+    val onIconSelected : LiveData<IconImage> get() = _onIconSelected
+    private val _onIconSelected = SingleLiveEvent<IconImage>()
+
+    val requestPasswordSelection : LiveData<Field> get() = _requestPasswordSelection
+    private val _requestPasswordSelection = SingleLiveEvent<Field>()
+    val onPasswordSelected : LiveData<Field> get() = _onPasswordSelected
+    private val _onPasswordSelected = SingleLiveEvent<Field>()
+
+    val requestCustomFieldEdition : LiveData<Field> get() = _requestCustomFieldEdition
+    private val _requestCustomFieldEdition = SingleLiveEvent<Field>()
+    val onCustomFieldEdited : LiveData<FieldEdition> get() = _onCustomFieldEdited
+    private val _onCustomFieldEdited = SingleLiveEvent<FieldEdition>()
+    val onCustomFieldError : LiveData<Void?> get() = _onCustomFieldError
+    private val _onCustomFieldError = SingleLiveEvent<Void?>()
+
+    val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
+    private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
+    val onDateSelected : LiveData<Date> get() = _onDateSelected
+    private val _onDateSelected = SingleLiveEvent<Date>()
+    val onTimeSelected : LiveData<Time> get() = _onTimeSelected
+    private val _onTimeSelected = SingleLiveEvent<Time>()
+
+    fun requestEntryInfoUpdate() {
+        _requestEntryInfoUpdate.call()
     }
 
-    fun sendRequestSaveEntry() {
-        _requestSaveEntry.value = entryInfoLoaded.value
-    }
-
-    fun setResponseSaveEntry(entryInfo: EntryInfo?) {
-        _responseSaveEntry.value = entryInfo
+    fun updateEntryInfo(entryInfo: EntryInfo) {
+        _onEntryInfoUpdated.value = entryInfo
     }
 
     fun assignTemplate(template: Template) {
-        if (this.templateChanged.value != template) {
-            _template.value = template
+        if (this.onTemplateChanged.value != template) {
+            _onTemplateChanged.value = template
         }
     }
+
+    fun requestIconSelection(oldIconImage: IconImage) {
+        _requestIconSelection.value = oldIconImage
+    }
+
+    fun selectIcon(iconImage: IconImage) {
+        _onIconSelected.value = iconImage
+    }
+
+    fun requestPasswordSelection(passwordField: Field) {
+        _requestPasswordSelection.value = passwordField
+    }
+
+    fun selectPassword(passwordField: Field) {
+        _onPasswordSelected.value = passwordField
+    }
+
+    fun requestCustomFieldEdition(customField: Field) {
+        _requestCustomFieldEdition.value = customField
+    }
+
+    fun addCustomField(newField: Field) {
+        _onCustomFieldEdited.value = FieldEdition(null, newField)
+    }
+
+    fun editCustomField(oldField: Field, newField: Field) {
+        _onCustomFieldEdited.value = FieldEdition(oldField, newField)
+    }
+
+    fun removeCustomField(oldField: Field) {
+        _onCustomFieldEdited.value = FieldEdition(oldField, null)
+    }
+
+    fun showCustomFieldEditionError() {
+        _onCustomFieldError.call()
+    }
+
+    fun requestDateTimeSelection(dateInstant: DateInstant) {
+        _requestDateTimeSelection.value = dateInstant
+    }
+
+    fun selectDate(year: Int, month: Int, day: Int) {
+        _onDateSelected.value = Date(year, month, day)
+    }
+
+    fun selectTime(hours: Int, minutes: Int) {
+        _onTimeSelected.value = Time(hours, minutes)
+    }
+
+    data class Date(val year: Int, val month: Int, val day: Int)
+    data class Time(val hours: Int, val minutes: Int)
+    data class FieldEdition(val oldField: Field?, val newField: Field?)
 
     companion object {
         private val TAG = EntryEditViewModel::class.java.name
