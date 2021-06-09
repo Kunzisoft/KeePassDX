@@ -327,7 +327,7 @@
     <string name="clear_clipboard_notification_summary">Verrouille la base de données lorsque la durée du presse-papier expire ou que la notification est fermée après avoir commencé à l’utiliser</string>
     <string name="recycle_bin">Corbeille</string>
     <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
-    <string name="keyboard_selection_entry_summary">Lors de la sélection d'une entrée dans KeePassDX, rentre cette entrée disponible dans le Magiclavier</string>
+    <string name="keyboard_selection_entry_summary">Lors de la sélection d'une entrée dans KeePassDX, rendre cette entrée disponible dans le Magiclavier</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
     <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion à une base de données</string>
     <string name="content_description_open_file">Ouvrir le fichier</string>
