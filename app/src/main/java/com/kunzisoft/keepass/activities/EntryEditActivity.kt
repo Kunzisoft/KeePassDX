@@ -107,7 +107,6 @@ class EntryEditActivity : LockingActivity(),
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mAllowMultipleAttachments: Boolean = false
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -208,7 +207,15 @@ class EntryEditActivity : LockingActivity(),
         if (entryEditFragment == null) {
             entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mEntryTemplate)
         }
+        // To show Fragment asynchronously
+        lifecycleScope.launchWhenResumed {
+            loadingView?.hideByFading()
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.entry_edit_content, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
+                    .commit()
+        }
 
+        // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
             IconPickerActivity.launch(this@EntryEditActivity, iconImage)
         }
@@ -234,21 +241,32 @@ class EntryEditActivity : LockingActivity(),
                         .show()
             }
         }
-        entryEditFragment?.apply {
-            onRemoveAttachment = { attachment ->
-                mAttachmentFileBinderManager?.removeBinaryAttachment(attachment)
-                removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
+        mEntryEditViewModel.onAttachmentAction.observe(this) { attachmentState ->
+            when (attachmentState?.downloadState) {
+                AttachmentState.START -> {
+                    // Add in temp list
+                    mTempAttachments.add(attachmentState)
+                }
+                AttachmentState.ERROR -> {
+                    coordinatorLayout?.let {
+                        Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
+                    }
+                }
+                else -> {}
             }
         }
-
-        // To show Fragment asynchronously
-        lifecycleScope.launchWhenResumed {
-            loadingView?.hideByFading()
-            entryEditFragment?.let { fragment ->
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.entry_edit_content, fragment, ENTRY_EDIT_FRAGMENT_TAG)
-                        .commit()
+        mEntryEditViewModel.onBinaryPreviewLoaded.observe(this) {
+            // Scroll to the attachment position
+            when (it.entryAttachmentState.downloadState) {
+                AttachmentState.START,
+                AttachmentState.COMPLETE -> {
+                    scrollView?.smoothScrollTo(0, it.viewPosition.toInt())
+                }
+                else -> {}
             }
+        }
+        mEntryEditViewModel.attachmentDeleted.observe(this) {
+            mAttachmentFileBinderManager?.removeBinaryAttachment(it)
         }
 
         // Change template dynamically
@@ -262,9 +280,7 @@ class EntryEditActivity : LockingActivity(),
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         mEntryTemplate = templates[position]
-                        entryEditFragment?.apply {
-                            mEntryEditViewModel.assignTemplate(mEntryTemplate)
-                        }
+                        mEntryEditViewModel.assignTemplate(mEntryTemplate)
                     }
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
@@ -443,44 +459,11 @@ class EntryEditActivity : LockingActivity(),
         // Padding if lock button visible
         entryEditAddToolBar?.updateLockPaddingLeft()
 
-        mAllowMultipleAttachments = mDatabase?.allowMultipleAttachments == true
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-                    when (entryAttachmentState.downloadState) {
-                        AttachmentState.START -> {
-                            entryEditFragment?.apply {
-                                putAttachment(entryAttachmentState)
-                                // Scroll to the attachment position
-                                getAttachmentViewPosition(entryAttachmentState) {
-                                    scrollView?.smoothScrollTo(0, it.toInt())
-                                }
-                            }
-                            // Add in temp list
-                            mTempAttachments.add(entryAttachmentState)
-                        }
-                        AttachmentState.IN_PROGRESS -> {
-                            entryEditFragment?.putAttachment(entryAttachmentState)
-                        }
-                        AttachmentState.COMPLETE -> {
-                            entryEditFragment?.putAttachment(entryAttachmentState) {
-                                entryEditFragment?.getAttachmentViewPosition(entryAttachmentState) {
-                                    scrollView?.smoothScrollTo(0, it.toInt())
-                                }
-                            }
-                        }
-                        AttachmentState.CANCELED -> {
-                            entryEditFragment?.removeAttachment(entryAttachmentState)
-                        }
-                        AttachmentState.ERROR -> {
-                            entryEditFragment?.removeAttachment(entryAttachmentState)
-                            coordinatorLayout?.let {
-                                Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
-                            }
-                        }
-                        else -> {}
-                    }
+                    mEntryEditViewModel.onAttachmentAction(entryAttachmentState)
                 }
             }
         }
@@ -542,21 +525,16 @@ class EntryEditActivity : LockingActivity(),
 
     private fun startUploadAttachment(attachmentToUploadUri: Uri?, attachment: Attachment?) {
         if (attachmentToUploadUri != null && attachment != null) {
-            // When only one attachment is allowed
-            if (!mAllowMultipleAttachments) {
-                entryEditFragment?.clearAttachments()
-            }
             // Start uploading in service
             mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
         }
     }
 
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
-        val compression = mDatabase?.compressionForNewEntry() ?: false
-        mDatabase?.buildNewBinaryAttachment(compression)?.let { binaryAttachment ->
+        mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
             // Ask to replace the current attachment
-            if ((mDatabase?.allowMultipleAttachments != true && entryEditFragment?.containsAttachment() == true) ||
+            if ((mDatabase?.allowMultipleAttachments == false && entryEditFragment?.containsAttachment() == true) ||
                     entryEditFragment?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
                 ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
                         .show(supportFragmentManager, "replacementFileFragment")

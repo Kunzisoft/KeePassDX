@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_URL
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_USERNAME
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
@@ -79,7 +80,6 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
     private var iconColor: Int = 0
 
     var drawFactory: IconDrawableFactory? = null
-    var onRemoveAttachment: ((Attachment) -> Unit)? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
     // Elements to modify the current entry
@@ -229,7 +229,36 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         }
 
         assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
-            onRemoveAttachment?.invoke(attachment)
+            removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
+            mEntryEditViewModel.deleteAttachment(attachment)
+        }
+
+        mEntryEditViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
+            when (entryAttachmentState?.downloadState) {
+                AttachmentState.START -> {
+                    putAttachment(entryAttachmentState)
+                    getAttachmentViewPosition(entryAttachmentState) {
+                        mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                    }
+                }
+                AttachmentState.IN_PROGRESS -> {
+                    putAttachment(entryAttachmentState)
+                }
+                AttachmentState.COMPLETE -> {
+                    putAttachment(entryAttachmentState) {
+                        getAttachmentViewPosition(entryAttachmentState) {
+                            mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                        }
+                    }
+                    mEntryEditViewModel.onAttachmentAction(null)
+                }
+                AttachmentState.CANCELED,
+                AttachmentState.ERROR -> {
+                    removeAttachment(entryAttachmentState)
+                    mEntryEditViewModel.onAttachmentAction(null)
+                }
+                else -> {}
+            }
         }
 
         rootView.showByFading()
@@ -246,7 +275,6 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         super.onDetach()
 
         drawFactory = null
-        onRemoveAttachment = null
     }
 
     fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
@@ -662,11 +690,11 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
      * -------------
      */
 
-    fun getAttachments(): List<Attachment> {
+    private fun getAttachments(): List<Attachment> {
         return attachmentsAdapter?.itemsList?.map { it.attachment } ?: listOf()
     }
 
-    fun assignAttachments(attachments: List<Attachment>,
+    private fun assignAttachments(attachments: List<Attachment>,
                           streamDirection: StreamDirection,
                           onDeleteItem: (attachment: Attachment) -> Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
@@ -684,8 +712,12 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         return attachmentsAdapter?.contains(attachment) ?: false
     }
 
-    fun putAttachment(attachment: EntryAttachmentState,
+    private fun putAttachment(attachment: EntryAttachmentState,
                       onPreviewLoaded: (() -> Unit)? = null) {
+        // When only one attachment is allowed
+        if (mDatabase?.allowMultipleAttachments == false) {
+            clearAttachments()
+        }
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter?.putItem(attachment)
         attachmentsAdapter?.onBinaryPreviewLoaded = {
@@ -693,15 +725,15 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         }
     }
 
-    fun removeAttachment(attachment: EntryAttachmentState) {
+    private fun removeAttachment(attachment: EntryAttachmentState) {
         attachmentsAdapter?.removeItem(attachment)
     }
 
-    fun clearAttachments() {
+    private fun clearAttachments() {
         attachmentsAdapter?.clear()
     }
 
-    fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
+    private fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
         attachmentsListView.postDelayed({
             attachmentsAdapter?.indexOf(attachment)?.let { index ->
                 position.invoke(attachmentsContainerView.y

@@ -1,11 +1,14 @@
 package com.kunzisoft.keepass.viewmodels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 
 
@@ -42,6 +45,13 @@ class EntryEditViewModel: ViewModel() {
     private val _onDateSelected = SingleLiveEvent<Date>()
     val onTimeSelected : LiveData<Time> get() = _onTimeSelected
     private val _onTimeSelected = SingleLiveEvent<Time>()
+
+    val attachmentDeleted : LiveData<Attachment> get() = _attachmentDeleted
+    private val _attachmentDeleted = SingleLiveEvent<Attachment>()
+    val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
+    private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
+    val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
+    private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
     fun requestEntryInfoUpdate() {
         _requestEntryInfoUpdate.call()
@@ -105,9 +115,22 @@ class EntryEditViewModel: ViewModel() {
         _onTimeSelected.value = Time(hours, minutes)
     }
 
+    fun deleteAttachment(attachment: Attachment) {
+        _attachmentDeleted.value = attachment
+    }
+
+    fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
+        _onAttachmentAction.value = entryAttachmentState
+    }
+
+    fun binaryPreviewLoaded(entryAttachmentState: EntryAttachmentState, viewPosition: Float) {
+        _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
+    }
+
     data class Date(val year: Int, val month: Int, val day: Int)
     data class Time(val hours: Int, val minutes: Int)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
+    data class AttachmentPosition(val entryAttachmentState: EntryAttachmentState, val viewPosition: Float)
 
     companion object {
         private val TAG = EntryEditViewModel::class.java.name
