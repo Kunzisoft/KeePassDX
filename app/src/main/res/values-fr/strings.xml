@@ -301,7 +301,7 @@
     <string name="keyboard_setting_label">Paramètres Magiclavier</string>
     <string name="keyboard_entry_category">Entrée</string>
     <string name="keyboard_entry_timeout_title">Délai d’expiration</string>
-    <string name="keyboard_entry_timeout_summary">Délai d’expiration pour effacer l’entrée au clavier</string>
+    <string name="keyboard_entry_timeout_summary">Délai d’expiration pour effacer l’entrée disponible dans le clavier</string>
     <string name="keyboard_notification_entry_title">Informations de notification</string>
     <string name="keyboard_notification_entry_summary">Affiche une notification lorsqu’une entrée est disponible</string>
     <string name="keyboard_notification_entry_content_title_text">Entrée</string>
@@ -312,11 +312,11 @@
     <string name="keyboard_appearance_category">Apparence</string>
     <string name="keyboard_theme_title">Thème du clavier</string>
     <string name="keyboard_keys_category">Touches</string>
-    <string name="keyboard_key_vibrate_title">Touches vibrantes</string>
-    <string name="keyboard_key_sound_title">Appui clavier audible</string>
+    <string name="keyboard_key_vibrate_title">Vibration des touches</string>
+    <string name="keyboard_key_sound_title">Son de pression des touches</string>
     <string name="keyboard_change">Changement de clavier</string>
-    <string name="keyboard_previous_database_credentials_title">Écran des identifications de la base de données</string>
-    <string name="keyboard_previous_database_credentials_summary">Revenir automatiquement au clavier précédent sur l’écran des identifications de la base de données</string>
+    <string name="keyboard_previous_database_credentials_title">Écran d'authentification de la base de données</string>
+    <string name="keyboard_previous_database_credentials_summary">Revenir automatiquement au clavier précédent sur l’écran d'authentification de la base de données</string>
     <string name="keyboard_previous_fill_in_title">Action de touche automatique</string>
     <string name="keyboard_previous_fill_in_summary">Revenir automatiquement au clavier précédent après avoir exécuté « Action de touche automatique »</string>
     <string name="selection_mode">Mode sélection</string>
@@ -327,7 +327,7 @@
     <string name="clear_clipboard_notification_summary">Verrouille la base de données lorsque la durée du presse-papier expire ou que la notification est fermée après avoir commencé à l’utiliser</string>
     <string name="recycle_bin">Corbeille</string>
     <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
-    <string name="keyboard_selection_entry_summary">Affiche les champs de saisie dans le Magiclavier lors de l’affichage d’une entrée</string>
+    <string name="keyboard_selection_entry_summary">Lors de la sélection d'une entrée dans KeePassDX, rentre cette entrée disponible dans le Magiclavier</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
     <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion à une base de données</string>
     <string name="content_description_open_file">Ouvrir le fichier</string>
@@ -417,7 +417,7 @@
     <string name="menu_restore_entry_history">Restaurer l’historique</string>
     <string name="menu_delete_entry_history">Effacer l’historique</string>
     <string name="keyboard_auto_go_action_title">Action de touche automatique</string>
-    <string name="keyboard_auto_go_action_summary">Action de la touche « Go » après avoir appuyé sur une touche « Champ »</string>
+    <string name="keyboard_auto_go_action_summary">Effectuer l'action de la touche « Go » automatiquement après avoir appuyé sur une touche « Champ » du clavier</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
     <string name="download_progression">En cours : %1$d%%</string>
@@ -459,7 +459,7 @@
     <string name="autofill_web_domain_blocklist_title">Liste de blocage de domaine Web</string>
     <string name="autofill_application_id_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des applications</string>
     <string name="autofill_application_id_blocklist_title">Liste de blocage d’application</string>
-    <string name="keyboard_search_share_summary">Recherche automatiquement les informations partagées pour remplir le clavier</string>
+    <string name="keyboard_search_share_summary">Lorsqu'une adresse web est partagée avec KeePassDX, filtrer automatiquement les entrées contenant le domaine</string>
     <string name="keyboard_search_share_title">Rechercher les informations partagées</string>
     <string name="filter">Filtre</string>
     <string name="subdomain_search_summary">Recherche des domaines Web avec des contraintes de sous-domaines</string>
@@ -493,7 +493,7 @@
     <string name="autofill_close_database_title">Fermer la base de données</string>
     <string name="keyboard_previous_lock_summary">Revient automatiquement au clavier précédent après le verrouillage de la base de données</string>
     <string name="keyboard_previous_lock_title">Verrouiller la base de données</string>
-    <string name="keyboard_save_search_info_summary">Essayer d’enregistrer les informations partagées lors de la sélection manuelle d’une entrée</string>
+    <string name="keyboard_save_search_info_summary">Essayer d’enregistrer l'association entre une adresse web partagée à KeePassDX et l'entrée sélectionnée manuellement</string>
     <string name="keyboard_save_search_info_title">Enregistrer les infos partagées</string>
     <string name="notification">Notification</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
@@ -536,7 +536,7 @@
     <string name="error_rebuild_list">Impossible de reconstruire correctement la liste.</string>
     <string name="error_database_uri_null">L\'URI de la base de données ne peut pas être récupéré.</string>
     <string name="autofill_inline_suggestions_keyboard">Suggestions de remplissage automatique ajoutées.</string>
-    <string name="autofill_inline_suggestions_summary">Tente d\'afficher des suggestions de remplissage automatique directement à partir d\'un clavier compatible</string>
+    <string name="autofill_inline_suggestions_summary">Tente d\'afficher des suggestions de remplissage automatique dans la barre de suggestions des claviers compatibles</string>
     <string name="autofill_inline_suggestions_title">Suggestions en ligne</string>
     <string name="warning_database_info_changed_options">Écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
