@@ -8,16 +8,18 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.StreamDirection
 
 
 class EntryEditViewModel: ViewModel() {
 
     val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
-    val onEntryInfoUpdated : LiveData<EntryInfo> get() = _onEntryInfoUpdated
-    private val _onEntryInfoUpdated = SingleLiveEvent<EntryInfo>()
+    val onEntryInfoUpdated : LiveData<EntryInfoTempAttachments> get() = _onEntryInfoUpdated
+    private val _onEntryInfoUpdated = SingleLiveEvent<EntryInfoTempAttachments>()
 
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = SingleLiveEvent<Template>()
@@ -46,6 +48,7 @@ class EntryEditViewModel: ViewModel() {
     val onTimeSelected : LiveData<Time> get() = _onTimeSelected
     private val _onTimeSelected = SingleLiveEvent<Time>()
 
+    private val mTempAttachments = mutableListOf<EntryAttachmentState>()
     val attachmentDeleted : LiveData<Attachment> get() = _attachmentDeleted
     private val _attachmentDeleted = SingleLiveEvent<Attachment>()
     val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
@@ -58,7 +61,26 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun updateEntryInfo(entryInfo: EntryInfo) {
-        _onEntryInfoUpdated.value = entryInfo
+        // Do not save entry in upload progression
+        mTempAttachments.forEach { attachmentState ->
+            if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                when (attachmentState.downloadState) {
+                    AttachmentState.START,
+                    AttachmentState.IN_PROGRESS,
+                    AttachmentState.CANCELED,
+                    AttachmentState.ERROR -> {
+                        // Remove attachment not finished from info
+                        entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
+                            remove(attachmentState.attachment)
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
+
+        _onEntryInfoUpdated.value = EntryInfoTempAttachments(entryInfo, mTempAttachments)
     }
 
     fun assignTemplate(template: Template) {
@@ -120,6 +142,10 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
+        if (entryAttachmentState?.downloadState == AttachmentState.START) {
+            // Add in temp list
+            mTempAttachments.add(entryAttachmentState)
+        }
         _onAttachmentAction.value = entryAttachmentState
     }
 
@@ -127,6 +153,7 @@ class EntryEditViewModel: ViewModel() {
         _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
     }
 
+    data class EntryInfoTempAttachments(val entryInfo: EntryInfo, val tempAttachments: List<EntryAttachmentState>)
     data class Date(val year: Int, val month: Int, val day: Int)
     data class Time(val hours: Int, val minutes: Int)
     data class FieldEdition(val oldField: Field?, val newField: Field?)

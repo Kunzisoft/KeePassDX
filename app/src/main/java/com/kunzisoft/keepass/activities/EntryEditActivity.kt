@@ -101,7 +101,6 @@ class EntryEditActivity : LockingActivity(),
     private var mEntry : Entry? = null
     private var mIsTemplate: Boolean = false
     private var mEntryTemplate: Template = Template.STANDARD
-    private var mTempAttachments = mutableListOf<EntryAttachmentState>()
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
     // To manage attachments
@@ -243,10 +242,6 @@ class EntryEditActivity : LockingActivity(),
         }
         mEntryEditViewModel.onAttachmentAction.observe(this) { attachmentState ->
             when (attachmentState?.downloadState) {
-                AttachmentState.START -> {
-                    // Add in temp list
-                    mTempAttachments.add(attachmentState)
-                }
                 AttachmentState.ERROR -> {
                     coordinatorLayout?.let {
                         Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
@@ -290,40 +285,21 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Build new entry from the entry info retrieved
-        mEntryEditViewModel.onEntryInfoUpdated.observe(this) { entryInfo ->
+        mEntryEditViewModel.onEntryInfoUpdated.observe(this) { entryInfoTempAttachments ->
 
             mEntry?.let { oldEntry ->
                 // Create a clone
                 var newEntry = Entry(oldEntry)
 
-                // Do not save entry in upload progression
-                mTempAttachments.forEach { attachmentState ->
-                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
-                        when (attachmentState.downloadState) {
-                            AttachmentState.START,
-                            AttachmentState.IN_PROGRESS,
-                            AttachmentState.CANCELED,
-                            AttachmentState.ERROR -> {
-                                // Remove attachment not finished from info
-                                entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
-                                    remove(attachmentState.attachment)
-                                }
-                            }
-                            else -> {
-                            }
-                        }
-                    }
-                }
-
                 // Build info
-                newEntry.setEntryInfo(mDatabase, entryInfo)
+                newEntry.setEntryInfo(mDatabase, entryInfoTempAttachments.entryInfo)
 
                 // Encode entry properties for template
                 newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, mEntryTemplate)
                         ?: newEntry
 
                 // Delete temp attachment if not used
-                mTempAttachments.forEach { tempAttachmentState ->
+                entryInfoTempAttachments.tempAttachments.forEach { tempAttachmentState ->
                     val tempAttachment = tempAttachmentState.attachment
                     mDatabase?.attachmentPool?.let { binaryPool ->
                         if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {

@@ -87,6 +87,7 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
     private var mTemplate = Template.STANDARD
 
     private var mCustomFieldIds = mutableListOf<FieldId>()
+
     // Current date time selection
     @IdRes
     private var mTempDateTimeViewId: Int? = null
