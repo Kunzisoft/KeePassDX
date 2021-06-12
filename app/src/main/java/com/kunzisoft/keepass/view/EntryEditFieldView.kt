@@ -120,7 +120,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
             valueView.setText(value)
         }
 
-    fun setValue(value: String?, valueType: TextType) {
+    fun setType(valueType: TextType) {
         when (valueType) {
             TextType.NORMAL -> {
                 valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_VARIATION_NORMAL
@@ -132,7 +132,6 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
                 valueView.maxLines = 40
             }
         }
-        valueView.setText(value ?: "")
     }
 
     fun setProtection(protection: Boolean, hiddenProtectedValue: Boolean) {

@@ -37,14 +37,11 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
-import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -91,11 +88,9 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var templateSelectorSpinner: Spinner? = null
-    private var entryEditFragment: EntryEditFragment? = null
     private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
     private var lockView: View? = null
-    private var loadingView: ProgressBar? = null
 
     private var mParent : Group? = null
     private var mEntry : Entry? = null
@@ -133,8 +128,6 @@ class EntryEditActivity : LockingActivity(),
         lockView?.setOnClickListener {
             lockAndExit()
         }
-
-        loadingView = findViewById(R.id.loading)
 
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
@@ -184,34 +177,26 @@ class EntryEditActivity : LockingActivity(),
             mDatabase?.getTemplate(it)
         } ?: Template.STANDARD
 
+        mEntryEditViewModel.assignTemplate(mEntryTemplate)
+
         // Decode the entry
         mEntry?.let {
             mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
         }
 
-        val tempEntryInfo: EntryInfo? = mEntry?.getEntryInfo(mDatabase, true)
-        // Retrieve data from registration
-        val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-        val searchInfo: SearchInfo? = registerInfo?.searchInfo
-                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-        searchInfo?.let { tempSearchInfo ->
-            tempEntryInfo?.saveSearchInfo(mDatabase, tempSearchInfo)
-        }
-        registerInfo?.let { regInfo ->
-            tempEntryInfo?.saveRegisterInfo(mDatabase, regInfo)
-        }
-
-        // Build fragment to manage entry modification
-        entryEditFragment = supportFragmentManager.findFragmentByTag(ENTRY_EDIT_FRAGMENT_TAG) as? EntryEditFragment?
-        if (entryEditFragment == null) {
-            entryEditFragment = EntryEditFragment.getInstance(tempEntryInfo, mEntryTemplate)
-        }
-        // To show Fragment asynchronously
-        lifecycleScope.launchWhenResumed {
-            loadingView?.hideByFading()
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.entry_edit_content, entryEditFragment!!, ENTRY_EDIT_FRAGMENT_TAG)
-                    .commit()
+        // Load entry info
+        mEntry?.getEntryInfo(mDatabase, true)?.let { tempEntryInfo ->
+            // Retrieve data from registration
+            val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+            val searchInfo: SearchInfo? = registerInfo?.searchInfo
+                    ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+            searchInfo?.let { tempSearchInfo ->
+                tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
+            }
+            registerInfo?.let { regInfo ->
+                tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
+            }
+            mEntryEditViewModel.loadEntryInfo(tempEntryInfo)
         }
 
         // View model listeners
@@ -285,7 +270,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Build new entry from the entry info retrieved
-        mEntryEditViewModel.onEntryInfoUpdated.observe(this) { entryInfoTempAttachments ->
+        mEntryEditViewModel.onEntryInfoSaved.observe(this) { entryInfoTempAttachments ->
 
             mEntry?.let { oldEntry ->
                 // Create a clone
@@ -509,6 +494,8 @@ class EntryEditActivity : LockingActivity(),
     private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
             val entryAttachment = Attachment(fileName, binaryAttachment)
+            /*
+            TODO fragment
             // Ask to replace the current attachment
             if ((mDatabase?.allowMultipleAttachments == false && entryEditFragment?.containsAttachment() == true) ||
                     entryEditFragment?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
@@ -517,6 +504,8 @@ class EntryEditActivity : LockingActivity(),
             } else {
                 startUploadAttachment(attachmentToUploadUri, entryAttachment)
             }
+
+             */
         }
     }
 
@@ -547,7 +536,7 @@ class EntryEditActivity : LockingActivity(),
      * Set up OTP (HOTP or TOTP) and add it as extra field
      */
     private fun setupOtp() {
-        entryEditFragment?.setupOtp()
+        // TODO Fragment entryEditFragment?.setupOtp()
     }
 
     /**
@@ -596,6 +585,8 @@ class EntryEditActivity : LockingActivity(),
     }
 
     fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+        /*
+        TODO Fragment
         if (entryEditFragment?.generatePasswordEducationPerformed(entryEditActivityEducation) != true) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
             val addNewFieldEducationPerformed = mDatabase?.allowEntryCustomFields() == true
@@ -636,6 +627,7 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
         }
+        */
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -661,7 +653,7 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onOtpCreated(otpElement: OtpElement) {
-        entryEditFragment?.onOtpCreated(otpElement)
+        // TODO fragment entryEditFragment?.onOtpCreated(otpElement)
     }
 
     // Launch the date picker

@@ -65,6 +65,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/entry_edit_content"
+                    android:name="com.kunzisoft.keepass.activities.fragments.EntryEditFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintWidth_percent="@dimen/content_percent"
@@ -75,14 +76,6 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <ProgressBar
-        android:id="@+id/loading"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="@+id/entry_edit_coordinator_layout" />
 
     <com.kunzisoft.keepass.view.ToolbarAction
         android:id="@+id/entry_edit_bottom_bar"

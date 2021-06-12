@@ -25,42 +25,50 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
-	<com.kunzisoft.keepass.view.TemplateView
-		android:id="@+id/template_view"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container"
-		android:layout_marginBottom="4dp"/>
-
 	<androidx.cardview.widget.CardView
-		android:id="@+id/entry_attachments_container"
+		android:id="@+id/entry_edit_header_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle"
-		app:layout_constraintTop_toBottomOf="@+id/template_view"
-		app:layout_constraintBottom_toBottomOf="parent">
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/template_fields_container">
 		<LinearLayout
-			android:layout_height="wrap_content"
+			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_margin="@dimen/card_view_padding"
-			android:orientation="vertical">
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/card_view_padding">
 
-			<!-- Binary files -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/entry_attachments_label"
-				android:layout_width="match_parent"
+			<!-- Icon -->
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/entry_edit_icon_button"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/entry_attachments"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				android:layout_margin="4dp"
+				android:src="@drawable/ic_blank_32dp"
+				android:contentDescription="@string/content_description_entry_icon"
+				android:layout_gravity="center"/>
 
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/entry_attachments_list"
+			<!-- Title -->
+			<com.kunzisoft.keepass.view.EntryEditFieldView
+				android:id="@+id/entry_edit_title"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:descendantFocusability="afterDescendants" />
-
+				android:layout_height="wrap_content" />
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
+
+	<LinearLayout
+		android:id="@+id/template_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@+id/entry_edit_header_container"
+		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"
+		android:orientation="vertical" />
+
+	<com.kunzisoft.keepass.view.SectionView
+		android:id="@+id/custom_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="?attr/cardViewStyle"
+		app:layout_constraintTop_toBottomOf="@+id/template_fields_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

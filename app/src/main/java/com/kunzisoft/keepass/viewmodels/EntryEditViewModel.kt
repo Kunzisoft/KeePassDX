@@ -12,14 +12,20 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.view.TemplateView
 
 
 class EntryEditViewModel: ViewModel() {
 
+    private var mEntryInfo = EntryInfo()
+    private var mLoaded = false
+    val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfoLoaded
+    private val _entryInfoLoaded = SingleLiveEvent<EntryInfo>()
+
     val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
-    val onEntryInfoUpdated : LiveData<EntryInfoTempAttachments> get() = _onEntryInfoUpdated
-    private val _onEntryInfoUpdated = SingleLiveEvent<EntryInfoTempAttachments>()
+    val onEntryInfoSaved : LiveData<EntryInfoTempAttachments> get() = _onEntryInfoSaved
+    private val _onEntryInfoSaved = SingleLiveEvent<EntryInfoTempAttachments>()
 
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = SingleLiveEvent<Template>()
@@ -43,10 +49,10 @@ class EntryEditViewModel: ViewModel() {
 
     val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
     private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<Date> get() = _onDateSelected
-    private val _onDateSelected = SingleLiveEvent<Date>()
-    val onTimeSelected : LiveData<Time> get() = _onTimeSelected
-    private val _onTimeSelected = SingleLiveEvent<Time>()
+    val onDateSelected : LiveData<TemplateView.Date> get() = _onDateSelected
+    private val _onDateSelected = SingleLiveEvent<TemplateView.Date>()
+    val onTimeSelected : LiveData<TemplateView.Time> get() = _onTimeSelected
+    private val _onTimeSelected = SingleLiveEvent<TemplateView.Time>()
 
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
     val attachmentDeleted : LiveData<Attachment> get() = _attachmentDeleted
@@ -60,7 +66,16 @@ class EntryEditViewModel: ViewModel() {
         _requestEntryInfoUpdate.call()
     }
 
+    fun loadEntryInfo(entryInfo: EntryInfo) {
+        if (!mLoaded) {
+            mLoaded = true
+            updateEntryInfo(entryInfo)
+            _entryInfoLoaded.value = entryInfo
+        }
+    }
+
     fun updateEntryInfo(entryInfo: EntryInfo) {
+        mEntryInfo = entryInfo
         // Do not save entry in upload progression
         mTempAttachments.forEach { attachmentState ->
             if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
@@ -79,14 +94,15 @@ class EntryEditViewModel: ViewModel() {
                 }
             }
         }
+    }
 
-        _onEntryInfoUpdated.value = EntryInfoTempAttachments(entryInfo, mTempAttachments)
+    fun saveEntryInfo(entryInfo: EntryInfo) {
+        updateEntryInfo(entryInfo)
+        _onEntryInfoSaved.value = EntryInfoTempAttachments(entryInfo, mTempAttachments)
     }
 
     fun assignTemplate(template: Template) {
-        if (this.onTemplateChanged.value != template) {
-            _onTemplateChanged.value = template
-        }
+        _onTemplateChanged.value = template
     }
 
     fun requestIconSelection(oldIconImage: IconImage) {
@@ -130,11 +146,11 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun selectDate(year: Int, month: Int, day: Int) {
-        _onDateSelected.value = Date(year, month, day)
+        _onDateSelected.value = TemplateView.Date(year, month, day)
     }
 
     fun selectTime(hours: Int, minutes: Int) {
-        _onTimeSelected.value = Time(hours, minutes)
+        _onTimeSelected.value = TemplateView.Time(hours, minutes)
     }
 
     fun deleteAttachment(attachment: Attachment) {
@@ -154,8 +170,6 @@ class EntryEditViewModel: ViewModel() {
     }
 
     data class EntryInfoTempAttachments(val entryInfo: EntryInfo, val tempAttachments: List<EntryAttachmentState>)
-    data class Date(val year: Int, val month: Int, val day: Int)
-    data class Time(val hours: Int, val minutes: Int)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentPosition(val entryAttachmentState: EntryAttachmentState, val viewPosition: Float)
 

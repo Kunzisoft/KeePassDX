@@ -162,7 +162,7 @@ fun View.hideByFading() {
     alpha = 1f
     animate()
             .alpha(0f)
-            .setDuration(180)
+            .setDuration(140)
             .setListener(null)
 }
 
@@ -171,7 +171,7 @@ fun View.showByFading() {
     alpha = 0.0001f
     animate()
             .alpha(1f)
-            .setDuration(400)
+            .setDuration(140)
             .setListener(null)
 }
 
