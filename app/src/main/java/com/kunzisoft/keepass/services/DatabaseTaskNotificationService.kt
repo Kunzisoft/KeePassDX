@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.services
 
+import android.app.ActivityManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.*
@@ -44,10 +46,7 @@ import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
-import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import com.kunzisoft.keepass.utils.LOCK_ACTION
-import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
@@ -840,6 +839,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mDatabase.loaded)
+            actionOnLock()
+    }
+
     companion object {
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
@@ -934,6 +939,18 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 putParcelableArrayList(GROUPS_ID_KEY, groupsId)
                 putParcelableArrayList(ENTRIES_ID_KEY, entriesId)
             }
+        }
+
+        fun isRunning(context: Context): Boolean {
+            // TODO remove by moving database instance in service
+            (context.getSystemService(ACTIVITY_SERVICE) as? ActivityManager?)?.let { manager ->
+                for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+                    if (DatabaseTaskNotificationService::class.java.name == service.service.className) {
+                        return true
+                    }
+                }
+            }
+            return false
         }
     }
 

@@ -708,7 +708,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
+                    Database.getInstance().clearAndClose(this)
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()

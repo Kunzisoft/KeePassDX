@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.app
 import androidx.multidex.MultiDexApplication
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.utils.UriUtil
 
 class App : MultiDexApplication() {
 
@@ -34,7 +33,7 @@ class App : MultiDexApplication() {
     }
 
     override fun onTerminate() {
-        Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
+        Database.getInstance().clearAndClose(this)
         super.onTerminate()
     }
 }

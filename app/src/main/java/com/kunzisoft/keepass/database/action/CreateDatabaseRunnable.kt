@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
 
 class CreateDatabaseRunnable(context: Context,
                              private val mDatabase: Database,
@@ -44,7 +43,7 @@ class CreateDatabaseRunnable(context: Context,
                 createData(mDatabaseUri, databaseName, rootName)
             }
         } catch (e: Exception) {
-            mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
+            mDatabase.clearAndClose(context)
             setError(e)
         }
 
