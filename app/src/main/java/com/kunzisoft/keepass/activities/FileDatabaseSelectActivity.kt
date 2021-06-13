@@ -90,10 +90,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO To move after refactoring
-        if (DatabaseTaskNotificationService.isRunning(this))
-            Database.getInstance().clearAndClose(this)
-
         mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(applicationContext)
 
         setContentView(R.layout.activity_file_selection)

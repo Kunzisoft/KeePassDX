@@ -940,18 +940,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 putParcelableArrayList(ENTRIES_ID_KEY, entriesId)
             }
         }
-
-        fun isRunning(context: Context): Boolean {
-            // TODO remove by moving database instance in service
-            (context.getSystemService(ACTIVITY_SERVICE) as? ActivityManager?)?.let { manager ->
-                for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-                    if (DatabaseTaskNotificationService::class.java.name == service.service.className) {
-                        return true
-                    }
-                }
-            }
-            return false
-        }
     }
 
 }
