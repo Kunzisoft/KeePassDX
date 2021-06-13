@@ -283,7 +283,7 @@
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Schreibschutz der Datenbank aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern.
+    <string name="education_read_only_summary">Den Modus bei Eröffnung der Sitzung ändern.
 \n
 \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank.
 \nMit „Änderbar“ können Sie alle Elemente nach Belieben hinzufügen, löschen oder ändern.</string>
