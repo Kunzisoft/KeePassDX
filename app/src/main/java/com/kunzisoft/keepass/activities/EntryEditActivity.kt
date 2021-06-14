@@ -176,7 +176,6 @@ class EntryEditActivity : LockingActivity(),
         mEntryTemplate = mEntry?.let {
             mDatabase?.getTemplate(it)
         } ?: Template.STANDARD
-
         mEntryEditViewModel.assignTemplate(mEntryTemplate)
 
         // Decode the entry

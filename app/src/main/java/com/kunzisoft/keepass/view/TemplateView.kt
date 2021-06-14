@@ -59,8 +59,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
             templateContainerView.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
         }
         customFieldsContainerView = findViewById(R.id.custom_fields_container)
-
-        buildTemplateAndPopulateInfo()
     }
 
     fun setOnIconClickListener(onClickListener: OnClickListener) {
@@ -98,6 +96,8 @@ class TemplateView @JvmOverloads constructor(context: Context,
         templateContainerView.removeAllViews()
         customFieldsContainerView.removeAllViews()
         mCustomFieldIds.clear()
+
+        findViewById<View?>(R.id.entry_edit_title)?.tag = FIELD_TITLE_TAG
 
         mTemplate?.sections?.forEach { templateSection ->
 
@@ -305,7 +305,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
             setIcon(entryInfo.icon)
 
             val titleView: EntryEditFieldView? =
-                findViewById(R.id.entry_edit_title)
+                findViewWithTag(FIELD_TITLE_TAG)
             titleView?.value = entryInfo.title
 
             val userNameView: EntryEditFieldView? =
@@ -366,7 +366,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
 
         // Icon already populate
 
-        val titleView: EntryEditFieldView? = findViewById(R.id.entry_edit_title)
+        val titleView: EntryEditFieldView? = findViewWithTag(FIELD_TITLE_TAG)
         titleView?.value?.let {
             mEntryInfo?.title = it
         }
@@ -584,6 +584,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     override fun onSaveInstanceState(): Parcelable {
         val superSave = super.onSaveInstanceState()
         val saveState = SavedState(superSave)
+        populateEntryInfoWithViews()
         saveState.template = this.mTemplate
         saveState.entryInfo = this.mEntryInfo
         return saveState
@@ -628,6 +629,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     companion object {
         private val TAG = TemplateView::class.java.name
 
+        private const val FIELD_TITLE_TAG = "FIELD_TITLE_TAG"
         private const val FIELD_USERNAME_TAG = "FIELD_USERNAME_TAG"
         private const val FIELD_PASSWORD_TAG = "FIELD_PASSWORD_TAG"
         private const val FIELD_URL_TAG = "FIELD_URL_TAG"

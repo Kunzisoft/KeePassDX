@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
@@ -18,7 +19,7 @@ import com.kunzisoft.keepass.view.TemplateView
 class EntryEditViewModel: ViewModel() {
 
     private var mTempEntryInfo = EntryInfo()
-    private var mLoaded = false
+    private var mEntryInfoLoaded = false
     val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfoLoaded
     private val _entryInfoLoaded = SingleLiveEvent<EntryInfo>()
 
@@ -67,10 +68,16 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun loadEntryInfo(entryInfo: EntryInfo) {
-        if (!mLoaded) {
-            mLoaded = true
-            internalUpdateEntryInfo(entryInfo)
-            _entryInfoLoaded.value = mTempEntryInfo
+        if (!mEntryInfoLoaded) {
+            mEntryInfoLoaded = true
+            IOActionTask(
+                {
+                    internalUpdateEntryInfo(entryInfo)
+                },
+                {
+                    _entryInfoLoaded.value = mTempEntryInfo
+                }
+            ).execute()
         }
     }
 
@@ -102,7 +109,8 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun assignTemplate(template: Template) {
-        _onTemplateChanged.value = template
+        if (_onTemplateChanged.value != template)
+            _onTemplateChanged.value = template
     }
 
     fun requestIconSelection(oldIconImage: IconImage) {
