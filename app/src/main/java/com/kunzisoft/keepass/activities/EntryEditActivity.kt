@@ -224,6 +224,10 @@ class EntryEditActivity : LockingActivity(),
                         .show()
             }
         }
+        mEntryEditViewModel.onStartUploadAttachment.observe(this) {
+            // Start uploading in service
+            mAttachmentFileBinderManager?.startUploadAttachment(it.attachmentToUploadUri, it.attachment)
+        }
         mEntryEditViewModel.onAttachmentAction.observe(this) { attachmentState ->
             when (attachmentState?.downloadState) {
                 AttachmentState.ERROR -> {
@@ -475,36 +479,13 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onValidateUploadFileTooBig(attachmentToUploadUri: Uri?, fileName: String?) {
         if (attachmentToUploadUri != null && fileName != null) {
-            buildNewAttachment(attachmentToUploadUri, fileName)
+            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
         }
     }
 
     override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
-        startUploadAttachment(attachmentToUploadUri, attachment)
-    }
-
-    private fun startUploadAttachment(attachmentToUploadUri: Uri?, attachment: Attachment?) {
         if (attachmentToUploadUri != null && attachment != null) {
-            // Start uploading in service
-            mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, attachment)
-        }
-    }
-
-    private fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
-        mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
-            val entryAttachment = Attachment(fileName, binaryAttachment)
-            /*
-            TODO fragment
-            // Ask to replace the current attachment
-            if ((mDatabase?.allowMultipleAttachments == false && entryEditFragment?.containsAttachment() == true) ||
-                    entryEditFragment?.containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD)) == true) {
-                ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
-                        .show(supportFragmentManager, "replacementFileFragment")
-            } else {
-                startUploadAttachment(attachmentToUploadUri, entryAttachment)
-            }
-
-             */
+            mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, attachment)
         }
     }
 
@@ -523,7 +504,7 @@ class EntryEditActivity : LockingActivity(),
                             FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
                                     .show(supportFragmentManager, "fileTooBigFragment")
                         } else {
-                            buildNewAttachment(attachmentToUploadUri, fileName)
+                            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
                         }
                     }
                 }

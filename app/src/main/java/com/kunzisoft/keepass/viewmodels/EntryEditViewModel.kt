@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +19,6 @@ import com.kunzisoft.keepass.view.TemplateView
 
 class EntryEditViewModel: ViewModel() {
 
-    private var mTempEntryInfo = EntryInfo()
     private var mEntryInfoLoaded = false
     val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfoLoaded
     private val _entryInfoLoaded = SingleLiveEvent<EntryInfo>()
@@ -56,6 +56,10 @@ class EntryEditViewModel: ViewModel() {
     private val _onTimeSelected = SingleLiveEvent<TemplateView.Time>()
 
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
+    val onBuildNewAttachment : LiveData<AttachmentBuild> get() = _onBuildNewAttachment
+    private val _onBuildNewAttachment = SingleLiveEvent<AttachmentBuild>()
+    val onStartUploadAttachment : LiveData<AttachmentUpload> get() = _onStartUploadAttachment
+    private val _onStartUploadAttachment = SingleLiveEvent<AttachmentUpload>()
     val attachmentDeleted : LiveData<Attachment> get() = _attachmentDeleted
     private val _attachmentDeleted = SingleLiveEvent<Attachment>()
     val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
@@ -70,42 +74,53 @@ class EntryEditViewModel: ViewModel() {
     fun loadEntryInfo(entryInfo: EntryInfo) {
         if (!mEntryInfoLoaded) {
             mEntryInfoLoaded = true
-            IOActionTask(
-                {
-                    internalUpdateEntryInfo(entryInfo)
-                },
-                {
-                    _entryInfoLoaded.value = mTempEntryInfo
-                }
-            ).execute()
-        }
-    }
-
-    private fun internalUpdateEntryInfo(entryInfo: EntryInfo) {
-        mTempEntryInfo = entryInfo
-        // Do not save entry in upload progression
-        mTempAttachments.forEach { attachmentState ->
-            if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
-                when (attachmentState.downloadState) {
-                    AttachmentState.START,
-                    AttachmentState.IN_PROGRESS,
-                    AttachmentState.CANCELED,
-                    AttachmentState.ERROR -> {
-                        // Remove attachment not finished from info
-                        mTempEntryInfo.attachments = mTempEntryInfo.attachments.toMutableList().apply {
-                            remove(attachmentState.attachment)
-                        }
-                    }
-                    else -> {
-                    }
-                }
+            internalUpdateEntryInfo(entryInfo) {
+                _entryInfoLoaded.value = it
             }
         }
     }
 
+    fun updateEntryInfo(entryInfo: EntryInfo) {
+        internalUpdateEntryInfo(entryInfo) {
+            _entryInfoLoaded.value = it
+        }
+    }
+
     fun saveEntryInfo(entryInfo: EntryInfo) {
-        internalUpdateEntryInfo(entryInfo)
-        _onEntryInfoSaved.value = EntryInfoTempAttachments(mTempEntryInfo, mTempAttachments)
+        internalUpdateEntryInfo(entryInfo) {
+            _onEntryInfoSaved.value = EntryInfoTempAttachments(it, mTempAttachments)
+        }
+    }
+
+    private fun internalUpdateEntryInfo(entryInfo: EntryInfo,
+                                        actionOnFinish: (entryInfo: EntryInfo) -> Unit) {
+        IOActionTask(
+            {
+                // Do not save entry in upload progression
+                mTempAttachments.forEach { attachmentState ->
+                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                        when (attachmentState.downloadState) {
+                            AttachmentState.START,
+                            AttachmentState.IN_PROGRESS,
+                            AttachmentState.CANCELED,
+                            AttachmentState.ERROR -> {
+                                // Remove attachment not finished from info
+                                entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
+                                    remove(attachmentState.attachment)
+                                }
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+                }
+                entryInfo
+            },
+            {
+                if (it != null)
+                    actionOnFinish.invoke(it)
+            }
+        ).execute()
     }
 
     fun assignTemplate(template: Template) {
@@ -161,6 +176,14 @@ class EntryEditViewModel: ViewModel() {
         _onTimeSelected.value = TemplateView.Time(hours, minutes)
     }
 
+    fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
+        _onBuildNewAttachment.value = AttachmentBuild(attachmentToUploadUri, fileName)
+    }
+
+    fun startUploadAttachment(attachmentToUploadUri: Uri, attachment: Attachment) {
+        _onStartUploadAttachment.value = AttachmentUpload(attachmentToUploadUri, attachment)
+    }
+
     fun deleteAttachment(attachment: Attachment) {
         _attachmentDeleted.value = attachment
     }
@@ -179,6 +202,8 @@ class EntryEditViewModel: ViewModel() {
 
     data class EntryInfoTempAttachments(val entryInfo: EntryInfo, val tempAttachments: List<EntryAttachmentState>)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
+    data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
+    data class AttachmentUpload(val attachmentToUploadUri: Uri, val attachment: Attachment)
     data class AttachmentPosition(val entryAttachmentState: EntryAttachmentState, val viewPosition: Float)
 
     companion object {

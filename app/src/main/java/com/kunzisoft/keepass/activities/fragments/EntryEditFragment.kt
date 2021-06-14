@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
@@ -178,6 +179,23 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
             }
         }
 
+        mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
+            val attachmentToUploadUri = it.attachmentToUploadUri
+            val fileName = it.fileName
+            mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
+                val entryAttachment = Attachment(fileName, binaryAttachment)
+                // Ask to replace the current attachment
+                if ((mDatabase?.allowMultipleAttachments == false
+                            && containsAttachment()) ||
+                    containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
+                    ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
+                        .show(parentFragmentManager, "replacementFileFragment")
+                } else {
+                    mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+                }
+            }
+        }
+
         mEntryEditViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
             when (entryAttachmentState?.downloadState) {
                 AttachmentState.START -> {
@@ -217,6 +235,11 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         super.onAttach(context)
 
         drawFactory = mDatabase?.iconDrawableFactory
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mEntryEditViewModel.updateEntryInfo(retrieveEntryInfo())
     }
 
     override fun onDetach() {
@@ -302,11 +325,11 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         }
     }
 
-    fun containsAttachment(): Boolean {
+    private fun containsAttachment(): Boolean {
         return attachmentsAdapter?.isEmpty() != true
     }
 
-    fun containsAttachment(attachment: EntryAttachmentState): Boolean {
+    private fun containsAttachment(attachment: EntryAttachmentState): Boolean {
         return attachmentsAdapter?.contains(attachment) ?: false
     }
 
