@@ -312,7 +312,7 @@
     <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления после использования или истечения времени ожидания</string>
     <string name="recycle_bin">Корзина</string>
     <string name="keyboard_selection_entry_title">Выбор записи</string>
-    <string name="keyboard_selection_entry_summary">Показывать поля ввода в Magikeyboard при просмотре записи</string>
+    <string name="keyboard_selection_entry_summary">При отображении записи в KeePassDX подставлять её данные в Magikeyboard</string>
     <string name="delete_entered_password_title">Удалять пароль</string>
     <string name="delete_entered_password_summary">Забывать введённый пароль после попытки входа в базу</string>
     <string name="content_description_open_file">Открыть файл</string>
@@ -439,7 +439,7 @@
     <string name="warning_database_link_revoked">Доступ к файлу отменён файловым менеджером</string>
     <string name="autofill_auto_search_title">Автопоиск</string>
     <string name="autofill_preference_title">Настройки автозаполнения</string>
-    <string name="keyboard_search_share_summary">Выполнять автоматический поиск общедоступной информации для подстановки в клавиатуру</string>
+    <string name="keyboard_search_share_summary">При отправке URL в KeePassDX отфильтровать записи по домену этого URL</string>
     <string name="keyboard_search_share_title">Поиск доступной информации</string>
     <string name="subdomain_search_title">Поиск поддоменов</string>
     <string name="subdomain_search_summary">Выполнять поиск доменов с некоторыми поддоменами</string>
@@ -476,7 +476,7 @@
     <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
     <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
-    <string name="keyboard_save_search_info_summary">Сохранять общую информацию при ручном выборе записи</string>
+    <string name="keyboard_save_search_info_summary">При отправке URL в KeePassDX, если выбрана запись, постараться запомнить её для дальнейшего использования</string>
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
