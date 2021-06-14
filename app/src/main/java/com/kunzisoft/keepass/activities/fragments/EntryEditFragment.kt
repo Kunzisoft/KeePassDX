@@ -41,14 +41,13 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
-class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListener {
+class EntryEditFragment: DatabaseFragment() {
 
     private var iconColor: Int = 0
 
@@ -178,6 +177,18 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
             }
         }
 
+        mEntryEditViewModel.requestSetupOtp.observe(viewLifecycleOwner) {
+            // Retrieve the current otpElement if exists
+            // and open the dialog to set up the OTP
+            SetOTPDialogFragment.build(templateView.getEntryInfo().otpModel)
+                .show(parentFragmentManager, "addOTPDialog")
+        }
+
+        mEntryEditViewModel.onOtpCreated.observe(viewLifecycleOwner) {
+            // Update the otp field with otpauth:// url
+            templateView.putOtpElement(it)
+        }
+
         mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
             val attachmentToUploadUri = it.attachmentToUploadUri
             val fileName = it.fileName
@@ -281,30 +292,6 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         }
         */
         return false
-    }
-
-    /* -------------
-     * OTP
-     * -------------
-     */
-
-    fun setupOtp() {
-        // Retrieve the current otpElement if exists
-        // and open the dialog to set up the OTP
-        /*
-        SetOTPDialogFragment.build(mEntryInfo.otpModel)
-                .show(parentFragmentManager, "addOTPDialog")
-                TODO OTP
-         */
-    }
-
-    override fun onOtpCreated(otpElement: OtpElement) {
-        // Update the otp field with otpauth:// url
-        /*
-        TODO OTP
-        val otpField = OtpEntryFields.buildOtpField(otpElement, mEntryInfo.title, mEntryInfo.username)
-        putCustomField(Field(otpField.name, otpField.protectedValue))
-        */
     }
 
     /* -------------

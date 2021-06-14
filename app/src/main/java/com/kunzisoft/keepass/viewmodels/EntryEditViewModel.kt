@@ -14,6 +14,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.view.TemplateView
 
 
@@ -54,6 +55,11 @@ class EntryEditViewModel: ViewModel() {
     private val _onDateSelected = SingleLiveEvent<TemplateView.Date>()
     val onTimeSelected : LiveData<TemplateView.Time> get() = _onTimeSelected
     private val _onTimeSelected = SingleLiveEvent<TemplateView.Time>()
+
+    val requestSetupOtp : LiveData<Void?> get() = _requestSetupOtp
+    private val _requestSetupOtp = SingleLiveEvent<Void?>()
+    val onOtpCreated : LiveData<OtpElement> get() = _onOtpCreated
+    private val _onOtpCreated = SingleLiveEvent<OtpElement>()
 
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
     val onBuildNewAttachment : LiveData<AttachmentBuild> get() = _onBuildNewAttachment
@@ -174,6 +180,14 @@ class EntryEditViewModel: ViewModel() {
 
     fun selectTime(hours: Int, minutes: Int) {
         _onTimeSelected.value = TemplateView.Time(hours, minutes)
+    }
+
+    fun setupOtp() {
+        _requestSetupOtp.call()
+    }
+
+    fun createOtp(otpElement: OtpElement) {
+        _onOtpCreated.value = otpElement
     }
 
     fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {

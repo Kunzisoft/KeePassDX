@@ -516,7 +516,11 @@ class EntryEditActivity : LockingActivity(),
      * Set up OTP (HOTP or TOTP) and add it as extra field
      */
     private fun setupOtp() {
-        // TODO Fragment entryEditFragment?.setupOtp()
+        mEntryEditViewModel.setupOtp()
+    }
+
+    override fun onOtpCreated(otpElement: OtpElement) {
+        mEntryEditViewModel.createOtp(otpElement)
     }
 
     /**
@@ -630,10 +634,6 @@ class EntryEditActivity : LockingActivity(),
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onOtpCreated(otpElement: OtpElement) {
-        // TODO fragment entryEditFragment?.onOtpCreated(otpElement)
     }
 
     // Launch the date picker

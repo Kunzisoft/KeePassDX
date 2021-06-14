@@ -20,6 +20,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.*
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import org.joda.time.DateTime
@@ -576,6 +577,12 @@ class TemplateView @JvmOverloads constructor(context: Context,
             mCustomFieldIds.removeAt(indexOldField)
         }
         retrieveCustomFieldsFromView()
+    }
+
+    fun putOtpElement(otpElement: OtpElement) {
+        val otpField = OtpEntryFields.buildOtpField(otpElement,
+            mEntryInfo?.title, mEntryInfo?.username)
+        putCustomField(Field(otpField.name, otpField.protectedValue))
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
