@@ -575,6 +575,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
             return
         } else {
             mTemplate = state.template
+            mTempDateTimeViewId = state.tempDateTimeViewId
             buildTemplateAndPopulateInfo()
             super.onRestoreInstanceState(state.superState)
         }
@@ -585,6 +586,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
         val saveState = SavedState(superSave)
         populateEntryInfoWithViews()
         saveState.template = this.mTemplate
+        saveState.tempDateTimeViewId = this.mTempDateTimeViewId
         return saveState
     }
 
@@ -593,17 +595,22 @@ class TemplateView @JvmOverloads constructor(context: Context,
 
     internal class SavedState : BaseSavedState {
         var template: Template? = null
+        var tempDateTimeViewId: Int? = null
 
         constructor(superState: Parcelable?) : super(superState)
 
         private constructor(parcel: Parcel) : super(parcel) {
             template = parcel.readParcelable(Template::class.java.classLoader)
                 ?: template
+            val dateTimeViewId = parcel.readInt()
+            if (dateTimeViewId != -1)
+                tempDateTimeViewId = dateTimeViewId
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeParcelable(template, flags)
+            out.writeInt(tempDateTimeViewId ?: -1)
         }
 
         companion object {
