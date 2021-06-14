@@ -118,7 +118,7 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         }
 
         mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
-            templateView.buildTemplate(template)
+            templateView.setTemplate(template)
         }
 
         mEntryEditViewModel.entryInfoLoaded.observe(viewLifecycleOwner) { entryInfo ->
@@ -211,11 +211,6 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
         super.onResume()
 
         // TODO fontInVisibility = PreferencesUtil.fieldFontIsInVisibility(requireContext())
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mEntryEditViewModel.updateEntryInfo(templateView.getEntryInfo())
     }
 
     override fun onAttach(context: Context) {
@@ -346,12 +341,6 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
                 )
             }
         }, 250)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        //mEntryEditViewModel.loadEntryInfo(retrieveEntryInfo())
-
-        super.onSaveInstanceState(outState)
     }
 
     companion object {

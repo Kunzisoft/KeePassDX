@@ -17,7 +17,7 @@ import com.kunzisoft.keepass.view.TemplateView
 
 class EntryEditViewModel: ViewModel() {
 
-    private var mEntryInfo = EntryInfo()
+    private var mTempEntryInfo = EntryInfo()
     private var mLoaded = false
     val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfoLoaded
     private val _entryInfoLoaded = SingleLiveEvent<EntryInfo>()
@@ -69,13 +69,13 @@ class EntryEditViewModel: ViewModel() {
     fun loadEntryInfo(entryInfo: EntryInfo) {
         if (!mLoaded) {
             mLoaded = true
-            updateEntryInfo(entryInfo)
-            _entryInfoLoaded.value = entryInfo
+            internalUpdateEntryInfo(entryInfo)
+            _entryInfoLoaded.value = mTempEntryInfo
         }
     }
 
-    fun updateEntryInfo(entryInfo: EntryInfo) {
-        mEntryInfo = entryInfo
+    private fun internalUpdateEntryInfo(entryInfo: EntryInfo) {
+        mTempEntryInfo = entryInfo
         // Do not save entry in upload progression
         mTempAttachments.forEach { attachmentState ->
             if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
@@ -85,7 +85,7 @@ class EntryEditViewModel: ViewModel() {
                     AttachmentState.CANCELED,
                     AttachmentState.ERROR -> {
                         // Remove attachment not finished from info
-                        entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
+                        mTempEntryInfo.attachments = mTempEntryInfo.attachments.toMutableList().apply {
                             remove(attachmentState.attachment)
                         }
                     }
@@ -97,8 +97,8 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun saveEntryInfo(entryInfo: EntryInfo) {
-        updateEntryInfo(entryInfo)
-        _onEntryInfoSaved.value = EntryInfoTempAttachments(entryInfo, mTempAttachments)
+        internalUpdateEntryInfo(entryInfo)
+        _onEntryInfoSaved.value = EntryInfoTempAttachments(mTempEntryInfo, mTempAttachments)
     }
 
     fun assignTemplate(template: Template) {
