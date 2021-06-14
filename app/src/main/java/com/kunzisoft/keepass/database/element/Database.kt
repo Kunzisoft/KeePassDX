@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
+import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
@@ -735,8 +736,8 @@ class Database {
         }
     }
 
-    fun clearAndClose(filesDirectory: File? = null) {
-        clear(filesDirectory)
+    fun clearAndClose(context: Context? = null) {
+        clear(context?.let { UriUtil.getBinaryDir(context) })
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null
