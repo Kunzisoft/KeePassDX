@@ -98,54 +98,61 @@ class TemplateView @JvmOverloads constructor(context: Context,
         customFieldsContainerView.removeAllViews()
         mCustomFieldIds.clear()
 
-        findViewById<View?>(R.id.entry_edit_title)?.tag = FIELD_TITLE_TAG
+        mTemplate?.let { template ->
 
-        mTemplate?.sections?.forEach { templateSection ->
+            findViewById<EntryEditFieldView?>(R.id.entry_edit_title)?.apply {
+                tag = FIELD_TITLE_TAG
+                id = TemplateField.LABEL_TITLE.hashCode()
+                label = TemplateField.getLocalizedName(context, TemplateField.LABEL_TITLE)
+            }
 
-            val sectionView = SectionView(context, null, R.attr.cardViewStyle)
-            // Add build view to parent
-            templateContainerView.addView(sectionView)
+            template.sections.forEach { templateSection ->
 
-            // Build each attribute
-            templateSection.attributes.forEach { templateAttribute ->
-                val fieldTag: String
-                when {
-                    templateAttribute.label.equals(TemplateField.LABEL_TITLE, true) -> {
-                        throw Exception("title cannot be in template attribute")
+                val sectionView = SectionView(context, null, R.attr.cardViewStyle)
+                // Add build view to parent
+                templateContainerView.addView(sectionView)
+
+                // Build each attribute
+                templateSection.attributes.forEach { templateAttribute ->
+                    val fieldTag: String
+                    when {
+                        templateAttribute.label.equals(TemplateField.LABEL_TITLE, true) -> {
+                            throw Exception("title cannot be in template attribute")
+                        }
+                        templateAttribute.label.equals(TemplateField.LABEL_USERNAME, true) -> {
+                            fieldTag = FIELD_USERNAME_TAG
+                        }
+                        templateAttribute.label.equals(TemplateField.LABEL_PASSWORD, true) -> {
+                            fieldTag = FIELD_PASSWORD_TAG
+                        }
+                        templateAttribute.label.equals(TemplateField.LABEL_URL, true) -> {
+                            fieldTag = FIELD_URL_TAG
+                        }
+                        templateAttribute.label.equals(
+                            TemplateField.LABEL_EXPIRATION,
+                            true
+                        ) -> {
+                            fieldTag = FIELD_EXPIRES_TAG
+                        }
+                        templateAttribute.label.equals(TemplateField.LABEL_NOTES, true) -> {
+                            fieldTag = FIELD_NOTES_TAG
+                        }
+                        else -> {
+                            fieldTag = FIELD_CUSTOM_TAG
+                        }
                     }
-                    templateAttribute.label.equals(TemplateField.LABEL_USERNAME, true) -> {
-                        fieldTag = FIELD_USERNAME_TAG
-                    }
-                    templateAttribute.label.equals(TemplateField.LABEL_PASSWORD, true) -> {
-                        fieldTag = FIELD_PASSWORD_TAG
-                    }
-                    templateAttribute.label.equals(TemplateField.LABEL_URL, true) -> {
-                        fieldTag = FIELD_URL_TAG
-                    }
-                    templateAttribute.label.equals(
-                        TemplateField.LABEL_EXPIRATION,
-                        true
-                    ) -> {
-                        fieldTag = FIELD_EXPIRES_TAG
-                    }
-                    templateAttribute.label.equals(TemplateField.LABEL_NOTES, true) -> {
-                        fieldTag = FIELD_NOTES_TAG
-                    }
-                    else -> {
-                        fieldTag = FIELD_CUSTOM_TAG
-                    }
+
+                    val attributeView = buildViewForTemplateField(
+                        templateAttribute,
+                        Field(
+                            templateAttribute.label,
+                            ProtectedString(templateAttribute.protected, "")
+                        ),
+                        fieldTag
+                    )
+                    // Add created view to this parent
+                    sectionView.addView(attributeView)
                 }
-
-                val attributeView = buildViewForTemplateField(
-                    templateAttribute,
-                    Field(
-                        templateAttribute.label,
-                        ProtectedString(templateAttribute.protected, "")
-                    ),
-                    fieldTag
-                )
-                // Add created view to this parent
-                sectionView.addView(attributeView)
             }
         }
     }
