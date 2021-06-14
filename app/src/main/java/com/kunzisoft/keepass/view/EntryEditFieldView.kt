@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -123,11 +124,19 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     fun setType(valueType: TextType) {
         when (valueType) {
             TextType.NORMAL -> {
-                valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_VARIATION_NORMAL
+                valueView.inputType = valueView.inputType or
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
                 valueView.maxLines = 1
             }
+            TextType.SMALL_MULTI_LINE -> {
+                valueView.inputType = valueView.inputType or
+                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                valueView.maxEms = 3
+                valueView.maxLines = 3
+            }
             TextType.MULTI_LINE -> {
-                valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+                valueView.inputType = valueView.inputType or
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 valueView.maxEms = 40
                 valueView.maxLines = 40
             }
@@ -137,7 +146,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     fun setProtection(protection: Boolean, hiddenProtectedValue: Boolean) {
         if (protection) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
-            valueView.inputType = valueView.inputType or EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
+            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
             labelView.editText?.transformationMethod = if (hiddenProtectedValue)
                 PasswordTransformationMethod.getInstance()
             else
@@ -155,6 +164,6 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     }
 
     enum class TextType {
-        NORMAL, MULTI_LINE
+        NORMAL, SMALL_MULTI_LINE, MULTI_LINE
     }
 }

@@ -120,7 +120,7 @@ class Template : Parcelable {
                 val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
                     add(TemplateAttribute(LABEL_USERNAME, TemplateAttributeType.INLINE))
                     add(TemplateAttribute(LABEL_PASSWORD,
-                            TemplateAttributeType.INLINE,
+                            TemplateAttributeType.SMALL_MULTILINE,
                             true,
                             "",
                             TemplateAttributeAction.PASSWORD_GENERATION)

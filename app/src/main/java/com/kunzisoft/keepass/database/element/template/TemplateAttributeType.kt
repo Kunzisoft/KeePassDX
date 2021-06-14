@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.database.element.template
 
 enum class TemplateAttributeType {
     INLINE,
+    SMALL_MULTILINE,
     MULTILINE,
     DATE,
     TIME,

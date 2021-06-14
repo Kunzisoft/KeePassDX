@@ -153,7 +153,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     private fun buildViewForCustomField(field: Field): View? {
         val customFieldTemplateAttribute = TemplateAttribute(
                 field.name,
-                TemplateAttributeType.INLINE,
+                TemplateAttributeType.MULTILINE,
                 field.protectedValue.isProtected,
                 field.protectedValue.stringValue,
                 TemplateAttributeAction.CUSTOM_EDITION)
@@ -166,6 +166,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
         // Build main view depending on type
         val itemView: View? = when (templateAttribute.type) {
             TemplateAttributeType.INLINE,
+            TemplateAttributeType.SMALL_MULTILINE,
             TemplateAttributeType.MULTILINE -> {
                 buildLinearTextView(templateAttribute, field)
             }
@@ -197,6 +198,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 label = TemplateField.getLocalizedName(context, field.name)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 setType(when (templateAttribute.type) {
+                    TemplateAttributeType.SMALL_MULTILINE -> EntryEditFieldView.TextType.SMALL_MULTI_LINE
                     TemplateAttributeType.MULTILINE -> EntryEditFieldView.TextType.MULTI_LINE
                     else -> EntryEditFieldView.TextType.NORMAL
                 })
