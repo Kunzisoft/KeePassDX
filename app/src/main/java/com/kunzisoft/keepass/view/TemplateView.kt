@@ -253,6 +253,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
         }
     }
 
+    fun setFontInVisibility(fontInVisibility: Boolean) {
+        this.mFontInVisibility = fontInVisibility
+    }
+
     fun getIcon(): IconImage {
         return mEntryInfo?.icon ?: IconImage()
     }
@@ -307,17 +311,21 @@ class TemplateView @JvmOverloads constructor(context: Context,
             val titleView: EntryEditFieldView? =
                 findViewWithTag(FIELD_TITLE_TAG)
             titleView?.value = entryInfo.title
+            titleView?.applyFontVisibility(mFontInVisibility)
 
             val userNameView: EntryEditFieldView? =
                 templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
             userNameView?.value = entryInfo.username
+            userNameView?.applyFontVisibility(mFontInVisibility)
 
             val passwordView: EntryEditFieldView? =
                 templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
             passwordView?.value = entryInfo.password
+            passwordView?.applyFontVisibility(mFontInVisibility)
 
             val urlView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_URL_TAG)
             urlView?.value = entryInfo.url
+            urlView?.applyFontVisibility(mFontInVisibility)
 
             val expirationView: DateTimeView? =
                 templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
@@ -327,6 +335,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
             val notesView: EntryEditFieldView? =
                 templateContainerView.findViewWithTag(FIELD_NOTES_TAG)
             notesView?.value = entryInfo.notes
+            notesView?.applyFontVisibility(mFontInVisibility)
 
             customFieldsContainerView.removeAllViews()
             entryInfo.customFields.forEach { customField ->
@@ -338,6 +347,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                         ?.let { customView ->
                             if (customView is EntryEditFieldView) {
                                 customView.value = customField.protectedValue.stringValue
+                                customView.applyFontVisibility(mFontInVisibility)
                             } else if (customView is DateTimeView) {
                                 try {
                                     customView.dateTime =

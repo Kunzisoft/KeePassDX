@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -226,7 +227,9 @@ class EntryEditFragment: DatabaseFragment(), SetOTPDialogFragment.CreateOtpListe
     override fun onResume() {
         super.onResume()
 
-        // TODO fontInVisibility = PreferencesUtil.fieldFontIsInVisibility(requireContext())
+        context?.let { context ->
+            templateView.setFontInVisibility(PreferencesUtil.fieldFontIsInVisibility(context))
+        }
     }
 
     override fun onAttach(context: Context) {
