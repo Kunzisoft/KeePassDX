@@ -539,7 +539,7 @@
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Datenbank neu laden</string>
-    <string name="warning_database_info_changed_options">Überschreiben Sie die externen Änderungen, indem Sie die Datenbank speichern, oder laden Sie sie mit den neuesten Änderungen neu.</string>
+    <string name="warning_database_info_changed_options">Überschreiben Sie die externen Änderungen durch Speichern der Datenbank oder laden Sie sie mit den neuesten Änderungen neu.</string>
     <string name="error_file_to_big">Die Datei, die hochgeladen werden soll, ist zu groß.</string>
     <string name="warning_database_info_changed">Die in Ihrer Datenbank enthaltenen Informationen wurden außerhalb der App geändert.</string>
     <string name="error_remove_file">Beim Löschen der Datei trat ein Fehler auf.</string>
