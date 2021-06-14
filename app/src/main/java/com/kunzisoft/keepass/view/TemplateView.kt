@@ -39,7 +39,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
     private var mFontInVisibility: Boolean = false
 
     private var entryIconView: ImageView
-    private var entryTitleView: EntryEditFieldView
     private var templateContainerView: ViewGroup
     private var customFieldsContainerView: SectionView
 
@@ -52,7 +51,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
         inflater?.inflate(R.layout.view_template, this)
 
         entryIconView = findViewById(R.id.entry_edit_icon_button)
-        entryTitleView = findViewById(R.id.entry_edit_title)
         templateContainerView = findViewById(R.id.template_fields_container)
         // To fix card view margin in KitKat-
         val paddingVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
@@ -306,7 +304,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
         mEntryInfo?.let { entryInfo ->
             setIcon(entryInfo.icon)
 
-            entryTitleView.value = entryInfo.title
+            val titleView: EntryEditFieldView? =
+                findViewById(R.id.entry_edit_title)
+            titleView?.value = entryInfo.title
 
             val userNameView: EntryEditFieldView? =
                 templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
@@ -365,7 +365,11 @@ class TemplateView @JvmOverloads constructor(context: Context,
             mEntryInfo = EntryInfo()
 
         // Icon already populate
-        mEntryInfo?.title = entryTitleView.value
+
+        val titleView: EntryEditFieldView? = findViewById(R.id.entry_edit_title)
+        titleView?.value?.let {
+            mEntryInfo?.title = it
+        }
 
         val userNameView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
         userNameView?.value?.let {
