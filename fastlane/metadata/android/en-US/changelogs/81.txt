@@ -1,0 +1,3 @@
+ * Improve Magikeyboard options description #1022 #1023 (Thx @djibux)
+ * Fix database opened without notification (database is now closed when screen is killed in background #1025)
+ * Fix biometric prompt #1018

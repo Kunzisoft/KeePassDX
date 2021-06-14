@@ -1,0 +1,3 @@
+ * Amélioration de la description des options de Magikeyboard #1022 #1023 (Thx @djibux)
+ * Correction de l'ouverture de la base de données sans notification (la base est maintenant fermée lorsque l'écran est tuée en arrière-plan #1025)
+ * Correction de l'invite biométrique #1018

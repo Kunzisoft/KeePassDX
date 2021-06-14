@@ -25,8 +25,8 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -47,7 +47,7 @@ class LoadDatabaseRunnable(private val context: Context,
 
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
+        mDatabase.clearAndClose(context)
     }
 
     override fun onActionRun() {
@@ -85,7 +85,7 @@ class LoadDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
+            mDatabase.clearAndClose(context)
         }
     }
 

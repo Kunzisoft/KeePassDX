@@ -36,7 +36,7 @@
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена (если поддерживается устройством)</string>
-    <string name="select_to_copy">Выберите %1$s для копирования в буфер обмена</string>
+    <string name="select_to_copy">Нажатие скопирует «%1$s» в буфер</string>
     <string name="retrieving_db_key">Получение ключа базы…</string>
     <string name="database">База</string>
     <string name="decrypting_db">Расшифровка базы…</string>
@@ -58,7 +58,7 @@
     <string name="save">Сохранить</string>
     <string name="entry_title">Название</string>
     <string name="entry_url">Ссылка</string>
-    <string name="entry_user_name">Имя пользователя</string>
+    <string name="entry_user_name">Пользователь</string>
     <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
     <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
     <string name="error_file_not_create">Невозможно создать файл</string>

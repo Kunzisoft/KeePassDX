@@ -44,10 +44,7 @@ import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
-import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import com.kunzisoft.keepass.utils.LOCK_ACTION
-import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
@@ -838,6 +835,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         } else {
             null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mDatabase.loaded)
+            actionOnLock()
     }
 
     companion object {
