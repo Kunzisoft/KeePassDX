@@ -413,13 +413,13 @@
     <string name="keyboard_setting_label">Magikeyboard settings</string>
     <string name="keyboard_entry_category">Entry</string>
     <string name="keyboard_selection_entry_title">Entry selection</string>
-    <string name="keyboard_selection_entry_summary">Show input fields in Magikeyboard when viewing an entry</string>
+    <string name="keyboard_selection_entry_summary">When viewing an entry in KeePassDX, populate Magikeyboard with that entry</string>
     <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
     <string name="keyboard_search_share_title">Search shared info</string>
-    <string name="keyboard_search_share_summary">Automatically search for shared information to populate the keyboard</string>
+    <string name="keyboard_search_share_summary">When sharing a URL to KeePassDX, filter the entries using that URL domain</string>
     <string name="keyboard_save_search_info_title">Save shared info</string>
-    <string name="keyboard_save_search_info_summary">Try to save shared information when making a manual entry selection</string>
+    <string name="keyboard_save_search_info_summary">After sharing a URL to KeePassDX, when an entry is selected, try to remember that entry for further uses</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>

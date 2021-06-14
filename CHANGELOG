@@ -1,3 +1,8 @@
+KeePassDX(2.10.3)
+ * Improve Magikeyboard options description #1022 #1023 (Thx @djibux)
+ * Fix database opened without notification (database is now closed when screen is killed in background #1025)
+ * Fix biometric prompt #1018
+
 KeePassDX(2.10.2)
  * Fix search fields references #987
  * Fix Auto-Types with same key #997

@@ -384,4 +384,18 @@
     <string name="error_upload_file">Timbul galat saat mengunggah data berkas.</string>
     <string name="error_file_to_big">File yang Anda unggah terlalu besar.</string>
     <string name="content_description_otp_information">Info sandi satu kali</string>
+    <string name="education_select_database_title">Buka basisdata yang sudah ada</string>
+    <string name="enable_auto_save_database_title">Simpan otomatis basisdata</string>
+    <string name="education_new_node_title">Tambah item ke basisdata anda</string>
+    <string name="education_entry_edit_title">Sunting entri</string>
+    <string name="education_create_database_title">Buat berkas basisdata anda</string>
+    <string name="delete_entered_password_title">Hapus kata sandi</string>
+    <string name="education_sort_title">Pengurutan item</string>
+    <string name="html_text_dev_feature_thanks">Terima kasih banyak atas kontribusinya.</string>
+    <string name="html_text_dev_feature_contibute">Dengan <strong>berkontribusi</strong>,</string>
+    <string name="education_lock_title">Kunci basisdata</string>
+    <string name="education_unlock_title">Buka basisdata anda</string>
+    <string name="education_field_copy_title">Salin bidang</string>
+    <string name="education_setup_OTP_title">Atur OTP</string>
+    <string name="education_donation_title">Partisipasi</string>
 </resources>

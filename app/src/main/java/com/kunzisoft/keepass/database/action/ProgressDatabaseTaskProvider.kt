@@ -23,6 +23,7 @@ import android.content.*
 import android.content.Context.BIND_ABOVE_CLIENT
 import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -255,7 +256,6 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
 
     private fun start(bundle: Bundle? = null, actionTask: String) {
         try {
-            activity.stopService(intentDatabaseTask)
             if (bundle != null)
                 intentDatabaseTask.putExtras(bundle)
             intentDatabaseTask.action = actionTask

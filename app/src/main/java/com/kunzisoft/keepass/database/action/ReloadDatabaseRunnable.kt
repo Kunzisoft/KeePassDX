@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -62,7 +62,7 @@ class ReloadDatabaseRunnable(private val context: Context,
             PreferencesUtil.saveCurrentTime(context)
         } else {
             tempCipherKey = null
-            mDatabase.clearAndClose(UriUtil.getBinaryDir(context))
+            mDatabase.clearAndClose(context)
         }
     }
 

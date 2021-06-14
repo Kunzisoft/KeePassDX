@@ -462,6 +462,11 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     override fun onPause() {
         mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
+        // To prevent biometric prompt to appearing outside of the app
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            advancedUnlockFragment?.disconnect(hideViews = false, closePrompt = true)
+        }
+
         // Reinit locking activity UI variable
         LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
         mAllowAutoOpenBiometricPrompt = true
@@ -708,7 +713,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    Database.getInstance().clearAndClose(UriUtil.getBinaryDir(this))
+                    Database.getInstance().clearAndClose(this)
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()
