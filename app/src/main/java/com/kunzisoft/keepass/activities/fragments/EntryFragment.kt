@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
-import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -29,7 +27,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.EntryFieldView
-import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
 
@@ -55,41 +52,39 @@ class EntryFragment: DatabaseFragment() {
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
-    private lateinit var historyContainerView: View
-    private lateinit var historyListView: RecyclerView
-    private var historyAdapter: EntryHistoryAdapter? = null
-
     private lateinit var uuidContainerView: View
     private lateinit var uuidView: TextView
     private lateinit var uuidReferenceView: TextView
 
     private var mFontInVisibility: Boolean = false
     private var mHideProtectedValue: Boolean = false
+    private var mIsFirstTimeAskAllowCopyPasswordAndProtectedFields: Boolean = false
+    private var mAllowCopyPasswordAndProtectedFields: Boolean = false
 
     private var mOtpRunnable: Runnable? = null
     private var mClipboardHelper: ClipboardHelper? = null
 
     private val mEntryViewModel: EntryViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_entry, container, false)
+        return inflater.cloneInContext(contextThemed)
+            .inflate(R.layout.fragment_entry, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         context?.let { context ->
             mClipboardHelper = ClipboardHelper(context)
             attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
             attachmentsAdapter?.database = mDatabase
-            historyAdapter = EntryHistoryAdapter(context)
         }
-
-        rootView.showByFading()
-        return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         entryFieldsContainerView = view.findViewById(R.id.entry_fields_container)
         entryFieldsContainerView.visibility = View.GONE
@@ -127,13 +122,6 @@ class EntryFragment: DatabaseFragment() {
         modificationDateView = view.findViewById(R.id.entry_modified)
         expiresImageView = view.findViewById(R.id.entry_expires_image)
 
-        historyContainerView = view.findViewById(R.id.entry_history_container)
-        historyListView = view.findViewById(R.id.entry_history_list)
-        historyListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-            adapter = historyAdapter
-        }
-
         uuidContainerView = view.findViewById(R.id.entry_UUID_container)
         uuidContainerView.apply {
             visibility = if (PreferencesUtil.showUUID(context)) View.VISIBLE else View.GONE
@@ -141,8 +129,8 @@ class EntryFragment: DatabaseFragment() {
         uuidView = view.findViewById(R.id.entry_UUID)
         uuidReferenceView = view.findViewById(R.id.entry_UUID_reference)
 
-        mEntryViewModel.entry.observe(viewLifecycleOwner) { entryHistory ->
-            assignEntry(entryHistory?.entry)
+        mEntryViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
+            assignEntryInfo(entryInfo)
         }
     }
 
@@ -152,6 +140,10 @@ class EntryFragment: DatabaseFragment() {
         context?.let { context ->
             mFontInVisibility = PreferencesUtil.fieldFontIsInVisibility(context)
             mHideProtectedValue = PreferencesUtil.hideProtectedValue(context)
+            mIsFirstTimeAskAllowCopyPasswordAndProtectedFields =
+                PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(context)
+            mAllowCopyPasswordAndProtectedFields =
+                PreferencesUtil.allowCopyPasswordAndProtectedFields(context)
         }
     }
 
@@ -176,9 +168,8 @@ class EntryFragment: DatabaseFragment() {
                 getString(R.string.copy_field, appNameString))
     }
 
-    private fun assignEntry(entry: Entry?) {
+    private fun assignEntryInfo(entryInfo: EntryInfo?) {
         context?.let { context ->
-            val entryInfo = entry?.getEntryInfo(mDatabase)
 
             entryInfo?.username?.let { userName ->
                 assignUserName(userName) {
@@ -188,30 +179,10 @@ class EntryFragment: DatabaseFragment() {
                 }
             }
 
-            val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
-                        PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(context)
-            val allowCopyPasswordAndProtectedFields =
-                    PreferencesUtil.allowCopyPasswordAndProtectedFields(context)
             val showWarningClipboardDialogOnClickListener = View.OnClickListener {
-                AlertDialog.Builder(context)
-                        .setMessage(getString(R.string.allow_copy_password_warning) +
-                                "\n\n" +
-                                getString(R.string.clipboard_warning))
-                        .create().apply {
-                            setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) { dialog, _ ->
-                                PreferencesUtil.setAllowCopyPasswordAndProtectedFields(context, true)
-                                dialog.dismiss()
-                                assignEntry(entry)
-                            }
-                            setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable)) { dialog, _ ->
-                                PreferencesUtil.setAllowCopyPasswordAndProtectedFields(context, false)
-                                dialog.dismiss()
-                                assignEntry(entry)
-                            }
-                            show()
-                        }
+                showClipboardDialog(entryInfo)
             }
-            val onPasswordCopyClickListener: View.OnClickListener? = if (allowCopyPasswordAndProtectedFields) {
+            val onPasswordCopyClickListener: View.OnClickListener? = if (mAllowCopyPasswordAndProtectedFields) {
                 View.OnClickListener {
                     entryInfo?.password?.let { password ->
                         mClipboardHelper?.timeoutCopyToClipboard(password,
@@ -221,18 +192,19 @@ class EntryFragment: DatabaseFragment() {
                 }
             } else {
                 // If dialog not already shown
-                if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                if (mIsFirstTimeAskAllowCopyPasswordAndProtectedFields) {
                     showWarningClipboardDialogOnClickListener
                 } else {
                     null
                 }
             }
             assignPassword(entryInfo?.password,
-                    allowCopyPasswordAndProtectedFields,
+                    mAllowCopyPasswordAndProtectedFields,
                     onPasswordCopyClickListener)
 
             //Assign OTP field
-            entry?.getOtpElement()?.let { otpElement ->
+            entryInfo?.otpModel?.let { otpModel ->
+                val otpElement = OtpElement(otpModel)
                 assignOtp(otpElement) {
                     mClipboardHelper?.timeoutCopyToClipboard(
                             otpElement.token,
@@ -252,7 +224,7 @@ class EntryFragment: DatabaseFragment() {
                     // OTP field is already managed in dedicated view
                     if (label != OtpEntryFields.OTP_TOKEN_FIELD) {
                         val value = field.protectedValue
-                        val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
+                        val allowCopyProtectedField = !value.isProtected || mAllowCopyPasswordAndProtectedFields
                         if (allowCopyProtectedField) {
                             addExtraField(label, value, allowCopyProtectedField) {
                                 mClipboardHelper?.timeoutCopyToClipboard(
@@ -263,7 +235,7 @@ class EntryFragment: DatabaseFragment() {
                             }
                         } else {
                             // If dialog not already shown
-                            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                            if (mIsFirstTimeAskAllowCopyPasswordAndProtectedFields) {
                                 addExtraField(label, value, allowCopyProtectedField, showWarningClipboardDialogOnClickListener)
                             } else {
                                 addExtraField(label, value, allowCopyProtectedField, null)
@@ -285,11 +257,32 @@ class EntryFragment: DatabaseFragment() {
             assignModificationDate(entryInfo?.lastModificationTime)
             setExpires(entryInfo?.expires ?: false, entryInfo?.expiryTime)
 
-            // Assign entry history
-            assignHistory(entry?.getHistory())
-
             // Assign special data
-            assignUUID(entry?.nodeId?.id)
+            assignUUID(entryInfo?.id)
+        }
+    }
+
+    private fun showClipboardDialog(entryInfo: EntryInfo?) {
+        context?.let {
+            AlertDialog.Builder(it)
+                .setMessage(
+                    getString(R.string.allow_copy_password_warning) +
+                            "\n\n" +
+                            getString(R.string.clipboard_warning)
+                )
+                .create().apply {
+                    setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) { dialog, _ ->
+                        PreferencesUtil.setAllowCopyPasswordAndProtectedFields(context, true)
+                        dialog.dismiss()
+                        assignEntryInfo(entryInfo)
+                    }
+                    setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable)) { dialog, _ ->
+                        PreferencesUtil.setAllowCopyPasswordAndProtectedFields(context, false)
+                        dialog.dismiss()
+                        assignEntryInfo(entryInfo)
+                    }
+                    show()
+                }
         }
     }
 
@@ -471,25 +464,6 @@ class EntryFragment: DatabaseFragment() {
 
     fun putAttachment(attachmentToDownload: EntryAttachmentState) {
         attachmentsAdapter?.putItem(attachmentToDownload)
-    }
-
-    /* -------------
-     * History
-     * -------------
-     */
-    private fun assignHistory(history: ArrayList<Entry>?) {
-        historyAdapter?.clear()
-        history?.let {
-            historyAdapter?.entryHistoryList?.addAll(history)
-        }
-        historyAdapter?.onItemClickListener = { item, position ->
-            mEntryViewModel.onHistorySelected(item, position)
-        }
-        historyContainerView.visibility = if (historyAdapter?.entryHistoryList?.isEmpty() != false)
-            View.GONE
-        else
-            View.VISIBLE
-        historyAdapter?.notifyDataSetChanged()
     }
 
     companion object {

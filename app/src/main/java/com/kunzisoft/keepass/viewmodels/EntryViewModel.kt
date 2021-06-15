@@ -9,6 +9,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import java.util.*
 
@@ -19,6 +20,12 @@ class EntryViewModel: ViewModel() {
 
     val entry : LiveData<EntryHistory> get() = _entry
     private val _entry = MutableLiveData<EntryHistory>()
+
+    val entryInfo : LiveData<EntryInfo> get() = _entryInfo
+    private val _entryInfo = MutableLiveData<EntryInfo>()
+
+    val entryHistory : LiveData<List<Entry>> get() = _entryHistory
+    private val _entryHistory = MutableLiveData<List<Entry>>()
 
     val otpElement : LiveData<OtpElement> get() = _otpElement
     private val _otpElement = SingleLiveEvent<OtpElement>()
@@ -44,8 +51,8 @@ class EntryViewModel: ViewModel() {
                entry = mDatabase.decodeEntryWithTemplateConfiguration(it)
             }
             _entry.value = EntryHistory(nodeIdUUID, entry, entryLastVersion, historyPosition)
-        } else {
-            _entry.value = EntryHistory(null, null, null)
+            _entryInfo.value = entry?.getEntryInfo(mDatabase)
+            _entryHistory.value = entry?.getHistory()
         }
     }
 

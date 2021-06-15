@@ -190,89 +190,11 @@
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
-	<androidx.cardview.widget.CardView
-		android:id="@+id/entry_history_container"
+	<androidx.fragment.app.FragmentContainerView
+		android:id="@+id/entry_history"
+		android:name="com.kunzisoft.keepass.activities.fragments.EntryHistoryFragment"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle">
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:layout_margin="@dimen/card_view_padding"
-			android:orientation="vertical">
-
-			<!-- History -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/entry_history_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_history"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-				android:layout_marginBottom="4dp">
-
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_history_last_modified"
-					android:text="@string/entry_modified"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_history_title"
-					android:gravity="center"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content" />
-
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_history_title"
-					android:text="@string/entry_title"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
-					app:layout_constraintStart_toEndOf="@+id/entry_history_last_modified"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_history_username"
-					android:gravity="center"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content" />
-
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_history_username"
-					android:text="@string/entry_user_name"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
-					app:layout_constraintStart_toEndOf="@+id/entry_history_title"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_history_url"
-					android:gravity="center"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content" />
-
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_history_url"
-					android:text="@string/entry_url"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
-					app:layout_constraintStart_toEndOf="@+id/entry_history_username"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:gravity="center"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:visibility="gone"/>
-			</androidx.constraintlayout.widget.ConstraintLayout>
-
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/entry_history_list"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
-
-		</LinearLayout>
-	</androidx.cardview.widget.CardView>
+		android:layout_height="wrap_content" />
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_UUID_container"

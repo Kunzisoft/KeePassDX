@@ -404,7 +404,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         else
             database?.startManageEntry(this)
 
-        entryInfo.id = nodeId.toString()
+        entryInfo.id = nodeId.id
         entryInfo.title = title
         entryInfo.icon = icon
         entryInfo.username = username

@@ -276,7 +276,7 @@ class EntryActivity : LockingActivity() {
         }
 
         // Assign title text
-        val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id
+        val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
         collapsingToolbarLayout?.title = entryTitle
         toolbar?.title = entryTitle
 

@@ -114,7 +114,7 @@ object AutofillHelper {
         val title = makeEntryTitle(entryInfo)
         val views = newRemoteViews(context, database, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
-        builder.setId(entryInfo.id)
+        builder.setId(entryInfo.id.toString())
 
         struct.usernameId?.let { usernameId ->
             builder.setValue(usernameId, AutofillValue.forText(entryInfo.username))

@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
@@ -29,10 +30,11 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import java.util.*
 
 class EntryInfo : NodeInfo {
 
-    var id: String = ""
+    var id: UUID = UUID.randomUUID()
     var username: String = ""
     var password: String = ""
     var url: String = ""
@@ -45,7 +47,7 @@ class EntryInfo : NodeInfo {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        id = parcel.readString() ?: id
+        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
@@ -62,7 +64,7 @@ class EntryInfo : NodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeString(id)
+        parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
         parcel.writeString(password)
         parcel.writeString(url)
