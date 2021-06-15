@@ -115,6 +115,11 @@ class EntryEditFragment: DatabaseFragment() {
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
+        if (savedInstanceState != null) {
+            val attachments: List<Attachment> =
+                savedInstanceState.getParcelableArrayList(ATTACHMENTS_TAG) ?: listOf()
+            setAttachments(attachments)
+        }
 
         mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
             templateView.setTemplate(template)
@@ -122,10 +127,7 @@ class EntryEditFragment: DatabaseFragment() {
 
         mEntryEditViewModel.entryInfoLoaded.observe(viewLifecycleOwner) { entryInfo ->
             templateView.setEntryInfo(entryInfo)
-            assignAttachments(entryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
-                removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
-                mEntryEditViewModel.deleteAttachment(attachment)
-            }
+            setAttachments(entryInfo.attachments)
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
@@ -249,11 +251,6 @@ class EntryEditFragment: DatabaseFragment() {
         drawFactory = mDatabase?.iconDrawableFactory
     }
 
-    override fun onPause() {
-        super.onPause()
-        mEntryEditViewModel.updateEntryInfo(retrieveEntryInfo())
-    }
-
     override fun onDetach() {
         super.onDetach()
 
@@ -303,13 +300,15 @@ class EntryEditFragment: DatabaseFragment() {
         return attachmentsAdapter?.itemsList?.map { it.attachment } ?: listOf()
     }
 
-    private fun assignAttachments(attachments: List<Attachment>,
-                                  streamDirection: StreamDirection,
-                                  onDeleteItem: (attachment: Attachment) -> Unit) {
+    private fun setAttachments(attachments: List<Attachment>) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter?.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
+        attachmentsAdapter?.assignItems(attachments.map {
+            EntryAttachmentState(it, StreamDirection.UPLOAD)
+        })
         attachmentsAdapter?.onDeleteButtonClickListener = { item ->
-            onDeleteItem.invoke(item.attachment)
+            val attachment = item.attachment
+            removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
+            mEntryEditViewModel.deleteAttachment(attachment)
         }
     }
 
@@ -354,8 +353,15 @@ class EntryEditFragment: DatabaseFragment() {
         }, 250)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(ATTACHMENTS_TAG, ArrayList(getAttachments()))
+    }
+
     companion object {
         private val TAG = EntryEditFragment::class.java.name
+
+        private const val ATTACHMENTS_TAG = "ATTACHMENTS_TAG"
     }
 
 }

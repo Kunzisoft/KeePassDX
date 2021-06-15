@@ -86,12 +86,6 @@ class EntryEditViewModel: ViewModel() {
         }
     }
 
-    fun updateEntryInfo(entryInfo: EntryInfo) {
-        internalUpdateEntryInfo(entryInfo) {
-            _entryInfoLoaded.value = it
-        }
-    }
-
     fun saveEntryInfo(entryInfo: EntryInfo) {
         internalUpdateEntryInfo(entryInfo) {
             _onEntryInfoSaved.value = EntryInfoTempAttachments(it, mTempAttachments)
@@ -99,7 +93,7 @@ class EntryEditViewModel: ViewModel() {
     }
 
     private fun internalUpdateEntryInfo(entryInfo: EntryInfo,
-                                        actionOnFinish: (entryInfo: EntryInfo) -> Unit) {
+                                        actionOnFinish: ((entryInfo: EntryInfo) -> Unit)? = null) {
         IOActionTask(
             {
                 // Do not save entry in upload progression
@@ -124,7 +118,7 @@ class EntryEditViewModel: ViewModel() {
             },
             {
                 if (it != null)
-                    actionOnFinish.invoke(it)
+                    actionOnFinish?.invoke(it)
             }
         ).execute()
     }
