@@ -390,7 +390,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return mEntryInfo ?: EntryInfo()
     }
 
-    fun populateEntryInfoWithViews() {
+    fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean = true) {
         if (mEntryInfo == null)
             mEntryInfo = EntryInfo()
 
@@ -429,7 +429,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
             mEntryInfo?.notes = it
         }
 
-        retrieveCustomFieldsFromView(true)
+        retrieveCustomFieldsFromView(templateFieldNotEmpty)
 
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
@@ -621,7 +621,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     override fun onSaveInstanceState(): Parcelable {
         val superSave = super.onSaveInstanceState()
         val saveState = SavedState(superSave)
-        populateEntryInfoWithViews()
+        populateEntryInfoWithViews(false)
         saveState.template = this.mTemplate
         saveState.entryInfo = this.mEntryInfo
         saveState.tempDateTimeViewId = this.mTempDateTimeViewId
