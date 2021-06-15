@@ -37,11 +37,13 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -569,9 +571,12 @@ class EntryEditActivity : LockingActivity(),
     }
 
     fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        /*
-        TODO Fragment
-        if (entryEditFragment?.generatePasswordEducationPerformed(entryEditActivityEducation) != true) {
+
+        val generatePasswordEductionPerformed = (supportFragmentManager.findFragmentById(R.id.entry_edit_content)
+                as? EntryEditFragment?)?.getGeneratePasswordEductionPerformed(entryEditActivityEducation) {
+            performedNextEducation(entryEditActivityEducation)
+        } ?: false
+        if (!generatePasswordEductionPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
             val addNewFieldEducationPerformed = mDatabase?.allowEntryCustomFields() == true
                     && addNewFieldView != null
@@ -611,7 +616,6 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
         }
-        */
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

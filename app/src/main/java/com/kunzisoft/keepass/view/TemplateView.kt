@@ -273,6 +273,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
         }
     }
 
+    fun getActionImageView(): View? {
+        return findViewWithTag<EntryEditFieldView?>(FIELD_PASSWORD_TAG)?.getActionImageView()
+    }
+
     fun setFontInVisibility(fontInVisibility: Boolean) {
         this.mFontInVisibility = fontInVisibility
     }
@@ -286,11 +290,16 @@ class TemplateView @JvmOverloads constructor(context: Context,
         populateIconMethod?.invoke(entryIconView, iconImage)
     }
 
-    fun setPasswordValue(passwordField: Field) {
+    fun setPasswordField(passwordField: Field) {
         val passwordView = getFieldViewById(passwordField.name.hashCode())
         if (passwordView is EntryEditFieldView?) {
             passwordView?.value = passwordField.protectedValue.stringValue
         }
+    }
+
+    fun getPasswordField(): Field {
+        val passwordView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
+        return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
     }
 
     fun setCurrentDateTimeValue(date: Date) {

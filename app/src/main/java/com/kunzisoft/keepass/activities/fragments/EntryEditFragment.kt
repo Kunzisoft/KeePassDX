@@ -139,7 +139,7 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->
-            templateView.setPasswordValue(passwordField)
+            templateView.setPasswordField(passwordField)
         }
 
         mEntryEditViewModel.onDateSelected.observe(viewLifecycleOwner) { viewModelDate ->
@@ -263,34 +263,6 @@ class EntryEditFragment: DatabaseFragment() {
         return entryInfo
     }
 
-    fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
-        /* TODO
-        val generatePasswordView = templateContainerView
-                .findViewWithTag<EntryEditFieldView?>(FIELD_PASSWORD_TAG)
-                ?.getActionImageView()
-        return if (generatePasswordView != null) {
-            entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                    generatePasswordView,
-                    {
-                        GeneratePasswordDialogFragment
-                                .getInstance(Field(LABEL_PASSWORD, ProtectedString(true, mEntryInfo.password)))
-                                .show(parentFragmentManager, "PasswordGeneratorFragment")
-                    },
-                    {
-                        try {
-                            (activity as? EntryEditActivity?)
-                                    ?.performedNextEducation(entryEditActivityEducation)
-                        } catch (ignore: Exception) {
-                        }
-                    }
-            )
-        } else {
-            false
-        }
-        */
-        return false
-    }
-
     /* -------------
      * Attachments
      * -------------
@@ -356,6 +328,21 @@ class EntryEditFragment: DatabaseFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(ATTACHMENTS_TAG, ArrayList(getAttachments()))
+    }
+
+    fun getGeneratePasswordEductionPerformed(entryEditActivityEducation: EntryEditActivityEducation,
+                                             actionNextEducation: () -> Unit): Boolean {
+        val generatePasswordView = templateView.getActionImageView()
+        return generatePasswordView != null
+                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+            generatePasswordView,
+            {
+                mEntryEditViewModel.requestPasswordSelection(templateView.getPasswordField())
+            },
+            {
+                actionNextEducation.invoke()
+            }
+        )
     }
 
     companion object {
