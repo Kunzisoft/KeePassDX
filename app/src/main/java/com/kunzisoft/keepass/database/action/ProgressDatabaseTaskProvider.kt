@@ -286,6 +286,11 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                           readOnly: Boolean,
                           cipherEntity: CipherDatabaseEntity?,
                           fixDuplicateUuid: Boolean) {
+        try {
+            activity.stopService(intentDatabaseTask)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to stop the service", e)
+        }
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)

@@ -1,3 +1,6 @@
+KeePassDX(2.10.4)
+ * Hot fix to increase the opening speed of database #1028
+
 KeePassDX(2.10.3)
  * Improve Magikeyboard options description #1022 #1023 (Thx @djibux)
  * Fix database opened without notification (database is now closed when screen is killed in background #1025)
