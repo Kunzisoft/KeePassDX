@@ -35,7 +35,6 @@ import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
@@ -61,7 +60,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
-import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
@@ -78,9 +76,10 @@ class EntryActivity : LockingActivity() {
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
 
-    private var mEntryFragment: EntryFragment? = null
+    private var mEntry: Entry? = null
+    private var mLastEntryVersion: Entry? = null
+    private var mHistoryPosition: Int = -1
 
-    private var mEntryHistory: EntryViewModel.EntryHistory? = null
     private val mEntryViewModel: EntryViewModel by viewModels()
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
@@ -119,7 +118,7 @@ class EntryActivity : LockingActivity() {
         historyView = findViewById(R.id.history_container)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
-        loadingView = findViewById(R.id.loading)
+        // TODO loadingView = findViewById(R.id.loading)
 
         lockView?.setOnClickListener {
             lockAndExit()
@@ -136,53 +135,37 @@ class EntryActivity : LockingActivity() {
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
-        mEntryFragment = supportFragmentManager.findFragmentByTag(ENTRY_FRAGMENT_TAG) as? EntryFragment?
-        if (mEntryFragment == null) {
-            mEntryFragment = EntryFragment.getInstance()
-        }
-        // To show Fragment asynchronously
-        lifecycleScope.launchWhenResumed {
-            loadingView?.hideByFading()
-            mEntryFragment?.let { fragment ->
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.entry_content, fragment, ENTRY_FRAGMENT_TAG)
-                        .commit()
-            }
-        }
-
         // Get Entry from UUID
         try {
-            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { keyEntry ->
-                // Remove extras to consume only one time
-                intent.removeExtra(KEY_ENTRY)
+            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
-                intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
-                mEntryViewModel.selectEntry(keyEntry, historyPosition)
+                retrieveEntryFromDatabase(entryId, historyPosition)
+                loadEntry()
             }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
-        mEntryViewModel.entry.observe(this) { entryHistory ->
-            mEntryHistory = entryHistory
-            // Update last access time.
-            entryHistory?.entry?.let { entry ->
-                // Fill data in resume to update from EntryEditActivity
-                fillEntryDataInContentsView(entry)
-                // Refresh Menu
-                invalidateOptionsMenu()
-
-                val entryInfo = entry.getEntryInfo(mDatabase)
-                // Manage entry copy to start notification if allowed
-                if (mFirstLaunchOfActivity) {
-                    // Manage entry to launch copying notification if allowed
-                    ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
-                    // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
-                    if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                        MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
-                    }
+        mEntryViewModel.entryInfo.observe(this) { entryInfo ->
+            // Manage entry copy to start notification if allowed
+            if (mFirstLaunchOfActivity) {
+                // Manage entry to launch copying notification if allowed
+                ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
+                // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
+                if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
+                    MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
                 }
             }
+
+            // Assign title icon
+            titleIconView?.let { iconView ->
+                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, iconColor)
+            }
+
+            // Assign title text
+            val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
+            collapsingToolbarLayout?.title = entryTitle
+            toolbar?.title = entryTitle
         }
 
         mEntryViewModel.otpElement.observe(this) { otpElement ->
@@ -232,6 +215,36 @@ class EntryActivity : LockingActivity() {
         }
     }
 
+    private fun retrieveEntryFromDatabase(entryId: NodeId<UUID>, historyPosition: Int) {
+        // Manage current version and history
+        mLastEntryVersion = mDatabase?.getEntryById(entryId)
+        mEntry = if (historyPosition > -1) {
+            mLastEntryVersion?.getHistory()?.get(historyPosition)
+        } else {
+            mLastEntryVersion
+        }
+        mHistoryPosition = historyPosition
+    }
+
+    private fun loadEntry() {
+        mEntry?.let { entry ->
+            // To simplify template field visibility
+            mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
+                // To update current modification time
+                it.touch(modified = false, touchParents = false)
+                // Fill specific history views
+                assignHistoryViews()
+                // Refresh Menu
+                invalidateOptionsMenu()
+
+                val entryInfo = it.getEntryInfo(mDatabase)
+
+                mEntryViewModel.loadEntryInfo(entryInfo)
+                mEntryViewModel.loadEntryHistory(it.getHistory())
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -246,9 +259,7 @@ class EntryActivity : LockingActivity() {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-                    if (entryAttachmentState.streamDirection != StreamDirection.UPLOAD) {
-                        mEntryFragment?.putAttachment(entryAttachmentState)
-                    }
+                    mEntryViewModel.onAttachmentAction(entryAttachmentState)
                 }
             }
         }
@@ -263,23 +274,10 @@ class EntryActivity : LockingActivity() {
     }
 
     private fun isHistory(): Boolean {
-        return mEntryHistory?.historyPosition != -1
+        return mHistoryPosition != -1
     }
 
-    private fun fillEntryDataInContentsView(entry: Entry) {
-
-        val entryInfo = entry.getEntryInfo(mDatabase)
-
-        // Assign title icon
-        titleIconView?.let { iconView ->
-            mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, iconColor)
-        }
-
-        // Assign title text
-        val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
-        collapsingToolbarLayout?.title = entryTitle
-        toolbar?.title = entryTitle
-
+    private fun assignHistoryViews() {
         // Assign history dedicated view
         historyView?.visibility = if (isHistory()) View.VISIBLE else View.GONE
         if (isHistory()) {
@@ -294,7 +292,8 @@ class EntryActivity : LockingActivity() {
 
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
-                mEntryViewModel.reloadEntry()
+                // Reload the current id from database
+                loadEntry()
             }
         }
 
@@ -330,10 +329,10 @@ class EntryActivity : LockingActivity() {
         gotoUrl?.apply {
             // In API >= 11 onCreateOptionsMenu may be called before onCreate completes
             // so mEntry may not be set
-            if (mEntryHistory?.entry == null) {
+            if (mEntry == null) {
                 isVisible = false
             } else {
-                if (mEntryHistory?.entry?.url?.isEmpty() != false) {
+                if (mEntry?.url?.isEmpty() != false) {
                     // disable button if url is not available
                     isVisible = false
                 }
@@ -348,12 +347,14 @@ class EntryActivity : LockingActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
-        val entryFieldCopyView: View? = mEntryFragment?.firstEntryFieldCopyView()
+        val entryFragment = supportFragmentManager.findFragmentByTag(ENTRY_FRAGMENT_TAG)
+                as? EntryFragment?
+        val entryFieldCopyView: View? = entryFragment?.firstEntryFieldCopyView()
         val entryCopyEducationPerformed = entryFieldCopyView != null
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
                 entryFieldCopyView,
                 {
-                    mEntryFragment?.launchEntryCopyEducationAction()
+                    entryFragment.launchEntryCopyEducationAction()
                 },
                 {
                     performedNextEducation(entryActivityEducation, menu)
@@ -381,13 +382,13 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                mEntryHistory?.entry?.let {
+                mEntry?.let {
                     EntryEditActivity.launch(this@EntryActivity, it)
                 }
                 return true
             }
             R.id.menu_goto_url -> {
-                var url: String = mEntryHistory?.entry?.url ?: ""
+                var url: String = mEntry?.url ?: ""
 
                 // Default http:// if no protocol specified
                 if (!url.contains("://")) {
@@ -398,18 +399,18 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_restore_entry_history -> {
-                mEntryHistory?.lastEntryVersion?.let { mainEntry ->
+                mLastEntryVersion?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
                             mainEntry,
-                            mEntryHistory?.historyPosition ?: -1,
+                            mHistoryPosition ?: -1,
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
             R.id.menu_delete_entry_history -> {
-                mEntryHistory?.lastEntryVersion?.let { mainEntry ->
+                mLastEntryVersion?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
                             mainEntry,
-                            mEntryHistory?.historyPosition ?: -1,
+                        mHistoryPosition ?: -1,
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
@@ -433,7 +434,7 @@ class EntryActivity : LockingActivity() {
     override fun finish() {
         // Transit data in previous Activity after an update
         Intent().apply {
-            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntryHistory?.entry)
+            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry)
             setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, this)
         }
         super.finish()

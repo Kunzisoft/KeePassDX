@@ -72,8 +72,8 @@
             </androidx.appcompat.widget.Toolbar>
 
             <ProgressBar
-                android:visibility="gone"
                 android:id="@+id/entry_progress"
+                android:visibility="gone"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:indeterminate="false"
                 android:progress="10"
@@ -115,6 +115,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/entry_content"
+                android:name="com.kunzisoft.keepass.activities.fragments.EntryFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent="@dimen/content_percent"
@@ -125,6 +126,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <!-- TODO Loading
     <ProgressBar
         android:id="@+id/loading"
         style="?android:attr/progressBarStyleHorizontal"
@@ -134,6 +136,7 @@
         android:indeterminate="true"
         app:layout_anchor="@+id/entry_scroll"
         app:layout_anchorGravity="top|center" />
+    -->
 
     <include
         layout="@layout/view_button_lock"

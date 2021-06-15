@@ -6,20 +6,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import java.util.*
 
 
 class EntryViewModel: ViewModel() {
-
-    private val mDatabase = Database.getInstance()
-
-    val entry : LiveData<EntryHistory> get() = _entry
-    private val _entry = MutableLiveData<EntryHistory>()
 
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
@@ -32,32 +27,18 @@ class EntryViewModel: ViewModel() {
 
     val attachmentSelected : LiveData<Attachment> get() = _attachmentSelected
     private val _attachmentSelected = SingleLiveEvent<Attachment>()
+    val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
+    private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
 
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun selectEntry(nodeIdUUID: NodeId<UUID>?, historyPosition: Int) {
-        if (nodeIdUUID != null) {
-            // Manage current version and history
-            val entryLastVersion = mDatabase.getEntryById(nodeIdUUID)
-            var entry = entryLastVersion
-            if (historyPosition > -1) {
-                entry = entry?.getHistory()?.get(historyPosition)
-            }
-            // To update current modification time
-            entry?.touch(modified = false, touchParents = false)
-            // To simplify template field visibility
-            entry?.let {
-               entry = mDatabase.decodeEntryWithTemplateConfiguration(it)
-            }
-            _entry.value = EntryHistory(nodeIdUUID, entry, entryLastVersion, historyPosition)
-            _entryInfo.value = entry?.getEntryInfo(mDatabase)
-            _entryHistory.value = entry?.getHistory()
-        }
+    fun loadEntryInfo(entryInfo: EntryInfo) {
+        _entryInfo.value = entryInfo
     }
 
-    fun reloadEntry() {
-        selectEntry(entry.value?.nodeIdUUID, entry.value?.historyPosition ?: -1)
+    fun loadEntryHistory(entryHistory: List<Entry>) {
+        _entryHistory.value = entryHistory
     }
 
     fun onOtpElementUpdated(optElement: OtpElement) {
@@ -66,6 +47,10 @@ class EntryViewModel: ViewModel() {
 
     fun onAttachmentSelected(attachment: Attachment) {
         _attachmentSelected.value = attachment
+    }
+
+    fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
+        _onAttachmentAction.value = entryAttachmentState
     }
 
     fun onHistorySelected(item: Entry, position: Int) {

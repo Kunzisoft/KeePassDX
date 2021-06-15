@@ -572,10 +572,20 @@ class EntryEditActivity : LockingActivity(),
 
     fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
 
-        val generatePasswordEductionPerformed = (supportFragmentManager.findFragmentById(R.id.entry_edit_content)
-                as? EntryEditFragment?)?.getGeneratePasswordEductionPerformed(entryEditActivityEducation) {
-            performedNextEducation(entryEditActivityEducation)
-        } ?: false
+        val entryEditFragment = supportFragmentManager.findFragmentById(R.id.entry_edit_content)
+                as? EntryEditFragment?
+        val generatePasswordView = entryEditFragment?.getActionImageView()
+        val generatePasswordEductionPerformed = generatePasswordView != null
+                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+            generatePasswordView,
+            {
+                entryEditFragment.launchGeneratePasswordEductionAction()
+            },
+            {
+                performedNextEducation(entryEditActivityEducation)
+            }
+        )
+
         if (!generatePasswordEductionPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
             val addNewFieldEducationPerformed = mDatabase?.allowEntryCustomFields() == true

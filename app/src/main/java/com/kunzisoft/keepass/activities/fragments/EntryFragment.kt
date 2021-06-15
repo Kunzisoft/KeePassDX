@@ -132,6 +132,14 @@ class EntryFragment: DatabaseFragment() {
         mEntryViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
             assignEntryInfo(entryInfo)
         }
+
+        mEntryViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
+            entryAttachmentState?.let {
+                if (it.streamDirection != StreamDirection.UPLOAD) {
+                    putAttachment(it)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -145,27 +153,6 @@ class EntryFragment: DatabaseFragment() {
             mAllowCopyPasswordAndProtectedFields =
                 PreferencesUtil.allowCopyPasswordAndProtectedFields(context)
         }
-    }
-
-    fun firstEntryFieldCopyView(): View? {
-        return try {
-            when {
-                userNameFieldView.isVisible && userNameFieldView.copyButtonView.isVisible -> userNameFieldView.copyButtonView
-                passwordFieldView.isVisible && passwordFieldView.copyButtonView.isVisible -> passwordFieldView.copyButtonView
-                otpFieldView.isVisible && otpFieldView.copyButtonView.isVisible -> otpFieldView.copyButtonView
-                urlFieldView.isVisible && urlFieldView.copyButtonView.isVisible -> urlFieldView.copyButtonView
-                notesFieldView.isVisible && notesFieldView.copyButtonView.isVisible -> notesFieldView.copyButtonView
-                else -> null
-            }
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    fun launchEntryCopyEducationAction() {
-        val appNameString = getString(R.string.app_name)
-        mClipboardHelper?.timeoutCopyToClipboard(appNameString,
-                getString(R.string.copy_field, appNameString))
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {
@@ -464,6 +451,32 @@ class EntryFragment: DatabaseFragment() {
 
     fun putAttachment(attachmentToDownload: EntryAttachmentState) {
         attachmentsAdapter?.putItem(attachmentToDownload)
+    }
+
+    /* -------------
+     * Education
+     * -------------
+     */
+
+    fun firstEntryFieldCopyView(): View? {
+        return try {
+            when {
+                userNameFieldView.isVisible && userNameFieldView.copyButtonView.isVisible -> userNameFieldView.copyButtonView
+                passwordFieldView.isVisible && passwordFieldView.copyButtonView.isVisible -> passwordFieldView.copyButtonView
+                otpFieldView.isVisible && otpFieldView.copyButtonView.isVisible -> otpFieldView.copyButtonView
+                urlFieldView.isVisible && urlFieldView.copyButtonView.isVisible -> urlFieldView.copyButtonView
+                notesFieldView.isVisible && notesFieldView.copyButtonView.isVisible -> notesFieldView.copyButtonView
+                else -> null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun launchEntryCopyEducationAction() {
+        val appNameString = getString(R.string.app_name)
+        mClipboardHelper?.timeoutCopyToClipboard(appNameString,
+            getString(R.string.copy_field, appNameString))
     }
 
     companion object {

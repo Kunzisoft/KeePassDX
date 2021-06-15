@@ -330,19 +330,17 @@ class EntryEditFragment: DatabaseFragment() {
         outState.putParcelableArrayList(ATTACHMENTS_TAG, ArrayList(getAttachments()))
     }
 
-    fun getGeneratePasswordEductionPerformed(entryEditActivityEducation: EntryEditActivityEducation,
-                                             actionNextEducation: () -> Unit): Boolean {
-        val generatePasswordView = templateView.getActionImageView()
-        return generatePasswordView != null
-                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-            generatePasswordView,
-            {
-                mEntryEditViewModel.requestPasswordSelection(templateView.getPasswordField())
-            },
-            {
-                actionNextEducation.invoke()
-            }
-        )
+    /* -------------
+     * Education
+     * -------------
+     */
+
+    fun getActionImageView(): View? {
+        return templateView.getActionImageView()
+    }
+
+    fun launchGeneratePasswordEductionAction() {
+        mEntryEditViewModel.requestPasswordSelection(templateView.getPasswordField())
     }
 
     companion object {
