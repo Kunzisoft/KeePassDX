@@ -56,8 +56,8 @@ class TemplateView @JvmOverloads constructor(context: Context,
         entryIconView = findViewById(R.id.entry_edit_icon_button)
         templateContainerView = findViewById(R.id.template_fields_container)
         // To fix card view margin in KitKat-
-        val paddingVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            val paddingVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
             val paddingHorizontal = resources.getDimensionPixelSize(R.dimen.card_view_margin_horizontal)
             templateContainerView.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
         }

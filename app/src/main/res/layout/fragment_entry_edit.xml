@@ -30,8 +30,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container"
-		android:layout_marginBottom="4dp"/>
+		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container"/>
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_attachments_container"

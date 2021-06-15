@@ -69,6 +69,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle"
-		app:layout_constraintTop_toBottomOf="@+id/template_fields_container" />
+		android:layout_marginBottom="@dimen/card_view_margin_vertical"
+		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
+		app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
