@@ -29,6 +29,7 @@ class EntryEditViewModel: ViewModel() {
     val onEntryInfoSaved : LiveData<EntryInfoTempAttachments> get() = _onEntryInfoSaved
     private val _onEntryInfoSaved = SingleLiveEvent<EntryInfoTempAttachments>()
 
+    private var mTemplateLoaded = false
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = SingleLiveEvent<Template>()
 
@@ -121,6 +122,13 @@ class EntryEditViewModel: ViewModel() {
                     actionOnFinish?.invoke(it)
             }
         ).execute()
+    }
+
+    fun loadTemplate(template: Template) {
+        if (!mTemplateLoaded) {
+            mTemplateLoaded = true
+            _onTemplateChanged.value = template
+        }
     }
 
     fun assignTemplate(template: Template) {

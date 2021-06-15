@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.view
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Parcel
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.IdRes
@@ -85,8 +87,16 @@ class TemplateView @JvmOverloads constructor(context: Context,
     var populateIconMethod: ((ImageView, IconImage) -> Unit)? = null
 
     fun setTemplate(template: Template?) {
-        mTemplate = template
-        buildTemplateAndPopulateInfo()
+        if (mTemplate != template) {
+            mTemplate = template
+            if (mEntryInfo != null) {
+                populateEntryInfoWithViews()
+            }
+            buildTemplateAndPopulateInfo()
+            clearFocus()
+            (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager?)
+                ?.hideSoftInputFromWindow(windowToken, 0)
+        }
     }
 
     fun buildTemplate() {
