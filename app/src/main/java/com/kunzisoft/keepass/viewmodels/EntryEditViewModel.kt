@@ -83,27 +83,78 @@ class EntryEditViewModel: ViewModel() {
     fun initializeEntryToUpdate(entryId: NodeId<UUID>,
                                 registerInfo: RegisterInfo?,
                                 searchInfo: SearchInfo?) {
-        // Create an Entry copy to modify from the database entry
-        mEntry = mDatabase?.getEntryById(entryId)
-        // Retrieve the parent
-        mEntry?.let { entry ->
-            // If no parent, add root group as parent
-            if (entry.parent == null) {
-                entry.parent = mDatabase?.rootGroup
+        IOActionTask(
+            {
+                mEntry = getEntry(entryId)
+                mIsTemplate = isEntryATemplate()
+            },
+            {
+                loadTemplateEntry(registerInfo, searchInfo)
             }
-        }
-
-        loadTemplates()
-        loadEntryInfo(registerInfo, searchInfo)
+        ).execute()
     }
 
     fun initializeEntryToCreate(parentId: NodeId<*>,
                                 registerInfo: RegisterInfo?,
                                 searchInfo: SearchInfo?) {
-        mParent = mDatabase?.getGroupById(parentId)
-        mEntry = mDatabase?.createEntry()?.apply {
+        IOActionTask(
+            {
+                mParent = getGroup(parentId)
+                mEntry = createEntry(mParent)
+                mIsTemplate = isEntryATemplate()
+            },
+            {
+                loadTemplateEntry(registerInfo, searchInfo)
+            }
+        ).execute()
+    }
+
+    private fun loadTemplateEntry(registerInfo: RegisterInfo?,
+                                  searchInfo: SearchInfo?) {
+        IOActionTask(
+            {
+                val templates = getTemplates()
+                val entryTemplate = getEntryTemplate()
+                TemplatesLoad(templates, entryTemplate)
+            },
+            { templatesLoad ->
+                // Call templates init before populate entry info
+                _templates.value = templatesLoad
+                changeTemplate(templatesLoad!!.defaultTemplate)
+
+                IOActionTask(
+                    {
+                        loadEntryInfo(registerInfo, searchInfo)
+                    },
+                    { entryInfo ->
+                        _entryInfoLoaded.value = entryInfo
+                    }
+                ).execute()
+            }
+        ).execute()
+    }
+
+    private fun getEntry(entryId: NodeId<UUID>): Entry? {
+        // Create an Entry copy to modify from the database entry
+        val tempEntry = mDatabase?.getEntryById(entryId)
+        // Retrieve the parent
+        tempEntry?.let { entry ->
+            // If no parent, add root group as parent
+            if (entry.parent == null) {
+                entry.parent = mDatabase?.rootGroup
+            }
+        }
+        return tempEntry
+    }
+
+    private fun getGroup(groupId: NodeId<*>): Group? {
+        return mDatabase?.getGroupById(groupId)
+    }
+
+    private fun createEntry(parentGroup: Group?): Entry? {
+        return mDatabase?.createEntry()?.apply {
             // Add the default icon from parent if not a folder
-            val parentIcon = mParent?.icon
+            val parentIcon = parentGroup?.icon
             // Set default icon
             if (parentIcon != null) {
                 if (parentIcon.custom.isUnknown
@@ -115,28 +166,46 @@ class EntryEditViewModel: ViewModel() {
                 }
             }
             // Set default username
-            username = mDatabase?.defaultUsername ?: ""
+            username = mDatabase.defaultUsername
             // Warning only the entry recognize is parent, parent don't yet recognize the new entry
             // Useful to recognize child state (ie: entry is a template)
-            parent = mParent
+            parent = parentGroup
         }
-
-        loadTemplates()
-        loadEntryInfo(registerInfo, searchInfo)
     }
 
-    private fun loadTemplates() {
+    private fun isEntryATemplate(): Boolean {
         // Define is current entry is a template (in direct template group)
-        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+        return mDatabase?.entryIsTemplate(mEntry) ?: false
+    }
 
-        val templates = mDatabase?.getTemplates(mIsTemplate) ?: listOf()
+    private fun getTemplates(): List<Template> {
+        return mDatabase?.getTemplates(mIsTemplate) ?: listOf()
+    }
 
-        val entryTemplate = mEntry?.let {
-            mDatabase?.getTemplate(it)
-        } ?: Template.STANDARD
+    private fun getEntryTemplate(): Template {
+        return mEntry?.let { mDatabase?.getTemplate(it) } ?: Template.STANDARD
+    }
 
-        _templates.value = TemplatesLoad(templates, entryTemplate)
-        changeTemplate(entryTemplate)
+    private fun loadEntryInfo(registerInfo: RegisterInfo?, searchInfo: SearchInfo?): EntryInfo? {
+        // Decode the entry
+        mEntry?.let {
+            mDatabase?.decodeEntryWithTemplateConfiguration(it)?.let { entry ->
+                // Load entry info
+                entry.getEntryInfo(mDatabase, true).let { tempEntryInfo ->
+                    // Retrieve data from registration
+                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
+                        tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
+                    }
+                    registerInfo?.let { regInfo ->
+                        tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
+                    }
+
+                    internalUpdateEntryInfo(tempEntryInfo)
+                    return tempEntryInfo
+                }
+            }
+        }
+        return null
     }
 
     fun changeTemplate(template: Template) {
@@ -154,87 +223,65 @@ class EntryEditViewModel: ViewModel() {
         _requestEntryInfoUpdate.call()
     }
 
-    private fun loadEntryInfo(registerInfo: RegisterInfo?, searchInfo: SearchInfo?) {
-        // Decode the entry
-        mEntry?.let {
-            mDatabase?.decodeEntryWithTemplateConfiguration(it)?.let { entry ->
-                // Load entry info
-                entry.getEntryInfo(mDatabase, true).let { tempEntryInfo ->
-                    // Retrieve data from registration
-                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
-                        tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
-                    }
-                    registerInfo?.let { regInfo ->
-                        tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
-                    }
-
-                    internalUpdateEntryInfo(tempEntryInfo) { entryInfoUpdated ->
-                        _entryInfoLoaded.value = entryInfoUpdated
-                    }
-                }
-            }
-        }
-    }
-
     fun saveEntryInfo(entryInfo: EntryInfo) {
-        internalUpdateEntryInfo(entryInfo) { entryInfoUpdated ->
-            mEntry?.let { oldEntry ->
-                // Create a clone
-                var newEntry = Entry(oldEntry)
-
-                // Build info
-                newEntry.setEntryInfo(mDatabase, entryInfoUpdated)
-
-                // Encode entry properties for template
-                _onTemplateChanged.value?.let { template ->
-                    newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template)
-                        ?: newEntry
-                }
-
-                // Delete temp attachment if not used
-                mTempAttachments.forEach { tempAttachmentState ->
-                    val tempAttachment = tempAttachmentState.attachment
-                    mDatabase?.attachmentPool?.let { binaryPool ->
-                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                            mDatabase.removeAttachmentIfNotUsed(tempAttachment)
-                        }
-                    }
-                }
-
-                _onEntrySaved.value = EntrySave(oldEntry, newEntry, mParent)
-            }
-        }
-    }
-
-    private fun internalUpdateEntryInfo(entryInfo: EntryInfo,
-                                        actionOnFinish: ((entryInfo: EntryInfo) -> Unit)? = null) {
         IOActionTask(
             {
-                // Do not save entry in upload progression
-                mTempAttachments.forEach { attachmentState ->
-                    if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
-                        when (attachmentState.downloadState) {
-                            AttachmentState.START,
-                            AttachmentState.IN_PROGRESS,
-                            AttachmentState.CANCELED,
-                            AttachmentState.ERROR -> {
-                                // Remove attachment not finished from info
-                                entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
-                                    remove(attachmentState.attachment)
-                                }
-                            }
-                            else -> {
+                internalUpdateEntryInfo(entryInfo)
+                mEntry?.let { oldEntry ->
+                    // Create a clone
+                    var newEntry = Entry(oldEntry)
+
+                    // Build info
+                    newEntry.setEntryInfo(mDatabase, entryInfo)
+
+                    // Encode entry properties for template
+                    _onTemplateChanged.value?.let { template ->
+                        newEntry =
+                            mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template)
+                                ?: newEntry
+                    }
+
+                    // Delete temp attachment if not used
+                    mTempAttachments.forEach { tempAttachmentState ->
+                        val tempAttachment = tempAttachmentState.attachment
+                        mDatabase?.attachmentPool?.let { binaryPool ->
+                            if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                                mDatabase.removeAttachmentIfNotUsed(tempAttachment)
                             }
                         }
                     }
+
+                    // Return entry to save
+                    EntrySave(oldEntry, newEntry, mParent)
                 }
-                entryInfo
             },
-            {
-                if (it != null)
-                    actionOnFinish?.invoke(it)
+            { entrySave ->
+                entrySave?.let {
+                    _onEntrySaved.value = it
+                }
             }
         ).execute()
+    }
+
+    private fun internalUpdateEntryInfo(entryInfo: EntryInfo) {
+        // Do not save entry in upload progression
+        mTempAttachments.forEach { attachmentState ->
+            if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
+                when (attachmentState.downloadState) {
+                    AttachmentState.START,
+                    AttachmentState.IN_PROGRESS,
+                    AttachmentState.CANCELED,
+                    AttachmentState.ERROR -> {
+                        // Remove attachment not finished from info
+                        entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
+                            remove(attachmentState.attachment)
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
     }
 
     fun requestIconSelection(oldIconImage: IconImage) {
