@@ -5,31 +5,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.app.database.IOActionTask
-import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.view.TemplateView
+import java.util.*
 
 
 class EntryEditViewModel: ViewModel() {
 
-    private var mEntryInfoLoaded = false
+    private val mDatabase: Database? = Database.getInstance()
+
+    private var mParent : Group? = null
+    private var mEntry : Entry? = null
+    private var mIsTemplate: Boolean = false
+
+    private val mTempAttachments = mutableListOf<EntryAttachmentState>()
+
     val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfoLoaded
     private val _entryInfoLoaded = SingleLiveEvent<EntryInfo>()
 
     val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
-    val onEntryInfoSaved : LiveData<EntryInfoTempAttachments> get() = _onEntryInfoSaved
-    private val _onEntryInfoSaved = SingleLiveEvent<EntryInfoTempAttachments>()
+    val onEntrySaved : LiveData<EntrySave> get() = _onEntrySaved
+    private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
-    private var mTemplateLoaded = false
+    val templates : LiveData<TemplatesLoad> get() = _templates
+    private val _templates = MutableLiveData<TemplatesLoad>()
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = SingleLiveEvent<Template>()
 
@@ -62,7 +68,6 @@ class EntryEditViewModel: ViewModel() {
     val onOtpCreated : LiveData<OtpElement> get() = _onOtpCreated
     private val _onOtpCreated = SingleLiveEvent<OtpElement>()
 
-    private val mTempAttachments = mutableListOf<EntryAttachmentState>()
     val onBuildNewAttachment : LiveData<AttachmentBuild> get() = _onBuildNewAttachment
     private val _onBuildNewAttachment = SingleLiveEvent<AttachmentBuild>()
     val onStartUploadAttachment : LiveData<AttachmentUpload> get() = _onStartUploadAttachment
@@ -74,22 +79,126 @@ class EntryEditViewModel: ViewModel() {
     val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
+    fun initializeEntryToUpdate(entryId: NodeId<UUID>,
+                                registerInfo: RegisterInfo?,
+                                searchInfo: SearchInfo?) {
+        // Create an Entry copy to modify from the database entry
+        mEntry = mDatabase?.getEntryById(entryId)
+        // Retrieve the parent
+        mEntry?.let { entry ->
+            // If no parent, add root group as parent
+            if (entry.parent == null) {
+                entry.parent = mDatabase?.rootGroup
+            }
+        }
+
+        loadTemplates()
+        loadEntryInfo(registerInfo, searchInfo)
+    }
+
+    fun initializeEntryToCreate(parentId: NodeId<*>,
+                                registerInfo: RegisterInfo?,
+                                searchInfo: SearchInfo?) {
+        mParent = mDatabase?.getGroupById(parentId)
+        mEntry = mDatabase?.createEntry().apply {
+            // Add the default icon from parent if not a folder
+            val parentIcon = mParent?.icon
+            // Set default icon
+            if (parentIcon != null) {
+                if (parentIcon.custom.isUnknown
+                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
+                    this?.icon = IconImage(parentIcon.standard)
+                }
+                if (!parentIcon.custom.isUnknown) {
+                    this?.icon = IconImage(parentIcon.custom)
+                }
+            }
+            // Set default username
+            this?.username = mDatabase?.defaultUsername ?: ""
+        }
+
+        loadTemplates()
+        loadEntryInfo(registerInfo, searchInfo)
+    }
+
+    private fun loadTemplates() {
+        val templates = mDatabase?.getTemplates(mIsTemplate) ?: listOf()
+
+        // Define is current entry is a template (in direct template group)
+        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+
+        val entryTemplate = mEntry?.let {
+            mDatabase?.getTemplate(it)
+        } ?: Template.STANDARD
+
+        _templates.value = TemplatesLoad(templates, entryTemplate)
+        changeTemplate(entryTemplate)
+    }
+
+    fun changeTemplate(template: Template) {
+        if (_onTemplateChanged.value != template) {
+            _onTemplateChanged.value = template
+        }
+    }
+
+    // TODO Move
+    fun entryIsTemplate(): Boolean {
+        return mIsTemplate
+    }
+
     fun requestEntryInfoUpdate() {
         _requestEntryInfoUpdate.call()
     }
 
-    fun loadEntryInfo(entryInfo: EntryInfo) {
-        if (!mEntryInfoLoaded) {
-            mEntryInfoLoaded = true
-            internalUpdateEntryInfo(entryInfo) {
-                _entryInfoLoaded.value = it
+    private fun loadEntryInfo(registerInfo: RegisterInfo?, searchInfo: SearchInfo?) {
+        // Decode the entry
+        mEntry?.let {
+            mDatabase?.decodeEntryWithTemplateConfiguration(it)?.let { entry ->
+                // Load entry info
+                entry.getEntryInfo(mDatabase, true).let { tempEntryInfo ->
+                    // Retrieve data from registration
+                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
+                        tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
+                    }
+                    registerInfo?.let { regInfo ->
+                        tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
+                    }
+
+                    internalUpdateEntryInfo(tempEntryInfo) { entryInfoUpdated ->
+                        _entryInfoLoaded.value = entryInfoUpdated
+                    }
+                }
             }
         }
     }
 
     fun saveEntryInfo(entryInfo: EntryInfo) {
-        internalUpdateEntryInfo(entryInfo) {
-            _onEntryInfoSaved.value = EntryInfoTempAttachments(it, mTempAttachments)
+        internalUpdateEntryInfo(entryInfo) { entryInfoUpdated ->
+            mEntry?.let { oldEntry ->
+                // Create a clone
+                var newEntry = Entry(oldEntry)
+
+                // Build info
+                newEntry.setEntryInfo(mDatabase, entryInfoUpdated)
+
+                // Encode entry properties for template
+                _onTemplateChanged.value?.let { template ->
+                    newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template)
+                        ?: newEntry
+                }
+
+                // Delete temp attachment if not used
+                mTempAttachments.forEach { tempAttachmentState ->
+                    val tempAttachment = tempAttachmentState.attachment
+                    mDatabase?.attachmentPool?.let { binaryPool ->
+                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                            mDatabase.removeAttachmentIfNotUsed(tempAttachment)
+                        }
+                    }
+                }
+
+                _onEntrySaved.value = EntrySave(oldEntry, newEntry, mParent)
+            }
         }
     }
 
@@ -122,18 +231,6 @@ class EntryEditViewModel: ViewModel() {
                     actionOnFinish?.invoke(it)
             }
         ).execute()
-    }
-
-    fun loadTemplate(template: Template) {
-        if (!mTemplateLoaded) {
-            mTemplateLoaded = true
-            _onTemplateChanged.value = template
-        }
-    }
-
-    fun assignTemplate(template: Template) {
-        if (_onTemplateChanged.value != template)
-            _onTemplateChanged.value = template
     }
 
     fun requestIconSelection(oldIconImage: IconImage) {
@@ -216,7 +313,8 @@ class EntryEditViewModel: ViewModel() {
         _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
     }
 
-    data class EntryInfoTempAttachments(val entryInfo: EntryInfo, val tempAttachments: List<EntryAttachmentState>)
+    data class TemplatesLoad(val templates: List<Template>, val defaultTemplate: Template)
+    data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
     data class AttachmentUpload(val attachmentToUploadUri: Uri, val attachment: Attachment)

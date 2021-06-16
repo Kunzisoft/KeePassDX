@@ -52,8 +52,6 @@ import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.*
@@ -94,16 +92,11 @@ class EntryEditActivity : LockingActivity(),
     private var validateButton: View? = null
     private var lockView: View? = null
 
-    private var mParent : Group? = null
-    private var mEntry : Entry? = null
-    private var mIsTemplate: Boolean = false
-    private var mEntryTemplate: Template = Template.STANDARD
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
 
@@ -120,16 +113,12 @@ class EntryEditActivity : LockingActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
-
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
-
+        templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         lockView = findViewById(R.id.lock_button)
-        lockView?.setOnClickListener {
-            lockAndExit()
-        }
+        validateButton = findViewById(R.id.entry_edit_validate)
 
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
@@ -137,29 +126,37 @@ class EntryEditActivity : LockingActivity(),
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
+        val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        val searchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+
         // Entry is retrieve, it's an entry to update
-        intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let {
-            retrieveEntryFromDatabase(it)
+        intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
+            intent.removeExtra(KEY_ENTRY)
+            mEntryEditViewModel.initializeEntryToUpdate(entryToUpdate, registerInfo, searchInfo)
         }
 
         // Parent is retrieve, it's a new entry to create
-        intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
-            createEntryFromDatabase(it)
+        intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
+            intent.removeExtra(KEY_PARENT)
+            mEntryEditViewModel.initializeEntryToCreate(parent, registerInfo, searchInfo)
         }
 
-        // Define is current entry is a template (in direct template group)
-        checkIfEntryIsTemplateFromDatabase()
+        // To retrieve attachment
+        mExternalFileHelper = ExternalFileHelper(this)
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
+        // Verify the education views
+        entryEditActivityEducation = EntryEditActivityEducation(this)
 
-        // Default template
-        retrieveTemplateEntryFromDatabase()
-        mEntryEditViewModel.loadTemplate(mEntryTemplate)
-
-        loadEntryInfo()
+        // Lock button
+        lockView?.setOnClickListener { lockAndExit() }
+        // Save button
+        validateButton?.setOnClickListener { saveEntry() }
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
             IconPickerActivity.launch(this@EntryEditActivity, iconImage)
         }
+
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
                 selectTime(dateInstant)
@@ -167,14 +164,17 @@ class EntryEditActivity : LockingActivity(),
                 selectDate(dateInstant)
             }
         }
+
         mEntryEditViewModel.requestPasswordSelection.observe(this) { passwordField ->
             GeneratePasswordDialogFragment
                     .getInstance(passwordField)
                     .show(supportFragmentManager, "PasswordGeneratorFragment")
         }
+
         mEntryEditViewModel.requestCustomFieldEdition.observe(this) { field ->
             editCustomField(field)
         }
+
         mEntryEditViewModel.onCustomFieldError.observe(this) {
             coordinatorLayout?.let {
                 Snackbar.make(it, R.string.error_field_name_already_exists, Snackbar.LENGTH_LONG)
@@ -182,10 +182,12 @@ class EntryEditActivity : LockingActivity(),
                         .show()
             }
         }
+
         mEntryEditViewModel.onStartUploadAttachment.observe(this) {
             // Start uploading in service
             mAttachmentFileBinderManager?.startUploadAttachment(it.attachmentToUploadUri, it.attachment)
         }
+
         mEntryEditViewModel.onAttachmentAction.observe(this) { attachmentState ->
             when (attachmentState?.downloadState) {
                 AttachmentState.ERROR -> {
@@ -196,6 +198,7 @@ class EntryEditActivity : LockingActivity(),
                 else -> {}
             }
         }
+
         mEntryEditViewModel.onBinaryPreviewLoaded.observe(this) {
             // Scroll to the attachment position
             when (it.entryAttachmentState.downloadState) {
@@ -206,81 +209,49 @@ class EntryEditActivity : LockingActivity(),
                 else -> {}
             }
         }
+
         mEntryEditViewModel.attachmentDeleted.observe(this) {
             mAttachmentFileBinderManager?.removeBinaryAttachment(it)
         }
 
         // Change template dynamically
-        templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
-        templateSelectorSpinner?.apply {
-            val templates = mDatabase?.getTemplates(mIsTemplate) ?: listOf()
-            // Build template selector
-            if (templates.isNotEmpty()) {
-                adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
-                setSelection(templates.indexOf(mEntryTemplate))
-                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        mEntryTemplate = templates[position]
-                        mEntryEditViewModel.assignTemplate(mEntryTemplate)
+        mEntryEditViewModel.templates.observe(this) { templatesLoaded ->
+            val templates = templatesLoaded.templates
+            val defaultTemplate = templatesLoaded.defaultTemplate
+            templateSelectorSpinner?.apply {
+                // Build template selector
+                if (templates.isNotEmpty()) {
+                    adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
+                    setSelection(templates.indexOf(defaultTemplate))
+                    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            mEntryEditViewModel.changeTemplate(templates[position])
+                        }
+                        override fun onNothingSelected(parent: AdapterView<*>?) {}
                     }
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                } else {
+                    visibility = View.GONE
                 }
-            } else {
-                visibility = View.GONE
             }
         }
 
         // Build new entry from the entry info retrieved
-        mEntryEditViewModel.onEntryInfoSaved.observe(this) { entryInfoTempAttachments ->
-
-            mEntry?.let { oldEntry ->
-                // Create a clone
-                var newEntry = Entry(oldEntry)
-
-                // Build info
-                newEntry.setEntryInfo(mDatabase, entryInfoTempAttachments.entryInfo)
-
-                // Encode entry properties for template
-                newEntry = mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, mEntryTemplate)
-                        ?: newEntry
-
-                // Delete temp attachment if not used
-                entryInfoTempAttachments.tempAttachments.forEach { tempAttachmentState ->
-                    val tempAttachment = tempAttachmentState.attachment
-                    mDatabase?.attachmentPool?.let { binaryPool ->
-                        if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                            mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
-                        }
-                    }
-                }
-
-                // Open a progress dialog and save entry
-                mParent?.let { parent ->
-                    mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                            newEntry,
-                            parent,
-                            !mReadOnly && mAutoSaveEnable
-                    )
-                } ?: run {
-                    mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                            oldEntry,
-                            newEntry,
-                            !mReadOnly && mAutoSaveEnable
-                    )
-                }
+        mEntryEditViewModel.onEntrySaved.observe(this) { entrySave ->
+            // Open a progress dialog and save entry
+            entrySave.parent?.let { parent ->
+                mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
+                    entrySave.newEntry,
+                    parent,
+                    !mReadOnly && mAutoSaveEnable
+                )
+            } ?: run {
+                mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
+                    entrySave.oldEntry,
+                    entrySave.newEntry,
+                    !mReadOnly && mAutoSaveEnable
+                )
             }
         }
-
-        // To retrieve attachment
-        mExternalFileHelper = ExternalFileHelper(this)
-        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
-
-        // Save button
-        validateButton = findViewById(R.id.entry_edit_validate)
-        validateButton?.setOnClickListener { saveEntry() }
-
-        // Verify the education views
-        entryEditActivityEducation = EntryEditActivityEducation(this)
 
         // Create progress dialog
         mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
@@ -332,70 +303,6 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             coordinatorLayout?.showActionErrorIfNeeded(result)
-        }
-    }
-
-    private fun retrieveEntryFromDatabase(entryId: NodeId<UUID>) {
-        // Create an Entry copy to modify from the database entry
-        mEntry = mDatabase?.getEntryById(entryId)
-        // Retrieve the parent
-        mEntry?.let { entry ->
-            // If no parent, add root group as parent
-            if (entry.parent == null) {
-                entry.parent = mDatabase?.rootGroup
-            }
-        }
-    }
-
-    private fun createEntryFromDatabase(parentId: NodeId<*>) {
-        mParent = mDatabase?.getGroupById(parentId)
-        mEntry = mDatabase?.createEntry().apply {
-            // Add the default icon from parent if not a folder
-            val parentIcon = mParent?.icon
-            // Set default icon
-            if (parentIcon != null) {
-                if (parentIcon.custom.isUnknown
-                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
-                    this?.icon = IconImage(parentIcon.standard)
-                }
-                if (!parentIcon.custom.isUnknown) {
-                    this?.icon = IconImage(parentIcon.custom)
-                }
-            }
-            // Set default username
-            this?.username = mDatabase?.defaultUsername ?: ""
-        }
-    }
-
-    private fun checkIfEntryIsTemplateFromDatabase() {
-        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
-    }
-
-    private fun retrieveTemplateEntryFromDatabase() {
-        mEntryTemplate = mEntry?.let {
-            mDatabase?.getTemplate(it)
-        } ?: Template.STANDARD
-    }
-
-    private fun loadEntryInfo() {
-        // Decode the entry
-        mEntry?.let {
-            mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
-        }
-
-        // Load entry info
-        mEntry?.getEntryInfo(mDatabase, true)?.let { tempEntryInfo ->
-            // Retrieve data from registration
-            val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-            val searchInfo: SearchInfo? = registerInfo?.searchInfo
-                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-            searchInfo?.let { tempSearchInfo ->
-                tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
-            }
-            registerInfo?.let { regInfo ->
-                tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
-            }
-            mEntryEditViewModel.loadEntryInfo(tempEntryInfo)
         }
     }
 
@@ -570,7 +477,7 @@ class EntryEditActivity : LockingActivity(),
 
         menu?.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
-            isEnabled = !mIsTemplate
+            isEnabled = !mEntryEditViewModel.entryIsTemplate()
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
@@ -579,7 +486,7 @@ class EntryEditActivity : LockingActivity(),
             val allowOTP = mDatabase?.allowOTP == true
             // OTP not compatible below KitKat
             isEnabled = allowOTP
-                    && !mIsTemplate
+                    && !mEntryEditViewModel.entryIsTemplate()
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }

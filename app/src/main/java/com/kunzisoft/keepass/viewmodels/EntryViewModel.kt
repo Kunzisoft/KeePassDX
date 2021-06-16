@@ -18,8 +18,15 @@ class EntryViewModel: ViewModel() {
 
     private val mDatabase: Database? = Database.getInstance()
 
+    private var mEntry: Entry? = null
+    private var mLastEntryVersion: Entry? = null
+    private var mHistoryPosition: Int = -1
+
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
+
+    val entryIsHistory : LiveData<Boolean> get() = _entryIsHistory
+    private val _entryIsHistory = MutableLiveData<Boolean>()
 
     val entryHistory : LiveData<List<Entry>> get() = _entryHistory
     private val _entryHistory = MutableLiveData<List<Entry>>()
@@ -35,9 +42,26 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
+    fun loadEntry(entryId: NodeId<UUID>, historyPosition: Int) {
+        // Manage current version and history
+        mLastEntryVersion = mDatabase?.getEntryById(entryId)
+        mEntry = if (historyPosition > -1) {
+            mLastEntryVersion?.getHistory()?.get(historyPosition)
+        } else {
+            mLastEntryVersion
+        }
+        mHistoryPosition = historyPosition
+        mEntry?.let {
+            loadEntry(it)
+        }
+    }
+
     fun loadEntry(entry: Entry) {
         IOActionTask(
             {
+                mEntry = entry
+                mLastEntryVersion = entry
+                mHistoryPosition = -1
                 // To simplify template field visibility
                 mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
                     // To update current modification time
@@ -50,6 +74,25 @@ class EntryViewModel: ViewModel() {
                 _entryHistory.value = it?.entryHistory
             }
         ).execute()
+    }
+
+    private fun entryIsHistory() {
+        _entryIsHistory.value = mHistoryPosition != -1
+    }
+
+    // TODO Remove
+    fun getEntry(): Entry? {
+        return mEntry
+    }
+
+    // TODO Remove
+    fun getMainEntry(): Entry? {
+        return mLastEntryVersion
+    }
+
+    // TODO Remove
+    fun getEntryHistoryPosition(): Int {
+        return mHistoryPosition
     }
 
     fun onOtpElementUpdated(optElement: OtpElement) {
@@ -68,7 +111,8 @@ class EntryViewModel: ViewModel() {
         _historySelected.value = EntryHistory(item.nodeId, item, null, position)
     }
 
-    data class EntryInfoHistory(val entryInfo: EntryInfo, val entryHistory: List<Entry>)
+    data class EntryInfoHistory(val entryInfo: EntryInfo,
+                                val entryHistory: List<Entry>)
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
     data class EntryHistory(var nodeIdUUID: NodeId<UUID>?,
                             var entry: Entry?,

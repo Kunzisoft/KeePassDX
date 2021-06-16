@@ -75,20 +75,16 @@ class EntryActivity : LockingActivity() {
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
 
-    private var mEntry: Entry? = null
-    private var mLastEntryVersion: Entry? = null
-    private var mHistoryPosition: Int = -1
-
     private val mEntryViewModel: EntryViewModel by viewModels()
+    private var mIsEntryHistory: Boolean = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
-
-    private var mFirstLaunchOfActivity: Boolean = false
-
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var iconColor: Int = 0
+
+    private var mFirstLaunchOfActivity: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,16 +96,6 @@ class EntryActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        mReadOnly = mDatabase?.isReadOnly != false || mReadOnly
-
-        // Retrieve the textColor to tint the icon
-        val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        iconColor = taIconColor.getColor(0, Color.BLACK)
-        taIconColor.recycle()
-
-        // Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
-        invalidateOptionsMenu()
-
         // Get views
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
@@ -119,36 +105,37 @@ class EntryActivity : LockingActivity() {
         lockView = findViewById(R.id.lock_button)
         // TODO loadingView = findViewById(R.id.loading)
 
-        lockView?.setOnClickListener {
-            lockAndExit()
-        }
-
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
-        mFirstLaunchOfActivity = savedInstanceState?.getBoolean(KEY_FIRST_LAUNCH_ACTIVITY) ?: true
+        // Retrieve the textColor to tint the icon
+        val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+        iconColor = taIconColor.getColor(0, Color.BLACK)
+        taIconColor.recycle()
 
-        // Init SAF manager
-        mExternalFileHelper = ExternalFileHelper(this)
-
-        // Init attachment service binder manager
-        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
+        mReadOnly = mDatabase?.isReadOnly != false || mReadOnly
 
         // Get Entry from UUID
         try {
             intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
-                retrieveEntryFromDatabase(entryId, historyPosition)
-                mEntry?.let {
-                    mEntryViewModel.loadEntry(it)
-                }
+                intent.removeExtra(KEY_ENTRY)
+                intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
+                mEntryViewModel.loadEntry(entryId, historyPosition)
             }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
-        // Fill specific history views
-        assignHistoryViews()
+        mFirstLaunchOfActivity = savedInstanceState?.getBoolean(KEY_FIRST_LAUNCH_ACTIVITY) ?: true
+        // Init SAF manager
+        mExternalFileHelper = ExternalFileHelper(this)
+        // Init attachment service binder manager
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
+
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
 
         mEntryViewModel.entryInfo.observe(this) { entryInfo ->
             // Manage entry copy to start notification if allowed
@@ -172,6 +159,18 @@ class EntryActivity : LockingActivity() {
             toolbar?.title = entryTitle
 
             // Refresh Menu
+            invalidateOptionsMenu()
+        }
+
+        mEntryViewModel.entryIsHistory.observe(this) { entryIsHistory ->
+            // Assign history dedicated view
+            historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
+            if (entryIsHistory) {
+                val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+                collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
+                taColorAccent.recycle()
+            }
+            mIsEntryHistory = entryIsHistory
             invalidateOptionsMenu()
         }
 
@@ -222,17 +221,6 @@ class EntryActivity : LockingActivity() {
         }
     }
 
-    private fun retrieveEntryFromDatabase(entryId: NodeId<UUID>, historyPosition: Int = -1) {
-        // Manage current version and history
-        mLastEntryVersion = mDatabase?.getEntryById(entryId)
-        mEntry = if (historyPosition > -1) {
-            mLastEntryVersion?.getHistory()?.get(historyPosition)
-        } else {
-            mLastEntryVersion
-        }
-        mHistoryPosition = historyPosition
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -259,20 +247,6 @@ class EntryActivity : LockingActivity() {
         mAttachmentFileBinderManager?.unregisterProgressTask()
 
         super.onPause()
-    }
-
-    private fun isHistory(): Boolean {
-        return mHistoryPosition != -1
-    }
-
-    private fun assignHistoryViews() {
-        // Assign history dedicated view
-        historyView?.visibility = if (isHistory()) View.VISIBLE else View.GONE
-        if (isHistory()) {
-            val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-            collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-            taColorAccent.recycle()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -302,31 +276,20 @@ class EntryActivity : LockingActivity() {
 
         val inflater = menuInflater
         MenuUtil.contributionMenuInflater(inflater, menu)
+
+        // TODO load menu if items not null
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
-        if (isHistory() && !mReadOnly) {
+
+        if (mIsEntryHistory && !mReadOnly) {
             inflater.inflate(R.menu.entry_history, menu)
         }
-        if (isHistory() || mReadOnly) {
+        if (mIsEntryHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu.findItem(R.id.menu_reload_database)?.isVisible = false
-        }
-
-        val gotoUrl = menu.findItem(R.id.menu_goto_url)
-        gotoUrl?.apply {
-            // In API >= 11 onCreateOptionsMenu may be called before onCreate completes
-            // so mEntry may not be set
-            if (mEntry == null) {
-                isVisible = false
-            } else {
-                if (mEntry?.url?.isEmpty() != false) {
-                    // disable button if url is not available
-                    isVisible = false
-                }
-            }
         }
 
         // Show education views
@@ -372,35 +335,34 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                mEntry?.let {
-                    EntryEditActivity.launch(this@EntryActivity, it)
+                // TODO Move
+                mEntryViewModel.getEntry()?.let { entry ->
+                    EntryEditActivity.launch(this@EntryActivity, entry)
                 }
                 return true
             }
             R.id.menu_goto_url -> {
-                var url: String = mEntry?.url ?: ""
-
-                // Default http:// if no protocol specified
-                if (!url.contains("://")) {
-                    url = "http://$url"
+                // TODO Move
+                mEntryViewModel.getEntry()?.url?.let { url ->
+                    UriUtil.gotoUrl(this, url)
                 }
-
-                UriUtil.gotoUrl(this, url)
                 return true
             }
             R.id.menu_restore_entry_history -> {
-                mLastEntryVersion?.let { mainEntry ->
+                // TODO Move
+                mEntryViewModel.getMainEntry()?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
                             mainEntry,
-                            mHistoryPosition ?: -1,
+                            mEntryViewModel.getEntryHistoryPosition(),
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
             R.id.menu_delete_entry_history -> {
-                mLastEntryVersion?.let { mainEntry ->
+                // TODO Move
+                mEntryViewModel.getMainEntry()?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
                             mainEntry,
-                        mHistoryPosition ?: -1,
+                            mEntryViewModel.getEntryHistoryPosition(),
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
@@ -424,7 +386,7 @@ class EntryActivity : LockingActivity() {
     override fun finish() {
         // Transit data in previous Activity after an update
         Intent().apply {
-            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry)
+            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntryViewModel.getEntry())
             setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, this)
         }
         super.finish()
