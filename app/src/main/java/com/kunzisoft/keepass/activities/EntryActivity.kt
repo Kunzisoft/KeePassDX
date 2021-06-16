@@ -76,7 +76,6 @@ class EntryActivity : LockingActivity() {
     private var loadingView: ProgressBar? = null
 
     private val mEntryViewModel: EntryViewModel by viewModels()
-    private var mIsEntryHistory: Boolean = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
@@ -170,11 +169,11 @@ class EntryActivity : LockingActivity() {
                 collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
                 taColorAccent.recycle()
             }
-            mIsEntryHistory = entryIsHistory
+
             invalidateOptionsMenu()
         }
 
-        mEntryViewModel.otpElement.observe(this) { otpElement ->
+        mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
             when (otpElement.type) {
                 // Only add token if HOTP
                 OtpType.HOTP -> {
@@ -255,9 +254,7 @@ class EntryActivity : LockingActivity() {
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 // Reload the current id from database
-                data?.getParcelableExtra<Entry>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { entryUpdated ->
-                    mEntryViewModel.loadEntry(entryUpdated)
-                }
+                mEntryViewModel.updateEntry()
             }
         }
 
@@ -277,14 +274,15 @@ class EntryActivity : LockingActivity() {
         val inflater = menuInflater
         MenuUtil.contributionMenuInflater(inflater, menu)
 
-        // TODO load menu if items not null
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
 
-        if (mIsEntryHistory && !mReadOnly) {
+        val entryIsHistory = mEntryViewModel.getEntryIsHistory()
+
+        if (entryIsHistory && !mReadOnly) {
             inflater.inflate(R.menu.entry_history, menu)
         }
-        if (mIsEntryHistory || mReadOnly) {
+        if (entryIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -335,21 +333,18 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                // TODO Move
                 mEntryViewModel.getEntry()?.let { entry ->
                     EntryEditActivity.launch(this@EntryActivity, entry)
                 }
                 return true
             }
             R.id.menu_goto_url -> {
-                // TODO Move
                 mEntryViewModel.getEntry()?.url?.let { url ->
                     UriUtil.gotoUrl(this, url)
                 }
                 return true
             }
             R.id.menu_restore_entry_history -> {
-                // TODO Move
                 mEntryViewModel.getMainEntry()?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
                             mainEntry,
@@ -358,7 +353,6 @@ class EntryActivity : LockingActivity() {
                 }
             }
             R.id.menu_delete_entry_history -> {
-                // TODO Move
                 mEntryViewModel.getMainEntry()?.let { mainEntry ->
                     mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
                             mainEntry,

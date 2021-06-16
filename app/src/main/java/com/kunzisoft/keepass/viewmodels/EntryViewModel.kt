@@ -31,8 +31,8 @@ class EntryViewModel: ViewModel() {
     val entryHistory : LiveData<List<Entry>> get() = _entryHistory
     private val _entryHistory = MutableLiveData<List<Entry>>()
 
-    val otpElement : LiveData<OtpElement> get() = _otpElement
-    private val _otpElement = SingleLiveEvent<OtpElement>()
+    val onOtpElementUpdated : LiveData<OtpElement> get() = _onOtpElementUpdated
+    private val _onOtpElementUpdated = SingleLiveEvent<OtpElement>()
 
     val attachmentSelected : LiveData<Attachment> get() = _attachmentSelected
     private val _attachmentSelected = SingleLiveEvent<Attachment>()
@@ -43,41 +43,44 @@ class EntryViewModel: ViewModel() {
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
     fun loadEntry(entryId: NodeId<UUID>, historyPosition: Int) {
-        // Manage current version and history
-        mLastEntryVersion = mDatabase?.getEntryById(entryId)
-        mEntry = if (historyPosition > -1) {
-            mLastEntryVersion?.getHistory()?.get(historyPosition)
-        } else {
-            mLastEntryVersion
-        }
-        mHistoryPosition = historyPosition
-        mEntry?.let {
-            loadEntry(it)
-        }
-    }
-
-    fun loadEntry(entry: Entry) {
         IOActionTask(
             {
-                mEntry = entry
-                mLastEntryVersion = entry
-                mHistoryPosition = -1
-                // To simplify template field visibility
-                mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
-                    // To update current modification time
-                    it.touch(modified = false, touchParents = false)
-                    EntryInfoHistory(it.getEntryInfo(mDatabase), it.getHistory())
+                // Manage current version and history
+                mLastEntryVersion = mDatabase?.getEntryById(entryId)
+                mEntry = if (historyPosition > -1) {
+                    mLastEntryVersion?.getHistory()?.get(historyPosition)
+                } else {
+                    mLastEntryVersion
                 }
+                mHistoryPosition = historyPosition
+                createEntryInfoHistory(mEntry)
             },
-            {
-                _entryInfo.value = it?.entryInfo
-                _entryHistory.value = it?.entryHistory
+            { entryInfoHistory ->
+                if (entryInfoHistory != null) {
+                    _entryInfo.value = entryInfoHistory.entryInfo
+                    _entryIsHistory.value = mHistoryPosition != -1
+                    _entryHistory.value = entryInfoHistory.entryHistory
+                }
             }
         ).execute()
     }
 
-    private fun entryIsHistory() {
-        _entryIsHistory.value = mHistoryPosition != -1
+    fun updateEntry() {
+        mEntry?.nodeId?.let { nodeId ->
+            loadEntry(nodeId, mHistoryPosition)
+        }
+    }
+
+    private fun createEntryInfoHistory(entry: Entry?): EntryInfoHistory? {
+        if (entry != null) {
+            // To simplify template field visibility
+            mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
+                // To update current modification time
+                it.touch(modified = false, touchParents = false)
+                return EntryInfoHistory(it.getEntryInfo(mDatabase), it.getHistory())
+            }
+        }
+        return null
     }
 
     // TODO Remove
@@ -95,8 +98,13 @@ class EntryViewModel: ViewModel() {
         return mHistoryPosition
     }
 
+    // TODO Remove
+    fun getEntryIsHistory(): Boolean {
+        return entryIsHistory.value ?: false
+    }
+
     fun onOtpElementUpdated(optElement: OtpElement) {
-        _otpElement.value = optElement
+        _onOtpElementUpdated.value = optElement
     }
 
     fun onAttachmentSelected(attachment: Attachment) {
