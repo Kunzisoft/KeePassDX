@@ -149,6 +149,8 @@ class Database {
     }
 
     fun getTemplate(entry: Entry): Template? {
+        if (entryIsTemplate(entry))
+            return Template.CREATION
         entry.entryKDBX?.let { entryKDBX ->
             return mDatabaseKDBX?.getTemplate(entryKDBX)
         }

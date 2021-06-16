@@ -101,21 +101,24 @@ class EntryEditViewModel: ViewModel() {
                                 registerInfo: RegisterInfo?,
                                 searchInfo: SearchInfo?) {
         mParent = mDatabase?.getGroupById(parentId)
-        mEntry = mDatabase?.createEntry().apply {
+        mEntry = mDatabase?.createEntry()?.apply {
             // Add the default icon from parent if not a folder
             val parentIcon = mParent?.icon
             // Set default icon
             if (parentIcon != null) {
                 if (parentIcon.custom.isUnknown
                     && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
-                    this?.icon = IconImage(parentIcon.standard)
+                    icon = IconImage(parentIcon.standard)
                 }
                 if (!parentIcon.custom.isUnknown) {
-                    this?.icon = IconImage(parentIcon.custom)
+                    icon = IconImage(parentIcon.custom)
                 }
             }
             // Set default username
-            this?.username = mDatabase?.defaultUsername ?: ""
+            username = mDatabase?.defaultUsername ?: ""
+            // Warning only the entry recognize is parent, parent don't yet recognize the new entry
+            // Useful to recognize child state (ie: entry is a template)
+            parent = mParent
         }
 
         loadTemplates()
@@ -123,10 +126,10 @@ class EntryEditViewModel: ViewModel() {
     }
 
     private fun loadTemplates() {
-        val templates = mDatabase?.getTemplates(mIsTemplate) ?: listOf()
-
         // Define is current entry is a template (in direct template group)
         mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+
+        val templates = mDatabase?.getTemplates(mIsTemplate) ?: listOf()
 
         val entryTemplate = mEntry?.let {
             mDatabase?.getTemplate(it)

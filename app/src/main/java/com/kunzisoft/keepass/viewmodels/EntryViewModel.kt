@@ -52,14 +52,17 @@ class EntryViewModel: ViewModel() {
             {
                 // Manage current version and history
                 mLastEntryVersion = mDatabase?.getEntryById(entryId)
+
                 mEntry = if (historyPosition > -1) {
                     mLastEntryVersion?.getHistory()?.get(historyPosition)
                 } else {
                     mLastEntryVersion
                 }
+
                 mEntryTemplate = mEntry?.let {
                     mDatabase?.getTemplate(it)
                 } ?: Template.STANDARD
+
                 mHistoryPosition = historyPosition
 
                 // To simplify template field visibility
