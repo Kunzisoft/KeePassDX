@@ -139,66 +139,22 @@ class EntryEditActivity : LockingActivity(),
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let {
-            // Create an Entry copy to modify from the database entry
-            mEntry = mDatabase?.getEntryById(it)
-            // Retrieve the parent
-            mEntry?.let { entry ->
-                // If no parent, add root group as parent
-                if (entry.parent == null) {
-                    entry.parent = mDatabase?.rootGroup
-                }
-            }
+            retrieveEntryFromDatabase(it)
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
-            mParent = mDatabase?.getGroupById(it)
-            mEntry = mDatabase?.createEntry().apply {
-                // Add the default icon from parent if not a folder
-                val parentIcon = mParent?.icon
-                // Set default icon
-                if (parentIcon != null) {
-                    if (parentIcon.custom.isUnknown
-                            && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
-                        this?.icon = IconImage(parentIcon.standard)
-                    }
-                    if (!parentIcon.custom.isUnknown) {
-                        this?.icon = IconImage(parentIcon.custom)
-                    }
-                }
-                // Set default username
-                this?.username = mDatabase?.defaultUsername ?: ""
-            }
+            createEntryFromDatabase(it)
         }
 
         // Define is current entry is a template (in direct template group)
-        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+        checkIfEntryIsTemplateFromDatabase()
 
         // Default template
-        mEntryTemplate = mEntry?.let {
-            mDatabase?.getTemplate(it)
-        } ?: Template.STANDARD
+        retrieveTemplateEntryFromDatabase()
         mEntryEditViewModel.loadTemplate(mEntryTemplate)
 
-        // Decode the entry
-        mEntry?.let {
-            mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
-        }
-
-        // Load entry info
-        mEntry?.getEntryInfo(mDatabase, true)?.let { tempEntryInfo ->
-            // Retrieve data from registration
-            val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-            val searchInfo: SearchInfo? = registerInfo?.searchInfo
-                    ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-            searchInfo?.let { tempSearchInfo ->
-                tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
-            }
-            registerInfo?.let { regInfo ->
-                tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
-            }
-            mEntryEditViewModel.loadEntryInfo(tempEntryInfo)
-        }
+        loadEntryInfo()
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
@@ -376,6 +332,70 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             coordinatorLayout?.showActionErrorIfNeeded(result)
+        }
+    }
+
+    private fun retrieveEntryFromDatabase(entryId: NodeId<UUID>) {
+        // Create an Entry copy to modify from the database entry
+        mEntry = mDatabase?.getEntryById(entryId)
+        // Retrieve the parent
+        mEntry?.let { entry ->
+            // If no parent, add root group as parent
+            if (entry.parent == null) {
+                entry.parent = mDatabase?.rootGroup
+            }
+        }
+    }
+
+    private fun createEntryFromDatabase(parentId: NodeId<*>) {
+        mParent = mDatabase?.getGroupById(parentId)
+        mEntry = mDatabase?.createEntry().apply {
+            // Add the default icon from parent if not a folder
+            val parentIcon = mParent?.icon
+            // Set default icon
+            if (parentIcon != null) {
+                if (parentIcon.custom.isUnknown
+                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
+                    this?.icon = IconImage(parentIcon.standard)
+                }
+                if (!parentIcon.custom.isUnknown) {
+                    this?.icon = IconImage(parentIcon.custom)
+                }
+            }
+            // Set default username
+            this?.username = mDatabase?.defaultUsername ?: ""
+        }
+    }
+
+    private fun checkIfEntryIsTemplateFromDatabase() {
+        mIsTemplate = mDatabase?.entryIsTemplate(mEntry) ?: false
+    }
+
+    private fun retrieveTemplateEntryFromDatabase() {
+        mEntryTemplate = mEntry?.let {
+            mDatabase?.getTemplate(it)
+        } ?: Template.STANDARD
+    }
+
+    private fun loadEntryInfo() {
+        // Decode the entry
+        mEntry?.let {
+            mEntry = mDatabase?.decodeEntryWithTemplateConfiguration(it)
+        }
+
+        // Load entry info
+        mEntry?.getEntryInfo(mDatabase, true)?.let { tempEntryInfo ->
+            // Retrieve data from registration
+            val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+            val searchInfo: SearchInfo? = registerInfo?.searchInfo
+                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+            searchInfo?.let { tempSearchInfo ->
+                tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
+            }
+            registerInfo?.let { regInfo ->
+                tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
+            }
+            mEntryEditViewModel.loadEntryInfo(tempEntryInfo)
         }
     }
 

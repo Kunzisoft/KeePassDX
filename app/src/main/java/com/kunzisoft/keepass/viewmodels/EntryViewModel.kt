@@ -1,11 +1,11 @@
 package com.kunzisoft.keepass.viewmodels
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -15,6 +15,8 @@ import java.util.*
 
 
 class EntryViewModel: ViewModel() {
+
+    private val mDatabase: Database? = Database.getInstance()
 
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
@@ -33,12 +35,21 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun loadEntryInfo(entryInfo: EntryInfo) {
-        _entryInfo.value = entryInfo
-    }
-
-    fun loadEntryHistory(entryHistory: List<Entry>) {
-        _entryHistory.value = entryHistory
+    fun loadEntry(entry: Entry) {
+        IOActionTask(
+            {
+                // To simplify template field visibility
+                mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
+                    // To update current modification time
+                    it.touch(modified = false, touchParents = false)
+                    EntryInfoHistory(it.getEntryInfo(mDatabase), it.getHistory())
+                }
+            },
+            {
+                _entryInfo.value = it?.entryInfo
+                _entryHistory.value = it?.entryHistory
+            }
+        ).execute()
     }
 
     fun onOtpElementUpdated(optElement: OtpElement) {
@@ -57,38 +68,12 @@ class EntryViewModel: ViewModel() {
         _historySelected.value = EntryHistory(item.nodeId, item, null, position)
     }
 
+    data class EntryInfoHistory(val entryInfo: EntryInfo, val entryHistory: List<Entry>)
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
     data class EntryHistory(var nodeIdUUID: NodeId<UUID>?,
                             var entry: Entry?,
                             var lastEntryVersion: Entry?,
-                            var historyPosition: Int = -1): Parcelable {
-        constructor(parcel: Parcel) : this(
-                parcel.readParcelable(NodeId::class.java.classLoader),
-                parcel.readParcelable(Entry::class.java.classLoader),
-                parcel.readParcelable(Entry::class.java.classLoader),
-                parcel.readInt())
-
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeParcelable(nodeIdUUID, flags)
-            parcel.writeParcelable(entry, flags)
-            parcel.writeParcelable(lastEntryVersion, flags)
-            parcel.writeInt(historyPosition)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<EntryHistory> {
-            override fun createFromParcel(parcel: Parcel): EntryHistory {
-                return EntryHistory(parcel)
-            }
-
-            override fun newArray(size: Int): Array<EntryHistory?> {
-                return arrayOfNulls(size)
-            }
-        }
-    }
+                            var historyPosition: Int = -1)
 
     companion object {
         private val TAG = EntryViewModel::class.java.name

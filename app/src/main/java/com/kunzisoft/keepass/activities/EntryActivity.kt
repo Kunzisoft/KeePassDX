@@ -49,7 +49,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
@@ -140,11 +139,16 @@ class EntryActivity : LockingActivity() {
             intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 retrieveEntryFromDatabase(entryId, historyPosition)
-                loadEntry()
+                mEntry?.let {
+                    mEntryViewModel.loadEntry(it)
+                }
             }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
+
+        // Fill specific history views
+        assignHistoryViews()
 
         mEntryViewModel.entryInfo.observe(this) { entryInfo ->
             // Manage entry copy to start notification if allowed
@@ -166,6 +170,9 @@ class EntryActivity : LockingActivity() {
             val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
             collapsingToolbarLayout?.title = entryTitle
             toolbar?.title = entryTitle
+
+            // Refresh Menu
+            invalidateOptionsMenu()
         }
 
         mEntryViewModel.otpElement.observe(this) { otpElement ->
@@ -215,7 +222,7 @@ class EntryActivity : LockingActivity() {
         }
     }
 
-    private fun retrieveEntryFromDatabase(entryId: NodeId<UUID>, historyPosition: Int) {
+    private fun retrieveEntryFromDatabase(entryId: NodeId<UUID>, historyPosition: Int = -1) {
         // Manage current version and history
         mLastEntryVersion = mDatabase?.getEntryById(entryId)
         mEntry = if (historyPosition > -1) {
@@ -224,25 +231,6 @@ class EntryActivity : LockingActivity() {
             mLastEntryVersion
         }
         mHistoryPosition = historyPosition
-    }
-
-    private fun loadEntry() {
-        mEntry?.let { entry ->
-            // To simplify template field visibility
-            mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
-                // To update current modification time
-                it.touch(modified = false, touchParents = false)
-                // Fill specific history views
-                assignHistoryViews()
-                // Refresh Menu
-                invalidateOptionsMenu()
-
-                val entryInfo = it.getEntryInfo(mDatabase)
-
-                mEntryViewModel.loadEntryInfo(entryInfo)
-                mEntryViewModel.loadEntryHistory(it.getHistory())
-            }
-        }
     }
 
     override fun onResume() {
@@ -293,7 +281,9 @@ class EntryActivity : LockingActivity() {
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 // Reload the current id from database
-                loadEntry()
+                data?.getParcelableExtra<Entry>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { entryUpdated ->
+                    mEntryViewModel.loadEntry(entryUpdated)
+                }
             }
         }
 
