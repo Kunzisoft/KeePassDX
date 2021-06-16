@@ -12,7 +12,8 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.view.TemplateView
+import com.kunzisoft.keepass.view.DataDate
+import com.kunzisoft.keepass.view.DataTime
 import java.util.*
 
 
@@ -58,10 +59,10 @@ class EntryEditViewModel: ViewModel() {
 
     val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
     private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<TemplateView.Date> get() = _onDateSelected
-    private val _onDateSelected = SingleLiveEvent<TemplateView.Date>()
-    val onTimeSelected : LiveData<TemplateView.Time> get() = _onTimeSelected
-    private val _onTimeSelected = SingleLiveEvent<TemplateView.Time>()
+    val onDateSelected : LiveData<DataDate> get() = _onDateSelected
+    private val _onDateSelected = SingleLiveEvent<DataDate>()
+    val onTimeSelected : LiveData<DataTime> get() = _onTimeSelected
+    private val _onTimeSelected = SingleLiveEvent<DataTime>()
 
     val requestSetupOtp : LiveData<Void?> get() = _requestSetupOtp
     private val _requestSetupOtp = SingleLiveEvent<Void?>()
@@ -274,11 +275,11 @@ class EntryEditViewModel: ViewModel() {
     }
 
     fun selectDate(year: Int, month: Int, day: Int) {
-        _onDateSelected.value = TemplateView.Date(year, month, day)
+        _onDateSelected.value = DataDate(year, month, day)
     }
 
     fun selectTime(hours: Int, minutes: Int) {
-        _onTimeSelected.value = TemplateView.Time(hours, minutes)
+        _onTimeSelected.value = DataTime(hours, minutes)
     }
 
     fun setupOtp() {

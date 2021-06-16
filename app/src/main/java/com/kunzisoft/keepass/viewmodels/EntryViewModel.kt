@@ -8,6 +8,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
@@ -18,9 +19,13 @@ class EntryViewModel: ViewModel() {
 
     private val mDatabase: Database? = Database.getInstance()
 
+    private var mEntryTemplate: Template? = null
     private var mEntry: Entry? = null
     private var mLastEntryVersion: Entry? = null
     private var mHistoryPosition: Int = -1
+
+    val template : LiveData<Template> get() = _template
+    private val _template = MutableLiveData<Template>()
 
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
@@ -52,11 +57,27 @@ class EntryViewModel: ViewModel() {
                 } else {
                     mLastEntryVersion
                 }
+                mEntryTemplate = mEntry?.let {
+                    mDatabase?.getTemplate(it)
+                } ?: Template.STANDARD
                 mHistoryPosition = historyPosition
-                createEntryInfoHistory(mEntry)
+
+                // To simplify template field visibility
+                mEntry?.let { entry ->
+                    mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
+                        // To update current modification time
+                        it.touch(modified = false, touchParents = false)
+                        EntryInfoHistory(
+                            mEntryTemplate ?: Template.STANDARD,
+                            it.getEntryInfo(mDatabase),
+                            it.getHistory()
+                        )
+                    }
+                }
             },
             { entryInfoHistory ->
                 if (entryInfoHistory != null) {
+                    _template.value = entryInfoHistory.template
                     _entryInfo.value = entryInfoHistory.entryInfo
                     _entryIsHistory.value = mHistoryPosition != -1
                     _entryHistory.value = entryInfoHistory.entryHistory
@@ -69,18 +90,6 @@ class EntryViewModel: ViewModel() {
         mEntry?.nodeId?.let { nodeId ->
             loadEntry(nodeId, mHistoryPosition)
         }
-    }
-
-    private fun createEntryInfoHistory(entry: Entry?): EntryInfoHistory? {
-        if (entry != null) {
-            // To simplify template field visibility
-            mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
-                // To update current modification time
-                it.touch(modified = false, touchParents = false)
-                return EntryInfoHistory(it.getEntryInfo(mDatabase), it.getHistory())
-            }
-        }
-        return null
     }
 
     // TODO Remove
@@ -116,13 +125,15 @@ class EntryViewModel: ViewModel() {
     }
 
     fun onHistorySelected(item: Entry, position: Int) {
-        _historySelected.value = EntryHistory(item.nodeId, item, null, position)
+        _historySelected.value = EntryHistory(item.nodeId, null, item, null, position)
     }
 
-    data class EntryInfoHistory(val entryInfo: EntryInfo,
+    data class EntryInfoHistory(val template: Template,
+                                val entryInfo: EntryInfo,
                                 val entryHistory: List<Entry>)
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
     data class EntryHistory(var nodeIdUUID: NodeId<UUID>?,
+                            var template: Template?,
                             var entry: Entry?,
                             var lastEntryVersion: Entry?,
                             var historyPosition: Int = -1)

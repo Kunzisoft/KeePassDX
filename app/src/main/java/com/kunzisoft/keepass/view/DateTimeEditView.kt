@@ -22,58 +22,62 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.CompoundButton
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isVisible
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
-import java.util.*
 
-class DateTimeView @JvmOverloads constructor(context: Context,
-                                             attrs: AttributeSet? = null,
-                                             defStyle: Int = 0)
+class DateTimeEditView @JvmOverloads constructor(context: Context,
+                                                 attrs: AttributeSet? = null,
+                                                 defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
-    private var dateTimeLabelView: TextView
-    private var dateTimeValueView: TextView
-    private var expiresImage: ImageView
+    private var entryExpiresLabelView: TextInputLayout
+    private var entryExpiresTextView: TextView
+    private var entryExpiresCheckBox: CompoundButton
 
-    private var mActivated: Boolean = false
     private var mDateTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
 
     var setOnDateClickListener: ((DateInstant) -> Unit)? = null
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_date_time, this)
+        inflater?.inflate(R.layout.view_edit_date_time, this)
 
-        dateTimeLabelView = findViewById(R.id.date_time_label)
-        dateTimeValueView = findViewById(R.id.date_time_value)
-        expiresImage = findViewById(R.id.expires_image)
+        entryExpiresLabelView = findViewById(R.id.expiration_label)
+        entryExpiresTextView = findViewById(R.id.expiration_text)
+        entryExpiresCheckBox = findViewById(R.id.expiration_checkbox)
+
+        entryExpiresTextView.setOnClickListener {
+            if (entryExpiresCheckBox.isChecked)
+                setOnDateClickListener?.invoke(dateTime)
+        }
+        entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
+            assignExpiresDateText()
+        }
     }
 
     private fun assignExpiresDateText() {
-        dateTimeValueView.text = if (mActivated) {
-            expiresImage.isVisible = mDateTime.date.before(Date())
+        entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
             mDateTime.getDateTimeString(resources)
         } else {
-            expiresImage.isVisible = false
             resources.getString(R.string.never)
         }
     }
 
     var label: String
         get() {
-            return dateTimeLabelView.text.toString()
+            return entryExpiresLabelView.hint.toString()
         }
         set(value) {
-            dateTimeLabelView.text = value
+            entryExpiresLabelView.hint = value
         }
 
     var activation: Boolean
         get() {
-            return mActivated
+            return entryExpiresCheckBox.isChecked
         }
         set(value) {
             if (!value) {
@@ -83,7 +87,7 @@ class DateTimeView @JvmOverloads constructor(context: Context,
                     DateInstant.Type.TIME -> DateInstant.IN_ONE_HOUR_TIME
                 }
             }
-            mActivated = value
+            entryExpiresCheckBox.isChecked = value
             assignExpiresDateText()
         }
 

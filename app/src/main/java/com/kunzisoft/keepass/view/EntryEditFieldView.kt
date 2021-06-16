@@ -2,7 +2,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.text.InputType
-import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
@@ -144,13 +143,10 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
     }
 
     fun setProtection(protection: Boolean, hiddenProtectedValue: Boolean) {
+        // hiddenProtectedValue don't work with TextInputLayout
         if (protection) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            labelView.editText?.transformationMethod = if (hiddenProtectedValue)
-                PasswordTransformationMethod.getInstance()
-            else
-                null
         }
     }
 
@@ -163,7 +159,4 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         actionImageButton.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
     }
 
-    enum class TextType {
-        NORMAL, SMALL_MULTI_LINE, MULTI_LINE
-    }
 }

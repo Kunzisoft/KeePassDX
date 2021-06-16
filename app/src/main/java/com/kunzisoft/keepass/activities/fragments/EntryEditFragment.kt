@@ -35,14 +35,13 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.TemplateView
+import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
@@ -55,7 +54,7 @@ class EntryEditFragment: DatabaseFragment() {
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
 
-    private lateinit var templateView: TemplateView
+    private lateinit var templateView: TemplateEditView
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
@@ -67,9 +66,6 @@ class EntryEditFragment: DatabaseFragment() {
                 .inflate(R.layout.fragment_entry_edit, container, false)
 
         templateView = rootView.findViewById(R.id.template_view)
-        templateView.populateIconMethod = { imageView, icon ->
-            drawFactory?.assignDatabaseIcon(imageView, icon, iconColor)
-        }
         attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
         attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
 
@@ -87,6 +83,9 @@ class EntryEditFragment: DatabaseFragment() {
         taIconColor?.recycle()
 
         templateView.apply {
+            populateIconMethod = { imageView, icon ->
+                drawFactory?.assignDatabaseIcon(imageView, icon, iconColor)
+            }
             setOnIconClickListener {
                 mEntryEditViewModel.requestIconSelection(templateView.getIcon())
             }
@@ -242,6 +241,7 @@ class EntryEditFragment: DatabaseFragment() {
 
         context?.let { context ->
             templateView.setFontInVisibility(PreferencesUtil.fieldFontIsInVisibility(context))
+            templateView.setHideProtectedValue(PreferencesUtil.hideProtectedValue(context))
         }
     }
 

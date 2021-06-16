@@ -25,7 +25,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
-	<com.kunzisoft.keepass.view.TemplateView
+	<com.kunzisoft.keepass.view.TemplateEditView
 		android:id="@+id/template_view"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
