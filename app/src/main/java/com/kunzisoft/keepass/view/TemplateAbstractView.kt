@@ -91,8 +91,6 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
             template.sections.forEach { templateSection ->
 
                 val sectionView = SectionView(context, null, R.attr.cardViewStyle)
-                // Add build view to parent
-                templateContainerView.addView(sectionView)
 
                 // Build each attribute
                 templateSection.attributes.forEach { templateAttribute ->
@@ -135,6 +133,8 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
                     // Add created view to this parent
                     sectionView.addView(attributeView)
                 }
+                // Add build view to parent
+                templateContainerView.addView(sectionView)
             }
         }
     }
