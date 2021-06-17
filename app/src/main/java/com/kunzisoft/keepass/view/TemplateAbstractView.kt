@@ -182,10 +182,10 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
     }
 
     protected abstract fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                    field: Field): View?
+                                               field: Field): View?
 
     protected abstract fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                  field: Field): View?
+                                             field: Field): View?
 
     abstract fun getActionImageView(): View?
 

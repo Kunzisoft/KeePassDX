@@ -39,8 +39,8 @@ class EntryInfo : NodeInfo {
     var password: String = ""
     var url: String = ""
     var notes: String = ""
-    var customFields: List<Field> = listOf()
-    var attachments: List<Attachment> = listOf()
+    var customFields: MutableList<Field> = mutableListOf()
+    var attachments: MutableList<Attachment> = mutableListOf()
     var otpModel: OtpModel? = null
     var isTemplate: Boolean = false
 
@@ -69,8 +69,8 @@ class EntryInfo : NodeInfo {
         parcel.writeString(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeArray(customFields.toTypedArray())
-        parcel.writeArray(attachments.toTypedArray())
+        parcel.writeList(customFields)
+        parcel.writeList(attachments)
         parcel.writeParcelable(otpModel, flags)
         parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }

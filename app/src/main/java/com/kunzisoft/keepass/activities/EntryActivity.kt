@@ -104,6 +104,10 @@ class EntryActivity : LockingActivity() {
         lockView = findViewById(R.id.lock_button)
         // TODO loadingView = findViewById(R.id.loading)
 
+        // Empty title
+        collapsingToolbarLayout?.title = " "
+        toolbar?.title = " "
+
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 

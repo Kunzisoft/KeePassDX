@@ -17,7 +17,7 @@ class TemplateSection: Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeTypedList(attributes)
+        parcel.writeList(attributes)
     }
 
     override fun describeContents(): Int {

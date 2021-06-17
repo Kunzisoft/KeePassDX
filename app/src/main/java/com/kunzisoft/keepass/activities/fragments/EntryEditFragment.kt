@@ -259,7 +259,7 @@ class EntryEditFragment: DatabaseFragment() {
 
     private fun retrieveEntryInfo(): EntryInfo {
         val entryInfo = templateView.getEntryInfo()
-        entryInfo.attachments = getAttachments()
+        entryInfo.attachments = getAttachments().toMutableList()
         return entryInfo
     }
 

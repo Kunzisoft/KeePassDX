@@ -415,7 +415,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryInfo.expiryTime = expiryTime
         entryInfo.url = url
         entryInfo.notes = notes
-        entryInfo.customFields = getExtraFields()
+        entryInfo.customFields = getExtraFields().toMutableList()
         // Add otpElement to generate token
         entryInfo.otpModel = getOtpElement()?.otpModel
         if (!raw) {
@@ -423,7 +423,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
         }
         database?.attachmentPool?.let { binaryPool ->
-            entryInfo.attachments = getAttachments(binaryPool)
+            entryInfo.attachments = getAttachments(binaryPool).toMutableList()
         }
 
         if (!raw)
