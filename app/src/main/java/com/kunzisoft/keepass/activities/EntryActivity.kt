@@ -85,8 +85,6 @@ class EntryActivity : LockingActivity() {
 
     private var iconColor: Int = 0
 
-    private var mFirstLaunchOfActivity: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -132,7 +130,6 @@ class EntryActivity : LockingActivity() {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
-        mFirstLaunchOfActivity = savedInstanceState?.getBoolean(KEY_FIRST_LAUNCH_ACTIVITY) ?: true
         // Init SAF manager
         mExternalFileHelper = ExternalFileHelper(this)
         // Init attachment service binder manager
@@ -143,8 +140,8 @@ class EntryActivity : LockingActivity() {
         }
 
         mEntryViewModel.entryInfo.observe(this) { entryInfo ->
-            // Manage entry copy to start notification if allowed
-            if (mFirstLaunchOfActivity) {
+            // Manage entry copy to start notification if allowed (at the first start)
+            if (savedInstanceState == null) {
                 // Manage entry to launch copying notification if allowed
                 ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
                 // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
@@ -249,8 +246,6 @@ class EntryActivity : LockingActivity() {
                 }
             }
         }
-
-        mFirstLaunchOfActivity = false
     }
 
     override fun onPause() {
@@ -382,12 +377,6 @@ class EntryActivity : LockingActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putBoolean(KEY_FIRST_LAUNCH_ACTIVITY, mFirstLaunchOfActivity)
-    }
-
     override fun finish() {
         // Transit data in previous Activity after an update
         Intent().apply {
@@ -399,8 +388,6 @@ class EntryActivity : LockingActivity() {
 
     companion object {
         private val TAG = EntryActivity::class.java.name
-
-        private const val KEY_FIRST_LAUNCH_ACTIVITY = "KEY_FIRST_LAUNCH_ACTIVITY"
 
         const val KEY_ENTRY = "KEY_ENTRY"
         const val KEY_ENTRY_HISTORY_POSITION = "KEY_ENTRY_HISTORY_POSITION"
