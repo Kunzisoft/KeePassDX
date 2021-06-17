@@ -46,7 +46,6 @@ class EntryFragment: DatabaseFragment() {
     private lateinit var uuidView: TextView
     private lateinit var uuidReferenceView: TextView
 
-    private var mOtpRunnable: Runnable? = null
     private var mClipboardHelper: ClipboardHelper? = null
 
     private val mEntryViewModel: EntryViewModel by activityViewModels()
@@ -143,8 +142,10 @@ class EntryFragment: DatabaseFragment() {
         // Populate entry views
         templateView.setEntryInfo(entryInfo)
 
-        //Assign OTP field
-        assignOtp(entryInfo)
+        // OTP timer updated
+        templateView.setOnOtpElementUpdated { otpElementUpdated ->
+            mEntryViewModel.onOtpElementUpdated(otpElementUpdated)
+        }
 
         // Manage attachments
         assignAttachments(entryInfo?.attachments ?: listOf())
@@ -183,39 +184,6 @@ class EntryFragment: DatabaseFragment() {
         dialog.dismiss()
         loadTemplateSettings()
         templateView.reload()
-    }
-
-    private fun assignOtp(entryInfo: EntryInfo?) {
-        entryInfo?.otpModel?.let { otpModel ->
-            val otpElement = OtpElement(otpModel)
-            templateView.getOtpTokenView()?.let { otpFieldView ->
-                otpFieldView.removeCallbacks(mOtpRunnable)
-                if (otpElement.token.isEmpty()) {
-                    otpFieldView.setLabel(R.string.entry_otp)
-                    otpFieldView.setValue(R.string.error_invalid_OTP)
-                    otpFieldView.setCopyButtonState(EntryFieldView.ButtonState.GONE)
-                } else {
-                    otpFieldView.label = otpElement.type.name
-                    otpFieldView.value = otpElement.token
-                    otpFieldView.setCopyButtonState(EntryFieldView.ButtonState.ACTIVATE)
-                    otpFieldView.setCopyButtonClickListener {
-                        mClipboardHelper?.timeoutCopyToClipboard(
-                            otpElement.token,
-                            getString(R.string.copy_field, getString(R.string.entry_otp))
-                        )
-                    }
-                    mOtpRunnable = Runnable {
-                        if (otpElement.shouldRefreshToken()) {
-                            otpFieldView.value = otpElement.token
-                        }
-                        mEntryViewModel.onOtpElementUpdated(otpElement)
-                        otpFieldView.postDelayed(mOtpRunnable, 1000)
-                    }
-                    mEntryViewModel.onOtpElementUpdated(otpElement)
-                    otpFieldView.post(mOtpRunnable)
-                }
-            }
-        }
     }
 
     private fun assignCreationDate(date: DateInstant?) {

@@ -182,7 +182,9 @@ class EntryActivity : LockingActivity() {
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
-            when (otpElement.type) {
+            if (otpElement == null)
+                entryProgress?.visibility = View.GONE
+            when (otpElement?.type) {
                 // Only add token if HOTP
                 OtpType.HOTP -> {
                     entryProgress?.visibility = View.GONE

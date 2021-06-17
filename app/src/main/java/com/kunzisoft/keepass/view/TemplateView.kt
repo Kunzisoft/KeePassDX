@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -12,7 +13,8 @@ import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.model.OtpModel
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 
 
@@ -205,6 +207,12 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 templateContainerView.findViewById<View>(customFieldId.viewId)
                     .isVisible = false
             }
+
+            // Assign specific OTP dynamic view
+            removeOtpRunnable()
+            entryInfo.otpModel?.let {
+                assignOtp(it)
+            }
         }
     }
 
@@ -248,20 +256,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
         }
 
         retrieveCustomFieldsFromView(templateFieldNotEmpty)
-
-        mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
-            getCustomField(key).protectedValue.toString()
-        }?.otpModel
-    }
-
-    fun getOtpTokenView(): EntryFieldView? {
-        val indexFieldViewId = indexCustomFieldIdByName(OTP_TOKEN_FIELD)
-        if (indexFieldViewId >= 0) {
-            // Template contains the custom view
-            val customFieldId = mCustomFieldIds[indexFieldViewId]
-            return findViewById(customFieldId.viewId)
-        }
-        return null
     }
 
     override fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
@@ -283,6 +277,67 @@ class TemplateView @JvmOverloads constructor(context: Context,
             }
         }
         return null
+    }
+
+    /*
+     * OTP Runnable
+     */
+
+    private var mOtpRunnable: Runnable? = null
+    private var mLastOtpTokenView: View? = null
+
+    fun setOnOtpElementUpdated(listener: ((OtpElement?) -> Unit)?) {
+        this.mOnOtpElementUpdated = listener
+    }
+    private var mOnOtpElementUpdated: ((OtpElement?) -> Unit)? = null
+
+    private fun getOtpTokenView(): EntryFieldView? {
+        val indexFieldViewId = indexCustomFieldIdByName(OTP_TOKEN_FIELD)
+        if (indexFieldViewId >= 0) {
+            // Template contains the custom view
+            val customFieldId = mCustomFieldIds[indexFieldViewId]
+            return findViewById(customFieldId.viewId)
+        }
+        return null
+    }
+
+    private fun assignOtp(otpModel: OtpModel) {
+        getOtpTokenView()?.apply {
+            val otpElement = OtpElement(otpModel)
+            if (otpElement.token.isEmpty()) {
+                setLabel(R.string.entry_otp)
+                setValue(R.string.error_invalid_OTP)
+                setCopyButtonState(EntryFieldView.ButtonState.GONE)
+            } else {
+                label = otpElement.type.name
+                value = otpElement.token
+                setCopyButtonState(EntryFieldView.ButtonState.ACTIVATE)
+                setCopyButtonClickListener {
+                    mOnCopyActionClickListener?.invoke(Field(
+                        otpElement.type.name,
+                        ProtectedString(false, otpElement.token)))
+                }
+                mLastOtpTokenView = this
+                mOtpRunnable = Runnable {
+                    if (otpElement.shouldRefreshToken()) {
+                        value = otpElement.token
+                    }
+                    if (mLastOtpTokenView == null) {
+                        mOnOtpElementUpdated?.invoke(null)
+                    } else {
+                        mOnOtpElementUpdated?.invoke(otpElement)
+                        postDelayed(mOtpRunnable, 1000)
+                    }
+                }
+                mOnOtpElementUpdated?.invoke(otpElement)
+                post(mOtpRunnable)
+            }
+        }
+    }
+
+    private fun removeOtpRunnable() {
+        mLastOtpTokenView?.removeCallbacks(mOtpRunnable)
+        mLastOtpTokenView = null
     }
 
     companion object {

@@ -37,8 +37,8 @@ class EntryViewModel: ViewModel() {
     val entryHistory : LiveData<List<EntryInfo>> get() = _entryHistory
     private val _entryHistory = MutableLiveData<List<EntryInfo>>()
 
-    val onOtpElementUpdated : LiveData<OtpElement> get() = _onOtpElementUpdated
-    private val _onOtpElementUpdated = SingleLiveEvent<OtpElement>()
+    val onOtpElementUpdated : LiveData<OtpElement?> get() = _onOtpElementUpdated
+    private val _onOtpElementUpdated = SingleLiveEvent<OtpElement?>()
 
     val attachmentSelected : LiveData<Attachment> get() = _attachmentSelected
     private val _attachmentSelected = SingleLiveEvent<Attachment>()
@@ -122,7 +122,7 @@ class EntryViewModel: ViewModel() {
         return entryIsHistory.value ?: false
     }
 
-    fun onOtpElementUpdated(optElement: OtpElement) {
+    fun onOtpElementUpdated(optElement: OtpElement?) {
         _onOtpElementUpdated.value = optElement
     }
 
