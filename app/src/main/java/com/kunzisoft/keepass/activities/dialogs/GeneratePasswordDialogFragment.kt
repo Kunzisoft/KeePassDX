@@ -135,7 +135,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
                         mPasswordField?.let { passwordField ->
-                            mListener?.acceptPassword(passwordField)
+                            mListener?.cancelPassword(passwordField)
                         }
                         dismiss()
                     }
