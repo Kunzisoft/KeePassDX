@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +26,13 @@ import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.EntryFieldView
 import com.kunzisoft.keepass.view.TemplateView
+import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
 
 class EntryFragment: DatabaseFragment() {
 
+    private lateinit var rootView: View
     private lateinit var templateView: TemplateView
 
     private lateinit var creationDateView: TextView
@@ -48,18 +51,17 @@ class EntryFragment: DatabaseFragment() {
 
     private val mEntryViewModel: EntryViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
         return inflater.cloneInContext(contextThemed)
             .inflate(R.layout.fragment_entry, container, false)
     }
     
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View,
+                               savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         context?.let { context ->
@@ -68,6 +70,11 @@ class EntryFragment: DatabaseFragment() {
             attachmentsAdapter?.database = mDatabase
         }
 
+        rootView = view
+        // Hide only the first time
+        if (savedInstanceState == null) {
+            view.isVisible = false
+        }
         templateView = view.findViewById(R.id.entry_template)
 
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
@@ -94,6 +101,8 @@ class EntryFragment: DatabaseFragment() {
 
         mEntryViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
             assignEntryInfo(entryInfo)
+            // Smooth appearing
+            rootView.showByFading()
         }
 
         mEntryViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->

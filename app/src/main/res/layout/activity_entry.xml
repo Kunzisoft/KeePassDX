@@ -65,7 +65,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/transparent"
                 android:theme="?attr/toolbarAppearance"
                 app:layout_collapseMode="pin"
                 tools:targetApi="lollipop">
@@ -126,17 +125,18 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- TODO Loading
-    <ProgressBar
-        android:id="@+id/loading"
-        style="?android:attr/progressBarStyleHorizontal"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        app:layout_anchor="@+id/entry_scroll"
-        app:layout_anchorGravity="top|center" />
-    -->
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:layout_anchor="@+id/entry_scroll"
+            app:layout_anchorGravity="center" />
+    </FrameLayout>
 
     <include
         layout="@layout/view_button_lock"

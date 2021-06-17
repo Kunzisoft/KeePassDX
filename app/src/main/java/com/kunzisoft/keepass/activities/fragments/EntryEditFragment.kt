@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
+import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
 class EntryEditFragment: DatabaseFragment() {
@@ -54,33 +56,40 @@ class EntryEditFragment: DatabaseFragment() {
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
 
+    private lateinit var rootView: View
     private lateinit var templateView: TemplateEditView
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.cloneInContext(contextThemed)
+        return inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.fragment_entry_edit, container, false)
-
-        templateView = rootView.findViewById(R.id.template_view)
-        attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
-        attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
-
-        rootView.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
-
-        return rootView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View,
+                               savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // Retrieve the textColor to tint the icon
         val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
         taIconColor?.recycle()
+
+        rootView = view
+        // Hide only the first time
+        if (savedInstanceState == null) {
+            view.isVisible = false
+        }
+        templateView = view.findViewById(R.id.template_view)
+        attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
+        attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+
+        view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
 
         templateView.apply {
             populateIconMethod = { imageView, icon ->
@@ -124,9 +133,14 @@ class EntryEditFragment: DatabaseFragment() {
             templateView.setTemplate(template)
         }
 
-        mEntryEditViewModel.entryInfoLoaded.observe(viewLifecycleOwner) { entryInfo ->
-            templateView.setEntryInfo(entryInfo)
-            setAttachments(entryInfo.attachments)
+        mEntryEditViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
+            // Load entry info only the first time to keep change locally
+            if (savedInstanceState == null) {
+                templateView.setEntryInfo(entryInfo)
+                setAttachments(entryInfo.attachments)
+            }
+            // To prevent flickering
+            rootView.showByFading()
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {

@@ -38,6 +38,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -167,12 +168,15 @@ fun View.hideByFading() {
 }
 
 fun View.showByFading() {
-    // Trick to keep the focus
-    alpha = 0.0001f
-    animate()
+    if (!isVisible) {
+        isVisible = true
+        // Trick to keep the focus
+        alpha = 0.0001f
+        animate()
             .alpha(1f)
             .setDuration(140)
             .setListener(null)
+    }
 }
 
 fun View.updateLockPaddingLeft() {

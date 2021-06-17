@@ -35,6 +35,7 @@ import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
@@ -59,6 +60,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
@@ -102,7 +104,7 @@ class EntryActivity : LockingActivity() {
         historyView = findViewById(R.id.history_container)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
-        // TODO loadingView = findViewById(R.id.loading)
+        loadingView = findViewById(R.id.loading)
 
         // Empty title
         collapsingToolbarLayout?.title = " "
@@ -163,6 +165,8 @@ class EntryActivity : LockingActivity() {
 
             // Refresh Menu
             invalidateOptionsMenu()
+
+            loadingView?.hideByFading()
         }
 
         mEntryViewModel.entryIsHistory.observe(this) { entryIsHistory ->

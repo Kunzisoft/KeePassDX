@@ -27,8 +27,8 @@ class EntryEditViewModel: ViewModel() {
 
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
-    val entryInfoLoaded : LiveData<EntryInfo> get() = _entryInfoLoaded
-    private val _entryInfoLoaded = SingleLiveEvent<EntryInfo>()
+    val entryInfo : LiveData<EntryInfo> get() = _entryInfo
+    private val _entryInfo = MutableLiveData<EntryInfo>()
 
     val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
@@ -127,7 +127,7 @@ class EntryEditViewModel: ViewModel() {
                         loadEntryInfo(registerInfo, searchInfo)
                     },
                     { entryInfo ->
-                        _entryInfoLoaded.value = entryInfo
+                        _entryInfo.value = entryInfo
                     }
                 ).execute()
             }

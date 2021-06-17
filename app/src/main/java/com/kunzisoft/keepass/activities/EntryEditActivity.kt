@@ -91,6 +91,7 @@ class EntryEditActivity : LockingActivity(),
     private var entryEditAddToolBar: ToolbarAction? = null
     private var validateButton: View? = null
     private var lockView: View? = null
+    private var loadingView: ProgressBar? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
@@ -119,6 +120,7 @@ class EntryEditActivity : LockingActivity(),
         templateSelectorSpinner = findViewById(R.id.entry_edit_template_selector)
         lockView = findViewById(R.id.lock_button)
         validateButton = findViewById(R.id.entry_edit_validate)
+        loadingView = findViewById(R.id.loading)
 
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
@@ -151,6 +153,10 @@ class EntryEditActivity : LockingActivity(),
         lockView?.setOnClickListener { lockAndExit() }
         // Save button
         validateButton?.setOnClickListener { saveEntry() }
+
+        mEntryEditViewModel.entryInfo.observe(this) {
+            loadingView?.hideByFading()
+        }
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
