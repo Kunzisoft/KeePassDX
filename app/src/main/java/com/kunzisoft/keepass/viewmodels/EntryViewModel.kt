@@ -8,6 +8,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -33,8 +34,8 @@ class EntryViewModel: ViewModel() {
     val entryIsHistory : LiveData<Boolean> get() = _entryIsHistory
     private val _entryIsHistory = MutableLiveData<Boolean>()
 
-    val entryHistory : LiveData<List<Entry>> get() = _entryHistory
-    private val _entryHistory = MutableLiveData<List<Entry>>()
+    val entryHistory : LiveData<List<EntryInfo>> get() = _entryHistory
+    private val _entryHistory = MutableLiveData<List<EntryInfo>>()
 
     val onOtpElementUpdated : LiveData<OtpElement> get() = _onOtpElementUpdated
     private val _onOtpElementUpdated = SingleLiveEvent<OtpElement>()
@@ -70,10 +71,16 @@ class EntryViewModel: ViewModel() {
                     mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
                         // To update current modification time
                         it.touch(modified = false, touchParents = false)
+
+                        // Build history info
+                        val entryInfoHistory = it.getHistory().map { entryHistory ->
+                            entryHistory.getEntryInfo(mDatabase)
+                        }
+
                         EntryInfoHistory(
                             mEntryTemplate ?: Template.STANDARD,
                             it.getEntryInfo(mDatabase),
-                            it.getHistory()
+                            entryInfoHistory
                         )
                     }
                 }
@@ -127,18 +134,17 @@ class EntryViewModel: ViewModel() {
         _onAttachmentAction.value = entryAttachmentState
     }
 
-    fun onHistorySelected(item: Entry, position: Int) {
-        _historySelected.value = EntryHistory(item.nodeId, null, item, null, position)
+    fun onHistorySelected(item: EntryInfo, position: Int) {
+        _historySelected.value = EntryHistory(NodeIdUUID(item.id), null, item, position)
     }
 
     data class EntryInfoHistory(val template: Template,
                                 val entryInfo: EntryInfo,
-                                val entryHistory: List<Entry>)
+                                val entryHistory: List<EntryInfo>)
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
-    data class EntryHistory(var nodeIdUUID: NodeId<UUID>?,
+    data class EntryHistory(var nodeId: NodeId<UUID>,
                             var template: Template?,
-                            var entry: Entry?,
-                            var lastEntryVersion: Entry?,
+                            var entryInfo: EntryInfo,
                             var historyPosition: Int = -1)
 
     companion object {

@@ -117,8 +117,8 @@ class EntryActivity : LockingActivity() {
         // Get Entry from UUID
         try {
             intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
-                val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY)
+                val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
                 mEntryViewModel.loadEntry(entryId, historyPosition)
             }
@@ -197,9 +197,10 @@ class EntryActivity : LockingActivity() {
         }
 
         mEntryViewModel.historySelected.observe(this) { historySelected ->
-            historySelected.entry?.let { entry ->
-                launch(this, entry, mReadOnly, historySelected.historyPosition)
-            }
+            launch(this,
+                historySelected.nodeId,
+                historySelected.historyPosition,
+                mReadOnly)
         }
 
         mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
@@ -396,13 +397,27 @@ class EntryActivity : LockingActivity() {
 
         const val ENTRY_FRAGMENT_TAG = "ENTRY_FRAGMENT_TAG"
 
-        fun launch(activity: Activity, entry: Entry, readOnly: Boolean, historyPosition: Int? = null) {
+        /**
+         * Open standard Entry activity
+         */
+        fun launch(activity: Activity, entry: Entry, readOnly: Boolean) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
                 intent.putExtra(KEY_ENTRY, entry.nodeId)
                 ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-                if (historyPosition != null)
-                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+            }
+        }
+
+        /**
+         * Open history Entry activity
+         */
+        fun launch(activity: Activity, entryId: NodeId<UUID>, historyPosition: Int, readOnly: Boolean) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                val intent = Intent(activity, EntryActivity::class.java)
+                intent.putExtra(KEY_ENTRY, entryId)
+                intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
                 activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }

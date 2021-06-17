@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
-import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 
 class EntryHistoryFragment: StylishFragment() {
@@ -55,11 +55,9 @@ class EntryHistoryFragment: StylishFragment() {
      * History
      * -------------
      */
-    private fun assignHistory(history: List<Entry>?) {
+    private fun assignHistory(history: List<EntryInfo>) {
         historyAdapter?.clear()
-        history?.let {
-            historyAdapter?.entryHistoryList?.addAll(history)
-        }
+        historyAdapter?.entryHistoryList?.addAll(history)
         historyAdapter?.onItemClickListener = { item, position ->
             mEntryViewModel.onHistorySelected(item, position)
         }
