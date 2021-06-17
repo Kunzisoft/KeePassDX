@@ -136,8 +136,7 @@ class EntryEditFragment: DatabaseFragment() {
         mEntryEditViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
             // Load entry info only the first time to keep change locally
             if (savedInstanceState == null) {
-                templateView.setEntryInfo(entryInfo)
-                setAttachments(entryInfo.attachments)
+                assignEntryInfo(entryInfo)
             }
             // To prevent flickering
             rootView.showByFading()
@@ -250,15 +249,6 @@ class EntryEditFragment: DatabaseFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        context?.let { context ->
-            templateView.setFontInVisibility(PreferencesUtil.fieldFontIsInVisibility(context))
-            templateView.setHideProtectedValue(PreferencesUtil.hideProtectedValue(context))
-        }
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -269,6 +259,14 @@ class EntryEditFragment: DatabaseFragment() {
         super.onDetach()
 
         drawFactory = null
+    }
+
+    private fun assignEntryInfo(entryInfo: EntryInfo?) {
+        // Populate entry views
+        templateView.setEntryInfo(entryInfo)
+
+        // Manage attachments
+        setAttachments(entryInfo?.attachments ?: listOf())
     }
 
     private fun retrieveEntryInfo(): EntryInfo {

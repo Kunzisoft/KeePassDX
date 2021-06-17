@@ -76,6 +76,7 @@ class EntryFragment: DatabaseFragment() {
             view.isVisible = false
         }
         templateView = view.findViewById(R.id.entry_template)
+        loadTemplateSettings()
 
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
@@ -114,23 +115,14 @@ class EntryFragment: DatabaseFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        loadTemplateSettings()
-    }
-
     private fun loadTemplateSettings() {
         context?.let { context ->
-            templateView.setFontInVisibility(PreferencesUtil.fieldFontIsInVisibility(context))
-            templateView.setHideProtectedValue(PreferencesUtil.hideProtectedValue(context))
             templateView.setFirstTimeAskAllowCopyProtectedFields(PreferencesUtil.isFirstTimeAskAllowCopyProtectedFields(context))
             templateView.setAllowCopyProtectedFields(PreferencesUtil.allowCopyProtectedFields(context))
         }
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {
-
         // Set copy buttons
         templateView.apply {
             setOnAskCopySafeClickListener {
@@ -155,9 +147,7 @@ class EntryFragment: DatabaseFragment() {
         assignOtp(entryInfo)
 
         // Manage attachments
-        entryInfo?.attachments?.toSet()?.let { attachments ->
-            assignAttachments(attachments)
-        }
+        assignAttachments(entryInfo?.attachments ?: listOf())
 
         // Assign dates
         assignCreationDate(entryInfo?.creationTime)
@@ -246,13 +236,11 @@ class EntryFragment: DatabaseFragment() {
      * -------------
      */
 
-    private fun showAttachments(show: Boolean) {
-        attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
-    private fun assignAttachments(attachments: Set<Attachment>) {
-        showAttachments(attachments.isNotEmpty())
-        attachmentsAdapter?.assignItems(attachments.map { EntryAttachmentState(it, StreamDirection.DOWNLOAD) })
+    private fun assignAttachments(attachments: List<Attachment>) {
+        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
+        attachmentsAdapter?.assignItems(attachments.map {
+            EntryAttachmentState(it, StreamDirection.DOWNLOAD)
+        })
         attachmentsAdapter?.onItemClickListener = { item ->
             mEntryViewModel.onAttachmentSelected(item.attachment)
         }

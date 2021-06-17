@@ -35,8 +35,8 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
 
     protected var mCustomFieldIds = mutableListOf<FieldId>()
 
-    protected var mFontInVisibility: Boolean = false
-    protected var mHideProtectedValue: Boolean = false
+    protected var mFontInVisibility: Boolean = PreferencesUtil.fieldFontIsInVisibility(context)
+    protected var mHideProtectedValue: Boolean = PreferencesUtil.hideProtectedValue(context)
 
     protected var headerContainerView: ViewGroup
     protected var entryIconView: ImageView
