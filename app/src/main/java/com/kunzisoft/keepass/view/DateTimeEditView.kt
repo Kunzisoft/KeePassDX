@@ -54,7 +54,12 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
             if (entryExpiresCheckBox.isChecked)
                 setOnDateClickListener?.invoke(dateTime)
         }
-        entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
+        entryExpiresCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            mDateTime = if (isChecked) {
+                DateInstant.IN_ONE_MONTH_DATE_TIME
+            } else {
+                DateInstant.NEVER_EXPIRES
+            }
             assignExpiresDateText()
         }
     }
