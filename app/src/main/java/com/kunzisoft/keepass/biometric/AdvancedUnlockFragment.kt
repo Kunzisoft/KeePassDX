@@ -30,6 +30,7 @@ import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import androidx.lifecycle.lifecycleScope
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
@@ -38,6 +39,8 @@ import com.kunzisoft.keepass.database.exception.IODatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
 
@@ -309,7 +312,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             if (allowOpenBiometricPrompt) {
                 if (cryptoPrompt.isDeviceCredentialOperation)
                     keepConnection = true
@@ -450,7 +453,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
             setAdvancedUnlockedMessageView(errString.toString())
         }
@@ -458,7 +461,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationFailed() {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             Log.e(TAG, "Biometric authentication failed, biometric not recognized")
             setAdvancedUnlockedMessageView(R.string.advanced_unlock_not_recognized)
         }
@@ -466,7 +469,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationSucceeded() {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             when (biometricMode) {
                 Mode.BIOMETRIC_UNAVAILABLE -> {
                 }
@@ -524,7 +527,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     private fun showViews(show: Boolean) {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.visibility = if (show)
                 View.VISIBLE
             else {
@@ -535,20 +538,20 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedTitleView(textId: Int) {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.setTitle(textId)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(textId: Int) {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.setMessage(textId)
         }
     }
 
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
-        activity?.runOnUiThread {
+        lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.message = text
         }
     }
