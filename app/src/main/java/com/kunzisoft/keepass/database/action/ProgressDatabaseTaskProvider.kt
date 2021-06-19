@@ -23,7 +23,6 @@ import android.content.*
 import android.content.Context.BIND_ABOVE_CLIENT
 import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -286,11 +285,6 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                           readOnly: Boolean,
                           cipherEntity: CipherDatabaseEntity?,
                           fixDuplicateUuid: Boolean) {
-        try {
-            activity.stopService(intentDatabaseTask)
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to stop the service", e)
-        }
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
