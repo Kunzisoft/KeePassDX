@@ -1,0 +1,2 @@
+ * Augmentation de la rapidité de sauvegarde de la base de données #1028
+ * Correction du déverouillage avancé #1029
