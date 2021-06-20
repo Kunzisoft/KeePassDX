@@ -311,7 +311,7 @@
     <string name="clear_clipboard_notification_summary">Uzamknout databázi, jakmile trvání schránky vyprší nebo po uzavření oznámení</string>
     <string name="recycle_bin">Koš</string>
     <string name="keyboard_selection_entry_title">Výběr záznamu</string>
-    <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukázat na Magikeyboard kolonky</string>
+    <string name="keyboard_selection_entry_summary">Při prohlížení záznamu v KeePassDX zadat záznam do Magikeyboard</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení k databázi</string>
     <string name="content_description_open_file">Otevřít soubor</string>
@@ -440,7 +440,7 @@
     <string name="autofill_preference_title">Nastavení samovyplnění</string>
     <string name="warning_database_link_revoked">Přístup k souboru zrušenému správcem souborů</string>
     <string name="error_label_exists">Tento štítek již existuje.</string>
-    <string name="keyboard_search_share_summary">Automaticky vyhledat sdílené informace pro naplnění klávesnice</string>
+    <string name="keyboard_search_share_summary">Při sdílení URL s KeePassDX filtrovat záznamy podle URL domény</string>
     <string name="keyboard_search_share_title">Prohledat sdílené info</string>
     <string name="autofill_block_restart">Aktivovat zamezení restartováním aplikace obsahující formulář.</string>
     <string name="autofill_block">Zamezit samovyplnění</string>
@@ -485,7 +485,7 @@
     <string name="autofill_close_database_title">Zavřít databázi</string>
     <string name="keyboard_previous_lock_summary">Po uzamknutí databáze automaticky přepnout zpět na předchozí klávesnici</string>
     <string name="keyboard_previous_lock_title">Uzamknout databázi</string>
-    <string name="keyboard_save_search_info_summary">Pokuste se uložit sdílené info, když manuálné vybíráte položku</string>
+    <string name="keyboard_save_search_info_summary">Je-li po sdílení URL s KeePassDX vybrán záznam, pokusit se zapamatovat onen záznam pro další použití</string>
     <string name="keyboard_save_search_info_title">Uložit sdílené info</string>
     <string name="notification">Oznámení</string>
     <string name="biometric_security_update_required">Vyžadována aktualizace biometrického zabezpečení.</string>
