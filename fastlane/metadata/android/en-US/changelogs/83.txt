@@ -1,0 +1,2 @@
+ * Increase the saving speed of database #1028
+ * Fix advanced unlocking by device credential #1029
