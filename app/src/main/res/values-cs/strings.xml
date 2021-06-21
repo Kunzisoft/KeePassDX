@@ -111,7 +111,7 @@
     <string name="no_url_handler">Pro otevření tohoto URL nainstalujte webový prohlížeč.</string>
     <string name="omit_backup_search_title">Neprohledávat položky v záloze</string>
     <string name="omit_backup_search_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
-    <string name="progress_create">Zakládání nové databáze…</string>
+    <string name="progress_create">Vytváření nové databáze…</string>
     <string name="progress_title">Pracuji…</string>
     <string name="protection">Ochrana</string>
     <string name="read_only_warning">Ke změně v databáze potřebuje KeePassDX oprávnění pro zápis.</string>
@@ -235,7 +235,7 @@
     <string name="reset_education_screens_title">Nastavit vzdělávací nápovědy do výchozího stavu</string>
     <string name="reset_education_screens_summary">Opět zobrazit všechny vzdělávací informace</string>
     <string name="reset_education_screens_text">Nastavit vzdělávací nápovědy do výchozího stavu</string>
-    <string name="education_create_database_title">Založte svůj databázový soubor</string>
+    <string name="education_create_database_title">Vytvořit databázový soubor</string>
     <string name="education_create_database_summary">Založte svůj první soubor pro správu hesel.</string>
     <string name="education_select_database_title">Otevřít existující databázi</string>
     <string name="education_select_database_summary">Otevřete svou dříve používanou databázi ze správce souborů a pokračujte v jejím používání.</string>
