@@ -325,7 +325,7 @@
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
-    <string name="keyboard_selection_entry_summary">Eingabefelder beim Betrachten eines Eintrags im Magikeyboard anzeigen</string>
+    <string name="keyboard_selection_entry_summary">Beim Betrachten eines Eintrags in KeePassDX diesen Eintrag im Magikeyboard einpflegen</string>
     <string name="delete_entered_password_title">Passwort löschen</string>
     <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch zu einer Datenbank</string>
     <string name="content_description_open_file">Datei öffnen</string>
@@ -450,7 +450,7 @@
     <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
-    <string name="keyboard_search_share_summary">Automatische Suche nach gemeinsam genutzten Informationen zur Belegung der Tastatur</string>
+    <string name="keyboard_search_share_summary">Beim Teilen einer URL mit KeePassDX die Einträge nach dieser URL filtern</string>
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
@@ -502,7 +502,7 @@
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Versuche bei manueller Eingabeauswahl gemeinsam genutzte Informationen zu speichern</string>
+    <string name="keyboard_save_search_info_summary">Nachdem eine URL mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht sich diesen Eintrag für weitere Nutzungen zu merken</string>
     <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
