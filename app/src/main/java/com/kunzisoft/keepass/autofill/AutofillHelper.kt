@@ -37,11 +37,13 @@ import android.view.autofill.AutofillValue
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
+import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
@@ -188,6 +190,27 @@ object AutofillHelper {
         return null
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("RestrictedApi")
+    private fun buildInlinePresentationForManualSelection(context: Context,
+                                                          inlinePresentationSpec: InlinePresentationSpec,
+                                                          pendingIntent: PendingIntent): InlinePresentation? {
+        // Make sure that the IME spec claims support for v1 UI template.
+        val imeStyle = inlinePresentationSpec.style
+        if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+            return null
+
+        // Build the content for IME UI
+        return InlinePresentation(
+                InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                    setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                    setTitle(context.getString(R.string.autofill_manual_selection_prompt))
+                    setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
+                        setTintBlendMode(BlendMode.DST)
+                    })
+                }.build().slice, inlinePresentationSpec, false)
+    }
+
     fun buildResponse(context: Context,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
@@ -208,17 +231,56 @@ object AutofillHelper {
                 }
             }
         }
+
         // Add inline suggestion for new IME and dataset
-        entriesInfo.forEachIndexed { index, entryInfo ->
-            val inlinePresentation = inlineSuggestionsRequest?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    buildInlinePresentationForEntry(context, inlineSuggestionsRequest, index, entryInfo)
-                } else {
-                    null
+        var numberInlineSuggestions = entriesInfo.size
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            inlineSuggestionsRequest?.let {
+                numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
+                if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+                    if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
+                        --numberInlineSuggestions
+                    }
                 }
             }
-            responseBuilder.addDataset(buildDataset(context, entryInfo, parseResult, inlinePresentation))
+
         }
+        entriesInfo.forEachIndexed { _, entry ->
+            val inlinePresentation = if (numberInlineSuggestions > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                inlineSuggestionsRequest?.let {
+                    buildInlinePresentationForEntry(context, inlineSuggestionsRequest, numberInlineSuggestions--, entry)
+                }
+            } else {
+                null
+            }
+            responseBuilder.addDataset(buildDataset(context, entry, parseResult, inlinePresentation))
+        }
+
+        if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+            val manualSelectionView = newRemoteViews(context, context.getString(R.string.autofill_manual_selection_prompt), null)
+            val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
+                    null, inlineSuggestionsRequest)
+            val builder = Dataset.Builder(manualSelectionView)
+            parseResult.usernameId?.let { autofillId ->
+                builder.setValue(autofillId, null)
+            }
+            parseResult.passwordId?.let { autofillId ->
+                builder.setValue(autofillId, null)
+            }
+            builder.setAuthentication(pendingIntent.intentSender)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                inlineSuggestionsRequest?.let {
+                    val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                    val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                    inlinePresentation?.let {
+                        builder.setInlinePresentation(it)
+                    }
+                }
+            }
+            responseBuilder.addDataset(builder.build())
+        }
+
         return responseBuilder.build()
     }
 
