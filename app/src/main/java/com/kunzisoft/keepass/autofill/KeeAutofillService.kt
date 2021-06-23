@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
@@ -101,6 +102,15 @@ class KeeAutofillService : AutofillService() {
                                 callback)
                     }
                 }
+//                TODO does it make sense to disable autofill here? how long?
+//                else {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                        val builder = FillResponse.Builder()
+//                        // disable for a while (duration in ms)
+//                        builder.disableAutofill(5*60*1000)
+//                        callback.onSuccess(builder.build())
+//                    }
+//                }
             }
         }
     }
@@ -155,23 +165,40 @@ class KeeAutofillService : AutofillService() {
                     RemoteViews(packageName, R.layout.item_autofill_unlock)
                 }
 
-                // Tell to service the interest to save credentials
+                // Tell the autofill framework the interest to save credentials
                 if (askToSaveData) {
                     var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
-                    val info = ArrayList<AutofillId>()
+                    val requiredIds = ArrayList<AutofillId>()
+                    val optionalIds = ArrayList<AutofillId>()
+
                     // Only if at least a password
                     parseResult.passwordId?.let { passwordInfo ->
                         parseResult.usernameId?.let { usernameInfo ->
                             types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
-                            info.add(usernameInfo)
+                            requiredIds.add(usernameInfo)
                         }
                         types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
-                        info.add(passwordInfo)
+                        requiredIds.add(passwordInfo)
                     }
-                    if (info.isNotEmpty()) {
-                        responseBuilder.setSaveInfo(
-                                SaveInfo.Builder(types, info.toTypedArray()).build()
-                        )
+                    // or a credit card form
+                    if (requiredIds.isEmpty()) {
+                        parseResult.ccnId?.let { numberId ->
+                            types = types or SaveInfo.SAVE_DATA_TYPE_CREDIT_CARD
+                            requiredIds.add(numberId)
+                            Log.d(TAG, "Asking to save credit card number")
+                        }
+                        parseResult.ccExpDateId?.let { id -> optionalIds.add(id) }
+                        parseResult.ccExpDateYearId?.let { id -> optionalIds.add(id) }
+                        parseResult.ccExpDateMonthId?.let { id -> optionalIds.add(id) }
+                        parseResult.ccNameId?.let { id -> optionalIds.add(id) }
+                        parseResult.cvvId?.let { id -> optionalIds.add(id) }
+                    }
+                    if (requiredIds.isNotEmpty()) {
+                        val builder = SaveInfo.Builder(types, requiredIds.toTypedArray())
+                        if (optionalIds.isNotEmpty()) {
+                            builder.setOptionalIds(optionalIds.toTypedArray())
+                        }
+                        responseBuilder.setSaveInfo(builder.build())
                     }
                 }
 
@@ -223,14 +250,27 @@ class KeeAutofillService : AutofillService() {
                         && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
                     Log.d(TAG, "autofill onSaveRequest password")
 
+
+                    if (parseResult.ccExpirationValue == null) {
+                        if (parseResult.ccExpDateMonthValue != 0 && parseResult.ccExpDateYearValue != 0) {
+                            parseResult.ccExpirationValue = parseResult.ccExpDateMonthValue.toString().padStart(2, '0') + parseResult.ccExpDateYearValue.toString()
+                        }
+                    }
+
+                    val creditCard = CreditCard(parseResult.ccName, parseResult.ccNumber,
+                            parseResult.ccExpirationValue, parseResult.cvv)
+
                     // Show UI to save data
-                    val registerInfo = RegisterInfo(SearchInfo().apply {
-                        applicationId = parseResult.applicationId
-                        webDomain = parseResult.webDomain
-                        webScheme = parseResult.webScheme
-                    },
+                    val registerInfo = RegisterInfo(
+                            SearchInfo().apply {
+                                applicationId = parseResult.applicationId
+                                webDomain = parseResult.webDomain
+                                webScheme = parseResult.webScheme
+                            },
                             parseResult.usernameValue?.textValue?.toString(),
-                            parseResult.passwordValue?.textValue?.toString())
+                            parseResult.passwordValue?.textValue?.toString(),
+                            creditCard)
+
                     // TODO Callback in each activity #765
                     //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     //    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,

@@ -39,9 +39,9 @@ class EntryInfo : NodeInfo {
     var attachments: List<Attachment> = ArrayList()
     var otpModel: OtpModel? = null
 
-    constructor(): super()
+    constructor() : super()
 
-    constructor(parcel: Parcel): super(parcel) {
+    constructor(parcel: Parcel) : super(parcel) {
         id = parcel.readString() ?: id
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
@@ -133,8 +133,7 @@ class EntryInfo : NodeInfo {
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
-            }
-            else if (url != webDomainToStore){
+            } else if (url != webDomainToStore) {
                 // Save web domain in custom field
                 addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
                         ProtectedString(false, webDomainToStore)),
@@ -148,6 +147,38 @@ class EntryInfo : NodeInfo {
                     addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
                             ProtectedString(false, applicationId))
                     )
+                }
+            }
+        }
+    }
+
+    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
+        registerInfo.username?.let {
+            username = it
+        }
+        registerInfo.password?.let {
+            password = it
+        }
+
+        if (database?.allowEntryCustomFields() == true) {
+            val creditCard: CreditCard? = registerInfo.cc
+
+            creditCard?.let { cc ->
+                cc.cardholder?.let {
+                    val v = ProtectedString(false, it)
+                    addUniqueField(Field(CreditCardCustomFields.CC_CARDHOLDER_FIELD_NAME, v))
+                }
+                cc.expiration?.let {
+                    val v = ProtectedString(false, it)
+                    addUniqueField(Field(CreditCardCustomFields.CC_EXP_FIELD_NAME, v))
+                }
+                cc.number?.let {
+                    val v = ProtectedString(false, it)
+                    addUniqueField(Field(CreditCardCustomFields.CC_NUMBER_FIELD_NAME, v))
+                }
+                cc.cvv?.let {
+                    val v = ProtectedString(true, it)
+                    addUniqueField(Field(CreditCardCustomFields.CC_CVV_FIELD_NAME, v))
                 }
             }
         }

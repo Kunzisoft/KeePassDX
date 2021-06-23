@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
- * Replace font by monospace, must be called after seText()
+ * Replace font by monospace, must be called after setText()
  */
 fun TextView.applyFontVisibility() {
     val typeFace = Typeface.createFromAsset(context.assets, "fonts/FiraMono-Regular.ttf")
