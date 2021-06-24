@@ -168,10 +168,10 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
     abstract fun preProcessTemplate()
 
-    private fun buildViewForNotReferencedField(field: Field): View? {
+    private fun buildViewForNotReferencedField(field: Field, attributeType: TemplateAttributeType): View? {
         val standardFieldTemplateAttribute = TemplateAttribute(
             field.name,
-            TemplateAttributeType.MULTILINE,
+            attributeType,
             field.protectedValue.isProtected,
             field.protectedValue.stringValue)
         val fieldTag: String = getTagFromStandardTemplateAttribute(standardFieldTemplateAttribute)
@@ -239,8 +239,10 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         buildTemplateAndPopulateInfo()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun populateEntryFieldView(fieldTag: String,
                                        label: String,
+                                       type: TemplateAttributeType,
                                        entryInfoValue: String,
                                        showEmptyFields: Boolean) {
         var fieldView: TEntryFieldView? = findViewWithTag(fieldTag)
@@ -249,7 +251,8 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         } else if (fieldView == null && entryInfoValue.isNotEmpty()) {
             // Add new not referenced view if standard field not in template
             fieldView = buildViewForNotReferencedField(
-                Field(label, ProtectedString(false, entryInfoValue))
+                Field(label, ProtectedString(false, entryInfoValue)),
+                type
             ) as? TEntryFieldView?
             fieldView?.let {
                 addNotReferencedView(it as View)
@@ -257,6 +260,30 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         }
         fieldView?.value = entryInfoValue
         fieldView?.applyFontVisibility(mFontInVisibility)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun populateDateTimeView(fieldTag: String,
+                                     label: String,
+                                     type: TemplateAttributeType,
+                                     expires: Boolean,
+                                     expiryTime: DateInstant,
+                                     showEmptyFields: Boolean) {
+
+        var fieldView: TDateTimeView? = findViewWithTag(fieldTag)
+        if (!showEmptyFields && !expires) {
+            fieldView?.isFieldVisible = false
+        } else if (fieldView == null && expires) {
+            fieldView = buildViewForNotReferencedField(
+                Field(label, ProtectedString(false, "")),
+                type
+            ) as? TDateTimeView?
+            fieldView?.let {
+                addNotReferencedView(it as View)
+            }
+        }
+        fieldView?.activation = expires
+        fieldView?.dateTime = expiryTime
     }
 
     /**
@@ -267,30 +294,33 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
             populateEntryFieldView(FIELD_TITLE_TAG,
                 TemplateField.LABEL_TITLE,
+                TemplateAttributeType.INLINE,
                 entryInfo.title,
                 showEmptyFields)
             populateEntryFieldView(FIELD_USERNAME_TAG,
                 TemplateField.LABEL_USERNAME,
+                TemplateAttributeType.INLINE,
                 entryInfo.username,
                 showEmptyFields)
             populateEntryFieldView(FIELD_PASSWORD_TAG,
                 TemplateField.LABEL_PASSWORD,
+                TemplateAttributeType.INLINE,
                 entryInfo.password,
                 showEmptyFields)
             populateEntryFieldView(FIELD_URL_TAG,
                 TemplateField.LABEL_URL,
+                TemplateAttributeType.INLINE,
                 entryInfo.url,
                 showEmptyFields)
-
-            val expirationView: TDateTimeView? = findViewWithTag(FIELD_EXPIRES_TAG)
-            expirationView?.activation = entryInfo.expires
-            expirationView?.dateTime = entryInfo.expiryTime
-            if (!showEmptyFields && !entryInfo.expires) {
-                expirationView?.isFieldVisible = false
-            }
-
+            populateDateTimeView(FIELD_EXPIRES_TAG,
+                TemplateField.LABEL_EXPIRATION,
+                TemplateAttributeType.DATETIME,
+                entryInfo.expires,
+                entryInfo.expiryTime,
+                showEmptyFields)
             populateEntryFieldView(FIELD_NOTES_TAG,
                 TemplateField.LABEL_NOTES,
+                TemplateAttributeType.MULTILINE,
                 entryInfo.notes,
                 showEmptyFields)
 
