@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
     <!-- Icon -->
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/entry_edit_icon_button"
+        android:id="@+id/template_icon_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"

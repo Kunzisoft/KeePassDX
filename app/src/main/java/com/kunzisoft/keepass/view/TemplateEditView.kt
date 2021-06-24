@@ -14,7 +14,6 @@ import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
 import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_TITLE
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
@@ -22,7 +21,7 @@ import org.joda.time.DateTime
 class TemplateEditView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyle: Int = 0)
-    : TemplateAbstractView(context, attrs, defStyle) {
+    : TemplateAbstractView<EntryEditFieldView, DateTimeEditView>(context, attrs, defStyle) {
 
     // Current date time selection
     @IdRes
@@ -56,17 +55,12 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         populateIconMethod?.invoke(entryIconView, iconImage)
     }
 
-    override fun buildHeader() {
+    override fun preProcessTemplate() {
         headerContainerView.isVisible = true
-        findViewById<EntryEditFieldView?>(R.id.entry_edit_title)?.apply {
-            tag = FIELD_TITLE_TAG
-            id = LABEL_TITLE.hashCode()
-            label = TemplateField.getLocalizedName(context, LABEL_TITLE)
-        }
     }
 
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): View? {
+                                     field: Field): EntryEditFieldView? {
         // Add an action icon if needed
         return context?.let {
             EntryEditFieldView(it).apply {
@@ -102,7 +96,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     override fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                  field: Field): View? {
+                                  field: Field): DateTimeEditView? {
         return context?.let {
             DateTimeEditView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
@@ -186,15 +180,15 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun populateViewsWithEntryInfo() {
+    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId> {
         mEntryInfo?.let { entryInfo ->
             setIcon(entryInfo.icon)
         }
-        populateSpecificViewsWithEntryInfo<EntryEditFieldView, DateTimeEditView>(true)
+        return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
     override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
-        populateSpecificEntryInfoWithViews<EntryEditFieldView, DateTimeEditView>(templateFieldNotEmpty)
+        super.populateEntryInfoWithViews(templateFieldNotEmpty)
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel

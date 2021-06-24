@@ -19,7 +19,7 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 class TemplateView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyle: Int = 0)
-    : TemplateAbstractView(context, attrs, defStyle) {
+    : TemplateAbstractView<EntryFieldView, DateTimeView>(context, attrs, defStyle) {
 
     private var mOnAskCopySafeClickListener: (() -> Unit)? = null
     fun setOnAskCopySafeClickListener(listener: (() -> Unit)? = null) {
@@ -40,12 +40,12 @@ class TemplateView @JvmOverloads constructor(context: Context,
         this.mAllowCopyProtectedFields = allowCopyProtectedFields
     }
 
-    override fun buildHeader() {
+    override fun preProcessTemplate() {
         headerContainerView.isVisible = false
     }
 
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): View? {
+                                     field: Field): EntryFieldView? {
         // Add an action icon if needed
         return context?.let {
             EntryFieldView(it).apply {
@@ -91,7 +91,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     }
 
     override fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                   field: Field): View? {
+                                   field: Field): DateTimeView? {
         return context?.let {
             DateTimeView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
@@ -120,13 +120,13 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return findViewWithTag<EntryFieldView?>(FIELD_PASSWORD_TAG)?.getCopyButtonView()
     }
 
-    override fun populateViewsWithEntryInfo() {
-        populateSpecificViewsWithEntryInfo<EntryFieldView, DateTimeView>(false) { emptyCustomFields ->
-            // Hide empty custom fields
-            emptyCustomFields.forEach { customFieldId ->
-                templateContainerView.findViewById<View>(customFieldId.viewId)
-                    .isVisible = false
-            }
+    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId>  {
+        val emptyCustomFields = super.populateViewsWithEntryInfo(false)
+
+        // Hide empty custom fields
+        emptyCustomFields.forEach { customFieldId ->
+            templateContainerView.findViewById<View>(customFieldId.viewId)
+                .isVisible = false
         }
 
         mEntryInfo?.let { entryInfo ->
@@ -136,10 +136,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 assignOtp(it)
             }
         }
-    }
-
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
-        populateSpecificEntryInfoWithViews<EntryFieldView, DateTimeView>(templateFieldNotEmpty)
+        return emptyCustomFields
     }
 
     override fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
