@@ -89,22 +89,15 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
     }
 
     fun setType(valueType: TextType) {
-        valueView.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         when (valueType) {
             TextType.NORMAL -> {
-                valueView.inputType = valueView.inputType or
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
                 valueView.maxLines = 1
             }
             TextType.SMALL_MULTI_LINE -> {
-                valueView.inputType = valueView.inputType or
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 valueView.maxEms = 3
                 valueView.maxLines = 3
             }
             TextType.MULTI_LINE -> {
-                valueView.inputType = valueView.inputType or
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 valueView.maxEms = 40
                 valueView.maxLines = 40
             }
@@ -124,12 +117,8 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
     private fun changeProtectedValueParameters() {
         valueView.apply {
             if (showButtonView.isVisible) {
-                isFocusable = false
-                setTextIsSelectable(false)
                 applyHiddenStyle(showButtonView.isSelected)
             } else {
-                isFocusable = true
-                setTextIsSelectable(true)
                 linkify()
             }
         }
@@ -161,17 +150,35 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
     fun setCopyButtonState(buttonState: ButtonState) {
         when (buttonState) {
             ButtonState.ACTIVATE -> {
-                copyButtonView.visibility = VISIBLE
-                copyButtonView.isActivated = false
+                copyButtonView.apply {
+                    visibility = VISIBLE
+                    isActivated = false
+                }
+                valueView.apply {
+                    isFocusable = true
+                    setTextIsSelectable(true)
+                }
             }
             ButtonState.DEACTIVATE -> {
-                copyButtonView.visibility = VISIBLE
-                // Reverse because isActivated show custom color and allow click
-                copyButtonView.isActivated = true
+                copyButtonView.apply {
+                    visibility = VISIBLE
+                    // Reverse because isActivated show custom color and allow click
+                    isActivated = true
+                }
+                valueView.apply {
+                    isFocusable = false
+                    setTextIsSelectable(false)
+                }
             }
             ButtonState.GONE -> {
-                copyButtonView.visibility = GONE
-                copyButtonView.setOnClickListener(null)
+                copyButtonView.apply {
+                    visibility = GONE
+                    setOnClickListener(null)
+                }
+                valueView.apply {
+                    isFocusable = false
+                    setTextIsSelectable(false)
+                }
             }
         }
     }
