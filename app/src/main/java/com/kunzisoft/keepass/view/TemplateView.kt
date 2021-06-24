@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
@@ -95,22 +94,14 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return context?.let {
             DateTimeView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
-                dateTime = try {
-                    val value = field.protectedValue.toString()
-                    activation = value.trim().isNotEmpty()
-                    DateInstant(value,
-                        when (templateAttribute.type) {
-                            TemplateAttributeType.DATE -> DateInstant.Type.DATE
-                            TemplateAttributeType.TIME -> DateInstant.Type.TIME
-                            else -> DateInstant.Type.DATE_TIME
-                        })
+                val dateInstantType = dateInstantTypeFromTemplateAttributeType(templateAttribute.type)
+                try {
+                    val value = field.protectedValue.toString().trim()
+                    type = dateInstantType
+                    activation = value.isNotEmpty()
                 } catch (e: Exception) {
+                    type = dateInstantType
                     activation = false
-                    when (templateAttribute.type) {
-                        TemplateAttributeType.DATE -> DateInstant.IN_ONE_MONTH_DATE
-                        TemplateAttributeType.TIME -> DateInstant.IN_ONE_HOUR_TIME
-                        else -> DateInstant.IN_ONE_MONTH_DATE_TIME
-                    }
                 }
             }
         }

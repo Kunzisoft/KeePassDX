@@ -38,8 +38,11 @@ class DateInstant : Parcelable {
     val date: Date
         get() = jDate
 
-    val type: Type
+    var type: Type
         get() = mType
+        set(value) {
+            mType = value
+        }
 
     constructor(source: DateInstant) {
         this.jDate = Date(source.jDate.time)
@@ -62,6 +65,10 @@ class DateInstant : Parcelable {
             Type.TIME -> timeFormat.parse(string) ?: jDate
             else -> dateTimeFormat.parse(string) ?: jDate
         }
+        mType = type
+    }
+
+    constructor(type: Type) {
         mType = type
     }
 

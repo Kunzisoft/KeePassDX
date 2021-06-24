@@ -71,6 +71,14 @@ class DateTimeView @JvmOverloads constructor(context: Context,
             dateTimeLabelView.text = value
         }
 
+    var type: DateInstant.Type
+        get() {
+            return mDateTime.type
+        }
+        set(value) {
+            mDateTime.type = value
+        }
+
     override var activation: Boolean
         get() {
             return mActivated
@@ -87,6 +95,9 @@ class DateTimeView @JvmOverloads constructor(context: Context,
             assignExpiresDateText()
         }
 
+    /**
+     * Warning dateTime.type is ignore, use type instead
+     */
     override var dateTime: DateInstant
         get() {
             return if (activation)
@@ -95,7 +106,7 @@ class DateTimeView @JvmOverloads constructor(context: Context,
                 DateInstant.NEVER_EXPIRES
         }
         set(value) {
-            mDateTime = value
+            mDateTime = DateInstant(value.date, mDateTime.type)
             assignExpiresDateText()
         }
 

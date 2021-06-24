@@ -100,22 +100,14 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             DateTimeEditView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
+                val dateInstantType = dateInstantTypeFromTemplateAttributeType(templateAttribute.type)
                 try {
-                    val value = field.protectedValue.toString()
-                    activation = value.trim().isNotEmpty()
-                    dateTime = DateInstant(value,
-                        when (templateAttribute.type) {
-                            TemplateAttributeType.DATE -> DateInstant.Type.DATE
-                            TemplateAttributeType.TIME -> DateInstant.Type.TIME
-                            else -> DateInstant.Type.DATE_TIME
-                        })
+                    val value = field.protectedValue.toString().trim()
+                    type = dateInstantType
+                    activation = value.isNotEmpty()
                 } catch (e: Exception) {
+                    type = dateInstantType
                     activation = false
-                    dateTime = when (templateAttribute.type) {
-                        TemplateAttributeType.DATE -> DateInstant.IN_ONE_MONTH_DATE
-                        TemplateAttributeType.TIME -> DateInstant.IN_ONE_HOUR_TIME
-                        else -> DateInstant.IN_ONE_MONTH_DATE_TIME
-                    }
                 }
                 setOnDateClickListener = { dateInstant ->
                     mTempDateTimeViewId = id

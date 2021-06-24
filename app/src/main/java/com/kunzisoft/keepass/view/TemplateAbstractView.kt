@@ -541,7 +541,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         retrieveCustomFieldsFromView()
     }
 
-    fun addNotReferencedView(view: View) {
+    private fun addNotReferencedView(view: View) {
         notReferencedFieldsContainerView.addView(view)
     }
 
@@ -578,6 +578,15 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
     }
 
     protected open fun onSaveEntryInstanceState(savedState: SavedState) {}
+
+    protected fun dateInstantTypeFromTemplateAttributeType(
+        templateAttributeType: TemplateAttributeType): DateInstant.Type {
+        return when (templateAttributeType) {
+            TemplateAttributeType.DATE -> DateInstant.Type.DATE
+            TemplateAttributeType.TIME -> DateInstant.Type.TIME
+            else -> DateInstant.Type.DATE_TIME
+        }
+    }
 
     protected class SavedState : BaseSavedState {
         var template: Template? = null
