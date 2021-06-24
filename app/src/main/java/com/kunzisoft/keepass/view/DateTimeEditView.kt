@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.widget.CompoundButton
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -32,7 +33,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 class DateTimeEditView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle) {
+    : FrameLayout(context, attrs, defStyle), GenericDateTimeView {
 
     private var entryExpiresLabelView: TextInputLayout
     private var entryExpiresTextView: TextView
@@ -80,7 +81,7 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
             entryExpiresLabelView.hint = value
         }
 
-    var activation: Boolean
+    override var activation: Boolean
         get() {
             return entryExpiresCheckBox.isChecked
         }
@@ -96,7 +97,7 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
             assignExpiresDateText()
         }
 
-    var dateTime: DateInstant
+    override var dateTime: DateInstant
         get() {
             return if (activation)
                 mDateTime
@@ -106,5 +107,13 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
         set(value) {
             mDateTime = value
             assignExpiresDateText()
+        }
+
+    override var isFieldVisible: Boolean
+        get() {
+            return isVisible
+        }
+        set(value) {
+            isVisible = value
         }
 }

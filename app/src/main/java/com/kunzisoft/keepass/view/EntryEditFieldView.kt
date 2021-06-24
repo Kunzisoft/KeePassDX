@@ -13,6 +13,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
@@ -20,7 +21,7 @@ import com.kunzisoft.keepass.R
 class EntryEditFieldView @JvmOverloads constructor(context: Context,
                                                    attrs: AttributeSet? = null,
                                                    defStyle: Int = 0)
-    : RelativeLayout(context, attrs, defStyle) {
+    : RelativeLayout(context, attrs, defStyle), GenericEntryFieldView {
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
@@ -90,7 +91,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun applyFontVisibility(fontInVisibility: Boolean) {
+    override fun applyFontVisibility(fontInVisibility: Boolean) {
         if (fontInVisibility)
             valueView.applyFontVisibility()
     }
@@ -112,7 +113,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
             buildViews()
         }
 
-    var value: String
+    override var value: String
         get() {
             return valueView.text?.toString() ?: ""
         }
@@ -159,4 +160,11 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         actionImageButton.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
     }
 
+    override var isFieldVisible: Boolean
+        get() {
+            return isVisible
+        }
+        set(value) {
+            isVisible = value
+        }
 }

@@ -33,7 +33,7 @@ import java.util.*
 class DateTimeView @JvmOverloads constructor(context: Context,
                                              attrs: AttributeSet? = null,
                                              defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle) {
+    : FrameLayout(context, attrs, defStyle), GenericDateTimeView {
 
     private var dateTimeLabelView: TextView
     private var dateTimeValueView: TextView
@@ -71,7 +71,7 @@ class DateTimeView @JvmOverloads constructor(context: Context,
             dateTimeLabelView.text = value
         }
 
-    var activation: Boolean
+    override var activation: Boolean
         get() {
             return mActivated
         }
@@ -87,7 +87,7 @@ class DateTimeView @JvmOverloads constructor(context: Context,
             assignExpiresDateText()
         }
 
-    var dateTime: DateInstant
+    override var dateTime: DateInstant
         get() {
             return if (activation)
                 mDateTime
@@ -97,5 +97,13 @@ class DateTimeView @JvmOverloads constructor(context: Context,
         set(value) {
             mDateTime = value
             assignExpiresDateText()
+        }
+
+    override var isFieldVisible: Boolean
+        get() {
+            return isVisible
+        }
+        set(value) {
+            isVisible = value
         }
 }

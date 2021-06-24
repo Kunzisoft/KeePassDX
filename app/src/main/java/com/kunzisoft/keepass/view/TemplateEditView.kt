@@ -2,7 +2,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.core.view.isVisible
@@ -16,7 +15,6 @@ import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_TITLE
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
@@ -191,107 +189,12 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     override fun populateViewsWithEntryInfo() {
         mEntryInfo?.let { entryInfo ->
             setIcon(entryInfo.icon)
-
-            val titleView: EntryEditFieldView? =
-                findViewWithTag(FIELD_TITLE_TAG)
-            titleView?.value = entryInfo.title
-            titleView?.applyFontVisibility(mFontInVisibility)
-
-            val userNameView: EntryEditFieldView? =
-                templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
-            userNameView?.value = entryInfo.username
-            userNameView?.applyFontVisibility(mFontInVisibility)
-
-            val passwordView: EntryEditFieldView? =
-                templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-            passwordView?.value = entryInfo.password
-            passwordView?.applyFontVisibility(mFontInVisibility)
-
-            val urlView: EntryEditFieldView? = templateContainerView.findViewWithTag(
-                FIELD_URL_TAG
-            )
-            urlView?.value = entryInfo.url
-            urlView?.applyFontVisibility(mFontInVisibility)
-
-            val expirationView: DateTimeEditView? =
-                templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-            expirationView?.activation = entryInfo.expires
-            expirationView?.dateTime = entryInfo.expiryTime
-
-            val notesView: EntryEditFieldView? =
-                templateContainerView.findViewWithTag(FIELD_NOTES_TAG)
-            notesView?.value = entryInfo.notes
-            notesView?.applyFontVisibility(mFontInVisibility)
-
-            customFieldsContainerView.removeAllViews()
-            entryInfo.customFields.forEach { customField ->
-                val indexFieldViewId = indexCustomFieldIdByName(customField.name)
-                if (indexFieldViewId >= 0) {
-                    // Template contains the custom view
-                    val customFieldId = mCustomFieldIds[indexFieldViewId]
-                    templateContainerView.findViewById<View>(customFieldId.viewId)
-                        ?.let { customView ->
-                            if (customView is EntryEditFieldView) {
-                                customView.value = customField.protectedValue.stringValue
-                                customView.applyFontVisibility(mFontInVisibility)
-                            } else if (customView is DateTimeEditView) {
-                                try {
-                                    customView.dateTime =
-                                        DateInstant(customField.protectedValue.stringValue)
-                                } catch (e: Exception) {
-                                    Log.e(TAG, "unable to populate date time view", e)
-                                }
-                            }
-                        }
-                } else {
-                    // If template view not found, create a new custom view
-                    putCustomField(customField, false)
-                }
-            }
         }
+        populateSpecificViewsWithEntryInfo<EntryEditFieldView, DateTimeEditView>(true)
     }
 
     override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
-        if (mEntryInfo == null)
-            mEntryInfo = EntryInfo()
-
-        // Icon already populate
-
-        val titleView: EntryEditFieldView? = findViewWithTag(FIELD_TITLE_TAG)
-        titleView?.value?.let {
-            mEntryInfo?.title = it
-        }
-
-        val userNameView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_USERNAME_TAG)
-        userNameView?.value?.let {
-            mEntryInfo?.username = it
-        }
-
-        val passwordView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-        passwordView?.value?.let {
-            mEntryInfo?.password = it
-        }
-
-        val urlView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_URL_TAG)
-        urlView?.value?.let {
-            mEntryInfo?.url = it
-        }
-
-        val expirationView: DateTimeEditView? = templateContainerView.findViewWithTag(FIELD_EXPIRES_TAG)
-        expirationView?.activation?.let {
-            mEntryInfo?.expires = it
-        }
-        expirationView?.dateTime?.let {
-            mEntryInfo?.expiryTime = it
-        }
-
-        val notesView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_NOTES_TAG)
-        notesView?.value?.let {
-            mEntryInfo?.notes = it
-        }
-
-        retrieveCustomFieldsFromView(templateFieldNotEmpty)
-
+        populateSpecificEntryInfoWithViews<EntryEditFieldView, DateTimeEditView>(templateFieldNotEmpty)
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel
@@ -324,9 +227,5 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
 
     override fun onSaveEntryInstanceState(savedState: SavedState) {
         savedState.tempDateTimeViewId = this.mTempDateTimeViewId
-    }
-
-    companion object {
-        private val TAG = TemplateEditView::class.java.name
     }
 }

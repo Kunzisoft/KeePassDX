@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.utils.UriUtil
 class EntryFieldView @JvmOverloads constructor(context: Context,
                                                attrs: AttributeSet? = null,
                                                defStyle: Int = 0)
-    : LinearLayout(context, attrs, defStyle) {
+    : LinearLayout(context, attrs, defStyle), GenericEntryFieldView {
 
     private val labelView: TextView
     private val valueView: TextView
@@ -57,7 +57,7 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
         copyButtonView.visibility = View.GONE
     }
 
-    fun applyFontVisibility(fontInVisibility: Boolean) {
+    override fun applyFontVisibility(fontInVisibility: Boolean) {
         if (fontInVisibility)
             valueView.applyFontVisibility()
     }
@@ -74,7 +74,7 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
         labelView.setText(labelId)
     }
 
-    var value: String
+    override var value: String
         get() {
             return valueView.text.toString()
         }
@@ -180,6 +180,14 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
         copyButtonView.setOnClickListener(onClickActionListener)
         copyButtonView.isVisible = onClickActionListener != null
     }
+
+    override var isFieldVisible: Boolean
+        get() {
+            return isVisible
+        }
+        set(value) {
+            isVisible = value
+        }
 
     enum class ButtonState {
         ACTIVATE, DEACTIVATE, GONE

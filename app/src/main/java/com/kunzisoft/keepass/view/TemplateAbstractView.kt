@@ -7,6 +7,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.IdRes
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -42,6 +44,7 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
     protected var entryIconView: ImageView
     protected var templateContainerView: ViewGroup
     protected var customFieldsContainerView: SectionView
+    protected var notReferencedFieldsContainerView: SectionView
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -57,6 +60,7 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
             templateContainerView.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
         }
         customFieldsContainerView = findViewById(R.id.custom_fields_container)
+        notReferencedFieldsContainerView = findViewById(R.id.not_referenced_fields_container)
     }
 
     // To show icon image
@@ -82,6 +86,7 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
         // Build each template section
         templateContainerView.removeAllViews()
         customFieldsContainerView.removeAllViews()
+        notReferencedFieldsContainerView.removeAllViews()
         mCustomFieldIds.clear()
 
         mTemplate?.let { template ->
@@ -94,33 +99,7 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
 
                 // Build each attribute
                 templateSection.attributes.forEach { templateAttribute ->
-                    val fieldTag: String
-                    when {
-                        templateAttribute.label.equals(TemplateField.LABEL_TITLE, true) -> {
-                            throw Exception("title cannot be in template attribute")
-                        }
-                        templateAttribute.label.equals(TemplateField.LABEL_USERNAME, true) -> {
-                            fieldTag = FIELD_USERNAME_TAG
-                        }
-                        templateAttribute.label.equals(TemplateField.LABEL_PASSWORD, true) -> {
-                            fieldTag = FIELD_PASSWORD_TAG
-                        }
-                        templateAttribute.label.equals(TemplateField.LABEL_URL, true) -> {
-                            fieldTag = FIELD_URL_TAG
-                        }
-                        templateAttribute.label.equals(
-                            TemplateField.LABEL_EXPIRATION,
-                            true
-                        ) -> {
-                            fieldTag = FIELD_EXPIRES_TAG
-                        }
-                        templateAttribute.label.equals(TemplateField.LABEL_NOTES, true) -> {
-                            fieldTag = FIELD_NOTES_TAG
-                        }
-                        else -> {
-                            fieldTag = FIELD_CUSTOM_TAG
-                        }
-                    }
+                    val fieldTag: String = getTagFromStandardTemplateAttribute(templateAttribute)
 
                     val attributeView = buildViewForTemplateField(
                         templateAttribute,
@@ -139,7 +118,45 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
         }
     }
 
+    private fun getTagFromStandardTemplateAttribute(templateAttribute: TemplateAttribute): String {
+        val fieldTag: String
+        when {
+            templateAttribute.label.equals(TemplateField.LABEL_TITLE, true) -> {
+                throw Exception("title cannot be in template attribute")
+            }
+            templateAttribute.label.equals(TemplateField.LABEL_USERNAME, true) -> {
+                fieldTag = FIELD_USERNAME_TAG
+            }
+            templateAttribute.label.equals(TemplateField.LABEL_PASSWORD, true) -> {
+                fieldTag = FIELD_PASSWORD_TAG
+            }
+            templateAttribute.label.equals(TemplateField.LABEL_URL, true) -> {
+                fieldTag = FIELD_URL_TAG
+            }
+            templateAttribute.label.equals(TemplateField.LABEL_EXPIRATION,true) -> {
+                fieldTag = FIELD_EXPIRES_TAG
+            }
+            templateAttribute.label.equals(TemplateField.LABEL_NOTES, true) -> {
+                fieldTag = FIELD_NOTES_TAG
+            }
+            else -> {
+                fieldTag = FIELD_CUSTOM_TAG
+            }
+        }
+        return fieldTag
+    }
+
     abstract fun buildHeader()
+
+    private fun buildViewForNotReferencedField(field: Field): View? {
+        val standardFieldTemplateAttribute = TemplateAttribute(
+            field.name,
+            TemplateAttributeType.MULTILINE,
+            field.protectedValue.isProtected,
+            field.protectedValue.stringValue)
+        val fieldTag: String = getTagFromStandardTemplateAttribute(standardFieldTemplateAttribute)
+        return buildViewForTemplateField(standardFieldTemplateAttribute, field, fieldTag)
+    }
 
     private fun buildViewForCustomField(field: Field): View? {
         val customFieldTemplateAttribute = TemplateAttribute(
@@ -204,12 +221,141 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
 
     protected abstract fun populateViewsWithEntryInfo()
 
+    protected fun <T: GenericEntryFieldView, U: GenericDateTimeView>
+            populateSpecificViewsWithEntryInfo(showEmptyFields: Boolean = true,
+                                               actionWithEmptyCustomFields: ((List<FieldId>) -> Unit)? = null) {
+        mEntryInfo?.let { entryInfo ->
+
+            val titleView: T? = findViewWithTag(FIELD_TITLE_TAG)
+            titleView?.value = entryInfo.title
+            titleView?.applyFontVisibility(mFontInVisibility)
+            if (!showEmptyFields && entryInfo.title.isEmpty()) {
+                titleView?.isFieldVisible = false
+            }
+
+            val userNameView: T? = findViewWithTag(FIELD_USERNAME_TAG)
+            userNameView?.value = entryInfo.username
+            userNameView?.applyFontVisibility(mFontInVisibility)
+            if (!showEmptyFields && entryInfo.username.isEmpty()) {
+                userNameView?.isFieldVisible = false
+            }
+
+            val passwordView: T? = findViewWithTag(FIELD_PASSWORD_TAG)
+            passwordView?.value = entryInfo.password
+            passwordView?.applyFontVisibility(mFontInVisibility)
+            if (!showEmptyFields && entryInfo.password.isEmpty()) {
+                passwordView?.isFieldVisible = false
+            }
+
+            var urlView: T? = findViewWithTag(FIELD_URL_TAG)
+            if (!showEmptyFields && entryInfo.url.isEmpty()) {
+                urlView?.isFieldVisible = false
+            } else if (urlView == null && entryInfo.url.isNotEmpty()) {
+                urlView = buildViewForNotReferencedField(
+                    Field(TemplateField.LABEL_URL,
+                        ProtectedString(false, entryInfo.url))
+                ) as? T?
+                urlView?.let {
+                    addNotReferencedView(it as View)
+                }
+            }
+            urlView?.value = entryInfo.url
+            urlView?.applyFontVisibility(mFontInVisibility)
+
+            val expirationView: U? = findViewWithTag(FIELD_EXPIRES_TAG)
+            expirationView?.activation = entryInfo.expires
+            expirationView?.dateTime = entryInfo.expiryTime
+            if (!showEmptyFields && !entryInfo.expires) {
+                expirationView?.isFieldVisible = false
+            }
+
+            val notesView: T? = findViewWithTag(FIELD_NOTES_TAG)
+            notesView?.value = entryInfo.notes
+            notesView?.applyFontVisibility(mFontInVisibility)
+            if (!showEmptyFields && entryInfo.notes.isEmpty()) {
+                notesView?.isFieldVisible = false
+            }
+
+            customFieldsContainerView.removeAllViews()
+            val emptyCustomFields = mutableListOf<FieldId>().also { it.addAll(mCustomFieldIds) }
+            entryInfo.customFields.forEach { customField ->
+                val indexFieldViewId = indexCustomFieldIdByName(customField.name)
+                if (indexFieldViewId >= 0) {
+                    // Template contains the custom view
+                    val customFieldId = mCustomFieldIds[indexFieldViewId]
+                    emptyCustomFields.remove(customFieldId)
+                    templateContainerView.findViewById<View>(customFieldId.viewId)
+                        ?.let { customView ->
+                            if (customView is GenericEntryFieldView) {
+                                customView.value = customField.protectedValue.stringValue
+                                customView.applyFontVisibility(mFontInVisibility)
+                            } else if (customView is GenericDateTimeView) {
+                                try {
+                                    customView.dateTime =
+                                        DateInstant(customField.protectedValue.stringValue)
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "unable to populate date time view", e)
+                                }
+                            }
+                        }
+                } else {
+                    // If template view not found, create a new custom view
+                    putCustomField(customField, false)
+                }
+            }
+            actionWithEmptyCustomFields?.invoke(emptyCustomFields)
+        }
+    }
+
+    protected abstract fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean)
+
+    protected fun <T: GenericEntryFieldView, U: GenericDateTimeView>
+            populateSpecificEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
+        if (mEntryInfo == null)
+            mEntryInfo = EntryInfo()
+
+        // Icon already populate
+
+        val titleView: T? = findViewWithTag(FIELD_TITLE_TAG)
+        titleView?.value?.let {
+            mEntryInfo?.title = it
+        }
+
+        val userNameView: T? = findViewWithTag(FIELD_USERNAME_TAG)
+        userNameView?.value?.let {
+            mEntryInfo?.username = it
+        }
+
+        val passwordView: T? = findViewWithTag(FIELD_PASSWORD_TAG)
+        passwordView?.value?.let {
+            mEntryInfo?.password = it
+        }
+
+        val urlView: T? = findViewWithTag(FIELD_URL_TAG)
+        urlView?.value?.let {
+            mEntryInfo?.url = it
+        }
+
+        val expirationView: U? = findViewWithTag(FIELD_EXPIRES_TAG)
+        expirationView?.activation?.let {
+            mEntryInfo?.expires = it
+        }
+        expirationView?.dateTime?.let {
+            mEntryInfo?.expiryTime = it
+        }
+
+        val notesView: T? = findViewWithTag(FIELD_NOTES_TAG)
+        notesView?.value?.let {
+            mEntryInfo?.notes = it
+        }
+
+        retrieveCustomFieldsFromView(templateFieldNotEmpty)
+    }
+
     fun getEntryInfo(): EntryInfo {
         populateEntryInfoWithViews(true)
         return mEntryInfo ?: EntryInfo()
     }
-
-    abstract fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean)
 
     fun reload() {
         buildTemplateAndPopulateInfo()
@@ -230,6 +376,7 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
     protected fun getFieldViewById(@IdRes viewId: Int): View? {
         return templateContainerView.findViewById(viewId)
             ?: customFieldsContainerView.findViewById(viewId)
+            ?: notReferencedFieldsContainerView.findViewById(viewId)
     }
 
     /* -------------
@@ -347,6 +494,10 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
         retrieveCustomFieldsFromView()
     }
 
+    fun addNotReferencedView(view: View) {
+        notReferencedFieldsContainerView.addView(view)
+    }
+
     fun putOtpElement(otpElement: OtpElement) {
         val otpField = OtpEntryFields.buildOtpField(otpElement,
             mEntryInfo?.title, mEntryInfo?.username)
@@ -428,5 +579,7 @@ abstract class TemplateAbstractView @JvmOverloads constructor(context: Context,
         const val FIELD_EXPIRES_TAG = "FIELD_EXPIRES_TAG"
         const val FIELD_NOTES_TAG = "FIELD_NOTES_TAG"
         const val FIELD_CUSTOM_TAG = "FIELD_CUSTOM_TAG"
+
+        private val TAG = TemplateAbstractView::class.java.name
     }
 }

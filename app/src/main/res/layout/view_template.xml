@@ -62,16 +62,24 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_header_container"
-		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"
+		app:layout_constraintBottom_toTopOf="@+id/not_referenced_fields_container"
 		android:orientation="vertical" />
+
+	<com.kunzisoft.keepass.view.SectionView
+		android:id="@+id/not_referenced_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="?attr/cardViewStyle"
+		android:layout_marginBottom="@dimen/card_view_margin_vertical"
+		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
+		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"/>
 
 	<com.kunzisoft.keepass.view.SectionView
 		android:id="@+id/custom_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle"
-		android:layout_marginBottom="@dimen/card_view_margin_vertical"
-		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
+		app:layout_constraintTop_toBottomOf="@+id/not_referenced_fields_container"
 		app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
