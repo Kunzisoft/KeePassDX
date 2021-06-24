@@ -168,14 +168,12 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
     abstract fun preProcessTemplate()
 
-    private fun buildViewForNotReferencedField(field: Field, attributeType: TemplateAttributeType): View? {
-        val standardFieldTemplateAttribute = TemplateAttribute(
-            field.name,
-            attributeType,
-            field.protectedValue.isProtected,
-            field.protectedValue.stringValue)
-        val fieldTag: String = getTagFromStandardTemplateAttribute(standardFieldTemplateAttribute)
-        return buildViewForTemplateField(standardFieldTemplateAttribute, field, fieldTag)
+    /**
+     * Not referenced fields are standard fields with content but not in template
+     */
+    private fun buildViewForNotReferencedField(field: Field, templateAttribute: TemplateAttribute): View? {
+        val fieldTag: String = getTagFromStandardTemplateAttribute(templateAttribute)
+        return buildViewForTemplateField(templateAttribute, field, fieldTag)
     }
 
     private fun buildViewForCustomField(field: Field): View? {
@@ -241,8 +239,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
     @Suppress("UNCHECKED_CAST")
     private fun populateEntryFieldView(fieldTag: String,
-                                       label: String,
-                                       type: TemplateAttributeType,
+                                       templateAttribute: TemplateAttribute,
                                        entryInfoValue: String,
                                        showEmptyFields: Boolean) {
         var fieldView: TEntryFieldView? = findViewWithTag(fieldTag)
@@ -251,8 +248,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         } else if (fieldView == null && entryInfoValue.isNotEmpty()) {
             // Add new not referenced view if standard field not in template
             fieldView = buildViewForNotReferencedField(
-                Field(label, ProtectedString(false, entryInfoValue)),
-                type
+                Field(templateAttribute.label,
+                    ProtectedString(templateAttribute.protected, "")),
+                templateAttribute
             ) as? TEntryFieldView?
             fieldView?.let {
                 addNotReferencedView(it as View)
@@ -264,8 +262,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
     @Suppress("UNCHECKED_CAST")
     private fun populateDateTimeView(fieldTag: String,
-                                     label: String,
-                                     type: TemplateAttributeType,
+                                     templateAttribute: TemplateAttribute,
                                      expires: Boolean,
                                      expiryTime: DateInstant,
                                      showEmptyFields: Boolean) {
@@ -275,8 +272,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
             fieldView?.isFieldVisible = false
         } else if (fieldView == null && expires) {
             fieldView = buildViewForNotReferencedField(
-                Field(label, ProtectedString(false, "")),
-                type
+                Field(templateAttribute.label,
+                    ProtectedString(templateAttribute.protected, "")),
+                templateAttribute
             ) as? TDateTimeView?
             fieldView?.let {
                 addNotReferencedView(it as View)
@@ -293,34 +291,28 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         mEntryInfo?.let { entryInfo ->
 
             populateEntryFieldView(FIELD_TITLE_TAG,
-                TemplateField.LABEL_TITLE,
-                TemplateAttributeType.INLINE,
+                Template.TITLE_ATTRIBUTE,
                 entryInfo.title,
                 showEmptyFields)
             populateEntryFieldView(FIELD_USERNAME_TAG,
-                TemplateField.LABEL_USERNAME,
-                TemplateAttributeType.INLINE,
+                Template.USERNAME_ATTRIBUTE,
                 entryInfo.username,
                 showEmptyFields)
             populateEntryFieldView(FIELD_PASSWORD_TAG,
-                TemplateField.LABEL_PASSWORD,
-                TemplateAttributeType.INLINE,
+                Template.PASSWORD_ATTRIBUTE,
                 entryInfo.password,
                 showEmptyFields)
             populateEntryFieldView(FIELD_URL_TAG,
-                TemplateField.LABEL_URL,
-                TemplateAttributeType.INLINE,
+                Template.URL_ATTRIBUTE,
                 entryInfo.url,
                 showEmptyFields)
             populateDateTimeView(FIELD_EXPIRES_TAG,
-                TemplateField.LABEL_EXPIRATION,
-                TemplateAttributeType.DATETIME,
+                Template.EXPIRATION_ATTRIBUTE,
                 entryInfo.expires,
                 entryInfo.expiryTime,
                 showEmptyFields)
             populateEntryFieldView(FIELD_NOTES_TAG,
-                TemplateField.LABEL_NOTES,
-                TemplateAttributeType.MULTILINE,
+                Template.NOTES_ATTRIBUTE,
                 entryInfo.notes,
                 showEmptyFields)
 
