@@ -419,4 +419,26 @@
     <string name="import_app_properties_title">Impor setelan aplikasi</string>
     <string name="error_start_database_action">Timbul galat ketika melaksanakan sebuah aksi di basisdata.</string>
     <string name="error_move_group_here">Anda tidak bisa memindahkan sebuah grup ke sini.</string>
+    <string name="device_credential_unlock_enable_title">Membuka kredensial perangkat</string>
+    <string name="biometric_unlock_enable_summary">Memperbolehkan pengguna memindai biometrik pengguna untuk membuka database”</string>
+    <string name="biometric_unlock_enable_title">Membuka kunci biometrik</string>
+    <string name="advanced_unlock_explanation_summary">Gunakan buka kunci lanjutan untuk membuka database dengan lebih mudah</string>
+    <string name="no_credentials_stored">Basis data ini belum menyimpan kredensial.</string>
+    <string name="advanced_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci lanjutan</string>
+    <string name="advanced_unlock_invalid_key">Tidak dapat membaca kunci pembuka lanjutan. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan membuka data lanjutan</string>
+    <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan</string>
+    <string name="credential_before_click_advanced_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
+    <string name="autofill_service_name">Isi formulir KeePassDX otomatis</string>
+    <string name="autofill_preference_title">Pengaturan isi otomatis</string>
+    <string name="set_autofill_service_title">Setel layanan isi otomatis secara default</string>
+    <string name="autofill_explanation_summary">Aktifkan pengisian otomatis untuk mengisi formulir dengan cepat di aplikasi lain</string>
+    <string name="autofill_sign_in_prompt">Masuk dengan KeePassDX</string>
+    <string name="autofill">Isi otomatis</string>
+    <string name="general">Umum</string>
+    <string name="device_credential">Kredensial perangkat</string>
+    <string name="biometric">Biometrik</string>
+    <string name="menu_appearance_settings">Tampilan</string>
+    <string name="database_history">Riwayat</string>
+    <string name="encrypted_value_stored">Enkripsi password telah disimpan.</string>
 </resources>
