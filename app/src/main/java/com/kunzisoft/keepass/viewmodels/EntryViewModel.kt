@@ -68,7 +68,8 @@ class EntryViewModel: ViewModel() {
 
                 // To simplify template field visibility
                 mEntry?.let { entry ->
-                    mDatabase?.decodeEntryWithTemplateConfiguration(entry)?.let {
+                    // Add mLastEntryVersion to check the parent and define the template state
+                    mDatabase?.decodeEntryWithTemplateConfiguration(entry, mLastEntryVersion)?.let {
                         // To update current modification time
                         it.touch(modified = false, touchParents = false)
 

@@ -164,9 +164,10 @@ class Database {
         return templatesGroup == entry.parent
     }
 
-    fun decodeEntryWithTemplateConfiguration(entry: Entry): Entry {
+    fun decodeEntryWithTemplateConfiguration(entry: Entry, lastEntryVersion: Entry? = null): Entry {
         entry.entryKDBX?.let {
-            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, entryIsTemplate(entry))?.let { decode ->
+            val lastEntry = lastEntryVersion ?: entry
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, entryIsTemplate(lastEntry))?.let { decode ->
                 return Entry(decode)
             }
         }
