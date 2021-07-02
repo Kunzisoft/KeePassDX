@@ -104,7 +104,7 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
             sections.add(mainSection)
             return Template(
                 UUID.randomUUID(),
-                TemplateField.LABEL_CREDIT_CARD,
+                TemplateField.LABEL_DEBIT_CREDIT_CARD,
                 IconImage(IconImageStandard(IconImageStandard.CREDIT_CARD_ID)),
                 sections)
         }

@@ -16,8 +16,7 @@ object TemplateField {
     const val LABEL_EXPIRATION = "Expires"
     const val LABEL_NOTES = "Notes"
 
-    const val LABEL_DEBIT_CARD = "Debit Card"
-    const val LABEL_CREDIT_CARD = "Credit Card"
+    const val LABEL_DEBIT_CREDIT_CARD = "Debit / Credit Card"
     const val LABEL_HOLDER = "Holder"
     const val LABEL_NUMBER = "Number"
     const val LABEL_CVV = "CVV"
@@ -69,8 +68,7 @@ object TemplateField {
             LABEL_EXPIRATION.equals(name, true) -> context.getString(R.string.entry_expires)
             LABEL_NOTES.equals(name, true) -> context.getString(R.string.entry_notes)
 
-            LABEL_DEBIT_CARD.equals(name, true) -> context.getString(R.string.debit_credit_card)
-            LABEL_CREDIT_CARD.equals(name, true) -> context.getString(R.string.debit_credit_card)
+            LABEL_DEBIT_CREDIT_CARD.equals(name, true) -> context.getString(R.string.debit_credit_card)
             LABEL_HOLDER.equals(name, true) -> context.getString(R.string.holder)
             LABEL_NUMBER.equals(name, true) -> context.getString(R.string.number)
             LABEL_CVV.equals(name, true) -> context.getString(R.string.card_verification_value)
