@@ -3,7 +3,6 @@ package com.kunzisoft.keepass.database.element.template
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import java.util.*
-import kotlin.collections.ArrayList
 
 class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
@@ -30,8 +29,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val email: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(emailAddressAttribute)
                 add(urlAttribute)
                 add(passwordAttribute)
@@ -46,8 +45,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val wifi: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(ssidAttribute)
                 add(passwordAttribute)
             })
@@ -61,8 +60,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val notes: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(notesPlainAttribute)
             })
             sections.add(mainSection)
@@ -75,8 +74,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val idCard: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(numberAttribute)
                 add(nameAttribute)
                 add(placeOfIssueAttribute)
@@ -93,8 +92,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val creditCard: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(numberAttribute)
                 add(cvvAttribute)
                 add(pinAttribute)
@@ -111,17 +110,20 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val bank: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(nameAttribute)
                 add(urlAttribute)
                 add(usernameAttribute)
                 add(passwordAttribute)
+            })
+            val ibanSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(holderAttribute)
                 add(bicAttribute)
                 add(ibanAttribute)
             })
             sections.add(mainSection)
+            sections.add(ibanSection)
             return Template(
                 UUID.randomUUID(),
                 TemplateField.LABEL_BANK,
@@ -131,8 +133,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     val cryptocurrency: Template
         get() {
-            val sections = ArrayList<TemplateSection>()
-            val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+            val sections = mutableListOf<TemplateSection>()
+            val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(tokenAttribute)
                 add(publicKeyAttribute)
                 add(privateKeyAttribute)

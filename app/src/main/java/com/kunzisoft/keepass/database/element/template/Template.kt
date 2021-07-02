@@ -122,8 +122,8 @@ class Template : Parcelable {
 
         val STANDARD: Template
             get() {
-                val sections = ArrayList<TemplateSection>()
-                val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+                val sections = mutableListOf<TemplateSection>()
+                val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                     add(USERNAME_ATTRIBUTE)
                     add(PASSWORD_ATTRIBUTE)
                     add(URL_ATTRIBUTE)
@@ -140,8 +140,8 @@ class Template : Parcelable {
 
         val CREATION: Template
             get() {
-                val sections = ArrayList<TemplateSection>()
-                val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
+                val sections = mutableListOf<TemplateSection>()
+                val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                     // Dynamic part
                 })
                 sections.add(mainSection)
