@@ -109,8 +109,8 @@
     <string name="name">Name</string>
     <string name="place_of_issue">Place of issue</string>
     <string name="date_of_issue">Date of issue</string>
-    <string name="email">E-mail</string>
-    <string name="email_address">E-mail address</string>
+    <string name="email">Email</string>
+    <string name="email_address">Email address</string>
     <string name="wireless">Wifi</string>
     <string name="ssid">SSID</string>
     <string name="cryptocurrency">Cryptocurrency wallet</string>
