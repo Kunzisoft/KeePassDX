@@ -131,7 +131,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Create a new database with a root group
      */
-    constructor(databaseName: String, rootName: String) {
+    constructor(databaseName: String,
+                rootName: String,
+                templateGroupName: String? = null) {
         name = databaseName
         kdbxVersion = FILE_VERSION_31
         val group = createGroup().apply {
@@ -139,6 +141,21 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
         }
         rootGroup = group
+        if (templateGroupName != null) {
+            val templateGroup = createGroup().apply {
+                title = templateGroupName
+                icon.standard = getStandardIcon(IconImageStandard.BUILD_ID)
+            }
+            addGroupTo(templateGroup, rootGroup)
+            entryTemplatesGroup = templateGroup.id
+
+            // Build default templates
+            TemplateEngine.getDefaults().forEach { defaultTemplate ->
+                mTemplateEngine.createTemplateEntry(defaultTemplate).also {
+                    addEntryTo(it, templateGroup)
+                }
+            }
+        }
     }
 
     override val version: String

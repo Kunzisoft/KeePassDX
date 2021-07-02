@@ -484,6 +484,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     databaseUri,
                     getString(R.string.database_default_name),
                     getString(R.string.database),
+                    getString(R.string.template_group_name),
                     mainCredential
             ) { result ->
                 result.data = Bundle().apply {

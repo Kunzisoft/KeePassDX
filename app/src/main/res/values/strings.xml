@@ -72,6 +72,7 @@
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="database">Database</string>
+    <string name="template_group_name">Templates</string>
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
@@ -110,10 +111,18 @@
     <string name="date_of_issue">Date of issue</string>
     <string name="email">E-mail</string>
     <string name="email_address">E-mail address</string>
-    <string name="vireless_lan">Wireless LAN</string>
+    <string name="wireless">Wifi</string>
     <string name="ssid">SSID</string>
+    <string name="cryptocurrency">Cryptocurrency wallet</string>
+    <string name="token">Token</string>
+    <string name="public_key">Public key</string>
+    <string name="private_key">Private key</string>
+    <string name="seed">Seed</string>
+    <string name="bank">Bank</string>
     <string name="secure_note">Secure Note</string>
     <string name="membership">Membership</string>
+    <string name="standard">Standard</string>
+    <string name="template">Template</string>
     <string name="version">Version</string>
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>

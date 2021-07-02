@@ -5,6 +5,10 @@ import com.kunzisoft.keepass.R
 
 object TemplateField {
 
+    const val LABEL_STANDARD = "Standard"
+    const val LABEL_TEMPLATE = "Template"
+    const val LABEL_VERSION = "Version"
+
     const val LABEL_TITLE = "Title"
     const val LABEL_USERNAME = "Username"
     const val LABEL_PASSWORD = "Password"
@@ -12,9 +16,8 @@ object TemplateField {
     const val LABEL_EXPIRATION = "Expires"
     const val LABEL_NOTES = "Notes"
 
-    const val LABEL_VERSION = "Version"
     const val LABEL_CREDIT_CARD = "Credit Card"
-    const val LABEL_CARD_CARDHOLDER = "Card holder"
+    const val LABEL_CARDHOLDER = "Card holder"
     const val LABEL_NUMBER = "Number"
     const val LABEL_CVV = "CVV"
     const val LABEL_PIN = "PIN"
@@ -22,10 +25,16 @@ object TemplateField {
     const val LABEL_NAME = "Name"
     const val LABEL_PLACE_OF_ISSUE = "Place of issue"
     const val LABEL_DATE_OF_ISSUE = "Date of issue"
-    const val LABEL_EMAIL_TITLE = "E-mail"
+    const val LABEL_EMAIL = "E-mail"
     const val LABEL_EMAIL_ADDRESS = "E-mail address"
-    const val LABEL_WIRELESS_LAN = "Wireless LAN"
+    const val LABEL_WIRELESS = "Wifi"
     const val LABEL_SSID = "SSID"
+    const val LABEL_CRYPTOCURRENCY = "Crypto wallet"
+    const val LABEL_TOKEN = "Token"
+    const val LABEL_PUBLIC_KEY = "Public key"
+    const val LABEL_PRIVATE_KEY = "Private key"
+    const val LABEL_SEED = "Seed"
+    const val LABEL_BANK = "Bank"
     const val LABEL_SECURE_NOTE = "Secure Note"
     const val LABEL_MEMBERSHIP = "Membership"
 
@@ -46,6 +55,10 @@ object TemplateField {
             return name
 
         return when {
+            LABEL_STANDARD.equals(name, true) -> context.getString(R.string.standard)
+            LABEL_TEMPLATE.equals(name, true) -> context.getString(R.string.template)
+            LABEL_VERSION.equals(name, true) -> context.getString(R.string.version)
+
             LABEL_TITLE.equals(name, true) -> context.getString(R.string.entry_title)
             LABEL_USERNAME.equals(name, true) -> context.getString(R.string.entry_user_name)
             LABEL_PASSWORD.equals(name, true) -> context.getString(R.string.entry_password)
@@ -53,9 +66,8 @@ object TemplateField {
             LABEL_EXPIRATION.equals(name, true) -> context.getString(R.string.entry_expires)
             LABEL_NOTES.equals(name, true) -> context.getString(R.string.entry_notes)
 
-            LABEL_VERSION.equals(name, true) -> context.getString(R.string.version)
             LABEL_CREDIT_CARD.equals(name, true) -> context.getString(R.string.credit_card)
-            LABEL_CARD_CARDHOLDER.equals(name, true) -> context.getString(R.string.credit_card_cardholder)
+            LABEL_CARDHOLDER.equals(name, true) -> context.getString(R.string.credit_card_cardholder)
             LABEL_NUMBER.equals(name, true) -> context.getString(R.string.credit_card_number)
             LABEL_CVV.equals(name, true) -> context.getString(R.string.credit_card_security_code)
             LABEL_PIN.equals(name, true) -> context.getString(R.string.credit_card_pin)
@@ -63,10 +75,16 @@ object TemplateField {
             LABEL_NAME.equals(name, true) -> context.getString(R.string.name)
             LABEL_PLACE_OF_ISSUE.equals(name, true) -> context.getString(R.string.place_of_issue)
             LABEL_DATE_OF_ISSUE.equals(name, true) -> context.getString(R.string.date_of_issue)
-            LABEL_EMAIL_TITLE.equals(name, true) -> context.getString(R.string.email)
+            LABEL_EMAIL.equals(name, true) -> context.getString(R.string.email)
             LABEL_EMAIL_ADDRESS.equals(name, true) -> context.getString(R.string.email_address)
-            LABEL_WIRELESS_LAN.equals(name, true) -> context.getString(R.string.vireless_lan)
+            LABEL_WIRELESS.equals(name, true) -> context.getString(R.string.wireless)
             LABEL_SSID.equals(name, true) -> context.getString(R.string.ssid)
+            LABEL_CRYPTOCURRENCY.equals(name, true) -> context.getString(R.string.cryptocurrency)
+            LABEL_TOKEN.equals(name, true) -> context.getString(R.string.token)
+            LABEL_PUBLIC_KEY.equals(name, true) -> context.getString(R.string.public_key)
+            LABEL_PRIVATE_KEY.equals(name, true) -> context.getString(R.string.private_key)
+            LABEL_SEED.equals(name, true) -> context.getString(R.string.seed)
+            LABEL_BANK.equals(name, true) -> context.getString(R.string.bank)
             LABEL_SECURE_NOTE.equals(name, true) -> context.getString(R.string.secure_note)
             LABEL_MEMBERSHIP.equals(name, true) -> context.getString(R.string.membership)
 

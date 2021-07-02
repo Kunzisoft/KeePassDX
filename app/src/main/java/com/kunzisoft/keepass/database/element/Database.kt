@@ -444,8 +444,11 @@ class Database {
         this.mDatabaseKDBX = databaseKDBX
     }
 
-    fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
-        val newDatabase = DatabaseKDBX(databaseName, rootName)
+    fun createData(databaseUri: Uri,
+                   databaseName: String,
+                   rootName: String,
+                   templateGroupName: String?) {
+        val newDatabase = DatabaseKDBX(databaseName, rootName, templateGroupName)
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state

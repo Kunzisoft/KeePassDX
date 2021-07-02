@@ -24,13 +24,6 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.BUILD_ID
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_EXPIRATION
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_NOTES
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_PASSWORD
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_TITLE
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_URL
-import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_USERNAME
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -115,16 +108,17 @@ class Template : Parcelable {
             return arrayOfNulls(size)
         }
 
-        val TITLE_ATTRIBUTE = TemplateAttribute(LABEL_TITLE, TemplateAttributeType.INLINE)
-        val USERNAME_ATTRIBUTE = TemplateAttribute(LABEL_USERNAME, TemplateAttributeType.INLINE)
-        val PASSWORD_ATTRIBUTE = TemplateAttribute(LABEL_PASSWORD,
+        val TITLE_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_TITLE, TemplateAttributeType.INLINE)
+        val USERNAME_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.INLINE)
+        val PASSWORD_ATTRIBUTE = TemplateAttribute(
+            TemplateField.LABEL_PASSWORD,
             TemplateAttributeType.SMALL_MULTILINE,
             true,
             "",
             TemplateAttributeAction.PASSWORD_GENERATION)
-        val URL_ATTRIBUTE = TemplateAttribute(LABEL_URL, TemplateAttributeType.INLINE)
-        val EXPIRATION_ATTRIBUTE = TemplateAttribute(LABEL_EXPIRATION, TemplateAttributeType.DATETIME)
-        val NOTES_ATTRIBUTE = TemplateAttribute(LABEL_NOTES, TemplateAttributeType.MULTILINE)
+        val URL_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.INLINE)
+        val EXPIRATION_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_EXPIRATION, TemplateAttributeType.DATETIME)
+        val NOTES_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_NOTES, TemplateAttributeType.MULTILINE)
 
         val STANDARD: Template
             get() {
@@ -137,10 +131,11 @@ class Template : Parcelable {
                     add(NOTES_ATTRIBUTE)
                 })
                 sections.add(mainSection)
-                return Template(DatabaseVersioned.UUID_ZERO,
-                        "Standard",
-                        IconImage(),
-                        sections)
+                return Template(
+                    DatabaseVersioned.UUID_ZERO,
+                    TemplateField.LABEL_STANDARD,
+                    IconImage(),
+                    sections)
             }
 
         val CREATION: Template
@@ -151,9 +146,9 @@ class Template : Parcelable {
                 })
                 sections.add(mainSection)
                 return Template(UUID(0, 1),
-                        "Template",
-                        IconImage(IconImageStandard(BUILD_ID)),
-                        sections)
+                    TemplateField.LABEL_TEMPLATE,
+                    IconImage(IconImageStandard(IconImageStandard.BUILD_ID)),
+                    sections)
             }
     }
 }

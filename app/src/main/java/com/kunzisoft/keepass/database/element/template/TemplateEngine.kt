@@ -9,6 +9,7 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.HashMap
@@ -286,6 +287,33 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return entryCopy
     }
 
+    fun createTemplateEntry(template: Template): EntryKDBX {
+        val newEntry = EntryKDBX().apply {
+            nodeId = NodeIdUUID(template.uuid)
+            title = template.title
+            icon = template.icon
+            template.sections.forEachIndexed { index, section ->
+                section.attributes.forEach { attribute ->
+                    var fieldValue = if (attribute.protected) "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED " else ""
+                    fieldValue += when (attribute.type) {
+                        TemplateAttributeType.INLINE -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+                        TemplateAttributeType.SMALL_MULTILINE -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+                        TemplateAttributeType.MULTILINE -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
+                        TemplateAttributeType.DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
+                        TemplateAttributeType.TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
+                        TemplateAttributeType.DATETIME -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
+                    }
+                    putField(attribute.label, ProtectedString(false, fieldValue))
+                }
+                if (index > 0 && index < template.sections.size -1) {
+                    // Value is not important with section => [Section_2]
+                    putField("$PREFIX_DECODED_TEMPLATE$SECTION_DECODED_TEMPLATE${index-1}$SUFFIX_DECODED_TEMPLATE", ProtectedString())
+                }
+            }
+        }
+        return encodeTemplateEntry(newEntry)
+    }
+
     companion object {
         private data class TemplateAttributePosition(var position: Int, var attribute: TemplateAttribute)
 
@@ -293,6 +321,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
         private const val PREFIX_DECODED_TEMPLATE = "["
         private const val SUFFIX_DECODED_TEMPLATE = "]"
+        private const val SECTION_DECODED_TEMPLATE = "Section_"
 
         // Custom template ref
         private const val TEMPLATE_ATTRIBUTE_TITLE = "@title"
@@ -339,6 +368,20 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 TEMPLATE_ATTRIBUTE_NOTES.equals(name, true) -> TemplateField.LABEL_NOTES
                 else -> name
             }
+        }
+        
+        fun getDefaults(): List<Template> {
+            val templateBuilder = TemplateBuilder { plainLabel ->
+                "$PREFIX_DECODED_TEMPLATE$plainLabel$SUFFIX_DECODED_TEMPLATE"
+            }
+            return listOf(
+                templateBuilder.email,
+                templateBuilder.wifi,
+                templateBuilder.notes,
+                templateBuilder.idCard,
+                templateBuilder.creditCard,
+                templateBuilder.bank,
+                templateBuilder.cryptocurrency)
         }
     }
 }
