@@ -11,9 +11,10 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateField
 
 
-class TemplatesSelectorAdapter(context: Context,
+class TemplatesSelectorAdapter(private val context: Context,
                                private val database: Database?,
                                private var templates: List<Template>): BaseAdapter() {
 
@@ -44,7 +45,7 @@ class TemplatesSelectorAdapter(context: Context,
         holder.icon?.let { icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(icon, template.icon, mIconColor)
         }
-        holder.name?.text = template.title
+        holder.name?.text = TemplateField.getLocalizedName(context, template.title)
 
         return templateView!!
     }

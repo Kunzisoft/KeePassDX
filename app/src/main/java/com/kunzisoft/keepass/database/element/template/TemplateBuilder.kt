@@ -8,9 +8,9 @@ import kotlin.collections.ArrayList
 class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
 
     private val urlAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_URL), TemplateAttributeType.INLINE)
-    private val notesPlainAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_NOTES), TemplateAttributeType.MULTILINE)
     private val usernameAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_USERNAME), TemplateAttributeType.INLINE)
-    private val cardholderAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_CARDHOLDER), TemplateAttributeType.INLINE)
+    private val notesPlainAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_NOTES), TemplateAttributeType.MULTILINE)
+    private val holderAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_HOLDER), TemplateAttributeType.INLINE)
     private val numberAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_NUMBER), TemplateAttributeType.INLINE)
     private val cvvAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_CVV), TemplateAttributeType.INLINE, true)
     private val pinAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_PIN), TemplateAttributeType.INLINE, true)
@@ -25,7 +25,8 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
     private val publicKeyAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_PUBLIC_KEY), TemplateAttributeType.INLINE)
     private val privateKeyAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_PRIVATE_KEY), TemplateAttributeType.INLINE, true)
     private val seedAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_SEED), TemplateAttributeType.INLINE, true)
-    private val bankAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_BANK), TemplateAttributeType.INLINE)
+    private val bicAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_BIC), TemplateAttributeType.INLINE)
+    private val ibanAttribute = TemplateAttribute(labelBuilder(TemplateField.LABEL_IBAN), TemplateAttributeType.INLINE)
 
     val email: Template
         get() {
@@ -97,7 +98,7 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
                 add(numberAttribute)
                 add(cvvAttribute)
                 add(pinAttribute)
-                add(cardholderAttribute)
+                add(holderAttribute)
                 add(expirationDateAttribute)
             })
             sections.add(mainSection)
@@ -112,10 +113,13 @@ class TemplateBuilder(labelBuilder: (plainLabel: String) -> String) {
         get() {
             val sections = ArrayList<TemplateSection>()
             val mainSection = TemplateSection(ArrayList<TemplateAttribute>().apply {
-                add(bankAttribute)
+                add(nameAttribute)
                 add(urlAttribute)
                 add(usernameAttribute)
                 add(passwordAttribute)
+                add(holderAttribute)
+                add(bicAttribute)
+                add(ibanAttribute)
             })
             sections.add(mainSection)
             return Template(

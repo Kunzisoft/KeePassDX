@@ -16,8 +16,9 @@ object TemplateField {
     const val LABEL_EXPIRATION = "Expires"
     const val LABEL_NOTES = "Notes"
 
+    const val LABEL_DEBIT_CARD = "Debit Card"
     const val LABEL_CREDIT_CARD = "Credit Card"
-    const val LABEL_CARDHOLDER = "Card holder"
+    const val LABEL_HOLDER = "Holder"
     const val LABEL_NUMBER = "Number"
     const val LABEL_CVV = "CVV"
     const val LABEL_PIN = "PIN"
@@ -29,12 +30,14 @@ object TemplateField {
     const val LABEL_EMAIL_ADDRESS = "E-mail address"
     const val LABEL_WIRELESS = "Wifi"
     const val LABEL_SSID = "SSID"
-    const val LABEL_CRYPTOCURRENCY = "Crypto wallet"
+    const val LABEL_CRYPTOCURRENCY = "Cryptocurrency wallet"
     const val LABEL_TOKEN = "Token"
     const val LABEL_PUBLIC_KEY = "Public key"
     const val LABEL_PRIVATE_KEY = "Private key"
     const val LABEL_SEED = "Seed"
     const val LABEL_BANK = "Bank"
+    const val LABEL_BIC = "BIC"
+    const val LABEL_IBAN = "IBAN"
     const val LABEL_SECURE_NOTE = "Secure Note"
     const val LABEL_MEMBERSHIP = "Membership"
 
@@ -66,11 +69,12 @@ object TemplateField {
             LABEL_EXPIRATION.equals(name, true) -> context.getString(R.string.entry_expires)
             LABEL_NOTES.equals(name, true) -> context.getString(R.string.entry_notes)
 
-            LABEL_CREDIT_CARD.equals(name, true) -> context.getString(R.string.credit_card)
-            LABEL_CARDHOLDER.equals(name, true) -> context.getString(R.string.credit_card_cardholder)
-            LABEL_NUMBER.equals(name, true) -> context.getString(R.string.credit_card_number)
-            LABEL_CVV.equals(name, true) -> context.getString(R.string.credit_card_security_code)
-            LABEL_PIN.equals(name, true) -> context.getString(R.string.credit_card_pin)
+            LABEL_DEBIT_CARD.equals(name, true) -> context.getString(R.string.debit_credit_card)
+            LABEL_CREDIT_CARD.equals(name, true) -> context.getString(R.string.debit_credit_card)
+            LABEL_HOLDER.equals(name, true) -> context.getString(R.string.holder)
+            LABEL_NUMBER.equals(name, true) -> context.getString(R.string.number)
+            LABEL_CVV.equals(name, true) -> context.getString(R.string.card_verification_value)
+            LABEL_PIN.equals(name, true) -> context.getString(R.string.personal_identification_number)
             LABEL_ID_CARD.equals(name, true) -> context.getString(R.string.id_card)
             LABEL_NAME.equals(name, true) -> context.getString(R.string.name)
             LABEL_PLACE_OF_ISSUE.equals(name, true) -> context.getString(R.string.place_of_issue)
@@ -85,6 +89,8 @@ object TemplateField {
             LABEL_PRIVATE_KEY.equals(name, true) -> context.getString(R.string.private_key)
             LABEL_SEED.equals(name, true) -> context.getString(R.string.seed)
             LABEL_BANK.equals(name, true) -> context.getString(R.string.bank)
+            LABEL_BIC.equals(name, true) -> context.getString(R.string.bank_identifier_code)
+            LABEL_IBAN.equals(name, true) -> context.getString(R.string.international_bank_account_number)
             LABEL_SECURE_NOTE.equals(name, true) -> context.getString(R.string.secure_note)
             LABEL_MEMBERSHIP.equals(name, true) -> context.getString(R.string.membership)
 

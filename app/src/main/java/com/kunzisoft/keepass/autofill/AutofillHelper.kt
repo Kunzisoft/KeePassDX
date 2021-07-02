@@ -177,7 +177,7 @@ object AutofillHelper {
             }
         }
         for (field in entryInfo.customFields) {
-            if (field.name == TemplateField.LABEL_CARDHOLDER) {
+            if (field.name == TemplateField.LABEL_HOLDER) {
                 struct.ccNameId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }

@@ -100,11 +100,11 @@
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
-    <string name="credit_card">Credit Card</string>
-    <string name="credit_card_cardholder">Cardholder</string>
-    <string name="credit_card_number">Number</string>
-    <string name="credit_card_security_code">CVV</string>
-    <string name="credit_card_pin">PIN</string>
+    <string name="debit_credit_card">Debit / Credit Card</string>
+    <string name="holder">Holder</string>
+    <string name="number">Number</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="personal_identification_number">PIN</string>
     <string name="id_card">ID Card</string>
     <string name="name">Name</string>
     <string name="place_of_issue">Place of issue</string>
@@ -119,6 +119,9 @@
     <string name="private_key">Private key</string>
     <string name="seed">Seed</string>
     <string name="bank">Bank</string>
+    <string name="bank_name">Bank name</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="international_bank_account_number">IBAN</string>
     <string name="secure_note">Secure Note</string>
     <string name="membership">Membership</string>
     <string name="standard">Standard</string>

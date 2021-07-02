@@ -369,9 +369,9 @@
     <string name="otp_counter">Zähler</string>
     <string name="otp_digits">Stellen</string>
     <string name="otp_algorithm">Algorithmus</string>
-    <string name="credit_card_cardholder">Karteninhaber</string>
-    <string name="credit_card_number">Nummer</string>
-    <string name="credit_card_security_code">Prüfnummer</string>
+    <string name="holder">Karteninhaber</string>
+    <string name="number">Nummer</string>
+    <string name="card_verification_value">Prüfnummer</string>
     <string name="entry_otp">OTP</string>
     <string name="error_invalid_OTP">Ungültiges OTP-Geheimnis.</string>
     <string name="error_disallow_no_credentials">Mindestens eine Anmeldeinformation muss festgelegt sein.</string>
