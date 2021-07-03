@@ -173,7 +173,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val newFields = arrayOfNulls<Field>(attributes.size)
         attributes.values.forEach {
             // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
-            newFields[it.position] = Field(PREFIX_DECODED_TEMPLATE + it.attribute.label + SUFFIX_DECODED_TEMPLATE,
+            newFields[it.position] = Field(PREFIX_DECODED_TEMPLATE + decodeTemplateAttribute(it.attribute.label) + SUFFIX_DECODED_TEMPLATE,
                     ProtectedString(false, it.attribute.defaultValue))
         }
         newFields.forEach { field ->
@@ -194,7 +194,8 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         // Dynamic attributes
         var index = 0
         templateEntry.doForEachDecodedCustomField { field ->
-            val label = field.name.removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE)
+            val label = encodeTemplateAttribute(field.name
+                .removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE))
             val value = field.protectedValue
             when {
                 label.equals(TEMPLATE_LABEL_VERSION, true) -> {
@@ -377,7 +378,6 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     && name.endsWith(SUFFIX_DECODED_TEMPLATE)
         }
 
-        // TODO template attribute
         fun decodeTemplateAttribute(name: String): String {
             return when {
                 TEMPLATE_LABEL_VERSION.equals(name, true) -> TemplateField.LABEL_VERSION
@@ -388,6 +388,19 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 TEMPLATE_ATTRIBUTE_EXP_DATE.equals(name, true) -> TemplateField.LABEL_EXPIRATION
                 TEMPLATE_ATTRIBUTE_EXPIRES.equals(name, true) -> TemplateField.LABEL_EXPIRATION
                 TEMPLATE_ATTRIBUTE_NOTES.equals(name, true) -> TemplateField.LABEL_NOTES
+                else -> name
+            }
+        }
+
+        fun encodeTemplateAttribute(name: String): String {
+            return when {
+                TemplateField.LABEL_VERSION.equals(name, true) -> TEMPLATE_LABEL_VERSION
+                TemplateField.LABEL_TITLE.equals(name, true) -> TEMPLATE_ATTRIBUTE_TITLE
+                TemplateField.LABEL_USERNAME.equals(name, true) -> TEMPLATE_ATTRIBUTE_USERNAME
+                TemplateField.LABEL_PASSWORD.equals(name, true) -> TEMPLATE_ATTRIBUTE_PASSWORD
+                TemplateField.LABEL_URL.equals(name, true) -> TEMPLATE_ATTRIBUTE_URL
+                TemplateField.LABEL_EXPIRATION.equals(name, true) -> TEMPLATE_ATTRIBUTE_EXP_DATE
+                TemplateField.LABEL_NOTES.equals(name, true) -> TEMPLATE_ATTRIBUTE_NOTES
                 else -> name
             }
         }
