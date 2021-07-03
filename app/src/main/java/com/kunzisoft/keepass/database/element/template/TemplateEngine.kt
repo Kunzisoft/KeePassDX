@@ -74,103 +74,6 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return null
     }
 
-    private fun conditionCustomFields(attributes: HashMap<String, TemplateAttributePosition>,
-                                      field: Field,
-                                      actionForEachAttributePrefix: ((TemplateAttributePosition) -> Unit)?,
-                                      retrieveTemplateVersion: (Int?) -> Unit) {
-        val label = field.name
-        val value = field.protectedValue.stringValue
-        when {
-            label.equals(TEMPLATE_LABEL_VERSION, true) -> {
-                try {
-                    retrieveTemplateVersion.invoke(value.toIntOrNull())
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to retrieve template version", e)
-                }
-            }
-            label.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX) -> {
-                try {
-                    val attributeName = label.substring(TEMPLATE_ATTRIBUTE_POSITION_PREFIX.length)
-                    val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
-                    attribute.position = value.toInt()
-                    actionForEachAttributePrefix?.invoke(attribute)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to retrieve template position", e)
-                }
-            }
-            label.startsWith(TEMPLATE_ATTRIBUTE_TITLE_PREFIX) -> {
-                try {
-                    val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
-                    val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
-                    attribute.attribute.label = value
-                    actionForEachAttributePrefix?.invoke(attribute)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to retrieve template title", e)
-                }
-            }
-            label.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX) -> {
-                try {
-                    val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TYPE_PREFIX.length)
-                    val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
-                    if (value.contains(TEMPLATE_ATTRIBUTE_TYPE_PROTECTED, true)) {
-                        attribute.attribute.protected = true
-                    }
-                    when {
-                        value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE, true) ||
-                                value.contains(TEMPLATE_ATTRIBUTE_TYPE_POPOUT, true) -> {
-                            attribute.attribute.type = TemplateAttributeType.INLINE
-                        }
-                        value.contains(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) ||
-                                value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
-                            attribute.attribute.type = TemplateAttributeType.MULTILINE
-                        }
-                        value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> {
-                            attribute.attribute.type = TemplateAttributeType.DATETIME
-                        }
-                        value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
-                            attribute.attribute.type = TemplateAttributeType.DATE
-                        }
-                        value.contains(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
-                            attribute.attribute.type = TemplateAttributeType.TIME
-                        }
-                        value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
-                            // TODO List box
-                            attribute.attribute.type = TemplateAttributeType.INLINE
-                        }
-                    }
-                    actionForEachAttributePrefix?.invoke(attribute)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to retrieve template type", e)
-                }
-            }
-            // TODO section
-        }
-    }
-
-    private fun getTemplateFromTemplateEntry(templateEntry: EntryKDBX): Template? {
-        var templateVersion: Int? = null
-        val attributes = HashMap<String, TemplateAttributePosition>()
-        templateEntry.doForEachDecodedCustomField { field ->
-            conditionCustomFields(attributes, field, null) {
-                templateVersion = it
-            }
-        }
-
-        return templateVersion?.let { version ->
-            val templateAttributes = arrayOfNulls<TemplateAttribute>(attributes.size)
-            attributes.values.forEach {
-                val attribute = it.attribute.apply {
-                    this.label = decodeTemplateAttribute(this.label)
-                }
-                templateAttributes[it.position] = attribute
-            }
-            val templateSections = mutableListOf<TemplateSection>()
-            val templateSection = TemplateSection(templateAttributes.filterNotNull())
-            templateSections.add(templateSection)
-            Template(templateEntry.id, templateEntry.title, templateEntry.icon, templateSections, version)
-        }
-    }
-
     fun getTemplate(entryKDBX: EntryKDBX): Template? {
         UuidUtil.fromHexString(entryKDBX.getCustomFieldValue(TEMPLATE_ENTRY_UUID))?.let { templateUUID ->
             return getTemplateByCache(templateUUID)
@@ -194,15 +97,77 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
             updateWith(templateEntry)
         }
         // Remove template version
+        entryCopy.getFieldValue(TEMPLATE_LABEL_VERSION)
+        try {
+            // value.toIntOrNull()
+            // TODO template decoder version
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to retrieve template version", e)
+        }
         entryCopy.removeField(TEMPLATE_LABEL_VERSION)
         // Dynamic attributes
         templateEntry.doForEachDecodedCustomField { field ->
-            conditionCustomFields(attributes, field, {
-                if (field.name.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX)) {
-                    it.attribute.defaultValue = field.protectedValue.stringValue
+
+            val label = field.name
+            val value = field.protectedValue.stringValue
+            when {
+                label.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX) -> {
+                    try {
+                        val attributeName = label.substring(TEMPLATE_ATTRIBUTE_POSITION_PREFIX.length)
+                        val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
+                        attribute.position = value.toInt()
+                        entryCopy.removeField(field.name)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve template position", e)
+                    }
                 }
-                entryCopy.removeField(field.name)
-            }, { })
+                label.startsWith(TEMPLATE_ATTRIBUTE_TITLE_PREFIX) -> {
+                    try {
+                        val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
+                        val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
+                        attribute.attribute.label = value
+                        entryCopy.removeField(field.name)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve template title", e)
+                    }
+                }
+                label.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX) -> {
+                    try {
+                        val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TYPE_PREFIX.length)
+                        val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
+                        if (value.contains(TEMPLATE_ATTRIBUTE_TYPE_PROTECTED, true)) {
+                            attribute.attribute.protected = true
+                        }
+                        when {
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE, true) ||
+                                    value.contains(TEMPLATE_ATTRIBUTE_TYPE_POPOUT, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.INLINE
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) ||
+                                    value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.MULTILINE
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.DATETIME
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.DATE
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.TIME
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
+                                // TODO List box
+                                attribute.attribute.type = TemplateAttributeType.INLINE
+                            }
+                        }
+                        attribute.attribute.defaultValue = field.protectedValue.stringValue
+                        entryCopy.removeField(field.name)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve template type", e)
+                    }
+                }
+            }
         }
 
         val newFields = arrayOfNulls<Field>(attributes.size)
@@ -216,6 +181,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 entryCopy.putField(field)
             }
         }
+
         return entryCopy
     }
 
@@ -294,24 +260,78 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
             icon = template.icon
             template.sections.forEachIndexed { index, section ->
                 section.attributes.forEach { attribute ->
-                    var fieldValue = if (attribute.protected) "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED " else ""
-                    fieldValue += when (attribute.type) {
-                        TemplateAttributeType.INLINE -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
-                        TemplateAttributeType.SMALL_MULTILINE -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
-                        TemplateAttributeType.MULTILINE -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
-                        TemplateAttributeType.DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
-                        TemplateAttributeType.TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
-                        TemplateAttributeType.DATETIME -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
+                    if (index > 0) {
+                        // Label is not important with section => [Section_X]: Divider
+                        putField("$PREFIX_DECODED_TEMPLATE$SECTION_DECODED_TEMPLATE${index-1}$SUFFIX_DECODED_TEMPLATE",
+                            ProtectedString(false, TEMPLATE_ATTRIBUTE_TYPE_DIVIDER))
                     }
-                    putField(attribute.label, ProtectedString(false, fieldValue))
-                }
-                if (index > 0 && index < template.sections.size -1) {
-                    // Value is not important with section => [Section_2]
-                    putField("$PREFIX_DECODED_TEMPLATE$SECTION_DECODED_TEMPLATE${index-1}$SUFFIX_DECODED_TEMPLATE", ProtectedString())
+
+                    putField(buildFieldFromTemplateAttribute(attribute))
                 }
             }
         }
         return encodeTemplateEntry(newEntry)
+    }
+
+    private fun getTemplateFromTemplateEntry(templateEntry: EntryKDBX): Template? {
+
+        val templateEntryDecoded = decodeTemplateEntry(templateEntry)
+
+        val templateSections = mutableListOf<TemplateSection>()
+        val sectionFields = mutableListOf<Field>()
+        templateEntryDecoded.doForEachDecodedCustomField { field ->
+
+            if (field.name.contains(SECTION_DECODED_TEMPLATE)) {
+
+                val sectionAttributes = mutableListOf<TemplateAttribute>()
+                sectionFields.forEach {
+                    sectionAttributes.add(buildTemplateAttributeFromField(it))
+                }
+                templateSections.add(TemplateSection(sectionAttributes))
+                sectionFields.clear()
+            } else {
+                sectionFields.add(field)
+            }
+        }
+
+        val sectionAttributes = mutableListOf<TemplateAttribute>()
+        sectionFields.forEach {
+            sectionAttributes.add(buildTemplateAttributeFromField(it))
+        }
+        templateSections.add(TemplateSection(sectionAttributes))
+
+        // TODO Add decoder version
+        return Template(templateEntry.id, templateEntry.title, templateEntry.icon, templateSections, 1)
+    }
+
+    private fun buildTemplateAttributeFromField(field: Field): TemplateAttribute {
+        val type = when {
+            field.protectedValue.stringValue.equals(TEMPLATE_ATTRIBUTE_TYPE_INLINE, true) -> TemplateAttributeType.INLINE
+            field.protectedValue.stringValue.equals(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) -> TemplateAttributeType.MULTILINE
+            field.protectedValue.stringValue.equals(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> TemplateAttributeType.DATE
+            field.protectedValue.stringValue.equals(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> TemplateAttributeType.TIME
+            field.protectedValue.stringValue.equals(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> TemplateAttributeType.DATETIME
+            else -> TemplateAttributeType.INLINE
+        }
+        return TemplateAttribute(
+            field.name.removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE),
+            type,
+            field.protectedValue.stringValue.contains(TEMPLATE_ATTRIBUTE_TYPE_PROTECTED, true)
+        )
+    }
+
+    private fun buildFieldFromTemplateAttribute(attribute: TemplateAttribute): Field {
+        var fieldValue = if (attribute.protected) "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED " else ""
+        fieldValue += when (attribute.type) {
+            TemplateAttributeType.INLINE -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+            TemplateAttributeType.SMALL_MULTILINE -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+            TemplateAttributeType.MULTILINE -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
+            TemplateAttributeType.DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
+            TemplateAttributeType.TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
+            TemplateAttributeType.DATETIME -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
+        }
+        return Field("$PREFIX_DECODED_TEMPLATE${attribute.label}$SUFFIX_DECODED_TEMPLATE",
+            ProtectedString(false, fieldValue))
     }
 
     companion object {
@@ -321,7 +341,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
         private const val PREFIX_DECODED_TEMPLATE = "["
         private const val SUFFIX_DECODED_TEMPLATE = "]"
-        private const val SECTION_DECODED_TEMPLATE = "Section_"
+        private const val SECTION_DECODED_TEMPLATE = "Divider_"
 
         // Custom template ref
         private const val TEMPLATE_ATTRIBUTE_TITLE = "@title"
@@ -343,6 +363,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         private const val TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME = "Date Time"
         private const val TEMPLATE_ATTRIBUTE_TYPE_DATE = "Date"
         private const val TEMPLATE_ATTRIBUTE_TYPE_TIME = "Time"
+        private const val TEMPLATE_ATTRIBUTE_TYPE_DIVIDER = "Divider"
         private const val TEMPLATE_ATTRIBUTE_TYPE_LISTBOX = "Listbox"
         private const val TEMPLATE_ATTRIBUTE_TYPE_POPOUT = "Popout"
         private const val TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX = "Rich Textbox"
@@ -356,6 +377,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     && name.endsWith(SUFFIX_DECODED_TEMPLATE)
         }
 
+        // TODO template attribute
         fun decodeTemplateAttribute(name: String): String {
             return when {
                 TEMPLATE_LABEL_VERSION.equals(name, true) -> TemplateField.LABEL_VERSION
@@ -371,9 +393,7 @@ class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         }
         
         fun getDefaults(): List<Template> {
-            val templateBuilder = TemplateBuilder { plainLabel ->
-                "$PREFIX_DECODED_TEMPLATE$plainLabel$SUFFIX_DECODED_TEMPLATE"
-            }
+            val templateBuilder = TemplateBuilder()
             return listOf(
                 templateBuilder.email,
                 templateBuilder.wifi,
