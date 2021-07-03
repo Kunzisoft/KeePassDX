@@ -14,7 +14,7 @@ class TemplateBuilder {
         TemplateAttributeType.TEXT,
         false,
         LinkedHashMap<String, String>().apply {
-            put(TemplateAttributeOption.NUMBER_LINES, TemplateAttributeOption.NUMBER_LINES_INFINITE)
+            put(TemplateAttributeOption.NUMBER_LINES, TemplateAttributeOption.NUMBER_LINES_MANY)
         })
     private val holderAttribute = TemplateAttribute(TemplateField.LABEL_HOLDER, TemplateAttributeType.TEXT)
     private val numberAttribute = TemplateAttribute(TemplateField.LABEL_NUMBER, TemplateAttributeType.TEXT)

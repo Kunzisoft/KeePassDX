@@ -117,7 +117,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                                     value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
                                 attribute.attribute.options[TemplateAttributeOption.NUMBER_LINES] =
-                                    TemplateAttributeOption.NUMBER_LINES_INFINITE
+                                    TemplateAttributeOption.NUMBER_LINES_MANY
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
@@ -134,6 +134,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
+                                // TODO List box
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DIVIDER, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DIVIDER
@@ -190,9 +191,27 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         ProtectedString(false, label)
                     )
                     // Add protected string if needed
-                    var typeString = value.stringValue
-                    if (value.isProtected
-                        && !typeString.contains(TEMPLATE_ATTRIBUTE_TYPE_PROTECTED)) {
+                    var typeString: String = when {
+                        value.stringValue.contains(TemplateAttributeType.TEXT.label, true) -> {
+                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.NUMBER_LINES]) {
+                                TemplateAttributeOption.NUMBER_LINES_MANY -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
+                                else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+                            }
+                        }
+                        value.stringValue.contains(TemplateAttributeType.DATETIME.label, true) -> {
+                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.DATETIME_FORMAT]) {
+                                TemplateAttributeOption.DATETIME_FORMAT_DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
+                                TemplateAttributeOption.DATETIME_FORMAT_TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
+                                else -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
+                            }
+                        }
+                        value.stringValue.contains(TemplateAttributeType.DIVIDER.label, true) -> {
+                            TEMPLATE_ATTRIBUTE_TYPE_DIVIDER
+                        }
+                        else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+                    }
+
+                    if (value.isProtected) {
                         typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString"
                     }
                     entryCopy.putField(

@@ -8,11 +8,11 @@ class TemplateAttributeOption {
 
         /**
          * Applicable to type TEXT
-         * Integer, can be "-1" to infinite value
+         * Integer, can be "-1" or "many" to infinite value
          * "1" if not defined
          */
         const val NUMBER_LINES = "lines"
-        const val NUMBER_LINES_INFINITE = "-1"
+        const val NUMBER_LINES_MANY = "many"
 
         /**
          * Applicable to type TEXT
@@ -33,7 +33,11 @@ class TemplateAttributeOption {
 
         fun getNumberLines(options: LinkedHashMap<String, String>): Int {
             return try {
-                options[NUMBER_LINES]?.toInt() ?: 1
+                val value = options[NUMBER_LINES]
+                if (value == NUMBER_LINES_MANY)
+                    -1
+                else
+                    options[NUMBER_LINES]?.toInt() ?: 1
             } catch (e: Exception) {
                 1
             }
