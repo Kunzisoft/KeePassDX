@@ -27,7 +27,7 @@
     <string name="app_timeout">Час очікування</string>
     <string name="app_timeout_summary">Час бездіяльности до блокування бази даних</string>
     <string name="application">Застосунок</string>
-    <string name="menu_app_settings">Параметри застосунку</string>
+    <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймує дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
@@ -87,8 +87,8 @@
     <string name="hide_password_summary">Типово приховувати паролі за (***)</string>
     <string name="about">Про KeePassDX</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
-    <string name="settings">Параметри</string>
-    <string name="menu_database_settings">Параметри бази даних</string>
+    <string name="settings">Налаштування</string>
+    <string name="menu_database_settings">Налаштування бази даних</string>
     <string name="menu_delete">Видалити</string>
     <string name="menu_donate">Допомогти</string>
     <string name="menu_edit">Змінити</string>
@@ -192,7 +192,7 @@
     <string name="menu_copy">Скопіювати</string>
     <string name="content_description_keyfile_checkbox">Поле файла ключа</string>
     <string name="menu_master_key_settings">Налаштування головного ключа</string>
-    <string name="menu_security_settings">Параметри безпеки</string>
+    <string name="menu_security_settings">Налаштування безпеки</string>
     <string name="menu_advanced_unlock_settings">Розширене розблокування</string>
     <string name="menu_form_filling_settings">Заповнення форм</string>
     <string name="copy_field">Скопійовано %1$s</string>
@@ -305,7 +305,7 @@
     <string name="education_new_node_summary">Створюйте записи для керування вашими обліковими записами.
 \n
 \nСтворюйте групи (~теки) для впорядкування записів у вашій базі даних.</string>
-    <string name="device_keyboard_setting_title">Параметри клавіатури пристрою</string>
+    <string name="device_keyboard_setting_title">Налаштування клавіатури пристрою</string>
     <string name="education_new_node_title">Додавайте елементи до вашої бази даних</string>
     <string name="education_select_database_title">Відкрийте наявну базу даних</string>
     <string name="education_select_database_summary">Відкрийте файл раніше створеної бази даних з файлового менеджера, щоб продовжити користуватися ним.</string>
@@ -344,7 +344,7 @@
     <string name="keyboard_selection_entry_summary">Під час перегляду запису в KeePassDX заповнювати Magikeyboard цим записом</string>
     <string name="keyboard_selection_entry_title">Вибір запису</string>
     <string name="keyboard_entry_category">Запис</string>
-    <string name="keyboard_setting_label">Параметри Magikeyboard</string>
+    <string name="keyboard_setting_label">Налаштування Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Увімкнути власну клавіатуру для заповнення ваших паролів та інших полів ідентифікації</string>
@@ -359,8 +359,8 @@
     <string name="settings_database_force_changing_master_key_next_time_title">Примусова зміна наступного разу</string>
     <string name="settings_database_force_changing_master_key_summary">Вимагати змінити головний ключ (днів)</string>
     <string name="settings_database_force_changing_master_key_title">Примусова зміна</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Рекомендувати змінити головний ключ (днів)</string>
-    <string name="settings_database_recommend_changing_master_key_title">Рекомендувати змінити</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Радити змінити головний ключ (днів)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Радити змінити</string>
     <string name="max_history_size_summary">Обмежити об\'єм історії кожного запису</string>
     <string name="max_history_size_title">Максимальний об\'єм</string>
     <string name="max_history_items_summary">Обмежити кількість елементів історії кожного запису</string>
@@ -400,7 +400,7 @@
     <string name="list_password_generator_options_title">Символи пароля</string>
     <string name="password_size_summary">Встановити типову довжину створюваних паролів</string>
     <string name="password_size_title">Довжина створюваного пароля</string>
-    <string name="autofill_preference_title">Параметри автозаповнення</string>
+    <string name="autofill_preference_title">Налаштування автозаповнення</string>
     <string name="set_autofill_service_title">Встановити типовою службою автозаповнення</string>
     <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидкого заповнення форм в інших застосунках</string>
     <string name="autofill_sign_in_prompt">Увійти за допомогою KeePassDX</string>
@@ -554,7 +554,7 @@
     <string name="success_export_app_properties">Властивості застосунку експортовано</string>
     <string name="error_import_app_properties">Помилка під час імпортування властивостей застосунку</string>
     <string name="success_import_app_properties">Властивості застосунку імпортовано</string>
-    <string name="description_app_properties">Властивості KeePassDX для керування параметрами застосунку</string>
+    <string name="description_app_properties">Властивості KeePassDX для керування налаштування застосунку</string>
     <string name="export_app_properties_summary">Створити файл для експорту властивостей застосунку</string>
     <string name="export_app_properties_title">Експорт властивостей застосунку</string>
     <string name="import_app_properties_summary">Виберіть файл для імпорту властивостей застосунку</string>
