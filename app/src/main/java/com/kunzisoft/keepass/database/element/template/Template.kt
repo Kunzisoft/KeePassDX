@@ -108,15 +108,15 @@ class Template : Parcelable {
             return arrayOfNulls(size)
         }
 
-        val TITLE_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_TITLE, TemplateAttributeType.INLINE)
-        val USERNAME_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.INLINE)
+        val TITLE_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_TITLE, TemplateAttributeType.SINGLE_LINE)
+        val USERNAME_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.SINGLE_LINE)
         val PASSWORD_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_PASSWORD,
             TemplateAttributeType.SMALL_MULTILINE,
             true,
             "",
             TemplateAttributeAction.PASSWORD_GENERATION)
-        val URL_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.INLINE)
+        val URL_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.SINGLE_LINE)
         val EXPIRATION_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_EXPIRATION, TemplateAttributeType.DATETIME)
         val NOTES_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_NOTES, TemplateAttributeType.MULTILINE)
 

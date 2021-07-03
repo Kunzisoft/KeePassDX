@@ -18,11 +18,27 @@
  */
 package com.kunzisoft.keepass.database.element.template
 
-enum class TemplateAttributeType {
-    INLINE,
-    SMALL_MULTILINE,
-    MULTILINE,
-    DATE,
-    TIME,
-    DATETIME
+enum class TemplateAttributeType(val label: String) {
+    SINGLE_LINE("Single Line"),
+    SMALL_MULTILINE("Small Multiline"),
+    MULTILINE("Multiline"),
+    DATE("Date"),
+    TIME("Time"),
+    DATETIME("DateTime"),
+    DIVIDER("Divider");
+
+    companion object {
+        fun getFromLabel(label: String): TemplateAttributeType {
+            return when {
+                label.equals(SINGLE_LINE.label, true) -> SINGLE_LINE
+                label.equals(SMALL_MULTILINE.label, true) -> SMALL_MULTILINE
+                label.equals(MULTILINE.label, true) -> MULTILINE
+                label.equals(DATE.label, true) -> DATE
+                label.equals(TIME.label, true) -> TIME
+                label.equals(DATETIME.label, true) -> DATETIME
+                label.equals(DIVIDER.label, true) -> DIVIDER
+                else -> SINGLE_LINE
+            }
+        }
+    }
 }

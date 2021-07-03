@@ -32,7 +32,7 @@ data class TemplateAttribute(var label: String,
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.INLINE,
+            parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.SINGLE_LINE,
             parcel.readByte() != 0.toByte(),
             parcel.readString() ?: "",
             parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE,

@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngine
+import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
@@ -81,7 +82,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
-    private val mTemplateEngine = TemplateEngine(this)
+    private val mTemplateEngine = TemplateEngineCompatible(this)
 
     var kdbxVersion = UnsignedInt(0)
     var name = ""

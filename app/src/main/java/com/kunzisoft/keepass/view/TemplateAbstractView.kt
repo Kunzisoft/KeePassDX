@@ -99,7 +99,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
             // Create title view
             val titleAttribute = TemplateAttribute(
                 TemplateField.LABEL_TITLE,
-                TemplateAttributeType.INLINE,
+                TemplateAttributeType.SINGLE_LINE,
                 false,
                 template.title)
             val titleView = buildViewForTemplateField(
@@ -191,7 +191,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
                                           fieldTag: String): View? {
         // Build main view depending on type
         val itemView: View? = when (templateAttribute.type) {
-            TemplateAttributeType.INLINE,
+            TemplateAttributeType.SINGLE_LINE,
             TemplateAttributeType.SMALL_MULTILINE,
             TemplateAttributeType.MULTILINE -> {
                 buildLinearTextView(templateAttribute, field) as View?
@@ -201,6 +201,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
             TemplateAttributeType.DATETIME -> {
                 buildDataTimeView(templateAttribute, field) as View?
             }
+            TemplateAttributeType.DIVIDER -> null
         }
         // Custom id defined by field name, use getViewByField(field: Field) to retrieve it
         itemView?.id = field.name.hashCode()
