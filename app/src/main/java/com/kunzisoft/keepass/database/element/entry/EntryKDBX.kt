@@ -78,7 +78,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
         autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
-        url = parcel.readString() ?: url
         additional = parcel.readString() ?: additional
     }
 
@@ -104,7 +103,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
         dest.writeParcelable(autoType, flags)
         dest.writeTypedList(history)
-        dest.writeString(url)
         dest.writeString(additional)
     }
 
@@ -130,7 +128,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.clear()
         if (copyHistory)
             history.addAll(source.history)
-        url = source.url
         additional = source.additional
     }
 
