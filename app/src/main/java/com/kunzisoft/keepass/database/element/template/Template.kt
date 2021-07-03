@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 class Template : Parcelable {
 
@@ -108,17 +109,42 @@ class Template : Parcelable {
             return arrayOfNulls(size)
         }
 
-        val TITLE_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_TITLE, TemplateAttributeType.SINGLE_LINE)
-        val USERNAME_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.SINGLE_LINE)
+        val TITLE_ATTRIBUTE = TemplateAttribute(
+            TemplateField.LABEL_TITLE,
+            TemplateAttributeType.TEXT)
+        val USERNAME_ATTRIBUTE = TemplateAttribute(
+            TemplateField.LABEL_USERNAME,
+            TemplateAttributeType.TEXT)
         val PASSWORD_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_PASSWORD,
-            TemplateAttributeType.SMALL_MULTILINE,
+            TemplateAttributeType.TEXT,
             true,
-            "",
-            TemplateAttributeAction.PASSWORD_GENERATION)
-        val URL_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.SINGLE_LINE)
-        val EXPIRATION_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_EXPIRATION, TemplateAttributeType.DATETIME)
-        val NOTES_ATTRIBUTE = TemplateAttribute(TemplateField.LABEL_NOTES, TemplateAttributeType.MULTILINE)
+            LinkedHashMap<String, String>().apply {
+                put(TemplateAttributeOption.NUMBER_LINES, "3")
+            },
+            TemplateAttributeAction.PASSWORD_GENERATION
+        )
+        val URL_ATTRIBUTE = TemplateAttribute(
+            TemplateField.LABEL_URL,
+            TemplateAttributeType.TEXT,
+            false,
+            LinkedHashMap<String, String>().apply {
+                put(TemplateAttributeOption.LINKIFY, "true")
+            })
+        val EXPIRATION_ATTRIBUTE = TemplateAttribute(
+            TemplateField.LABEL_EXPIRATION,
+            TemplateAttributeType.DATETIME,
+            false,
+            LinkedHashMap<String, String>().apply {
+                put(TemplateAttributeOption.DATETIME_FORMAT, "datetime")
+            })
+        val NOTES_ATTRIBUTE = TemplateAttribute(
+            TemplateField.LABEL_NOTES,
+            TemplateAttributeType.TEXT,
+            false,
+            LinkedHashMap<String, String>().apply {
+                put(TemplateAttributeOption.NUMBER_LINES, "-1")
+            })
 
         val STANDARD: Template
             get() {

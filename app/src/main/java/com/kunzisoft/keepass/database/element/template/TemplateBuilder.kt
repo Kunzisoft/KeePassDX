@@ -3,29 +3,48 @@ package com.kunzisoft.keepass.database.element.template
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 class TemplateBuilder {
 
-    private val urlAttribute = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.SINGLE_LINE)
-    private val usernameAttribute = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.SINGLE_LINE)
-    private val notesPlainAttribute = TemplateAttribute(TemplateField.LABEL_NOTES, TemplateAttributeType.MULTILINE)
-    private val holderAttribute = TemplateAttribute(TemplateField.LABEL_HOLDER, TemplateAttributeType.SINGLE_LINE)
-    private val numberAttribute = TemplateAttribute(TemplateField.LABEL_NUMBER, TemplateAttributeType.SINGLE_LINE)
-    private val cvvAttribute = TemplateAttribute(TemplateField.LABEL_CVV, TemplateAttributeType.SINGLE_LINE, true)
-    private val pinAttribute = TemplateAttribute(TemplateField.LABEL_PIN, TemplateAttributeType.SINGLE_LINE, true)
-    private val nameAttribute = TemplateAttribute(TemplateField.LABEL_NAME, TemplateAttributeType.SINGLE_LINE)
-    private val placeOfIssueAttribute = TemplateAttribute(TemplateField.LABEL_PLACE_OF_ISSUE, TemplateAttributeType.SINGLE_LINE)
-    private val dateOfIssueAttribute = TemplateAttribute(TemplateField.LABEL_DATE_OF_ISSUE, TemplateAttributeType.DATE)
-    private val expirationDateAttribute = TemplateAttribute(TemplateField.LABEL_EXPIRATION, TemplateAttributeType.DATE)
-    private val emailAddressAttribute = TemplateAttribute(TemplateField.LABEL_EMAIL_ADDRESS, TemplateAttributeType.SINGLE_LINE)
-    private val passwordAttribute = TemplateAttribute(TemplateField.LABEL_PASSWORD, TemplateAttributeType.SINGLE_LINE, true)
-    private val ssidAttribute = TemplateAttribute(TemplateField.LABEL_SSID, TemplateAttributeType.SINGLE_LINE)
-    private val tokenAttribute = TemplateAttribute(TemplateField.LABEL_TOKEN, TemplateAttributeType.SINGLE_LINE)
-    private val publicKeyAttribute = TemplateAttribute(TemplateField.LABEL_PUBLIC_KEY, TemplateAttributeType.SINGLE_LINE)
-    private val privateKeyAttribute = TemplateAttribute(TemplateField.LABEL_PRIVATE_KEY, TemplateAttributeType.SINGLE_LINE, true)
-    private val seedAttribute = TemplateAttribute(TemplateField.LABEL_SEED, TemplateAttributeType.SINGLE_LINE, true)
-    private val bicAttribute = TemplateAttribute(TemplateField.LABEL_BIC, TemplateAttributeType.SINGLE_LINE)
-    private val ibanAttribute = TemplateAttribute(TemplateField.LABEL_IBAN, TemplateAttributeType.SINGLE_LINE)
+    private val urlAttribute = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.TEXT)
+    private val usernameAttribute = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.TEXT)
+    private val notesAttribute = TemplateAttribute(
+        TemplateField.LABEL_NOTES,
+        TemplateAttributeType.TEXT,
+        false,
+        LinkedHashMap<String, String>().apply {
+            put(TemplateAttributeOption.NUMBER_LINES, TemplateAttributeOption.NUMBER_LINES_INFINITE)
+        })
+    private val holderAttribute = TemplateAttribute(TemplateField.LABEL_HOLDER, TemplateAttributeType.TEXT)
+    private val numberAttribute = TemplateAttribute(TemplateField.LABEL_NUMBER, TemplateAttributeType.TEXT)
+    private val cvvAttribute = TemplateAttribute(TemplateField.LABEL_CVV, TemplateAttributeType.TEXT, true)
+    private val pinAttribute = TemplateAttribute(TemplateField.LABEL_PIN, TemplateAttributeType.TEXT, true)
+    private val nameAttribute = TemplateAttribute(TemplateField.LABEL_NAME, TemplateAttributeType.TEXT)
+    private val placeOfIssueAttribute = TemplateAttribute(TemplateField.LABEL_PLACE_OF_ISSUE, TemplateAttributeType.TEXT)
+    private val dateOfIssueAttribute = TemplateAttribute(
+        TemplateField.LABEL_DATE_OF_ISSUE,
+        TemplateAttributeType.DATETIME,
+        false,
+        LinkedHashMap<String, String>().apply {
+            put(TemplateAttributeOption.DATETIME_FORMAT, TemplateAttributeOption.DATETIME_FORMAT_DATE)
+        })
+    private val expirationDateAttribute = TemplateAttribute(
+        TemplateField.LABEL_EXPIRATION,
+        TemplateAttributeType.DATETIME,
+        false,
+        LinkedHashMap<String, String>().apply {
+            put(TemplateAttributeOption.DATETIME_FORMAT, TemplateAttributeOption.DATETIME_FORMAT_DATE)
+        })
+    private val emailAddressAttribute = TemplateAttribute(TemplateField.LABEL_EMAIL_ADDRESS, TemplateAttributeType.TEXT)
+    private val passwordAttribute = TemplateAttribute(TemplateField.LABEL_PASSWORD, TemplateAttributeType.TEXT, true)
+    private val ssidAttribute = TemplateAttribute(TemplateField.LABEL_SSID, TemplateAttributeType.TEXT)
+    private val tokenAttribute = TemplateAttribute(TemplateField.LABEL_TOKEN, TemplateAttributeType.TEXT)
+    private val publicKeyAttribute = TemplateAttribute(TemplateField.LABEL_PUBLIC_KEY, TemplateAttributeType.TEXT)
+    private val privateKeyAttribute = TemplateAttribute(TemplateField.LABEL_PRIVATE_KEY, TemplateAttributeType.TEXT, true)
+    private val seedAttribute = TemplateAttribute(TemplateField.LABEL_SEED, TemplateAttributeType.TEXT, true)
+    private val bicAttribute = TemplateAttribute(TemplateField.LABEL_BIC, TemplateAttributeType.TEXT)
+    private val ibanAttribute = TemplateAttribute(TemplateField.LABEL_IBAN, TemplateAttributeType.TEXT)
 
     val email: Template
         get() {
@@ -62,7 +81,7 @@ class TemplateBuilder {
         get() {
             val sections = mutableListOf<TemplateSection>()
             val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
-                add(notesPlainAttribute)
+                add(notesAttribute)
             })
             sections.add(mainSection)
             return Template(

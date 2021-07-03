@@ -88,18 +88,15 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
         changeProtectedValueParameters()
     }
 
-    fun setType(valueType: TextType) {
-        when (valueType) {
-            TextType.NORMAL -> {
-                valueView.maxLines = 1
-            }
-            TextType.SMALL_MULTI_LINE -> {
-                valueView.maxEms = 3
-                valueView.maxLines = 3
-            }
-            TextType.MULTI_LINE -> {
+    fun setMaxLines(numberLines: Int) {
+        when {
+            numberLines <= 0 -> {
                 valueView.maxEms = 40
                 valueView.maxLines = 40
+            }
+            else -> {
+                valueView.maxEms = numberLines
+                valueView.maxLines = numberLines
             }
         }
     }

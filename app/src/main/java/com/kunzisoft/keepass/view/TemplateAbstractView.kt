@@ -99,8 +99,10 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
             // Create title view
             val titleAttribute = TemplateAttribute(
                 TemplateField.LABEL_TITLE,
-                TemplateAttributeType.SINGLE_LINE,
+                TemplateAttributeType.TEXT,
                 false,
+                LinkedHashMap(),
+                TemplateAttributeAction.NONE,
                 template.title)
             val titleView = buildViewForTemplateField(
                 titleAttribute,
@@ -179,10 +181,13 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
     private fun buildViewForCustomField(field: Field): View? {
         val customFieldTemplateAttribute = TemplateAttribute(
             field.name,
-            TemplateAttributeType.MULTILINE,
+            TemplateAttributeType.TEXT,
             field.protectedValue.isProtected,
-            field.protectedValue.stringValue,
-            TemplateAttributeAction.CUSTOM_EDITION)
+            LinkedHashMap<String, String>().apply {
+                put(TemplateAttributeOption.NUMBER_LINES, "3")
+            },
+            TemplateAttributeAction.CUSTOM_EDITION,
+            field.protectedValue.stringValue)
         return buildViewForTemplateField(customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
 
@@ -191,13 +196,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
                                           fieldTag: String): View? {
         // Build main view depending on type
         val itemView: View? = when (templateAttribute.type) {
-            TemplateAttributeType.SINGLE_LINE,
-            TemplateAttributeType.SMALL_MULTILINE,
-            TemplateAttributeType.MULTILINE -> {
+            TemplateAttributeType.TEXT -> {
                 buildLinearTextView(templateAttribute, field) as View?
             }
-            TemplateAttributeType.DATE,
-            TemplateAttributeType.TIME,
             TemplateAttributeType.DATETIME -> {
                 buildDataTimeView(templateAttribute, field) as View?
             }
@@ -571,15 +572,6 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
     }
 
     protected open fun onSaveEntryInstanceState(savedState: SavedState) {}
-
-    protected fun dateInstantTypeFromTemplateAttributeType(
-        templateAttributeType: TemplateAttributeType): DateInstant.Type {
-        return when (templateAttributeType) {
-            TemplateAttributeType.DATE -> DateInstant.Type.DATE
-            TemplateAttributeType.TIME -> DateInstant.Type.TIME
-            else -> DateInstant.Type.DATE_TIME
-        }
-    }
 
     protected class SavedState : BaseSavedState {
         var template: Template? = null

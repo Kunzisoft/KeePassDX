@@ -54,7 +54,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         } else {
             val newAttribute = TemplateAttributePosition(
                 -1,
-                TemplateAttribute("", TemplateAttributeType.SINGLE_LINE)
+                TemplateAttribute("", TemplateAttributeType.TEXT)
             )
             attributes[name] = newAttribute
             newAttribute
@@ -111,24 +111,29 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         when {
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE, true) ||
                                     value.contains(TEMPLATE_ATTRIBUTE_TYPE_POPOUT, true) -> {
-                                attribute.attribute.type = TemplateAttributeType.SINGLE_LINE
+                                attribute.attribute.type = TemplateAttributeType.TEXT
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) ||
                                     value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
-                                attribute.attribute.type = TemplateAttributeType.MULTILINE
+                                attribute.attribute.type = TemplateAttributeType.TEXT
+                                attribute.attribute.options[TemplateAttributeOption.NUMBER_LINES] =
+                                    TemplateAttributeOption.NUMBER_LINES_INFINITE
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
-                                attribute.attribute.type = TemplateAttributeType.DATE
+                                attribute.attribute.type = TemplateAttributeType.DATETIME
+                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT] =
+                                    TemplateAttributeOption.DATETIME_FORMAT_DATE
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
-                                attribute.attribute.type = TemplateAttributeType.TIME
+                                attribute.attribute.type = TemplateAttributeType.DATETIME
+                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT] =
+                                    TemplateAttributeOption.DATETIME_FORMAT_TIME
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
-                                // TODO List box
-                                attribute.attribute.type = TemplateAttributeType.SINGLE_LINE
+                                attribute.attribute.type = TemplateAttributeType.TEXT
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DIVIDER, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DIVIDER
@@ -144,11 +149,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
 
         val newFields = arrayOfNulls<Field>(attributes.size)
         attributes.values.forEach {
-            // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
-            newFields[it.position] = Field(
-                PREFIX_DECODED_TEMPLATE + decodeTemplateAttribute(it.attribute.label) + SUFFIX_DECODED_TEMPLATE,
-                ProtectedString(it.attribute.protected, it.attribute.type.label)
-            )
+            newFields[it.position] = Field(buildTemplateEntryField(it.attribute))
         }
         newFields.forEach { field ->
             field?.let {

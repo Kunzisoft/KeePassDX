@@ -20,31 +20,32 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
 data class TemplateAttribute(var label: String,
                              var type: TemplateAttributeType,
                              var protected: Boolean = false,
-                             var defaultValue: String = "",
+                             var options: LinkedHashMap<String, String> = LinkedHashMap(),
                              var action: TemplateAttributeAction = TemplateAttributeAction.NONE,
-                             var options: List<String> = ArrayList()): Parcelable {
+                             var defaultValue: String = ""): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.SINGLE_LINE,
-            parcel.readByte() != 0.toByte(),
-            parcel.readString() ?: "",
-            parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE,
-            parcel.createStringArrayList() ?: ArrayList())
+            parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.TEXT,
+        parcel.readByte() != 0.toByte(),
+        ParcelableUtil.readStringParcelableMap(parcel),
+        parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE,
+        parcel.readString() ?: "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(label)
         parcel.writeEnum(type)
         parcel.writeByte(if (protected) 1 else 0)
-        parcel.writeString(defaultValue)
+        ParcelableUtil.writeStringParcelableMap(parcel, options)
         parcel.writeEnum(action)
-        parcel.writeStringList(options)
+        parcel.writeString(defaultValue)
     }
 
     override fun describeContents(): Int {

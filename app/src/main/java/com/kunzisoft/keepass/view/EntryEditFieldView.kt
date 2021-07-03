@@ -121,24 +121,24 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
             valueView.setText(value)
         }
 
-    fun setType(valueType: TextType) {
-        when (valueType) {
-            TextType.NORMAL -> {
+    fun setMaxLines(numberLines: Int) {
+        when {
+            numberLines == 1 -> {
                 valueView.inputType = valueView.inputType or
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
                 valueView.maxLines = 1
             }
-            TextType.SMALL_MULTI_LINE -> {
-                valueView.inputType = valueView.inputType or
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                valueView.maxEms = 3
-                valueView.maxLines = 3
-            }
-            TextType.MULTI_LINE -> {
+            numberLines <= 0 -> {
                 valueView.inputType = valueView.inputType or
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 valueView.maxEms = 40
                 valueView.maxLines = 40
+            }
+            else -> {
+                valueView.inputType = valueView.inputType or
+                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                valueView.maxEms = numberLines
+                valueView.maxLines = numberLines
             }
         }
     }

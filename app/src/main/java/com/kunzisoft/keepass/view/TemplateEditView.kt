@@ -10,10 +10,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.TemplateAttribute
-import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
-import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
-import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.element.template.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
@@ -67,11 +64,8 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 label = TemplateField.getLocalizedName(context, field.name)
-                setType(when (templateAttribute.type) {
-                    TemplateAttributeType.SMALL_MULTILINE -> TextType.SMALL_MULTI_LINE
-                    TemplateAttributeType.MULTILINE -> TextType.MULTI_LINE
-                    else -> TextType.NORMAL
-                })
+                val maxLinesOption = TemplateAttributeOption.getNumberLines(templateAttribute.options)
+                setMaxLines(maxLinesOption)
                 value = field.protectedValue.stringValue
                 when (templateAttribute.action) {
                     TemplateAttributeAction.NONE -> {
@@ -100,7 +94,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             DateTimeEditView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
-                val dateInstantType = dateInstantTypeFromTemplateAttributeType(templateAttribute.type)
+                val dateInstantType = TemplateAttributeOption.getDateFormat(templateAttribute.options)
                 try {
                     val value = field.protectedValue.toString().trim()
                     type = dateInstantType

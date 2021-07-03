@@ -96,12 +96,21 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                             ProtectedString(false, TemplateAttributeType.DIVIDER.label))
                     }
 
-                    putField(Field("$PREFIX_DECODED_TEMPLATE${attribute.label}$SUFFIX_DECODED_TEMPLATE",
-                        ProtectedString(attribute.protected, attribute.type.label)))
+                    putField(buildTemplateEntryField(attribute))
                 }
             }
         }
         return encodeTemplateEntry(newEntry)
+    }
+
+    protected fun buildTemplateEntryField(attribute: TemplateAttribute): Field {
+        val typeAndOptions = attribute.type.label +
+                TemplateAttributeOption.getStringFromOptions(attribute.options)
+        // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
+        return Field(PREFIX_DECODED_TEMPLATE
+                + TemplateEngineCompatible.decodeTemplateAttribute(attribute.label)
+                + SUFFIX_DECODED_TEMPLATE,
+            ProtectedString(attribute.protected, typeAndOptions))
     }
 
     private fun buildTemplateSectionFromFields(fields: List<Field>): TemplateSection {
@@ -109,8 +118,9 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         fields.forEach { field ->
             sectionAttributes.add(TemplateAttribute(
                 field.name.removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE),
-                TemplateAttributeType.getFromLabel(field.protectedValue.stringValue),
-                field.protectedValue.isProtected)
+                TemplateAttributeType.getFromString(field.protectedValue.stringValue),
+                field.protectedValue.isProtected,
+                TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue))
             )
         }
         return TemplateSection(sectionAttributes)
