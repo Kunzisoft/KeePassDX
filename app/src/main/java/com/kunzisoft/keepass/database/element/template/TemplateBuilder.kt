@@ -140,7 +140,7 @@ class TemplateBuilder {
                 add(holderAttribute)
                 add(bicAttribute)
                 add(ibanAttribute)
-            })
+            }, TemplateField.LABEL_ACCOUNT)
             sections.add(mainSection)
             sections.add(ibanSection)
             return Template(

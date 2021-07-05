@@ -34,6 +34,7 @@ object TemplateField {
     const val LABEL_PUBLIC_KEY = "Public key"
     const val LABEL_PRIVATE_KEY = "Private key"
     const val LABEL_SEED = "Seed"
+    const val LABEL_ACCOUNT = "Account"
     const val LABEL_BANK = "Bank"
     const val LABEL_BIC = "BIC"
     const val LABEL_IBAN = "IBAN"
@@ -86,6 +87,7 @@ object TemplateField {
             LABEL_PUBLIC_KEY.equals(name, true) -> context.getString(R.string.public_key)
             LABEL_PRIVATE_KEY.equals(name, true) -> context.getString(R.string.private_key)
             LABEL_SEED.equals(name, true) -> context.getString(R.string.seed)
+            LABEL_ACCOUNT.equals(name, true) -> context.getString(R.string.account)
             LABEL_BANK.equals(name, true) -> context.getString(R.string.bank)
             LABEL_BIC.equals(name, true) -> context.getString(R.string.bank_identifier_code)
             LABEL_IBAN.equals(name, true) -> context.getString(R.string.international_bank_account_number)

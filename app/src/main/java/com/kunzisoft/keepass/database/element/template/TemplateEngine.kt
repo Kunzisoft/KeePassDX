@@ -92,7 +92,11 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 section.attributes.forEach { attribute ->
                     if (index > 0) {
                         // Label is not important with section => [Section_X]: Divider
-                        putField("$PREFIX_DECODED_TEMPLATE$SECTION_DECODED_TEMPLATE_PREFIX${index-1}$SUFFIX_DECODED_TEMPLATE",
+                        val sectionName = if (section.name.isEmpty())
+                            "$SECTION_DECODED_TEMPLATE_PREFIX${index-1}"
+                        else
+                            section.name
+                        putField("$PREFIX_DECODED_TEMPLATE$sectionName$SUFFIX_DECODED_TEMPLATE",
                             ProtectedString(false, TemplateAttributeType.DIVIDER.label))
                     }
 

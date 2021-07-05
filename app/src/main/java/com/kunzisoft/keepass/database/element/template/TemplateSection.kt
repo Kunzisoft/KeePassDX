@@ -5,19 +5,23 @@ import android.os.Parcelable
 
 class TemplateSection: Parcelable {
 
+    var name: String = ""
     var attributes: List<TemplateAttribute> = ArrayList()
         private set
 
-    constructor(attributes: List<TemplateAttribute>) {
+    constructor(attributes: List<TemplateAttribute>, name: String = "") {
+        this.name = name
         this.attributes = attributes
     }
 
     constructor(parcel: Parcel) {
-        parcel.readList(attributes, TemplateAttribute::class.java.classLoader)
+        this.name = parcel.readString() ?: name
+        parcel.readList(this.attributes, TemplateAttribute::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeList(attributes)
+        parcel.writeString(this.name)
+        parcel.writeList(this.attributes)
     }
 
     override fun describeContents(): Int {
