@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.utils.writeEnum
 data class TemplateAttribute(var label: String,
                              var type: TemplateAttributeType,
                              var protected: Boolean = false,
-                             var options: LinkedHashMap<String, String> = LinkedHashMap(),
+                             var options: MutableMap<String, String> = mutableMapOf(),
                              var action: TemplateAttributeAction = TemplateAttributeAction.NONE,
                              var defaultValue: String = ""): Parcelable {
 
@@ -43,7 +43,7 @@ data class TemplateAttribute(var label: String,
         parcel.writeString(label)
         parcel.writeEnum(type)
         parcel.writeByte(if (protected) 1 else 0)
-        ParcelableUtil.writeStringParcelableMap(parcel, options)
+        ParcelableUtil.writeStringParcelableMap(parcel, LinkedHashMap(options))
         parcel.writeEnum(action)
         parcel.writeString(defaultValue)
     }

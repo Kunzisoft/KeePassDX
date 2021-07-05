@@ -1,6 +1,8 @@
 package com.kunzisoft.keepass.database.element.template
 
 import com.kunzisoft.keepass.database.element.DateInstant
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 class TemplateAttributeOption {
 
@@ -31,7 +33,7 @@ class TemplateAttributeOption {
         const val DATETIME_FORMAT_TIME = "time"
         const val DATETIME_FORMAT_MONTH_YEAR = "MM yy"
 
-        fun getNumberLines(options: LinkedHashMap<String, String>): Int {
+        fun getNumberLines(options: MutableMap<String, String>): Int {
             return try {
                 val value = options[NUMBER_LINES]
                 if (value == NUMBER_LINES_MANY)
@@ -43,7 +45,7 @@ class TemplateAttributeOption {
             }
         }
 
-        fun isLinkify(options: LinkedHashMap<String, String>): Boolean {
+        fun isLinkify(options: MutableMap<String, String>): Boolean {
             return try {
                 options[LINKIFY]?.toBoolean() ?: true
             } catch (e: Exception) {
@@ -51,7 +53,7 @@ class TemplateAttributeOption {
             }
         }
 
-        fun getDateFormat(options: LinkedHashMap<String, String>): DateInstant.Type {
+        fun getDateFormat(options: MutableMap<String, String>): DateInstant.Type {
             return when (options[DATETIME_FORMAT]) {
                 DATETIME_FORMAT_DATE -> DateInstant.Type.DATE
                 DATETIME_FORMAT_TIME -> DateInstant.Type.TIME
@@ -59,37 +61,34 @@ class TemplateAttributeOption {
             }
         }
 
-        private fun getOneOption(label: String): String? {
-            return if (label.contains("{") && label.contains("}")) {
-                label.substringAfter("{").substringBefore("}")
-            } else {
-                null
-            }
-        }
-
-        fun getOptionsFromString(label: String): LinkedHashMap<String, String> {
-            val options = LinkedHashMap<String, String>()
-            if (label.contains("[") && label.contains("]")) {
-                var newString = label.substringAfter("[").substringBefore("]")
-                var option = getOneOption(newString)
-                while (option != null && option.contains(":")) {
-                    val optionList = option.split(":")
-                    options[optionList[0]] = optionList[1]
-                    newString = newString.substringAfter("}")
-                    option = getOneOption(newString)
+        fun getOptionsFromString(label: String): MutableMap<String, String> {
+            return if (label.contains("{") || label.contains("}")) {
+                try {
+                    label.trim().substringAfter("{").substringBefore("}")
+                        .split(",").associate {
+                            val (left, right) = it.split(":")
+                            URLDecoder.decode(left, "utf-8") to URLDecoder.decode(right, "utf-8")
+                        }.toMutableMap()
+                } catch (e: Exception) {
+                    mutableMapOf()
                 }
+            } else {
+                mutableMapOf()
             }
-            return options
         }
 
-        fun getStringFromOptions(options: LinkedHashMap<String, String>): String {
+        fun getStringFromOptions(options: Map<String, String>): String {
             var optionsString = ""
             if (options.isNotEmpty()) {
-                optionsString += "["
+                optionsString += " {"
+                var first = true
                 for ((key, value) in options) {
-                    optionsString += "{$key:$value}"
+                    if (!first)
+                        optionsString += ","
+                    first = false
+                    optionsString += "${URLEncoder.encode(key, "utf-8")}:${URLEncoder.encode(value, "utf-8")}"
                 }
-                optionsString += "]"
+                optionsString += "}"
             }
             return optionsString
         }

@@ -211,8 +211,11 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
                     }
 
+                    val optionsString = TemplateAttributeOption.getOptionsFromString(value.stringValue)
+                    val options = TemplateAttributeOption.getStringFromOptions(optionsString)
+
                     if (value.isProtected) {
-                        typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString"
+                        typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString $options"
                     }
                     entryCopy.putField(
                         TEMPLATE_ATTRIBUTE_TYPE_PREFIX +'_'+label,
