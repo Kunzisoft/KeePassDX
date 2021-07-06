@@ -54,11 +54,15 @@ class DateTimeView @JvmOverloads constructor(context: Context,
     }
 
     private fun assignExpiresDateText() {
+        expiresImage.isVisible = if (mActivated) {
+            mDateTime.date.before(Date())
+        } else {
+            false
+        }
+
         dateTimeValueView.text = if (mActivated) {
-            expiresImage.isVisible = mDateTime.date.before(Date())
             mDateTime.getDateTimeString(resources)
         } else {
-            expiresImage.isVisible = false
             resources.getString(R.string.never)
         }
     }
@@ -84,15 +88,16 @@ class DateTimeView @JvmOverloads constructor(context: Context,
             return mActivated
         }
         set(value) {
-            if (!value) {
-                mDateTime = when (mDateTime.type) {
+            mActivated = value
+            dateTime = if (value) {
+                when (mDateTime.type) {
                     DateInstant.Type.DATE_TIME -> DateInstant.IN_ONE_MONTH_DATE_TIME
                     DateInstant.Type.DATE -> DateInstant.IN_ONE_MONTH_DATE
                     DateInstant.Type.TIME -> DateInstant.IN_ONE_HOUR_TIME
                 }
+            } else {
+                DateInstant.NEVER_EXPIRES
             }
-            mActivated = value
-            assignExpiresDateText()
         }
 
     /**
