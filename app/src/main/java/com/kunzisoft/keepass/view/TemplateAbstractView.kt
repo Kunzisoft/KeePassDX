@@ -333,9 +333,12 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
                                 customView.applyFontVisibility(mFontInVisibility)
                             } else if (customView is GenericDateTimeView) {
                                 try {
-                                    customView.dateTime =
-                                        DateInstant(customField.protectedValue.stringValue)
+                                    customView.activation = true
+                                    customView.dateTime = DateInstant(customField
+                                        .protectedValue.stringValue)
                                 } catch (e: Exception) {
+                                    customView.activation = false
+                                    customView.dateTime = DateInstant.NEVER_EXPIRES
                                     Log.e(TAG, "unable to populate date time view", e)
                                 }
                             }
