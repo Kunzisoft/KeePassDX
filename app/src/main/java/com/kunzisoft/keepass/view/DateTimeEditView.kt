@@ -56,20 +56,19 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
                 setOnDateClickListener?.invoke(dateTime)
         }
         entryExpiresCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            mDateTime = if (isChecked) {
-                DateInstant.IN_ONE_MONTH_DATE_TIME
-            } else {
-                DateInstant.NEVER_EXPIRES
-            }
-            assignExpiresDateText()
+            defineDateTimeAfterCheckBoxChange(isChecked)
         }
     }
 
-    private fun assignExpiresDateText() {
-        entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
-            mDateTime.getDateTimeString(resources)
+    private fun defineDateTimeAfterCheckBoxChange(isChecked: Boolean) {
+        dateTime = if (isChecked) {
+            when (mDateTime.type) {
+                DateInstant.Type.DATE_TIME -> DateInstant.IN_ONE_MONTH_DATE_TIME
+                DateInstant.Type.DATE -> DateInstant.IN_ONE_MONTH_DATE
+                DateInstant.Type.TIME -> DateInstant.IN_ONE_HOUR_TIME
+            }
         } else {
-            resources.getString(R.string.never)
+            DateInstant.NEVER_EXPIRES
         }
     }
 
@@ -94,15 +93,8 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
             return entryExpiresCheckBox.isChecked
         }
         set(value) {
-            if (!value) {
-                mDateTime = when (mDateTime.type) {
-                    DateInstant.Type.DATE_TIME -> DateInstant.IN_ONE_MONTH_DATE_TIME
-                    DateInstant.Type.DATE -> DateInstant.IN_ONE_MONTH_DATE
-                    DateInstant.Type.TIME -> DateInstant.IN_ONE_HOUR_TIME
-                }
-            }
             entryExpiresCheckBox.isChecked = value
-            assignExpiresDateText()
+            defineDateTimeAfterCheckBoxChange(value)
         }
 
     /**
@@ -117,7 +109,11 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             mDateTime = DateInstant(value.date, mDateTime.type)
-            assignExpiresDateText()
+            entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
+                mDateTime.getDateTimeString(resources)
+            } else {
+                resources.getString(R.string.never)
+            }
         }
 
     override var isFieldVisible: Boolean
