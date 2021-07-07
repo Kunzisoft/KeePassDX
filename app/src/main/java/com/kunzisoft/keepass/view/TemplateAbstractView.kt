@@ -102,8 +102,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
                 TemplateAttributeType.TEXT,
                 false,
                 LinkedHashMap(),
-                TemplateAttributeAction.NONE,
-                template.title)
+                TemplateAttributeAction.NONE).apply {
+                    default = template.title
+            }
             val titleView = buildViewForTemplateField(
                 titleAttribute,
                 Field(
@@ -189,8 +190,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
             LinkedHashMap<String, String>().apply {
                 put(TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR, "3")
             },
-            TemplateAttributeAction.CUSTOM_EDITION,
-            field.protectedValue.stringValue)
+            TemplateAttributeAction.CUSTOM_EDITION).apply {
+                default = field.protectedValue.stringValue
+        }
         return buildViewForTemplateField(customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
 

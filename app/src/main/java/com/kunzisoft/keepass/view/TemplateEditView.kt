@@ -63,13 +63,13 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             EntryEditFieldView(it).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
-                val alias = TemplateAttributeOption.getAlias(templateAttribute.options)
-                label = alias ?: TemplateField.getLocalizedName(context, field.name)
+                label = templateAttribute.alias
+                    ?: TemplateField.getLocalizedName(context, field.name)
                 // TODO Max chars
-                val maxLinesOption = TemplateAttributeOption.getNumberLines(templateAttribute.options)
-                setMaxLines(maxLinesOption)
+                setMaxLines(templateAttribute.getNumberLines())
                 // TODO List items
-                value = field.protectedValue.stringValue
+                val fieldValue = field.protectedValue.stringValue
+                value = if (fieldValue.isEmpty()) templateAttribute.default else fieldValue
                 when (templateAttribute.action) {
                     TemplateAttributeAction.NONE -> {
                         setOnActionClickListener(null)

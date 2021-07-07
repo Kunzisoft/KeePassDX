@@ -28,16 +28,14 @@ data class TemplateAttribute(var label: String,
                              var type: TemplateAttributeType,
                              var protected: Boolean = false,
                              var options: MutableMap<String, String> = mutableMapOf(),
-                             var action: TemplateAttributeAction = TemplateAttributeAction.NONE,
-                             var defaultValue: String = ""): Parcelable {
+                             var action: TemplateAttributeAction = TemplateAttributeAction.NONE): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.TEXT,
         parcel.readByte() != 0.toByte(),
         ParcelableUtil.readStringParcelableMap(parcel),
-        parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE,
-        parcel.readString() ?: "")
+        parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(label)
@@ -45,11 +43,30 @@ data class TemplateAttribute(var label: String,
         parcel.writeByte(if (protected) 1 else 0)
         ParcelableUtil.writeStringParcelableMap(parcel, LinkedHashMap(options))
         parcel.writeEnum(action)
-        parcel.writeString(defaultValue)
     }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    var alias: String?
+        get() {
+            return TemplateAttributeOption.getAlias(this.options)
+        }
+        set(value) {
+            TemplateAttributeOption.setAlias(value, this.options)
+        }
+
+    var default: String
+        get() {
+            return TemplateAttributeOption.getDefault(this.options) ?: ""
+        }
+        set(value) {
+            TemplateAttributeOption.setDefault(value, this.options)
+        }
+
+    fun getNumberLines(): Int {
+        return TemplateAttributeOption.getNumberLines(this.options)
     }
 
     companion object CREATOR : Parcelable.Creator<TemplateAttribute> {

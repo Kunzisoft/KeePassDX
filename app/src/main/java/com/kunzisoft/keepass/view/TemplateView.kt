@@ -50,10 +50,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
             EntryFieldView(it).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
-                val alias = TemplateAttributeOption.getAlias(templateAttribute.options)
-                label = alias ?: TemplateField.getLocalizedName(context, field.name)
-                val maxLines = TemplateAttributeOption.getNumberLines(templateAttribute.options)
-                setMaxLines(maxLines)
+                label = templateAttribute.alias
+                    ?: TemplateField.getLocalizedName(context, field.name)
+                setMaxLines(templateAttribute.getNumberLines())
                 // TODO Linkify
                 value = field.protectedValue.stringValue
 

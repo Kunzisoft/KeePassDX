@@ -163,12 +163,23 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         if (value.isNotEmpty()) {
-                            attribute.attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT] = value
+                            attribute.attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_TEMP] = value
                         }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to retrieve template options", e)
                     }
+                }
+                else -> {
+                    // To retrieve default values
+                    if (attributes.containsKey(label)) {
+                        if (value.isNotEmpty()) {
+                            val attribute = attributes[label]!!
+                            attribute.attribute.options[TemplateAttributeOption.DEFAULT_ATTR] =
+                                value
+                        }
+                    }
+                    entryCopy.removeField(label)
                 }
             }
         }
@@ -178,8 +189,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
 
             val attribute = it.attribute
 
-            // Recognize each default option
-            attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT]?.let { defaultOption ->
+            // Recognize each temp option
+            attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_TEMP]?.let { defaultOption ->
                 when (attribute.type) {
                     TemplateAttributeType.TEXT -> {
                         try {
@@ -232,7 +243,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         // No option here
                     }
                 }
-                attribute.options.remove(TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT)
+                attribute.options.remove(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP)
             }
 
             // Add position for each attribute
@@ -329,6 +340,13 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX + label,
                         ProtectedString(false, defaultOption)
                     )
+                    // Add default elements
+                    options[TemplateAttributeOption.DEFAULT_ATTR]?.let { defaultValue ->
+                        entryCopy.putField(
+                            label,
+                            ProtectedString(value.isProtected, defaultValue)
+                        )
+                    }
                     index++
                 }
             }
@@ -357,7 +375,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title_"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type_"
         private const val TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX = "_etm_options_"
-        private const val TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT = "default_option"
+        private const val TEMPLATE_ATTRIBUTE_OPTIONS_TEMP = "temp_option"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PROTECTED = "Protected"
         private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE = "Inline"
         private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE_URL = "Inline URL"

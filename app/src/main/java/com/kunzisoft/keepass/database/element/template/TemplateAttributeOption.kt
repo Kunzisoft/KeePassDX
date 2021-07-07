@@ -17,6 +17,14 @@ class TemplateAttributeOption {
         const val ALIAS_VALUE_DEFAULT = ""
 
         /**
+         * Applicable to each type
+         * Define a default string element representation
+         * For a type LIST, represents a single string element representation
+         */
+        const val DEFAULT_ATTR = "default"
+        const val DEFAULT_VALUE = ""
+
+        /**
          * Applicable to type TEXT
          * Integer, can be "-1" or "many" to infinite value
          * "1" if not defined
@@ -48,14 +56,6 @@ class TemplateAttributeOption {
         const val LIST_ITEMS = "items"
 
         /**
-         * Applicable to type LIST
-         * Default string element representation
-         * 1st element if not defined
-         */
-        const val LIST_DEFAULT_ITEM_ATTR = "default"
-        const val LIST_DEFAULT_ITEM_VALUE_DEFAULT = "1"
-
-        /**
          * Applicable to type DATETIME
          * String ("date" or "time" or "datetime" or based on https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)
          * "datetime" if not defined
@@ -67,6 +67,24 @@ class TemplateAttributeOption {
 
         fun getAlias(options: Map<String, String>): String? {
             return options[ALIAS_ATTR]
+        }
+
+        fun setAlias(value: String?, options: MutableMap<String, String>) {
+            if (value == null)
+                options.remove(ALIAS_ATTR)
+            else
+                options[ALIAS_ATTR] = value
+        }
+
+        fun getDefault(options: Map<String, String>): String? {
+            return options[DEFAULT_ATTR]
+        }
+
+        fun setDefault(value: String?, options: MutableMap<String, String>) {
+            if (value == null)
+                options.remove(DEFAULT_ATTR)
+            else
+                options[DEFAULT_ATTR] = value
         }
 
         fun getNumberLines(options: Map<String, String>): Int {
