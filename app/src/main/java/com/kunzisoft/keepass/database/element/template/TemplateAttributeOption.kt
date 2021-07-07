@@ -124,7 +124,7 @@ class TemplateAttributeOption() : Parcelable {
         return mOptions[label]
     }
 
-    fun add(label: String, value: String) {
+    fun put(label: String, value: String) {
         mOptions[label] = value
     }
 

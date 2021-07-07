@@ -158,7 +158,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         if (value.isNotEmpty()) {
-                            attribute.attribute.options.add(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP, value)
+                            attribute.attribute.options.put(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP, value)
                         }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {

@@ -7,7 +7,7 @@ import org.junit.Assert
 class TemplateAttributeOptionTest: TestCase() {
 
     fun testSerializeOptions() {
-        val options = HashMap<String, String>().apply {
+        val options = TemplateAttributeOption().apply {
             put("TestA", "TestB")
             put("{D", "}C")
             put("E,gyu", "15,jk")
@@ -16,8 +16,9 @@ class TemplateAttributeOptionTest: TestCase() {
 
         val strings = TemplateAttributeOption.getStringFromOptions(options)
         val optionsAfterSerialization = TemplateAttributeOption.getOptionsFromString(strings)
+        val otherString = TemplateAttributeOption.getStringFromOptions(optionsAfterSerialization)
 
-        Assert.assertEquals("Output not equal to input", options, optionsAfterSerialization)
+        Assert.assertEquals("Output not equal to input", strings, otherString)
     }
 
 }
