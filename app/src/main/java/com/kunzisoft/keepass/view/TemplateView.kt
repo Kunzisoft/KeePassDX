@@ -50,9 +50,11 @@ class TemplateView @JvmOverloads constructor(context: Context,
             EntryFieldView(it).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
-                label = TemplateField.getLocalizedName(context, field.name)
+                val alias = TemplateAttributeOption.getAlias(templateAttribute.options)
+                label = alias ?: TemplateField.getLocalizedName(context, field.name)
                 val maxLines = TemplateAttributeOption.getNumberLines(templateAttribute.options)
                 setMaxLines(maxLines)
+                // TODO Linkify
                 value = field.protectedValue.stringValue
 
                 if (field.protectedValue.isProtected) {
@@ -77,10 +79,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
                     setCopyButtonClickListener {
                         mOnCopyActionClickListener?.invoke(field)
                     }
-                }
-
-                templateAttribute.options.forEach { option ->
-                    // TODO options
                 }
             }
         }

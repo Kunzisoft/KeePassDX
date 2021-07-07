@@ -63,9 +63,12 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             EntryEditFieldView(it).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
-                label = TemplateField.getLocalizedName(context, field.name)
+                val alias = TemplateAttributeOption.getAlias(templateAttribute.options)
+                label = alias ?: TemplateField.getLocalizedName(context, field.name)
+                // TODO Max chars
                 val maxLinesOption = TemplateAttributeOption.getNumberLines(templateAttribute.options)
                 setMaxLines(maxLinesOption)
+                // TODO List items
                 value = field.protectedValue.stringValue
                 when (templateAttribute.action) {
                     TemplateAttributeAction.NONE -> {
@@ -81,9 +84,6 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                             mOnPasswordGenerationActionClickListener?.invoke(field)
                         }, R.drawable.ic_generate_password_white_24dp)
                     }
-                }
-                templateAttribute.options.forEach { option ->
-                    // TODO options
                 }
             }
         }

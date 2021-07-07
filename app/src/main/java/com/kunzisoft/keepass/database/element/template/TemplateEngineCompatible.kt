@@ -54,7 +54,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         } else {
             val newAttribute = TemplateAttributePosition(
                 -1,
-                TemplateAttribute("", TemplateAttributeType.TEXT)
+                TemplateAttribute(name, TemplateAttributeType.TEXT)
             )
             attributes[name] = newAttribute
             newAttribute
@@ -95,7 +95,10 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     try {
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
-                        attribute.attribute.label = value
+                        // Here title is an alias if different (often the same)
+                        if (attributeName != value) {
+                            attribute.attribute.options[TemplateAttributeOption.ALIAS_ATTR] = value
+                        }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to retrieve template title", e)
@@ -232,7 +235,6 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 attribute.options.remove(TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT)
             }
 
-
             // Add position for each attribute
             newFields[it.position] = Field(buildTemplateEntryField(attribute))
         }
@@ -267,47 +269,65 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 }
                 else -> {
                     entryCopy.removeField(field.name)
+                    val options = TemplateAttributeOption.getOptionsFromString(value.stringValue)
+
+                    // Add Position attribute
                     entryCopy.putField(
-                        TEMPLATE_ATTRIBUTE_POSITION_PREFIX +'_'+label,
+                        TEMPLATE_ATTRIBUTE_POSITION_PREFIX + label,
                         ProtectedString(false, index.toString())
                     )
+                    // Add Title attribute (or alias if defined)
+                    val title = options[TemplateAttributeOption.ALIAS_ATTR] ?: label
                     entryCopy.putField(
-                        TEMPLATE_ATTRIBUTE_TITLE_PREFIX +'_'+label,
-                        ProtectedString(false, label)
+                        TEMPLATE_ATTRIBUTE_TITLE_PREFIX + label,
+                        ProtectedString(false, title)
                     )
-                    // Add protected string if needed
+                    // Add Type attribute
                     var typeString: String = when {
-                        value.stringValue.contains(TemplateAttributeType.TEXT.label, true) -> {
-                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]) {
+                        value.stringValue.contains(TemplateAttributeType.TEXT.typeString, true) -> {
+                            when (options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]) {
                                 TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
                             }
                         }
-                        value.stringValue.contains(TemplateAttributeType.LIST.label, true) -> {
+                        value.stringValue.contains(TemplateAttributeType.LIST.typeString, true) -> {
                             TEMPLATE_ATTRIBUTE_TYPE_LISTBOX
                         }
-                        value.stringValue.contains(TemplateAttributeType.DATETIME.label, true) -> {
-                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.DATETIME_FORMAT_ATTR]) {
+                        value.stringValue.contains(TemplateAttributeType.DATETIME.typeString, true) -> {
+                            when (options[TemplateAttributeOption.DATETIME_FORMAT_ATTR]) {
                                 TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
                                 TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
                             }
                         }
-                        value.stringValue.contains(TemplateAttributeType.DIVIDER.label, true) -> {
+                        value.stringValue.contains(TemplateAttributeType.DIVIDER.typeString, true) -> {
                             TEMPLATE_ATTRIBUTE_TYPE_DIVIDER
                         }
                         else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
                     }
-
-                    val optionsString = TemplateAttributeOption.getOptionsFromString(value.stringValue)
-                    val options = TemplateAttributeOption.getStringFromOptions(optionsString)
-
+                    // Add protected string if needed
                     if (value.isProtected) {
-                        typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString $options"
+                        typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString"
                     }
                     entryCopy.putField(
-                        TEMPLATE_ATTRIBUTE_TYPE_PREFIX +'_'+label,
+                        TEMPLATE_ATTRIBUTE_TYPE_PREFIX + label,
                         ProtectedString(false, typeString)
+                    )
+                    // Add Options attribute (here only number of chars and lines are supported)
+                    var defaultOption = ""
+                    try {
+                        options[TemplateAttributeOption.TEXT_NUMBER_CHARS_ATTR]?.let { numberChars ->
+                            defaultOption = if (numberChars.toInt() > 1) numberChars else defaultOption
+                        }
+                        options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]?.let { numberLines ->
+                            defaultOption = if (numberLines.toInt() > 1) numberLines else defaultOption
+                        }
+                    } catch (e: Exception) {
+                        // Ignore, can be "many"
+                    }
+                    entryCopy.putField(
+                        TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX + label,
+                        ProtectedString(false, defaultOption)
                     )
                     index++
                 }
@@ -323,20 +343,22 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         private val TAG = TemplateEngineCompatible::class.java.name
 
         // Custom template ref
-        private const val TEMPLATE_ATTRIBUTE_TITLE = "@title"
-        private const val TEMPLATE_ATTRIBUTE_USERNAME = "@username"
-        private const val TEMPLATE_ATTRIBUTE_PASSWORD = "@password"
-        private const val TEMPLATE_ATTRIBUTE_URL = "@url"
+        private const val TEMPLATE_ATTRIBUTE_TITLE = "Title"
+        private const val TEMPLATE_ATTRIBUTE_USERNAME = "UserName"
+        private const val TEMPLATE_ATTRIBUTE_PASSWORD = "Password"
+        private const val TEMPLATE_ATTRIBUTE_URL = "URL"
         private const val TEMPLATE_ATTRIBUTE_EXP_DATE = "@exp_date"
-        private const val TEMPLATE_ATTRIBUTE_EXPIRES = "@expires"
-        private const val TEMPLATE_ATTRIBUTE_NOTES = "@notes"
+        private const val TEMPLATE_ATTRIBUTE_EXPIRES = "Expires"
+        private const val TEMPLATE_ATTRIBUTE_NOTES = "Notes"
+        private const val TEMPLATE_ATTRIBUTE_TOTP_SEED = "TOTP Seed"
+        private const val TEMPLATE_ATTRIBUTE_TOTP_SETTING = "TOTP Settings"
 
         private const val TEMPLATE_LABEL_VERSION = "_etm_template"
         private const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
-        private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
-        private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title"
-        private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type"
-        private const val TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX = "_etm_options"
+        private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position_"
+        private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title_"
+        private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type_"
+        private const val TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX = "_etm_options_"
         private const val TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT = "default_option"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PROTECTED = "Protected"
         private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE = "Inline"

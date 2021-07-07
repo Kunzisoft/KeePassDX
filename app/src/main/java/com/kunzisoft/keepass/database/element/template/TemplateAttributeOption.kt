@@ -9,13 +9,12 @@ class TemplateAttributeOption {
     companion object {
 
         /**
-         * Applicable to type TEXT
-         * Integer, can be "-1" or "many" to infinite value
-         * "1" if not defined
+         * Applicable to each type
+         * Define a text replacement for a label,
+         * Useful to keep compatibility with old keepass apps by replacing standard field label
          */
-        const val TEXT_NUMBER_LINES_ATTR = "lines"
-        const val TEXT_NUMBER_LINES_VALUE_MANY = "many"
-        const val TEXT_NUMBER_LINES_VALUE_DEFAULT = "1"
+        const val ALIAS_ATTR = "alias"
+        const val ALIAS_VALUE_DEFAULT = ""
 
         /**
          * Applicable to type TEXT
@@ -24,6 +23,15 @@ class TemplateAttributeOption {
          */
         const val TEXT_NUMBER_CHARS_ATTR = "chars"
         const val TEXT_NUMBER_CHARS_VALUE_DEFAULT = "many"
+
+        /**
+         * Applicable to type TEXT
+         * Integer, can be "many" to infinite value
+         * "1" if not defined
+         */
+        const val TEXT_NUMBER_LINES_ATTR = "lines"
+        const val TEXT_NUMBER_LINES_VALUE_MANY = "many"
+        const val TEXT_NUMBER_LINES_VALUE_DEFAULT = "1"
 
         /**
          * Applicable to type TEXT
@@ -57,7 +65,11 @@ class TemplateAttributeOption {
         const val DATETIME_FORMAT_VALUE_TIME = "time"
         const val DATETIME_FORMAT_VALUE_DEFAULT = "datetime"
 
-        fun getNumberLines(options: MutableMap<String, String>): Int {
+        fun getAlias(options: Map<String, String>): String? {
+            return options[ALIAS_ATTR]
+        }
+
+        fun getNumberLines(options: Map<String, String>): Int {
             return try {
                 val value = options[TEXT_NUMBER_LINES_ATTR]
                 if (value == TEXT_NUMBER_LINES_VALUE_MANY)
@@ -69,7 +81,7 @@ class TemplateAttributeOption {
             }
         }
 
-        fun isLinkify(options: MutableMap<String, String>): Boolean {
+        fun isLinkify(options: Map<String, String>): Boolean {
             return try {
                 options[TEXT_LINK_ATTR]?.toBoolean() ?: true
             } catch (e: Exception) {
