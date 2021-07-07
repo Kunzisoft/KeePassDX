@@ -121,18 +121,21 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
                 // Build each attribute
                 templateSection.attributes.forEach { templateAttribute ->
-                    val fieldTag: String = getTagFromStandardTemplateAttribute(templateAttribute)
+                    if (templateAttribute.label != TemplateField.LABEL_TITLE) {
+                        val fieldTag: String =
+                            getTagFromStandardTemplateAttribute(templateAttribute)
 
-                    val attributeView = buildViewForTemplateField(
-                        templateAttribute,
-                        Field(
-                            templateAttribute.label,
-                            ProtectedString(templateAttribute.protected, "")
-                        ),
-                        fieldTag
-                    )
-                    // Add created view to this parent
-                    sectionView.addView(attributeView)
+                        val attributeView = buildViewForTemplateField(
+                            templateAttribute,
+                            Field(
+                                templateAttribute.label,
+                                ProtectedString(templateAttribute.protected, "")
+                            ),
+                            fieldTag
+                        )
+                        // Add created view to this parent
+                        sectionView.addView(attributeView)
+                    }
                 }
                 // Add build view to parent
                 templateContainerView.addView(sectionView)

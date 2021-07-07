@@ -350,8 +350,6 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         private const val TEMPLATE_ATTRIBUTE_EXP_DATE = "@exp_date"
         private const val TEMPLATE_ATTRIBUTE_EXPIRES = "Expires"
         private const val TEMPLATE_ATTRIBUTE_NOTES = "Notes"
-        private const val TEMPLATE_ATTRIBUTE_TOTP_SEED = "TOTP Seed"
-        private const val TEMPLATE_ATTRIBUTE_TOTP_SETTING = "TOTP Settings"
 
         private const val TEMPLATE_LABEL_VERSION = "_etm_template"
         private const val TEMPLATE_ENTRY_UUID = "_etm_template_uuid"
