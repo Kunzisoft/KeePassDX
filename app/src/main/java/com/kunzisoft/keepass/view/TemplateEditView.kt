@@ -66,7 +66,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 label = templateAttribute.alias
                     ?: TemplateField.getLocalizedName(context, field.name)
                 // TODO Max chars
-                setMaxLines(templateAttribute.getNumberLines())
+                setMaxLines(templateAttribute.options.getNumberLines())
                 // TODO List items
                 val fieldValue = field.protectedValue.stringValue
                 value = if (fieldValue.isEmpty()) templateAttribute.default else fieldValue
@@ -94,7 +94,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             DateTimeEditView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
-                val dateInstantType = TemplateAttributeOption.getDateFormat(templateAttribute.options)
+                val dateInstantType = templateAttribute.options.getDateFormat()
                 try {
                     val value = field.protectedValue.toString().trim()
                     type = dateInstantType

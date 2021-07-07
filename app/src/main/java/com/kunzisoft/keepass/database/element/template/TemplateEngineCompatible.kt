@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.database.element.template
 
 import android.util.Log
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -97,7 +98,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         // Here title is an alias if different (often the same)
                         if (attributeName != value) {
-                            attribute.attribute.options[TemplateAttributeOption.ALIAS_ATTR] = value
+                            attribute.attribute.alias = value
                         }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
@@ -114,8 +115,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         when {
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE_URL, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
-                                attribute.attribute.options[TemplateAttributeOption.TEXT_LINK_ATTR] =
-                                    true.toString()
+                                attribute.attribute.options.setLink(true)
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE, true) ||
                                     value.contains(TEMPLATE_ATTRIBUTE_TYPE_POPOUT, true) -> {
@@ -123,15 +123,12 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
-                                attribute.attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR] =
-                                    TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY
+                                attribute.attribute.options.setNumberLinesToMany()
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
-                                attribute.attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR] =
-                                    TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY
-                                attribute.attribute.options[TemplateAttributeOption.TEXT_LINK_ATTR] =
-                                    true.toString()
+                                attribute.attribute.options.setNumberLinesToMany()
+                                attribute.attribute.options.setLink(true)
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.LIST
@@ -141,13 +138,11 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
-                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
-                                    TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE
+                                attribute.attribute.options.setDateFormatToDate()
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
-                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
-                                    TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME
+                                attribute.attribute.options.setDateFormatToTime()
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DIVIDER, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DIVIDER
@@ -163,7 +158,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         if (value.isNotEmpty()) {
-                            attribute.attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_TEMP] = value
+                            attribute.attribute.options.add(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP, value)
                         }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
@@ -175,8 +170,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     if (attributes.containsKey(label)) {
                         if (value.isNotEmpty()) {
                             val attribute = attributes[label]!!
-                            attribute.attribute.options[TemplateAttributeOption.DEFAULT_ATTR] =
-                                value
+                            attribute.attribute.default = value
                         }
                     }
                     entryCopy.removeField(label)
@@ -190,19 +184,19 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
             val attribute = it.attribute
 
             // Recognize each temp option
-            attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_TEMP]?.let { defaultOption ->
+            attribute.options.get(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP)?.let { defaultOption ->
                 when (attribute.type) {
                     TemplateAttributeType.TEXT -> {
                         try {
-                            val linesString = attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]
-                            if (linesString == null || linesString == "1") {
-                                // If one line, default attribute option is number of chars
-                                attribute.options[TemplateAttributeOption.TEXT_NUMBER_CHARS_ATTR] =
-                                    defaultOption
-                            } else {
-                                // else it's number of lines
-                                attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR] =
-                                    defaultOption
+                            when (attribute.options.getNumberLines()) {
+                                1 -> {
+                                    // If one line, default attribute option is number of chars
+                                    attribute.options.setNumberChars(defaultOption.toInt())
+                                }
+                                else -> {
+                                    // else it's number of lines
+                                    attribute.options.setNumberLines(defaultOption.toInt())
+                                }
                             }
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to transform default text option", e)
@@ -212,8 +206,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         try {
                             // Default attribute option is items of the list
                             val items = defaultOption.split(",")
-                            attribute.options[TemplateAttributeOption.LIST_ITEMS] =
-                                TemplateAttributeOption.stringFromListItems(items)
+                            attribute.options.setListItems(items)
                             // TODO Add default item
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to transform default list option", e)
@@ -227,12 +220,10 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                                     // Do not add option if it's datetime
                                 }
                                 defaultOption.equals(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
-                                    attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
-                                        TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE
+                                    attribute.options.setDateFormatToDate()
                                 }
                                 defaultOption.equals(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
-                                    attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
-                                        TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME
+                                    attribute.options.setDateFormatToTime()
                                 }
                             }
                         } catch (e: Exception) {
@@ -288,7 +279,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         ProtectedString(false, index.toString())
                     )
                     // Add Title attribute (or alias if defined)
-                    val title = options[TemplateAttributeOption.ALIAS_ATTR] ?: label
+                    val title = options.alias ?: label
                     entryCopy.putField(
                         TEMPLATE_ATTRIBUTE_TITLE_PREFIX + label,
                         ProtectedString(false, title)
@@ -296,18 +287,18 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     // Add Type attribute
                     var typeString: String = when {
                         value.stringValue.contains(TemplateAttributeType.TEXT.typeString, true) -> {
-                            when (options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]) {
-                                TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
-                                else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+                            when (options.getNumberLines()) {
+                                1 -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
+                                else -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
                             }
                         }
                         value.stringValue.contains(TemplateAttributeType.LIST.typeString, true) -> {
                             TEMPLATE_ATTRIBUTE_TYPE_LISTBOX
                         }
                         value.stringValue.contains(TemplateAttributeType.DATETIME.typeString, true) -> {
-                            when (options[TemplateAttributeOption.DATETIME_FORMAT_ATTR]) {
-                                TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
-                                TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
+                            when (options.getDateFormat()) {
+                                DateInstant.Type.DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
+                                DateInstant.Type.TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
                             }
                         }
@@ -327,24 +318,27 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     // Add Options attribute (here only number of chars and lines are supported)
                     var defaultOption = ""
                     try {
-                        options[TemplateAttributeOption.TEXT_NUMBER_CHARS_ATTR]?.let { numberChars ->
-                            defaultOption = if (numberChars.toInt() > 1) numberChars else defaultOption
-                        }
-                        options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]?.let { numberLines ->
-                            defaultOption = if (numberLines.toInt() > 1) numberLines else defaultOption
+                        val numberChars = options.getNumberChars()
+                        if (numberChars > 1) {
+                            defaultOption = numberChars.toString()
+                        } else {
+                            val numberLines = options.getNumberLines()
+                            if (numberLines > 1) {
+                                defaultOption = numberLines.toString()
+                            }
                         }
                     } catch (e: Exception) {
-                        // Ignore, can be "many"
+                        // Ignore, default option is defined
                     }
                     entryCopy.putField(
                         TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX + label,
                         ProtectedString(false, defaultOption)
                     )
                     // Add default elements
-                    options[TemplateAttributeOption.DEFAULT_ATTR]?.let { defaultValue ->
+                    if (options.default.isNotEmpty()) {
                         entryCopy.putField(
                             label,
-                            ProtectedString(value.isProtected, defaultValue)
+                            ProtectedString(value.isProtected, options.default)
                         )
                     }
                     index++

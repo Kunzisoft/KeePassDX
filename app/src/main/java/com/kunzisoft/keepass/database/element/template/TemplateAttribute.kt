@@ -27,21 +27,21 @@ import com.kunzisoft.keepass.utils.writeEnum
 data class TemplateAttribute(var label: String,
                              var type: TemplateAttributeType,
                              var protected: Boolean = false,
-                             var options: MutableMap<String, String> = mutableMapOf(),
+                             var options: TemplateAttributeOption = TemplateAttributeOption(),
                              var action: TemplateAttributeAction = TemplateAttributeAction.NONE): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.TEXT,
         parcel.readByte() != 0.toByte(),
-        ParcelableUtil.readStringParcelableMap(parcel),
+        parcel.readParcelable(TemplateAttributeOption::class.java.classLoader) ?: TemplateAttributeOption(),
         parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(label)
         parcel.writeEnum(type)
         parcel.writeByte(if (protected) 1 else 0)
-        ParcelableUtil.writeStringParcelableMap(parcel, LinkedHashMap(options))
+        parcel.writeParcelable(options, flags)
         parcel.writeEnum(action)
     }
 
@@ -51,23 +51,19 @@ data class TemplateAttribute(var label: String,
 
     var alias: String?
         get() {
-            return TemplateAttributeOption.getAlias(this.options)
+            return options.alias
         }
         set(value) {
-            TemplateAttributeOption.setAlias(value, this.options)
+            options.alias = value
         }
 
     var default: String
         get() {
-            return TemplateAttributeOption.getDefault(this.options) ?: ""
+            return this.options.default
         }
         set(value) {
-            TemplateAttributeOption.setDefault(value, this.options)
+            this.options.default = value
         }
-
-    fun getNumberLines(): Int {
-        return TemplateAttributeOption.getNumberLines(this.options)
-    }
 
     companion object CREATOR : Parcelable.Creator<TemplateAttribute> {
         override fun createFromParcel(parcel: Parcel): TemplateAttribute {

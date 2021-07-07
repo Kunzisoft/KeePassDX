@@ -1,130 +1,209 @@
 package com.kunzisoft.keepass.database.element.template
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.ParcelableUtil
 import java.net.URLDecoder
 import java.net.URLEncoder
 
-class TemplateAttributeOption {
+class TemplateAttributeOption() : Parcelable {
 
-    companion object {
+    private val mOptions: MutableMap<String, String> = mutableMapOf()
+
+    constructor(parcel: Parcel) : this() {
+        ParcelableUtil.readStringParcelableMap(parcel)
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        ParcelableUtil.writeStringParcelableMap(parcel, LinkedHashMap(mOptions))
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    var alias: String?
+        get() {
+            val tempAlias = mOptions[ALIAS_ATTR]
+            if (tempAlias.isNullOrEmpty())
+                return null
+            return tempAlias
+        }
+        set(value) {
+            if (value == null)
+                mOptions.remove(ALIAS_ATTR)
+            else
+                mOptions[ALIAS_ATTR] = value
+        }
+
+    var default: String
+        get() {
+            return mOptions[DEFAULT_ATTR] ?: DEFAULT_VALUE
+        }
+        set(value) {
+            mOptions[DEFAULT_ATTR] = value
+        }
+
+    fun getNumberChars(): Int {
+        return try {
+            if (mOptions[TEXT_NUMBER_CHARS_ATTR].equals(TEXT_NUMBER_CHARS_VALUE_MANY_STRING, true))
+                TEXT_NUMBER_CHARS_VALUE_MANY
+            else
+                mOptions[TEXT_NUMBER_CHARS_ATTR]?.toInt() ?: TEXT_NUMBER_CHARS_VALUE_DEFAULT
+        } catch (e: Exception) {
+            TEXT_NUMBER_CHARS_VALUE_DEFAULT
+        }
+    }
+
+    fun setNumberChars(numberChars: Int) {
+        mOptions[TEXT_NUMBER_CHARS_ATTR] = numberChars.toString()
+    }
+
+    fun setNumberCharsToMany() {
+        mOptions[TEXT_NUMBER_CHARS_ATTR] = TEXT_NUMBER_CHARS_VALUE_MANY_STRING
+    }
+
+    fun getNumberLines(): Int {
+        return try {
+            if (mOptions[TEXT_NUMBER_LINES_ATTR].equals(TEXT_NUMBER_LINES_VALUE_MANY_STRING, true))
+                TEXT_NUMBER_LINES_VALUE_MANY
+            else
+                mOptions[TEXT_NUMBER_LINES_ATTR]?.toInt() ?: TEXT_NUMBER_LINES_VALUE_DEFAULT
+        } catch (e: Exception) {
+            TEXT_NUMBER_LINES_VALUE_DEFAULT
+        }
+    }
+
+    fun setNumberLines(numberLines: Int) {
+        val lines = if (numberLines == 0) 1 else numberLines
+        mOptions[TEXT_NUMBER_LINES_ATTR] = lines.toString()
+    }
+
+    fun setNumberLinesToMany() {
+        mOptions[TEXT_NUMBER_LINES_ATTR] = TEXT_NUMBER_LINES_VALUE_MANY_STRING
+    }
+
+    fun isLink(): Boolean {
+        return try {
+            mOptions[TEXT_LINK_ATTR]?.toBoolean() ?: TEXT_LINK_VALUE_DEFAULT
+        } catch (e: Exception) {
+            TEXT_LINK_VALUE_DEFAULT
+        }
+    }
+
+    fun setLink(isLink: Boolean) {
+        mOptions[TEXT_LINK_ATTR] = isLink.toString()
+    }
+
+    fun getListItems(): List<String> {
+        return mOptions[LIST_ITEMS]?.split("|") ?: listOf()
+    }
+
+    fun setListItems(items: List<String>) {
+        mOptions[LIST_ITEMS] = items.joinToString("|")
+    }
+
+    fun getDateFormat(): DateInstant.Type {
+        return when (mOptions[DATETIME_FORMAT_ATTR]) {
+            DATETIME_FORMAT_VALUE_DATE -> DateInstant.Type.DATE
+            DATETIME_FORMAT_VALUE_TIME -> DateInstant.Type.TIME
+            else -> DateInstant.Type.DATE_TIME
+        }
+    }
+
+    fun setDateFormatToDate() {
+        mOptions[DATETIME_FORMAT_ATTR] = DATETIME_FORMAT_VALUE_DATE
+    }
+
+    fun setDateFormatToTime() {
+        mOptions[DATETIME_FORMAT_ATTR] = DATETIME_FORMAT_VALUE_TIME
+    }
+
+    fun get(label: String): String? {
+        return mOptions[label]
+    }
+
+    fun add(label: String, value: String) {
+        mOptions[label] = value
+    }
+
+    fun remove(label: String) {
+        mOptions.remove(label)
+    }
+
+    companion object CREATOR : Parcelable.Creator<TemplateAttributeOption> {
+        override fun createFromParcel(parcel: Parcel): TemplateAttributeOption {
+            return TemplateAttributeOption(parcel)
+        }
+
+        override fun newArray(size: Int): Array<TemplateAttributeOption?> {
+            return arrayOfNulls(size)
+        }
 
         /**
          * Applicable to each type
          * Define a text replacement for a label,
          * Useful to keep compatibility with old keepass apps by replacing standard field label
          */
-        const val ALIAS_ATTR = "alias"
-        const val ALIAS_VALUE_DEFAULT = ""
+        private const val ALIAS_ATTR = "alias"
 
         /**
          * Applicable to each type
          * Define a default string element representation
          * For a type LIST, represents a single string element representation
          */
-        const val DEFAULT_ATTR = "default"
-        const val DEFAULT_VALUE = ""
+        private const val DEFAULT_ATTR = "default"
+        private const val DEFAULT_VALUE = ""
 
         /**
          * Applicable to type TEXT
-         * Integer, can be "-1" or "many" to infinite value
+         * Integer, can be "many" or "-1" to infinite value
          * "1" if not defined
          */
-        const val TEXT_NUMBER_CHARS_ATTR = "chars"
-        const val TEXT_NUMBER_CHARS_VALUE_DEFAULT = "many"
+        private const val TEXT_NUMBER_CHARS_ATTR = "chars"
+        private const val TEXT_NUMBER_CHARS_VALUE_MANY = -1
+        private const val TEXT_NUMBER_CHARS_VALUE_MANY_STRING = "many"
+        private const val TEXT_NUMBER_CHARS_VALUE_DEFAULT = -1
 
         /**
          * Applicable to type TEXT
-         * Integer, can be "many" to infinite value
+         * Integer, can be "-1" to infinite value
          * "1" if not defined
          */
-        const val TEXT_NUMBER_LINES_ATTR = "lines"
-        const val TEXT_NUMBER_LINES_VALUE_MANY = "many"
-        const val TEXT_NUMBER_LINES_VALUE_DEFAULT = "1"
+        private const val TEXT_NUMBER_LINES_ATTR = "lines"
+        private const val TEXT_NUMBER_LINES_VALUE_MANY = -1
+        private const val TEXT_NUMBER_LINES_VALUE_MANY_STRING = "many"
+        private const val TEXT_NUMBER_LINES_VALUE_DEFAULT = 1
 
         /**
          * Applicable to type TEXT
          * Boolean ("true" or "false")
          * "true" if not defined
-          */
-        const val TEXT_LINK_ATTR = "link"
-        const val TEXT_LINK_VALUE_DEFAULT = "false"
+         */
+        private const val TEXT_LINK_ATTR = "link"
+        private const val TEXT_LINK_VALUE_DEFAULT = false
 
         /**
          * Applicable to type LIST
          * List of items, separator is '|'
          */
-        const val LIST_ITEMS = "items"
+        private const val LIST_ITEMS = "items"
 
         /**
          * Applicable to type DATETIME
          * String ("date" or "time" or "datetime" or based on https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)
          * "datetime" if not defined
          */
-        const val DATETIME_FORMAT_ATTR = "format"
-        const val DATETIME_FORMAT_VALUE_DATE = "date"
-        const val DATETIME_FORMAT_VALUE_TIME = "time"
-        const val DATETIME_FORMAT_VALUE_DEFAULT = "datetime"
+        private const val DATETIME_FORMAT_ATTR = "format"
+        private const val DATETIME_FORMAT_VALUE_DATE = "date"
+        private const val DATETIME_FORMAT_VALUE_TIME = "time"
+        private const val DATETIME_FORMAT_VALUE_DEFAULT = "datetime"
 
-        fun getAlias(options: Map<String, String>): String? {
-            return options[ALIAS_ATTR]
-        }
 
-        fun setAlias(value: String?, options: MutableMap<String, String>) {
-            if (value == null)
-                options.remove(ALIAS_ATTR)
-            else
-                options[ALIAS_ATTR] = value
-        }
-
-        fun getDefault(options: Map<String, String>): String? {
-            return options[DEFAULT_ATTR]
-        }
-
-        fun setDefault(value: String?, options: MutableMap<String, String>) {
-            if (value == null)
-                options.remove(DEFAULT_ATTR)
-            else
-                options[DEFAULT_ATTR] = value
-        }
-
-        fun getNumberLines(options: Map<String, String>): Int {
-            return try {
-                val value = options[TEXT_NUMBER_LINES_ATTR]
-                if (value == TEXT_NUMBER_LINES_VALUE_MANY)
-                    -1
-                else
-                    options[TEXT_NUMBER_LINES_ATTR]?.toInt() ?: 1
-            } catch (e: Exception) {
-                1
-            }
-        }
-
-        fun isLinkify(options: Map<String, String>): Boolean {
-            return try {
-                options[TEXT_LINK_ATTR]?.toBoolean() ?: true
-            } catch (e: Exception) {
-                true
-            }
-        }
-
-        fun listItemsFromString(itemsString: String): List<String> {
-            return itemsString.split("|")
-        }
-
-        fun stringFromListItems(items: List<String>): String {
-            return items.joinToString("|")
-        }
-
-        fun getDateFormat(options: MutableMap<String, String>): DateInstant.Type {
-            return when (options[DATETIME_FORMAT_ATTR]) {
-                DATETIME_FORMAT_VALUE_DATE -> DateInstant.Type.DATE
-                DATETIME_FORMAT_VALUE_TIME -> DateInstant.Type.TIME
-                else -> DateInstant.Type.DATE_TIME
-            }
-        }
-
-        fun getOptionsFromString(label: String): MutableMap<String, String> {
-            return if (label.contains("{") || label.contains("}")) {
+        fun getOptionsFromString(label: String): TemplateAttributeOption {
+            val options = TemplateAttributeOption()
+            val optionsMap =  if (label.contains("{") || label.contains("}")) {
                 try {
                     label.trim().substringAfter("{").substringBefore("}")
                         .split(",").associate {
@@ -137,14 +216,19 @@ class TemplateAttributeOption {
             } else {
                 mutableMapOf()
             }
+            options.mOptions.apply {
+                clear()
+                putAll(optionsMap)
+            }
+            return options
         }
 
-        fun getStringFromOptions(options: Map<String, String>): String {
+        fun getStringFromOptions(options: TemplateAttributeOption): String {
             var optionsString = ""
-            if (options.isNotEmpty()) {
+            if (options.mOptions.isNotEmpty()) {
                 optionsString += " {"
                 var first = true
-                for ((key, value) in options) {
+                for ((key, value) in options.mOptions) {
                     if (!first)
                         optionsString += ","
                     first = false

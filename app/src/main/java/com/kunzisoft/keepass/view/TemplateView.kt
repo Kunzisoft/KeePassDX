@@ -51,8 +51,8 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 label = templateAttribute.alias
-                    ?: TemplateField.getLocalizedName(context, field.name)
-                setMaxLines(templateAttribute.getNumberLines())
+                        ?: TemplateField.getLocalizedName(context, field.name)
+                setMaxLines(templateAttribute.options.getNumberLines())
                 // TODO Linkify
                 value = field.protectedValue.stringValue
 
@@ -88,7 +88,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return context?.let {
             DateTimeView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
-                val dateInstantType = TemplateAttributeOption.getDateFormat(templateAttribute.options)
+                val dateInstantType = templateAttribute.options.getDateFormat()
                 try {
                     val value = field.protectedValue.toString().trim()
                     type = dateInstantType
