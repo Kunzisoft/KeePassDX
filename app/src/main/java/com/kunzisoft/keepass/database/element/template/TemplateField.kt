@@ -29,6 +29,7 @@ object TemplateField {
     const val LABEL_EMAIL_ADDRESS = "Email address"
     const val LABEL_WIRELESS = "Wifi"
     const val LABEL_SSID = "SSID"
+    const val LABEL_TYPE = "Type"
     const val LABEL_CRYPTOCURRENCY = "Cryptocurrency wallet"
     const val LABEL_TOKEN = "Token"
     const val LABEL_PUBLIC_KEY = "Public key"
@@ -82,6 +83,7 @@ object TemplateField {
             LABEL_EMAIL_ADDRESS.equals(name, true) -> context.getString(R.string.email_address)
             LABEL_WIRELESS.equals(name, true) -> context.getString(R.string.wireless)
             LABEL_SSID.equals(name, true) -> context.getString(R.string.ssid)
+            LABEL_TYPE.equals(name, true) -> context.getString(R.string.type)
             LABEL_CRYPTOCURRENCY.equals(name, true) -> context.getString(R.string.cryptocurrency)
             LABEL_TOKEN.equals(name, true) -> context.getString(R.string.token)
             LABEL_PUBLIC_KEY.equals(name, true) -> context.getString(R.string.public_key)

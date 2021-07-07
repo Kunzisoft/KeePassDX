@@ -113,6 +113,7 @@
     <string name="email_address">Email address</string>
     <string name="wireless">Wifi</string>
     <string name="ssid">SSID</string>
+    <string name="type">Type</string>
     <string name="cryptocurrency">Cryptocurrency wallet</string>
     <string name="token">Token</string>
     <string name="public_key">Public key</string>

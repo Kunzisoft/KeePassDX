@@ -100,7 +100,7 @@ class TemplateAttributeOption() : Parcelable {
         return mOptions[LIST_ITEMS]?.split(LIST_ITEMS_SEPARATOR) ?: listOf()
     }
 
-    fun setListItems(items: List<String>) {
+    fun setListItems(vararg items: String) {
         mOptions[LIST_ITEMS] = items.joinToString(LIST_ITEMS_SEPARATOR)
     }
 

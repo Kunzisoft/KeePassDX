@@ -39,6 +39,13 @@ class TemplateBuilder {
     private val emailAddressAttribute = TemplateAttribute(TemplateField.LABEL_EMAIL_ADDRESS, TemplateAttributeType.TEXT)
     private val passwordAttribute = TemplateAttribute(TemplateField.LABEL_PASSWORD, TemplateAttributeType.TEXT, true)
     private val ssidAttribute = TemplateAttribute(TemplateField.LABEL_SSID, TemplateAttributeType.TEXT)
+    private val wirelessTypeAttribute = TemplateAttribute(
+        TemplateField.LABEL_TYPE,
+        TemplateAttributeType.LIST,
+        false,
+        TemplateAttributeOption().apply{
+            setListItems("WPA3", "WPA2", "WPA", "WEP")
+        })
     private val tokenAttribute = TemplateAttribute(TemplateField.LABEL_TOKEN, TemplateAttributeType.TEXT)
     private val publicKeyAttribute = TemplateAttribute(TemplateField.LABEL_PUBLIC_KEY, TemplateAttributeType.TEXT)
     private val privateKeyAttribute = TemplateAttribute(TemplateField.LABEL_PRIVATE_KEY, TemplateAttributeType.TEXT, true)
@@ -68,6 +75,7 @@ class TemplateBuilder {
             val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
                 add(ssidAttribute)
                 add(passwordAttribute)
+                add(wirelessTypeAttribute)
             })
             sections.add(mainSection)
             return Template(

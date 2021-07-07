@@ -206,7 +206,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         try {
                             // Default attribute option is items of the list
                             val items = defaultOption.split(",")
-                            attribute.options.setListItems(items)
+                            attribute.options.setListItems(*items.toTypedArray())
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to transform default list option", e)
                         }
