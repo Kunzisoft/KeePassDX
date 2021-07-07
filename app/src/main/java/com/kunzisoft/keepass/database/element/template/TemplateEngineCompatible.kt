@@ -81,7 +81,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
             val label = field.name
             val value = field.protectedValue.stringValue
             when {
-                label.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX) -> {
+                label.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX, true) -> {
                     try {
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_POSITION_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
@@ -91,7 +91,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         Log.e(TAG, "Unable to retrieve template position", e)
                     }
                 }
-                label.startsWith(TEMPLATE_ATTRIBUTE_TITLE_PREFIX) -> {
+                label.startsWith(TEMPLATE_ATTRIBUTE_TITLE_PREFIX, true) -> {
                     try {
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
@@ -101,7 +101,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         Log.e(TAG, "Unable to retrieve template title", e)
                     }
                 }
-                label.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX) -> {
+                label.startsWith(TEMPLATE_ATTRIBUTE_TYPE_PREFIX, true) -> {
                     try {
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TYPE_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
@@ -109,32 +109,42 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                             attribute.attribute.protected = true
                         }
                         when {
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE_URL, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.TEXT
+                                attribute.attribute.options[TemplateAttributeOption.TEXT_LINK_ATTR] =
+                                    true.toString()
+                            }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_INLINE, true) ||
                                     value.contains(TEMPLATE_ATTRIBUTE_TYPE_POPOUT, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
                             }
-                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) ||
-                                    value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_MULTILINE, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.TEXT
-                                attribute.attribute.options[TemplateAttributeOption.NUMBER_LINES] =
-                                    TemplateAttributeOption.NUMBER_LINES_MANY
+                                attribute.attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR] =
+                                    TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.TEXT
+                                attribute.attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR] =
+                                    TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY
+                                attribute.attribute.options[TemplateAttributeOption.TEXT_LINK_ATTR] =
+                                    true.toString()
+                            }
+                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
+                                attribute.attribute.type = TemplateAttributeType.LIST
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
-                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT] =
-                                    TemplateAttributeOption.DATETIME_FORMAT_DATE
+                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
+                                    TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DATETIME
-                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT] =
-                                    TemplateAttributeOption.DATETIME_FORMAT_TIME
-                            }
-                            value.contains(TEMPLATE_ATTRIBUTE_TYPE_LISTBOX, true) -> {
-                                attribute.attribute.type = TemplateAttributeType.TEXT
-                                // TODO List box
+                                attribute.attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
+                                    TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME
                             }
                             value.contains(TEMPLATE_ATTRIBUTE_TYPE_DIVIDER, true) -> {
                                 attribute.attribute.type = TemplateAttributeType.DIVIDER
@@ -145,13 +155,88 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         Log.e(TAG, "Unable to retrieve template type", e)
                     }
                 }
+                label.startsWith(TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX, true) -> {
+                    try {
+                        val attributeName = label.substring(TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX.length)
+                        val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
+                        if (value.isNotEmpty()) {
+                            attribute.attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT] = value
+                        }
+                        entryCopy.removeField(field.name)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve template options", e)
+                    }
+                }
             }
         }
 
         val newFields = arrayOfNulls<Field>(attributes.size)
         attributes.values.forEach {
-            newFields[it.position] = Field(buildTemplateEntryField(it.attribute))
+
+            val attribute = it.attribute
+
+            // Recognize each default option
+            attribute.options[TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT]?.let { defaultOption ->
+                when (attribute.type) {
+                    TemplateAttributeType.TEXT -> {
+                        try {
+                            val linesString = attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]
+                            if (linesString == null || linesString == "1") {
+                                // If one line, default attribute option is number of chars
+                                attribute.options[TemplateAttributeOption.TEXT_NUMBER_CHARS_ATTR] =
+                                    defaultOption
+                            } else {
+                                // else it's number of lines
+                                attribute.options[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR] =
+                                    defaultOption
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to transform default text option", e)
+                        }
+                    }
+                    TemplateAttributeType.LIST -> {
+                        try {
+                            // Default attribute option is items of the list
+                            val items = defaultOption.split(",")
+                            attribute.options[TemplateAttributeOption.LIST_ITEMS] =
+                                TemplateAttributeOption.stringFromListItems(items)
+                            // TODO Add default item
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to transform default list option", e)
+                        }
+                    }
+                    TemplateAttributeType.DATETIME -> {
+                        try {
+                            // Default attribute option is datetime, date or time
+                            when {
+                                defaultOption.equals(TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME, true) -> {
+                                    // Do not add option if it's datetime
+                                }
+                                defaultOption.equals(TEMPLATE_ATTRIBUTE_TYPE_DATE, true) -> {
+                                    attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
+                                        TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE
+                                }
+                                defaultOption.equals(TEMPLATE_ATTRIBUTE_TYPE_TIME, true) -> {
+                                    attribute.options[TemplateAttributeOption.DATETIME_FORMAT_ATTR] =
+                                        TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME
+                                }
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to transform default datetime", e)
+                        }
+                    }
+                    TemplateAttributeType.DIVIDER -> {
+                        // No option here
+                    }
+                }
+                attribute.options.remove(TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT)
+            }
+
+
+            // Add position for each attribute
+            newFields[it.position] = Field(buildTemplateEntryField(attribute))
         }
+        // Add custom fields to entry
         newFields.forEach { field ->
             field?.let {
                 entryCopy.putField(field)
@@ -193,15 +278,18 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     // Add protected string if needed
                     var typeString: String = when {
                         value.stringValue.contains(TemplateAttributeType.TEXT.label, true) -> {
-                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.NUMBER_LINES]) {
-                                TemplateAttributeOption.NUMBER_LINES_MANY -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
+                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR]) {
+                                TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
                             }
                         }
+                        value.stringValue.contains(TemplateAttributeType.LIST.label, true) -> {
+                            TEMPLATE_ATTRIBUTE_TYPE_LISTBOX
+                        }
                         value.stringValue.contains(TemplateAttributeType.DATETIME.label, true) -> {
-                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.DATETIME_FORMAT]) {
-                                TemplateAttributeOption.DATETIME_FORMAT_DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
-                                TemplateAttributeOption.DATETIME_FORMAT_TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
+                            when (TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue)[TemplateAttributeOption.DATETIME_FORMAT_ATTR]) {
+                                TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
+                                TemplateAttributeOption.DATETIME_FORMAT_VALUE_TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
                             }
                         }
@@ -248,14 +336,17 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         private const val TEMPLATE_ATTRIBUTE_POSITION_PREFIX = "_etm_position"
         private const val TEMPLATE_ATTRIBUTE_TITLE_PREFIX = "_etm_title"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PREFIX = "_etm_type"
+        private const val TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX = "_etm_options"
+        private const val TEMPLATE_ATTRIBUTE_OPTIONS_DEFAULT = "default_option"
         private const val TEMPLATE_ATTRIBUTE_TYPE_PROTECTED = "Protected"
         private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE = "Inline"
+        private const val TEMPLATE_ATTRIBUTE_TYPE_INLINE_URL = "Inline URL"
         private const val TEMPLATE_ATTRIBUTE_TYPE_MULTILINE = "Multiline"
+        private const val TEMPLATE_ATTRIBUTE_TYPE_LISTBOX = "Listbox"
         private const val TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME = "Date Time"
         private const val TEMPLATE_ATTRIBUTE_TYPE_DATE = "Date"
         private const val TEMPLATE_ATTRIBUTE_TYPE_TIME = "Time"
         private const val TEMPLATE_ATTRIBUTE_TYPE_DIVIDER = "Divider"
-        private const val TEMPLATE_ATTRIBUTE_TYPE_LISTBOX = "Listbox"
         private const val TEMPLATE_ATTRIBUTE_TYPE_POPOUT = "Popout"
         private const val TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX = "Rich Textbox"
 

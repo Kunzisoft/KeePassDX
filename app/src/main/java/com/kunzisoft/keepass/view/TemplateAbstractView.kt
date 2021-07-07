@@ -184,7 +184,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
             TemplateAttributeType.TEXT,
             field.protectedValue.isProtected,
             LinkedHashMap<String, String>().apply {
-                put(TemplateAttributeOption.NUMBER_LINES, "3")
+                put(TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR, "3")
             },
             TemplateAttributeAction.CUSTOM_EDITION,
             field.protectedValue.stringValue)
@@ -197,6 +197,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
         // Build main view depending on type
         val itemView: View? = when (templateAttribute.type) {
             TemplateAttributeType.TEXT -> {
+                buildLinearTextView(templateAttribute, field) as View?
+            }
+            TemplateAttributeType.LIST -> {
                 buildLinearTextView(templateAttribute, field) as View?
             }
             TemplateAttributeType.DATETIME -> {

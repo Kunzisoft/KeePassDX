@@ -14,7 +14,7 @@ class TemplateBuilder {
         TemplateAttributeType.TEXT,
         false,
         LinkedHashMap<String, String>().apply {
-            put(TemplateAttributeOption.NUMBER_LINES, TemplateAttributeOption.NUMBER_LINES_MANY)
+            put(TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR, TemplateAttributeOption.TEXT_NUMBER_LINES_VALUE_MANY)
         })
     private val holderAttribute = TemplateAttribute(TemplateField.LABEL_HOLDER, TemplateAttributeType.TEXT)
     private val numberAttribute = TemplateAttribute(TemplateField.LABEL_NUMBER, TemplateAttributeType.TEXT)
@@ -25,16 +25,13 @@ class TemplateBuilder {
     private val dateOfIssueAttribute = TemplateAttribute(
         TemplateField.LABEL_DATE_OF_ISSUE,
         TemplateAttributeType.DATETIME,
-        false,
-        LinkedHashMap<String, String>().apply {
-            put(TemplateAttributeOption.DATETIME_FORMAT, TemplateAttributeOption.DATETIME_FORMAT_DATE)
-        })
+        false)
     private val expirationDateAttribute = TemplateAttribute(
         TemplateField.LABEL_EXPIRATION,
         TemplateAttributeType.DATETIME,
         false,
         LinkedHashMap<String, String>().apply {
-            put(TemplateAttributeOption.DATETIME_FORMAT, TemplateAttributeOption.DATETIME_FORMAT_DATE)
+            put(TemplateAttributeOption.DATETIME_FORMAT_ATTR, TemplateAttributeOption.DATETIME_FORMAT_VALUE_DATE)
         })
     private val emailAddressAttribute = TemplateAttribute(TemplateField.LABEL_EMAIL_ADDRESS, TemplateAttributeType.TEXT)
     private val passwordAttribute = TemplateAttribute(TemplateField.LABEL_PASSWORD, TemplateAttributeType.TEXT, true)

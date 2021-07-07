@@ -120,7 +120,7 @@ class Template : Parcelable {
             TemplateAttributeType.TEXT,
             true,
             LinkedHashMap<String, String>().apply {
-                put(TemplateAttributeOption.NUMBER_LINES, "3")
+                put(TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR, "3")
             },
             TemplateAttributeAction.PASSWORD_GENERATION
         )
@@ -129,21 +129,21 @@ class Template : Parcelable {
             TemplateAttributeType.TEXT,
             false,
             LinkedHashMap<String, String>().apply {
-                put(TemplateAttributeOption.LINKIFY, "true")
+                put(TemplateAttributeOption.TEXT_LINK_ATTR, "true")
             })
         val EXPIRATION_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_EXPIRATION,
             TemplateAttributeType.DATETIME,
             false,
             LinkedHashMap<String, String>().apply {
-                put(TemplateAttributeOption.DATETIME_FORMAT, "datetime")
+                put(TemplateAttributeOption.DATETIME_FORMAT_ATTR, "datetime")
             })
         val NOTES_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_NOTES,
             TemplateAttributeType.TEXT,
             false,
             LinkedHashMap<String, String>().apply {
-                put(TemplateAttributeOption.NUMBER_LINES, "-1")
+                put(TemplateAttributeOption.TEXT_NUMBER_LINES_ATTR, "-1")
             })
 
         val STANDARD: Template
