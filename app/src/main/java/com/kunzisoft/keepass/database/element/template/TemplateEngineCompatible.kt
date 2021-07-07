@@ -207,7 +207,6 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                             // Default attribute option is items of the list
                             val items = defaultOption.split(",")
                             attribute.options.setListItems(items)
-                            // TODO Add default item
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to transform default list option", e)
                         }
@@ -294,6 +293,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         }
                         value.stringValue.contains(TemplateAttributeType.LIST.typeString, true) -> {
                             TEMPLATE_ATTRIBUTE_TYPE_LISTBOX
+
                         }
                         value.stringValue.contains(TemplateAttributeType.DATETIME.typeString, true) -> {
                             when (options.getDateFormat()) {
@@ -315,16 +315,22 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         TEMPLATE_ATTRIBUTE_TYPE_PREFIX + label,
                         ProtectedString(false, typeString)
                     )
-                    // Add Options attribute (here only number of chars and lines are supported)
+                    // Add Options attribute
+                    // Here only number of chars, lines and list items are supported
                     var defaultOption = ""
                     try {
-                        val numberChars = options.getNumberChars()
-                        if (numberChars > 1) {
-                            defaultOption = numberChars.toString()
+                        val listItems = options.getListItems()
+                        if (listItems.isNotEmpty()) {
+                            defaultOption = listItems.joinToString(",")
                         } else {
-                            val numberLines = options.getNumberLines()
-                            if (numberLines > 1) {
-                                defaultOption = numberLines.toString()
+                            val numberChars = options.getNumberChars()
+                            if (numberChars > 1) {
+                                defaultOption = numberChars.toString()
+                            } else {
+                                val numberLines = options.getNumberLines()
+                                if (numberLines > 1) {
+                                    defaultOption = numberLines.toString()
+                                }
                             }
                         }
                     } catch (e: Exception) {

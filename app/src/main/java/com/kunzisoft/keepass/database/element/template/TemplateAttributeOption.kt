@@ -97,11 +97,11 @@ class TemplateAttributeOption() : Parcelable {
     }
 
     fun getListItems(): List<String> {
-        return mOptions[LIST_ITEMS]?.split("|") ?: listOf()
+        return mOptions[LIST_ITEMS]?.split(LIST_ITEMS_SEPARATOR) ?: listOf()
     }
 
     fun setListItems(items: List<String>) {
-        mOptions[LIST_ITEMS] = items.joinToString("|")
+        mOptions[LIST_ITEMS] = items.joinToString(LIST_ITEMS_SEPARATOR)
     }
 
     fun getDateFormat(): DateInstant.Type {
@@ -189,6 +189,7 @@ class TemplateAttributeOption() : Parcelable {
          * List of items, separator is '|'
          */
         private const val LIST_ITEMS = "items"
+        private const val LIST_ITEMS_SEPARATOR = "|"
 
         /**
          * Applicable to type DATETIME
@@ -198,7 +199,6 @@ class TemplateAttributeOption() : Parcelable {
         private const val DATETIME_FORMAT_ATTR = "format"
         private const val DATETIME_FORMAT_VALUE_DATE = "date"
         private const val DATETIME_FORMAT_VALUE_TIME = "time"
-        private const val DATETIME_FORMAT_VALUE_DEFAULT = "datetime"
 
 
         fun getOptionsFromString(label: String): TemplateAttributeOption {
@@ -234,7 +234,9 @@ class TemplateAttributeOption() : Parcelable {
                     first = false
                     optionsString += "${URLEncoder.encode(key, "utf-8")}:${URLEncoder.encode(value, "utf-8")}"
                     // "|" is ok and part of a list
-                    optionsString = optionsString.replace("%7C", "|")
+                    optionsString = optionsString.replace(
+                        URLEncoder.encode(LIST_ITEMS_SEPARATOR, "utf-8"),
+                        LIST_ITEMS_SEPARATOR)
                 }
                 optionsString += "}"
             }
