@@ -27,9 +27,9 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 templateGroup.getChildEntries().forEach { templateEntry ->
                     getTemplateFromTemplateEntry(templateEntry)?.let {
                         mCacheTemplates[templateEntry.id] = it
+                        templates.add(it)
                     }
                 }
-                templates.addAll(mCacheTemplates.values)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to get templates from group", e)
