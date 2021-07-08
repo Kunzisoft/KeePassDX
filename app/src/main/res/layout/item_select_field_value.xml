@@ -27,10 +27,10 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="2"
-        android:paddingStart="12dp"
-        android:paddingLeft="12dp"
-        android:paddingEnd="12dp"
-        android:paddingRight="12dp"
+        android:paddingStart="6dp"
+        android:paddingLeft="6dp"
+        android:paddingEnd="6dp"
+        android:paddingRight="6dp"
         style="@style/KeepassDXStyle.TextAppearance.Large"
         tools:text="Test" />
 </FrameLayout>

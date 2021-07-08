@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
@@ -26,7 +27,8 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     private var valueSpinnerAdapter = ValueSpinnerAdapter(context)
     private var actionImageButtonId = ViewCompat.generateViewId()
 
-    private val labelView = TextView(context).apply {
+    private val labelView = AppCompatTextView(context).apply {
+        setTextAppearance(context, R.style.KeepassDXStyle_TextAppearance_LabelTextStyle)
         layoutParams = LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT).also {
