@@ -18,7 +18,8 @@ import org.joda.time.DateTime
 class TemplateEditView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyle: Int = 0)
-    : TemplateAbstractView<EntryEditFieldView, DateTimeEditView>(context, attrs, defStyle) {
+    : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
+        (context, attrs, defStyle) {
 
     // Current date time selection
     @IdRes
@@ -57,42 +58,58 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): EntryEditFieldView? {
-        // Add an action icon if needed
+                                     field: Field): TextEditFieldView? {
         return context?.let {
-            EntryEditFieldView(it).apply {
-                applyFontVisibility(mFontInVisibility)
+            TextEditFieldView(it).apply {
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
-                label = templateAttribute.alias
-                    ?: TemplateField.getLocalizedName(context, field.name)
                 // TODO Max chars
                 setMaxLines(templateAttribute.options.getNumberLines())
-                // TODO List items
-                val fieldValue = field.protectedValue.stringValue
-                value = if (fieldValue.isEmpty()) templateAttribute.default else fieldValue
-                when (templateAttribute.action) {
-                    TemplateAttributeAction.NONE -> {
-                        setOnActionClickListener(null)
-                    }
-                    TemplateAttributeAction.CUSTOM_EDITION -> {
-                        setOnActionClickListener({
-                            mOnCustomEditionActionClickListener?.invoke(field)
-                        }, R.drawable.ic_more_white_24dp)
-                    }
-                    TemplateAttributeAction.PASSWORD_GENERATION -> {
-                        setOnActionClickListener({
-                            mOnPasswordGenerationActionClickListener?.invoke(field)
-                        }, R.drawable.ic_generate_password_white_24dp)
-                    }
+                setActionClick(templateAttribute, field, this)
+            }
+        }
+    }
+
+    override fun buildListItemsView(templateAttribute: TemplateAttribute,
+                                    field: Field): TextSelectFieldView? {
+        return context?.let {
+            TextSelectFieldView(it).apply {
+                setItems(templateAttribute.options.getListItems())
+                setActionClick(templateAttribute, field, this)
+            }
+        }
+    }
+
+    private fun setActionClick(templateAttribute: TemplateAttribute,
+                               field: Field,
+                               view: GenericTextFieldView) {
+        view.apply {
+            applyFontVisibility(mFontInVisibility)
+            label = templateAttribute.alias
+                ?: TemplateField.getLocalizedName(context, field.name)
+            val fieldValue = field.protectedValue.stringValue
+            value = if (fieldValue.isEmpty()) templateAttribute.default else fieldValue
+            when (templateAttribute.action) {
+                TemplateAttributeAction.NONE -> {
+                    setOnActionClickListener(null)
+                }
+                TemplateAttributeAction.CUSTOM_EDITION -> {
+                    setOnActionClickListener({
+                        mOnCustomEditionActionClickListener?.invoke(field)
+                    }, R.drawable.ic_more_white_24dp)
+                }
+                TemplateAttributeAction.PASSWORD_GENERATION -> {
+                    setOnActionClickListener({
+                        mOnPasswordGenerationActionClickListener?.invoke(field)
+                    }, R.drawable.ic_generate_password_white_24dp)
                 }
             }
         }
     }
 
     override fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                  field: Field): DateTimeEditView? {
+                                  field: Field): DateTimeEditFieldView? {
         return context?.let {
-            DateTimeEditView(it).apply {
+            DateTimeEditFieldView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
                 val dateInstantType = templateAttribute.options.getDateFormat()
                 try {
@@ -112,25 +129,25 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     override fun getActionImageView(): View? {
-        return findViewWithTag<EntryEditFieldView?>(FIELD_PASSWORD_TAG)?.getActionImageView()
+        return findViewWithTag<TextEditFieldView?>(FIELD_PASSWORD_TAG)?.getActionImageView()
     }
 
     fun setPasswordField(passwordField: Field) {
         val passwordView = getFieldViewById(passwordField.name.hashCode())
-        if (passwordView is EntryEditFieldView?) {
+        if (passwordView is TextEditFieldView?) {
                 passwordView?.value = passwordField.protectedValue.stringValue
         }
     }
 
     fun getPasswordField(): Field {
-        val passwordView: EntryEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
+        val passwordView: TextEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
         return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
     }
 
     private fun setCurrentDateTimeSelection(action: (dateInstant: DateInstant) -> DateInstant) {
         mTempDateTimeViewId?.let { viewId ->
             val dateTimeView = getFieldViewById(viewId)
-            if (dateTimeView is DateTimeEditView) {
+            if (dateTimeView is DateTimeEditFieldView) {
                 dateTimeView.dateTime = DateInstant(
                     action.invoke(dateTimeView.dateTime).date,
                     dateTimeView.dateTime.type)
@@ -184,18 +201,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         customFieldIdByName(fieldName)?.let { fieldId ->
             val editView: View? = templateContainerView.findViewById(fieldId.viewId)
                 ?: customFieldsContainerView.findViewById(fieldId.viewId)
-            if (editView is EntryEditFieldView) {
+            if (editView is GenericFieldView) {
                 if (!templateFieldNotEmpty ||
                     (editView.tag == FIELD_CUSTOM_TAG
                             && editView.value.isNotEmpty()))
                     return Field(fieldName, ProtectedString(fieldId.protected, editView.value))
-            }
-            if (editView is DateTimeEditView) {
-                val value = if (editView.activation) editView.dateTime.toString() else ""
-                if (!templateFieldNotEmpty ||
-                    (editView.tag == FIELD_CUSTOM_TAG
-                            && value.isNotEmpty()))
-                    return Field(fieldName, ProtectedString(fieldId.protected, value))
             }
         }
         return null

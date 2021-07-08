@@ -8,7 +8,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
-import com.kunzisoft.keepass.database.element.template.TemplateAttributeOption
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
@@ -18,7 +17,8 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 class TemplateView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyle: Int = 0)
-    : TemplateAbstractView<EntryFieldView, DateTimeView>(context, attrs, defStyle) {
+    : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
+        (context, attrs, defStyle) {
 
     private var mOnAskCopySafeClickListener: (() -> Unit)? = null
     fun setOnAskCopySafeClickListener(listener: (() -> Unit)? = null) {
@@ -44,10 +44,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
     }
 
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): EntryFieldView? {
+                                     field: Field): TextFieldView? {
         // Add an action icon if needed
         return context?.let {
-            EntryFieldView(it).apply {
+            TextFieldView(it).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 label = templateAttribute.alias
@@ -58,23 +58,23 @@ class TemplateView @JvmOverloads constructor(context: Context,
 
                 if (field.protectedValue.isProtected) {
                     if (mFirstTimeAskAllowCopyProtectedFields) {
-                        setCopyButtonState(EntryFieldView.ButtonState.DEACTIVATE)
+                        setCopyButtonState(TextFieldView.ButtonState.DEACTIVATE)
                         setCopyButtonClickListener {
                             mOnAskCopySafeClickListener?.invoke()
                         }
                     } else {
                         if (mAllowCopyProtectedFields) {
-                            setCopyButtonState(EntryFieldView.ButtonState.ACTIVATE)
+                            setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                             setCopyButtonClickListener {
                                 mOnCopyActionClickListener?.invoke(field)
                             }
                         } else {
-                            setCopyButtonState(EntryFieldView.ButtonState.GONE)
+                            setCopyButtonState(TextFieldView.ButtonState.GONE)
                             setCopyButtonClickListener(null)
                         }
                     }
                 } else {
-                    setCopyButtonState(EntryFieldView.ButtonState.ACTIVATE)
+                    setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                     setCopyButtonClickListener {
                         mOnCopyActionClickListener?.invoke(field)
                     }
@@ -83,10 +83,18 @@ class TemplateView @JvmOverloads constructor(context: Context,
         }
     }
 
+    override fun buildListItemsView(
+        templateAttribute: TemplateAttribute,
+        field: Field
+    ): TextFieldView? {
+        // No special view for selection
+        return buildLinearTextView(templateAttribute, field)
+    }
+
     override fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                   field: Field): DateTimeView? {
+                                   field: Field): DateTimeFieldView? {
         return context?.let {
-            DateTimeView(it).apply {
+            DateTimeFieldView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
                 val dateInstantType = templateAttribute.options.getDateFormat()
                 try {
@@ -102,7 +110,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     }
 
     override fun getActionImageView(): View? {
-        return findViewWithTag<EntryFieldView?>(FIELD_PASSWORD_TAG)?.getCopyButtonView()
+        return findViewWithTag<TextFieldView?>(FIELD_PASSWORD_TAG)?.getCopyButtonView()
     }
 
     override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId>  {
@@ -128,18 +136,11 @@ class TemplateView @JvmOverloads constructor(context: Context,
         customFieldIdByName(fieldName)?.let { fieldId ->
             val editView: View? = templateContainerView.findViewById(fieldId.viewId)
                 ?: customFieldsContainerView.findViewById(fieldId.viewId)
-            if (editView is EntryFieldView) {
+            if (editView is GenericFieldView) {
                 if (!templateFieldNotEmpty ||
                     (editView.tag == FIELD_CUSTOM_TAG
                             && editView.value.isNotEmpty()))
                     return Field(fieldName, ProtectedString(fieldId.protected, editView.value))
-            }
-            if (editView is DateTimeView) {
-                val value = if (editView.activation) editView.dateTime.toString() else ""
-                if (!templateFieldNotEmpty ||
-                    (editView.tag == FIELD_CUSTOM_TAG
-                            && value.isNotEmpty()))
-                    return Field(fieldName, ProtectedString(fieldId.protected, value))
             }
         }
         return null
@@ -157,7 +158,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
     }
     private var mOnOtpElementUpdated: ((OtpElement?) -> Unit)? = null
 
-    private fun getOtpTokenView(): EntryFieldView? {
+    private fun getOtpTokenView(): TextFieldView? {
         val indexFieldViewId = indexCustomFieldIdByName(OTP_TOKEN_FIELD)
         if (indexFieldViewId >= 0) {
             // Template contains the custom view
@@ -173,11 +174,11 @@ class TemplateView @JvmOverloads constructor(context: Context,
             if (otpElement.token.isEmpty()) {
                 setLabel(R.string.entry_otp)
                 setValue(R.string.error_invalid_OTP)
-                setCopyButtonState(EntryFieldView.ButtonState.GONE)
+                setCopyButtonState(TextFieldView.ButtonState.GONE)
             } else {
                 label = otpElement.type.name
                 value = otpElement.token
-                setCopyButtonState(EntryFieldView.ButtonState.ACTIVATE)
+                setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                 setCopyButtonClickListener {
                     mOnCopyActionClickListener?.invoke(Field(
                         otpElement.type.name,

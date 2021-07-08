@@ -27,9 +27,12 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
-abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDateTimeView: GenericDateTimeView> @JvmOverloads constructor(context: Context,
-                                                              attrs: AttributeSet? = null,
-                                                              defStyle: Int = 0)
+abstract class TemplateAbstractView<
+        TEntryFieldView: GenericTextFieldView,
+        TEntrySelectFieldView: GenericTextFieldView,
+        TDateTimeView: GenericDateTimeFieldView> @JvmOverloads constructor(context: Context,
+                                                                           attrs: AttributeSet? = null,
+                                                                           defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
     private var mTemplate: Template? = null
@@ -203,7 +206,7 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
                 buildLinearTextView(templateAttribute, field) as View?
             }
             TemplateAttributeType.LIST -> {
-                buildLinearTextView(templateAttribute, field) as View?
+                buildListItemsView(templateAttribute, field) as View?
             }
             TemplateAttributeType.DATETIME -> {
                 buildDataTimeView(templateAttribute, field) as View?
@@ -226,6 +229,9 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
 
     protected abstract fun buildLinearTextView(templateAttribute: TemplateAttribute,
                                                field: Field): TEntryFieldView?
+
+    protected abstract fun buildListItemsView(templateAttribute: TemplateAttribute,
+                                              field: Field): TEntrySelectFieldView?
 
     protected abstract fun buildDataTimeView(templateAttribute: TemplateAttribute,
                                              field: Field): TDateTimeView?
@@ -334,10 +340,10 @@ abstract class TemplateAbstractView<TEntryFieldView: GenericEntryFieldView, TDat
                     emptyCustomFields.remove(customFieldId)
                     templateContainerView.findViewById<View>(customFieldId.viewId)
                         ?.let { customView ->
-                            if (customView is GenericEntryFieldView) {
+                            if (customView is GenericTextFieldView) {
                                 customView.value = customField.protectedValue.stringValue
                                 customView.applyFontVisibility(mFontInVisibility)
-                            } else if (customView is GenericDateTimeView) {
+                            } else if (customView is GenericDateTimeFieldView) {
                                 try {
                                     customView.activation = true
                                     customView.dateTime = DateInstant(customField

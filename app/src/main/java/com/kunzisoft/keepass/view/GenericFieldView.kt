@@ -1,8 +1,7 @@
 package com.kunzisoft.keepass.view
 
-interface GenericEntryFieldView {
-
+interface GenericFieldView {
+    var label: String
     var value: String
-    fun applyFontVisibility(fontInVisibility: Boolean)
     var isFieldVisible: Boolean
 }

@@ -18,10 +18,10 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 
-class EntryEditFieldView @JvmOverloads constructor(context: Context,
-                                                   attrs: AttributeSet? = null,
-                                                   defStyle: Int = 0)
-    : RelativeLayout(context, attrs, defStyle), GenericEntryFieldView {
+class TextEditFieldView @JvmOverloads constructor(context: Context,
+                                                  attrs: AttributeSet? = null,
+                                                  defStyle: Int = 0)
+    : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
@@ -100,7 +100,7 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         return actionImageButton
     }
 
-    var label: String
+    override var label: String
         get() {
             return labelView.hint?.toString() ?: ""
         }
@@ -151,8 +151,8 @@ class EntryEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setOnActionClickListener(onActionClickListener: OnClickListener? = null,
-                                 @DrawableRes actionImageId: Int? = null) {
+    override fun setOnActionClickListener(onActionClickListener: OnClickListener?,
+                                          @DrawableRes actionImageId: Int?) {
         actionImageId?.let {
             actionImageButton.setImageDrawable(ContextCompat.getDrawable(context, it))
         }

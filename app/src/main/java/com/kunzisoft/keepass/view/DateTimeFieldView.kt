@@ -30,10 +30,10 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import java.util.*
 
-class DateTimeView @JvmOverloads constructor(context: Context,
-                                             attrs: AttributeSet? = null,
-                                             defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle), GenericDateTimeView {
+class DateTimeFieldView @JvmOverloads constructor(context: Context,
+                                                  attrs: AttributeSet? = null,
+                                                  defStyle: Int = 0)
+    : FrameLayout(context, attrs, defStyle), GenericDateTimeFieldView {
 
     private var dateTimeLabelView: TextView
     private var dateTimeValueView: TextView
@@ -67,7 +67,7 @@ class DateTimeView @JvmOverloads constructor(context: Context,
         }
     }
 
-    var label: String
+    override var label: String
         get() {
             return dateTimeLabelView.text.toString()
         }
@@ -113,6 +113,14 @@ class DateTimeView @JvmOverloads constructor(context: Context,
         set(value) {
             mDateTime = DateInstant(value.date, mDateTime.type)
             assignExpiresDateText()
+        }
+
+    override var value: String
+        get() {
+            return if (activation) dateTime.toString() else ""
+        }
+        set(value) {
+            // TODO set date time string value
         }
 
     override var isFieldVisible: Boolean

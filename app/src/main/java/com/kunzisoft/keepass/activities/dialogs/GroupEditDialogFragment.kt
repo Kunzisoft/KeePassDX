@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.view.DateTimeEditView
+import com.kunzisoft.keepass.view.DateTimeEditFieldView
 import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DialogFragment() {
@@ -56,7 +56,7 @@ class GroupEditDialogFragment : DialogFragment() {
     private lateinit var nameTextView: TextView
     private lateinit var notesTextLayoutView: TextInputLayout
     private lateinit var notesTextView: TextView
-    private lateinit var expirationView: DateTimeEditView
+    private lateinit var expirationView: DateTimeEditFieldView
 
     enum class EditGroupDialogAction {
         CREATION, UPDATE, NONE;

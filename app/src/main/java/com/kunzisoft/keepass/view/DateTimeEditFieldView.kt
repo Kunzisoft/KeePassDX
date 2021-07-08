@@ -30,10 +30,10 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 
-class DateTimeEditView @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle), GenericDateTimeView {
+class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
+                                                      attrs: AttributeSet? = null,
+                                                      defStyle: Int = 0)
+    : FrameLayout(context, attrs, defStyle), GenericDateTimeFieldView {
 
     private var entryExpiresLabelView: TextInputLayout
     private var entryExpiresTextView: TextView
@@ -72,7 +72,7 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    var label: String
+    override var label: String
         get() {
             return entryExpiresLabelView.hint.toString()
         }
@@ -114,6 +114,14 @@ class DateTimeEditView @JvmOverloads constructor(context: Context,
             } else {
                 resources.getString(R.string.never)
             }
+        }
+
+    override var value: String
+        get() {
+            return if (activation) dateTime.toString() else ""
+        }
+        set(value) {
+            // TODO set date time string value
         }
 
     override var isFieldVisible: Boolean

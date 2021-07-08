@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.text.InputType
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -36,10 +35,10 @@ import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.utils.UriUtil
 
 
-class EntryFieldView @JvmOverloads constructor(context: Context,
-                                               attrs: AttributeSet? = null,
-                                               defStyle: Int = 0)
-    : LinearLayout(context, attrs, defStyle), GenericEntryFieldView {
+class TextFieldView @JvmOverloads constructor(context: Context,
+                                              attrs: AttributeSet? = null,
+                                              defStyle: Int = 0)
+    : LinearLayout(context, attrs, defStyle), GenericTextFieldView {
 
     private val labelView: TextView
     private val valueView: TextView
@@ -62,7 +61,7 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
             valueView.applyFontVisibility()
     }
 
-    var label: String
+    override var label: String
         get() {
             return labelView.text.toString()
         }
@@ -180,9 +179,16 @@ class EntryFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setCopyButtonClickListener(onClickActionListener: OnClickListener?) {
-        copyButtonView.setOnClickListener(onClickActionListener)
-        copyButtonView.isVisible = onClickActionListener != null
+    fun setCopyButtonClickListener(onActionClickListener: OnClickListener?) {
+        setOnActionClickListener(onActionClickListener, null)
+    }
+
+    override fun setOnActionClickListener(
+        onActionClickListener: OnClickListener?,
+        actionImageId: Int?
+    ) {
+        copyButtonView.setOnClickListener(onActionClickListener)
+        copyButtonView.isVisible = onActionClickListener != null
     }
 
     override var isFieldVisible: Boolean

@@ -20,11 +20,9 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.UuidUtil
-import com.kunzisoft.keepass.view.EntryFieldView
 import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
