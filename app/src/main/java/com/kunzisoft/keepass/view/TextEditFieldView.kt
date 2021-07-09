@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -121,6 +122,18 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             valueView.setText(value)
         }
 
+    fun setMaxChars(numberChars: Int) {
+        when {
+            numberChars <= 0 -> {
+                valueView.filters += InputFilter.LengthFilter(MAX_CHARS_LIMIT)
+            }
+            else -> {
+                val chars = if (numberChars > MAX_CHARS_LIMIT) MAX_CHARS_LIMIT else numberChars
+                valueView.filters += InputFilter.LengthFilter(chars)
+            }
+        }
+    }
+
     fun setMaxLines(numberLines: Int) {
         when {
             numberLines == 1 -> {
@@ -131,14 +144,13 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             numberLines <= 0 -> {
                 valueView.inputType = valueView.inputType or
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                valueView.maxEms = 40
-                valueView.maxLines = 40
+                valueView.maxLines = MAX_LINES_LIMIT
             }
             else -> {
+                val lines = if (numberLines > MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
                 valueView.inputType = valueView.inputType or
                         InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                valueView.maxEms = numberLines
-                valueView.maxLines = numberLines
+                valueView.maxLines = lines
             }
         }
     }
@@ -167,4 +179,9 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         set(value) {
             isVisible = value
         }
+
+    companion object {
+        const val MAX_CHARS_LIMIT = Integer.MAX_VALUE
+        const val MAX_LINES_LIMIT = 40
+    }
 }

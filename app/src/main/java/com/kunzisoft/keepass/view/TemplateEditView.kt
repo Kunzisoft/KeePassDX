@@ -62,7 +62,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             TextEditFieldView(it).apply {
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
-                // TODO Max chars
+                setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
             }

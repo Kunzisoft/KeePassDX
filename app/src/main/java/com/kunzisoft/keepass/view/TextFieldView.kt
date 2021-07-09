@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -87,15 +88,26 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         changeProtectedValueParameters()
     }
 
+    fun setMaxChars(numberChars: Int) {
+        when {
+            numberChars <= 0 -> {
+                valueView.filters += InputFilter.LengthFilter(MAX_CHARS_LIMIT)
+            }
+            else -> {
+                val chars = if (numberChars > MAX_CHARS_LIMIT) MAX_CHARS_LIMIT else numberChars
+                valueView.filters += InputFilter.LengthFilter(chars)
+            }
+        }
+    }
+
     fun setMaxLines(numberLines: Int) {
         when {
             numberLines <= 0 -> {
-                valueView.maxEms = 40
-                valueView.maxLines = 40
+                valueView.maxLines = MAX_LINES_LIMIT
             }
             else -> {
-                valueView.maxEms = numberLines
-                valueView.maxLines = numberLines
+                val lines = if (numberLines > MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
+                valueView.maxLines = lines
             }
         }
     }
@@ -201,5 +213,10 @@ class TextFieldView @JvmOverloads constructor(context: Context,
 
     enum class ButtonState {
         ACTIVATE, DEACTIVATE, GONE
+    }
+
+    companion object {
+        const val MAX_CHARS_LIMIT = Integer.MAX_VALUE
+        const val MAX_LINES_LIMIT = 40
     }
 }
