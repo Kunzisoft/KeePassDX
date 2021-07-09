@@ -20,6 +20,9 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StrikethroughSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -54,14 +57,28 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
     }
 
     private fun assignExpiresDateText() {
+        val isExpires = mDateTime.date.before(Date())
+
+        // Show or not the warning icon
         expiresImage.isVisible = if (mActivated) {
-            mDateTime.date.before(Date())
+            isExpires
         } else {
             false
         }
 
+        // Build the datetime string
         dateTimeValueView.text = if (mActivated) {
-            mDateTime.getDateTimeString(resources)
+            val dateTimeString = mDateTime.getDateTimeString(resources)
+            if (isExpires) {
+                // Add strike
+                SpannableString(dateTimeString).apply {
+                    setSpan(StrikethroughSpan(),
+                        0, dateTimeString.length-1,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            } else {
+                dateTimeString
+            }
         } else {
             resources.getString(R.string.never)
         }

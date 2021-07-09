@@ -18,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_info_white_24dp"
+            android:src="@drawable/ic_warning_white_24dp"
             android:contentDescription="@string/content_description_file_information"
-            android:tint="@color/red"/>
+            android:tint="?android:attr/textColor"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/date_time_value"
             android:layout_width="match_parent"
