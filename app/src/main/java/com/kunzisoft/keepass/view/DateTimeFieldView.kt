@@ -73,7 +73,7 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
                 // Add strike
                 SpannableString(dateTimeString).apply {
                     setSpan(StrikethroughSpan(),
-                        0, dateTimeString.length-1,
+                        0, dateTimeString.length,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
             } else {
