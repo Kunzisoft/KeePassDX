@@ -4,8 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.ParcelableUtil
-import java.net.URLDecoder
-import java.net.URLEncoder
 
 class TemplateAttributeOption() : Parcelable {
 
@@ -226,14 +224,19 @@ class TemplateAttributeOption() : Parcelable {
         private const val DATETIME_FORMAT_VALUE_DATE = "date"
         private const val DATETIME_FORMAT_VALUE_TIME = "time"
 
+        private fun removeSpecialChars(string: String): String {
+            return string.filterNot { "{,:}".indexOf(it) > -1 }
+        }
+
         fun getOptionsFromString(label: String): TemplateAttributeOption {
             val options = TemplateAttributeOption()
             val optionsMap =  if (label.contains("{") || label.contains("}")) {
                 try {
                     label.trim().substringAfter("{").substringBefore("}")
                         .split(",").associate {
-                            val (left, right) = it.split(":")
-                            URLDecoder.decode(left, "utf-8") to URLDecoder.decode(right, "utf-8")
+                            val keyValue = it.trim()
+                            val (left, right) = keyValue.split(":")
+                            left to right
                         }.toMutableMap()
                 } catch (e: Exception) {
                     mutableMapOf()
@@ -255,13 +258,9 @@ class TemplateAttributeOption() : Parcelable {
                 var first = true
                 for ((key, value) in options.mOptions) {
                     if (!first)
-                        optionsString += ","
+                        optionsString += ", "
                     first = false
-                    optionsString += "${URLEncoder.encode(key, "utf-8")}:${URLEncoder.encode(value, "utf-8")}"
-                    // "|" is ok and part of a list
-                    optionsString = optionsString.replace(
-                        URLEncoder.encode(LIST_ITEMS_SEPARATOR, "utf-8"),
-                        LIST_ITEMS_SEPARATOR)
+                    optionsString += "${removeSpecialChars(key)}:${removeSpecialChars(value)}"
                 }
                 optionsString += "}"
             }

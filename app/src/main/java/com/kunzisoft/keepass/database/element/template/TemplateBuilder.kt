@@ -45,6 +45,7 @@ class TemplateBuilder {
         false,
         TemplateAttributeOption().apply{
             setListItems("WPA3", "WPA2", "WPA", "WEP")
+            default = "WPA2"
         })
     private val tokenAttribute = TemplateAttribute(TemplateField.LABEL_TOKEN, TemplateAttributeType.TEXT)
     private val publicKeyAttribute = TemplateAttribute(TemplateField.LABEL_PUBLIC_KEY, TemplateAttributeType.TEXT)
