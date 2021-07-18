@@ -75,6 +75,8 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return null
     }
 
+    abstract fun getVersion(): Int
+
     abstract fun getTemplate(entryKDBX: EntryKDBX): Template?
 
     abstract fun removeMetaTemplateRecognitionFromEntry(entry: EntryKDBX): EntryKDBX
@@ -150,8 +152,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         }
         templateSections.add(buildTemplateSectionFromFields(sectionFields))
 
-        // TODO Add decoder version
-        return Template(templateEntry.id, templateEntry.title, templateEntry.icon, templateSections, 1)
+        return Template(templateEntry.id, templateEntry.title, templateEntry.icon, templateSections, getVersion())
     }
 
     companion object {

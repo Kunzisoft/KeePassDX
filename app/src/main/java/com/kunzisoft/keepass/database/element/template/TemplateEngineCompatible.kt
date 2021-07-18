@@ -10,6 +10,10 @@ import com.kunzisoft.keepass.utils.UuidUtil
 
 class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database) {
 
+    override fun getVersion(): Int {
+        return 1
+    }
+
     override fun getTemplate(entryKDBX: EntryKDBX): Template? {
         UuidUtil.fromHexString(entryKDBX.getCustomFieldValue(TEMPLATE_ENTRY_UUID))?.let { templateUUID ->
             return getTemplateByCache(templateUUID)
@@ -71,7 +75,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         entryCopy.getFieldValue(TEMPLATE_LABEL_VERSION)
         try {
             // value.toIntOrNull()
-            // TODO template decoder version
+            // At the moment, only the version 1 is known
         } catch (e: Exception) {
             Log.e(TAG, "Unable to retrieve template version", e)
         }
