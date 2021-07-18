@@ -88,6 +88,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 ?: TemplateField.getLocalizedName(context, field.name)
             val fieldValue = field.protectedValue.stringValue
             value = if (fieldValue.isEmpty()) templateAttribute.default else fieldValue
+            // TODO edition and password generator at same time
             when (templateAttribute.action) {
                 TemplateAttributeAction.NONE -> {
                     setOnActionClickListener(null)
@@ -97,11 +98,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                         mOnCustomEditionActionClickListener?.invoke(field)
                     }, R.drawable.ic_more_white_24dp)
                 }
-                TemplateAttributeAction.PASSWORD_GENERATION -> {
-                    setOnActionClickListener({
-                        mOnPasswordGenerationActionClickListener?.invoke(field)
-                    }, R.drawable.ic_generate_password_white_24dp)
-                }
+            }
+            if (templateAttribute.options.isAssociatedWithPasswordGenerator()) {
+                setOnActionClickListener({
+                    mOnPasswordGenerationActionClickListener?.invoke(field)
+                }, R.drawable.ic_generate_password_white_24dp)
             }
         }
     }

@@ -96,6 +96,18 @@ class TemplateAttributeOption() : Parcelable {
         mOptions[TEXT_LINK_ATTR] = isLink.toString()
     }
 
+    fun isAssociatedWithPasswordGenerator(): Boolean {
+        return try {
+            mOptions[PASSWORD_GENERATOR_ATTR]?.toBoolean() ?: PASSWORD_GENERATOR_VALUE_DEFAULT
+        } catch (e: Exception) {
+            PASSWORD_GENERATOR_VALUE_DEFAULT
+        }
+    }
+
+    fun associatePasswordGenerator() {
+        mOptions[PASSWORD_GENERATOR_ATTR] = true.toString()
+    }
+
     fun getListItems(): List<String> {
         return mOptions[LIST_ITEMS]?.split(LIST_ITEMS_SEPARATOR) ?: listOf()
     }
@@ -158,6 +170,7 @@ class TemplateAttributeOption() : Parcelable {
 
         /**
          * Applicable to type TEXT
+         * Define a number of chars
          * Integer, can be "many" or "-1" to infinite value
          * "1" if not defined
          */
@@ -168,6 +181,7 @@ class TemplateAttributeOption() : Parcelable {
 
         /**
          * Applicable to type TEXT
+         * Define a number of lines
          * Integer, can be "-1" to infinite value
          * "1" if not defined
          */
@@ -178,6 +192,7 @@ class TemplateAttributeOption() : Parcelable {
 
         /**
          * Applicable to type TEXT
+         * Define if a text is a link
          * Boolean ("true" or "false")
          * "true" if not defined
          */
@@ -185,7 +200,17 @@ class TemplateAttributeOption() : Parcelable {
         private const val TEXT_LINK_VALUE_DEFAULT = false
 
         /**
+         * Applicable to type TEXT
+         * Define if a password generator is associated with the text
+         * Boolean ("true" or "false")
+         * "false" if not defined
+         */
+        private const val PASSWORD_GENERATOR_ATTR = "generator"
+        private const val PASSWORD_GENERATOR_VALUE_DEFAULT = false
+
+        /**
          * Applicable to type LIST
+         * Define items of a list
          * List of items, separator is '|'
          */
         private const val LIST_ITEMS = "items"
@@ -193,13 +218,13 @@ class TemplateAttributeOption() : Parcelable {
 
         /**
          * Applicable to type DATETIME
+         * Define the type of date
          * String ("date" or "time" or "datetime" or based on https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)
          * "datetime" if not defined
          */
         private const val DATETIME_FORMAT_ATTR = "format"
         private const val DATETIME_FORMAT_VALUE_DATE = "date"
         private const val DATETIME_FORMAT_VALUE_TIME = "time"
-
 
         fun getOptionsFromString(label: String): TemplateAttributeOption {
             val options = TemplateAttributeOption()

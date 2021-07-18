@@ -1,5 +1,5 @@
 package com.kunzisoft.keepass.database.element.template
 
 enum class TemplateAttributeAction {
-    NONE, CUSTOM_EDITION, PASSWORD_GENERATION
+    NONE, CUSTOM_EDITION
 }

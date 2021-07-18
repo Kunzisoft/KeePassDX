@@ -195,6 +195,11 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
 
             val attribute = it.attribute
 
+            // Add password generator
+            if (attribute.label.equals(TEMPLATE_ATTRIBUTE_PASSWORD, true)) {
+                attribute.options.associatePasswordGenerator()
+            }
+
             // Recognize each temp option
             attribute.options.get(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP)?.let { defaultOption ->
                 when (attribute.type) {

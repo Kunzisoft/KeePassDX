@@ -121,8 +121,8 @@ class Template : Parcelable {
             true,
             TemplateAttributeOption().apply {
                 setNumberLines(3)
-            },
-            TemplateAttributeAction.PASSWORD_GENERATION
+                associatePasswordGenerator()
+            }
         )
         val URL_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_URL,
