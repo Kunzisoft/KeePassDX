@@ -55,7 +55,7 @@ object TemplateField {
 
     fun getLocalizedName(context: Context?, name: String): String {
         if (context == null
-                || TemplateEngine.isTemplateNameAttribute(name))
+                || TemplateEngine.containsTemplateDecorator(name))
             return name
 
         return when {

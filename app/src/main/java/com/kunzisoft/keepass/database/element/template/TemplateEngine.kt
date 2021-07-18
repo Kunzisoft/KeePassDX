@@ -191,7 +191,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 templateBuilder.cryptocurrency)
         }
 
-        fun isTemplateNameAttribute(name: String): Boolean {
+        fun containsTemplateDecorator(name: String): Boolean {
             return name.startsWith(PREFIX_DECODED_TEMPLATE)
                     && name.endsWith(SUFFIX_DECODED_TEMPLATE)
         }
