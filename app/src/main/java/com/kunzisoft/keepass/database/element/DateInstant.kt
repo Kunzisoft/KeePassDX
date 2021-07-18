@@ -26,6 +26,7 @@ import androidx.core.os.ConfigurationCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 import org.joda.time.*
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -123,18 +124,30 @@ class DateInstant : Parcelable {
 
     fun getDateTimeString(resources: Resources): String {
         return when (mType) {
-            Type.DATE -> getDateString(resources, jDate)
-            Type.TIME -> getTimeString(resources, jDate)
-            else -> Companion.getDateTimeString(resources, jDate)
+            Type.DATE -> DateFormat.getDateInstance(
+                DateFormat.MEDIUM,
+                ConfigurationCompat.getLocales(resources.configuration)[0])
+                .format(jDate)
+            Type.TIME -> DateFormat.getTimeInstance(
+                DateFormat.SHORT,
+                ConfigurationCompat.getLocales(resources.configuration)[0])
+                .format(jDate)
+            else -> DateFormat.getDateTimeInstance(
+                DateFormat.MEDIUM,
+                DateFormat.SHORT,
+                ConfigurationCompat.getLocales(resources.configuration)[0])
+                .format(jDate)
         }
     }
 
     fun getMonthInt(): Int {
-        return Companion.getMonthInt(jDate)
+        val dateFormat = SimpleDateFormat("MM", Locale.ENGLISH)
+        return dateFormat.format(date).toInt()
     }
 
     fun getYearInt(): Int {
-        return Companion.getYearInt(jDate)
+        val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+        return dateFormat.format(date).toInt()
     }
 
     // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
@@ -199,9 +212,15 @@ class DateInstant : Parcelable {
         val IN_ONE_HOUR_TIME = DateInstant(
                 Instant.now().plus(Duration.standardHours(1)).toDate(), Type.TIME)
 
-        private val dateTimeFormat = SimpleDateFormat.getDateTimeInstance()
-        private val dateFormat = SimpleDateFormat.getDateInstance()
-        private val timeFormat = SimpleDateFormat.getTimeInstance()
+        private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        private val dateFormat = SimpleDateFormat("yyyy-MM-dd'Z'", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        private val timeFormat = SimpleDateFormat("HH:mm'Z'", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<DateInstant> = object : Parcelable.Creator<DateInstant> {
@@ -212,56 +231,6 @@ class DateInstant : Parcelable {
             override fun newArray(size: Int): Array<DateInstant?> {
                 return arrayOfNulls(size)
             }
-        }
-
-        private fun isSameDate(d1: Date, d2: Date): Boolean {
-            val cal1 = Calendar.getInstance()
-            cal1.time = d1
-            cal1.set(Calendar.MILLISECOND, 0)
-
-            val cal2 = Calendar.getInstance()
-            cal2.time = d2
-            cal2.set(Calendar.MILLISECOND, 0)
-
-            return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                    cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH) &&
-                    cal1.get(Calendar.HOUR) == cal2.get(Calendar.HOUR) &&
-                    cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE) &&
-                    cal1.get(Calendar.SECOND) == cal2.get(Calendar.SECOND)
-
-        }
-
-        fun getMonthInt(date: Date): Int {
-            val dateFormat = SimpleDateFormat("MM", Locale.ENGLISH)
-            return dateFormat.format(date).toInt()
-        }
-
-        fun getYearInt(date: Date): Int {
-            val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
-            return dateFormat.format(date).toInt()
-        }
-
-        fun getDateTimeString(resources: Resources, date: Date): String {
-            return java.text.DateFormat.getDateTimeInstance(
-                    java.text.DateFormat.MEDIUM,
-                    java.text.DateFormat.SHORT,
-                    ConfigurationCompat.getLocales(resources.configuration)[0])
-                            .format(date)
-        }
-
-        fun getDateString(resources: Resources, date: Date): String {
-            return java.text.DateFormat.getDateInstance(
-                    java.text.DateFormat.MEDIUM,
-                    ConfigurationCompat.getLocales(resources.configuration)[0])
-                    .format(date)
-        }
-
-        fun getTimeString(resources: Resources, date: Date): String {
-            return java.text.DateFormat.getTimeInstance(
-                    java.text.DateFormat.SHORT,
-                    ConfigurationCompat.getLocales(resources.configuration)[0])
-                    .format(date)
         }
     }
 }

@@ -432,7 +432,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (header!!.version.isBefore(FILE_VERSION_40)) {
             writeString(name, DatabaseKDBXXML.DateFormatter.format(date))
         } else {
-            val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(DateTime(date)))
+            val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(date))
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeString(name, b64)
         }
