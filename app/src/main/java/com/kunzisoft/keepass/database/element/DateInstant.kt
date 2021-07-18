@@ -59,13 +59,45 @@ class DateInstant : Parcelable {
         mType = type
     }
 
-    constructor(string: String, type: Type = Type.DATE_TIME) {
-        jDate = when (type) {
-            Type.DATE -> dateFormat.parse(string) ?: jDate
-            Type.TIME -> timeFormat.parse(string) ?: jDate
-            else -> dateTimeFormat.parse(string) ?: jDate
+    private fun parse(value: String, type: Type): Date {
+        return when (type) {
+            Type.DATE -> dateFormat.parse(value) ?: jDate
+            Type.TIME -> timeFormat.parse(value) ?: jDate
+            else -> dateTimeFormat.parse(value) ?: jDate
         }
-        mType = type
+    }
+
+    constructor(string: String, type: Type = Type.DATE_TIME) {
+        try {
+            jDate = parse(string, type)
+            mType = type
+        } catch (e: Exception) {
+            // Retry with second format
+            try {
+                when (type) {
+                    Type.TIME -> {
+                        jDate = parse(string, Type.DATE)
+                        mType = Type.DATE
+                    }
+                    else -> {
+                        jDate = parse(string, Type.TIME)
+                        mType = Type.TIME
+                    }
+                }
+            } catch (e: Exception) {
+                // Retry with third format
+                when (type) {
+                    Type.DATE, Type.TIME -> {
+                        jDate = parse(string, Type.DATE_TIME)
+                        mType = Type.DATE_TIME
+                    }
+                    else -> {
+                        jDate = parse(string, Type.DATE)
+                        mType = Type.DATE
+                    }
+                }
+            }
+        }
     }
 
     constructor(type: Type) {
