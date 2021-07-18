@@ -76,6 +76,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
 
     override fun decodeTemplateEntry(templateEntry: EntryKDBX): EntryKDBX {
         val attributes = HashMap<String, TemplateAttributePosition>()
+        val defaultValues = HashMap<String, String>()
         val entryCopy = EntryKDBX().apply {
             updateWith(templateEntry)
         }
@@ -179,11 +180,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 }
                 else -> {
                     // To retrieve default values
-                    if (attributes.containsKey(label)) {
-                        if (value.isNotEmpty()) {
-                            val attribute = attributes[label]!!
-                            attribute.attribute.default = value
-                        }
+                    if (value.isNotEmpty()) {
+                        defaultValues[label] = value
                     }
                     entryCopy.removeField(label)
                 }
@@ -198,6 +196,11 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
             // Add password generator
             if (attribute.label.equals(TEMPLATE_ATTRIBUTE_PASSWORD, true)) {
                 attribute.options.associatePasswordGenerator()
+            }
+
+            // Add default value
+            if (defaultValues.containsKey(attribute.label)) {
+                attribute.options.default = defaultValues[attribute.label]!!
             }
 
             // Recognize each temp option
