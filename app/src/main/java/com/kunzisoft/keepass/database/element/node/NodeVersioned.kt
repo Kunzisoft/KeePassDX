@@ -98,8 +98,7 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
     final override var expiryTime: DateInstant = DateInstant.NEVER_EXPIRES
 
     final override val isCurrentlyExpires: Boolean
-        get() = expires
-                && LocalDateTime.fromDateFields(expiryTime.date).isBefore(LocalDateTime.now())
+        get() = expires && expiryTime.isCurrentlyExpire()
 
     /**
      * @return true if parent is present (false if not present, can be a root or a detach element)

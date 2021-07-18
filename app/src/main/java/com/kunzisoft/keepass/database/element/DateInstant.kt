@@ -25,8 +25,7 @@ import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
-import org.joda.time.Duration
-import org.joda.time.Instant
+import org.joda.time.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -138,6 +137,23 @@ class DateInstant : Parcelable {
         return Companion.getYearInt(jDate)
     }
 
+    // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
+    // it is not expires
+    fun isNeverExpires(): Boolean {
+        return LocalDateTime(jDate)
+            .isBefore(
+                LocalDateTime.fromDateFields(NEVER_EXPIRES.date)
+                .minusMonths(1))
+    }
+
+    fun isCurrentlyExpire(): Boolean {
+        return when (type) {
+            Type.DATE -> LocalDate.fromDateFields(jDate).isBefore(LocalDate.now())
+            Type.TIME -> LocalTime.fromDateFields(jDate).isBefore(LocalTime.now())
+            else -> LocalDateTime.fromDateFields(jDate).isBefore(LocalDateTime.now())
+        }
+    }
+
     override fun toString(): String {
         return when (type) {
             Type.DATE -> dateFormat.format(jDate)
@@ -168,7 +184,14 @@ class DateInstant : Parcelable {
 
     companion object {
 
-        val NEVER_EXPIRES = neverExpires()
+        val NEVER_EXPIRES = DateInstant(Calendar.getInstance().apply {
+                set(Calendar.YEAR, 2999)
+                set(Calendar.MONTH, 11)
+                set(Calendar.DAY_OF_MONTH, 28)
+                set(Calendar.HOUR, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+            }.time)
         val IN_ONE_MONTH_DATE_TIME = DateInstant(
                 Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE_TIME)
         val IN_ONE_MONTH_DATE = DateInstant(
@@ -179,17 +202,6 @@ class DateInstant : Parcelable {
         private val dateTimeFormat = SimpleDateFormat.getDateTimeInstance()
         private val dateFormat = SimpleDateFormat.getDateInstance()
         private val timeFormat = SimpleDateFormat.getTimeInstance()
-
-        private fun neverExpires(): DateInstant {
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.YEAR, 2999)
-            cal.set(Calendar.MONTH, 11)
-            cal.set(Calendar.DAY_OF_MONTH, 28)
-            cal.set(Calendar.HOUR, 23)
-            cal.set(Calendar.MINUTE, 59)
-            cal.set(Calendar.SECOND, 59)
-            return DateInstant(cal.time)
-        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<DateInstant> = object : Parcelable.Creator<DateInstant> {
