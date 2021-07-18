@@ -160,18 +160,5 @@ class Template : Parcelable {
                     IconImage(),
                     sections)
             }
-
-        val CREATION: Template
-            get() {
-                val sections = mutableListOf<TemplateSection>()
-                val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
-                    // Dynamic part
-                })
-                sections.add(mainSection)
-                return Template(UUID(0, 1),
-                    TemplateField.LABEL_TEMPLATE,
-                    IconImage(IconImageStandard(IconImageStandard.BUILD_ID)),
-                    sections)
-            }
     }
 }

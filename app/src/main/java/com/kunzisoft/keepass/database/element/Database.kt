@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -150,7 +151,7 @@ class Database {
 
     fun getTemplate(entry: Entry): Template? {
         if (entryIsTemplate(entry))
-            return Template.CREATION
+            return TemplateEngine.CREATION
         entry.entryKDBX?.let { entryKDBX ->
             return mDatabaseKDBX?.getTemplate(entryKDBX)
         }

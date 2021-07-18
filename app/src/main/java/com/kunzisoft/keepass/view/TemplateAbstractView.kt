@@ -454,7 +454,7 @@ abstract class TemplateAbstractView<
         return mCustomFieldIds.indexOfFirst { it.label.equals(name, true) }
     }
 
-    protected fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false) {
+    private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false) {
         mEntryInfo?.customFields = mCustomFieldIds.mapNotNull {
             getCustomField(it.label, templateFieldNotEmpty)
         }.toMutableList()
@@ -470,7 +470,7 @@ abstract class TemplateAbstractView<
     /**
      * Update a custom field or create a new one if doesn't exists, the old value is lost
      */
-    protected fun putCustomField(customField: Field, focus: Boolean): Boolean {
+    private fun putCustomField(customField: Field, focus: Boolean): Boolean {
         return if (!isStandardFieldName(customField.name)) {
             customFieldsContainerView.visibility = View.VISIBLE
             if (indexCustomFieldIdByName(customField.name) >= 0) {

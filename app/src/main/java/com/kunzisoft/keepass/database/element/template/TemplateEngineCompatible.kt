@@ -39,7 +39,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         }
         // Add template field
         if (template != Template.STANDARD
-            && template != Template.CREATION) {
+            && template != CREATION) {
             getTemplateUUIDField(template)?.let { templateField ->
                 entryCopy.putField(templateField)
             }
@@ -258,11 +258,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         // Dynamic attributes
         var index = 0
         templateEntry.doForEachDecodedCustomField { field ->
-            val label = encodeTemplateAttribute(
-                field.name
-                    .removePrefix(PREFIX_DECODED_TEMPLATE)
-                    .removeSuffix(SUFFIX_DECODED_TEMPLATE)
-            )
+            field.removeDecoratorFromTemplateEntryField()
+            val label = encodeTemplateAttribute(field.name)
             val value = field.protectedValue
             when {
                 label.equals(TEMPLATE_LABEL_VERSION, true) -> {

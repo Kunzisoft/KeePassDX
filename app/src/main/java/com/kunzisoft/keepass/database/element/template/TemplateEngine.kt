@@ -9,7 +9,9 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.addDecoratorToTemplateEntryField
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -38,7 +40,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
     }
 
     fun getTemplateCreation(): Template {
-        return Template(Template.CREATION)
+        return Template(CREATION)
     }
 
     fun createNewTemplatesGroup(resources: Resources): GroupKDBX {
@@ -96,8 +98,10 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                             "$SECTION_DECODED_TEMPLATE_PREFIX${index-1}"
                         else
                             section.name
-                        putField("$PREFIX_DECODED_TEMPLATE$sectionName$SUFFIX_DECODED_TEMPLATE",
-                            ProtectedString(false, TemplateAttributeType.DIVIDER.typeString))
+                        putField(Field(sectionName,
+                            ProtectedString(false, TemplateAttributeType.DIVIDER.typeString)).apply {
+                            addDecoratorToTemplateEntryField()
+                        })
                     }
 
                     putField(buildTemplateEntryField(attribute))
@@ -111,17 +115,18 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val typeAndOptions = attribute.type.typeString +
                 TemplateAttributeOption.getStringFromOptions(attribute.options)
         // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
-        return Field(PREFIX_DECODED_TEMPLATE
-                + TemplateEngineCompatible.decodeTemplateAttribute(attribute.label)
-                + SUFFIX_DECODED_TEMPLATE,
-            ProtectedString(attribute.protected, typeAndOptions))
+        return Field(TemplateEngineCompatible.decodeTemplateAttribute(attribute.label),
+            ProtectedString(attribute.protected, typeAndOptions)).apply {
+                addDecoratorToTemplateEntryField()
+        }
     }
 
     private fun buildTemplateSectionFromFields(fields: List<Field>): TemplateSection {
         val sectionAttributes = mutableListOf<TemplateAttribute>()
         fields.forEach { field ->
+            field.removeDecoratorFromTemplateEntryField()
             sectionAttributes.add(TemplateAttribute(
-                field.name.removePrefix(PREFIX_DECODED_TEMPLATE).removeSuffix(SUFFIX_DECODED_TEMPLATE),
+                field.name,
                 TemplateAttributeType.getFromString(field.protectedValue.stringValue),
                 field.protectedValue.isProtected,
                 TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue))
@@ -153,17 +158,25 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
         private val TAG = TemplateEngine::class.java.name
 
-        const val PREFIX_DECODED_TEMPLATE = "["
-        const val SUFFIX_DECODED_TEMPLATE = "]"
-        const val SECTION_DECODED_TEMPLATE_PREFIX = "Section "
+        private const val PREFIX_DECODED_TEMPLATE = "["
+        private const val SUFFIX_DECODED_TEMPLATE = "]"
+        private const val SECTION_DECODED_TEMPLATE_PREFIX = "Section "
+
+        val CREATION: Template
+            get() {
+                val sections = mutableListOf<TemplateSection>()
+                val mainSection = TemplateSection(mutableListOf<TemplateAttribute>().apply {
+                    // Dynamic part
+                })
+                sections.add(mainSection)
+                return Template(UUID(0, 1),
+                    TemplateField.LABEL_TEMPLATE,
+                    IconImage(IconImageStandard(IconImageStandard.BUILD_ID)),
+                    sections)
+            }
 
         fun getDefaultTemplateGroupName(resources: Resources): String {
             return resources.getString(R.string.templates)
-        }
-
-        fun isTemplateNameAttribute(name: String): Boolean {
-            return name.startsWith(PREFIX_DECODED_TEMPLATE)
-                    && name.endsWith(SUFFIX_DECODED_TEMPLATE)
         }
         
         fun getDefaults(): List<Template> {
@@ -176,6 +189,21 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 templateBuilder.creditCard,
                 templateBuilder.bank,
                 templateBuilder.cryptocurrency)
+        }
+
+        fun isTemplateNameAttribute(name: String): Boolean {
+            return name.startsWith(PREFIX_DECODED_TEMPLATE)
+                    && name.endsWith(SUFFIX_DECODED_TEMPLATE)
+        }
+
+        fun Field.addDecoratorToTemplateEntryField() {
+            this.name = "$PREFIX_DECODED_TEMPLATE${this.name}$SUFFIX_DECODED_TEMPLATE"
+        }
+
+        fun Field.removeDecoratorFromTemplateEntryField() {
+            this.name = this.name
+                .removePrefix(PREFIX_DECODED_TEMPLATE)
+                .removeSuffix(SUFFIX_DECODED_TEMPLATE)
         }
     }
 }
