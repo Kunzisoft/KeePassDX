@@ -21,7 +21,7 @@ import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.*
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.addDecoratorToTemplateEntryField
+import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.addTemplateDecorator
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -473,8 +473,9 @@ abstract class TemplateAbstractView<
      */
     private fun putCustomField(customField: Field, focus: Boolean): Boolean {
         if (mTemplate == TemplateEngine.CREATION
-            && !TemplateEngine.containsTemplateDecorator(customField.name))
-            customField.addDecoratorToTemplateEntryField()
+            && !TemplateEngine.containsTemplateDecorator(customField.name)) {
+            customField.name = addTemplateDecorator(customField.name)
+        }
 
         return if (!isStandardFieldName(customField.name)) {
             customFieldsContainerView.visibility = View.VISIBLE

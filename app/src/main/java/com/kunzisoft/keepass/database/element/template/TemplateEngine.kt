@@ -3,15 +3,14 @@ package com.kunzisoft.keepass.database.element.template
 import android.content.res.Resources
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.addDecoratorToTemplateEntryField
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -83,6 +82,8 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
     abstract fun addMetaTemplateRecognitionToEntry(template: Template, entry: EntryKDBX): EntryKDBX
 
+    abstract fun buildTemplateEntryField(attribute: TemplateAttribute): Field
+
     abstract fun decodeTemplateEntry(templateEntry: EntryKDBX): EntryKDBX
 
     abstract fun encodeTemplateEntry(templateEntry: EntryKDBX): EntryKDBX
@@ -100,10 +101,9 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                             "$SECTION_DECODED_TEMPLATE_PREFIX${index-1}"
                         else
                             section.name
-                        putField(Field(sectionName,
-                            ProtectedString(false, TemplateAttributeType.DIVIDER.typeString)).apply {
-                            addDecoratorToTemplateEntryField()
-                        })
+                        putField(Field(addTemplateDecorator(sectionName),
+                            ProtectedString(false, TemplateAttributeType.DIVIDER.typeString))
+                        )
                     }
 
                     putField(buildTemplateEntryField(attribute))
@@ -113,22 +113,11 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return encodeTemplateEntry(newEntry)
     }
 
-    protected fun buildTemplateEntryField(attribute: TemplateAttribute): Field {
-        val typeAndOptions = attribute.type.typeString +
-                TemplateAttributeOption.getStringFromOptions(attribute.options)
-        // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
-        return Field(TemplateEngineCompatible.decodeTemplateAttribute(attribute.label),
-            ProtectedString(attribute.protected, typeAndOptions)).apply {
-                addDecoratorToTemplateEntryField()
-        }
-    }
-
     private fun buildTemplateSectionFromFields(fields: List<Field>): TemplateSection {
         val sectionAttributes = mutableListOf<TemplateAttribute>()
         fields.forEach { field ->
-            field.removeDecoratorFromTemplateEntryField()
             sectionAttributes.add(TemplateAttribute(
-                field.name,
+                removeTemplateDecorator(field.name),
                 TemplateAttributeType.getFromString(field.protectedValue.stringValue),
                 field.protectedValue.isProtected,
                 TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue))
@@ -197,12 +186,12 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     && name.endsWith(SUFFIX_DECODED_TEMPLATE)
         }
 
-        fun Field.addDecoratorToTemplateEntryField() {
-            this.name = "$PREFIX_DECODED_TEMPLATE${this.name}$SUFFIX_DECODED_TEMPLATE"
+        fun addTemplateDecorator(name: String): String {
+            return "$PREFIX_DECODED_TEMPLATE${name}$SUFFIX_DECODED_TEMPLATE"
         }
 
-        fun Field.removeDecoratorFromTemplateEntryField() {
-            this.name = this.name
+        fun removeTemplateDecorator(name: String): String {
+            return name
                 .removePrefix(PREFIX_DECODED_TEMPLATE)
                 .removeSuffix(SUFFIX_DECODED_TEMPLATE)
         }

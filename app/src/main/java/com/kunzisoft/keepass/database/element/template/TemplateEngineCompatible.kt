@@ -66,6 +66,14 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         }
     }
 
+    override fun buildTemplateEntryField(attribute: TemplateAttribute): Field {
+        val typeAndOptions = attribute.type.typeString +
+                TemplateAttributeOption.getStringFromOptions(attribute.options)
+        // PREFIX_DECODED_TEMPLATE to fix same label as standard fields
+        return Field(addTemplateDecorator(decodeTemplateAttribute(attribute.label)),
+            ProtectedString(attribute.protected, typeAndOptions))
+    }
+
     override fun decodeTemplateEntry(templateEntry: EntryKDBX): EntryKDBX {
         val attributes = HashMap<String, TemplateAttributePosition>()
         val entryCopy = EntryKDBX().apply {
@@ -262,8 +270,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         // Dynamic attributes
         var index = 0
         templateEntry.doForEachDecodedCustomField { field ->
-            field.removeDecoratorFromTemplateEntryField()
-            val label = encodeTemplateAttribute(field.name)
+            val label = removeTemplateDecorator(encodeTemplateAttribute(field.name))
             val value = field.protectedValue
             when {
                 label.equals(TEMPLATE_LABEL_VERSION, true) -> {
@@ -389,7 +396,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         private const val TEMPLATE_ATTRIBUTE_TYPE_POPOUT = "Popout"
         private const val TEMPLATE_ATTRIBUTE_TYPE_RICH_TEXTBOX = "Rich Textbox"
 
-        fun decodeTemplateAttribute(name: String): String {
+        private fun decodeTemplateAttribute(name: String): String {
             return when {
                 TEMPLATE_LABEL_VERSION.equals(name, true) -> TemplateField.LABEL_VERSION
                 TEMPLATE_ATTRIBUTE_TITLE.equals(name, true) -> TemplateField.LABEL_TITLE
@@ -403,7 +410,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
             }
         }
 
-        fun encodeTemplateAttribute(name: String): String {
+        private fun encodeTemplateAttribute(name: String): String {
             return when {
                 TemplateField.LABEL_VERSION.equals(name, true) -> TEMPLATE_LABEL_VERSION
                 TemplateField.LABEL_TITLE.equals(name, true) -> TEMPLATE_ATTRIBUTE_TITLE
