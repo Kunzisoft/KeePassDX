@@ -121,7 +121,11 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
             return if (activation) dateTime.toString() else ""
         }
         set(value) {
-            // TODO set date time string value
+            mDateTime = try {
+                DateInstant(value)
+            } catch (e: Exception) {
+                DateInstant.NEVER_EXPIRES
+            }
         }
 
     override var isFieldVisible: Boolean

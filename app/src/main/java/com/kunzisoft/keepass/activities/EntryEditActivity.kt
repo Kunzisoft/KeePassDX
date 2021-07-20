@@ -378,19 +378,11 @@ class EntryEditActivity : LockingActivity(),
      * Add a new customized field
      */
     private fun addNewCustomField() {
-        //if (mIsTemplate) {
-            // TODO Custom Dialog to add a complete template field
-        //} else {
-            EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
-        //}
+        EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
     private fun editCustomField(field: Field) {
-        //if (mIsTemplate) {
-        // TODO Custom Dialog to edit a complete template field
-        //} else {
-            EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
-        //}
+        EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
     }
 
     override fun onNewCustomFieldApproved(newField: Field) {
