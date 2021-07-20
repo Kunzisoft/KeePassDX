@@ -198,7 +198,7 @@ class StructureParser(private val structure: AssistStructure) {
                                 year = node.autofillOptions?.get(value.listValue).toString().toInt()
                             }
                         } catch (e: Exception) {
-                            year = 0
+                            Log.e(TAG, "Unable to retrieve expiration year", e)
                         }
                         result?.creditCardExpirationYearValue = year % 100
                     }
@@ -212,18 +212,40 @@ class StructureParser(private val structure: AssistStructure) {
                     }
                     node.autofillValue?.let { value ->
                         var month = 0
-                        if (value.isText) {
-                            month = try {
-                                value.textValue.toString().toInt()
-                            } catch (e: Exception) {
-                                0
+                        try {
+                            if (value.isText) {
+                                month = value.textValue.toString().toInt()
                             }
-                        }
-                        if (value.isList) {
-                            // assume list starts with January (index 0)
-                            month = value.listValue + 1
+                            if (value.isList) {
+                                // assume list starts with January (index 0)
+                                month = value.listValue + 1
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to retrieve expiration month", e)
                         }
                         result?.creditCardExpirationMonthValue = month
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DAY, true)
+                        || it.contains("cc-exp-day", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration day hint")
+                    result?.creditCardExpirationDayId = autofillId
+                    if (node.autofillOptions != null) {
+                        result?.creditCardExpirationDayOptions = node.autofillOptions
+                    }
+                    node.autofillValue?.let { value ->
+                        var day = 0
+                        try {
+                            if (value.isText) {
+                                day = value.textValue.toString().toInt()
+                            }
+                            if (value.isList) {
+                                day = node.autofillOptions?.get(value.listValue).toString().toInt()
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to retrieve expiration day", e)
+                        }
+                        result?.creditCardExpirationDayValue = day
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE, true)
@@ -392,8 +414,9 @@ class StructureParser(private val structure: AssistStructure) {
 
         // if the user selects the credit card expiration date from a list of options
         // all options are stored here
-        var creditCardExpirationMonthOptions: Array<CharSequence>? = null
         var creditCardExpirationYearOptions: Array<CharSequence>? = null
+        var creditCardExpirationMonthOptions: Array<CharSequence>? = null
+        var creditCardExpirationDayOptions: Array<CharSequence>? = null
 
         var usernameId: AutofillId? = null
             set(value) {
@@ -432,6 +455,12 @@ class StructureParser(private val structure: AssistStructure) {
             }
 
         var creditCardExpirationMonthId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var creditCardExpirationDayId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
@@ -506,6 +535,12 @@ class StructureParser(private val structure: AssistStructure) {
 
         // for month of CC expiration date: MM
         var creditCardExpirationMonthValue = 0
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        var creditCardExpirationDayValue = 0
             set(value) {
                 if (allowSaveValues)
                     field = value

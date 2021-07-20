@@ -124,10 +124,9 @@ object AutofillHelper {
         }
 
         if (entryInfo.expires) {
-            // get month (month in database entry is stored as String in the format MM)
-            val month = entryInfo.expiryTime.getMonthInt()
-            // get year (year in database entry is stored as String in the format YY)
             val year = entryInfo.expiryTime.getYearInt()
+            val month = entryInfo.expiryTime.getMonthInt()
+            val day = entryInfo.expiryTime.getDay()
 
             struct.creditCardExpirationDateId?.let {
                 if (struct.isWebView) {
@@ -135,18 +134,6 @@ object AutofillHelper {
                     builder.setValue(it, AutofillValue.forText("$year\u002D$month"))
                 } else {
                     builder.setValue(it, AutofillValue.forDate(entryInfo.expiryTime.date.time))
-                }
-            }
-            struct.creditCardExpirationMonthId?.let {
-                if (struct.isWebView) {
-                    builder.setValue(it, AutofillValue.forText(month.toString()))
-                } else {
-                    if (struct.creditCardExpirationMonthOptions != null) {
-                        // index starts at 0
-                        builder.setValue(it, AutofillValue.forList(month - 1))
-                    } else {
-                        builder.setValue(it, AutofillValue.forText(month.toString()))
-                    }
                 }
             }
             struct.creditCardExpirationYearId?.let {
@@ -166,6 +153,29 @@ object AutofillHelper {
 
                 if (autofillValue == null) {
                     builder.setValue(it, AutofillValue.forText(year.toString()))
+                }
+            }
+            struct.creditCardExpirationMonthId?.let {
+                if (struct.isWebView) {
+                    builder.setValue(it, AutofillValue.forText(month.toString()))
+                } else {
+                    if (struct.creditCardExpirationMonthOptions != null) {
+                        // index starts at 0
+                        builder.setValue(it, AutofillValue.forList(month - 1))
+                    } else {
+                        builder.setValue(it, AutofillValue.forText(month.toString()))
+                    }
+                }
+            }
+            struct.creditCardExpirationDayId?.let {
+                if (struct.isWebView) {
+                    builder.setValue(it, AutofillValue.forText(day.toString()))
+                } else {
+                    if (struct.creditCardExpirationDayOptions != null) {
+                        builder.setValue(it, AutofillValue.forList(day - 1))
+                    } else {
+                        builder.setValue(it, AutofillValue.forText(day.toString()))
+                    }
                 }
             }
         }

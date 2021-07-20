@@ -259,6 +259,9 @@ class KeeAutofillService : AutofillService() {
                         expiration = DateTime()
                             .withYear(parseResult.creditCardExpirationYearValue)
                             .withMonthOfYear(parseResult.creditCardExpirationMonthValue)
+                        if (parseResult.creditCardExpirationDayValue != 0) {
+                            expiration = expiration.withDayOfMonth(parseResult.creditCardExpirationDayValue)
+                        }
                     }
 
                     // Show UI to save data

@@ -140,13 +140,18 @@ class DateInstant : Parcelable {
         }
     }
 
+    fun getYearInt(): Int {
+        val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+        return dateFormat.format(date).toInt()
+    }
+
     fun getMonthInt(): Int {
         val dateFormat = SimpleDateFormat("MM", Locale.ENGLISH)
         return dateFormat.format(date).toInt()
     }
 
-    fun getYearInt(): Int {
-        val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+    fun getDay(): Int {
+        val dateFormat = SimpleDateFormat("dd", Locale.ENGLISH)
         return dateFormat.format(date).toInt()
     }
 
