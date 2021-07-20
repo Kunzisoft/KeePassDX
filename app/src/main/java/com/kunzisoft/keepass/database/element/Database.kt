@@ -165,6 +165,18 @@ class Database {
         return templatesGroup == entry.parent
     }
 
+    // Not the same as decode, here remove in all cases the template link in the entry data
+    fun removeTemplateConfiguration(entry: Entry): Entry {
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, false)?.let { decode ->
+                return Entry(decode)
+            }
+        }
+        return entry
+    }
+
+    // Remove the template link in the entry data if it's a basic entry
+    // or compress the template fields (as pseudo language) if it's a template entry
     fun decodeEntryWithTemplateConfiguration(entry: Entry, lastEntryVersion: Entry? = null): Entry {
         entry.entryKDBX?.let {
             val lastEntry = lastEntryVersion ?: entry

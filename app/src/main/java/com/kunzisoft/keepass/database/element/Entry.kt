@@ -400,7 +400,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
         val entryInfo = EntryInfo()
         // Remove unwanted template fields
-        (database?.decodeEntryWithTemplateConfiguration(this) ?: this).apply {
+        (database?.removeTemplateConfiguration(this) ?: this).apply {
             if (raw)
                 database?.stopManageEntry(this)
             else
