@@ -26,6 +26,7 @@ import android.view.View
 import android.view.autofill.AutofillId
 import android.view.autofill.AutofillValue
 import androidx.annotation.RequiresApi
+import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -160,7 +161,13 @@ class StructureParser(private val structure: AssistStructure) {
                     node.autofillValue?.let { value ->
                         if (value.isText && value.textValue.length == 7) {
                             value.textValue.let { date ->
-                                result?.creditCardExpirationValue = date.substring(5, 7) + date.substring(2, 4)
+                                try {
+                                    result?.creditCardExpirationValue = DateTime()
+                                        .withYear(date.substring(2, 4).toInt())
+                                        .withMonthOfYear(date.substring(5, 7).toInt())
+                                } catch(e: Exception) {
+                                    Log.e(TAG, "Unable to retrieve expiration", e)
+                                }
                             }
                         }
                     }
@@ -170,12 +177,7 @@ class StructureParser(private val structure: AssistStructure) {
                     result?.creditCardExpirationDateId = autofillId
                     node.autofillValue?.let { value ->
                         if (value.isDate) {
-                            val calendar = Calendar.getInstance()
-                            calendar.clear()
-                            calendar.timeInMillis = value.dateValue
-                            val year = calendar.get(Calendar.YEAR).toString().substring(2,4)
-                            val month = calendar.get(Calendar.MONTH).inc().toString().padStart(2, '0')
-                            result?.creditCardExpirationValue = month + year
+                            result?.creditCardExpirationValue = DateTime(value.dateValue)
                         }
                     }
                 }
@@ -489,7 +491,7 @@ class StructureParser(private val structure: AssistStructure) {
             }
 
         // format MMYY
-        var creditCardExpirationValue: String? = null
+        var creditCardExpirationValue: DateTime? = null
             set(value) {
                 if (allowSaveValues)
                     field = value

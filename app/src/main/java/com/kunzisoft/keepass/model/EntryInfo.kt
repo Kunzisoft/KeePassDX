@@ -24,6 +24,7 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField
@@ -168,7 +169,7 @@ class EntryInfo : NodeInfo {
         }
 
         if (database?.allowEntryCustomFields() == true) {
-            val creditCard: CreditCard? = registerInfo.cc
+            val creditCard: CreditCard? = registerInfo.creditCard
 
             creditCard?.let { cc ->
                 cc.cardholder?.let {
@@ -177,7 +178,7 @@ class EntryInfo : NodeInfo {
                 }
                 cc.expiration?.let {
                     expires = true
-                    // TODO Expiration expiryTime = it
+                    expiryTime = DateInstant(cc.expiration.millis)
                 }
                 cc.number?.let {
                     val v = ProtectedString(false, it)

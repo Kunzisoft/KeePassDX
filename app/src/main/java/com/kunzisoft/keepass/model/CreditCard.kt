@@ -2,23 +2,24 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import org.joda.time.DateTime
 
 data class CreditCard(val cardholder: String?,
                       val number: String?,
-                      val expiration: String?,
+                      val expiration: DateTime?,
                       val cvv: String?) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
-            parcel.readString(),
+            parcel.readSerializable() as DateTime?,
             parcel.readString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cardholder)
         parcel.writeString(number)
-        parcel.writeString(expiration)
+        parcel.writeSerializable(expiration)
         parcel.writeString(cvv)
     }
 

@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import org.joda.time.DateTime
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -250,15 +251,15 @@ class KeeAutofillService : AutofillService() {
                         && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
                     Log.d(TAG, "autofill onSaveRequest password")
 
-
-                    if (parseResult.creditCardExpirationValue == null) {
-                        if (parseResult.creditCardExpirationMonthValue != 0 && parseResult.creditCardExpirationYearValue != 0) {
-                            parseResult.creditCardExpirationValue = parseResult.creditCardExpirationMonthValue.toString().padStart(2, '0') + parseResult.creditCardExpirationYearValue.toString()
-                        }
+                    // Build expiration from date or from year and month
+                    var expiration: DateTime? = parseResult.creditCardExpirationValue
+                    if (parseResult.creditCardExpirationValue == null
+                        && parseResult.creditCardExpirationYearValue != 0
+                        && parseResult.creditCardExpirationMonthValue != 0) {
+                        expiration = DateTime()
+                            .withYear(parseResult.creditCardExpirationYearValue)
+                            .withMonthOfYear(parseResult.creditCardExpirationMonthValue)
                     }
-
-                    val creditCard = CreditCard(parseResult.creditCardHolder, parseResult.creditCardNumber,
-                            parseResult.creditCardExpirationValue, parseResult.cardVerificationValue)
 
                     // Show UI to save data
                     val registerInfo = RegisterInfo(
@@ -269,7 +270,12 @@ class KeeAutofillService : AutofillService() {
                             },
                             parseResult.usernameValue?.textValue?.toString(),
                             parseResult.passwordValue?.textValue?.toString(),
-                            creditCard)
+                            CreditCard(
+                                parseResult.creditCardHolder,
+                                parseResult.creditCardNumber,
+                                expiration,
+                                parseResult.cardVerificationValue
+                            ))
 
                     // TODO Callback in each activity #765
                     //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

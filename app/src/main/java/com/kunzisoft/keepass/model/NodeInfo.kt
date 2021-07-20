@@ -32,13 +32,6 @@ open class NodeInfo() : Parcelable {
         parcel.writeParcelable(expiryTime, flags)
     }
 
-    fun getExpiresStringValue(): String {
-        return if (expires)
-            expiryTime.toString()
-        else
-            ""
-    }
-
     override fun describeContents(): Int {
         return 0
     }
