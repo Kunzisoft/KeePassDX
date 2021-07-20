@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.IdRes
@@ -65,6 +66,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
             }
         }
     }
@@ -75,6 +79,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
                 setActionClick(templateAttribute, field, this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
             }
         }
     }
