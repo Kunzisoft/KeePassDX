@@ -399,35 +399,38 @@ class Entry : Node, EntryVersionedInterface<Group> {
      */
     fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
         val entryInfo = EntryInfo()
-        if (raw)
-            database?.stopManageEntry(this)
-        else
-            database?.startManageEntry(this)
+        // Remove unwanted template fields
+        (database?.decodeEntryWithTemplateConfiguration(this) ?: this).apply {
+            if (raw)
+                database?.stopManageEntry(this)
+            else
+                database?.startManageEntry(this)
 
-        entryInfo.id = nodeId.id
-        entryInfo.title = title
-        entryInfo.icon = icon
-        entryInfo.username = username
-        entryInfo.password = password
-        entryInfo.creationTime = creationTime
-        entryInfo.lastModificationTime = lastModificationTime
-        entryInfo.expires = expires
-        entryInfo.expiryTime = expiryTime
-        entryInfo.url = url
-        entryInfo.notes = notes
-        entryInfo.customFields = getExtraFields().toMutableList()
-        // Add otpElement to generate token
-        entryInfo.otpModel = getOtpElement()?.otpModel
-        if (!raw) {
-            // Replace parameter fields by generated OTP fields
-            entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
-        }
-        database?.attachmentPool?.let { binaryPool ->
-            entryInfo.attachments = getAttachments(binaryPool).toMutableList()
-        }
+            entryInfo.id = nodeId.id
+            entryInfo.title = title
+            entryInfo.icon = icon
+            entryInfo.username = username
+            entryInfo.password = password
+            entryInfo.creationTime = creationTime
+            entryInfo.lastModificationTime = lastModificationTime
+            entryInfo.expires = expires
+            entryInfo.expiryTime = expiryTime
+            entryInfo.url = url
+            entryInfo.notes = notes
+            entryInfo.customFields = getExtraFields().toMutableList()
+            // Add otpElement to generate token
+            entryInfo.otpModel = getOtpElement()?.otpModel
+            if (!raw) {
+                // Replace parameter fields by generated OTP fields
+                entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
+            }
+            database?.attachmentPool?.let { binaryPool ->
+                entryInfo.attachments = getAttachments(binaryPool).toMutableList()
+            }
 
-        if (!raw)
-            database?.stopManageEntry(this)
+            if (!raw)
+                database?.stopManageEntry(this)
+        }
         return entryInfo
     }
 
