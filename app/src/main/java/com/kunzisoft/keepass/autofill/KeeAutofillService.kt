@@ -110,15 +110,6 @@ class KeeAutofillService : AutofillService() {
                         }
                     }
                 }
-//                TODO does it make sense to disable autofill here? how long?
-//                else {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                        val builder = FillResponse.Builder()
-//                        // disable for a while (duration in ms)
-//                        builder.disableAutofill(5*60*1000)
-//                        callback.onSuccess(builder.build())
-//                    }
-//                }
             }
         }
     }
@@ -191,16 +182,16 @@ class KeeAutofillService : AutofillService() {
                     }
                     // or a credit card form
                     if (requiredIds.isEmpty()) {
-                        parseResult.ccnId?.let { numberId ->
+                        parseResult.creditCardNumberId?.let { numberId ->
                             types = types or SaveInfo.SAVE_DATA_TYPE_CREDIT_CARD
                             requiredIds.add(numberId)
                             Log.d(TAG, "Asking to save credit card number")
                         }
-                        parseResult.ccExpDateId?.let { id -> optionalIds.add(id) }
-                        parseResult.ccExpDateYearId?.let { id -> optionalIds.add(id) }
-                        parseResult.ccExpDateMonthId?.let { id -> optionalIds.add(id) }
-                        parseResult.ccNameId?.let { id -> optionalIds.add(id) }
-                        parseResult.cvvId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardExpirationDateId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardExpirationYearId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardExpirationMonthId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardHolderId?.let { id -> optionalIds.add(id) }
+                        parseResult.cardVerificationValueId?.let { id -> optionalIds.add(id) }
                     }
                     if (requiredIds.isNotEmpty()) {
                         val builder = SaveInfo.Builder(types, requiredIds.toTypedArray())
@@ -260,14 +251,14 @@ class KeeAutofillService : AutofillService() {
                     Log.d(TAG, "autofill onSaveRequest password")
 
 
-                    if (parseResult.ccExpirationValue == null) {
-                        if (parseResult.ccExpDateMonthValue != 0 && parseResult.ccExpDateYearValue != 0) {
-                            parseResult.ccExpirationValue = parseResult.ccExpDateMonthValue.toString().padStart(2, '0') + parseResult.ccExpDateYearValue.toString()
+                    if (parseResult.creditCardExpirationValue == null) {
+                        if (parseResult.creditCardExpirationMonthValue != 0 && parseResult.creditCardExpirationYearValue != 0) {
+                            parseResult.creditCardExpirationValue = parseResult.creditCardExpirationMonthValue.toString().padStart(2, '0') + parseResult.creditCardExpirationYearValue.toString()
                         }
                     }
 
-                    val creditCard = CreditCard(parseResult.ccName, parseResult.ccNumber,
-                            parseResult.ccExpirationValue, parseResult.cvv)
+                    val creditCard = CreditCard(parseResult.creditCardHolder, parseResult.creditCardNumber,
+                            parseResult.creditCardExpirationValue, parseResult.cardVerificationValue)
 
                     // Show UI to save data
                     val registerInfo = RegisterInfo(

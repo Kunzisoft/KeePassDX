@@ -64,7 +64,7 @@ class StructureParser(private val structure: AssistStructure) {
                 }
             }
 
-            return if (result?.passwordId != null || result?.ccnId != null)
+            return if (result?.passwordId != null || result?.creditCardNumberId != null)
                     result
                 else
                     null
@@ -144,30 +144,30 @@ class StructureParser(private val structure: AssistStructure) {
                 }
                 it.contains("cc-name", true) -> {
                     Log.d(TAG, "Autofill credit card name hint")
-                    result?.ccNameId = autofillId
-                    result?.ccName = node.autofillValue?.textValue?.toString()
+                    result?.creditCardHolderId = autofillId
+                    result?.creditCardHolder = node.autofillValue?.textValue?.toString()
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_NUMBER, true)
                         || it.contains("cc-number", true) -> {
                     Log.d(TAG, "Autofill credit card number hint")
-                    result?.ccnId = autofillId
-                    result?.ccNumber = node.autofillValue?.textValue?.toString()
+                    result?.creditCardNumberId = autofillId
+                    result?.creditCardNumber = node.autofillValue?.textValue?.toString()
                 }
                 // expect date string as defined in https://html.spec.whatwg.org, e.g. 2014-12
                 it.contains("cc-exp", true) -> {
                     Log.d(TAG, "Autofill credit card expiration date hint")
-                    result?.ccExpDateId = autofillId
+                    result?.creditCardExpirationDateId = autofillId
                     node.autofillValue?.let { value ->
                         if (value.isText && value.textValue.length == 7) {
                             value.textValue.let { date ->
-                                result?.ccExpirationValue = date.substring(5, 7) + date.substring(2, 4)
+                                result?.creditCardExpirationValue = date.substring(5, 7) + date.substring(2, 4)
                             }
                         }
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE, true) -> {
                     Log.d(TAG, "Autofill credit card expiration date hint")
-                    result?.ccExpDateId = autofillId
+                    result?.creditCardExpirationDateId = autofillId
                     node.autofillValue?.let { value ->
                         if (value.isDate) {
                             val calendar = Calendar.getInstance()
@@ -175,16 +175,16 @@ class StructureParser(private val structure: AssistStructure) {
                             calendar.timeInMillis = value.dateValue
                             val year = calendar.get(Calendar.YEAR).toString().substring(2,4)
                             val month = calendar.get(Calendar.MONTH).inc().toString().padStart(2, '0')
-                            result?.ccExpirationValue = month + year
+                            result?.creditCardExpirationValue = month + year
                         }
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR, true)
                         || it.contains("cc-exp-year", true) -> {
                     Log.d(TAG, "Autofill credit card expiration year hint")
-                    result?.ccExpDateYearId = autofillId
+                    result?.creditCardExpirationYearId = autofillId
                     if (node.autofillOptions != null) {
-                        result?.ccExpYearOptions = node.autofillOptions
+                        result?.creditCardExpirationYearOptions = node.autofillOptions
                     }
                     node.autofillValue?.let { value ->
                         var year = 0
@@ -198,15 +198,15 @@ class StructureParser(private val structure: AssistStructure) {
                         } catch (e: Exception) {
                             year = 0
                         }
-                        result?.ccExpDateYearValue = year % 100
+                        result?.creditCardExpirationYearValue = year % 100
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH, true)
                         || it.contains("cc-exp-month", true) -> {
-                    Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH hint")
-                    result?.ccExpDateMonthId = autofillId
+                    Log.d(TAG, "Autofill credit card expiration month hint")
+                    result?.creditCardExpirationMonthId = autofillId
                     if (node.autofillOptions != null) {
-                        result?.ccExpMonthOptions = node.autofillOptions
+                        result?.creditCardExpirationMonthOptions = node.autofillOptions
                     }
                     node.autofillValue?.let { value ->
                         var month = 0
@@ -221,14 +221,14 @@ class StructureParser(private val structure: AssistStructure) {
                             // assume list starts with January (index 0)
                             month = value.listValue + 1
                         }
-                        result?.ccExpDateMonthValue = month
+                        result?.creditCardExpirationMonthValue = month
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE, true)
                         || it.contains("cc-csc", true) -> {
-                    Log.d(TAG, "AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE hint")
-                    result?.cvvId = autofillId
-                    result?.cvv = node.autofillValue?.textValue?.toString()
+                    Log.d(TAG, "Autofill card security code hint")
+                    result?.cardVerificationValueId = autofillId
+                    result?.cardVerificationValue = node.autofillValue?.textValue?.toString()
                 }
                 // Ignore autocomplete="off"
                 // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
@@ -390,8 +390,8 @@ class StructureParser(private val structure: AssistStructure) {
 
         // if the user selects the credit card expiration date from a list of options
         // all options are stored here
-        var ccExpMonthOptions: Array<CharSequence>? = null
-        var ccExpYearOptions: Array<CharSequence>? = null
+        var creditCardExpirationMonthOptions: Array<CharSequence>? = null
+        var creditCardExpirationYearOptions: Array<CharSequence>? = null
 
         var usernameId: AutofillId? = null
             set(value) {
@@ -405,37 +405,37 @@ class StructureParser(private val structure: AssistStructure) {
                     field = value
             }
 
-        var ccNameId: AutofillId? = null
+        var creditCardHolderId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
             }
 
-        var ccnId: AutofillId? = null
+        var creditCardNumberId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
             }
 
-        var ccExpDateId: AutofillId? = null
+        var creditCardExpirationDateId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
             }
 
-        var ccExpDateYearId: AutofillId? = null
+        var creditCardExpirationYearId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
             }
 
-        var ccExpDateMonthId: AutofillId? = null
+        var creditCardExpirationMonthId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
             }
 
-        var cvvId: AutofillId? = null
+        var cardVerificationValueId: AutofillId? = null
             set(value) {
                 if (field == null)
                     field = value
@@ -449,13 +449,13 @@ class StructureParser(private val structure: AssistStructure) {
             passwordId?.let {
                 all.add(it)
             }
-            ccNameId?.let {
+            creditCardHolderId?.let {
                 all.add(it)
             }
-            ccnId?.let {
+            creditCardNumberId?.let {
                 all.add(it)
             }
-            cvvId?.let {
+            cardVerificationValueId?.let {
                 all.add(it)
             }
             return all.toTypedArray()
@@ -476,41 +476,41 @@ class StructureParser(private val structure: AssistStructure) {
                     field = value
             }
 
-        var ccName: String? = null
+        var creditCardHolder: String? = null
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
-        var ccNumber: String? = null
+        var creditCardNumber: String? = null
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
         // format MMYY
-        var ccExpirationValue: String? = null
+        var creditCardExpirationValue: String? = null
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
         // for year of CC expiration date: YY
-        var ccExpDateYearValue = 0
+        var creditCardExpirationYearValue = 0
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
         // for month of CC expiration date: MM
-        var ccExpDateMonthValue = 0
+        var creditCardExpirationMonthValue = 0
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
         // the security code for the credit card (also called CVV)
-        var cvv: String? = null
+        var cardVerificationValue: String? = null
             set(value) {
                 if (allowSaveValues)
                     field = value

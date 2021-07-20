@@ -129,26 +129,19 @@ object AutofillHelper {
             // get year (year in database entry is stored as String in the format YY)
             val year = entryInfo.expiryTime.getYearInt()
 
-            struct.ccExpDateId?.let {
+            struct.creditCardExpirationDateId?.let {
                 if (struct.isWebView) {
                     // set date string as defined in https://html.spec.whatwg.org
-                    val dateString = "$year\u002D$month"
-                    builder.setValue(it, AutofillValue.forText(dateString))
+                    builder.setValue(it, AutofillValue.forText("$year\u002D$month"))
                 } else {
-                    val calendar = Calendar.getInstance()
-                    calendar.clear()
-                    calendar[Calendar.YEAR] = year
-                    // Month value is 0-based. e.g., 0 for January
-                    calendar[Calendar.MONTH] = month - 1
-                    val date = calendar.timeInMillis
-                    builder.setValue(it, AutofillValue.forDate(date))
+                    builder.setValue(it, AutofillValue.forDate(entryInfo.expiryTime.date.time))
                 }
             }
-            struct.ccExpDateMonthId?.let {
+            struct.creditCardExpirationMonthId?.let {
                 if (struct.isWebView) {
                     builder.setValue(it, AutofillValue.forText(month.toString()))
                 } else {
-                    if (struct.ccExpMonthOptions != null) {
+                    if (struct.creditCardExpirationMonthOptions != null) {
                         // index starts at 0
                         builder.setValue(it, AutofillValue.forList(month - 1))
                     } else {
@@ -156,10 +149,10 @@ object AutofillHelper {
                     }
                 }
             }
-            struct.ccExpDateYearId?.let {
+            struct.creditCardExpirationYearId?.let {
                 var autofillValue: AutofillValue? = null
 
-                struct.ccExpYearOptions?.let { options ->
+                struct.creditCardExpirationYearOptions?.let { options ->
                     var yearIndex = options.indexOf(year.toString().substring(0, 2))
 
                     if (yearIndex == -1) {
@@ -178,17 +171,17 @@ object AutofillHelper {
         }
         for (field in entryInfo.customFields) {
             if (field.name == TemplateField.LABEL_HOLDER) {
-                struct.ccNameId?.let { ccNameId ->
+                struct.creditCardHolderId?.let { ccNameId ->
                     builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
             if (field.name == TemplateField.LABEL_NUMBER) {
-                struct.ccnId?.let { ccnId ->
+                struct.creditCardNumberId?.let { ccnId ->
                     builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
             if (field.name == TemplateField.LABEL_CVV) {
-                struct.cvvId?.let { cvvId ->
+                struct.cardVerificationValueId?.let { cvvId ->
                     builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
                 }
             }
