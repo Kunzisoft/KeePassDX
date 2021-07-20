@@ -48,7 +48,6 @@ import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
@@ -61,7 +60,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
-    private var mAllowFinishAction = AtomicBoolean()
     private var mActionRunning = false
 
     private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
@@ -84,19 +82,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
-            mAllowFinishAction.set(true)
-            mActionTaskListeners.add(actionTaskListener)
+            if (!mActionTaskListeners.contains(actionTaskListener))
+                mActionTaskListeners.add(actionTaskListener)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.remove(actionTaskListener)
-            if (mActionTaskListeners.size == 0) {
-                mAllowFinishAction.set(false)
-            }
         }
 
         fun addDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
-            mDatabaseInfoListeners.add(databaseInfoListener)
+            if (!mDatabaseInfoListeners.contains(databaseInfoListener))
+                mDatabaseInfoListeners.add(databaseInfoListener)
         }
 
         fun removeDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
@@ -234,6 +230,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             mainScope.launch {
                 executeAction(this@DatabaseTaskNotificationService,
                         {
+                            TimeoutHelper.temporarilyDisableTimeout()
+
                             mActionRunning = true
 
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
@@ -425,23 +423,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                       onPreExecute: () -> Unit,
                                       onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
                                       onPostExecute: (result: ActionRunnable.Result) -> Unit) {
-        mAllowFinishAction.set(false)
-
-        TimeoutHelper.temporarilyDisableTimeout()
         onPreExecute.invoke()
         withContext(Dispatchers.IO) {
             onExecute.invoke(progressTaskUpdater)?.apply {
                 val asyncResult: Deferred<ActionRunnable.Result> = async {
-                    val startTime = System.currentTimeMillis()
-                    var timeIsUp = false
                     // Run the actionRunnable
                     run()
-                    // Wait onBind or 4 seconds max
-                    while (!mAllowFinishAction.get() && !timeIsUp) {
-                        delay(100)
-                        if (startTime + 4000 < System.currentTimeMillis())
-                            timeIsUp = true
-                    }
                     result
                 }
                 withContext(Dispatchers.Main) {
