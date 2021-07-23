@@ -283,6 +283,10 @@ class EntryActivity : LockingActivity() {
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
 
+        if (mEntryViewModel.getEntry()?.url?.isEmpty() != false) {
+            menu.findItem(R.id.menu_goto_url)?.isVisible = false
+        }
+
         val entryIsHistory = mEntryViewModel.getEntryIsHistory()
 
         if (entryIsHistory && !mReadOnly) {
