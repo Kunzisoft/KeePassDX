@@ -1,0 +1,2 @@
+ * Add / Manage dynamic templates #191
+ * Allow to manually select RecycleBin group and Templates group #191
