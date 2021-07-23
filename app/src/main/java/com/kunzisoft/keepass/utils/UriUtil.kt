@@ -134,7 +134,13 @@ object UriUtil {
     fun gotoUrl(context: Context, url: String?) {
         try {
             if (url != null && url.isNotEmpty()) {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                // Default http:// if no protocol specified
+                val newUrl = if (!url.contains("://")) {
+                    "http://$url"
+                } else {
+                    url
+                }
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(newUrl)))
             }
         } catch (e: Exception) {
             Toast.makeText(context, R.string.no_url_handler, Toast.LENGTH_LONG).show()

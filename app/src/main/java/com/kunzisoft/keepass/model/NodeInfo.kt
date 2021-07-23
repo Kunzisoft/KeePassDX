@@ -12,7 +12,7 @@ open class NodeInfo() : Parcelable {
     var creationTime: DateInstant = DateInstant()
     var lastModificationTime: DateInstant = DateInstant()
     var expires: Boolean = false
-    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH
+    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
 
     constructor(parcel: Parcel) : this() {
         title = parcel.readString() ?: title

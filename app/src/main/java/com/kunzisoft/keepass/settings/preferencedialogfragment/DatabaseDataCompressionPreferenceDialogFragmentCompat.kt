@@ -46,10 +46,9 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
             compressionAdapter.setRadioItemSelectedCallback(this)
             recyclerView.adapter = compressionAdapter
 
-            database?.let { database ->
-                compressionSelected = database.compressionAlgorithm?.apply {
-                    compressionAdapter.setItems(database.availableCompressionAlgorithms, this)
-                }
+            mDatabase?.let { database ->
+                compressionSelected = database.compressionAlgorithm
+                compressionAdapter.setItems(database.availableCompressionAlgorithms, compressionSelected)
             }
         }
     }
@@ -57,7 +56,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
     override fun onDialogClosed(positiveResult: Boolean) {
 
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 if (compressionSelected != null) {
                     val newCompression = compressionSelected
                     val oldCompression = database.compressionAlgorithm

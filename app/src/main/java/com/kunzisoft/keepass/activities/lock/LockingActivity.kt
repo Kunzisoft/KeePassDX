@@ -45,6 +45,8 @@ abstract class LockingActivity : SpecialModeActivity() {
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
 
+    protected var mDatabase: Database? = null
+
     // Force readOnly if Entry Selection mode
     protected var mReadOnly: Boolean
         get() {
@@ -60,6 +62,8 @@ abstract class LockingActivity : SpecialModeActivity() {
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        mDatabase = Database.getInstance()
 
         mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
 
@@ -93,7 +97,7 @@ abstract class LockingActivity : SpecialModeActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             mExitLock = true
-            if (Database.getInstance().loaded) {
+            if (mDatabase?.loaded == true) {
                 lockAndExit()
             }
         }
@@ -121,7 +125,8 @@ abstract class LockingActivity : SpecialModeActivity() {
 
         if (mTimeoutEnable) {
             // End activity if database not loaded
-            if (!Database.getInstance().loaded) {
+                // TODO generalize
+            if (mDatabase?.loaded != true) {
                 finish()
                 return
             }
@@ -131,8 +136,10 @@ abstract class LockingActivity : SpecialModeActivity() {
             // If the time is out -> close the Activity
             TimeoutHelper.checkTimeAndLockIfTimeout(this)
             // If onCreate already record time
-            if (!mExitLock)
-                TimeoutHelper.recordTime(this)
+            mDatabase?.let { database ->
+                if (!mExitLock)
+                    TimeoutHelper.recordTime(this, database)
+            }
         }
 
         LOCKING_ACTIVITY_UI_VISIBLE = true
@@ -167,7 +174,7 @@ abstract class LockingActivity : SpecialModeActivity() {
 
     override fun onBackPressed() {
         if (mTimeoutEnable) {
-            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
                 super.onBackPressed()
             }
         } else {
@@ -193,23 +200,23 @@ abstract class LockingActivity : SpecialModeActivity() {
  * To reset the app timeout when a view is focused or changed
  */
 @SuppressLint("ClickableViewAccessibility")
-fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context) {
+fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, database: Database?) {
     setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 //Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
-                TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context)
+                TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context, database)
             }
         }
         false
     }
     setOnFocusChangeListener { _, _ ->
         //Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
-        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context)
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context, database)
     }
     if (this is ViewGroup) {
         for (i in 0..childCount) {
-            getChildAt(i)?.resetAppTimeoutWhenViewFocusedOrChanged(context)
+            getChildAt(i)?.resetAppTimeoutWhenViewFocusedOrChanged(context, database)
         }
     }
 }

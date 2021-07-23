@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.view.ExpirationView
+import com.kunzisoft.keepass.view.DateTimeEditFieldView
 import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DialogFragment() {
@@ -56,7 +56,7 @@ class GroupEditDialogFragment : DialogFragment() {
     private lateinit var nameTextView: TextView
     private lateinit var notesTextLayoutView: TextInputLayout
     private lateinit var notesTextView: TextView
-    private lateinit var expirationView: ExpirationView
+    private lateinit var expirationView: DateTimeEditFieldView
 
     enum class EditGroupDialogAction {
         CREATION, UPDATE, NONE;
@@ -122,7 +122,7 @@ class GroupEditDialogFragment : DialogFragment() {
             // populate info in views
             populateInfoToViews()
             expirationView.setOnDateClickListener = {
-                expirationView.expiryTime.date.let { expiresDate ->
+                expirationView.dateTime.date.let { expiresDate ->
                     val dateTime = DateTime(expiresDate)
                     val defaultYear = dateTime.year
                     val defaultMonth = dateTime.monthOfYear-1
@@ -187,8 +187,8 @@ class GroupEditDialogFragment : DialogFragment() {
         mGroupInfo.notes?.let {
             notesTextView.text = it
         }
-        expirationView.expires = mGroupInfo.expires
-        expirationView.expiryTime = mGroupInfo.expiryTime
+        expirationView.activation = mGroupInfo.expires
+        expirationView.dateTime = mGroupInfo.expiryTime
     }
 
     private fun retrieveGroupInfoFromViews() {
@@ -198,8 +198,8 @@ class GroupEditDialogFragment : DialogFragment() {
         if (newNotes.isNotEmpty()) {
             mGroupInfo.notes = newNotes
         }
-        mGroupInfo.expires = expirationView.expires
-        mGroupInfo.expiryTime = expirationView.expiryTime
+        mGroupInfo.expires = expirationView.activation
+        mGroupInfo.expiryTime = expirationView.dateTime
     }
 
     private fun assignIconView() {

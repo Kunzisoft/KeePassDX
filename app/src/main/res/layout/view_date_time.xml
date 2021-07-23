@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/date_time_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/entry_expires"
+        style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/expires_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_warning_white_24dp"
+            android:contentDescription="@string/content_description_file_information"
+            android:tint="?android:attr/textColor"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date_time_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+    </LinearLayout>
+</LinearLayout>

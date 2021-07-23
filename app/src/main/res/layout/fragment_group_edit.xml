@@ -65,7 +65,7 @@
 				android:maxLines="3"
 				android:hint="@string/entry_notes"/>
 		</com.google.android.material.textfield.TextInputLayout>
-		<com.kunzisoft.keepass.view.ExpirationView
+		<com.kunzisoft.keepass.view.DateTimeEditFieldView
 			android:id="@+id/group_edit_expiration"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

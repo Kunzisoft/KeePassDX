@@ -28,6 +28,7 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
@@ -70,12 +71,15 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -119,15 +123,23 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
         override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
                                            newDatabaseInfo: SnapFileDatabaseInfo) {
-            if (databaseChangedDialogFragment == null) {
-                databaseChangedDialogFragment = activity.supportFragmentManager
+            activity.lifecycleScope.launch {
+                if (databaseChangedDialogFragment == null) {
+                    databaseChangedDialogFragment = activity.supportFragmentManager
                         .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
-                databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
-            }
-            if (progressTaskDialogFragment == null) {
-                databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(previousDatabaseInfo, newDatabaseInfo)
-                databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
-                databaseChangedDialogFragment?.show(activity.supportFragmentManager, DATABASE_CHANGED_DIALOG_TAG)
+                    databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
+                }
+                if (progressTaskDialogFragment == null) {
+                    databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
+                        previousDatabaseInfo,
+                        newDatabaseInfo
+                    )
+                    databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
+                    databaseChangedDialogFragment?.show(
+                        activity.supportFragmentManager,
+                        DATABASE_CHANGED_DIALOG_TAG
+                    )
+                }
             }
         }
     }
@@ -135,15 +147,20 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private fun startDialog(titleId: Int? = null,
                             messageId: Int? = null,
                             warningId: Int? = null) {
-        if (progressTaskDialogFragment == null) {
-            progressTaskDialogFragment = activity.supportFragmentManager
+        activity.lifecycleScope.launch {
+            if (progressTaskDialogFragment == null) {
+                progressTaskDialogFragment = activity.supportFragmentManager
                     .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+            }
+            if (progressTaskDialogFragment == null) {
+                progressTaskDialogFragment = ProgressTaskDialogFragment()
+                progressTaskDialogFragment?.show(
+                    activity.supportFragmentManager,
+                    PROGRESS_TASK_DIALOG_TAG
+                )
+            }
+            updateDialog(titleId, messageId, warningId)
         }
-        if (progressTaskDialogFragment == null) {
-            progressTaskDialogFragment = ProgressTaskDialogFragment()
-            progressTaskDialogFragment?.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
-        }
-        updateDialog(titleId, messageId, warningId)
     }
 
     private fun updateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
@@ -504,6 +521,28 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK)
+    }
+
+    fun startDatabaseSaveRecycleBin(oldRecycleBin: Group?,
+                                    newRecycleBin: Group?,
+                                    save: Boolean) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldRecycleBin)
+            putParcelable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newRecycleBin)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+            , ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK)
+    }
+
+    fun startDatabaseSaveTemplatesGroup(oldTemplatesGroup: Group?,
+                                        newTemplatesGroup: Group?,
+                                        save: Boolean) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldTemplatesGroup)
+            putParcelable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newTemplatesGroup)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+            , ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK)
     }
 
     fun startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems: Int,

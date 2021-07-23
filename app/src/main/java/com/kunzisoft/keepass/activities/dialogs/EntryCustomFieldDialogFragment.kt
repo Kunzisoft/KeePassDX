@@ -35,7 +35,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.Field
 
 
 class EntryCustomFieldDialogFragment: DialogFragment() {

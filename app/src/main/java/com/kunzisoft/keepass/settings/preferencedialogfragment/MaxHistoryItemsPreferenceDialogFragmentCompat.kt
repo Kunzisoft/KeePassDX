@@ -29,7 +29,7 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
         super.onBindDialogView(view)
 
         setExplanationText(R.string.max_history_items_summary)
-        database?.historyMaxItems?.let { maxItemsDatabase ->
+        mDatabase?.historyMaxItems?.let { maxItemsDatabase ->
             inputText = maxItemsDatabase.toString()
             setSwitchAction({ isChecked ->
                 inputText = if (!isChecked) {
@@ -44,7 +44,7 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 var maxHistoryItems: Int = try {
                     inputText.toInt()
                 } catch (e: NumberFormatException) {

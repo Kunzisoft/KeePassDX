@@ -23,7 +23,7 @@ package com.kunzisoft.keepass.otp
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.otp.TokenCalculator.*
 import com.kunzisoft.keepass.utils.StringUtil.removeLineChars
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars

@@ -46,10 +46,9 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
             encryptionAlgorithmAdapter.setRadioItemSelectedCallback(this)
             recyclerView.adapter = encryptionAlgorithmAdapter
 
-            database?.let { database ->
-                algorithmSelected = database.encryptionAlgorithm?.apply {
-                    encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, this)
-                }
+            mDatabase?.let { database ->
+                algorithmSelected = database.encryptionAlgorithm
+                encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, algorithmSelected)
             }
         }
     }
@@ -57,7 +56,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     override fun onDialogClosed(positiveResult: Boolean) {
 
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 if (algorithmSelected != null) {
                     val newAlgorithm = algorithmSelected
                     val oldAlgorithm = database.encryptionAlgorithm

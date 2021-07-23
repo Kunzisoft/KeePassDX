@@ -55,15 +55,23 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/card_view_margin_vertical"
+                android:paddingBottom="@dimen/card_view_margin_vertical">
+                <Spinner
+                    android:id="@+id/entry_edit_template_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
                 <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/entry_edit_contents"
+                    android:id="@+id/entry_edit_content"
+                    android:name="com.kunzisoft.keepass.activities.fragments.EntryEditFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintWidth_percent="@dimen/content_percent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -96,4 +104,17 @@
         android:layout_height="@dimen/lock_button_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:layout_anchor="@+id/entry_scroll"
+        app:layout_anchorGravity="top|center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

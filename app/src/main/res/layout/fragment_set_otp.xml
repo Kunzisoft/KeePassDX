@@ -58,10 +58,10 @@
             android:id="@+id/setup_otp_type_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_view_margin"
-            android:layout_marginLeft="@dimen/card_view_margin"
-            android:layout_marginEnd="@dimen/card_view_margin"
-            android:layout_marginRight="@dimen/card_view_margin"
+            android:layout_marginStart="@dimen/card_view_margin_horizontal"
+            android:layout_marginLeft="@dimen/card_view_margin_horizontal"
+            android:layout_marginEnd="@dimen/card_view_margin_horizontal"
+            android:layout_marginRight="@dimen/card_view_margin_horizontal"
             android:text="@string/error_otp_type"
             style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"/>
 

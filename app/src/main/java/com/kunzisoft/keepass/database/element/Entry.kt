@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
@@ -283,8 +282,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getExtraFields(): List<Field> {
         val extraFields = ArrayList<Field>()
         entryKDBX?.let {
-            it.doForEachDecodedCustomField { key, value ->
-                extraFields.add(Field(key, value))
+            it.doForEachDecodedCustomField { field ->
+                extraFields.add(field)
             }
         }
         return extraFields
@@ -294,7 +293,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Update or add an extra field to the list (standard or custom)
      */
     fun putExtraField(field: Field) {
-        entryKDBX?.putField(field.name, field.protectedValue)
+        entryKDBX?.putField(field)
     }
 
     private fun addExtraFields(fields: List<Field>) {
@@ -310,7 +309,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getOtpElement(): OtpElement? {
         entryKDBX?.let {
             return OtpEntryFields.parseFields { key ->
-                it.getField(key)?.toString()
+                it.getFieldValue(key)?.toString()
             }
         }
         return null
@@ -400,35 +399,38 @@ class Entry : Node, EntryVersionedInterface<Group> {
      */
     fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
         val entryInfo = EntryInfo()
-        if (raw)
-            database?.stopManageEntry(this)
-        else
-            database?.startManageEntry(this)
+        // Remove unwanted template fields
+        (database?.removeTemplateConfiguration(this) ?: this).apply {
+            if (raw)
+                database?.stopManageEntry(this)
+            else
+                database?.startManageEntry(this)
 
-        entryInfo.id = nodeId.toString()
-        entryInfo.title = title
-        entryInfo.icon = icon
-        entryInfo.username = username
-        entryInfo.password = password
-        entryInfo.creationTime = creationTime
-        entryInfo.lastModificationTime = lastModificationTime
-        entryInfo.expires = expires
-        entryInfo.expiryTime = expiryTime
-        entryInfo.url = url
-        entryInfo.notes = notes
-        entryInfo.customFields = getExtraFields()
-        // Add otpElement to generate token
-        entryInfo.otpModel = getOtpElement()?.otpModel
-        if (!raw) {
-            // Replace parameter fields by generated OTP fields
-            entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
-        }
-        database?.attachmentPool?.let { binaryPool ->
-            entryInfo.attachments = getAttachments(binaryPool)
-        }
+            entryInfo.id = nodeId.id
+            entryInfo.title = title
+            entryInfo.icon = icon
+            entryInfo.username = username
+            entryInfo.password = password
+            entryInfo.creationTime = creationTime
+            entryInfo.lastModificationTime = lastModificationTime
+            entryInfo.expires = expires
+            entryInfo.expiryTime = expiryTime
+            entryInfo.url = url
+            entryInfo.notes = notes
+            entryInfo.customFields = getExtraFields().toMutableList()
+            // Add otpElement to generate token
+            entryInfo.otpModel = getOtpElement()?.otpModel
+            if (!raw) {
+                // Replace parameter fields by generated OTP fields
+                entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
+            }
+            database?.attachmentPool?.let { binaryPool ->
+                entryInfo.attachments = getAttachments(binaryPool).toMutableList()
+            }
 
-        if (!raw)
-            database?.stopManageEntry(this)
+            if (!raw)
+                database?.stopManageEntry(this)
+        }
         return entryInfo
     }
 

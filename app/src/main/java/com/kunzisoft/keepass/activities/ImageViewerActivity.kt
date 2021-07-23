@@ -33,13 +33,10 @@ import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
-
-    private var mDatabase: Database? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +57,6 @@ class ImageViewerActivity : LockingActivity() {
                 resources.displayMetrics.widthPixels * 2,
                 resources.displayMetrics.heightPixels * 2
         )
-
-        mDatabase = Database.getInstance()
 
         try {
             progressView.visibility = View.VISIBLE

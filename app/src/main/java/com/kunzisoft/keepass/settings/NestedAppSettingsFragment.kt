@@ -426,7 +426,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         }
                     }
                 if (iconPackEnabled) {
-                    IconPackChooser.setSelectedIconPack(iconPackId)
+                    mDatabase?.let {
+                        IconPackChooser.setSelectedIconPack(it.iconDrawableFactory, iconPackId)
+                    }
                 }
                 iconPackEnabled
             }

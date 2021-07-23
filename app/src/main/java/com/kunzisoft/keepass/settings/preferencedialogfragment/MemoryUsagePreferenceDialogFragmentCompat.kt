@@ -33,7 +33,7 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
 
         setExplanationText(R.string.memory_usage_explanation)
 
-        val memoryBytes = database?.memoryUsage ?: MIN_MEMORY_USAGE
+        val memoryBytes = mDatabase?.memoryUsage ?: MIN_MEMORY_USAGE
         dataByte = DataByte(memoryBytes, DataByte.ByteFormat.BYTE)
                 .toBetterByteFormat()
         inputText = dataByte.number.toString()
@@ -42,7 +42,7 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let { database ->
+            mDatabase?.let { database ->
                 var newMemoryUsage: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {

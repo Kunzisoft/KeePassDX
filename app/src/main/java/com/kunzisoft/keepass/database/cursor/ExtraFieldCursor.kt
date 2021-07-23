@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.cursor
 
 import android.database.MatrixCursor
 import android.provider.BaseColumns
+import com.kunzisoft.keepass.database.element.Field
 
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -36,8 +37,12 @@ class ExtraFieldCursor : MatrixCursor(arrayOf(
     private var fieldId: Long = 0
 
     @Synchronized
-    fun addExtraField(entryId: Long, label: String, value: ProtectedString) {
-        addRow(arrayOf(fieldId, entryId, label, if (value.isProtected) 1 else 0, value.toString()))
+    fun addExtraField(entryId: Long, field: Field) {
+        addRow(arrayOf(fieldId,
+                entryId,
+                field.name,
+                if (field.protectedValue.isProtected) 1 else 0,
+                field.protectedValue.toString()))
         fieldId++
     }
 

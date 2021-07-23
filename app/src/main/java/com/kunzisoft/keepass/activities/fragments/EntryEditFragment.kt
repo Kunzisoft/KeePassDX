@@ -25,106 +25,93 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageView
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.EntryEditActivity
-import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.model.*
-import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.ExpirationView
-import com.kunzisoft.keepass.view.applyFontVisibility
+import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
+import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
-class EntryEditFragment: StylishFragment() {
+class EntryEditFragment: DatabaseFragment() {
 
-    private lateinit var entryTitleLayoutView: TextInputLayout
-    private lateinit var entryTitleView: EditText
-    private lateinit var entryIconView: ImageView
-    private lateinit var entryUserNameView: EditText
-    private lateinit var entryUrlView: EditText
-    private lateinit var entryPasswordLayoutView: TextInputLayout
-    private lateinit var entryPasswordView: EditText
-    private lateinit var entryPasswordGeneratorView: View
-    private lateinit var entryExpirationView: ExpirationView
-    private lateinit var entryNotesView: EditText
-    private lateinit var extraFieldsContainerView: View
-    private lateinit var extraFieldsListView: ViewGroup
-    private lateinit var attachmentsContainerView: View
-    private lateinit var attachmentsListView: RecyclerView
-
-    private lateinit var attachmentsAdapter: EntryAttachmentsItemsAdapter
-
-    private var fontInVisibility: Boolean = false
     private var iconColor: Int = 0
 
     var drawFactory: IconDrawableFactory? = null
-    var setOnDateClickListener: (() -> Unit)? = null
-    var setOnPasswordGeneratorClickListener: View.OnClickListener? = null
-    var setOnIconViewClickListener: ((IconImage) -> Unit)? = null
-    var setOnEditCustomField: ((Field) -> Unit)? = null
-    var setOnRemoveAttachment: ((Attachment) -> Unit)? = null
 
-    // Elements to modify the current entry
-    private var mEntryInfo = EntryInfo()
-    private var mLastFocusedEditField: FocusedEditField? = null
-    private var mExtraViewToRequestFocus: EditText? = null
+    private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var rootView: View
+    private lateinit var templateView: TemplateEditView
+    private lateinit var attachmentsContainerView: ViewGroup
+    private lateinit var attachmentsListView: RecyclerView
+    private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.cloneInContext(contextThemed)
-            .inflate(R.layout.fragment_entry_edit_contents, container, false)
+        return inflater.cloneInContext(contextThemed)
+                .inflate(R.layout.fragment_entry_edit, container, false)
+    }
 
-        fontInVisibility = PreferencesUtil.fieldFontIsInVisibility(requireContext())
+    override fun onViewCreated(view: View,
+                               savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        entryTitleLayoutView = rootView.findViewById(R.id.entry_edit_container_title)
-        entryTitleView = rootView.findViewById(R.id.entry_edit_title)
-        entryIconView = rootView.findViewById(R.id.entry_edit_icon_button)
-        entryIconView.setOnClickListener {
-            setOnIconViewClickListener?.invoke(mEntryInfo.icon)
+        // Retrieve the textColor to tint the icon
+        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
+        taIconColor?.recycle()
+
+        rootView = view
+        // Hide only the first time
+        if (savedInstanceState == null) {
+            view.isVisible = false
+        }
+        templateView = view.findViewById(R.id.template_view)
+        attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
+        attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+
+        view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
+
+        templateView.apply {
+            populateIconMethod = { imageView, icon ->
+                drawFactory?.assignDatabaseIcon(imageView, icon, iconColor)
+            }
+            setOnIconClickListener {
+                mEntryEditViewModel.requestIconSelection(templateView.getIcon())
+            }
+            setOnCustomEditionActionClickListener { field ->
+                mEntryEditViewModel.requestCustomFieldEdition(field)
+            }
+            setOnPasswordGenerationActionClickListener { field ->
+                mEntryEditViewModel.requestPasswordSelection(field)
+            }
+            setOnDateInstantClickListener { dateInstant ->
+                mEntryEditViewModel.requestDateTimeSelection(dateInstant)
+            }
         }
 
-        entryUserNameView = rootView.findViewById(R.id.entry_edit_user_name)
-        entryUrlView = rootView.findViewById(R.id.entry_edit_url)
-        entryPasswordLayoutView = rootView.findViewById(R.id.entry_edit_container_password)
-        entryPasswordView = rootView.findViewById(R.id.entry_edit_password)
-        entryPasswordGeneratorView = rootView.findViewById(R.id.entry_edit_password_generator_button)
-        entryPasswordGeneratorView.setOnClickListener {
-            setOnPasswordGeneratorClickListener?.onClick(it)
-        }
-        entryExpirationView = rootView.findViewById(R.id.entry_edit_expiration)
-        entryExpirationView.setOnDateClickListener = setOnDateClickListener
-
-        entryNotesView = rootView.findViewById(R.id.entry_edit_notes)
-
-        extraFieldsContainerView = rootView.findViewById(R.id.extra_fields_container)
-        extraFieldsListView = rootView.findViewById(R.id.extra_fields_list)
-
-        attachmentsContainerView = rootView.findViewById(R.id.entry_attachments_container)
-        attachmentsListView = rootView.findViewById(R.id.entry_attachments_list)
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        // TODO retrieve current database with its unique key
-        attachmentsAdapter.database = Database.getInstance()
-        //attachmentsAdapter.database = arguments?.getInt(KEY_DATABASE)
-        attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
+        attachmentsAdapter?.database = mDatabase
+        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
                 attachmentsContainerView.collapse(true)
             } else if (previousSize == 0 && newSize == 1) {
@@ -136,314 +123,156 @@ class EntryEditFragment: StylishFragment() {
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
-
-        // Retrieve the textColor to tint the icon
-        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
-        taIconColor?.recycle()
-
-        rootView?.resetAppTimeoutWhenViewFocusedOrChanged(requireContext())
-
-        // Retrieve the new entry after an orientation change
-        if (arguments?.containsKey(KEY_TEMP_ENTRY_INFO) == true)
-            mEntryInfo = arguments?.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
-        else if (savedInstanceState?.containsKey(KEY_TEMP_ENTRY_INFO) == true) {
-            mEntryInfo = savedInstanceState.getParcelable(KEY_TEMP_ENTRY_INFO) ?: mEntryInfo
+        if (savedInstanceState != null) {
+            val attachments: List<Attachment> =
+                savedInstanceState.getParcelableArrayList(ATTACHMENTS_TAG) ?: listOf()
+            setAttachments(attachments)
         }
 
-        if (savedInstanceState?.containsKey(KEY_LAST_FOCUSED_FIELD) == true) {
-            mLastFocusedEditField = savedInstanceState.getParcelable(KEY_LAST_FOCUSED_FIELD) ?: mLastFocusedEditField
+        mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
+            templateView.setTemplate(template)
         }
 
-        populateViewsWithEntry()
+        mEntryEditViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
+            // Load entry info only the first time to keep change locally
+            if (savedInstanceState == null) {
+                assignEntryInfo(entryInfo)
+            }
+            // To prevent flickering
+            rootView.showByFading()
+        }
 
-        return rootView
+        mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
+            mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
+        }
+
+        mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
+            templateView.setIcon(iconImage)
+        }
+
+        mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->
+            templateView.setPasswordField(passwordField)
+        }
+
+        mEntryEditViewModel.onDateSelected.observe(viewLifecycleOwner) { viewModelDate ->
+            // Save the date
+            templateView.setCurrentDateTimeValue(viewModelDate)
+        }
+
+        mEntryEditViewModel.onTimeSelected.observe(viewLifecycleOwner) { viewModelTime ->
+            // Save the time
+            templateView.setCurrentTimeValue(viewModelTime)
+        }
+
+        mEntryEditViewModel.onCustomFieldEdited.observe(viewLifecycleOwner) { fieldAction ->
+            val oldField = fieldAction.oldField
+            val newField = fieldAction.newField
+            // Field to add
+            if (oldField == null) {
+                newField?.let {
+                    if (!templateView.putCustomField(it)) {
+                        mEntryEditViewModel.showCustomFieldEditionError()
+                    }
+                }
+            }
+            // Field to replace
+            oldField?.let {
+                newField?.let {
+                    if (!templateView.replaceCustomField(oldField, newField)) {
+                        mEntryEditViewModel.showCustomFieldEditionError()
+                    }
+                }
+            }
+            // Field to remove
+            if (newField == null) {
+                oldField?.let {
+                    templateView.removeCustomField(it)
+                }
+            }
+        }
+
+        mEntryEditViewModel.requestSetupOtp.observe(viewLifecycleOwner) {
+            // Retrieve the current otpElement if exists
+            // and open the dialog to set up the OTP
+            SetOTPDialogFragment.build(templateView.getEntryInfo().otpModel)
+                .show(parentFragmentManager, "addOTPDialog")
+        }
+
+        mEntryEditViewModel.onOtpCreated.observe(viewLifecycleOwner) {
+            // Update the otp field with otpauth:// url
+            templateView.putOtpElement(it)
+        }
+
+        mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
+            val attachmentToUploadUri = it.attachmentToUploadUri
+            val fileName = it.fileName
+            mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
+                val entryAttachment = Attachment(fileName, binaryAttachment)
+                // Ask to replace the current attachment
+                if ((mDatabase?.allowMultipleAttachments == false
+                            && containsAttachment()) ||
+                    containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
+                    ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
+                        .show(parentFragmentManager, "replacementFileFragment")
+                } else {
+                    mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+                }
+            }
+        }
+
+        mEntryEditViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
+            when (entryAttachmentState?.downloadState) {
+                AttachmentState.START -> {
+                    putAttachment(entryAttachmentState)
+                    getAttachmentViewPosition(entryAttachmentState) {
+                        mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                    }
+                }
+                AttachmentState.IN_PROGRESS -> {
+                    putAttachment(entryAttachmentState)
+                }
+                AttachmentState.COMPLETE -> {
+                    putAttachment(entryAttachmentState) {
+                        getAttachmentViewPosition(entryAttachmentState) {
+                            mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                        }
+                    }
+                    mEntryEditViewModel.onAttachmentAction(null)
+                }
+                AttachmentState.CANCELED,
+                AttachmentState.ERROR -> {
+                    removeAttachment(entryAttachmentState)
+                    mEntryEditViewModel.onAttachmentAction(null)
+                }
+                else -> {}
+            }
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        drawFactory = mDatabase?.iconDrawableFactory
     }
 
     override fun onDetach() {
         super.onDetach()
 
         drawFactory = null
-        setOnDateClickListener = null
-        setOnPasswordGeneratorClickListener = null
-        setOnIconViewClickListener = null
-        setOnRemoveAttachment = null
-        setOnEditCustomField = null
     }
 
-    fun getEntryInfo(): EntryInfo {
-        populateEntryWithViews()
-        return mEntryInfo
+    private fun assignEntryInfo(entryInfo: EntryInfo?) {
+        // Populate entry views
+        templateView.setEntryInfo(entryInfo)
+
+        // Manage attachments
+        setAttachments(entryInfo?.attachments ?: listOf())
     }
 
-    fun generatePasswordEducationPerformed(entryEditActivityEducation: EntryEditActivityEducation): Boolean {
-        return entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                entryPasswordGeneratorView,
-                {
-                    GeneratePasswordDialogFragment().show(parentFragmentManager, "PasswordGeneratorFragment")
-                },
-                {
-                    try {
-                        (activity as? EntryEditActivity?)?.performedNextEducation(entryEditActivityEducation)
-                    } catch (ignore: Exception) {}
-                }
-        )
-    }
-
-    private fun populateViewsWithEntry() {
-        // Set info in view
-        icon = mEntryInfo.icon
-        title = mEntryInfo.title
-        username = mEntryInfo.username
-        url = mEntryInfo.url
-        password = mEntryInfo.password
-        expires = mEntryInfo.expires
-        expiryTime = mEntryInfo.expiryTime
-        notes = mEntryInfo.notes
-        assignExtraFields(mEntryInfo.customFields) { fields ->
-            setOnEditCustomField?.invoke(fields)
-        }
-        assignAttachments(mEntryInfo.attachments, StreamDirection.UPLOAD) { attachment ->
-            setOnRemoveAttachment?.invoke(attachment)
-        }
-    }
-
-    private fun populateEntryWithViews() {
-        // Icon already populate
-        mEntryInfo.title = title
-        mEntryInfo.username = username
-        mEntryInfo.url = url
-        mEntryInfo.password = password
-        mEntryInfo.expires = expires
-        mEntryInfo.expiryTime = expiryTime
-        mEntryInfo.notes = notes
-        mEntryInfo.customFields = getExtraFields()
-        mEntryInfo.otpModel = OtpEntryFields.parseFields { key ->
-            getExtraFields().firstOrNull { it.name == key }?.protectedValue?.toString()
-        }?.otpModel
-        mEntryInfo.attachments = getAttachments()
-    }
-
-    var title: String
-        get() {
-            return entryTitleView.text.toString()
-        }
-        set(value) {
-            entryTitleView.setText(value)
-            if (fontInVisibility)
-                entryTitleView.applyFontVisibility()
-        }
-
-    var icon: IconImage
-        get() {
-            return mEntryInfo.icon
-        }
-        set(value) {
-            mEntryInfo.icon = value
-            drawFactory?.assignDatabaseIcon(entryIconView, value, iconColor)
-        }
-
-    var username: String
-        get() {
-            return entryUserNameView.text.toString()
-        }
-        set(value) {
-            entryUserNameView.setText(value)
-            if (fontInVisibility)
-                entryUserNameView.applyFontVisibility()
-        }
-
-    var url: String
-        get() {
-            return entryUrlView.text.toString()
-        }
-        set(value) {
-            entryUrlView.setText(value)
-            if (fontInVisibility)
-                entryUrlView.applyFontVisibility()
-        }
-
-    var password: String
-        get() {
-            return entryPasswordView.text.toString()
-        }
-        set(value) {
-            entryPasswordView.setText(value)
-            if (fontInVisibility) {
-                entryPasswordView.applyFontVisibility()
-            }
-        }
-
-    var expires: Boolean
-        get() {
-            return entryExpirationView.expires
-        }
-        set(value) {
-            entryExpirationView.expires = value
-        }
-
-    var expiryTime: DateInstant
-        get() {
-            return entryExpirationView.expiryTime
-        }
-        set(value) {
-            entryExpirationView.expiryTime = value
-        }
-
-    var notes: String
-        get() {
-            return entryNotesView.text.toString()
-        }
-        set(value) {
-            entryNotesView.setText(value)
-            if (fontInVisibility)
-                entryNotesView.applyFontVisibility()
-        }
-
-    /* -------------
-     * Extra Fields
-     * -------------
-     */
-
-    private var mExtraFieldsList: MutableList<Field> = ArrayList()
-    private var mOnEditButtonClickListener: ((item: Field)->Unit)? = null
-
-    private fun buildViewFromField(extraField: Field): View? {
-        val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        val itemView: View? = inflater?.inflate(R.layout.item_entry_edit_extra_field, extraFieldsListView, false)
-        itemView?.id = View.NO_ID
-
-        val extraFieldValueContainer: TextInputLayout? = itemView?.findViewById(R.id.entry_extra_field_value_container)
-        extraFieldValueContainer?.endIconMode = if (extraField.protectedValue.isProtected)
-             TextInputLayout.END_ICON_PASSWORD_TOGGLE else TextInputLayout.END_ICON_NONE
-        extraFieldValueContainer?.hint = extraField.name
-        extraFieldValueContainer?.id = View.NO_ID
-
-        val extraFieldValue: TextInputEditText? = itemView?.findViewById(R.id.entry_extra_field_value)
-        extraFieldValue?.apply {
-            if (extraField.protectedValue.isProtected) {
-                inputType = extraFieldValue.inputType or EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
-            }
-            setText(extraField.protectedValue.toString())
-            if (fontInVisibility)
-                applyFontVisibility()
-        }
-        extraFieldValue?.id = View.NO_ID
-        extraFieldValue?.tag = "FIELD_VALUE_TAG"
-        if (mLastFocusedEditField?.field == extraField) {
-            mExtraViewToRequestFocus = extraFieldValue
-        }
-
-        val extraFieldEditButton: View? = itemView?.findViewById(R.id.entry_extra_field_edit)
-        extraFieldEditButton?.setOnClickListener {
-            mOnEditButtonClickListener?.invoke(extraField)
-        }
-        extraFieldEditButton?.id = View.NO_ID
-
-        return itemView
-    }
-
-    fun getExtraFields(): List<Field> {
-        mLastFocusedEditField = null
-        for (index in 0 until extraFieldsListView.childCount) {
-            val extraFieldValue: EditText = extraFieldsListView.getChildAt(index)
-                    .findViewWithTag("FIELD_VALUE_TAG")
-            val extraField = mExtraFieldsList[index]
-            extraField.protectedValue.stringValue = extraFieldValue.text?.toString() ?: ""
-            if (extraFieldValue.isFocused) {
-                mLastFocusedEditField = FocusedEditField().apply {
-                    field = extraField
-                    cursorSelectionStart = extraFieldValue.selectionStart
-                    cursorSelectionEnd = extraFieldValue.selectionEnd
-                }
-            }
-        }
-        return mExtraFieldsList
-    }
-
-    /**
-     * Remove all children and add new views for each field
-     */
-    fun assignExtraFields(fields: List<Field>,
-                          onEditButtonClickListener: ((item: Field)->Unit)?) {
-        extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
-        // Reinit focused field
-        mExtraFieldsList.clear()
-        mExtraFieldsList.addAll(fields)
-        extraFieldsListView.removeAllViews()
-        fields.forEach {
-            extraFieldsListView.addView(buildViewFromField(it))
-        }
-        // Request last focus
-        mLastFocusedEditField?.let { focusField ->
-            mExtraViewToRequestFocus?.apply {
-                requestFocus()
-                setSelection(focusField.cursorSelectionStart,
-                                focusField.cursorSelectionEnd)
-            }
-        }
-        mLastFocusedEditField = null
-        mOnEditButtonClickListener = onEditButtonClickListener
-    }
-
-    /**
-     * Update an extra field or create a new one if doesn't exists, the old value is lost
-     */
-    fun putExtraField(extraField: Field) {
-        extraFieldsContainerView.visibility = View.VISIBLE
-        val oldField = mExtraFieldsList.firstOrNull { it.name == extraField.name }
-        oldField?.let {
-            val index = mExtraFieldsList.indexOf(oldField)
-            mExtraFieldsList.removeAt(index)
-            mExtraFieldsList.add(index, extraField)
-            extraFieldsListView.removeViewAt(index)
-            val newView = buildViewFromField(extraField)
-            extraFieldsListView.addView(newView, index)
-            newView?.requestFocus()
-        } ?: kotlin.run {
-            mExtraFieldsList.add(extraField)
-            val newView = buildViewFromField(extraField)
-            extraFieldsListView.addView(newView)
-            newView?.requestFocus()
-        }
-    }
-
-    /**
-     * Update an extra field and keep the old value
-     */
-    fun replaceExtraField(oldExtraField: Field, newExtraField: Field) {
-        extraFieldsContainerView.visibility = View.VISIBLE
-        val index = mExtraFieldsList.indexOf(oldExtraField)
-        val oldValueEditText: EditText = extraFieldsListView.getChildAt(index)
-                .findViewWithTag("FIELD_VALUE_TAG")
-        val oldValue = oldValueEditText.text.toString()
-        val newExtraFieldWithOldValue = Field(newExtraField).apply {
-            this.protectedValue.stringValue = oldValue
-        }
-        mExtraFieldsList.removeAt(index)
-        mExtraFieldsList.add(index, newExtraFieldWithOldValue)
-        extraFieldsListView.removeViewAt(index)
-        val newView = buildViewFromField(newExtraFieldWithOldValue)
-        extraFieldsListView.addView(newView, index)
-        newView?.requestFocus()
-    }
-
-    fun removeExtraField(oldExtraField: Field) {
-        val previousSize = mExtraFieldsList.size
-        val index = mExtraFieldsList.indexOf(oldExtraField)
-        extraFieldsListView.getChildAt(index)?.let {
-            it.collapse(true) {
-                mExtraFieldsList.removeAt(index)
-                extraFieldsListView.removeViewAt(index)
-                val newSize = mExtraFieldsList.size
-
-                if (previousSize > 0 && newSize == 0) {
-                    extraFieldsContainerView.collapse(true)
-                } else if (previousSize == 0 && newSize == 1) {
-                    extraFieldsContainerView.expand(true)
-                }
-            }
-        }
+    private fun retrieveEntryInfo(): EntryInfo {
+        val entryInfo = templateView.getEntryInfo()
+        entryInfo.attachments = getAttachments().toMutableList()
+        return entryInfo
     }
 
     /* -------------
@@ -451,78 +280,85 @@ class EntryEditFragment: StylishFragment() {
      * -------------
      */
 
-    fun getAttachments(): List<Attachment> {
-        return attachmentsAdapter.itemsList.map { it.attachment }
+    private fun getAttachments(): List<Attachment> {
+        return attachmentsAdapter?.itemsList?.map { it.attachment } ?: listOf()
     }
 
-    fun assignAttachments(attachments: List<Attachment>,
-                          streamDirection: StreamDirection,
-                          onDeleteItem: (attachment: Attachment)->Unit) {
+    private fun setAttachments(attachments: List<Attachment>) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it, streamDirection) })
-        attachmentsAdapter.onDeleteButtonClickListener = { item ->
-            onDeleteItem.invoke(item.attachment)
+        attachmentsAdapter?.assignItems(attachments.map {
+            EntryAttachmentState(it, StreamDirection.UPLOAD)
+        })
+        attachmentsAdapter?.onDeleteButtonClickListener = { item ->
+            val attachment = item.attachment
+            removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
+            mEntryEditViewModel.deleteAttachment(attachment)
         }
     }
 
-    fun containsAttachment(): Boolean {
-        return !attachmentsAdapter.isEmpty()
+    private fun containsAttachment(): Boolean {
+        return attachmentsAdapter?.isEmpty() != true
     }
 
-    fun containsAttachment(attachment: EntryAttachmentState): Boolean {
-        return attachmentsAdapter.contains(attachment)
+    private fun containsAttachment(attachment: EntryAttachmentState): Boolean {
+        return attachmentsAdapter?.contains(attachment) ?: false
     }
 
-    fun putAttachment(attachment: EntryAttachmentState,
-                      onPreviewLoaded: (()-> Unit)? = null) {
+    private fun putAttachment(attachment: EntryAttachmentState,
+                              onPreviewLoaded: (() -> Unit)? = null) {
+        // When only one attachment is allowed
+        if (mDatabase?.allowMultipleAttachments == false) {
+            clearAttachments()
+        }
         attachmentsContainerView.visibility = View.VISIBLE
-        attachmentsAdapter.putItem(attachment)
-        attachmentsAdapter.onBinaryPreviewLoaded = {
+        attachmentsAdapter?.putItem(attachment)
+        attachmentsAdapter?.onBinaryPreviewLoaded = {
             onPreviewLoaded?.invoke()
         }
     }
 
-    fun removeAttachment(attachment: EntryAttachmentState) {
-        attachmentsAdapter.removeItem(attachment)
+    private fun removeAttachment(attachment: EntryAttachmentState) {
+        attachmentsAdapter?.removeItem(attachment)
     }
 
-    fun clearAttachments() {
-        attachmentsAdapter.clear()
+    private fun clearAttachments() {
+        attachmentsAdapter?.clear()
     }
 
-    fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
+    private fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
         attachmentsListView.postDelayed({
-            position.invoke(attachmentsContainerView.y
-                    + attachmentsListView.y
-                    + (attachmentsListView.getChildAt(attachmentsAdapter.indexOf(attachment))?.y
-                    ?: 0F)
-            )
+            attachmentsAdapter?.indexOf(attachment)?.let { index ->
+                position.invoke(attachmentsContainerView.y
+                        + attachmentsListView.y
+                        + (attachmentsListView.getChildAt(index)?.y
+                        ?: 0F)
+                )
+            }
         }, 250)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        populateEntryWithViews()
-        outState.putParcelable(KEY_TEMP_ENTRY_INFO, mEntryInfo)
-        outState.putParcelable(KEY_LAST_FOCUSED_FIELD, mLastFocusedEditField)
-
         super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(ATTACHMENTS_TAG, ArrayList(getAttachments()))
+    }
+
+    /* -------------
+     * Education
+     * -------------
+     */
+
+    fun getActionImageView(): View? {
+        return templateView.getActionImageView()
+    }
+
+    fun launchGeneratePasswordEductionAction() {
+        mEntryEditViewModel.requestPasswordSelection(templateView.getPasswordField())
     }
 
     companion object {
-        const val KEY_TEMP_ENTRY_INFO = "KEY_TEMP_ENTRY_INFO"
-        const val KEY_DATABASE = "KEY_DATABASE"
-        const val KEY_LAST_FOCUSED_FIELD = "KEY_LAST_FOCUSED_FIELD"
+        private val TAG = EntryEditFragment::class.java.name
 
-        fun getInstance(entryInfo: EntryInfo?): EntryEditFragment {
-                        //database: Database?): EntryEditFragment {
-            return EntryEditFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_TEMP_ENTRY_INFO, entryInfo)
-                    // TODO Unique database key database.key
-                    putInt(KEY_DATABASE, 0)
-                }
-            }
-        }
+        private const val ATTACHMENTS_TAG = "ATTACHMENTS_TAG"
     }
 
 }

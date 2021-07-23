@@ -41,7 +41,11 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
  */
 class EntrySelectionLauncherActivity : AppCompatActivity() {
 
+    private var mDatabase: Database? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        mDatabase = Database.getInstance()
 
         var sharedWebDomain: String? = null
         var otpString: String? = null
@@ -76,20 +80,22 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
         }
         SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
             searchInfo.webDomain = concreteWebDomain
-            launch(searchInfo)
+            mDatabase?.let { database ->
+                launch(database, searchInfo)
+            }
         }
 
         super.onCreate(savedInstanceState)
     }
 
-    private fun launch(searchInfo: SearchInfo) {
+    private fun launch(database: Database,
+                       searchInfo: SearchInfo) {
 
         if (!searchInfo.containsOnlyNullValues()) {
             // Setting to integrate Magikeyboard
             val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
             // If database is open
-            val database = Database.getInstance()
             val readOnly = database.isReadOnly
             SearchHelper.checkAutoSearchInfo(this,
                     database,

@@ -213,6 +213,10 @@
     <string name="recycle_bin_enable_key" translatable="false">recycle_bin_enable_key</string>
     <string name="recycle_bin_group_key" translatable="false">recycle_bin_group_key</string>
 
+    <string name="database_category_templates_key" translatable="false">database_category_templates_key</string>
+    <string name="templates_group_enable_key" translatable="false">templates_group_enable_key</string>
+    <string name="templates_group_uuid_key" translatable="false">templates_group_uuid_key</string>
+
     <string name="database_category_history_key" translatable="false">database_category_history_key</string>
     <string name="max_history_items_key" translatable="false">max_history_items_key</string>
     <string name="max_history_size_key" translatable="false">max_history_size_key</string>

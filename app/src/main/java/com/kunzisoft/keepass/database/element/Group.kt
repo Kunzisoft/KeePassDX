@@ -455,4 +455,10 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         result = 31 * result + (groupKDBX?.hashCode() ?: 0)
         return result
     }
+
+    override fun toString(): String {
+        return groupKDB?.toString() ?: groupKDBX?.toString() ?: "Undefined"
+    }
+
+
 }

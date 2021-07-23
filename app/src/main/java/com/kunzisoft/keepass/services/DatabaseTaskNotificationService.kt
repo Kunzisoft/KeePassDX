@@ -214,6 +214,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
             ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK,
             ACTION_DATABASE_UPDATE_COLOR_TASK,
+            ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK,
+            ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK,
             ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK,
             ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK,
             ACTION_DATABASE_UPDATE_ENCRYPTION_TASK,
@@ -471,6 +473,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     databaseUri,
                     getString(R.string.database_default_name),
                     getString(R.string.database),
+                    getString(R.string.template_group_name),
                     mainCredential
             ) { result ->
                 result.data = Bundle().apply {
@@ -855,6 +858,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_COLOR_TASK = "ACTION_DATABASE_UPDATE_COLOR_TASK"
         const val ACTION_DATABASE_UPDATE_COMPRESSION_TASK = "ACTION_DATABASE_UPDATE_COMPRESSION_TASK"
         const val ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK = "ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK"
+        const val ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK = "ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK"
+        const val ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK = "ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK"
         const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
         const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
         const val ACTION_DATABASE_UPDATE_ENCRYPTION_TASK = "ACTION_DATABASE_UPDATE_ENCRYPTION_TASK"

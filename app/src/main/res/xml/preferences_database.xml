@@ -84,10 +84,27 @@
             android:title="@string/recycle_bin_title"
             android:summary="@string/recycle_bin_summary"
             android:checked="false"/>
-        <Preference
+        <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
             android:key="@string/recycle_bin_group_key"
             android:persistent="false"
             android:title="@string/recycle_bin_group_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/database_category_templates_key"
+        android:title="@string/templates">
+
+        <SwitchPreference
+            android:key="@string/templates_group_enable_key"
+            android:persistent="false"
+            android:title="@string/templates_group_enable_title"
+            android:summary="@string/templates_group_enable_summary"
+            android:checked="false"/>
+        <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
+            android:key="@string/templates_group_uuid_key"
+            android:persistent="false"
+            android:title="@string/templates_group_uuid_title"/>
 
     </PreferenceCategory>
 

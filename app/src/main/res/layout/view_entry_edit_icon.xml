@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- Icon -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/template_icon_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_blank_32dp"
+        android:contentDescription="@string/content_description_entry_icon"
+        android:layout_gravity="center"/>
+</FrameLayout>

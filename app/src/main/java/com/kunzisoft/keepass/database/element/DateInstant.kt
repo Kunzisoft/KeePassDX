@@ -23,32 +23,85 @@ import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
-import org.joda.time.Duration
-import org.joda.time.Instant
+import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.writeEnum
+import org.joda.time.*
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DateInstant : Parcelable {
 
     private var jDate: Date = Date()
+    private var mType: Type = Type.DATE_TIME
 
     val date: Date
         get() = jDate
 
+    var type: Type
+        get() = mType
+        set(value) {
+            mType = value
+        }
+
     constructor(source: DateInstant) {
         this.jDate = Date(source.jDate.time)
+        this.mType = source.mType
     }
 
-    constructor(date: Date) {
+    constructor(date: Date, type: Type = Type.DATE_TIME) {
         jDate = Date(date.time)
+        mType = type
     }
 
-    constructor(millis: Long) {
+    constructor(millis: Long, type: Type = Type.DATE_TIME) {
         jDate = Date(millis)
+        mType = type
     }
 
-    constructor(string: String) {
-        jDate = dateFormat.parse(string) ?: jDate
+    private fun parse(value: String, type: Type): Date {
+        return when (type) {
+            Type.DATE -> dateFormat.parse(value) ?: jDate
+            Type.TIME -> timeFormat.parse(value) ?: jDate
+            else -> dateTimeFormat.parse(value) ?: jDate
+        }
+    }
+
+    constructor(string: String, type: Type = Type.DATE_TIME) {
+        try {
+            jDate = parse(string, type)
+            mType = type
+        } catch (e: Exception) {
+            // Retry with second format
+            try {
+                when (type) {
+                    Type.TIME -> {
+                        jDate = parse(string, Type.DATE)
+                        mType = Type.DATE
+                    }
+                    else -> {
+                        jDate = parse(string, Type.TIME)
+                        mType = Type.TIME
+                    }
+                }
+            } catch (e: Exception) {
+                // Retry with third format
+                when (type) {
+                    Type.DATE, Type.TIME -> {
+                        jDate = parse(string, Type.DATE_TIME)
+                        mType = Type.DATE_TIME
+                    }
+                    else -> {
+                        jDate = parse(string, Type.DATE)
+                        mType = Type.DATE
+                    }
+                }
+            }
+        }
+    }
+
+    constructor(type: Type) {
+        mType = type
     }
 
     constructor() {
@@ -56,62 +109,123 @@ class DateInstant : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        jDate = parcel.readSerializable() as Date
+        jDate = parcel.readSerializable() as? Date? ?: jDate
+        mType = parcel.readEnum<Type>() ?: mType
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    fun getDateTimeString(resources: Resources): String {
-        return Companion.getDateTimeString(resources, this.date)
-    }
-
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeSerializable(date)
+        dest.writeSerializable(jDate)
+        dest.writeEnum(mType)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
+    fun getDateTimeString(resources: Resources): String {
+        return when (mType) {
+            Type.DATE -> DateFormat.getDateInstance(
+                DateFormat.MEDIUM,
+                ConfigurationCompat.getLocales(resources.configuration)[0])
+                .format(jDate)
+            Type.TIME -> DateFormat.getTimeInstance(
+                DateFormat.SHORT,
+                ConfigurationCompat.getLocales(resources.configuration)[0])
+                .format(jDate)
+            else -> DateFormat.getDateTimeInstance(
+                DateFormat.MEDIUM,
+                DateFormat.SHORT,
+                ConfigurationCompat.getLocales(resources.configuration)[0])
+                .format(jDate)
         }
-        if (other == null) {
-            return false
-        }
-        if (javaClass != other.javaClass) {
-            return false
-        }
-
-        val date = other as DateInstant
-        return isSameDate(jDate, date.jDate)
     }
 
-    override fun hashCode(): Int {
-        return jDate.hashCode()
+    fun getYearInt(): Int {
+        val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+        return dateFormat.format(date).toInt()
+    }
+
+    fun getMonthInt(): Int {
+        val dateFormat = SimpleDateFormat("MM", Locale.ENGLISH)
+        return dateFormat.format(date).toInt()
+    }
+
+    fun getDay(): Int {
+        val dateFormat = SimpleDateFormat("dd", Locale.ENGLISH)
+        return dateFormat.format(date).toInt()
+    }
+
+    // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
+    // it is not expires
+    fun isNeverExpires(): Boolean {
+        return LocalDateTime(jDate)
+            .isBefore(
+                LocalDateTime.fromDateFields(NEVER_EXPIRES.date)
+                .minusMonths(1))
+    }
+
+    fun isCurrentlyExpire(): Boolean {
+        return when (type) {
+            Type.DATE -> LocalDate.fromDateFields(jDate).isBefore(LocalDate.now())
+            Type.TIME -> LocalTime.fromDateFields(jDate).isBefore(LocalTime.now())
+            else -> LocalDateTime.fromDateFields(jDate).isBefore(LocalDateTime.now())
+        }
     }
 
     override fun toString(): String {
-        return dateFormat.format(jDate)
+        return when (type) {
+            Type.DATE -> dateFormat.format(jDate)
+            Type.TIME -> timeFormat.format(jDate)
+            else -> dateTimeFormat.format(jDate)
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DateInstant) return false
+
+        if (jDate != other.jDate) return false
+        if (mType != other.mType) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = jDate.hashCode()
+        result = 31 * result + mType.hashCode()
+        return result
+    }
+
+    enum class Type {
+        DATE_TIME, DATE, TIME
     }
 
     companion object {
 
-        val NEVER_EXPIRE = neverExpire
-        val IN_ONE_MONTH = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
-        private val dateFormat = SimpleDateFormat.getDateTimeInstance()
+        val NEVER_EXPIRES = DateInstant(Calendar.getInstance().apply {
+                set(Calendar.YEAR, 2999)
+                set(Calendar.MONTH, 11)
+                set(Calendar.DAY_OF_MONTH, 28)
+                set(Calendar.HOUR, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+            }.time)
+        val IN_ONE_MONTH_DATE_TIME = DateInstant(
+                Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE_TIME)
+        val IN_ONE_MONTH_DATE = DateInstant(
+                Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE)
+        val IN_ONE_HOUR_TIME = DateInstant(
+                Instant.now().plus(Duration.standardHours(1)).toDate(), Type.TIME)
 
-        private val neverExpire: DateInstant
-            get() {
-                val cal = Calendar.getInstance()
-                cal.set(Calendar.YEAR, 2999)
-                cal.set(Calendar.MONTH, 11)
-                cal.set(Calendar.DAY_OF_MONTH, 28)
-                cal.set(Calendar.HOUR, 23)
-                cal.set(Calendar.MINUTE, 59)
-                cal.set(Calendar.SECOND, 59)
-
-                return DateInstant(cal.time)
-            }
+        private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        private val dateFormat = SimpleDateFormat("yyyy-MM-dd'Z'", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        private val timeFormat = SimpleDateFormat("HH:mm'Z'", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<DateInstant> = object : Parcelable.Creator<DateInstant> {
@@ -122,32 +236,6 @@ class DateInstant : Parcelable {
             override fun newArray(size: Int): Array<DateInstant?> {
                 return arrayOfNulls(size)
             }
-        }
-
-        private fun isSameDate(d1: Date, d2: Date): Boolean {
-            val cal1 = Calendar.getInstance()
-            cal1.time = d1
-            cal1.set(Calendar.MILLISECOND, 0)
-
-            val cal2 = Calendar.getInstance()
-            cal2.time = d2
-            cal2.set(Calendar.MILLISECOND, 0)
-
-            return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                    cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH) &&
-                    cal1.get(Calendar.HOUR) == cal2.get(Calendar.HOUR) &&
-                    cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE) &&
-                    cal1.get(Calendar.SECOND) == cal2.get(Calendar.SECOND)
-
-        }
-
-        fun getDateTimeString(resources: Resources, date: Date): String {
-            return java.text.DateFormat.getDateTimeInstance(
-                        java.text.DateFormat.MEDIUM,
-                        java.text.DateFormat.SHORT,
-                        ConfigurationCompat.getLocales(resources.configuration)[0])
-                            .format(date)
         }
     }
 }

@@ -226,12 +226,12 @@ class ClipboardEntryNotificationService : LockNotificationService() {
 
             val containsUsernameToCopy = entry.username.isNotEmpty()
             val containsPasswordToCopy = entry.password.isNotEmpty()
-                    && PreferencesUtil.allowCopyPasswordAndProtectedFields(context)
+                    && PreferencesUtil.allowCopyProtectedFields(context)
             val containsOTPToCopy = entry.containsCustomField(OTP_TOKEN_FIELD)
             val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
                     && (entry.containsCustomFieldsNotProtected()
                         ||
-                        (entry.containsCustomFieldsProtected() && PreferencesUtil.allowCopyPasswordAndProtectedFields(context))
+                        (entry.containsCustomFieldsProtected() && PreferencesUtil.allowCopyProtectedFields(context))
                     )
 
             var startService = false
@@ -277,7 +277,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                             entry.customFields.forEach { field ->
                                 //If value is not protected or allowed
                                 if ((!field.protectedValue.isProtected
-                                        || PreferencesUtil.allowCopyPasswordAndProtectedFields(context))
+                                        || PreferencesUtil.allowCopyProtectedFields(context))
                                      && field.name != OTP_TOKEN_FIELD) {
                                     notificationFields.add(
                                             ClipboardEntryNotificationField(

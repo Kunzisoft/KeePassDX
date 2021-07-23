@@ -72,6 +72,7 @@
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="database">Database</string>
+    <string name="template_group_name">Templates</string>
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
@@ -99,6 +100,35 @@
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
+    <string name="debit_credit_card">Debit / Credit Card</string>
+    <string name="holder">Holder</string>
+    <string name="number">Number</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="personal_identification_number">PIN</string>
+    <string name="id_card">ID Card</string>
+    <string name="name">Name</string>
+    <string name="place_of_issue">Place of issue</string>
+    <string name="date_of_issue">Date of issue</string>
+    <string name="email">Email</string>
+    <string name="email_address">Email address</string>
+    <string name="wireless">Wifi</string>
+    <string name="ssid">SSID</string>
+    <string name="type">Type</string>
+    <string name="cryptocurrency">Cryptocurrency wallet</string>
+    <string name="token">Token</string>
+    <string name="public_key">Public key</string>
+    <string name="private_key">Private key</string>
+    <string name="seed">Seed</string>
+    <string name="account">Account</string>
+    <string name="bank">Bank</string>
+    <string name="bank_name">Bank name</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="international_bank_account_number">IBAN</string>
+    <string name="secure_note">Secure Note</string>
+    <string name="membership">Membership</string>
+    <string name="standard">Standard</string>
+    <string name="template">Template</string>
+    <string name="version">Version</string>
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
@@ -372,6 +402,9 @@
     <string name="recycle_bin_title">Recycle bin usage</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" group before deleting</string>
     <string name="recycle_bin_group_title">Recycle bin group</string>
+    <string name="templates_group_enable_title">Templates usage</string>
+    <string name="templates_group_enable_summary">Use dynamic templates to fill in the fields of an entry</string>
+    <string name="templates_group_uuid_title">Templates group</string>
     <string name="max_history_items_title">Maximum number</string>
     <string name="max_history_items_summary">Limit the number of history items per entry</string>
     <string name="max_history_size_title">Maximum size</string>
@@ -404,6 +437,7 @@
     <string name="compression_none">None</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
+    <string name="templates">Templates</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
@@ -536,6 +570,31 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string-array name="timeout_options">
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="large_timeout_options">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>5 hours</item>
+        <item>10 hours</item>
+        <item>24 hours</item>
+        <item>48 hours</item>
+        <item>1 week</item>
+        <item>1 month</item>
+        <item>Never</item>
+    </string-array>
     <string-array name="list_size_options">
         <item>Small</item>
         <item>Medium</item>

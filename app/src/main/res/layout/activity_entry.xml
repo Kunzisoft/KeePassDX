@@ -65,15 +65,14 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/transparent"
                 android:theme="?attr/toolbarAppearance"
                 app:layout_collapseMode="pin"
                 tools:targetApi="lollipop">
             </androidx.appcompat.widget.Toolbar>
 
             <ProgressBar
-                android:visibility="gone"
                 android:id="@+id/entry_progress"
+                android:visibility="gone"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:indeterminate="false"
                 android:progress="10"
@@ -113,8 +112,9 @@
                     android:text="@string/entry_history"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.kunzisoft.keepass.view.EntryContentsView
-                android:id="@+id/entry_contents"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/entry_content"
+                android:name="com.kunzisoft.keepass.activities.fragments.EntryFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent="@dimen/content_percent"
@@ -124,6 +124,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:layout_anchor="@+id/entry_scroll"
+            app:layout_anchorGravity="center" />
+    </FrameLayout>
 
     <include
         layout="@layout/view_button_lock"

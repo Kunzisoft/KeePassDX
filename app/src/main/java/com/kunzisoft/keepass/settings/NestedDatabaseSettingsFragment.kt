@@ -33,7 +33,7 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.utils.MenuUtil
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
-    private var mDatabase: Database = Database.getInstance()
     private var mDatabaseReadOnly: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
 
@@ -52,7 +51,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var dbDefaultUsername: InputTextPreference? = null
     private var dbCustomColorPref: DialogColorPreference? = null
     private var dbDataCompressionPref: Preference? = null
-    private var recycleBinGroupPref: Preference? = null
+    private var recycleBinGroupPref: DialogListExplanationPreference? = null
+    private var templatesGroupPref: DialogListExplanationPreference? = null
     private var dbMaxHistoryItemsPref: InputNumberPreference? = null
     private var dbMaxHistorySizePref: InputNumberPreference? = null
     private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
@@ -64,7 +64,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
         setHasOptionsMenu(true)
 
-        mDatabaseReadOnly = mDatabase.isReadOnly
+        mDatabaseReadOnly = mDatabase?.isReadOnly == true
                 || ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
 
         // Load the preferences from an XML resource
@@ -85,124 +85,167 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private fun onCreateDatabasePreference(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_database, rootKey)
 
-        if (mDatabase.loaded) {
+        mDatabase?.let { database ->
+            if (database.loaded) {
 
-            val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
+                val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
 
-            // Database name
-            dbNamePref = findPreference(getString(R.string.database_name_key))
-            if (mDatabase.allowName) {
-                dbNamePref?.summary = mDatabase.name
-            } else {
-                dbGeneralPrefCategory?.removePreference(dbNamePref)
-            }
-
-            // Database description
-            dbDescriptionPref = findPreference(getString(R.string.database_description_key))
-            if (mDatabase.allowDescription) {
-                dbDescriptionPref?.summary = mDatabase.description
-            } else {
-                dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
-            }
-
-            // Database default username
-            dbDefaultUsername = findPreference(getString(R.string.database_default_username_key))
-            if (mDatabase.allowDefaultUsername) {
-                dbDefaultUsername?.summary = mDatabase.defaultUsername
-            } else {
-                dbDefaultUsername?.isEnabled = false
-                // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
-            }
-
-            // Database custom color
-            dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
-            if (mDatabase.allowCustomColor) {
-                dbCustomColorPref?.apply {
-                    try {
-                        color = Color.parseColor(mDatabase.customColor)
-                        summary = mDatabase.customColor
-                    } catch (e: Exception) {
-                        color = DialogColorPreference.DISABLE_COLOR
-                        summary = ""
-                    }
+                // Database name
+                dbNamePref = findPreference(getString(R.string.database_name_key))
+                if (database.allowName) {
+                    dbNamePref?.summary = database.name
+                } else {
+                    dbGeneralPrefCategory?.removePreference(dbNamePref)
                 }
-            } else {
-                dbCustomColorPref?.isEnabled = false
-                // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
-            }
 
-            // Version
-            findPreference<Preference>(getString(R.string.database_version_key))
-                    ?.summary = mDatabase.version
+                // Database description
+                dbDescriptionPref = findPreference(getString(R.string.database_description_key))
+                if (database.allowDescription) {
+                    dbDescriptionPref?.summary = database.description
+                } else {
+                    dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
+                }
 
-            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_data_key))
+                // Database default username
+                dbDefaultUsername = findPreference(getString(R.string.database_default_username_key))
+                if (database.allowDefaultUsername) {
+                    dbDefaultUsername?.summary = database.defaultUsername
+                } else {
+                    dbDefaultUsername?.isEnabled = false
+                    // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
+                }
 
-            // Database compression
-            dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
-            if (mDatabase.allowDataCompression) {
-                dbDataCompressionPref?.summary = (mDatabase.compressionAlgorithm
-                        ?: CompressionAlgorithm.None).getName(resources)
-            } else {
-                dbCompressionPrefCategory?.isVisible = false
-            }
-
-            val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
-            recycleBinGroupPref = findPreference(getString(R.string.recycle_bin_group_key))
-
-            // Recycle bin
-            if (mDatabase.allowConfigurableRecycleBin) {
-                val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
-                recycleBinEnablePref?.apply {
-                    isChecked = mDatabase.isRecycleBinEnabled
-                    isEnabled = if (!mDatabaseReadOnly) {
-                        setOnPreferenceChangeListener { _, newValue ->
-                            val recycleBinEnabled = newValue as Boolean
-                            mDatabase.isRecycleBinEnabled = recycleBinEnabled
-                            if (recycleBinEnabled) {
-                                mDatabase.ensureRecycleBinExists(resources)
-                            } else {
-                                mDatabase.removeRecycleBin()
-                            }
-                            refreshRecycleBinGroup()
-                            // Save the database if not in readonly mode
-                            (context as SettingsActivity?)?.
-                                    mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
-                            true
+                // Database custom color
+                dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
+                if (database.allowCustomColor) {
+                    dbCustomColorPref?.apply {
+                        try {
+                            color = Color.parseColor(database.customColor)
+                            summary = database.customColor
+                        } catch (e: Exception) {
+                            color = DialogColorPreference.DISABLE_COLOR
+                            summary = ""
                         }
-                        true
-                    } else {
-                        false
                     }
+                } else {
+                    dbCustomColorPref?.isEnabled = false
+                    // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
                 }
-                // Recycle Bin group
-                refreshRecycleBinGroup()
+
+                // Version
+                findPreference<Preference>(getString(R.string.database_version_key))
+                        ?.summary = database.version
+
+                val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_data_key))
+
+                // Database compression
+                dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
+                if (database.allowDataCompression) {
+                    dbDataCompressionPref?.summary = (database.compressionAlgorithm
+                            ?: CompressionAlgorithm.None).getName(resources)
+                } else {
+                    dbCompressionPrefCategory?.isVisible = false
+                }
+
+                val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
+                recycleBinGroupPref = findPreference(getString(R.string.recycle_bin_group_key))
+
+                // Recycle bin
+                if (database.allowConfigurableRecycleBin) {
+                    val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
+                    recycleBinEnablePref?.apply {
+                        isChecked = database.isRecycleBinEnabled
+                        isEnabled = if (!mDatabaseReadOnly) {
+                            setOnPreferenceChangeListener { _, newValue ->
+                                val recycleBinEnabled = newValue as Boolean
+                                database.enableRecycleBin(recycleBinEnabled, resources)
+                                refreshRecycleBinGroup()
+                                // Save the database if not in readonly mode
+                                (context as SettingsActivity?)?.
+                                    mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
+                                true
+                            }
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                    // Change the recycle bin group
+                    recycleBinGroupPref?.setOnPreferenceClickListener {
+
+                        true
+                    }
+                    // Recycle Bin group
+                    refreshRecycleBinGroup()
+                } else {
+                    recycleBinGroupPref?.onPreferenceClickListener = null
+                    dbRecycleBinPrefCategory?.isVisible = false
+                }
+
+                // Templates
+                val templatesGroupPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_templates_key))
+                templatesGroupPref = findPreference(getString(R.string.templates_group_uuid_key))
+                if (database.allowConfigurableTemplatesGroup) {
+                    val templatesEnablePref: SwitchPreference? = findPreference(getString(R.string.templates_group_enable_key))
+                    templatesEnablePref?.apply {
+                        isChecked = database.isTemplatesEnabled
+                        isEnabled = if (!mDatabaseReadOnly) {
+                            setOnPreferenceChangeListener { _, newValue ->
+                                val templatesEnabled = newValue as Boolean
+                                database.enableTemplates(templatesEnabled, resources)
+                                refreshTemplatesGroup()
+                                // Save the database if not in readonly mode
+                                (context as SettingsActivity?)?.
+                                    mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
+                                true
+                            }
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                    // Recycle Bin group
+                    refreshTemplatesGroup()
+                } else {
+                    templatesGroupPrefCategory?.isVisible = false
+                }
+
+                // History
+                findPreference<PreferenceCategory>(getString(R.string.database_category_history_key))
+                        ?.isVisible = database.manageHistory == true
+
+                // Max history items
+                dbMaxHistoryItemsPref = findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))?.apply {
+                    summary = database.historyMaxItems.toString()
+                }
+
+                // Max history size
+                dbMaxHistorySizePref = findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))?.apply {
+                    summary = database.historyMaxSize.toString()
+                }
+
             } else {
-                dbRecycleBinPrefCategory?.isVisible = false
+                Log.e(javaClass.name, "Database isn't ready")
             }
-
-            // History
-            findPreference<PreferenceCategory>(getString(R.string.database_category_history_key))
-                    ?.isVisible = mDatabase.manageHistory == true
-
-            // Max history items
-            dbMaxHistoryItemsPref = findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))?.apply {
-                summary = mDatabase.historyMaxItems.toString()
-            }
-
-            // Max history size
-            dbMaxHistorySizePref = findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))?.apply {
-                summary = mDatabase.historyMaxSize.toString()
-            }
-
-        } else {
-            Log.e(javaClass.name, "Database isn't ready")
         }
     }
 
     private fun refreshRecycleBinGroup() {
         recycleBinGroupPref?.apply {
-            if (mDatabase.isRecycleBinEnabled) {
-                summary = mDatabase.recycleBin?.title
+            if (mDatabase?.isRecycleBinEnabled == true) {
+                summary = mDatabase?.recycleBin?.toString()
+                isEnabled = true
+            } else {
+                summary = null
+                isEnabled = false
+            }
+        }
+    }
+
+    private fun refreshTemplatesGroup() {
+        templatesGroupPref?.apply {
+            if (mDatabase?.isTemplatesEnabled == true) {
+                summary = mDatabase?.templatesGroup?.toString()
                 isEnabled = true
             } else {
                 summary = null
@@ -214,58 +257,62 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private fun onCreateDatabaseSecurityPreference(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_database_security, rootKey)
 
-        if (mDatabase.loaded) {
-            // Encryption Algorithm
-            mEncryptionAlgorithmPref = findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.apply {
-                summary = mDatabase.getEncryptionAlgorithmName()
-            }
+        mDatabase?.let { database ->
+            if (database.loaded) {
+                // Encryption Algorithm
+                mEncryptionAlgorithmPref = findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.apply {
+                    summary = database.getEncryptionAlgorithmName()
+                }
 
-            // Key derivation function
-            mKeyDerivationPref = findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))?.apply {
-                summary = mDatabase.getKeyDerivationName()
-            }
+                // Key derivation function
+                mKeyDerivationPref = findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))?.apply {
+                    summary = database.getKeyDerivationName()
+                }
 
-            // Round encryption
-            mRoundPref = findPreference<InputKdfNumberPreference>(getString(R.string.transform_rounds_key))?.apply {
-                summary = mDatabase.numberKeyEncryptionRounds.toString()
-            }
+                // Round encryption
+                mRoundPref = findPreference<InputKdfNumberPreference>(getString(R.string.transform_rounds_key))?.apply {
+                    summary = database.numberKeyEncryptionRounds.toString()
+                }
 
-            // Memory Usage
-            mMemoryPref = findPreference<InputKdfSizePreference>(getString(R.string.memory_usage_key))?.apply {
-                summary = mDatabase.memoryUsage.toString()
-            }
+                // Memory Usage
+                mMemoryPref = findPreference<InputKdfSizePreference>(getString(R.string.memory_usage_key))?.apply {
+                    summary = database.memoryUsage.toString()
+                }
 
-            // Parallelism
-            mParallelismPref = findPreference<InputKdfNumberPreference>(getString(R.string.parallelism_key))?.apply {
-                summary = mDatabase.parallelism.toString()
+                // Parallelism
+                mParallelismPref = findPreference<InputKdfNumberPreference>(getString(R.string.parallelism_key))?.apply {
+                    summary = database.parallelism.toString()
+                }
+            } else {
+                Log.e(javaClass.name, "Database isn't ready")
             }
-        } else {
-            Log.e(javaClass.name, "Database isn't ready")
         }
     }
 
     private fun onCreateDatabaseMasterKeyPreference(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_database_master_key, rootKey)
 
-        if (mDatabase.loaded) {
-            findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
-                isEnabled = if (!mDatabaseReadOnly) {
-                    onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                        AssignMasterKeyDialogFragment.getInstance(mDatabase.allowNoMasterKey)
-                                .show(parentFragmentManager, "passwordDialog")
+        mDatabase?.let { database ->
+            if (database.loaded) {
+                findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
+                    isEnabled = if (!mDatabaseReadOnly) {
+                        onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                            AssignMasterKeyDialogFragment.getInstance(database.allowNoMasterKey)
+                                    .show(parentFragmentManager, "passwordDialog")
+                            false
+                        }
+                        true
+                    } else {
                         false
                     }
-                    true
-                } else {
-                    false
                 }
+            } else {
+                Log.e(javaClass.name, "Database isn't ready")
             }
-        } else {
-            Log.e(javaClass.name, "Database isn't ready")
         }
     }
 
-    private val colorSelectedListener: ((Boolean, Int)-> Unit)? = { enable, color ->
+    private val colorSelectedListener: ((Boolean, Int)-> Unit) = { enable, color ->
         dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
         if (enable) {
             dbCustomColorPref?.color = color
@@ -304,7 +351,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newName
                                 } else {
-                                    mDatabase.name = oldName
+                                    mDatabase?.name = oldName
                                     oldName
                                 }
                         dbNamePref?.summary = nameToShow
@@ -316,7 +363,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newDescription
                                 } else {
-                                    mDatabase.description = oldDescription
+                                    mDatabase?.description = oldDescription
                                     oldDescription
                                 }
                         dbDescriptionPref?.summary = descriptionToShow
@@ -328,7 +375,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newDefaultUsername
                                 } else {
-                                    mDatabase.defaultUsername = oldDefaultUsername
+                                    mDatabase?.defaultUsername = oldDefaultUsername
                                     oldDefaultUsername
                                 }
                         dbDefaultUsername?.summary = defaultUsernameToShow
@@ -341,7 +388,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newColor
                                 } else {
-                                    mDatabase.customColor = oldColor
+                                    mDatabase?.customColor = oldColor
                                     oldColor
                                 }
                         dbCustomColorPref?.summary = defaultColorToShow
@@ -353,10 +400,34 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newCompression
                                 } else {
-                                    mDatabase.compressionAlgorithm = oldCompression
+                                    mDatabase?.compressionAlgorithm = oldCompression
                                     oldCompression
                                 }
                         dbDataCompressionPref?.summary = algorithmToShow.getName(resources)
+                    }
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
+                        val oldRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val recycleBinToShow =
+                                if (result.isSuccess) {
+                                    newRecycleBin
+                                } else {
+                                    oldRecycleBin
+                                }
+                        mDatabase?.setRecycleBin(recycleBinToShow)
+                        refreshRecycleBinGroup()
+                    }
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
+                        val oldTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val templatesGroupToShow =
+                            if (result.isSuccess) {
+                                newTemplatesGroup
+                            } else {
+                                oldTemplatesGroup
+                            }
+                        mDatabase?.setTemplatesGroup(templatesGroupToShow)
+                        refreshTemplatesGroup()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK -> {
                         val oldMaxHistoryItems = data.getInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
@@ -365,7 +436,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newMaxHistoryItems
                                 } else {
-                                    mDatabase.historyMaxItems = oldMaxHistoryItems
+                                    mDatabase?.historyMaxItems = oldMaxHistoryItems
                                     oldMaxHistoryItems
                                 }
                         dbMaxHistoryItemsPref?.summary = maxHistoryItemsToShow.toString()
@@ -377,7 +448,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newMaxHistorySize
                                 } else {
-                                    mDatabase.historyMaxSize = oldMaxHistorySize
+                                    mDatabase?.historyMaxSize = oldMaxHistorySize
                                     oldMaxHistorySize
                                 }
                         dbMaxHistorySizePref?.summary = maxHistorySizeToShow.toString()
@@ -395,7 +466,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newEncryption
                                 } else {
-                                    mDatabase.encryptionAlgorithm = oldEncryption
+                                    mDatabase?.encryptionAlgorithm = oldEncryption
                                     oldEncryption
                                 }
                         mEncryptionAlgorithmPref?.summary = algorithmToShow.toString()
@@ -407,7 +478,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newKeyDerivationEngine
                                 } else {
-                                    mDatabase.kdfEngine = oldKeyDerivationEngine
+                                    mDatabase?.kdfEngine = oldKeyDerivationEngine
                                     oldKeyDerivationEngine
                                 }
                         mKeyDerivationPref?.summary = kdfEngineToShow.toString()
@@ -424,7 +495,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newIterations
                                 } else {
-                                    mDatabase.numberKeyEncryptionRounds = oldIterations
+                                    mDatabase?.numberKeyEncryptionRounds = oldIterations
                                     oldIterations
                                 }
                         mRoundPref?.summary = roundsToShow.toString()
@@ -436,7 +507,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newMemoryUsage
                                 } else {
-                                    mDatabase.memoryUsage = oldMemoryUsage
+                                    mDatabase?.memoryUsage = oldMemoryUsage
                                     oldMemoryUsage
                                 }
                         mMemoryPref?.summary = memoryToShow.toString()
@@ -448,7 +519,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 if (result.isSuccess) {
                                     newParallelism
                                 } else {
-                                    mDatabase.parallelism = oldParallelism
+                                    mDatabase?.parallelism = oldParallelism
                                     oldParallelism
                                 }
                         mParallelismPref?.summary = parallelismToShow.toString()
@@ -484,6 +555,12 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             }
             getString(R.string.database_data_remove_unlinked_attachments_key) -> {
                 dialogFragment = DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.recycle_bin_group_key) -> {
+                dialogFragment = DatabaseRecycleBinGroupPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.templates_group_uuid_key) -> {
+                dialogFragment = DatabaseTemplatesGroupPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
             getString(R.string.max_history_items_key) -> {
                 dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)

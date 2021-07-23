@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:targetApi="o"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<androidx.cardview.widget.CardView
+		android:id="@+id/template_header_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="?attr/cardViewStyle"
+		android:visibility="gone"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/template_fields_container">
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/card_view_padding">
+
+			<!-- Icon -->
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/template_icon_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="4dp"
+				android:src="@drawable/ic_blank_32dp"
+				android:contentDescription="@string/content_description_entry_icon"
+				android:layout_gravity="center"/>
+
+			<!-- Title -->
+			<FrameLayout
+				android:id="@+id/template_title_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+	<LinearLayout
+		android:id="@+id/template_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@+id/template_header_container"
+		app:layout_constraintBottom_toTopOf="@+id/not_referenced_fields_container"
+		android:orientation="vertical" />
+
+	<com.kunzisoft.keepass.view.SectionView
+		android:id="@+id/not_referenced_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="?attr/cardViewStyle"
+		android:layout_marginBottom="@dimen/card_view_margin_vertical"
+		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
+		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"/>
+
+	<com.kunzisoft.keepass.view.SectionView
+		android:id="@+id/custom_fields_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="?attr/cardViewStyle"
+		app:layout_constraintTop_toBottomOf="@+id/not_referenced_fields_container"
+		app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

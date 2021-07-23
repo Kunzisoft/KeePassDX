@@ -90,7 +90,7 @@
         <item name="background">@color/white</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.White" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.White" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
@@ -157,7 +157,7 @@
         <item name="background">@color/black_lighter</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Black" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.Black" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_light</item>
     </style>
 </resources>

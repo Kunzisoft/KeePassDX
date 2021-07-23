@@ -369,6 +369,10 @@
     <string name="otp_counter">Compteur</string>
     <string name="otp_digits">Chiffres</string>
     <string name="otp_algorithm">Algorithme</string>
+    <string name="holder">Titulaire</string>
+    <string name="number">Numéros</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="personal_identification_number">PIN</string>
     <string name="entry_otp">OTP</string>
     <string name="error_invalid_OTP">Secret OTP invalide.</string>
     <string name="error_disallow_no_credentials">Au moins un identifiant doit être défini.</string>

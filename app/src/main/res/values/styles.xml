@@ -73,6 +73,9 @@
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
 
+        <!-- CardView -->
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview</item>
+
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
@@ -129,6 +132,9 @@
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
+
+        <!-- CardView -->
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview</item>
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
@@ -250,6 +256,17 @@
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:windowBackground">@color/grey_dark</item>
+    </style>
+
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview" parent="CardView">
+        <item name="android:layout_marginTop">@dimen/card_view_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/card_view_margin_vertical</item>
+        <item name="android:layout_marginStart">@dimen/card_view_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/card_view_margin_horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/card_view_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/card_view_margin_horizontal</item>
+        <item name="android:padding">@dimen/card_view_padding</item>
     </style>
 
     <!-- CheckBox -->

@@ -22,12 +22,13 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -41,6 +42,8 @@ class GeneratePasswordDialogFragment : DialogFragment() {
     private var lengthTextView: EditText? = null
     private var passwordInputLayoutView: TextInputLayout? = null
     private var passwordView: EditText? = null
+
+    private var mPasswordField: Field? = null
 
     private var uppercaseBox: CompoundButton? = null
     private var lowercaseBox: CompoundButton? = null
@@ -77,7 +80,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
             passwordView = root?.findViewById(R.id.password)
             passwordView?.applyFontVisibility()
             val passwordCopyView: ImageView? = root?.findViewById(R.id.password_copy_button)
-            passwordCopyView?.visibility = if(PreferencesUtil.allowCopyPasswordAndProtectedFields(activity))
+            passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(activity))
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(activity)
             passwordCopyView?.setOnClickListener {
@@ -97,6 +100,8 @@ class GeneratePasswordDialogFragment : DialogFragment() {
             specialsBox = root?.findViewById(R.id.cb_specials)
             bracketsBox = root?.findViewById(R.id.cb_brackets)
             extendedBox = root?.findViewById(R.id.cb_extended)
+
+            mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
 
             assignDefaultCharacters()
 
@@ -120,16 +125,18 @@ class GeneratePasswordDialogFragment : DialogFragment() {
 
             builder.setView(root)
                     .setPositiveButton(R.string.accept) { _, _ ->
-                        val bundle = Bundle()
-                        bundle.putString(KEY_PASSWORD_ID, passwordView!!.text.toString())
-                        mListener?.acceptPassword(bundle)
-
+                        mPasswordField?.let { passwordField ->
+                            passwordView?.text?.toString()?.let { passwordValue ->
+                                passwordField.protectedValue.stringValue = passwordValue
+                            }
+                            mListener?.acceptPassword(passwordField)
+                        }
                         dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        val bundle = Bundle()
-                        mListener?.cancelPassword(bundle)
-
+                        mPasswordField?.let { passwordField ->
+                            mListener?.cancelPassword(passwordField)
+                        }
                         dismiss()
                     }
 
@@ -200,11 +207,19 @@ class GeneratePasswordDialogFragment : DialogFragment() {
     }
 
     interface GeneratePasswordListener {
-        fun acceptPassword(bundle: Bundle)
-        fun cancelPassword(bundle: Bundle)
+        fun acceptPassword(passwordField: Field)
+        fun cancelPassword(passwordField: Field)
     }
 
     companion object {
-        const val KEY_PASSWORD_ID = "KEY_PASSWORD_ID"
+        private const val KEY_PASSWORD_FIELD = "KEY_PASSWORD_FIELD"
+
+        fun getInstance(field: Field): GeneratePasswordDialogFragment {
+            return GeneratePasswordDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_PASSWORD_FIELD, field)
+                }
+            }
+        }
     }
 }

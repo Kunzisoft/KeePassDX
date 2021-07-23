@@ -38,6 +38,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -45,7 +46,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
- * Replace font by monospace, must be called after seText()
+ * Replace font by monospace, must be called after setText()
  */
 fun TextView.applyFontVisibility() {
     val typeFace = Typeface.createFromAsset(context.assets, "fonts/FiraMono-Regular.ttf")
@@ -156,6 +157,26 @@ fun View.expand(animate: Boolean = true,
             override fun onAnimationCancel(animation: Animator?) {}
         })
     }.start()
+}
+
+fun View.hideByFading() {
+    alpha = 1f
+    animate()
+            .alpha(0f)
+            .setDuration(140)
+            .setListener(null)
+}
+
+fun View.showByFading() {
+    if (!isVisible) {
+        isVisible = true
+        // Trick to keep the focus
+        alpha = 0.0001f
+        animate()
+            .alpha(1f)
+            .setDuration(140)
+            .setListener(null)
+    }
 }
 
 fun View.updateLockPaddingLeft() {

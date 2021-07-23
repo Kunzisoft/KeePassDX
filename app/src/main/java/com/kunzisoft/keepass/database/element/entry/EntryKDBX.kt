@@ -22,10 +22,7 @@ package com.kunzisoft.keepass.database.element.entry
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Tags
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
@@ -52,7 +49,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var usageCount = UnsignedLong(0)
     override var locationChanged = DateInstant()
     override var customData = CustomData()
-    var fields = LinkedHashMap<String, ProtectedString>()
+    private var fields = LinkedHashMap<String, ProtectedString>()
     var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
     var backgroundColor = ""
@@ -81,7 +78,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
         autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
-        url = parcel.readString() ?: url
         additional = parcel.readString() ?: additional
     }
 
@@ -107,7 +103,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
         dest.writeParcelable(autoType, flags)
         dest.writeTypedList(history)
-        dest.writeString(url)
         dest.writeString(additional)
     }
 
@@ -133,7 +128,6 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.clear()
         if (copyHistory)
             history.addAll(source.history)
-        url = source.url
         additional = source.additional
     }
 
@@ -227,6 +221,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
+    fun getCustomFieldValue(label: String): String {
+        return decodeRefKey(mDecodeRef, label, 0)
+    }
+
     fun getSize(attachmentPool: AttachmentPool): Long {
         var size = FIXED_LENGTH_SIZE
 
@@ -265,26 +263,39 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
                 || key == STR_NOTES)
     }
 
-    fun doForEachDecodedCustomField(action: (key: String, value: ProtectedString) -> Unit) {
+    fun doForEachDecodedCustomField(action: (field: Field) -> Unit) {
         val iterator = fields.entries.iterator()
         while (iterator.hasNext()) {
             val mapEntry = iterator.next()
             if (!isStandardField(mapEntry.key)) {
-                action.invoke(mapEntry.key,
+                action.invoke(Field(mapEntry.key,
                         ProtectedString(mapEntry.value.isProtected,
                                 decodeRefKey(mDecodeRef, mapEntry.key, 0)
                         )
+                    )
                 )
             }
         }
     }
 
-    fun getField(key: String): ProtectedString? {
-        return fields[key]
+    fun getFieldValue(label: String): ProtectedString? {
+        return fields[label]
+    }
+
+    fun getFields(): List<Field> {
+        return fields.map { Field(it.key, it.value) }
+    }
+
+    fun putField(field: Field) {
+        putField(field.name, field.protectedValue)
     }
 
     fun putField(label: String, value: ProtectedString) {
         fields[label] = value
+    }
+
+    fun removeField(name: String) {
+        fields.remove(name)
     }
 
     fun removeAllFields() {

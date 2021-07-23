@@ -49,7 +49,8 @@ import java.util.*
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-class NodeAdapter (private val context: Context)
+class NodeAdapter (private val context: Context,
+                   private val database: Database)
     : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
     private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
@@ -72,8 +73,6 @@ class NodeAdapter (private val context: Context)
     private var mActionNodesList = LinkedList<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
 
-    private val mDatabase: Database
-
     @ColorInt
     private val mContentSelectionColor: Int
     @ColorInt
@@ -95,9 +94,6 @@ class NodeAdapter (private val context: Context)
 
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
-
-        // Database
-        this.mDatabase = Database.getInstance()
 
         // Color of content selection
         this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
@@ -266,7 +262,7 @@ class NodeAdapter (private val context: Context)
      */
     fun notifyChangeSort(sortNodeEnum: SortNodeEnum,
                          sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        this.mNodeComparator = sortNodeEnum.getNodeComparator(sortNodeParameters)
+        this.mNodeComparator = sortNodeEnum.getNodeComparator(database, sortNodeParameters)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -303,7 +299,7 @@ class NodeAdapter (private val context: Context)
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            mDatabase.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
+            database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
@@ -327,7 +323,7 @@ class NodeAdapter (private val context: Context)
         // Specific elements for entry
         if (subNode.type == Type.ENTRY) {
             val entry = subNode as Entry
-            mDatabase.startManageEntry(entry)
+            database.startManageEntry(entry)
 
             holder.text.text = entry.getVisualTitle()
             holder.subText.apply {
@@ -342,7 +338,7 @@ class NodeAdapter (private val context: Context)
             holder.attachmentIcon?.visibility =
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
-            mDatabase.stopManageEntry(entry)
+            database.stopManageEntry(entry)
         }
 
         // Add number of entries in groups

@@ -32,6 +32,7 @@ class CreateDatabaseRunnable(context: Context,
                              databaseUri: Uri,
                              private val databaseName: String,
                              private val rootName: String,
+                             private val templateGroupName: String?,
                              mainCredential: MainCredential,
                              private val createDatabaseResult: ((Result) -> Unit)?)
     : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential) {
@@ -40,7 +41,7 @@ class CreateDatabaseRunnable(context: Context,
         try {
             // Create new database record
             mDatabase.apply {
-                createData(mDatabaseUri, databaseName, rootName)
+                createData(mDatabaseUri, databaseName, rootName, templateGroupName)
             }
         } catch (e: Exception) {
             mDatabase.clearAndClose(context)

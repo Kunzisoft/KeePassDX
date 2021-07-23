@@ -27,7 +27,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.database.element.Field
 
 import java.util.ArrayList
 

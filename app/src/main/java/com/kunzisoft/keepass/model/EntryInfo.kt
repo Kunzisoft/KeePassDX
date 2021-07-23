@@ -20,29 +20,35 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import java.util.*
 
 class EntryInfo : NodeInfo {
 
-    var id: String = ""
+    var id: UUID = UUID.randomUUID()
     var username: String = ""
     var password: String = ""
     var url: String = ""
     var notes: String = ""
-    var customFields: List<Field> = ArrayList()
-    var attachments: List<Attachment> = ArrayList()
+    var customFields: MutableList<Field> = mutableListOf()
+    var attachments: MutableList<Attachment> = mutableListOf()
     var otpModel: OtpModel? = null
+    var isTemplate: Boolean = false
 
-    constructor(): super()
+    constructor() : super()
 
-    constructor(parcel: Parcel): super(parcel) {
-        id = parcel.readString() ?: id
+    constructor(parcel: Parcel) : super(parcel) {
+        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
@@ -50,6 +56,7 @@ class EntryInfo : NodeInfo {
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
+        isTemplate = parcel.readByte().toInt() != 0
     }
 
     override fun describeContents(): Int {
@@ -58,14 +65,15 @@ class EntryInfo : NodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeString(id)
+        parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
         parcel.writeString(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeArray(customFields.toTypedArray())
-        parcel.writeArray(attachments.toTypedArray())
+        parcel.writeList(customFields)
+        parcel.writeList(attachments)
         parcel.writeParcelable(otpModel, flags)
+        parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }
 
     fun containsCustomFieldsProtected(): Boolean {
@@ -133,8 +141,7 @@ class EntryInfo : NodeInfo {
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
-            }
-            else if (url != webDomainToStore){
+            } else if (url != webDomainToStore) {
                 // Save web domain in custom field
                 addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
                         ProtectedString(false, webDomainToStore)),
@@ -148,6 +155,38 @@ class EntryInfo : NodeInfo {
                     addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
                             ProtectedString(false, applicationId))
                     )
+                }
+            }
+        }
+    }
+
+    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
+        registerInfo.username?.let {
+            username = it
+        }
+        registerInfo.password?.let {
+            password = it
+        }
+
+        if (database?.allowEntryCustomFields() == true) {
+            val creditCard: CreditCard? = registerInfo.creditCard
+
+            creditCard?.let { cc ->
+                cc.cardholder?.let {
+                    val v = ProtectedString(false, it)
+                    addUniqueField(Field(TemplateField.LABEL_HOLDER, v))
+                }
+                cc.expiration?.let {
+                    expires = true
+                    expiryTime = DateInstant(cc.expiration.millis)
+                }
+                cc.number?.let {
+                    val v = ProtectedString(false, it)
+                    addUniqueField(Field(TemplateField.LABEL_NUMBER, v))
+                }
+                cc.cvv?.let {
+                    val v = ProtectedString(true, it)
+                    addUniqueField(Field(TemplateField.LABEL_CVV, v))
                 }
             }
         }

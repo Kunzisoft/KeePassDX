@@ -40,6 +40,8 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -141,6 +143,57 @@ class Database {
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
         iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
+    }
+
+    fun getTemplates(templateCreation: Boolean): List<Template> {
+        return mDatabaseKDBX?.getTemplates(templateCreation) ?: listOf()
+    }
+
+    fun getTemplate(entry: Entry): Template? {
+        if (entryIsTemplate(entry))
+            return TemplateEngine.CREATION
+        entry.entryKDBX?.let { entryKDBX ->
+            return mDatabaseKDBX?.getTemplate(entryKDBX)
+        }
+        return null
+    }
+
+    fun entryIsTemplate(entry: Entry?): Boolean {
+        // Define is current entry is a template (in direct template group)
+        if (entry == null || templatesGroup == null)
+            return false
+        return templatesGroup == entry.parent
+    }
+
+    // Not the same as decode, here remove in all cases the template link in the entry data
+    fun removeTemplateConfiguration(entry: Entry): Entry {
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, false)?.let { decode ->
+                return Entry(decode)
+            }
+        }
+        return entry
+    }
+
+    // Remove the template link in the entry data if it's a basic entry
+    // or compress the template fields (as pseudo language) if it's a template entry
+    fun decodeEntryWithTemplateConfiguration(entry: Entry, lastEntryVersion: Entry? = null): Entry {
+        entry.entryKDBX?.let {
+            val lastEntry = lastEntryVersion ?: entry
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, entryIsTemplate(lastEntry))?.let { decode ->
+                return Entry(decode)
+            }
+        }
+        return entry
+    }
+
+    fun encodeEntryWithTemplateConfiguration(entry: Entry, template: Template): Entry {
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.encodeEntryWithTemplateConfiguration(it, entryIsTemplate(entry), template)?.let { encode ->
+                return Entry(encode)
+            }
+        }
+        return entry
     }
 
     val allowName: Boolean
@@ -316,6 +369,15 @@ class Database {
             return null
         }
 
+    /**
+     * Do not modify groups here, used for read only
+     */
+    fun getAllGroupsWithoutRoot(): List<Group> {
+        return mDatabaseKDB?.getGroupIndexes()?.filter { it != mDatabaseKDB?.rootGroup }?.map { Group(it) }
+            ?: mDatabaseKDBX?.getGroupIndexes()?.filter { it != mDatabaseKDBX?.rootGroup }?.map { Group(it) }
+            ?: listOf()
+    }
+
     val manageHistory: Boolean
         get() = mDatabaseKDBX != null
 
@@ -342,12 +404,18 @@ class Database {
     val allowConfigurableRecycleBin: Boolean
         get() = mDatabaseKDBX != null
 
-    var isRecycleBinEnabled: Boolean
+    val isRecycleBinEnabled: Boolean
         // Backup is always enabled in KDB database
         get() = mDatabaseKDB != null || mDatabaseKDBX?.isRecycleBinEnabled ?: false
-        set(value) {
-            mDatabaseKDBX?.isRecycleBinEnabled = value
+
+    fun enableRecycleBin(enable: Boolean, resources: Resources) {
+        mDatabaseKDBX?.isRecycleBinEnabled = enable
+        if (enable) {
+            ensureRecycleBinExists(resources)
+        } else {
+            mDatabaseKDBX?.removeRecycleBin()
         }
+    }
 
     val recycleBin: Group?
         get() {
@@ -359,6 +427,47 @@ class Database {
             }
             return null
         }
+
+    fun setRecycleBin(group: Group?) {
+        // Only the kdbx recycle bin can be changed
+        if (group != null) {
+            mDatabaseKDBX?.recycleBinUUID = group.nodeIdKDBX.id
+        } else {
+            mDatabaseKDBX?.removeTemplatesGroup()
+        }
+    }
+
+    /**
+     * Determine if a configurable templates group is available or not for this version of database
+     * @return true if a configurable templates group available
+     */
+    val allowConfigurableTemplatesGroup: Boolean
+        get() = mDatabaseKDBX != null
+
+    // Maybe another templates method with KDBX5
+    val isTemplatesEnabled: Boolean
+        get() = mDatabaseKDBX?.isTemplatesGroupEnabled() ?: false
+
+    fun enableTemplates(enable: Boolean, resources: Resources) {
+        mDatabaseKDBX?.enableTemplatesGroup(enable, resources)
+    }
+
+    val templatesGroup: Group?
+        get() {
+            mDatabaseKDBX?.getTemplatesGroup()?.let {
+                return Group(it)
+            }
+            return null
+        }
+
+    fun setTemplatesGroup(group: Group?) {
+        // Only the kdbx templates group can be changed
+        if (group != null) {
+            mDatabaseKDBX?.entryTemplatesGroup = group.nodeIdKDBX.id
+        } else {
+            mDatabaseKDBX?.entryTemplatesGroup
+        }
+    }
 
     val groupNamesNotAllowed: List<String>
         get() {
@@ -375,8 +484,11 @@ class Database {
         this.mDatabaseKDBX = databaseKDBX
     }
 
-    fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
-        val newDatabase = DatabaseKDBX(databaseName, rootName)
+    fun createData(databaseUri: Uri,
+                   databaseName: String,
+                   rootName: String,
+                   templateGroupName: String?) {
+        val newDatabase = DatabaseKDBX(databaseName, rootName, templateGroupName)
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
@@ -575,10 +687,11 @@ class Database {
             return false
         }
 
-    fun buildNewBinaryAttachment(compressed: Boolean = false,
-                                 protected: Boolean = false): BinaryData? {
+    fun buildNewBinaryAttachment(): BinaryData? {
         return mDatabaseKDB?.buildNewAttachment()
-                ?: mDatabaseKDBX?.buildNewAttachment( false, compressed, protected)
+                ?: mDatabaseKDBX?.buildNewAttachment( false,
+                        compressionForNewEntry(),
+                        false)
     }
 
     fun removeAttachmentIfNotUsed(attachment: Attachment) {
@@ -889,11 +1002,6 @@ class Database {
     fun ensureRecycleBinExists(resources: Resources) {
         mDatabaseKDB?.ensureBackupExists()
         mDatabaseKDBX?.ensureRecycleBinExists(resources)
-    }
-
-    fun removeRecycleBin() {
-        // Don't allow remove backup in KDB
-        mDatabaseKDBX?.removeRecycleBin()
     }
 
     fun canRecycle(entry: Entry): Boolean {
