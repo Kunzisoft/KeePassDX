@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -41,7 +40,6 @@ import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UuidUtil
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
@@ -53,8 +51,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var dbDefaultUsername: InputTextPreference? = null
     private var dbCustomColorPref: DialogColorPreference? = null
     private var dbDataCompressionPref: Preference? = null
-    private var recycleBinGroupPref: Preference? = null
-    private var templatesGroupPref: Preference? = null
+    private var recycleBinGroupPref: DialogListExplanationPreference? = null
+    private var templatesGroupPref: DialogListExplanationPreference? = null
     private var dbMaxHistoryItemsPref: InputNumberPreference? = null
     private var dbMaxHistorySizePref: InputNumberPreference? = null
     private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
@@ -172,9 +170,15 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                             false
                         }
                     }
+                    // Change the recycle bin group
+                    recycleBinGroupPref?.setOnPreferenceClickListener {
+
+                        true
+                    }
                     // Recycle Bin group
                     refreshRecycleBinGroup()
                 } else {
+                    recycleBinGroupPref?.onPreferenceClickListener = null
                     dbRecycleBinPrefCategory?.isVisible = false
                 }
 
@@ -226,21 +230,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
         }
     }
 
-    private fun groupSummary(group: Group?): String? {
-        val groupTitle = group?.title
-        val groupUUID = group?.nodeIdKDBX?.let {
-            UuidUtil.toHexString(it.id)
-        }
-        if (groupTitle == null
-                || groupUUID == null)
-            return null
-        return "$groupTitle ($groupUUID)"
-    }
-
     private fun refreshRecycleBinGroup() {
         recycleBinGroupPref?.apply {
             if (mDatabase?.isRecycleBinEnabled == true) {
-                summary = groupSummary(mDatabase!!.recycleBin)
+                summary = mDatabase?.recycleBin?.toString()
                 isEnabled = true
             } else {
                 summary = null
@@ -252,7 +245,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private fun refreshTemplatesGroup() {
         templatesGroupPref?.apply {
             if (mDatabase?.isTemplatesEnabled == true) {
-                summary = groupSummary(mDatabase!!.templatesGroup)
+                summary = mDatabase?.templatesGroup?.toString()
                 isEnabled = true
             } else {
                 summary = null
@@ -412,6 +405,30 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 }
                         dbDataCompressionPref?.summary = algorithmToShow.getName(resources)
                     }
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
+                        val oldRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val recycleBinToShow =
+                                if (result.isSuccess) {
+                                    newRecycleBin
+                                } else {
+                                    oldRecycleBin
+                                }
+                        mDatabase?.setRecycleBin(recycleBinToShow)
+                        refreshRecycleBinGroup()
+                    }
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
+                        val oldTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val templatesGroupToShow =
+                            if (result.isSuccess) {
+                                newTemplatesGroup
+                            } else {
+                                oldTemplatesGroup
+                            }
+                        mDatabase?.setTemplatesGroup(templatesGroupToShow)
+                        refreshTemplatesGroup()
+                    }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK -> {
                         val oldMaxHistoryItems = data.getInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
                         val newMaxHistoryItems = data.getInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
@@ -538,6 +555,12 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             }
             getString(R.string.database_data_remove_unlinked_attachments_key) -> {
                 dialogFragment = DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.recycle_bin_group_key) -> {
+                dialogFragment = DatabaseRecycleBinGroupPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.templates_group_uuid_key) -> {
+                dialogFragment = DatabaseTemplatesGroupPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
             getString(R.string.max_history_items_key) -> {
                 dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)

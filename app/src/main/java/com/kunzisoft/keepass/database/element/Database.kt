@@ -369,6 +369,15 @@ class Database {
             return null
         }
 
+    /**
+     * Do not modify groups here, used for read only
+     */
+    fun getAllGroupsWithoutRoot(): List<Group> {
+        return mDatabaseKDB?.getGroupIndexes()?.filter { it != mDatabaseKDB?.rootGroup }?.map { Group(it) }
+            ?: mDatabaseKDBX?.getGroupIndexes()?.filter { it != mDatabaseKDBX?.rootGroup }?.map { Group(it) }
+            ?: listOf()
+    }
+
     val manageHistory: Boolean
         get() = mDatabaseKDBX != null
 
@@ -404,7 +413,7 @@ class Database {
         if (enable) {
             ensureRecycleBinExists(resources)
         } else {
-            removeRecycleBin()
+            mDatabaseKDBX?.removeRecycleBin()
         }
     }
 
@@ -418,6 +427,15 @@ class Database {
             }
             return null
         }
+
+    fun setRecycleBin(group: Group?) {
+        // Only the kdbx recycle bin can be changed
+        if (group != null) {
+            mDatabaseKDBX?.recycleBinUUID = group.nodeIdKDBX.id
+        } else {
+            mDatabaseKDBX?.removeTemplatesGroup()
+        }
+    }
 
     /**
      * Determine if a configurable templates group is available or not for this version of database
@@ -441,6 +459,15 @@ class Database {
             }
             return null
         }
+
+    fun setTemplatesGroup(group: Group?) {
+        // Only the kdbx templates group can be changed
+        if (group != null) {
+            mDatabaseKDBX?.entryTemplatesGroup = group.nodeIdKDBX.id
+        } else {
+            mDatabaseKDBX?.entryTemplatesGroup
+        }
+    }
 
     val groupNamesNotAllowed: List<String>
         get() {
@@ -975,11 +1002,6 @@ class Database {
     fun ensureRecycleBinExists(resources: Resources) {
         mDatabaseKDB?.ensureBackupExists()
         mDatabaseKDBX?.ensureRecycleBinExists(resources)
-    }
-
-    fun removeRecycleBin() {
-        // Don't allow remove backup in KDB
-        mDatabaseKDBX?.removeRecycleBin()
     }
 
     fun canRecycle(entry: Entry): Boolean {

@@ -364,9 +364,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             entryTemplatesGroup = uuidTemplatesGroup.id
             entryTemplatesGroupChanged = uuidTemplatesGroup.lastModificationTime
         } else {
-            entryTemplatesGroup = UUID_ZERO
-            mTemplateEngine.clearCache()
+            removeTemplatesGroup()
         }
+    }
+
+    fun removeTemplatesGroup() {
+        entryTemplatesGroup = UUID_ZERO
+        entryTemplatesGroupChanged = DateInstant()
+        mTemplateEngine.clearCache()
     }
 
     fun getTemplatesGroup(): GroupKDBX? {

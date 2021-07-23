@@ -117,8 +117,4 @@ abstract class GroupVersioned
         else
             nodeIndexInParentForNaturalOrder
     }
-
-    override fun toString(): String {
-        return titleGroup
-    }
 }

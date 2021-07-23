@@ -71,6 +71,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
@@ -519,6 +521,28 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK)
+    }
+
+    fun startDatabaseSaveRecycleBin(oldRecycleBin: Group?,
+                                    newRecycleBin: Group?,
+                                    save: Boolean) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldRecycleBin)
+            putParcelable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newRecycleBin)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+            , ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK)
+    }
+
+    fun startDatabaseSaveTemplatesGroup(oldTemplatesGroup: Group?,
+                                        newTemplatesGroup: Group?,
+                                        save: Boolean) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldTemplatesGroup)
+            putParcelable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newTemplatesGroup)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+            , ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK)
     }
 
     fun startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems: Int,

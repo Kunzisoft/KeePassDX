@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import org.joda.time.LocalDateTime
 
 /**
  * Abstract class who manage Groups and Entries
@@ -148,5 +147,9 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
 
     override fun hashCode(): Int {
         return nodeId.hashCode()
+    }
+
+    override fun toString(): String {
+        return "$title ($nodeId)"
     }
 }
