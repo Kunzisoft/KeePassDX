@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import org.joda.time.DateTime
 import java.util.*
 
 open class SettingsActivity
@@ -254,7 +255,8 @@ open class SettingsActivity
     }
 
     fun exportAppProperties() {
-        appPropertiesFileCreationRequestCode = mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name))
+        appPropertiesFileCreationRequestCode = mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name,
+            DateTime.now().toLocalDateTime().toString("yyyy-MM-dd'_'HH-mm")))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

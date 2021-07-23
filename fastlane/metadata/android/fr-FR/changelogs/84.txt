@@ -1,2 +1,3 @@
  * Ajout / Gestion dynamique des templates #191
  * Sélection manuelle des groupes de la corbeille et des templates #191
+ * Petits changements #1035
