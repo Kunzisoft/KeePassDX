@@ -45,9 +45,8 @@ class DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
             recyclerView.adapter = groupsAdapter
 
             mDatabase?.let { database ->
-                mGroupRecycleBin = database.recycleBin?.apply {
-                    groupsAdapter.setItems(database.getAllGroupsWithoutRoot(), this)
-                }
+                mGroupRecycleBin = database.recycleBin
+                groupsAdapter.setItems(database.getAllGroupsWithoutRoot(), mGroupRecycleBin)
             }
         }
     }

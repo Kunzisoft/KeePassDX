@@ -47,9 +47,8 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
             recyclerView.adapter = encryptionAlgorithmAdapter
 
             mDatabase?.let { database ->
-                algorithmSelected = database.encryptionAlgorithm?.apply {
-                    encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, this)
-                }
+                algorithmSelected = database.encryptionAlgorithm
+                encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, algorithmSelected)
             }
         }
     }

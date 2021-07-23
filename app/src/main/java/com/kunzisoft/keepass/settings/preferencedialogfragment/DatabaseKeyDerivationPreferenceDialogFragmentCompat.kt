@@ -51,9 +51,8 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
             recyclerView.adapter = kdfAdapter
 
             mDatabase?.let { database ->
-                kdfEngineSelected = database.kdfEngine?.apply {
-                    kdfAdapter.setItems(database.availableKdfEngines, this)
-                }
+                kdfEngineSelected = database.kdfEngine
+                kdfAdapter.setItems(database.availableKdfEngines, kdfEngineSelected)
             }
         }
     }

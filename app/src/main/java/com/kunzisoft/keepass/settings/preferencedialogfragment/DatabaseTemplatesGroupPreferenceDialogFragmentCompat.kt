@@ -45,9 +45,8 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
             recyclerView.adapter = groupsAdapter
 
             mDatabase?.let { database ->
-                mGroupTemplates = database.templatesGroup?.apply {
-                    groupsAdapter.setItems(database.getAllGroupsWithoutRoot(), this)
-                }
+                mGroupTemplates = database.templatesGroup
+                groupsAdapter.setItems(database.getAllGroupsWithoutRoot(), mGroupTemplates)
             }
         }
     }

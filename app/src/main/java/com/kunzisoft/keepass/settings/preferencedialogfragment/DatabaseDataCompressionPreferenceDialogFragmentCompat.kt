@@ -47,9 +47,8 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
             recyclerView.adapter = compressionAdapter
 
             mDatabase?.let { database ->
-                compressionSelected = database.compressionAlgorithm?.apply {
-                    compressionAdapter.setItems(database.availableCompressionAlgorithms, this)
-                }
+                compressionSelected = database.compressionAlgorithm
+                compressionAdapter.setItems(database.availableCompressionAlgorithms, compressionSelected)
             }
         }
     }
