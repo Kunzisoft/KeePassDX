@@ -316,7 +316,7 @@
     <string name="clear_clipboard_notification_summary">Blocca il database quando scade la durata degli appunti o la notifica viene chiusa dopo che inizi ad usarlo</string>
     <string name="recycle_bin">Cestino</string>
     <string name="keyboard_selection_entry_title">Selezione elemento</string>
-    <string name="keyboard_selection_entry_summary">Mostra i campi di input nella Magitastiera durante la visualizzazione di un elemento</string>
+    <string name="keyboard_selection_entry_summary">Durante la visualizzazione di una voce in KeePassDX, inseriscila nella Magitastiera</string>
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
     <string name="content_description_open_file">Apri il file</string>
@@ -448,7 +448,7 @@
     <string name="autofill_web_domain_blocklist_title">Lista di blocco per domini web</string>
     <string name="autofill_application_id_blocklist_title">Lista di blocco per app</string>
     <string name="autofill_application_id_blocklist_summary">La lista di blocco impedisce l\'auto riempimento nelle app</string>
-    <string name="keyboard_search_share_summary">Cerca automaticamente le informazioni condivise per compilare la tastiera</string>
+    <string name="keyboard_search_share_summary">Durante la condivisione di una URL a KeePassDX, filtra le voci che usano quel dominio</string>
     <string name="keyboard_search_share_title">Cerca informazioni condivise</string>
     <string name="filter">Filtro</string>
     <string name="error_string_type">Questo testo non soddisfa l\'elemento richiesto.</string>
@@ -487,7 +487,7 @@
     <string name="autofill_close_database_title">Chiudi database</string>
     <string name="keyboard_previous_lock_summary">Torna automaticamente alla tastiera precedente dopo aver bloccato il database</string>
     <string name="keyboard_previous_lock_title">Blocca il database</string>
-    <string name="keyboard_save_search_info_summary">Prova a salvare le informazioni condivise quando effettui una selezione di immissione manuale</string>
+    <string name="keyboard_save_search_info_summary">Dopo la una URL in KeePassDX, quando viene selezionata una voce, prova a salvare quella voce per usi futuri</string>
     <string name="keyboard_save_search_info_title">Salva le informazioni condivise</string>
     <string name="notification">Notifica</string>
     <string name="biometric_security_update_required">È necessario un aggiornamento della sicurezza biometrica.</string>

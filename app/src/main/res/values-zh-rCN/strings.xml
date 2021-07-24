@@ -315,7 +315,7 @@
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在查看条目时，在专用键盘中显示输入字段</string>
+    <string name="keyboard_selection_entry_summary">在KeePass DX中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
@@ -439,7 +439,7 @@
     <string name="autofill_preference_title">自动填充设置</string>
     <string name="warning_database_link_revoked">访问文件管理器撤消访问权限的文件</string>
     <string name="error_label_exists">该标签已经存在。</string>
-    <string name="keyboard_search_share_summary">自动搜索共享信息以填充键盘</string>
+    <string name="keyboard_search_share_summary">将 URL 共享给 KeePassDX 时，使用该 URL 域过滤条目</string>
     <string name="keyboard_search_share_title">搜索分享的信息</string>
     <string name="autofill_block_restart">重新启动包含该表单的应用程序以激活拦截。</string>
     <string name="autofill_block">阻止自动填充</string>
@@ -484,7 +484,7 @@
     <string name="autofill_close_database_title">关闭数据库</string>
     <string name="keyboard_previous_lock_summary">锁定数据库后自动切换回上一个键盘</string>
     <string name="keyboard_previous_lock_title">锁定数据库</string>
-    <string name="keyboard_save_search_info_summary">手动选择条目时，尝试保存共享信息</string>
+    <string name="keyboard_save_search_info_summary">将URL共享到KeePassDX后，选中一个条目时，请尝试记住那个条目以备日后使用</string>
     <string name="keyboard_save_search_info_title">保存分享的信息</string>
     <string name="notification">通知</string>
     <string name="biometric_security_update_required">需要生物识别安全更新。</string>
