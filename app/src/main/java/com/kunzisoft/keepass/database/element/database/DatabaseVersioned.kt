@@ -93,6 +93,10 @@ abstract class DatabaseVersioned<
             }
         }
 
+    fun getAllGroupsWithoutRoot(): List<Group> {
+        return getGroupIndexes().filter { it != rootGroup }
+    }
+
     @Throws(IOException::class)
     protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
 

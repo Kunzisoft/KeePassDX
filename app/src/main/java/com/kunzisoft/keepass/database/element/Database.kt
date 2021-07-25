@@ -373,8 +373,8 @@ class Database {
      * Do not modify groups here, used for read only
      */
     fun getAllGroupsWithoutRoot(): List<Group> {
-        return mDatabaseKDB?.getGroupIndexes()?.filter { it != mDatabaseKDB?.rootGroup }?.map { Group(it) }
-            ?: mDatabaseKDBX?.getGroupIndexes()?.filter { it != mDatabaseKDBX?.rootGroup }?.map { Group(it) }
+        return mDatabaseKDB?.getAllGroupsWithoutRoot()?.map { Group(it) }
+            ?: mDatabaseKDBX?.getAllGroupsWithoutRoot()?.map { Group(it) }
             ?: listOf()
     }
 

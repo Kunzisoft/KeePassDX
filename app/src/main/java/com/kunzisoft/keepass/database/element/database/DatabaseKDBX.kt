@@ -358,9 +358,18 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun enableTemplatesGroup(enable: Boolean, resources: Resources) {
+        // Create templates group only if a group with a valid name don't already exists
+        val firstGroupWithValidName = getGroupIndexes().firstOrNull {
+            it.title == TemplateEngine.getDefaultTemplateGroupName(resources)
+        }
         if (enable) {
-            val uuidTemplatesGroup = mTemplateEngine.createNewTemplatesGroup(resources)
-            addGroupTo(uuidTemplatesGroup, rootGroup)
+            val uuidTemplatesGroup = if (firstGroupWithValidName == null) {
+                val newUuidTemplatesGroup = mTemplateEngine.createNewTemplatesGroup(resources)
+                addGroupTo(newUuidTemplatesGroup, rootGroup)
+                newUuidTemplatesGroup
+            } else {
+                firstGroupWithValidName
+            }
             entryTemplatesGroup = uuidTemplatesGroup.id
             entryTemplatesGroupChanged = uuidTemplatesGroup.lastModificationTime
         } else {
@@ -713,15 +722,23 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     fun ensureRecycleBinExists(resources: Resources) {
         if (recycleBin == null) {
-            // Create recycle bin
-            val recycleBinGroup = createGroup().apply {
-                title = resources.getString(R.string.recycle_bin)
-                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
-                enableAutoType = false
-                enableSearching = false
-                isExpanded = false
+            // Create recycle bin only if a group with a valid name don't already exists
+            val firstGroupWithValidName = getGroupIndexes().firstOrNull {
+                it.title == resources.getString(R.string.recycle_bin)
             }
-            addGroupTo(recycleBinGroup, rootGroup)
+            val recycleBinGroup = if (firstGroupWithValidName == null) {
+                val newRecycleBinGroup = createGroup().apply {
+                    title = resources.getString(R.string.recycle_bin)
+                    icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
+                    enableAutoType = false
+                    enableSearching = false
+                    isExpanded = false
+                }
+                addGroupTo(newRecycleBinGroup, rootGroup)
+                newRecycleBinGroup
+            } else {
+                firstGroupWithValidName
+            }
             recycleBinUUID = recycleBinGroup.id
             recycleBinChanged = recycleBinGroup.lastModificationTime
         }
