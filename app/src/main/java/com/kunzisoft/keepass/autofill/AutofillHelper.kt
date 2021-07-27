@@ -126,12 +126,14 @@ object AutofillHelper {
         if (entryInfo.expires) {
             val year = entryInfo.expiryTime.getYearInt()
             val month = entryInfo.expiryTime.getMonthInt()
+            val monthString = month.toString().padStart(2, '0')
             val day = entryInfo.expiryTime.getDay()
+            val dayString = day.toString().padStart(2, '0')
 
             struct.creditCardExpirationDateId?.let {
                 if (struct.isWebView) {
                     // set date string as defined in https://html.spec.whatwg.org
-                    builder.setValue(it, AutofillValue.forText("$year\u002D$month"))
+                    builder.setValue(it, AutofillValue.forText("$year\u002D$monthString"))
                 } else {
                     builder.setValue(it, AutofillValue.forDate(entryInfo.expiryTime.date.time))
                 }
@@ -157,24 +159,24 @@ object AutofillHelper {
             }
             struct.creditCardExpirationMonthId?.let {
                 if (struct.isWebView) {
-                    builder.setValue(it, AutofillValue.forText(month.toString()))
+                    builder.setValue(it, AutofillValue.forText(monthString))
                 } else {
                     if (struct.creditCardExpirationMonthOptions != null) {
                         // index starts at 0
                         builder.setValue(it, AutofillValue.forList(month - 1))
                     } else {
-                        builder.setValue(it, AutofillValue.forText(month.toString()))
+                        builder.setValue(it, AutofillValue.forText(monthString))
                     }
                 }
             }
             struct.creditCardExpirationDayId?.let {
                 if (struct.isWebView) {
-                    builder.setValue(it, AutofillValue.forText(day.toString()))
+                    builder.setValue(it, AutofillValue.forText(dayString))
                 } else {
                     if (struct.creditCardExpirationDayOptions != null) {
                         builder.setValue(it, AutofillValue.forList(day - 1))
                     } else {
-                        builder.setValue(it, AutofillValue.forText(day.toString()))
+                        builder.setValue(it, AutofillValue.forText(dayString))
                     }
                 }
             }
