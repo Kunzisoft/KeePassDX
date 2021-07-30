@@ -11,9 +11,11 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import java.util.*
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
 
@@ -186,16 +188,16 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider?.startDatabaseUpdateGroup(oldGroup, groupToUpdate, save)
     }
 
-    fun restoreDatabaseEntryHistory(mainEntry: Entry,
+    fun restoreDatabaseEntryHistory(mainEntryId: NodeId<UUID>,
                                     entryHistoryPosition: Int,
                                     save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(mainEntry, entryHistoryPosition, save)
+        mDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(mainEntryId, entryHistoryPosition, save)
     }
 
-    fun deleteDatabaseEntryHistory(mainEntry: Entry,
+    fun deleteDatabaseEntryHistory(mainEntryId: NodeId<UUID>,
                                    entryHistoryPosition: Int,
                                    save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntry, entryHistoryPosition, save)
+        mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, save)
     }
 
     override fun onResume() {

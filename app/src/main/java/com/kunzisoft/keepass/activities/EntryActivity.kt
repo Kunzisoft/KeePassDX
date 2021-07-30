@@ -81,8 +81,10 @@ class EntryActivity : LockingActivity() {
 
     private val mEntryViewModel: EntryViewModel by viewModels()
 
-    private var mEntryId: NodeId<UUID>? = null
+    private var mMainEntryId: NodeId<UUID>? = null
     private var mHistoryPosition: Int = -1
+    private var mEntryIsHistory: Boolean = false
+    private var mUrl: String? = null
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
@@ -122,7 +124,7 @@ class EntryActivity : LockingActivity() {
         // Get Entry from UUID
         try {
             intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
-                mEntryId = entryId
+                mMainEntryId = entryId
                 intent.removeExtra(KEY_ENTRY)
                 mHistoryPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
@@ -138,6 +140,30 @@ class EntryActivity : LockingActivity() {
 
         lockView?.setOnClickListener {
             lockAndExit()
+        }
+
+        mEntryViewModel.mainEntryId.observe(this) { mainEntryId ->
+            this.mMainEntryId = mainEntryId
+            invalidateOptionsMenu()
+        }
+
+        mEntryViewModel.historyPosition.observe(this) { historyPosition ->
+            this.mHistoryPosition = historyPosition
+            val entryIsHistory = historyPosition > -1
+            this.mEntryIsHistory = entryIsHistory
+            // Assign history dedicated view
+            historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
+            if (entryIsHistory) {
+                val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+                collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
+                taColorAccent.recycle()
+            }
+            invalidateOptionsMenu()
+        }
+
+        mEntryViewModel.url.observe(this) { url ->
+            this.mUrl = url
+            invalidateOptionsMenu()
         }
 
         mEntryViewModel.entryInfo.observe(this) { entryInfo ->
@@ -166,18 +192,6 @@ class EntryActivity : LockingActivity() {
             invalidateOptionsMenu()
 
             loadingView?.hideByFading()
-        }
-
-        mEntryViewModel.entryIsHistory.observe(this) { entryIsHistory ->
-            // Assign history dedicated view
-            historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
-            if (entryIsHistory) {
-                val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-                collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-                taColorAccent.recycle()
-            }
-
-            invalidateOptionsMenu()
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
@@ -219,7 +233,7 @@ class EntryActivity : LockingActivity() {
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
 
         mEntryViewModel.setDatabase(database)
-        mEntryViewModel.loadEntry(mEntryId, mHistoryPosition)
+        mEntryViewModel.loadEntry(mMainEntryId, mHistoryPosition)
 
         // Assign title icon
         mIcon?.let { icon ->
@@ -306,16 +320,14 @@ class EntryActivity : LockingActivity() {
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
 
-        if (mEntryViewModel.getEntry()?.url?.isEmpty() != false) {
+        if (mUrl?.isEmpty() != false) {
             menu.findItem(R.id.menu_goto_url)?.isVisible = false
         }
 
-        val entryIsHistory = mEntryViewModel.getEntryIsHistory()
-
-        if (entryIsHistory && !mReadOnly) {
+        if (mEntryIsHistory && !mReadOnly) {
             inflater.inflate(R.menu.entry_history, menu)
         }
-        if (entryIsHistory || mReadOnly) {
+        if (mEntryIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -366,29 +378,29 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                mEntryViewModel.getEntry()?.let { entry ->
-                    EntryEditActivity.launch(this@EntryActivity, entry)
+                mMainEntryId?.let { entryId ->
+                    EntryEditActivity.launch(this@EntryActivity, entryId)
                 }
                 return true
             }
             R.id.menu_goto_url -> {
-                mEntryViewModel.getEntry()?.url?.let { url ->
+                mUrl?.let { url ->
                     UriUtil.gotoUrl(this, url)
                 }
                 return true
             }
             R.id.menu_restore_entry_history -> {
-                mEntryViewModel.getMainEntry()?.let { mainEntry ->
+                mMainEntryId?.let { mainEntryId ->
                     restoreEntryHistory(
-                            mainEntry,
-                            mEntryViewModel.getEntryHistoryPosition())
+                        mainEntryId,
+                        mHistoryPosition)
                 }
             }
             R.id.menu_delete_entry_history -> {
-                mEntryViewModel.getMainEntry()?.let { mainEntry ->
+                mMainEntryId?.let { mainEntryId ->
                     deleteEntryHistory(
-                            mainEntry,
-                            mEntryViewModel.getEntryHistoryPosition())
+                        mainEntryId,
+                        mHistoryPosition)
                 }
             }
             R.id.menu_save_database -> {
@@ -405,7 +417,7 @@ class EntryActivity : LockingActivity() {
     override fun finish() {
         // Transit data in previous Activity after an update
         Intent().apply {
-            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntryViewModel.getEntry())
+            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mMainEntryId)
             setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, this)
         }
         super.finish()

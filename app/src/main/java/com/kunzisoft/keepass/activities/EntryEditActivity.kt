@@ -661,7 +661,7 @@ class EntryEditActivity : LockingActivity(),
         try {
             val bundle = Bundle()
             val intentEntry = Intent()
-            bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry)
+            bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
             intentEntry.putExtras(bundle)
             when (actionTask) {
                 ACTION_DATABASE_CREATE_ENTRY_TASK -> {
@@ -698,13 +698,13 @@ class EntryEditActivity : LockingActivity(),
          * Launch EntryEditActivity to update an existing entry
          *
          * @param activity from activity
-         * @param entry Entry to update
+         * @param entryId Entry to update
          */
         fun launch(activity: Activity,
-                   entry: Entry) {
+                   entryId: NodeId<UUID>) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
+                intent.putExtra(KEY_ENTRY, entryId)
                 activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }

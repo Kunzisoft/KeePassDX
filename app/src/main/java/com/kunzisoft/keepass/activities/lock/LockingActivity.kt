@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.MainCredential
@@ -48,6 +49,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
+import java.util.*
 
 abstract class LockingActivity : SpecialModeActivity(),
     PasswordEncodingDialogFragment.Listener,
@@ -256,14 +258,14 @@ abstract class LockingActivity : SpecialModeActivity(),
         updateDatabaseGroup(oldGroup, updateGroup, !mReadOnly && mAutoSaveEnable)
     }
 
-    fun restoreEntryHistory(mainEntry: Entry,
-                            entryHistoryPosition: Int,) {
-        restoreDatabaseEntryHistory(mainEntry, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
+    fun restoreEntryHistory(mainEntryId: NodeId<UUID>,
+                            entryHistoryPosition: Int) {
+        restoreDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
     }
 
-    fun deleteEntryHistory(mainEntry: Entry,
-                           entryHistoryPosition: Int,) {
-        deleteDatabaseEntryHistory(mainEntry, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
+    fun deleteEntryHistory(mainEntryId: NodeId<UUID>,
+                           entryHistoryPosition: Int) {
+        deleteDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

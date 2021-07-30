@@ -447,22 +447,22 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
       -----------------
     */
 
-    fun startDatabaseRestoreEntryHistory(mainEntry: Entry,
+    fun startDatabaseRestoreEntryHistory(mainEntryId: NodeId<UUID>,
                                          entryHistoryPosition: Int,
                                          save: Boolean) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntry.nodeId)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntryId)
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_RESTORE_ENTRY_HISTORY)
     }
 
-    fun startDatabaseDeleteEntryHistory(mainEntry: Entry,
+    fun startDatabaseDeleteEntryHistory(mainEntryId: NodeId<UUID>,
                                         entryHistoryPosition: Int,
                                         save: Boolean) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntry.nodeId)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntryId)
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }

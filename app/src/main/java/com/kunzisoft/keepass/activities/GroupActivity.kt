@@ -772,7 +772,7 @@ class GroupActivity : LockingActivity(),
                         .show(supportFragmentManager,
                                 GroupEditDialogFragment.TAG_CREATE_GROUP)
             }
-            Type.ENTRY -> EntryEditActivity.launch(this@GroupActivity, node as Entry)
+            Type.ENTRY -> EntryEditActivity.launch(this@GroupActivity, (node as Entry).nodeId)
         }
         return true
     }

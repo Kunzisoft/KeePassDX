@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
@@ -397,9 +398,9 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE
                         || resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<Node>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { changedNode ->
-                        if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-                            addNode(changedNode)
+                    data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { changedNodeId ->
+                        // TODO if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
+                            // addNode(changedNode)
                         if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
                             mAdapter?.notifyDataSetChanged()
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
