@@ -277,6 +277,7 @@ class GroupActivity : LockingActivity(),
             }
 
             assignGroupViewElements()
+            invalidateOptionsMenu()
 
             Log.i(TAG, "Finished creating tree")
         }
