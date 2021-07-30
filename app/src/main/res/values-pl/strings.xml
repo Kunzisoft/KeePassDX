@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="feedback">Informacje zwrotne</string>
-    <string name="homepage">Strona domowa</string>
+    <string name="homepage">Strona główna</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
@@ -129,10 +129,10 @@
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
     <string name="extended_ASCII">Rozszerzone ASCII</string>
-    <string name="allow">Zezwalaj</string>
+    <string name="allow">Zezwól</string>
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
-    <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
+    <string name="clipboard_error_clear">Nie udało się wyczyścić schowka</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
 \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
