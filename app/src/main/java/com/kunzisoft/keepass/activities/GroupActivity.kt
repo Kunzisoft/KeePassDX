@@ -44,7 +44,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
-import com.kunzisoft.keepass.activities.fragments.ListNodesFragment
+import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -84,10 +84,10 @@ class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
-        ListNodesFragment.NodeClickListener,
-        ListNodesFragment.NodesActionMenuListener,
+        GroupFragment.NodeClickListener,
+        GroupFragment.NodesActionMenuListener,
         DeleteNodesDialogFragment.DeleteNodeListener,
-        ListNodesFragment.OnScrollListener,
+        GroupFragment.OnScrollListener,
         SortDialogFragment.SortSelectionListener {
 
     // Views
@@ -105,7 +105,7 @@ class GroupActivity : LockingActivity(),
     private val mGroupViewModel: GroupViewModel by viewModels()
 
     // TODO Remove and pass through viewModel
-    private var mListNodesFragment: ListNodesFragment? = null
+    private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
     private var mRecyclingBinIsCurrentGroup = false
     private var mGroupNamesNotAllowed: List<String>? = null
@@ -191,24 +191,30 @@ class GroupActivity : LockingActivity(),
         }
 
         // Initialize the fragment with the list
-        mListNodesFragment =
-            supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as ListNodesFragment?
-        if (mListNodesFragment == null)
-            mListNodesFragment = ListNodesFragment()
+        mGroupFragment =
+            supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as GroupFragment?
+        if (mGroupFragment == null)
+            mGroupFragment = GroupFragment()
 
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
             R.id.nodes_list_fragment_container,
-            mListNodesFragment!!,
+            mGroupFragment!!,
             GROUP_FRAGMENT_TAG
         ).commit()
 
         // Observe group
         mGroupViewModel.group.observe(this) {
-            mCurrentGroup = it.group
+            val currentGroup = it.group
+
+            mCurrentGroup = currentGroup
             mRecyclingBinIsCurrentGroup = it.isRecycleBin
 
-            val currentGroup = it.group
+            // Save group id if real group
+            if (!currentGroup.isVirtual) {
+                mCurrentGroupId = currentGroup.nodeId
+                intent.extras?.putParcelable(GROUP_ID_KEY, mCurrentGroupId)
+            }
 
             // Update last access time.
             currentGroup.touch(modified = false, touchParents = false)
@@ -286,14 +292,15 @@ class GroupActivity : LockingActivity(),
         mRecyclingBinEnabled = !mReadOnly
                 && database?.isRecycleBinEnabled == true
         mGroupNamesNotAllowed = database?.groupNamesNotAllowed
-        
-        try {
-            mRootGroup = database?.rootGroup
-        } catch (e: NullPointerException) {
-            Log.e(TAG, "Unable to get rootGroup")
-        }
 
-        retrieveCurrentGroup(intent)
+        mRootGroup = database?.rootGroup
+        if (mCurrentGroupId == null) {
+            mRootGroup?.let { rootGroup ->
+                mGroupViewModel.loadGroup(rootGroup)
+            }
+        } else {
+            mGroupViewModel.loadGroup(mCurrentGroupId)
+        }
 
         // Search suggestion
         database?.let {
@@ -335,7 +342,7 @@ class GroupActivity : LockingActivity(),
         when (actionTask) {
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
                 if (result.isSuccess) {
-                    mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                    mGroupFragment?.updateNodes(oldNodes, newNodes)
                     EntrySelectionHelper.doSpecialAction(intent,
                         {
                             // Standard not used after task
@@ -370,14 +377,14 @@ class GroupActivity : LockingActivity(),
             }
             ACTION_DATABASE_UPDATE_GROUP_TASK -> {
                 if (result.isSuccess) {
-                    mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                    mGroupFragment?.updateNodes(oldNodes, newNodes)
                 }
             }
             ACTION_DATABASE_CREATE_GROUP_TASK,
             ACTION_DATABASE_COPY_NODES_TASK,
             ACTION_DATABASE_MOVE_NODES_TASK -> {
                 if (result.isSuccess) {
-                    mListNodesFragment?.addNodes(newNodes)
+                    mGroupFragment?.addNodes(newNodes)
                 }
             }
             ACTION_DATABASE_DELETE_NODES_TASK -> {
@@ -385,7 +392,7 @@ class GroupActivity : LockingActivity(),
 
                     // Rebuild all the list to avoid bug when delete node from sort
                     try {
-                        mListNodesFragment?.rebuildList()
+                        mGroupViewModel.loadGroup(mCurrentGroupId)
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to rebuild the list after deletion")
                         e.printStackTrace()
@@ -398,12 +405,12 @@ class GroupActivity : LockingActivity(),
                         if (currentGroup != null && recycleBin != null
                             && currentGroup != recycleBin) {
                             // Recycle bin already here, simply update it
-                            if (mListNodesFragment?.contains(recycleBin) == true) {
-                                mListNodesFragment?.updateNode(recycleBin)
+                            if (mGroupFragment?.contains(recycleBin) == true) {
+                                mGroupFragment?.updateNode(recycleBin)
                             }
                             // Recycle bin not here, verify if parents are similar to add it
                             else if (currentGroup == recycleBin.parent) {
-                                mListNodesFragment?.addNode(recycleBin)
+                                mGroupFragment?.addNode(recycleBin)
                             }
                         }
                     }
@@ -429,31 +436,16 @@ class GroupActivity : LockingActivity(),
         super.onNewIntent(intent)
 
         intent?.let { intentNotNull ->
-
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
             manageSearchInfoIntent(intentNotNull)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
             if (Intent.ACTION_SEARCH == intentNotNull.action) {
                 finishNodeAction()
-                // Retrieve current group by id
-                mCurrentGroupId = intent.getParcelableExtra(GROUP_ID_KEY)
-                retrieveCurrentGroup(intentNotNull)
+                val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
+                mGroupViewModel.loadGroupFromSearch(searchString,
+                    PreferencesUtil.omitBackup(this))
             }
-        }
-    }
-
-    private fun retrieveCurrentGroup(intent: Intent?) {
-        // If it's a search
-        if (Intent.ACTION_SEARCH == intent?.action) {
-            val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-            mGroupViewModel.loadGroupFromSearch(searchString,
-                PreferencesUtil.omitBackup(this))
-        }
-        // else a real group
-        else {
-            Log.w(TAG, "Creating tree view")
-            mGroupViewModel.loadGroup(mCurrentGroupId)
         }
     }
 
@@ -728,7 +720,7 @@ class GroupActivity : LockingActivity(),
                                 nodes: List<Node>): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
-                mListNodesFragment?.actionNodesCallback(database, nodes, this, object: ActionMode.Callback {
+                mGroupFragment?.actionNodesCallback(database, nodes, this, object: ActionMode.Callback {
                     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                         return true
                     }
@@ -794,16 +786,16 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onPasteMenuClick(database: Database,
-                                  pasteMode: ListNodesFragment.PasteMode?,
+                                  pasteMode: GroupFragment.PasteMode?,
                                   nodes: List<Node>): Boolean {
         when (pasteMode) {
-            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+            GroupFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
                 mCurrentGroup?.let { newParent ->
                     copyNodes(nodes, newParent)
                 }
             }
-            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+            GroupFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
                 mCurrentGroup?.let { newParent ->
                     moveNodes(nodes, newParent)
@@ -897,8 +889,8 @@ class GroupActivity : LockingActivity(),
                                        menu: Menu) {
 
         // If no node, show education to add new one
-        val addNodeButtonEducationPerformed = mListNodesFragment != null
-                && mListNodesFragment!!.isEmpty
+        val addNodeButtonEducationPerformed = mGroupFragment != null
+                && mGroupFragment!!.isEmpty
                 && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
                 && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(
@@ -1025,7 +1017,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        mListNodesFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
+        mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
     override fun startActivity(intent: Intent) {
@@ -1074,7 +1066,7 @@ class GroupActivity : LockingActivity(),
         }
 
         // Directly used the onActivityResult in fragment
-        mListNodesFragment?.onActivityResult(requestCode, resultCode, data)
+        mGroupFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun rebuildListNodes() {
@@ -1099,7 +1091,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onBackPressed() {
-        if (mListNodesFragment?.nodeActionSelectionMode == true) {
+        if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {
             // Normal way when we are not in root

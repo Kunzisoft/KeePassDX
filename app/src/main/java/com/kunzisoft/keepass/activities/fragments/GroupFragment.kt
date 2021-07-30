@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.*
 
-class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
+class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
@@ -116,7 +116,11 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
         mGroupViewModel.group.observe(viewLifecycleOwner) {
             mCurrentGroup = it.group
             isASearchResult = it.group.isVirtual
-            rebuildList()
+            try {
+                rebuildList()
+            } catch (e:Exception) {
+                Log.e(TAG, "Unable to rebuild the list", e)
+            }
         }
     }
 
@@ -206,14 +210,6 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
         }
 
-        // Refresh data
-        try {
-            rebuildList()
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to rebuild the list during resume")
-            e.printStackTrace()
-        }
-
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
             mNodesRecyclerView?.visibility = View.GONE
@@ -225,17 +221,15 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     }
 
     @Throws(IllegalArgumentException::class)
-    fun rebuildList() {
+    private fun rebuildList() {
         // Add elements to the list
         mCurrentGroup?.let { mainGroup ->
-            mAdapter?.apply {
-                // Thrown an exception when sort cannot be performed
-                rebuildList(mainGroup)
-                // To visually change the elements
-                if (PreferencesUtil.APPEARANCE_CHANGED) {
-                    notifyDataSetChanged()
-                    PreferencesUtil.APPEARANCE_CHANGED = false
-                }
+            // Thrown an exception when sort cannot be performed
+            mAdapter?.rebuildList(mainGroup)
+            // To visually change the elements
+            if (PreferencesUtil.APPEARANCE_CHANGED) {
+                mAdapter?.notifyDataSetChanged()
+                PreferencesUtil.APPEARANCE_CHANGED = false
             }
         }
     }
@@ -252,8 +246,7 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
             rebuildList()
         } catch (e:Exception) {
-            Log.e(TAG, "Unable to rebuild the list with the sort")
-            e.printStackTrace()
+            Log.e(TAG, "Unable to rebuild the list with the sort", e)
         }
     }
 
@@ -481,6 +474,6 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     }
 
     companion object {
-        private val TAG = ListNodesFragment::class.java.name
+        private val TAG = GroupFragment::class.java.name
     }
 }
