@@ -66,6 +66,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
@@ -95,6 +96,9 @@ class EntryEditActivity : LockingActivity(),
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
+    private var mAllowCustomFields = false
+    private var mAllowOTP = false
+
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
@@ -121,9 +125,6 @@ class EntryEditActivity : LockingActivity(),
         lockView = findViewById(R.id.lock_button)
         validateButton = findViewById(R.id.entry_edit_validate)
         loadingView = findViewById(R.id.loading)
-
-        // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -227,7 +228,7 @@ class EntryEditActivity : LockingActivity(),
             templateSelectorSpinner?.apply {
                 // Build template selector
                 if (templates.isNotEmpty()) {
-                    adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
+                    adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mIconDrawableFactory, templates)
                     setSelection(templates.indexOf(defaultTemplate))
                     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -245,71 +246,74 @@ class EntryEditActivity : LockingActivity(),
         mEntryEditViewModel.onEntrySaved.observe(this) { entrySave ->
             // Open a progress dialog and save entry
             entrySave.parent?.let { parent ->
-                mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                    entrySave.newEntry,
-                    parent,
-                    !mReadOnly && mAutoSaveEnable
-                )
+                createEntry(entrySave.newEntry, parent)
             } ?: run {
-                mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                    entrySave.oldEntry,
-                    entrySave.newEntry,
-                    !mReadOnly && mAutoSaveEnable
-                )
+                updateEntry(entrySave.oldEntry, entrySave.newEntry)
             }
         }
+    }
 
-        // Create progress dialog
-        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-            when (actionTask) {
-                ACTION_DATABASE_CREATE_ENTRY_TASK,
-                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                    try {
-                        if (result.isSuccess) {
-                            var newNodes: List<Node> = ArrayList()
-                            result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
-                                mDatabase?.let { database ->
-                                    newNodes = DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
-                                }
-                            }
-                            if (newNodes.size == 1) {
-                                (newNodes[0] as? Entry?)?.let { entry ->
-                                    EntrySelectionHelper.doSpecialAction(intent,
-                                            {
-                                                // Finish naturally
-                                                finishForEntryResult(actionTask, entry)
-                                            },
-                                            {
-                                                // Nothing when search retrieved
-                                            },
-                                            {
-                                                entryValidatedForSave(actionTask, entry)
-                                            },
-                                            {
-                                                entryValidatedForKeyboardSelection(actionTask, entry)
-                                            },
-                                            { _, _ ->
-                                                entryValidatedForAutofillSelection(entry)
-                                            },
-                                            {
-                                                entryValidatedForAutofillRegistration(actionTask, entry)
-                                            }
-                                    )
-                                }
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        // Focus view to reinitialize timeout
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
+        mEntryEditViewModel.setDatabase(database)
+        mAllowCustomFields = database?.allowEntryCustomFields() == true
+        mAllowOTP = database?.allowOTP == true
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            ACTION_DATABASE_CREATE_ENTRY_TASK,
+            ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                try {
+                    if (result.isSuccess) {
+                        var newNodes: List<Node> = ArrayList()
+                        result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
+                            newNodes = DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
+                        }
+                        if (newNodes.size == 1) {
+                            (newNodes[0] as? Entry?)?.let { entry ->
+                                EntrySelectionHelper.doSpecialAction(intent,
+                                    {
+                                        // Finish naturally
+                                        finishForEntryResult(actionTask, entry)
+                                    },
+                                    {
+                                        // Nothing when search retrieved
+                                    },
+                                    {
+                                        entryValidatedForSave(actionTask, entry)
+                                    },
+                                    {
+                                        entryValidatedForKeyboardSelection(database, actionTask, entry)
+                                    },
+                                    { _, _ ->
+                                        entryValidatedForAutofillSelection(database, entry)
+                                    },
+                                    {
+                                        entryValidatedForAutofillRegistration(actionTask, entry)
+                                    }
+                                )
                             }
                         }
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Unable to retrieve entry after database action", e)
                     }
-                }
-                ACTION_DATABASE_RELOAD_TASK -> {
-                    // Close the current activity
-                    this.showActionErrorIfNeeded(result)
-                    finish()
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to retrieve entry after database action", e)
                 }
             }
-            coordinatorLayout?.showActionErrorIfNeeded(result)
+            ACTION_DATABASE_RELOAD_TASK -> {
+                // Close the current activity
+                this.showActionErrorIfNeeded(result)
+                finish()
+            }
         }
+        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     private fun entryValidatedForSave(actionTask: String, entry: Entry) {
@@ -317,26 +321,22 @@ class EntryEditActivity : LockingActivity(),
         finishForEntryResult(actionTask, entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(actionTask: String, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(database: Database, actionTask: String, entry: Entry) {
         // Populate Magikeyboard with entry
-        mDatabase?.let { database ->
-            populateKeyboardAndMoveAppToBackground(this,
-                    entry.getEntryInfo(database),
-                    intent)
-        }
+        populateKeyboardAndMoveAppToBackground(this,
+                entry.getEntryInfo(database),
+                intent)
         onValidateSpecialMode()
         // Don't keep activity history for entry edition
         finishForEntryResult(actionTask, entry)
     }
 
-    private fun entryValidatedForAutofillSelection(entry: Entry) {
+    private fun entryValidatedForAutofillSelection(database: Database, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mDatabase?.let { database ->
-                AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
-                        database,
-                        entry.getEntryInfo(database))
-            }
+            AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
+                    database,
+                    entry.getEntryInfo(database))
         }
         onValidateSpecialMode()
     }
@@ -466,10 +466,8 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
-        val allowCustomField = mDatabase?.allowEntryCustomFields() == true
-
         menu?.findItem(R.id.menu_add_field)?.apply {
-            isEnabled = allowCustomField
+            isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
 
@@ -481,9 +479,8 @@ class EntryEditActivity : LockingActivity(),
         }
 
         menu?.findItem(R.id.menu_add_otp)?.apply {
-            val allowOTP = mDatabase?.allowOTP == true
             // OTP not compatible below KitKat
-            isEnabled = allowOTP
+            isEnabled = mAllowOTP
                     && !mEntryEditViewModel.entryIsTemplate()
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
@@ -513,7 +510,7 @@ class EntryEditActivity : LockingActivity(),
 
         if (!generatePasswordEductionPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
-            val addNewFieldEducationPerformed = mDatabase?.allowEntryCustomFields() == true
+            val addNewFieldEducationPerformed = mAllowCustomFields
                     && addNewFieldView != null
                     && addNewFieldView.isVisible
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(

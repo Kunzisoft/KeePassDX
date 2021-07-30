@@ -19,10 +19,9 @@ import java.util.*
 
 class EntryEditViewModel: ViewModel() {
 
-    private val mDatabase: Database? = Database.getInstance()
-
-    private var mParent : Group? = null
-    private var mEntry : Entry? = null
+    private var mDatabase: Database? = null
+    private var mParent: Group? = null
+    private var mEntry: Entry? = null
     private var mIsTemplate: Boolean = false
 
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
@@ -79,6 +78,10 @@ class EntryEditViewModel: ViewModel() {
     private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
     val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
+
+    fun setDatabase(database: Database?) {
+        this.mDatabase = database
+    }
 
     fun initializeEntryToUpdate(entryId: NodeId<UUID>,
                                 registerInfo: RegisterInfo?,
@@ -166,7 +169,7 @@ class EntryEditViewModel: ViewModel() {
                 }
             }
             // Set default username
-            username = mDatabase.defaultUsername
+            username = mDatabase?.defaultUsername ?: ""
             // Warning only the entry recognize is parent, parent don't yet recognize the new entry
             // Useful to recognize child state (ie: entry is a template)
             parent = parentGroup
@@ -246,7 +249,7 @@ class EntryEditViewModel: ViewModel() {
                         val tempAttachment = tempAttachmentState.attachment
                         mDatabase?.attachmentPool?.let { binaryPool ->
                             if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                                mDatabase.removeAttachmentIfNotUsed(tempAttachment)
+                                mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
                             }
                         }
                     }

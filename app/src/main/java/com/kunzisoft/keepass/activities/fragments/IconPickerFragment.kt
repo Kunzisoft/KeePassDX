@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 class IconPickerFragment : DatabaseFragment() {
@@ -28,17 +29,7 @@ class IconPickerFragment : DatabaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager = view.findViewById(R.id.icon_picker_pager)
-        val tabLayout = view.findViewById<TabLayout>(R.id.icon_picker_tabs)
-        iconPickerPagerAdapter = IconPickerPagerAdapter(this,
-                if (mDatabase?.allowCustomIcons == true) 2 else 1)
-        viewPager.adapter = iconPickerPagerAdapter
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position) {
-                1 -> getString(R.string.icon_section_custom)
-                else -> getString(R.string.icon_section_standard)
-            }
-        }.attach()
+        super.onViewCreated(view, savedInstanceState)
 
         arguments?.apply {
             if (containsKey(ICON_TAB_ARG)) {
@@ -50,6 +41,20 @@ class IconPickerFragment : DatabaseFragment() {
         iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { _ ->
             viewPager.currentItem = 1
         }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        viewPager = requireView().findViewById(R.id.icon_picker_pager)
+        val tabLayout = requireView().findViewById<TabLayout>(R.id.icon_picker_tabs)
+        iconPickerPagerAdapter = IconPickerPagerAdapter(this,
+            if (database?.allowCustomIcons == true) 2 else 1)
+        viewPager.adapter = iconPickerPagerAdapter
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                1 -> getString(R.string.icon_section_custom)
+                else -> getString(R.string.icon_section_standard)
+            }
+        }.attach()
     }
 
     enum class IconTab {

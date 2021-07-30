@@ -138,5 +138,5 @@ fun Context.closeDatabase() {
         cancelAll()
     }
     // Clear data
-    Database.getInstance().clearAndClose(this)
+    // TODO Database.getInstance().clearAndClose(this)
 }

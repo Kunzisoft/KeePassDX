@@ -43,6 +43,7 @@ object ReadOnlyHelper {
         }
     }
 
+    // TODO remove read only
     fun retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState: Bundle?, arguments: Bundle?): Boolean {
         var readOnly = READ_ONLY_DEFAULT
         if (savedInstanceState != null && savedInstanceState.containsKey(READ_ONLY_KEY)) {

@@ -60,7 +60,7 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
                 // Remove all history items
                 database.removeOldestHistoryForEachEntry()
 
-                mProgressDatabaseTaskProvider?.startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems, mDatabaseAutoSaveEnable)
+                saveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems)
             }
         }
     }

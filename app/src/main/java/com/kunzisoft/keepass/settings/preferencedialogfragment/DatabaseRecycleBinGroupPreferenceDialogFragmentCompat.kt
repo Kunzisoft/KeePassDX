@@ -62,11 +62,7 @@ class DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
                     val oldGroup = database.recycleBin
                     val newGroup = mGroupRecycleBin
                     database.setRecycleBin(newGroup)
-                    mProgressDatabaseTaskProvider?.startDatabaseSaveRecycleBin(
-                        oldGroup,
-                        newGroup,
-                        mDatabaseAutoSaveEnable
-                    )
+                    saveRecycleBin(oldGroup, newGroup)
                 }
             }
         }

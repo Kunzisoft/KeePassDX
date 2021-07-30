@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings
 import android.app.Activity
 import android.app.backup.BackupManager
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -33,7 +32,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -41,6 +39,7 @@ import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrCha
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import org.joda.time.DateTime
@@ -49,8 +48,7 @@ import java.util.*
 open class SettingsActivity
     : LockingActivity(),
         MainPreferenceFragment.Callback,
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-        PasswordEncodingDialogFragment.Listener {
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     private var backupManager: BackupManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -59,14 +57,6 @@ open class SettingsActivity
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var lockView: View? = null
-
-    /**
-     * Retrieve the main fragment to show in first
-     * @return The main fragment
-     */
-    protected open fun retrieveMainFragment(): Fragment {
-        return MainPreferenceFragment()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,9 +80,6 @@ open class SettingsActivity
             lockAndExit()
         }
 
-        // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())
@@ -103,29 +90,6 @@ open class SettingsActivity
 
         backupManager = BackupManager(this)
 
-        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-            when (actionTask) {
-                DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
-                    // Reload the current activity
-                    if (result.isSuccess) {
-                        startActivity(intent)
-                        finish()
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    } else {
-                        this.showActionErrorIfNeeded(result)
-                        finish()
-                    }
-                }
-                else -> {
-                    // Call result in fragment
-                    (supportFragmentManager
-                            .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
-                            ?.onProgressDialogThreadResult(actionTask, result)
-                }
-            }
-            coordinatorLayout?.showActionErrorIfNeeded(result)
-        }
-
         // To reload the current screen
         if (intent.extras?.containsKey(FRAGMENT_ARG) == true) {
             intent.extras?.getString(FRAGMENT_ARG)?.let { fragmentScreenName ->
@@ -134,6 +98,49 @@ open class SettingsActivity
             // Eat state
             intent.removeExtra(FRAGMENT_ARG)
         }
+    }
+
+    /**
+     * Retrieve the main fragment to show in first
+     * @return The main fragment
+     */
+    protected open fun retrieveMainFragment(): Fragment {
+        return MainPreferenceFragment()
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        // Focus view to reinitialize timeout
+        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
+                // Reload the current activity
+                if (result.isSuccess) {
+                    startActivity(intent)
+                    finish()
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                } else {
+                    this.showActionErrorIfNeeded(result)
+                    finish()
+                }
+            }
+            else -> {
+                // Call result in fragment
+                (supportFragmentManager
+                    .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
+                    ?.onProgressDialogThreadResult(actionTask, result)
+            }
+        }
+        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -149,31 +156,8 @@ open class SettingsActivity
         super.onStop()
     }
 
-    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                                    mainCredential: MainCredential) {
-        databaseUri?.let {
-            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
-                    databaseUri,
-                    mainCredential
-            )
-        }
-    }
-
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        mDatabase?.let { database ->
-            database.fileUri?.let { databaseUri ->
-                // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(mainCredential)) {
-                    mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
-                            databaseUri,
-                            mainCredential
-                    )
-                } else {
-                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
-                            .show(supportFragmentManager, "passwordEncodingTag")
-                }
-            }
-        }
+        assignPassword(mainCredential)
     }
 
     override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
@@ -243,7 +227,7 @@ open class SettingsActivity
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
         if (mTimeoutEnable)
-            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
+            checkTimeAndLockIfTimeoutOrResetTimeout {
                 replaceFragment(key, reload)
             }
         else

@@ -27,6 +27,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.selection.DatabaseActivity
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -39,14 +41,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
  * Activity to search or select entry in database,
  * Commonly used with Magikeyboard
  */
-class EntrySelectionLauncherActivity : AppCompatActivity() {
+class EntrySelectionLauncherActivity : DatabaseActivity() {
 
-    private var mDatabase: Database? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        mDatabase = Database.getInstance()
-
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
         var sharedWebDomain: String? = null
         var otpString: String? = null
 
@@ -72,20 +70,22 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
             else -> {}
         }
 
-
         // Build domain search param
         val searchInfo = SearchInfo().apply {
             this.webDomain = sharedWebDomain
             this.otpString = otpString
         }
+
+        // End activity if database not loaded
+        if (database?.loaded != true) {
+            finish()
+        }
         SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
             searchInfo.webDomain = concreteWebDomain
-            mDatabase?.let { database ->
+            database?.let { database ->
                 launch(database, searchInfo)
             }
         }
-
-        super.onCreate(savedInstanceState)
     }
 
     private fun launch(database: Database,

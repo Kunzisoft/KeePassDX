@@ -63,7 +63,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
                     database.encryptionAlgorithm = newAlgorithm
 
                     if (oldAlgorithm != null && newAlgorithm != null)
-                        mProgressDatabaseTaskProvider?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm, mDatabaseAutoSaveEnable)
+                        saveEncryption(oldAlgorithm, newAlgorithm)
                 }
             }
         }

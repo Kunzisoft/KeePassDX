@@ -36,6 +36,7 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.*
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
 class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -88,7 +89,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                 }
                 val oldColor = database.customColor
                 database.customColor = newColor
-                mProgressDatabaseTaskProvider?.startDatabaseSaveColor(oldColor, newColor, mDatabaseAutoSaveEnable)
+                saveColor(oldColor, newColor)
             }
 
             onDialogClosed(true)

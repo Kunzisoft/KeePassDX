@@ -57,17 +57,17 @@ open class DeleteNodesDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val database = Database.getInstance()
-
         arguments?.apply {
             if (containsKey(DatabaseTaskNotificationService.GROUPS_ID_KEY)
                     && containsKey(DatabaseTaskNotificationService.ENTRIES_ID_KEY)) {
-                mNodesToDelete = getListNodesFromBundle(database, this)
+                // TODO Database
+                mNodesToDelete = getListNodesFromBundle(Database.getInstance(), this)
             }
         } ?: savedInstanceState?.apply {
             if (containsKey(DatabaseTaskNotificationService.GROUPS_ID_KEY)
                     && containsKey(DatabaseTaskNotificationService.ENTRIES_ID_KEY)) {
-                mNodesToDelete = getListNodesFromBundle(database, savedInstanceState)
+                // TODO Database
+                mNodesToDelete = getListNodesFromBundle(Database.getInstance(), savedInstanceState)
             }
         }
         activity?.let { activity ->

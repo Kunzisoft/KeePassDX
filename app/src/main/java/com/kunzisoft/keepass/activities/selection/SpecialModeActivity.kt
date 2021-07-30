@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.activities.selection
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.room.Database
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -15,7 +16,7 @@ import com.kunzisoft.keepass.view.SpecialModeView
 /**
  * Activity to manage special mode (ie: selection mode)
  */
-abstract class SpecialModeActivity : StylishActivity() {
+abstract class SpecialModeActivity : DatabaseActivity() {
 
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
     private var mTypeMode: TypeMode = TypeMode.DEFAULT

@@ -61,7 +61,7 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 val oldMemoryUsage = database.memoryUsage
                 database.memoryUsage = numberOfBytes
 
-                mProgressDatabaseTaskProvider?.startDatabaseSaveMemoryUsage(oldMemoryUsage, numberOfBytes, mDatabaseAutoSaveEnable)
+                saveMemoryUsage(oldMemoryUsage, numberOfBytes)
             }
         }
     }

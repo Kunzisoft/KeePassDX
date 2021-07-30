@@ -33,10 +33,14 @@ import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
+
+    private lateinit var imageView: ImageView
+    private lateinit var progressView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,43 +53,8 @@ class ImageViewerActivity : LockingActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val imageContainerView: ViewGroup = findViewById(R.id.image_viewer_container)
-        val imageView: ImageView = findViewById(R.id.image_viewer_image)
-        val progressView: View = findViewById(R.id.image_viewer_progress)
-
-        // Approximately, to not OOM and allow a zoom
-        val mImagePreviewMaxWidth = max(
-                resources.displayMetrics.widthPixels * 2,
-                resources.displayMetrics.heightPixels * 2
-        )
-
-        try {
-            progressView.visibility = View.VISIBLE
-            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
-
-                supportActionBar?.title = attachment.name
-
-                val size = attachment.binaryData.getSize()
-                supportActionBar?.subtitle = Formatter.formatFileSize(this, size)
-
-                mDatabase?.let { database ->
-                    BinaryDatabaseManager.loadBitmap(
-                            database,
-                            attachment.binaryData,
-                            mImagePreviewMaxWidth
-                    ) { bitmapLoaded ->
-                        if (bitmapLoaded == null) {
-                            finish()
-                        } else {
-                            progressView.visibility = View.GONE
-                            imageView.setImageBitmap(bitmapLoaded)
-                        }
-                    }
-                }
-            } ?: finish()
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to view the binary", e)
-            finish()
-        }
+        imageView = findViewById(R.id.image_viewer_image)
+        progressView = findViewById(R.id.image_viewer_progress)
 
         Loupe.create(imageView, imageContainerView) {
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
@@ -107,6 +76,45 @@ class ImageViewerActivity : LockingActivity() {
                     finish()
                 }
             }
+        }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        try {
+            progressView.visibility = View.VISIBLE
+            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
+
+                supportActionBar?.title = attachment.name
+
+                val size = attachment.binaryData.getSize()
+                supportActionBar?.subtitle = Formatter.formatFileSize(this, size)
+
+                // Approximately, to not OOM and allow a zoom
+                val mImagePreviewMaxWidth = max(
+                    resources.displayMetrics.widthPixels * 2,
+                    resources.displayMetrics.heightPixels * 2
+                )
+
+                database?.let { database ->
+                    BinaryDatabaseManager.loadBitmap(
+                        database,
+                        attachment.binaryData,
+                        mImagePreviewMaxWidth
+                    ) { bitmapLoaded ->
+                        if (bitmapLoaded == null) {
+                            finish()
+                        } else {
+                            progressView.visibility = View.GONE
+                            imageView.setImageBitmap(bitmapLoaded)
+                        }
+                    }
+                }
+            } ?: finish()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to view the binary", e)
+            finish()
         }
     }
 

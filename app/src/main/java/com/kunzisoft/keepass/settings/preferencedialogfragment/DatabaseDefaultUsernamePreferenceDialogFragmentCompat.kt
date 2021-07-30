@@ -36,7 +36,7 @@ class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePrefer
                 val newDefaultUsername = inputText
                 val oldDefaultUsername = database.defaultUsername
                 database.defaultUsername = newDefaultUsername
-                mProgressDatabaseTaskProvider?.startDatabaseSaveDefaultUsername(oldDefaultUsername, newDefaultUsername, mDatabaseAutoSaveEnable)
+                saveDefaultUsername(oldDefaultUsername, newDefaultUsername)
             }
         }
     }

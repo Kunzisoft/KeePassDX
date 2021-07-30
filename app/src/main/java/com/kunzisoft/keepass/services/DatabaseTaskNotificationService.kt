@@ -58,11 +58,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
+    private var mDatabaseListeners = LinkedList<DatabaseListener>()
+    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mActionRunning = false
-
-    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -81,13 +81,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
-        fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
-            if (!mActionTaskListeners.contains(actionTaskListener))
-                mActionTaskListeners.add(actionTaskListener)
+        fun addDatabaseListener(databaseListener: DatabaseListener) {
+            if (!mDatabaseListeners.contains(databaseListener))
+                mDatabaseListeners.add(databaseListener)
         }
 
-        fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
-            mActionTaskListeners.remove(actionTaskListener)
+        fun removeDatabaseListener(databaseListener: DatabaseListener) {
+            mDatabaseListeners.remove(databaseListener)
         }
 
         fun addDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
@@ -98,12 +98,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun removeDatabaseFileInfoListener(databaseInfoListener: DatabaseInfoListener) {
             mDatabaseInfoListeners.remove(databaseInfoListener)
         }
+
+        fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
+            if (!mActionTaskListeners.contains(actionTaskListener))
+                mActionTaskListeners.add(actionTaskListener)
+        }
+
+        fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
+            mActionTaskListeners.remove(actionTaskListener)
+        }
     }
 
-    interface ActionTaskListener {
-        fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
-        fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
-        fun onStopAction(actionTask: String, result: ActionRunnable.Result)
+    interface DatabaseListener {
+        fun onDatabaseRetrieved(database: Database?)
     }
 
     interface DatabaseInfoListener {
@@ -111,14 +118,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                   newDatabaseInfo: SnapFileDatabaseInfo)
     }
 
-    /**
-     * Force to call [ActionTaskListener.onStartAction] if the action is still running
-     */
-    fun checkAction() {
-        if (mActionRunning) {
-            mActionTaskListeners.forEach { actionTaskListener ->
-                actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
-            }
+    interface ActionTaskListener {
+        fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
+        fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
+        fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result)
+    }
+
+    fun checkDatabase() {
+        mDatabaseListeners.forEach { databaseListener ->
+            databaseListener.onDatabaseRetrieved(mDatabase)
         }
     }
 
@@ -175,6 +183,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
+    /**
+     * Force to call [ActionTaskListener.onStartAction] if the action is still running
+     */
+    fun checkAction() {
+        if (mActionRunning) {
+            mActionTaskListeners.forEach { actionTaskListener ->
+                actionTaskListener.onStartAction(mDatabase, mTitleId, mMessageId, mWarningId)
+            }
+        }
+    }
+
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
         return mActionTaskBinder
@@ -184,6 +203,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         super.onStartCommand(intent, flags, startId)
 
         mDatabase = Database.getInstance()
+        mDatabaseListeners.forEach { listener ->
+            listener.onDatabaseRetrieved(mDatabase)
+        }
 
         // Create the notification
         buildMessage(intent)
@@ -243,7 +265,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
+                                actionTaskListener.onStartAction(mDatabase, mTitleId, mMessageId, mWarningId)
                             }
 
                         },
@@ -253,7 +275,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         { result ->
                             try {
                                 mActionTaskListeners.forEach { actionTaskListener ->
-                                    actionTaskListener.onStopAction(intentAction!!, result)
+                                    actionTaskListener.onStopAction(mDatabase, intentAction!!, result)
                                 }
                             } finally {
                                 // Save the database info before performing action
@@ -443,7 +465,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     override fun updateMessage(resId: Int) {
         mMessageId = resId
         mActionTaskListeners.forEach { actionTaskListener ->
-            actionTaskListener.onUpdateAction(mTitleId, mMessageId, mWarningId)
+            actionTaskListener.onUpdateAction(mDatabase, mTitleId, mMessageId, mWarningId)
         }
     }
 

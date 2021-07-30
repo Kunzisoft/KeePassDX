@@ -36,13 +36,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.fragment.app.FragmentManager
-import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.ListNodesFragment
@@ -74,9 +73,11 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
 
 class GroupActivity : LockingActivity(),
@@ -101,20 +102,26 @@ class GroupActivity : LockingActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
+    private val mGroupViewModel: GroupViewModel by viewModels()
+
+    // TODO Remove and pass through viewModel
     private var mListNodesFragment: ListNodesFragment? = null
+    private var mRecyclingBinEnabled = false
+    private var mRecyclingBinIsCurrentGroup = false
+    private var mGroupNamesNotAllowed: List<String>? = null
     private var mRequestStartupSearch = true
 
     private var actionNodeMode: ActionMode? = null
 
-    // To manage history in selection mode
-    private var mSelectionModeCountBackStack = 0
-
     // Nodes
+    private var mCurrentGroupId: NodeId<*>? = null
     private var mRootGroup: Group? = null
     private var mCurrentGroup: Group? = null
+    private var mPreviousGroupsIds = mutableListOf<NodeId<*>>()
     private var mOldGroupToUpdate: Group? = null
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
+    private var mOnSuggestionListener: SearchView.OnSuggestionListener? = null
 
     private var mIconColor: Int = 0
 
@@ -148,241 +155,305 @@ class GroupActivity : LockingActivity(),
         mIconColor = taTextColor.getColor(0, Color.WHITE)
         taTextColor.recycle()
 
-        // Focus view to reinitialize timeout
-        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
-
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(REQUEST_STARTUP_SEARCH_KEY))
+            if (savedInstanceState.containsKey(REQUEST_STARTUP_SEARCH_KEY)) {
                 mRequestStartupSearch = savedInstanceState.getBoolean(REQUEST_STARTUP_SEARCH_KEY)
-            if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
+                savedInstanceState.remove(REQUEST_STARTUP_SEARCH_KEY)
+            }
+            if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
                 mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
+                savedInstanceState.remove(OLD_GROUP_TO_UPDATE_KEY)
+            }
         }
 
+        // Retrieve current group by id
+        if (savedInstanceState != null && savedInstanceState.containsKey(GROUP_ID_KEY)) {
+            mCurrentGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY)
+            savedInstanceState.remove(GROUP_ID_KEY)
+        } else {
+            if (intent != null) {
+                mCurrentGroupId = intent.getParcelableExtra(GROUP_ID_KEY)
+                intent.removeExtra(GROUP_ID_KEY)
+            }
+        }
+
+        // Retrieve previous groups
+        if (savedInstanceState != null && savedInstanceState.containsKey(PREVIOUS_GROUPS_IDS_KEY)) {
+            try {
+                mPreviousGroupsIds =
+                    (savedInstanceState.getParcelableArray(PREVIOUS_GROUPS_IDS_KEY)
+                        ?.map { it as NodeId<*> })?.toMutableList() ?: mutableListOf()
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to retrieve previous groups", e)
+            }
+            savedInstanceState.remove(PREVIOUS_GROUPS_IDS_KEY)
+        }
+
+        // Initialize the fragment with the list
+        mListNodesFragment =
+            supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as ListNodesFragment?
+        if (mListNodesFragment == null)
+            mListNodesFragment = ListNodesFragment()
+
+        // Attach fragment to content view
+        supportFragmentManager.beginTransaction().replace(
+            R.id.nodes_list_fragment_container,
+            mListNodesFragment!!,
+            GROUP_FRAGMENT_TAG
+        ).commit()
+
+        // Observe group
+        mGroupViewModel.group.observe(this) {
+            mCurrentGroup = it.group
+            mRecyclingBinIsCurrentGroup = it.isRecycleBin
+
+            val currentGroup = it.group
+
+            // Update last access time.
+            currentGroup.touch(modified = false, touchParents = false)
+
+            // To relaunch the activity with ACTION_SEARCH
+            if (manageSearchInfoIntent(intent)) {
+                startActivity(intent)
+            }
+
+            // Add listeners to the add buttons
+            addNodeButtonView?.setAddGroupClickListener {
+                GroupEditDialogFragment.create(GroupInfo().apply {
+                    if (currentGroup.allowAddNoteInGroup) {
+                        notes = ""
+                    }
+                }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
+            }
+            addNodeButtonView?.setAddEntryClickListener {
+                EntrySelectionHelper.doSpecialAction(intent,
+                    {
+                        EntryEditActivity.launch(this@GroupActivity, currentGroup)
+                    },
+                    {
+                        // Search not used
+                    },
+                    { searchInfo ->
+                        EntryEditActivity.launchForSave(
+                            this@GroupActivity,
+                            currentGroup, searchInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    },
+                    { searchInfo ->
+                        EntryEditActivity.launchForKeyboardSelectionResult(
+                            this@GroupActivity,
+                            currentGroup, searchInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    },
+                    { searchInfo, autofillComponent ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            EntryEditActivity.launchForAutofillResult(
+                                this@GroupActivity,
+                                autofillComponent,
+                                currentGroup, searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
+                        } else {
+                            onCancelSpecialMode()
+                        }
+                    },
+                    { searchInfo ->
+                        EntryEditActivity.launchForRegistration(
+                            this@GroupActivity,
+                            currentGroup, searchInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    }
+                )
+            }
+
+            assignGroupViewElements()
+
+            Log.i(TAG, "Finished creating tree")
+        }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        // Focus view to reinitialize timeout
+        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
+
+        mGroupViewModel.setDatabase(database)
+
+        mRecyclingBinEnabled = !mReadOnly
+                && database?.isRecycleBinEnabled == true
+        mGroupNamesNotAllowed = database?.groupNamesNotAllowed
+        
         try {
-            mRootGroup = mDatabase?.rootGroup
+            mRootGroup = database?.rootGroup
         } catch (e: NullPointerException) {
             Log.e(TAG, "Unable to get rootGroup")
         }
 
-        mCurrentGroup = retrieveCurrentGroup(intent, savedInstanceState)
-        val currentGroupIsASearch = mCurrentGroup?.isVirtual == true
+        retrieveCurrentGroup(intent)
 
-        Log.i(TAG, "Started creating tree")
-        if (mCurrentGroup == null) {
-            Log.w(TAG, "Group was null")
-            return
-        }
-
-        var fragmentTag = LIST_NODES_FRAGMENT_TAG
-        if (currentGroupIsASearch)
-            fragmentTag = SEARCH_FRAGMENT_TAG
-
-        // Initialize the fragment with the list
-        mListNodesFragment = supportFragmentManager.findFragmentByTag(fragmentTag) as ListNodesFragment?
-        if (mListNodesFragment == null)
-            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, mReadOnly, currentGroupIsASearch)
-
-        // Attach fragment to content view
-        supportFragmentManager.beginTransaction().replace(
-                R.id.nodes_list_fragment_container,
-                mListNodesFragment!!,
-                fragmentTag)
-                .commit()
-
-        // Update last access time.
-        mCurrentGroup?.touch(modified = false, touchParents = false)
-
-        // To relaunch the activity with ACTION_SEARCH
-        if (manageSearchInfoIntent(intent)) {
-            startActivity(intent)
-        }
-
-        // Add listeners to the add buttons
-        addNodeButtonView?.setAddGroupClickListener {
-            GroupEditDialogFragment.create(GroupInfo().apply {
-                if (mCurrentGroup?.allowAddNoteInGroup == true) {
-                    notes = ""
+        // Search suggestion
+        database?.let {
+            mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
+            mOnSuggestionListener = object : SearchView.OnSuggestionListener {
+                override fun onSuggestionClick(position: Int): Boolean {
+                    mSearchSuggestionAdapter?.let { searchAdapter ->
+                        searchAdapter.getEntryFromPosition(position)?.let { entry ->
+                            onNodeClick(database, entry)
+                        }
+                    }
+                    return true
                 }
-            }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
+
+                override fun onSuggestionSelect(position: Int): Boolean {
+                    return true
+                }
+            }
         }
-        addNodeButtonView?.setAddEntryClickListener {
-            mCurrentGroup?.let { currentGroup ->
-                EntrySelectionHelper.doSpecialAction(intent,
+        
+        invalidateOptionsMenu()
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        var oldNodes: List<Node> = ArrayList()
+        result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
+            oldNodes = getListNodesFromBundle(database, oldNodesBundle)
+        }
+        var newNodes: List<Node> = ArrayList()
+        result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
+            newNodes = getListNodesFromBundle(database, newNodesBundle)
+        }
+
+        when (actionTask) {
+            ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                if (result.isSuccess) {
+                    mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                    EntrySelectionHelper.doSpecialAction(intent,
                         {
-                            EntryEditActivity.launch(this@GroupActivity, currentGroup)
+                            // Standard not used after task
                         },
                         {
                             // Search not used
                         },
-                        { searchInfo ->
-                            EntryEditActivity.launchForSave(this@GroupActivity,
-                                    currentGroup, searchInfo)
-                            onLaunchActivitySpecialMode()
+                        {
+                            // Save not used
                         },
-                        { searchInfo ->
-                            EntryEditActivity.launchForKeyboardSelectionResult(this@GroupActivity,
-                                    currentGroup, searchInfo)
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo, autofillComponent ->
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                EntryEditActivity.launchForAutofillResult(this@GroupActivity,
-                                        autofillComponent,
-                                        currentGroup, searchInfo)
-                                onLaunchActivitySpecialMode()
-                            } else {
-                                onCancelSpecialMode()
-                            }
-                        },
-                        { searchInfo ->
-                            EntryEditActivity.launchForRegistration(this@GroupActivity,
-                                    currentGroup, searchInfo)
-                            onLaunchActivitySpecialMode()
-                        }
-                )
-            }
-        }
-
-        mDatabase?.let { database ->
-            // Search suggestion
-            mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
-
-            // Init dialog thread
-            mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-
-                var oldNodes: List<Node> = ArrayList()
-                result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
-                    oldNodes = getListNodesFromBundle(database, oldNodesBundle)
-                }
-                var newNodes: List<Node> = ArrayList()
-                result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
-                    newNodes = getListNodesFromBundle(database, newNodesBundle)
-                }
-
-                refreshSearchGroup()
-
-                when (actionTask) {
-                    ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                        if (result.isSuccess) {
-                            mListNodesFragment?.updateNodes(oldNodes, newNodes)
-                            EntrySelectionHelper.doSpecialAction(intent,
-                                    {
-                                        // Standard not used after task
-                                    },
-                                    {
-                                        // Search not used
-                                    },
-                                    {
-                                        // Save not used
-                                    },
-                                    {
-                                        try {
-                                            val entry = newNodes[0] as Entry
-                                            entrySelectedForKeyboardSelection(entry)
-                                        } catch (e: Exception) {
-                                            Log.e(TAG, "Unable to perform action for keyboard selection after entry update", e)
-                                        }
-                                    },
-                                    { _, _ ->
-                                        try {
-                                            val entry = newNodes[0] as Entry
-                                            entrySelectedForAutofillSelection(entry)
-                                        } catch (e: Exception) {
-                                            Log.e(TAG, "Unable to perform action for autofill selection after entry update", e)
-                                        }
-                                    },
-                                    {
-                                        // Not use
-                                    }
-                            )
-                        }
-                    }
-                    ACTION_DATABASE_UPDATE_GROUP_TASK -> {
-                        if (result.isSuccess) {
-                            mListNodesFragment?.updateNodes(oldNodes, newNodes)
-                        }
-                    }
-                    ACTION_DATABASE_CREATE_GROUP_TASK,
-                    ACTION_DATABASE_COPY_NODES_TASK,
-                    ACTION_DATABASE_MOVE_NODES_TASK -> {
-                        if (result.isSuccess) {
-                            mListNodesFragment?.addNodes(newNodes)
-                        }
-                    }
-                    ACTION_DATABASE_DELETE_NODES_TASK -> {
-                        if (result.isSuccess) {
-
-                            // Rebuild all the list to avoid bug when delete node from sort
+                        {
                             try {
-                                mListNodesFragment?.rebuildList()
+                                val entry = newNodes[0] as Entry
+                                entrySelectedForKeyboardSelection(database, entry)
                             } catch (e: Exception) {
-                                Log.e(TAG, "Unable to rebuild the list after deletion")
-                                e.printStackTrace()
+                                Log.e(TAG, "Unable to perform action for keyboard selection after entry update", e)
                             }
-
-                            // Add trash in views list if it doesn't exists
-                            if (database.isRecycleBinEnabled) {
-                                val recycleBin = database.recycleBin
-                                val currentGroup = mCurrentGroup
-                                if (currentGroup != null && recycleBin != null
-                                        && currentGroup != recycleBin) {
-                                    // Recycle bin already here, simply update it
-                                    if (mListNodesFragment?.contains(recycleBin) == true) {
-                                        mListNodesFragment?.updateNode(recycleBin)
-                                    }
-                                    // Recycle bin not here, verify if parents are similar to add it
-                                    else if (currentGroup == recycleBin.parent) {
-                                        mListNodesFragment?.addNode(recycleBin)
-                                    }
-                                }
+                        },
+                        { _, _ ->
+                            try {
+                                val entry = newNodes[0] as Entry
+                                entrySelectedForAutofillSelection(database, entry)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Unable to perform action for autofill selection after entry update", e)
                             }
+                        },
+                        {
+                            // Not use
                         }
+                    )
+                }
+            }
+            ACTION_DATABASE_UPDATE_GROUP_TASK -> {
+                if (result.isSuccess) {
+                    mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                }
+            }
+            ACTION_DATABASE_CREATE_GROUP_TASK,
+            ACTION_DATABASE_COPY_NODES_TASK,
+            ACTION_DATABASE_MOVE_NODES_TASK -> {
+                if (result.isSuccess) {
+                    mListNodesFragment?.addNodes(newNodes)
+                }
+            }
+            ACTION_DATABASE_DELETE_NODES_TASK -> {
+                if (result.isSuccess) {
+
+                    // Rebuild all the list to avoid bug when delete node from sort
+                    try {
+                        mListNodesFragment?.rebuildList()
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to rebuild the list after deletion")
+                        e.printStackTrace()
                     }
-                    ACTION_DATABASE_RELOAD_TASK -> {
-                        // Reload the current activity
-                        if (result.isSuccess) {
-                            reload()
-                        } else {
-                            this.showActionErrorIfNeeded(result)
-                            finish()
+
+                    // Add trash in views list if it doesn't exists
+                    if (database.isRecycleBinEnabled) {
+                        val recycleBin = database.recycleBin
+                        val currentGroup = mCurrentGroup
+                        if (currentGroup != null && recycleBin != null
+                            && currentGroup != recycleBin) {
+                            // Recycle bin already here, simply update it
+                            if (mListNodesFragment?.contains(recycleBin) == true) {
+                                mListNodesFragment?.updateNode(recycleBin)
+                            }
+                            // Recycle bin not here, verify if parents are similar to add it
+                            else if (currentGroup == recycleBin.parent) {
+                                mListNodesFragment?.addNode(recycleBin)
+                            }
                         }
                     }
                 }
-
-                coordinatorLayout?.showActionErrorIfNeeded(result)
-
-                finishNodeAction()
-
-                refreshNumberOfChildren()
+            }
+            ACTION_DATABASE_RELOAD_TASK -> {
+                // Reload the current activity
+                if (!result.isSuccess) {
+                    this.showActionErrorIfNeeded(result)
+                    finish()
+                }
             }
         }
 
-        Log.i(TAG, "Finished creating tree")
-    }
+        coordinatorLayout?.showActionErrorIfNeeded(result)
 
-    private fun reload() {
-        // Reload the current activity
-        startActivity(intent)
-        finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        mDatabase?.wasReloaded = false
+        finishNodeAction()
+
+        refreshNumberOfChildren()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
         intent?.let { intentNotNull ->
+
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
             manageSearchInfoIntent(intentNotNull)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
             if (Intent.ACTION_SEARCH == intentNotNull.action) {
                 finishNodeAction()
-                // only one instance of search in backstack
-                deletePreviousSearchGroup()
-                openGroup(retrieveCurrentGroup(intentNotNull, null), true)
+                // Retrieve current group by id
+                mCurrentGroupId = intent.getParcelableExtra(GROUP_ID_KEY)
+                retrieveCurrentGroup(intentNotNull)
             }
+        }
+    }
+
+    private fun retrieveCurrentGroup(intent: Intent?) {
+        // If it's a search
+        if (Intent.ACTION_SEARCH == intent?.action) {
+            val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
+            mGroupViewModel.loadGroupFromSearch(searchString,
+                PreferencesUtil.omitBackup(this))
+        }
+        // else a real group
+        else {
+            Log.w(TAG, "Creating tree view")
+            mGroupViewModel.loadGroup(mCurrentGroupId)
         }
     }
 
@@ -401,60 +472,11 @@ class GroupActivity : LockingActivity(),
         return false
     }
 
-    private fun deletePreviousSearchGroup() {
-        // Delete the previous search fragment
-        try {
-            val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
-            if (searchFragment != null) {
-                if (supportFragmentManager
-                                .popBackStackImmediate(SEARCH_FRAGMENT_TAG,
-                                        FragmentManager.POP_BACK_STACK_INCLUSIVE))
-                    supportFragmentManager.beginTransaction().remove(searchFragment).commit()
-            }
-        } catch (exception: Exception) {
-            Log.e(TAG, "unable to remove previous search fragment", exception)
-        }
-    }
-
-    private fun openGroup(group: Group?, isASearch: Boolean) {
-        // Check TimeoutHelper
-        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
-            // Open a group in a new fragment
-            val newListNodeFragment = ListNodesFragment.newInstance(group, mReadOnly, isASearch)
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            // Different animation
-            val fragmentTag: String = if (isASearch) {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_bottom,
-                        R.anim.slide_in_bottom, R.anim.slide_out_top)
-                SEARCH_FRAGMENT_TAG
-            } else {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                        R.anim.slide_in_left, R.anim.slide_out_right)
-                LIST_NODES_FRAGMENT_TAG
-            }
-
-            fragmentTransaction.replace(R.id.nodes_list_fragment_container,
-                    newListNodeFragment,
-                    fragmentTag)
-            fragmentTransaction.addToBackStack(fragmentTag)
-            fragmentTransaction.commit()
-
-            if (mSpecialMode != SpecialMode.DEFAULT)
-                mSelectionModeCountBackStack++
-
-            // Update last access time.
-            group?.touch(modified = false, touchParents = false)
-
-            mListNodesFragment = newListNodeFragment
-            mCurrentGroup = group
-            assignGroupViewElements()
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         mCurrentGroup?.let {
             outState.putParcelable(GROUP_ID_KEY, it.nodeId)
         }
+        outState.putParcelableArray(PREVIOUS_GROUPS_IDS_KEY, mPreviousGroupsIds.toTypedArray())
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
@@ -462,49 +484,12 @@ class GroupActivity : LockingActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    private fun refreshSearchGroup() {
-        deletePreviousSearchGroup()
-        if (mCurrentGroup?.isVirtual == true)
-            openGroup(retrieveCurrentGroup(intent, null), true)
-    }
-
-    private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
-        // Force read only if the database is like that
-        mReadOnly = mDatabase?.isReadOnly == true || mReadOnly
-
-        // If it's a search
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-            return mDatabase?.createVirtualGroupFromSearch(searchString,
-                    PreferencesUtil.omitBackup(this))
-        }
-        // else a real group
-        else {
-            var pwGroupId: NodeId<*>? = null
-            if (savedInstanceState != null && savedInstanceState.containsKey(GROUP_ID_KEY)) {
-                pwGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY)
-            } else {
-                if (getIntent() != null)
-                    pwGroupId = intent.getParcelableExtra(GROUP_ID_KEY)
-            }
-
-            Log.w(TAG, "Creating tree view")
-            val currentGroup: Group?
-            currentGroup = if (pwGroupId == null) {
-                mRootGroup
-            } else {
-                mDatabase?.getGroupById(pwGroupId)
-            }
-
-            return currentGroup
-        }
-    }
-
     private fun assignGroupViewElements() {
+        val group = mCurrentGroup
         // Assign title
-        if (mCurrentGroup != null) {
-            val title = mCurrentGroup?.title
-            if (title != null && title.isNotEmpty()) {
+        if (group != null) {
+            val title = group.title
+            if (title.isNotEmpty()) {
                 if (groupNameView != null) {
                     groupNameView?.text = title
                     groupNameView?.invalidate()
@@ -517,7 +502,7 @@ class GroupActivity : LockingActivity(),
             }
         }
 
-        if (mCurrentGroup?.isVirtual == true) {
+        if (group?.isVirtual == true) {
             searchTitleView?.visibility = View.VISIBLE
             if (toolbar != null) {
                 toolbar?.navigationIcon = null
@@ -527,9 +512,9 @@ class GroupActivity : LockingActivity(),
             searchTitleView?.visibility = View.GONE
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
-            mCurrentGroup?.let { currentGroup ->
+            group?.let { currentGroup ->
                 iconView?.let { imageView ->
-                    mDatabase?.iconDrawableFactory?.assignDatabaseIcon(imageView, currentGroup.icon, mIconColor)
+                    mIconDrawableFactory?.assignDatabaseIcon(imageView, currentGroup.icon, mIconColor)
                 }
 
                 if (toolbar != null) {
@@ -584,11 +569,16 @@ class GroupActivity : LockingActivity(),
             addNodeButtonView?.hideOrShowButtonOnScrollListener(dy)
     }
 
-    override fun onNodeClick(node: Node) {
+    override fun onNodeClick(database: Database,
+                             node: Node) {
         when (node.type) {
             Type.GROUP -> try {
+                val group = node as Group
+                mCurrentGroup?.nodeId?.let {
+                    mPreviousGroupsIds.add(it)
+                }
                 // Open child group
-                openGroup(node as Group, false)
+                mGroupViewModel.loadGroup(group)
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
@@ -604,47 +594,47 @@ class GroupActivity : LockingActivity(),
                         },
                         { searchInfo ->
                             if (!mReadOnly)
-                                entrySelectedForSave(entryVersioned, searchInfo)
+                                entrySelectedForSave(database, entryVersioned, searchInfo)
                             else
                                 finish()
                         },
                         { searchInfo ->
                             // Recheck search, only to fix #783 because workflow allows to open multiple search elements
                             SearchHelper.checkAutoSearchInfo(this,
-                                    mDatabase!!,
-                                    searchInfo,
-                                    { _ ->
-                                        // Item in search, don't save
-                                        entrySelectedForKeyboardSelection(entryVersioned)
-                                    },
-                                    {
-                                        // Item not found, save it if required
-                                        if (!mReadOnly
-                                                && searchInfo != null
-                                                && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
-                                            updateEntryWithSearchInfo(entryVersioned, searchInfo)
-                                        } else {
-                                            entrySelectedForKeyboardSelection(entryVersioned)
-                                        }
-                                    },
-                                    {
-                                        // Normally not append
-                                        finish()
+                                database,
+                                searchInfo,
+                                { _ ->
+                                    // Item in search, don't save
+                                    entrySelectedForKeyboardSelection(database, entryVersioned)
+                                },
+                                {
+                                    // Item not found, save it if required
+                                    if (!mReadOnly
+                                            && searchInfo != null
+                                            && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)) {
+                                        updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
+                                    } else {
+                                        entrySelectedForKeyboardSelection(database, entryVersioned)
                                     }
+                                },
+                                {
+                                    // Normally not append
+                                    finish()
+                                }
                             )
                         },
                         { searchInfo, _ ->
                             if (!mReadOnly
                                     && searchInfo != null
                                     && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)) {
-                                updateEntryWithSearchInfo(entryVersioned, searchInfo)
+                                updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                             } else {
-                                entrySelectedForAutofillSelection(entryVersioned)
+                                entrySelectedForAutofillSelection(database, entryVersioned)
                             }
                         },
                         { registerInfo ->
                             if (!mReadOnly)
-                                entrySelectedForRegistration(entryVersioned, registerInfo)
+                                entrySelectedForRegistration(database, entryVersioned, registerInfo)
                             else
                                 finish()
                         })
@@ -654,7 +644,7 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private fun entrySelectedForSave(entry: Entry, searchInfo: SearchInfo) {
+    private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
         rebuildListNodes()
         // Save to update the entry
         EntryEditActivity.launchForSave(this@GroupActivity,
@@ -662,30 +652,26 @@ class GroupActivity : LockingActivity(),
         onLaunchActivitySpecialMode()
     }
 
-    private fun entrySelectedForKeyboardSelection(entry: Entry) {
+    private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
         rebuildListNodes()
         // Populate Magikeyboard with entry
-        mDatabase?.let { database ->
-            populateKeyboardAndMoveAppToBackground(this,
-                    entry.getEntryInfo(database),
-                    intent)
-        }
+        populateKeyboardAndMoveAppToBackground(this,
+                entry.getEntryInfo(database),
+                intent)
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForAutofillSelection(entry: Entry) {
+    private fun entrySelectedForAutofillSelection(database: Database, entry: Entry) {
         // Build response with the entry selected
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
-            mDatabase?.let { database ->
-                AutofillHelper.buildResponseAndSetResult(this,
-                        database,
-                        entry.getEntryInfo(database))
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.buildResponseAndSetResult(this,
+                    database,
+                    entry.getEntryInfo(database))
         }
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForRegistration(entry: Entry, registerInfo: RegisterInfo?) {
+    private fun entrySelectedForRegistration(database: Database, entry: Entry, registerInfo: RegisterInfo?) {
         rebuildListNodes()
         // Registration to update the entry
         EntryEditActivity.launchForRegistration(this@GroupActivity,
@@ -693,17 +679,12 @@ class GroupActivity : LockingActivity(),
         onLaunchActivitySpecialMode()
     }
 
-    private fun updateEntryWithSearchInfo(entry: Entry, searchInfo: SearchInfo) {
+    private fun updateEntryWithSearchInfo(database: Database, entry: Entry, searchInfo: SearchInfo) {
         val newEntry = Entry(entry)
-        newEntry.setEntryInfo(mDatabase, newEntry.getEntryInfo(mDatabase, true).apply {
-            saveSearchInfo(mDatabase, searchInfo)
+        newEntry.setEntryInfo(database, newEntry.getEntryInfo(database, true).apply {
+            saveSearchInfo(database, searchInfo)
         })
-        // In selection mode, it's forced read-only, so update not allowed
-        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                entry,
-                newEntry,
-                !mReadOnly && mAutoSaveEnable
-        )
+        updateEntry(entry, newEntry)
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
@@ -743,10 +724,11 @@ class GroupActivity : LockingActivity(),
         actionNodeMode?.finish()
     }
 
-    override fun onNodeSelected(nodes: List<Node>): Boolean {
+    override fun onNodeSelected(database: Database,
+                                nodes: List<Node>): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
-                mListNodesFragment?.actionNodesCallback(nodes, this, object: ActionMode.Callback {
+                mListNodesFragment?.actionNodesCallback(database, nodes, this, object: ActionMode.Callback {
                     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                         return true
                     }
@@ -773,13 +755,15 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onOpenMenuClick(node: Node): Boolean {
+    override fun onOpenMenuClick(database: Database,
+                                 node: Node): Boolean {
         finishNodeAction()
-        onNodeClick(node)
+        onNodeClick(database, node)
         return true
     }
 
-    override fun onEditMenuClick(node: Node): Boolean {
+    override fun onEditMenuClick(database: Database,
+                                 node: Node): Boolean {
         finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
@@ -793,41 +777,36 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onCopyMenuClick(nodes: List<Node>): Boolean {
+    override fun onCopyMenuClick(database: Database,
+                                 nodes: List<Node>): Boolean {
         actionNodeMode?.invalidate()
 
         // Nothing here fragment calls onPasteMenuClick internally
         return true
     }
 
-    override fun onMoveMenuClick(nodes: List<Node>): Boolean {
+    override fun onMoveMenuClick(database: Database,
+                                 nodes: List<Node>): Boolean {
         actionNodeMode?.invalidate()
 
         // Nothing here fragment calls onPasteMenuClick internally
         return true
     }
 
-    override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
+    override fun onPasteMenuClick(database: Database,
+                                  pasteMode: ListNodesFragment.PasteMode?,
                                   nodes: List<Node>): Boolean {
         when (pasteMode) {
             ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
                 mCurrentGroup?.let { newParent ->
-                    mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
-                            nodes,
-                            newParent,
-                            !mReadOnly && mAutoSaveEnable
-                    )
+                    copyNodes(nodes, newParent)
                 }
             }
             ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
                 mCurrentGroup?.let { newParent ->
-                    mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
-                            nodes,
-                            newParent,
-                            !mReadOnly && mAutoSaveEnable
-                    )
+                    moveNodes(nodes, newParent)
                 }
             }
             else -> {}
@@ -836,76 +815,22 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    private fun eachNodeRecyclable(nodes: List<Node>): Boolean {
-        mDatabase?.let { database ->
-            return nodes.find { node ->
-                var cannotRecycle = true
-                if (node is Entry) {
-                    cannotRecycle = !database.canRecycle(node)
-                } else if (node is Group) {
-                    cannotRecycle = !database.canRecycle(node)
-                }
-                cannotRecycle
-            } == null
-        }
-        return false
-    }
-
-    private fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false): Boolean {
-        mDatabase?.let { database ->
-
-            // If recycle bin enabled, ensure it exists
-            if (database.isRecycleBinEnabled) {
-                database.ensureRecycleBinExists(resources)
-            }
-
-            // If recycle bin enabled and not in recycle bin, move in recycle bin
-            if (eachNodeRecyclable(nodes)) {
-                mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
-                        nodes,
-                        !mReadOnly && mAutoSaveEnable
-                )
-            }
-            // else open the dialog to confirm deletion
-            else {
-                val deleteNodesDialogFragment: DeleteNodesDialogFragment =
-                        if (recycleBin) {
-                            EmptyRecycleBinDialogFragment.getInstance(nodes)
-                        } else {
-                            DeleteNodesDialogFragment.getInstance(nodes)
-                        }
-                deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
-            }
-            finishNodeAction()
-        }
+    override fun onDeleteMenuClick(database: Database,
+                                   nodes: List<Node>): Boolean {
+        deleteNodes(nodes)
+        finishNodeAction()
         return true
-    }
-
-    override fun onDeleteMenuClick(nodes: List<Node>): Boolean {
-        return deleteNodes(nodes)
-    }
-
-    override fun permanentlyDeleteNodes(nodes: List<Node>) {
-        mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
-                nodes,
-                !mReadOnly && mAutoSaveEnable
-        )
     }
 
     override fun onResume() {
         super.onResume()
 
-        if (mDatabase?.wasReloaded == true) {
-            reload()
-        }
         // Show the lock button
         lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
             View.VISIBLE
         } else {
             View.GONE
         }
-        // Refresh the elements
-        assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
         // Padding if lock button visible
@@ -933,9 +858,7 @@ class GroupActivity : LockingActivity(),
         }
 
         // Menu for recycle bin
-        if (!mReadOnly
-                && mDatabase?.isRecycleBinEnabled == true
-                && mDatabase?.recycleBin == mCurrentGroup) {
+        if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
             inflater.inflate(R.menu.recycle_bin, menu)
         }
 
@@ -951,20 +874,7 @@ class GroupActivity : LockingActivity(),
                 }
                 setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
                 suggestionsAdapter = mSearchSuggestionAdapter
-                setOnSuggestionListener(object : SearchView.OnSuggestionListener {
-                    override fun onSuggestionClick(position: Int): Boolean {
-                        mSearchSuggestionAdapter?.let { searchAdapter ->
-                            searchAdapter.getEntryFromPosition(position)?.let { entry ->
-                                onNodeClick(entry)
-                            }
-                        }
-                        return true
-                    }
-
-                    override fun onSuggestionSelect(position: Int): Boolean {
-                        return true
-                    }
-                })
+                setOnSuggestionListener(mOnSuggestionListener)
             }
             // Expand the search view if defined in settings
             if (mRequestStartupSearch
@@ -1052,17 +962,20 @@ class GroupActivity : LockingActivity(),
                 //onSearchRequested();
                 return true
             R.id.menu_save_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+                saveDatabase()
                 return true
             }
             R.id.menu_reload_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseReload(false)
+                reloadDatabase()
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
-                mCurrentGroup?.getChildren()?.let { listChildren ->
-                    // Automatically delete all elements
-                    deleteNodes(listChildren, true)
+                if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
+                    mCurrentGroup?.getChildren()?.let { listChildren ->
+                        // Automatically delete all elements
+                        deleteNodes(listChildren, true)
+                        finishNodeAction()
+                    }
                 }
                 return true
             }
@@ -1078,7 +991,7 @@ class GroupActivity : LockingActivity(),
         if (name.isEmpty()) {
             return GroupEditDialogFragment.Error(true, R.string.error_no_name)
         }
-        if (mDatabase?.groupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null) {
+        if (mGroupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null) {
             return GroupEditDialogFragment.Error(true, R.string.error_word_reserved)
         }
         return GroupEditDialogFragment.Error(false, null)
@@ -1092,37 +1005,13 @@ class GroupActivity : LockingActivity(),
                 GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
                     // If group creation
                     mCurrentGroup?.let { currentGroup ->
-                        // Build the group
-                        mDatabase?.createGroup()?.let { newGroup ->
-                            newGroup.setGroupInfo(groupInfo)
-                            // Not really needed here because added in runnable but safe
-                            newGroup.parent = currentGroup
-
-                            mProgressDatabaseTaskProvider?.startDatabaseCreateGroup(
-                                    newGroup,
-                                    currentGroup,
-                                    !mReadOnly && mAutoSaveEnable
-                            )
-                        }
+                        createGroup(currentGroup, groupInfo)
                     }
                 }
                 GroupEditDialogFragment.EditGroupDialogAction.UPDATE -> {
                     // If update add new elements
                     mOldGroupToUpdate?.let { oldGroupToUpdate ->
-                        val updateGroup = Group(oldGroupToUpdate).let { updateGroup ->
-                            updateGroup.apply {
-                                // WARNING remove parent and children to keep memory
-                                removeParent()
-                                removeChildren()
-                                this.setGroupInfo(groupInfo)
-                            }
-                        }
-                        // If group updated save it in the database
-                        mProgressDatabaseTaskProvider?.startDatabaseUpdateGroup(
-                                oldGroupToUpdate,
-                                updateGroup,
-                                !mReadOnly && mAutoSaveEnable
-                        )
+                        updateGroup(oldGroupToUpdate, groupInfo)
                     }
                 }
                 else -> {}
@@ -1189,21 +1078,19 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun rebuildListNodes() {
-        mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
         // to refresh fragment
-        try {
-            mListNodesFragment?.rebuildList()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            coordinatorLayout?.let { coordinatorLayout ->
-                Snackbar.make(coordinatorLayout,
-                        R.string.error_rebuild_list,
-                        Snackbar.LENGTH_LONG).asError().show()
-            }
+        mCurrentGroup?.let {
+            mGroupViewModel.loadGroup(it)
         }
-        mCurrentGroup = mListNodesFragment?.mainGroup
+        /* TODO Error
+        coordinatorLayout?.let { coordinatorLayout ->
+            Snackbar.make(coordinatorLayout,
+                    R.string.error_rebuild_list,
+                    Snackbar.LENGTH_LONG).asError().show()
+        }
+
+         */
         // Remove search in intent
-        deletePreviousSearchGroup()
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
@@ -1217,7 +1104,11 @@ class GroupActivity : LockingActivity(),
         } else {
             // Normal way when we are not in root
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
-                super.onRegularBackPressed()
+                if (mPreviousGroupsIds.isEmpty()) {
+                    super.onRegularBackPressed()
+                } else {
+                    mGroupViewModel.loadGroup(mPreviousGroupsIds.removeLast())
+                }
                 rebuildListNodes()
             }
             // Else in root, lock if needed
@@ -1235,35 +1126,14 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private fun removeFragmentHistory() {
-        val fragmentManager = supportFragmentManager
-        if (mSelectionModeCountBackStack > 0) {
-            for (selectionMode in 0 .. mSelectionModeCountBackStack) {
-                fragmentManager.popBackStack()
-            }
-        }
-        // Reinit the counter for navigation history
-        mSelectionModeCountBackStack = 0
-    }
-
-    override fun onValidateSpecialMode() {
-        removeFragmentHistory()
-        super.onValidateSpecialMode()
-    }
-
-    override fun onCancelSpecialMode() {
-        removeFragmentHistory()
-        super.onCancelSpecialMode()
-    }
-
     companion object {
 
         private val TAG = GroupActivity::class.java.name
 
         private const val REQUEST_STARTUP_SEARCH_KEY = "REQUEST_STARTUP_SEARCH_KEY"
         private const val GROUP_ID_KEY = "GROUP_ID_KEY"
-        private const val LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG"
-        private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
+        private const val PREVIOUS_GROUPS_IDS_KEY = "PREVIOUS_GROUPS_IDS_KEY"
+        private const val GROUP_FRAGMENT_TAG = "GROUP_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
         private const val AUTO_SEARCH_KEY = "AUTO_SEARCH_KEY"
 

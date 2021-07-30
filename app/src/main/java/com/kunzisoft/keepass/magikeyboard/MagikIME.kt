@@ -111,6 +111,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
             // Remove entry info if the database is not loaded
             // or if entry info timestamp is before database loaded timestamp
+            // TODO Database
             val database = Database.getInstance()
             val databaseTime = database.loadTimestamp
             val entryTime = entryInfoTimestamp

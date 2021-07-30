@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -61,6 +62,8 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
+
+    private var mAllowMultipleAttachments: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -89,8 +92,6 @@ class EntryEditFragment: DatabaseFragment() {
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
 
-        view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
-
         templateView.apply {
             populateIconMethod = { imageView, icon ->
                 drawFactory?.assignDatabaseIcon(imageView, icon, iconColor)
@@ -109,20 +110,6 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        attachmentsAdapter?.database = mDatabase
-        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
-            if (previousSize > 0 && newSize == 0) {
-                attachmentsContainerView.collapse(true)
-            } else if (previousSize == 0 && newSize == 1) {
-                attachmentsContainerView.expand(true)
-            }
-        }
-        attachmentsListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = attachmentsAdapter
-            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        }
         if (savedInstanceState != null) {
             val attachments: List<Attachment> =
                 savedInstanceState.getParcelableArrayList(ATTACHMENTS_TAG) ?: listOf()
@@ -206,10 +193,12 @@ class EntryEditFragment: DatabaseFragment() {
         mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
             val attachmentToUploadUri = it.attachmentToUploadUri
             val fileName = it.fileName
-            mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
+
+            // TODO Database
+            Database.getInstance()?.buildNewBinaryAttachment()?.let { binaryAttachment ->
                 val entryAttachment = Attachment(fileName, binaryAttachment)
                 // Ask to replace the current attachment
-                if ((mDatabase?.allowMultipleAttachments == false
+                if ((!mAllowMultipleAttachments
                             && containsAttachment()) ||
                     containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
                     ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
@@ -249,16 +238,25 @@ class EntryEditFragment: DatabaseFragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onDatabaseRetrieved(database: Database?) {
+        drawFactory = database?.iconDrawableFactory
 
-        drawFactory = mDatabase?.iconDrawableFactory
-    }
+        mAllowMultipleAttachments = database?.allowMultipleAttachments == true
 
-    override fun onDetach() {
-        super.onDetach()
-
-        drawFactory = null
+        attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
+        attachmentsAdapter?.database = database
+        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                attachmentsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                attachmentsContainerView.expand(true)
+            }
+        }
+        attachmentsListView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {
@@ -307,7 +305,7 @@ class EntryEditFragment: DatabaseFragment() {
     private fun putAttachment(attachment: EntryAttachmentState,
                               onPreviewLoaded: (() -> Unit)? = null) {
         // When only one attachment is allowed
-        if (mDatabase?.allowMultipleAttachments == false) {
+        if (mAllowMultipleAttachments) {
             clearAttachments()
         }
         attachmentsContainerView.visibility = View.VISIBLE

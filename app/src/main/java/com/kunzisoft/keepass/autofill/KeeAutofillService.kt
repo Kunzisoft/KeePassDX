@@ -56,12 +56,8 @@ class KeeAutofillService : AutofillService() {
     var autofillInlineSuggestionsEnabled: Boolean = false
     private var mLock = AtomicBoolean()
 
-    private var mDatabase: Database? = null
-
     override fun onCreate() {
         super.onCreate()
-
-        mDatabase = Database.getInstance()
 
         getPreferences()
     }
@@ -102,7 +98,8 @@ class KeeAutofillService : AutofillService() {
                         } else {
                             null
                         }
-                        mDatabase?.let { database ->
+                        // TODO database
+                        Database.getInstance()?.let { database ->
                             launchSelection(database,
                                     searchInfo,
                                     parseResult,

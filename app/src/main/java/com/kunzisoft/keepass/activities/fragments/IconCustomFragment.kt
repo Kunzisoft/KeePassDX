@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.activities.fragments
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 
 
@@ -31,8 +32,8 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
         return R.layout.fragment_icon_grid
     }
 
-    override fun defineIconList() {
-        mDatabase?.doForEachCustomIcons { customIcon, _ ->
+    override fun defineIconList(database: Database?) {
+        database?.doForEachCustomIcons { customIcon, _ ->
             iconPickerAdapter.addIcon(customIcon, false)
         }
     }

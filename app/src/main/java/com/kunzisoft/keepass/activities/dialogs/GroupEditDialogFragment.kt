@@ -43,8 +43,6 @@ import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DialogFragment() {
 
-    private var mDatabase: Database? = null
-
     private var mEditGroupListener: EditGroupListener? = null
 
     private var mEditGroupDialogAction = EditGroupDialogAction.NONE
@@ -100,9 +98,6 @@ class GroupEditDialogFragment : DialogFragment() {
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
             iconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
-
-            // Init elements
-            mDatabase = Database.getInstance()
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_ACTION_ID)
@@ -203,7 +198,8 @@ class GroupEditDialogFragment : DialogFragment() {
     }
 
     private fun assignIconView() {
-        mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconButtonView, mGroupInfo.icon, iconColor)
+        // TODO Database
+        Database.getInstance()?.iconDrawableFactory?.assignDatabaseIcon(iconButtonView, mGroupInfo.icon, iconColor)
     }
 
     fun setIcon(icon: IconImage) {

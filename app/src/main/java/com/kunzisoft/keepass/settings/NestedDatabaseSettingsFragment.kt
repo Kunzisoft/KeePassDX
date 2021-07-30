@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
@@ -33,6 +34,7 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -40,9 +42,11 @@ import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
+    private var mDatabase: Database? = null
     private var mDatabaseReadOnly: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
 
@@ -60,6 +64,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var mRoundPref: InputKdfNumberPreference? = null
     private var mMemoryPref: InputKdfSizePreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        mDatabase = database
+    }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
         setHasOptionsMenu(true)
@@ -161,8 +169,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 database.enableRecycleBin(recycleBinEnabled, resources)
                                 refreshRecycleBinGroup()
                                 // Save the database if not in readonly mode
-                                (context as SettingsActivity?)?.
-                                    mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
+                                saveDatabase(mDatabaseAutoSaveEnabled)
                                 true
                             }
                             true
@@ -195,8 +202,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                                 database.enableTemplates(templatesEnabled, resources)
                                 refreshTemplatesGroup()
                                 // Save the database if not in readonly mode
-                                (context as SettingsActivity?)?.
-                                    mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
+                                saveDatabase(mDatabaseAutoSaveEnabled)
                                 true
                             }
                             true
@@ -621,25 +627,20 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val settingActivity = activity as SettingsActivity?
-
         return when (item.itemId) {
             R.id.menu_save_database -> {
-                settingActivity?.mProgressDatabaseTaskProvider?.startDatabaseSave(!mDatabaseReadOnly)
+                saveDatabase(!mDatabaseReadOnly)
                 true
             }
             R.id.menu_reload_database -> {
-                settingActivity?.apply {
-                    keepCurrentScreen()
-                    mProgressDatabaseTaskProvider?.startDatabaseReload(false)
-                }
+                reloadDatabase()
                 return true
             }
 
             else -> {
                 // Check the time lock before launching settings
-                settingActivity?.let {
+                // TODO activity menu
+                (activity as SettingsActivity?)?.let {
                     MenuUtil.onDefaultMenuOptionsItemSelected(it, item, mDatabaseReadOnly, true)
                 }
                 super.onOptionsItemSelected(item)

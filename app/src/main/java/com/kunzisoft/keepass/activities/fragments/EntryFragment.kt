@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -63,8 +64,6 @@ class EntryFragment: DatabaseFragment() {
 
         context?.let { context ->
             mClipboardHelper = ClipboardHelper(context)
-            attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
-            attachmentsAdapter?.database = mDatabase
         }
 
         rootView = view
@@ -74,14 +73,6 @@ class EntryFragment: DatabaseFragment() {
         }
         templateView = view.findViewById(R.id.entry_template)
         loadTemplateSettings()
-
-        attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
-        attachmentsListView = view.findViewById(R.id.entry_attachments_list)
-        attachmentsListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = attachmentsAdapter
-            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        }
 
         creationDateView = view.findViewById(R.id.entry_created)
         modificationDateView = view.findViewById(R.id.entry_modified)
@@ -109,6 +100,21 @@ class EntryFragment: DatabaseFragment() {
                     putAttachment(it)
                 }
             }
+        }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        context?.let { context ->
+            attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
+            attachmentsAdapter?.database = database
+        }
+
+        attachmentsContainerView = requireView().findViewById(R.id.entry_attachments_container)
+        attachmentsListView = requireView().findViewById(R.id.entry_attachments_list)
+        attachmentsListView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
     }
 

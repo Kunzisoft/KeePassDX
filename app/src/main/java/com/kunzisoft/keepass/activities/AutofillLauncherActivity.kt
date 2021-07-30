@@ -25,14 +25,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
-import android.os.Bundle
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.selection.DatabaseActivity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.KeeAutofillService
@@ -44,14 +43,14 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class AutofillLauncherActivity : AppCompatActivity() {
+class AutofillLauncherActivity : DatabaseActivity() {
 
-    private var mDatabase: Database? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        mDatabase = Database.getInstance()
-
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        // End activity if database not loaded
+        if (database?.loaded != true) {
+            finish()
+        }
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
             when (specialMode) {
@@ -64,7 +63,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        mDatabase?.let { database ->
+                        database?.let { database ->
                             launchSelection(database, searchInfo)
                         }
                     }
@@ -75,7 +74,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        mDatabase?.let { database ->
+                        database?.let { database ->
                             launchRegistration(database, searchInfo, registerInfo)
                         }
                     }
@@ -87,8 +86,6 @@ class AutofillLauncherActivity : AppCompatActivity() {
                 }
             }
         }
-
-        super.onCreate(savedInstanceState)
     }
 
     private fun launchSelection(database: Database,

@@ -23,10 +23,13 @@ import android.content.Context
 import android.os.Bundle
 import androidx.preference.Preference
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
 class MainPreferenceFragment : DatabasePreferenceFragment() {
 
     private var mCallback: Callback? = null
+
+    private var mDatabaseLoaded: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,6 +44,10 @@ class MainPreferenceFragment : DatabasePreferenceFragment() {
     override fun onDetach() {
         mCallback = null
         super.onDetach()
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        mDatabaseLoaded = database?.loaded == true
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -80,7 +87,8 @@ class MainPreferenceFragment : DatabasePreferenceFragment() {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
                 false
             }
-            if (mDatabase?.loaded != true) {
+            // TODO Check
+            if (mDatabaseLoaded) {
                 isEnabled = false
             }
         }

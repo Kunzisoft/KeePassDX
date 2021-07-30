@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Co
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -83,9 +84,12 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
+class DatabaseTaskProvider(private val activity: FragmentActivity) {
 
-    var onActionFinish: ((actionTask: String,
+    var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
+
+    var onActionFinish: ((database: Database,
+                          actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
     private var intentDatabaseTask = Intent(activity.applicationContext, DatabaseTaskNotificationService::class.java)
@@ -99,16 +103,16 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
+        override fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
             startDialog(titleId, messageId, warningId)
         }
 
-        override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
+        override fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
             updateDialog(titleId, messageId, warningId)
         }
 
-        override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
-            onActionFinish?.invoke(actionTask, result)
+        override fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result) {
+            onActionFinish?.invoke(database, actionTask, result)
             // Remove the progress task
             stopDialog()
         }
@@ -141,6 +145,12 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                     )
                 }
             }
+        }
+    }
+
+    private var databaseListener = object: DatabaseTaskNotificationService.DatabaseListener {
+        override fun onDatabaseRetrieved(database: Database?) {
+            onDatabaseRetrieved?.invoke(database)
         }
     }
 
@@ -187,16 +197,19 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             serviceConnection = object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
-                        addActionTaskListener(actionTaskListener)
+                        addDatabaseListener(databaseListener)
                         addDatabaseFileInfoListener(databaseInfoListener)
-                        getService().checkAction()
+                        addActionTaskListener(actionTaskListener)
+                        getService().checkDatabase()
                         getService().checkDatabaseInfo()
+                        getService().checkAction()
                     }
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
-                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
                     mBinder?.removeActionTaskListener(actionTaskListener)
+                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
+                    mBinder?.removeDatabaseListener(databaseListener)
                     mBinder = null
                 }
             }
@@ -257,8 +270,9 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     fun unregisterProgressTask() {
         stopDialog()
 
-        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
         mBinder?.removeActionTaskListener(actionTaskListener)
+        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
+        mBinder?.removeDatabaseListener(databaseListener)
         mBinder = null
 
         unBindService()
@@ -639,6 +653,6 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     }
 
     companion object {
-        private val TAG = ProgressDatabaseTaskProvider::class.java.name
+        private val TAG = DatabaseTaskProvider::class.java.name
     }
 }

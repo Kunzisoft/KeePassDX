@@ -67,6 +67,8 @@ class IconPickerActivity : LockingActivity() {
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
+    private var mDatabase: Database? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,11 +86,6 @@ class IconPickerActivity : LockingActivity() {
         mExternalFileHelper = ExternalFileHelper(this)
 
         uploadButton = findViewById(R.id.icon_picker_upload)
-        if (mDatabase?.allowCustomIcons == true) {
-            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
-        } else {
-            uploadButton.visibility = View.GONE
-        }
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
@@ -113,9 +110,6 @@ class IconPickerActivity : LockingActivity() {
         } else {
             mIconImage = savedInstanceState.getParcelable(EXTRA_ICON) ?: mIconImage
         }
-
-        // Focus view to reinitialize timeout
-        findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard
@@ -148,6 +142,22 @@ class IconPickerActivity : LockingActivity() {
             }
             uploadButton.isEnabled = true
         }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        mDatabase = database
+
+        if (database?.allowCustomIcons == true) {
+            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
+        } else {
+            uploadButton.visibility = View.GONE
+        }
+
+        // Focus view to reinitialize timeout
+        findViewById<ViewGroup>(R.id.icon_picker_container)
+            ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
     }
 
     private fun updateIconsSelectedViews() {

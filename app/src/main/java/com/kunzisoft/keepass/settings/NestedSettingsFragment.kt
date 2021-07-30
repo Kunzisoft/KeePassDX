@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFra
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
+// TODO Move database fragment in sub class
 abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
 
     enum class Screen {

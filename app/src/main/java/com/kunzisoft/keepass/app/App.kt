@@ -33,7 +33,7 @@ class App : MultiDexApplication() {
     }
 
     override fun onTerminate() {
-        Database.getInstance().clearAndClose(this)
+        // TODO Database.getInstance().clearAndClose(this)
         super.onTerminate()
     }
 }

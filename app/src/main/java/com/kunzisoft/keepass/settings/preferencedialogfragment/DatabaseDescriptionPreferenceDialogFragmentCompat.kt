@@ -36,7 +36,7 @@ class DatabaseDescriptionPreferenceDialogFragmentCompat : DatabaseSavePreference
                 val newDescription = inputText
                 val oldDescription = database.description
                 database.description = newDescription
-                mProgressDatabaseTaskProvider?.startDatabaseSaveDescription(oldDescription, newDescription, mDatabaseAutoSaveEnable)
+                saveDescription(oldDescription, newDescription)
             }
         }
     }

@@ -29,6 +29,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconPickerAdapter
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -47,31 +48,7 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
 
     abstract fun retrieveMainLayoutId(): Int
 
-    abstract fun defineIconList()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        // Retrieve the textColor to tint the icon
-        val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        val tintColor = ta?.getColor(0, Color.BLACK) ?: Color.BLACK
-        ta?.recycle()
-
-        iconPickerAdapter = IconPickerAdapter<T>(context, tintColor).apply {
-            iconDrawableFactory = mDatabase?.iconDrawableFactory
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val populateList = launch {
-                iconPickerAdapter.clear()
-                defineIconList()
-            }
-            withContext(Dispatchers.Main) {
-                populateList.join()
-                iconPickerAdapter.notifyDataSetChanged()
-            }
-        }
-    }
+    abstract fun defineIconList(database: Database?)
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -86,6 +63,28 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         iconPickerAdapter.iconPickerListener = this
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        // Retrieve the textColor to tint the icon
+        val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        val tintColor = ta?.getColor(0, Color.BLACK) ?: Color.BLACK
+        ta?.recycle()
+
+        iconPickerAdapter = IconPickerAdapter<T>(requireContext(), tintColor).apply {
+            iconDrawableFactory = database?.iconDrawableFactory
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val populateList = launch {
+                iconPickerAdapter.clear()
+                defineIconList(database)
+            }
+            withContext(Dispatchers.Main) {
+                populateList.join()
+                iconPickerAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     fun onIconDeleteClicked() {

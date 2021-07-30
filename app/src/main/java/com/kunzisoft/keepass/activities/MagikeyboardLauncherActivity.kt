@@ -19,22 +19,20 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.kunzisoft.keepass.activities.selection.DatabaseActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 
 /**
  * Activity to select entry in database and populate it in Magikeyboard
  */
-class MagikeyboardLauncherActivity : AppCompatActivity() {
+class MagikeyboardLauncherActivity : DatabaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        val database = Database.getInstance()
-
-        val readOnly = database.isReadOnly
-        SearchHelper.checkAutoSearchInfo(this,
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.let {
+            val readOnly = database.isReadOnly
+            SearchHelper.checkAutoSearchInfo(this,
                 database,
                 null,
                 {
@@ -49,8 +47,8 @@ class MagikeyboardLauncherActivity : AppCompatActivity() {
                     // Pass extra to get entry
                     FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this)
                 }
-        )
+            )
+        }
         finish()
-        super.onCreate(savedInstanceState)
     }
 }

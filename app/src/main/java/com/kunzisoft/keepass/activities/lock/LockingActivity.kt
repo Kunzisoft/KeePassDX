@@ -22,30 +22,43 @@ package com.kunzisoft.keepass.activities.lock
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.EmptyRecycleBinDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
-import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
 
-abstract class LockingActivity : SpecialModeActivity() {
+abstract class LockingActivity : SpecialModeActivity(),
+    PasswordEncodingDialogFragment.Listener,
+    DeleteNodesDialogFragment.DeleteNodeListener {
 
     protected var mTimeoutEnable: Boolean = true
 
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
 
-    protected var mDatabase: Database? = null
+    private var mDatabase: Database? = null
 
     // Force readOnly if Entry Selection mode
     protected var mReadOnly: Boolean
@@ -58,23 +71,19 @@ abstract class LockingActivity : SpecialModeActivity() {
     private var mReadOnlyToSave: Boolean = false
     protected var mAutoSaveEnable: Boolean = true
 
-    var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
-        private set
+    protected var mIconDrawableFactory: IconDrawableFactory? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        mDatabase = Database.getInstance()
-
-        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
-
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null
-                && savedInstanceState.containsKey(TIMEOUT_ENABLE_KEY)) {
+            && savedInstanceState.containsKey(TIMEOUT_ENABLE_KEY)
+        ) {
             mTimeoutEnable = savedInstanceState.getBoolean(TIMEOUT_ENABLE_KEY)
         } else {
             if (intent != null)
-                mTimeoutEnable = intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
+                mTimeoutEnable =
+                    intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
         }
 
         if (mTimeoutEnable) {
@@ -93,18 +102,192 @@ abstract class LockingActivity : SpecialModeActivity() {
         mExitLock = false
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_EXIT_LOCK) {
-            mExitLock = true
-            if (mDatabase?.loaded == true) {
-                lockAndExit()
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        mDatabase = database
+        // End activity if database not loaded
+        if (database?.loaded != true) {
+            finish()
+        }
+        // check timeout
+        if (mTimeoutEnable) {
+            // After the first creation
+            // or If simply swipe with another application
+            // If the time is out -> close the Activity
+            TimeoutHelper.checkTimeAndLockIfTimeout(this)
+            // If onCreate already record time
+            database?.let { it ->
+                if (!mExitLock)
+                    TimeoutHelper.recordTime(this, it)
+            }
+        }
+
+        // Force read only if the database is like that
+        mReadOnly = database?.isReadOnly != false || mReadOnly
+        mIconDrawableFactory = database?.iconDrawableFactory
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
+                // Reload the current activity
+                if (result.isSuccess) {
+                    reload(database)
+                }
             }
         }
     }
 
+    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
+                                                    mainCredential: MainCredential) {
+        assignPasswordValidated(databaseUri, mainCredential)
+    }
+
+    private fun assignPasswordValidated(databaseUri: Uri?,
+                                        mainCredential: MainCredential) {
+        if (databaseUri != null) {
+            assignDatabasePassword(databaseUri, mainCredential)
+        }
+    }
+
+    fun assignPassword(mainCredential: MainCredential) {
+        mDatabase?.let { database ->
+            database.fileUri?.let { databaseUri ->
+                // Show the progress dialog now or after dialog confirmation
+                if (database.validatePasswordEncoding(mainCredential)) {
+                    assignPasswordValidated(databaseUri, mainCredential)
+                } else {
+                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
+                        .show(supportFragmentManager, "passwordEncodingTag")
+                }
+            }
+        }
+    }
+
+    fun createEntry(newEntry: Entry,
+                    parent: Group) {
+        createDatabaseEntry(newEntry, parent, !mReadOnly && mAutoSaveEnable)
+    }
+
+    fun updateEntry(oldEntry: Entry,
+                    entryToUpdate: Entry) {
+        updateDatabaseEntry(oldEntry, entryToUpdate, !mReadOnly && mAutoSaveEnable)
+    }
+
+    fun copyNodes(nodesToCopy: List<Node>,
+                  newParent: Group) {
+        copyDatabaseNodes(nodesToCopy, newParent, !mReadOnly && mAutoSaveEnable)
+    }
+
+    fun moveNodes(nodesToMove: List<Node>,
+                  newParent: Group) {
+        moveDatabaseNodes(nodesToMove, newParent, !mReadOnly && mAutoSaveEnable)
+    }
+
+    private fun eachNodeRecyclable(database: Database, nodes: List<Node>): Boolean {
+        return nodes.find { node ->
+            var cannotRecycle = true
+            if (node is Entry) {
+                cannotRecycle = !database.canRecycle(node)
+            } else if (node is Group) {
+                cannotRecycle = !database.canRecycle(node)
+            }
+            cannotRecycle
+        } == null
+    }
+
+    fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false) {
+        mDatabase?.let { database ->
+            // If recycle bin enabled, ensure it exists
+            if (database.isRecycleBinEnabled) {
+                database.ensureRecycleBinExists(resources)
+            }
+
+            // If recycle bin enabled and not in recycle bin, move in recycle bin
+            if (eachNodeRecyclable(database, nodes)) {
+                permanentlyDeleteNodes(nodes)
+            }
+            // else open the dialog to confirm deletion
+            else {
+                val deleteNodesDialogFragment: DeleteNodesDialogFragment =
+                    if (recycleBin) {
+                        EmptyRecycleBinDialogFragment.getInstance(nodes)
+                    } else {
+                        DeleteNodesDialogFragment.getInstance(nodes)
+                    }
+                deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+            }
+        }
+    }
+
+    override fun permanentlyDeleteNodes(nodes: List<Node>) {
+        deleteDatabaseNodes(nodes,!mReadOnly && mAutoSaveEnable)
+    }
+
+    fun createGroup(parent: Group,
+                    groupInfo: GroupInfo?) {
+        // Build the group
+        mDatabase?.createGroup()?.let { newGroup ->
+            groupInfo?.let { info ->
+                newGroup.setGroupInfo(info)
+            }
+            // Not really needed here because added in runnable but safe
+            newGroup.parent = parent
+            createDatabaseGroup(newGroup, parent, !mReadOnly && mAutoSaveEnable)
+        }
+    }
+
+    fun updateGroup(oldGroup: Group,
+                    groupInfo: GroupInfo) {
+        // If group updated save it in the database
+        val updateGroup = Group(oldGroup).let { updateGroup ->
+            updateGroup.apply {
+                // WARNING remove parent and children to keep memory
+                removeParent()
+                removeChildren()
+                this.setGroupInfo(groupInfo)
+            }
+        }
+        updateDatabaseGroup(oldGroup, updateGroup, !mReadOnly && mAutoSaveEnable)
+    }
+
+    fun restoreEntryHistory(mainEntry: Entry,
+                            entryHistoryPosition: Int,) {
+        restoreDatabaseEntryHistory(mainEntry, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
+    }
+
+    fun deleteEntryHistory(mainEntry: Entry,
+                           entryHistoryPosition: Int,) {
+        deleteDatabaseEntryHistory(mainEntry, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_EXIT_LOCK) {
+            mExitLock = true
+            lockAndExit()
+        }
+    }
+
+    private fun reload(database: Database) {
+        // Reload the current activity
+        startActivity(intent)
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        database.wasReloaded = false
+    }
+
     override fun onResume() {
         super.onResume()
+
+        if (mDatabase?.wasReloaded == true) {
+            reload(mDatabase!!)
+        }
 
         // If in ave or registration mode, don't allow read only
         if ((mSpecialMode == SpecialMode.SAVE
@@ -115,34 +298,17 @@ abstract class LockingActivity : SpecialModeActivity() {
             finish()
         }
 
-        mProgressDatabaseTaskProvider?.registerProgressTask()
-
         // To refresh when back to normal workflow from selection workflow
         mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
         invalidateOptionsMenu()
 
-        if (mTimeoutEnable) {
-            // End activity if database not loaded
-                // TODO generalize
-            if (mDatabase?.loaded != true) {
-                finish()
-                return
-            }
-
-            // After the first creation
-            // or If simply swipe with another application
-            // If the time is out -> close the Activity
-            TimeoutHelper.checkTimeAndLockIfTimeout(this)
-            // If onCreate already record time
-            mDatabase?.let { database ->
-                if (!mExitLock)
-                    TimeoutHelper.recordTime(this, database)
-            }
-        }
-
         LOCKING_ACTIVITY_UI_VISIBLE = true
+    }
+
+    protected fun checkTimeAndLockIfTimeoutOrResetTimeout(action: (() -> Unit)? = null) {
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase, action)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -152,8 +318,6 @@ abstract class LockingActivity : SpecialModeActivity() {
 
     override fun onPause() {
         LOCKING_ACTIVITY_UI_VISIBLE = false
-
-        mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
         super.onPause()
 

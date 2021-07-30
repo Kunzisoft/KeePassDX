@@ -62,11 +62,7 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
                     val oldGroup = database.templatesGroup
                     val newGroup = mGroupTemplates
                     database.setTemplatesGroup(newGroup)
-                    mProgressDatabaseTaskProvider?.startDatabaseSaveTemplatesGroup(
-                        oldGroup,
-                        newGroup,
-                        mDatabaseAutoSaveEnable
-                    )
+                    saveTemplatesGroup(oldGroup, newGroup)
                 }
             }
         }

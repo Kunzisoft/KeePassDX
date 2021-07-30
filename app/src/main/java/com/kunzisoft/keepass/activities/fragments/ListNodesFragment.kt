@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ActionMode
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
@@ -34,11 +35,13 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodeAdapter
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.*
 
 class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
@@ -47,9 +50,11 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     private var onScrollListener: OnScrollListener? = null
 
     private var mNodesRecyclerView: RecyclerView? = null
-    var mainGroup: Group? = null
-        private set
     private var mAdapter: NodeAdapter? = null
+
+    private val mGroupViewModel: GroupViewModel by activityViewModels()
+
+    private var mCurrentGroup: Group? = null
 
     var nodeActionSelectionMode = false
         private set
@@ -63,6 +68,9 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
 
     private var readOnly: Boolean = false
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
+
+    private var mRecycleBinEnable: Boolean = false
+    private var mRecycleBin: Group? = null
 
     val isEmpty: Boolean
         get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
@@ -99,56 +107,63 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
         setHasOptionsMenu(true)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
+    }
 
-        arguments?.let { args ->
-            // Contains all the group in element
-            if (args.containsKey(GROUP_KEY)) {
-                mainGroup = args.getParcelable(GROUP_KEY)
-            }
-            if (args.containsKey(IS_SEARCH)) {
-                isASearchResult = args.getBoolean(IS_SEARCH)
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mGroupViewModel.group.observe(viewLifecycleOwner) {
+            mCurrentGroup = it.group
+            isASearchResult = it.group.isVirtual
+            rebuildList()
         }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        mRecycleBinEnable = database?.isRecycleBinEnabled == true
+        mRecycleBin = database?.recycleBin
 
         contextThemed?.let { context ->
-            mDatabase?.let { database ->
-                mAdapter = NodeAdapter(context, database)
-            }
-            mAdapter?.apply {
-                setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
-                    override fun onNodeClick(node: Node) {
-                        if (nodeActionSelectionMode) {
-                            if (listActionNodes.contains(node)) {
-                                // Remove selected item if already selected
-                                listActionNodes.remove(node)
+            database?.let { database ->
+                mAdapter = NodeAdapter(context, database).apply {
+                    setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
+                        override fun onNodeClick(database: Database, node: Node) {
+                            if (nodeActionSelectionMode) {
+                                if (listActionNodes.contains(node)) {
+                                    // Remove selected item if already selected
+                                    listActionNodes.remove(node)
+                                } else {
+                                    // Add selected item if not already selected
+                                    listActionNodes.add(node)
+                                }
+                                nodeClickListener?.onNodeSelected(database, listActionNodes)
+                                setActionNodes(listActionNodes)
+                                notifyNodeChanged(node)
                             } else {
-                                // Add selected item if not already selected
-                                listActionNodes.add(node)
+                                nodeClickListener?.onNodeClick(database, node)
                             }
-                            nodeClickListener?.onNodeSelected(listActionNodes)
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
-                        } else {
-                            nodeClickListener?.onNodeClick(node)
                         }
-                    }
 
-                    override fun onNodeLongClick(node: Node): Boolean {
-                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-                            // Select the first item after a long click
-                            if (!listActionNodes.contains(node))
-                                listActionNodes.add(node)
+                        override fun onNodeLongClick(database: Database, node: Node): Boolean {
+                            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                                // Select the first item after a long click
+                                if (!listActionNodes.contains(node))
+                                    listActionNodes.add(node)
 
-                            nodeClickListener?.onNodeSelected(listActionNodes)
+                                nodeClickListener?.onNodeSelected(database, listActionNodes)
 
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
+                                setActionNodes(listActionNodes)
+                                notifyNodeChanged(node)
+                            }
+                            return true
                         }
-                        return true
-                    }
-                })
+                    })
+                }
+                mNodesRecyclerView?.adapter = mAdapter
             }
         }
+
+        // TODO notify menu updated?
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -211,7 +226,7 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     @Throws(IllegalArgumentException::class)
     fun rebuildList() {
         // Add elements to the list
-        mainGroup?.let { mainGroup ->
+        mCurrentGroup?.let { mainGroup ->
             mAdapter?.apply {
                 // Thrown an exception when sort cannot be performed
                 rebuildList(mainGroup)
@@ -253,7 +268,7 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             R.id.menu_sort -> {
                 context?.let { context ->
                     val sortDialogFragment: SortDialogFragment =
-                            if (mDatabase?.isRecycleBinEnabled == true) {
+                            if (mRecycleBinEnable) {
                                 SortDialogFragment.getInstance(
                                         PreferencesUtil.getListSort(context),
                                         PreferencesUtil.getAscendingSort(context),
@@ -275,7 +290,8 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
         }
     }
 
-    fun actionNodesCallback(nodes: List<Node>,
+    fun actionNodesCallback(database: Database,
+                            nodes: List<Node>,
                             menuListener: NodesActionMenuListener?,
                             actionModeCallback: ActionMode.Callback) : ActionMode.Callback {
 
@@ -289,49 +305,46 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
+                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
+                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+                } else {
+                    nodeActionSelectionMode = true
+                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
 
-                mDatabase?.let { database ->
-                    if (nodeActionPasteMode != PasteMode.UNDEFINED) {
-                        mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-                    } else {
-                        nodeActionSelectionMode = true
-                        mode?.menuInflater?.inflate(R.menu.node_menu, menu)
-
-                        // Open and Edit for a single item
-                        if (nodes.size == 1) {
-                            // Edition
-                            if (readOnly
-                                    || (database.isRecycleBinEnabled && nodes[0] == database.recycleBin)) {
-                                menu?.removeItem(R.id.menu_edit)
-                            }
-                        } else {
-                            menu?.removeItem(R.id.menu_open)
+                    // Open and Edit for a single item
+                    if (nodes.size == 1) {
+                        // Edition
+                        if (readOnly
+                                || (mRecycleBinEnable && nodes[0] == mRecycleBin)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
-
-                        // Move
-                        if (readOnly
-                                || isASearchResult) {
-                            menu?.removeItem(R.id.menu_move)
-                        }
-
-                        // Copy (not allowed for group)
-                        if (readOnly
-                                || isASearchResult
-                                || nodes.any { it.type == Type.GROUP }) {
-                            menu?.removeItem(R.id.menu_copy)
-                        }
-
-                        // Deletion
-                        if (readOnly
-                                || (database.isRecycleBinEnabled && nodes.any { it == database.recycleBin })) {
-                            menu?.removeItem(R.id.menu_delete)
-                        }
+                    } else {
+                        menu?.removeItem(R.id.menu_open)
+                        menu?.removeItem(R.id.menu_edit)
                     }
 
-                    // Add the number of items selected in title
-                    mode?.title = nodes.size.toString()
+                    // Move
+                    if (readOnly
+                            || isASearchResult) {
+                        menu?.removeItem(R.id.menu_move)
+                    }
+
+                    // Copy (not allowed for group)
+                    if (readOnly
+                            || isASearchResult
+                            || nodes.any { it.type == Type.GROUP }) {
+                        menu?.removeItem(R.id.menu_copy)
+                    }
+
+                    // Deletion
+                    if (readOnly
+                            || (mRecycleBinEnable && nodes.any { it == mRecycleBin })) {
+                        menu?.removeItem(R.id.menu_delete)
+                    }
                 }
+
+                // Add the number of items selected in title
+                mode?.title = nodes.size.toString()
                 return actionModeCallback.onPrepareActionMode(mode, menu)
             }
 
@@ -339,25 +352,25 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
                 if (menuListener == null)
                     return false
                 return when (item?.itemId) {
-                    R.id.menu_open -> menuListener.onOpenMenuClick(nodes[0])
-                    R.id.menu_edit -> menuListener.onEditMenuClick(nodes[0])
+                    R.id.menu_open -> menuListener.onOpenMenuClick(database, nodes[0])
+                    R.id.menu_edit -> menuListener.onEditMenuClick(database, nodes[0])
                     R.id.menu_copy -> {
                         nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
                         mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onCopyMenuClick(nodes)
+                        val returnValue = menuListener.onCopyMenuClick(database, nodes)
                         nodeActionSelectionMode = false
                         returnValue
                     }
                     R.id.menu_move -> {
                         nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
                         mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onMoveMenuClick(nodes)
+                        val returnValue = menuListener.onMoveMenuClick(database, nodes)
                         nodeActionSelectionMode = false
                         returnValue
                     }
-                    R.id.menu_delete -> menuListener.onDeleteMenuClick(nodes)
+                    R.id.menu_delete -> menuListener.onDeleteMenuClick(database, nodes)
                     R.id.menu_paste -> {
-                        val returnValue = menuListener.onPasteMenuClick(nodeActionPasteMode, nodes)
+                        val returnValue = menuListener.onPasteMenuClick(database, nodeActionPasteMode, nodes)
                         nodeActionPasteMode = PasteMode.UNDEFINED
                         nodeActionSelectionMode = false
                         returnValue
@@ -435,20 +448,20 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickListener {
-        fun onNodeClick(node: Node)
-        fun onNodeSelected(nodes: List<Node>): Boolean
+        fun onNodeClick(database: Database, node: Node)
+        fun onNodeSelected(database: Database, nodes: List<Node>): Boolean
     }
 
     /**
      * Menu listener to redefine to do an action in menu
      */
     interface NodesActionMenuListener {
-        fun onOpenMenuClick(node: Node): Boolean
-        fun onEditMenuClick(node: Node): Boolean
-        fun onCopyMenuClick(nodes: List<Node>): Boolean
-        fun onMoveMenuClick(nodes: List<Node>): Boolean
-        fun onDeleteMenuClick(nodes: List<Node>): Boolean
-        fun onPasteMenuClick(pasteMode: PasteMode?, nodes: List<Node>): Boolean
+        fun onOpenMenuClick(database: Database, node: Node): Boolean
+        fun onEditMenuClick(database: Database, node: Node): Boolean
+        fun onCopyMenuClick(database: Database, nodes: List<Node>): Boolean
+        fun onMoveMenuClick(database: Database, nodes: List<Node>): Boolean
+        fun onDeleteMenuClick(database: Database, nodes: List<Node>): Boolean
+        fun onPasteMenuClick(database: Database, pasteMode: PasteMode?, nodes: List<Node>): Boolean
     }
 
     enum class PasteMode {
@@ -467,22 +480,6 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     }
 
     companion object {
-
         private val TAG = ListNodesFragment::class.java.name
-
-        private const val GROUP_KEY = "GROUP_KEY"
-        private const val IS_SEARCH = "IS_SEARCH"
-
-        fun newInstance(group: Group?, readOnly: Boolean, isASearch: Boolean): ListNodesFragment {
-            val bundle = Bundle()
-            if (group != null) {
-                bundle.putParcelable(GROUP_KEY, group)
-            }
-            bundle.putBoolean(IS_SEARCH, isASearch)
-            ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly)
-            val listNodesFragment = ListNodesFragment()
-            listNodesFragment.arguments = bundle
-            return listNodesFragment
-        }
     }
 }

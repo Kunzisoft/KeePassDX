@@ -39,7 +39,7 @@ class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePre
     override fun onDialogClosed(positiveResult: Boolean) {
         mDatabase?.let { _ ->
             if (positiveResult) {
-                mProgressDatabaseTaskProvider?.startDatabaseRemoveUnlinkedData(mDatabaseAutoSaveEnable)
+                removeUnlinkedData()
             }
         }
     }

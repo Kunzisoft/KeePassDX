@@ -49,8 +49,6 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
-    private var mDatabase: Database? = Database.getInstance()
-
     override fun retrieveChannelId(): String {
         return CHANNEL_ATTACHMENT_ID
     }
@@ -289,7 +287,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     // Add action to the list on start
                     attachmentNotificationList.add(attachmentNotification)
 
-                    mDatabase?.let { database ->
+                    // TODO Database
+                    Database.getInstance()?.let { database ->
                         mainScope.launch {
                             AttachmentFileAction(attachmentNotification,
                                     database,

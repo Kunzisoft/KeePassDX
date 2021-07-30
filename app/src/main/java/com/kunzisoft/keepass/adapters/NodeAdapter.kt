@@ -358,10 +358,10 @@ class NodeAdapter (private val context: Context,
 
         // Assign click
         holder.container.setOnClickListener {
-            mNodeClickCallback?.onNodeClick(subNode)
+            mNodeClickCallback?.onNodeClick(database, subNode)
         }
         holder.container.setOnLongClickListener {
-            mNodeClickCallback?.onNodeLongClick(subNode) ?: false
+            mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
     }
     
@@ -380,8 +380,8 @@ class NodeAdapter (private val context: Context,
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(node: Node)
-        fun onNodeLongClick(node: Node): Boolean
+        fun onNodeClick(database: Database, node: Node)
+        fun onNodeLongClick(database: Database, node: Node): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

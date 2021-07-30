@@ -18,8 +18,7 @@ import java.util.*
 
 class EntryViewModel: ViewModel() {
 
-    private val mDatabase: Database? = Database.getInstance()
-
+    private var mDatabase: Database? = null
     private var mEntryTemplate: Template? = null
     private var mEntry: Entry? = null
     private var mLastEntryVersion: Entry? = null
@@ -48,59 +47,69 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun loadEntry(entryId: NodeId<UUID>, historyPosition: Int) {
-        IOActionTask(
-            {
-                // Manage current version and history
-                mLastEntryVersion = mDatabase?.getEntryById(entryId)
+    fun setDatabase(database: Database?) {
+        mDatabase = database
+    }
 
-                mEntry = if (historyPosition > -1) {
-                    mLastEntryVersion?.getHistory()?.get(historyPosition)
-                } else {
-                    mLastEntryVersion
-                }
+    fun loadEntry(entryId: NodeId<UUID>?, historyPosition: Int) {
+        if (entryId != null) {
+            IOActionTask(
+                {
+                    // Manage current version and history
+                    mLastEntryVersion = mDatabase?.getEntryById(entryId)
 
-                mEntryTemplate = mEntry?.let {
-                    mDatabase?.getTemplate(it)
-                } ?: Template.STANDARD
+                    mEntry = if (historyPosition > -1) {
+                        mLastEntryVersion?.getHistory()?.get(historyPosition)
+                    } else {
+                        mLastEntryVersion
+                    }
 
-                mHistoryPosition = historyPosition
+                    mEntryTemplate = mEntry?.let {
+                        mDatabase?.getTemplate(it)
+                    } ?: Template.STANDARD
 
-                // To simplify template field visibility
-                mEntry?.let { entry ->
-                    // Add mLastEntryVersion to check the parent and define the template state
-                    mDatabase?.decodeEntryWithTemplateConfiguration(entry, mLastEntryVersion)?.let {
-                        // To update current modification time
-                        it.touch(modified = false, touchParents = false)
+                    mHistoryPosition = historyPosition
 
-                        // Build history info
-                        val entryInfoHistory = it.getHistory().map { entryHistory ->
-                            entryHistory.getEntryInfo(mDatabase)
-                        }
+                    // To simplify template field visibility
+                    mEntry?.let { entry ->
+                        // Add mLastEntryVersion to check the parent and define the template state
+                        mDatabase?.decodeEntryWithTemplateConfiguration(entry, mLastEntryVersion)
+                            ?.let {
+                                // To update current modification time
+                                it.touch(modified = false, touchParents = false)
 
-                        EntryInfoHistory(
-                            mEntryTemplate ?: Template.STANDARD,
-                            it.getEntryInfo(mDatabase),
-                            entryInfoHistory
-                        )
+                                // Build history info
+                                val entryInfoHistory = it.getHistory().map { entryHistory ->
+                                    entryHistory.getEntryInfo(mDatabase)
+                                }
+
+                                EntryInfoHistory(
+                                    mEntryTemplate ?: Template.STANDARD,
+                                    it.getEntryInfo(mDatabase),
+                                    entryInfoHistory
+                                )
+                            }
+                    }
+                },
+                { entryInfoHistory ->
+                    if (entryInfoHistory != null) {
+                        _template.value = entryInfoHistory.template
+                        _entryInfo.value = entryInfoHistory.entryInfo
+                        _entryIsHistory.value = mHistoryPosition != -1
+                        _entryHistory.value = entryInfoHistory.entryHistory
                     }
                 }
-            },
-            { entryInfoHistory ->
-                if (entryInfoHistory != null) {
-                    _template.value = entryInfoHistory.template
-                    _entryInfo.value = entryInfoHistory.entryInfo
-                    _entryIsHistory.value = mHistoryPosition != -1
-                    _entryHistory.value = entryInfoHistory.entryHistory
-                }
-            }
-        ).execute()
+            ).execute()
+        } else {
+            mEntryTemplate = null
+            mEntry = null
+            mLastEntryVersion = null
+            mHistoryPosition = -1
+        }
     }
 
     fun updateEntry() {
-        mEntry?.nodeId?.let { nodeId ->
-            loadEntry(nodeId, mHistoryPosition)
-        }
+        loadEntry(mEntry?.nodeId, mHistoryPosition)
     }
 
     // TODO Remove
