@@ -1,7 +1,5 @@
 package com.kunzisoft.keepass.activities.fragments
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
@@ -14,12 +12,11 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
 
-    override fun onViewCreated(view: View,
-                               savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
         mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
-            view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), database)
+            requireView().resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), database)
             onDatabaseRetrieved(database)
         }
     }

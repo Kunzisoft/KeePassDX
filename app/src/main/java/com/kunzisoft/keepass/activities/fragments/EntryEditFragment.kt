@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,7 +32,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
@@ -42,7 +40,6 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -50,10 +47,6 @@ import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
 class EntryEditFragment: DatabaseFragment() {
-
-    private var iconColor: Int = 0
-
-    var drawFactory: IconDrawableFactory? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
 
@@ -65,10 +58,17 @@ class EntryEditFragment: DatabaseFragment() {
 
     private var mAllowMultipleAttachments: Boolean = false
 
+    private var mIconColor: Int = 0
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
+        // Retrieve the textColor to tint the icon
+        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        mIconColor = taIconColor?.getColor(0, Color.BLACK) ?: Color.BLACK
+        taIconColor?.recycle()
 
         return inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.fragment_entry_edit, container, false)
@@ -77,11 +77,6 @@ class EntryEditFragment: DatabaseFragment() {
     override fun onViewCreated(view: View,
                                savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Retrieve the textColor to tint the icon
-        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
-        taIconColor?.recycle()
 
         rootView = view
         // Hide only the first time
@@ -93,9 +88,6 @@ class EntryEditFragment: DatabaseFragment() {
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
 
         templateView.apply {
-            populateIconMethod = { imageView, icon ->
-                drawFactory?.assignDatabaseIcon(imageView, icon, iconColor)
-            }
             setOnIconClickListener {
                 mEntryEditViewModel.requestIconSelection(templateView.getIcon())
             }
@@ -239,7 +231,10 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
-        drawFactory = database?.iconDrawableFactory
+
+        templateView.populateIconMethod = { imageView, icon ->
+            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+        }
 
         mAllowMultipleAttachments = database?.allowMultipleAttachments == true
 

@@ -17,6 +17,7 @@ class IconPickerFragment : DatabaseFragment() {
 
     private var iconPickerPagerAdapter: IconPickerPagerAdapter? = null
     private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     private val iconPickerViewModel: IconPickerViewModel by activityViewModels()
 
@@ -31,6 +32,9 @@ class IconPickerFragment : DatabaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewPager = view.findViewById(R.id.icon_picker_pager)
+        tabLayout = view.findViewById(R.id.icon_picker_tabs)
+
         arguments?.apply {
             if (containsKey(ICON_TAB_ARG)) {
                 viewPager.currentItem = getInt(ICON_TAB_ARG)
@@ -44,8 +48,6 @@ class IconPickerFragment : DatabaseFragment() {
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
-        viewPager = requireView().findViewById(R.id.icon_picker_pager)
-        val tabLayout = requireView().findViewById<TabLayout>(R.id.icon_picker_tabs)
         iconPickerPagerAdapter = IconPickerPagerAdapter(this,
             if (database?.allowCustomIcons == true) 2 else 1)
         viewPager.adapter = iconPickerPagerAdapter

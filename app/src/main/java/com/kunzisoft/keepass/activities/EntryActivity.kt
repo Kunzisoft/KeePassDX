@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrCha
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -87,7 +88,8 @@ class EntryActivity : LockingActivity() {
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var iconColor: Int = 0
+    private var mIcon: IconImage? = null
+    private var mIconColor: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +116,7 @@ class EntryActivity : LockingActivity() {
 
         // Retrieve the textColor to tint the icon
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        iconColor = taIconColor.getColor(0, Color.BLACK)
+        mIconColor = taIconColor.getColor(0, Color.BLACK)
         taIconColor.recycle()
 
         // Get Entry from UUID
@@ -150,8 +152,9 @@ class EntryActivity : LockingActivity() {
             }
 
             // Assign title icon
+            mIcon = entryInfo.icon
             titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, iconColor)
+                mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
             }
 
             // Assign title text
@@ -214,8 +217,16 @@ class EntryActivity : LockingActivity() {
         super.onDatabaseRetrieved(database)
         // Focus view to reinitialize timeout
         coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
+
         mEntryViewModel.setDatabase(database)
         mEntryViewModel.loadEntry(mEntryId, mHistoryPosition)
+
+        // Assign title icon
+        mIcon?.let { icon ->
+            titleIconView?.let { iconView ->
+                mIconDrawableFactory?.assignDatabaseIcon(iconView, icon, mIconColor)
+            }
+        }
     }
 
     override fun onDatabaseActionFinished(

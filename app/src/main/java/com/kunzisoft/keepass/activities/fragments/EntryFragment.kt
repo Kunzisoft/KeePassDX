@@ -74,6 +74,13 @@ class EntryFragment: DatabaseFragment() {
         templateView = view.findViewById(R.id.entry_template)
         loadTemplateSettings()
 
+        attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
+        attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+        attachmentsListView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
         creationDateView = view.findViewById(R.id.entry_created)
         modificationDateView = view.findViewById(R.id.entry_modified)
 
@@ -109,13 +116,7 @@ class EntryFragment: DatabaseFragment() {
             attachmentsAdapter?.database = database
         }
 
-        attachmentsContainerView = requireView().findViewById(R.id.entry_attachments_container)
-        attachmentsListView = requireView().findViewById(R.id.entry_attachments_list)
-        attachmentsListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = attachmentsAdapter
-            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        }
+        attachmentsListView.adapter = attachmentsAdapter
     }
 
     private fun loadTemplateSettings() {

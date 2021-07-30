@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,27 +52,25 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val root = inflater.inflate(retrieveMainLayoutId(), container, false)
-        iconsGridView = root.findViewById(R.id.icons_grid_view)
-        iconsGridView.adapter = iconPickerAdapter
-        return root
+        return inflater.inflate(retrieveMainLayoutId(), container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconPickerAdapter.iconPickerListener = this
-    }
-
-    override fun onDatabaseRetrieved(database: Database?) {
         // Retrieve the textColor to tint the icon
         val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         val tintColor = ta?.getColor(0, Color.BLACK) ?: Color.BLACK
         ta?.recycle()
 
-        iconPickerAdapter = IconPickerAdapter<T>(requireContext(), tintColor).apply {
-            iconDrawableFactory = database?.iconDrawableFactory
-        }
+        iconsGridView = view.findViewById(R.id.icons_grid_view)
+        iconPickerAdapter = IconPickerAdapter(requireContext(), tintColor)
+        iconPickerAdapter.iconPickerListener = this
+        iconsGridView.adapter = iconPickerAdapter
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        iconPickerAdapter.iconDrawableFactory = database?.iconDrawableFactory
 
         CoroutineScope(Dispatchers.IO).launch {
             val populateList = launch {

@@ -12,7 +12,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 class DatabaseViewModel: ViewModel() {
 
     val database : LiveData<Database?> get() = _database
-    private val _database = SingleLiveEvent<Database?>()
+    private val _database = MutableLiveData<Database?>()
 
     val saveDatabase : LiveData<Boolean> get() = _saveDatabase
     private val _saveDatabase = SingleLiveEvent<Boolean>()

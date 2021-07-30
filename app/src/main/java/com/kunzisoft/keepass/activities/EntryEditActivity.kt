@@ -94,6 +94,11 @@ class EntryEditActivity : LockingActivity(),
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
 
+    private var mEntryId: NodeId<UUID>? = null
+    private var mParentId: NodeId<*>? = null
+    private var mRegisterInfo: RegisterInfo? = null
+    private var mSearchInfo: SearchInfo? = null
+
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
 
     private var mAllowCustomFields = false
@@ -129,19 +134,19 @@ class EntryEditActivity : LockingActivity(),
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
-        val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-        val searchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        mRegisterInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        mSearchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
             intent.removeExtra(KEY_ENTRY)
-            mEntryEditViewModel.initializeEntryToUpdate(entryToUpdate, registerInfo, searchInfo)
+            mEntryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
             intent.removeExtra(KEY_PARENT)
-            mEntryEditViewModel.initializeEntryToCreate(parent, registerInfo, searchInfo)
+            mParentId = parent
         }
 
         // To retrieve attachment
@@ -260,6 +265,15 @@ class EntryEditActivity : LockingActivity(),
         mEntryEditViewModel.setDatabase(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
+
+        mEntryId?.let {
+            mEntryEditViewModel.initializeEntryToUpdate(it, mRegisterInfo, mSearchInfo)
+            mEntryId = null
+        }
+        mParentId?.let {
+            mEntryEditViewModel.initializeEntryToCreate(it, mRegisterInfo, mSearchInfo)
+            mParentId = null
+        }
     }
 
     override fun onDatabaseActionFinished(
