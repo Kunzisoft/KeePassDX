@@ -41,6 +41,8 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
 
     private var mDateTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
 
+    private var mDefault: DateInstant = DateInstant.NEVER_EXPIRES
+
     var setOnDateClickListener: ((DateInstant) -> Unit)? = null
 
     init {
@@ -68,7 +70,7 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
                 DateInstant.Type.TIME -> DateInstant.IN_ONE_HOUR_TIME
             }
         } else {
-            DateInstant.NEVER_EXPIRES
+            mDefault
         }
     }
 
@@ -105,7 +107,7 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
             return if (activation)
                 mDateTime
             else
-                DateInstant.NEVER_EXPIRES
+                mDefault
         }
         set(value) {
             mDateTime = DateInstant(value.date, mDateTime.type)
@@ -124,7 +126,17 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
             mDateTime = try {
                 DateInstant(value)
             } catch (e: Exception) {
-                DateInstant.NEVER_EXPIRES
+                mDefault
+            }
+        }
+
+    override var default: String
+        get() = mDefault.toString()
+        set(value) {
+            mDefault = try {
+                DateInstant(value)
+            } catch (e: Exception) {
+                mDefault
             }
         }
 

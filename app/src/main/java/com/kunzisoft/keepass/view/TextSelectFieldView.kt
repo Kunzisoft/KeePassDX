@@ -26,6 +26,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     private var valueViewId = ViewCompat.generateViewId()
     private var valueSpinnerAdapter = ValueSpinnerAdapter(context)
     private var actionImageButtonId = ViewCompat.generateViewId()
+    private var mDefaultPosition = 0
 
     private val labelView = AppCompatTextView(context).apply {
         setTextAppearance(context, R.style.KeepassDXStyle_TextAppearance_LabelTextStyle)
@@ -142,10 +143,20 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     // To define default value and retrieve selected one
     override var value: String
         get() {
-            return valueSpinnerView.selectedItem?.toString() ?: valueSpinnerAdapter.getItem(0)
+            var selectedItemString = valueSpinnerView.selectedItem?.toString()
+            if (selectedItemString.isNullOrEmpty()) {
+                selectedItemString = valueSpinnerAdapter.getItem(0)
+            }
+            return selectedItemString
         }
         set(value) {
             valueSpinnerView.setSelection(valueSpinnerAdapter.getPosition(value))
+        }
+
+    override var default: String
+        get() = valueSpinnerAdapter.getItem(mDefaultPosition)
+        set(value) {
+            mDefaultPosition = valueSpinnerAdapter.getPosition(value)
         }
 
     override fun setOnActionClickListener(onActionClickListener: OnClickListener?,

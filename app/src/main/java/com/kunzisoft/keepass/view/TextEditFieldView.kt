@@ -122,6 +122,8 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             valueView.setText(value)
         }
 
+    override var default: String = ""
+
     fun setMaxChars(numberChars: Int) {
         when {
             numberChars <= 0 -> {
