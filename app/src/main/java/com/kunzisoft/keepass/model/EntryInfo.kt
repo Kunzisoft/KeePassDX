@@ -170,24 +170,18 @@ class EntryInfo : NodeInfo {
 
         if (database?.allowEntryCustomFields() == true) {
             val creditCard: CreditCard? = registerInfo.creditCard
-
-            creditCard?.let { cc ->
-                cc.cardholder?.let {
-                    val v = ProtectedString(false, it)
-                    addUniqueField(Field(TemplateField.LABEL_HOLDER, v))
-                }
-                cc.expiration?.let {
-                    expires = true
-                    expiryTime = DateInstant(cc.expiration.millis)
-                }
-                cc.number?.let {
-                    val v = ProtectedString(false, it)
-                    addUniqueField(Field(TemplateField.LABEL_NUMBER, v))
-                }
-                cc.cvv?.let {
-                    val v = ProtectedString(true, it)
-                    addUniqueField(Field(TemplateField.LABEL_CVV, v))
-                }
+            creditCard?.cardholder?.let {
+                addUniqueField(Field(TemplateField.LABEL_HOLDER, ProtectedString(false, it)))
+            }
+            creditCard?.expiration?.let {
+                expires = true
+                expiryTime = DateInstant(creditCard.expiration.millis)
+            }
+            creditCard?.number?.let {
+                addUniqueField(Field(TemplateField.LABEL_NUMBER, ProtectedString(false, it)))
+            }
+            creditCard?.cvv?.let {
+                addUniqueField(Field(TemplateField.LABEL_CVV, ProtectedString(true, it)))
             }
         }
     }

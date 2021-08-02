@@ -78,6 +78,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
+                default = field.protectedValue.stringValue
                 setActionClick(templateAttribute, field, this)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
@@ -201,20 +202,6 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel
-    }
-
-    override fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
-        customFieldIdByName(fieldName)?.let { fieldId ->
-            val editView: View? = templateContainerView.findViewById(fieldId.viewId)
-                ?: customFieldsContainerView.findViewById(fieldId.viewId)
-            if (editView is GenericFieldView) {
-                if (!templateFieldNotEmpty ||
-                    (editView.tag == FIELD_CUSTOM_TAG
-                            && editView.value.isNotEmpty()))
-                    return Field(fieldName, ProtectedString(fieldId.protected, editView.value))
-            }
-        }
-        return null
     }
 
     override fun onRestoreEntryInstanceState(state: SavedState) {

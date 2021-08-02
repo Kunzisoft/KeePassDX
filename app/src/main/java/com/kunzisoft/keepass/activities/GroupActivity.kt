@@ -674,7 +674,10 @@ class GroupActivity : LockingActivity(),
 
     private fun updateEntryWithSearchInfo(database: Database, entry: Entry, searchInfo: SearchInfo) {
         val newEntry = Entry(entry)
-        newEntry.setEntryInfo(database, newEntry.getEntryInfo(database, true).apply {
+        newEntry.setEntryInfo(database, newEntry.getEntryInfo(database,
+            raw = true,
+            removeTemplateConfiguration = false
+        ).apply {
             saveSearchInfo(database, searchInfo)
         })
         updateEntry(entry, newEntry)
