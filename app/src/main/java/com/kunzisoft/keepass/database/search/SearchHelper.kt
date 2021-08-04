@@ -92,12 +92,14 @@ class SearchHelper {
          * Utility method to perform actions if item is found or not after an auto search in [database]
          */
         fun checkAutoSearchInfo(context: Context,
-                                database: Database,
+                                database: Database?,
                                 searchInfo: SearchInfo?,
                                 onItemsFound: (items: List<EntryInfo>) -> Unit,
                                 onItemNotFound: () -> Unit,
                                 onDatabaseClosed: () -> Unit) {
-            if (database.loaded && TimeoutHelper.checkTime(context)) {
+            if (database == null || !database.loaded) {
+                onDatabaseClosed.invoke()
+            } else if (TimeoutHelper.checkTime(context)) {
                 var searchWithoutUI = false
                 if (PreferencesUtil.isAutofillAutoSearchEnable(context)
                         && searchInfo != null
@@ -118,8 +120,6 @@ class SearchHelper {
                 if (!searchWithoutUI) {
                     onItemNotFound.invoke()
                 }
-            } else {
-                onDatabaseClosed.invoke()
             }
         }
 

@@ -47,10 +47,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        // End activity if database not loaded
-        if (database?.loaded != true) {
-            finish()
-        }
+
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
             when (specialMode) {
@@ -63,9 +60,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        database?.let { database ->
-                            launchSelection(database, searchInfo)
-                        }
+                        launchSelection(database, searchInfo)
                     }
                 }
                 SpecialMode.REGISTRATION -> {
@@ -74,9 +69,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        database?.let { database ->
-                            launchRegistration(database, searchInfo, registerInfo)
-                        }
+                        launchRegistration(database, searchInfo, registerInfo)
                     }
                 }
                 else -> {
@@ -88,7 +81,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
         }
     }
 
-    private fun launchSelection(database: Database,
+    private fun launchSelection(database: Database?,
                                 searchInfo: SearchInfo) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
@@ -110,13 +103,15 @@ class AutofillLauncherActivity : DatabaseActivity() {
                     searchInfo,
                     { items ->
                         // Items found
-                        AutofillHelper.buildResponseAndSetResult(this, database, items)
+                        database?.let {
+                            AutofillHelper.buildResponseAndSetResult(this, database, items)
+                        }
                         finish()
                     },
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                database.isReadOnly,
+                                database?.isReadOnly != false,
                                 autofillComponent,
                                 searchInfo,
                                 false)
@@ -131,7 +126,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
         }
     }
 
-    private fun launchRegistration(database: Database,
+    private fun launchRegistration(database: Database?,
                                    searchInfo: SearchInfo,
                                    registerInfo: RegisterInfo?) {
         if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
@@ -141,7 +136,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
         } else {
-            val readOnly = database.isReadOnly
+            val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,

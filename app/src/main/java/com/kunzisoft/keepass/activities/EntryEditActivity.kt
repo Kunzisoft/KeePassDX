@@ -265,14 +265,15 @@ class EntryEditActivity : LockingActivity(),
         mEntryEditViewModel.setDatabase(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
-
-        mEntryId?.let {
-            mEntryEditViewModel.initializeEntryToUpdate(it, mRegisterInfo, mSearchInfo)
-            mEntryId = null
-        }
-        mParentId?.let {
-            mEntryEditViewModel.initializeEntryToCreate(it, mRegisterInfo, mSearchInfo)
-            mParentId = null
+        database?.let {
+            mEntryId?.let {
+                mEntryEditViewModel.initializeEntryToUpdate(it, mRegisterInfo, mSearchInfo)
+                mEntryId = null
+            }
+            mParentId?.let {
+                mEntryEditViewModel.initializeEntryToCreate(it, mRegisterInfo, mSearchInfo)
+                mParentId = null
+            }
         }
     }
 

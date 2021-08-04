@@ -76,19 +76,13 @@ class EntrySelectionLauncherActivity : DatabaseActivity() {
             this.otpString = otpString
         }
 
-        // End activity if database not loaded
-        if (database?.loaded != true) {
-            finish()
-        }
         SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
             searchInfo.webDomain = concreteWebDomain
-            database?.let { database ->
-                launch(database, searchInfo)
-            }
+            launch(database, searchInfo)
         }
     }
 
-    private fun launch(database: Database,
+    private fun launch(database: Database?,
                        searchInfo: SearchInfo) {
 
         if (!searchInfo.containsOnlyNullValues()) {
@@ -96,7 +90,7 @@ class EntrySelectionLauncherActivity : DatabaseActivity() {
             val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
             // If database is open
-            val readOnly = database.isReadOnly
+            val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,

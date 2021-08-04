@@ -30,25 +30,23 @@ class MagikeyboardLauncherActivity : DatabaseActivity() {
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        database?.let {
-            val readOnly = database.isReadOnly
-            SearchHelper.checkAutoSearchInfo(this,
-                database,
-                null,
-                {
-                    // Not called
-                    // if items found directly returns before calling this activity
-                },
-                {
-                    // Select if not found
-                    GroupActivity.launchForKeyboardSelectionResult(this, readOnly)
-                },
-                {
-                    // Pass extra to get entry
-                    FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this)
-                }
-            )
-        }
+        val readOnly = database?.isReadOnly != false
+        SearchHelper.checkAutoSearchInfo(this,
+            database,
+            null,
+            {
+                // Not called
+                // if items found directly returns before calling this activity
+            },
+            {
+                // Select if not found
+                GroupActivity.launchForKeyboardSelectionResult(this, readOnly)
+            },
+            {
+                // Pass extra to get entry
+                FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this)
+            }
+        )
         finish()
     }
 }

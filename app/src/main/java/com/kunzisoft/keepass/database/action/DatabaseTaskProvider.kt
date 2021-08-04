@@ -20,8 +20,7 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.*
-import android.content.Context.BIND_ABOVE_CLIENT
-import android.content.Context.BIND_NOT_FOREGROUND
+import android.content.Context.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -219,7 +218,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
-            activity.bindService(intentDatabaseTask, it, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+            activity.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
         }
     }
 

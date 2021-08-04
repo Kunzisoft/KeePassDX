@@ -54,7 +54,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     override val notificationId: Int = 575
 
-    private lateinit var mDatabase: Database
+    private var mDatabase: Database? = null
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
@@ -132,7 +132,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     fun checkDatabaseInfo() {
         try {
-            mDatabase.fileUri?.let {
+            mDatabase?.fileUri?.let {
                 val previousDatabaseInfo = mSnapFileDatabaseInfo
                 val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                         FileDatabaseInfo(applicationContext, it))
@@ -173,7 +173,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     fun saveDatabaseInfo() {
         try {
-            mDatabase.fileUri?.let {
+            mDatabase?.fileUri?.let {
                 mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                         FileDatabaseInfo(applicationContext, it))
                 Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
@@ -187,9 +187,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      * Force to call [ActionTaskListener.onStartAction] if the action is still running
      */
     fun checkAction() {
-        if (mActionRunning) {
-            mActionTaskListeners.forEach { actionTaskListener ->
-                actionTaskListener.onStartAction(mDatabase, mTitleId, mMessageId, mWarningId)
+        mDatabase?.let { database ->
+            if (mActionRunning) {
+                mActionTaskListeners.forEach { actionTaskListener ->
+                    actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
+                }
             }
         }
     }
@@ -202,7 +204,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        mDatabase = Database.getInstance()
+        val database = Database.getInstance()
+        mDatabase = database
         mDatabaseListeners.forEach { listener ->
             listener.onDatabaseRetrieved(mDatabase)
         }
@@ -212,26 +215,26 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         val intentAction = intent?.action
 
-        if (intentAction == null && !mDatabase.loaded) {
+        if (intentAction == null && !database.loaded) {
             stopSelf()
         }
 
         val actionRunnable: ActionRunnable? =  when (intentAction) {
-            ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
-            ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
-            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask()
-            ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
-            ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent)
-            ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent)
-            ACTION_DATABASE_CREATE_ENTRY_TASK -> buildDatabaseCreateEntryActionTask(intent)
-            ACTION_DATABASE_UPDATE_ENTRY_TASK -> buildDatabaseUpdateEntryActionTask(intent)
-            ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent)
-            ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent)
-            ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent)
-            ACTION_DATABASE_RESTORE_ENTRY_HISTORY -> buildDatabaseRestoreEntryHistoryActionTask(intent)
-            ACTION_DATABASE_DELETE_ENTRY_HISTORY -> buildDatabaseDeleteEntryHistoryActionTask(intent)
-            ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent)
-            ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK -> buildDatabaseRemoveUnlinkedDataActionTask(intent)
+            ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
+            ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
+            ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
+            ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent, database)
+            ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
+            ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent, database)
+            ACTION_DATABASE_CREATE_ENTRY_TASK -> buildDatabaseCreateEntryActionTask(intent, database)
+            ACTION_DATABASE_UPDATE_ENTRY_TASK -> buildDatabaseUpdateEntryActionTask(intent, database)
+            ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent, database)
+            ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent, database)
+            ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent, database)
+            ACTION_DATABASE_RESTORE_ENTRY_HISTORY -> buildDatabaseRestoreEntryHistoryActionTask(intent, database)
+            ACTION_DATABASE_DELETE_ENTRY_HISTORY -> buildDatabaseDeleteEntryHistoryActionTask(intent, database)
+            ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent, database)
+            ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK -> buildDatabaseRemoveUnlinkedDataActionTask(intent, database)
             ACTION_DATABASE_UPDATE_NAME_TASK,
             ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
             ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK,
@@ -244,8 +247,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK,
             ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
-            ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent)
-            ACTION_DATABASE_SAVE -> buildDatabaseSave(intent)
+            ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
+            ACTION_DATABASE_SAVE -> buildDatabaseSave(intent, database)
             else -> null
         }
 
@@ -265,7 +268,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStartAction(mDatabase, mTitleId, mMessageId, mWarningId)
+                                actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
                             }
 
                         },
@@ -275,7 +278,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         { result ->
                             try {
                                 mActionTaskListeners.forEach { actionTaskListener ->
-                                    actionTaskListener.onStopAction(mDatabase, intentAction!!, result)
+                                    actionTaskListener.onStopAction(database, intentAction!!, result)
                                 }
                             } finally {
                                 // Save the database info before performing action
@@ -285,7 +288,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 // Save the database info after performing save action
                                 if (intentAction == ACTION_DATABASE_SAVE
                                         || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true) {
-                                    mDatabase.fileUri?.let {
+                                    database.fileUri?.let {
                                         val newSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                                                 FileDatabaseInfo(applicationContext, it))
                                         mLastLocalSaveTime = System.currentTimeMillis()
@@ -295,7 +298,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 removeIntentData(intent)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                                    if (!mDatabase.loaded) {
+                                    if (!database.loaded) {
                                         stopSelf()
                                     } else {
                                         // Restart the service to open lock notification
@@ -386,25 +389,33 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         if (intentAction == null) {
-            // Database is normally open
-            if (mDatabase.loaded) {
-                // Build Intents for notification action
-                val pendingDatabaseIntent = PendingIntent.getActivity(this,
+            mDatabase?.let { database ->
+                // Database is normally open
+                if (database.loaded) {
+                    // Build Intents for notification action
+                    val pendingDatabaseIntent = PendingIntent.getActivity(
+                        this,
                         0,
                         Intent(this, GroupActivity::class.java).apply {
-                            ReadOnlyHelper.putReadOnlyInIntent(this, mDatabase.isReadOnly)
+                            ReadOnlyHelper.putReadOnlyInIntent(this, database.isReadOnly)
                         },
-                        PendingIntent.FLAG_UPDATE_CURRENT)
-                val pendingDeleteIntent = PendingIntent.getBroadcast(this,
-                        4576, Intent(LOCK_ACTION), 0)
-                // Add actions in notifications
-                notificationBuilder.apply {
-                    setContentText(mDatabase.name + " (" + mDatabase.version + ")")
-                    setContentIntent(pendingDatabaseIntent)
-                    // Unfortunately swipe is disabled in lollipop+
-                    setDeleteIntent(pendingDeleteIntent)
-                    addAction(R.drawable.ic_lock_white_24dp, getString(R.string.lock),
-                            pendingDeleteIntent)
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                    val pendingDeleteIntent = PendingIntent.getBroadcast(
+                        this,
+                        4576, Intent(LOCK_ACTION), 0
+                    )
+                    // Add actions in notifications
+                    notificationBuilder.apply {
+                        setContentText(database.name + " (" + database.version + ")")
+                        setContentIntent(pendingDatabaseIntent)
+                        // Unfortunately swipe is disabled in lollipop+
+                        setDeleteIntent(pendingDeleteIntent)
+                        addAction(
+                            R.drawable.ic_lock_white_24dp, getString(R.string.lock),
+                            pendingDeleteIntent
+                        )
+                    }
                 }
             }
         }
@@ -464,8 +475,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     override fun updateMessage(resId: Int) {
         mMessageId = resId
-        mActionTaskListeners.forEach { actionTaskListener ->
-            actionTaskListener.onUpdateAction(mDatabase, mTitleId, mMessageId, mWarningId)
+        mDatabase?.let { database ->
+            mActionTaskListeners.forEach { actionTaskListener ->
+                actionTaskListener.onUpdateAction(database, mTitleId, mMessageId, mWarningId)
+            }
         }
     }
 
@@ -479,7 +492,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseCreateActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MAIN_CREDENTIAL_KEY)
@@ -491,12 +504,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 return null
 
             return CreateDatabaseRunnable(this,
-                    mDatabase,
-                    databaseUri,
-                    getString(R.string.database_default_name),
-                    getString(R.string.database),
-                    getString(R.string.template_group_name),
-                    mainCredential
+                database,
+                databaseUri,
+                getString(R.string.database_default_name),
+                getString(R.string.database),
+                getString(R.string.template_group_name),
+                mainCredential
             ) { result ->
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
@@ -508,7 +521,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseLoadActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseLoadActionTask(intent: Intent, database: Database): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MAIN_CREDENTIAL_KEY)
@@ -526,7 +539,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             return LoadDatabaseRunnable(
                     this,
-                    mDatabase,
+                    database,
                     databaseUri,
                     mainCredential,
                     readOnly,
@@ -547,10 +560,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseReloadActionTask(): ActionRunnable {
+    private fun buildDatabaseReloadActionTask(database: Database): ActionRunnable {
         return ReloadDatabaseRunnable(
                     this,
-                    mDatabase,
+                    database,
                     this
             ) { result ->
                 // No need to add each info to reload database
@@ -558,15 +571,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
     }
 
-    private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseAssignPasswordActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
             AssignPasswordInDatabaseRunnable(this,
-                    mDatabase,
-                    databaseUri,
-                    intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
+                database,
+                databaseUri,
+                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             )
         } else {
             null
@@ -583,7 +596,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseCreateGroupActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseCreateGroupActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(GROUP_KEY)
                 && intent.hasExtra(PARENT_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
@@ -595,20 +608,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     || newGroup == null)
                 return null
 
-            mDatabase.getGroupById(parentId)?.let { parent ->
+            database.getGroupById(parentId)?.let { parent ->
                 AddGroupRunnable(this,
-                        mDatabase,
-                        newGroup,
-                        parent,
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    newGroup,
+                    parent,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseUpdateGroupActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseUpdateGroupActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(GROUP_ID_KEY)
                 && intent.hasExtra(GROUP_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
@@ -620,20 +633,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     || newGroup == null)
                 return null
 
-            mDatabase.getGroupById(groupId)?.let { oldGroup ->
+            database.getGroupById(groupId)?.let { oldGroup ->
                 UpdateGroupRunnable(this,
-                        mDatabase,
-                        oldGroup,
-                        newGroup,
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    oldGroup,
+                    newGroup,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseCreateEntryActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseCreateEntryActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_KEY)
                 && intent.hasExtra(PARENT_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
@@ -645,20 +658,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     || newEntry == null)
                 return null
 
-            mDatabase.getGroupById(parentId)?.let { parent ->
+            database.getGroupById(parentId)?.let { parent ->
                 AddEntryRunnable(this,
-                        mDatabase,
-                        newEntry,
-                        parent,
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    newEntry,
+                    parent,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseUpdateEntryActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseUpdateEntryActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_ID_KEY)
                 && intent.hasExtra(ENTRY_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
@@ -670,20 +683,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     || newEntry == null)
                 return null
 
-            mDatabase.getEntryById(entryId)?.let { oldEntry ->
+            database.getEntryById(entryId)?.let { oldEntry ->
                 UpdateEntryRunnable(this,
-                        mDatabase,
-                        oldEntry,
-                        newEntry,
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    oldEntry,
+                    newEntry,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseCopyNodesActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseCopyNodesActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(GROUPS_ID_KEY)
                 && intent.hasExtra(ENTRIES_ID_KEY)
                 && intent.hasExtra(PARENT_ID_KEY)
@@ -691,20 +704,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
 
-            mDatabase.getGroupById(parentId)?.let { newParent ->
+            database.getGroupById(parentId)?.let { newParent ->
                 CopyNodesRunnable(this,
-                        mDatabase,
-                        getListNodesFromBundle(mDatabase, intent.extras!!),
-                        newParent,
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    getListNodesFromBundle(database, intent.extras!!),
+                    newParent,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseMoveNodesActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseMoveNodesActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(GROUPS_ID_KEY)
                 && intent.hasExtra(ENTRIES_ID_KEY)
                 && intent.hasExtra(PARENT_ID_KEY)
@@ -712,73 +725,73 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
 
-            mDatabase.getGroupById(parentId)?.let { newParent ->
+            database.getGroupById(parentId)?.let { newParent ->
                 MoveNodesRunnable(this,
-                        mDatabase,
-                        getListNodesFromBundle(mDatabase, intent.extras!!),
-                        newParent,
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    getListNodesFromBundle(database, intent.extras!!),
+                    newParent,
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseDeleteNodesActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseDeleteNodesActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(GROUPS_ID_KEY)
                 && intent.hasExtra(ENTRIES_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
                 DeleteNodesRunnable(this,
-                        mDatabase,
-                        getListNodesFromBundle(mDatabase, intent.extras!!),
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodesRunnable())
+                    database,
+                    getListNodesFromBundle(database, intent.extras!!),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    AfterActionNodesRunnable())
         } else {
             null
         }
     }
 
-    private fun buildDatabaseRestoreEntryHistoryActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseRestoreEntryHistoryActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_ID_KEY)
                 && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
 
-            mDatabase.getEntryById(entryId)?.let { mainEntry ->
+            database.getEntryById(entryId)?.let { mainEntry ->
                 RestoreEntryHistoryDatabaseRunnable(this,
-                        mDatabase,
-                        mainEntry,
-                        intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    database,
+                    mainEntry,
+                    intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseDeleteEntryHistoryActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseDeleteEntryHistoryActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_ID_KEY)
                 && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
 
-            mDatabase.getEntryById(entryId)?.let { mainEntry ->
+            database.getEntryById(entryId)?.let { mainEntry ->
                 DeleteEntryHistoryDatabaseRunnable(this,
-                        mDatabase,
-                        mainEntry,
-                        intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    database,
+                    mainEntry,
+                    intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
             }
         } else {
             null
         }
     }
 
-    private fun buildDatabaseUpdateCompressionActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseUpdateCompressionActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(OLD_ELEMENT_KEY)
                 && intent.hasExtra(NEW_ELEMENT_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)) {
@@ -791,10 +804,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 return null
 
             return UpdateCompressionBinariesDatabaseRunnable(this,
-                    mDatabase,
-                    oldElement,
-                    newElement,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                database,
+                oldElement,
+                newElement,
+                intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -805,12 +818,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseRemoveUnlinkedDataActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseRemoveUnlinkedDataActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
 
             return RemoveUnlinkedDataDatabaseRunnable(this,
-                    mDatabase,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                database,
+                intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -821,11 +834,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseUpdateElementActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseUpdateElementActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
-                    mDatabase,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                database,
+                intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -839,11 +852,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     /**
      * Save database without parameter
      */
-    private fun buildDatabaseSave(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseSave(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             SaveDatabaseRunnable(this,
-                    mDatabase,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                database,
+                intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
         } else {
             null
         }
@@ -851,8 +864,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mDatabase.loaded)
-            actionOnLock()
+        // TODO remove ?
+        actionOnLock()
     }
 
     companion object {
