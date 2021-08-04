@@ -144,7 +144,8 @@
             android:launchMode="singleTask"
             android:label="@string/about" />
         <activity
-            android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
+            android:name="com.kunzisoft.keepass.settings.SettingsActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name="com.kunzisoft.keepass.activities.AutofillLauncherActivity"
             android:theme="@style/Theme.Transparent"
