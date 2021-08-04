@@ -125,7 +125,7 @@ fun Context.unregisterLockReceiver(lockReceiver: LockReceiver?) {
     }
 }
 
-fun Context.closeDatabase() {
+fun Context.closeDatabase(database: Database) {
     // Stop the Magikeyboard service
     stopService(Intent(this, KeyboardEntryNotificationService::class.java))
     MagikIME.removeEntry(this)
@@ -138,5 +138,5 @@ fun Context.closeDatabase() {
         cancelAll()
     }
     // Clear data
-    // TODO Database.getInstance().clearAndClose(this)
+    database.clearAndClose(this)
 }

@@ -71,7 +71,7 @@ abstract class LockingActivity : SpecialModeActivity(),
             mReadOnlyToSave = value
         }
     private var mReadOnlyToSave: Boolean = false
-    protected var mAutoSaveEnable: Boolean = true
+    private var mAutoSaveEnable: Boolean = true
 
     protected var mIconDrawableFactory: IconDrawableFactory? = null
 
@@ -88,45 +88,46 @@ abstract class LockingActivity : SpecialModeActivity(),
                     intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
         }
 
-        if (mTimeoutEnable) {
-            mLockReceiver = LockReceiver {
-                closeDatabase()
-                if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
-                    LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
-                // Add onActivityForResult response
-                setResult(RESULT_EXIT_LOCK)
-                closeOptionsMenu()
-                finish()
-            }
-            registerLockReceiver(mLockReceiver)
-        }
-
         mExitLock = false
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         mDatabase = database
-        // End activity if database not loaded
-        if (database?.loaded != true) {
-            finish()
-        }
-        // check timeout
-        if (mTimeoutEnable) {
-            // After the first creation
-            // or If simply swipe with another application
-            // If the time is out -> close the Activity
-            TimeoutHelper.checkTimeAndLockIfTimeout(this)
-            // If onCreate already record time
-            database?.let { it ->
-                if (!mExitLock)
-                    TimeoutHelper.recordTime(this, it)
-            }
-        }
 
-        // Force read only if the database is like that
-        mReadOnly = database?.isReadOnly != false || mReadOnly
-        mIconDrawableFactory = database?.iconDrawableFactory
+        database?.let {
+            // End activity if database not loaded
+            if (!database.loaded) {
+                finish()
+            }
+            // check timeout
+            if (mTimeoutEnable) {
+                if (mLockReceiver == null) {
+                    mLockReceiver = LockReceiver {
+                        closeDatabase(database)
+                        if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
+                            LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
+                        // Add onActivityForResult response
+                        setResult(RESULT_EXIT_LOCK)
+                        closeOptionsMenu()
+                        finish()
+                    }
+                    registerLockReceiver(mLockReceiver)
+                }
+
+                // After the first creation
+                // or If simply swipe with another application
+                // If the time is out -> close the Activity
+                TimeoutHelper.checkTimeAndLockIfTimeout(this)
+                // If onCreate already record time
+                if (!mExitLock)
+                    TimeoutHelper.recordTime(this, database)
+            }
+
+            // Force read only if the database is like that
+            mReadOnly = database.isReadOnly || mReadOnly
+            mIconDrawableFactory = database.iconDrawableFactory
+        }
     }
 
     override fun onDatabaseActionFinished(
