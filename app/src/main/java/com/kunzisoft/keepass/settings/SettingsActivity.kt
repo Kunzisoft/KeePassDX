@@ -125,9 +125,7 @@ open class SettingsActivity
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
                 // Reload the current activity
                 if (result.isSuccess) {
-                    startActivity(intent)
-                    finish()
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    relaunchCurrentScreen()
                 } else {
                     this.showActionErrorIfNeeded(result)
                     finish()
@@ -212,8 +210,7 @@ open class SettingsActivity
     /**
      * To keep the current screen when activity is reloaded
       */
-    fun keepCurrentScreen() {
-        // TODO Nested screen
+    private fun keepCurrentScreen() {
         (supportFragmentManager.findFragmentByTag(TAG_NESTED) as? NestedSettingsFragment?)
                 ?.getScreen()?.let { fragmentKey ->
             intent.putExtra(FRAGMENT_ARG, fragmentKey.name)

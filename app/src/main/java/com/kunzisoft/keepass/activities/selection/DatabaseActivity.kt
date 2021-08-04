@@ -40,7 +40,6 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         }
 
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
-            // TODO keepCurrentScreen()
             mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
         }
 
