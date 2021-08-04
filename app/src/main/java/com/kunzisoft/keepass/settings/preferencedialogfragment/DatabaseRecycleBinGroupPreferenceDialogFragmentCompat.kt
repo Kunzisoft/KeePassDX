@@ -24,6 +24,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
@@ -31,6 +32,7 @@ class DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
         ListRadioItemAdapter.RadioItemSelectedCallback<Group> {
 
+    private var mGroupsAdapter: ListRadioItemAdapter<Group>? = null
     private var mGroupRecycleBin: Group? = null
 
     override fun onBindDialogView(view: View) {
@@ -40,14 +42,17 @@ class DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            val groupsAdapter = ListRadioItemAdapter<Group>(activity)
-            groupsAdapter.setRadioItemSelectedCallback(this)
-            recyclerView.adapter = groupsAdapter
+            mGroupsAdapter  = ListRadioItemAdapter(activity)
+            mGroupsAdapter?.setRadioItemSelectedCallback(this)
+            recyclerView.adapter = mGroupsAdapter
+        }
+    }
 
-            mDatabase?.let { database ->
-                mGroupRecycleBin = database.recycleBin
-                groupsAdapter.setItems(database.getAllGroupsWithoutRoot(), mGroupRecycleBin)
-            }
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.let {
+            mGroupRecycleBin = database.recycleBin
+            mGroupsAdapter?.setItems(database.getAllGroupsWithoutRoot(), mGroupRecycleBin)
         }
     }
 
@@ -55,9 +60,10 @@ class DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
         mGroupRecycleBin = item
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            mDatabase?.let { database ->
+            database?.let {
                 if (database.allowConfigurableRecycleBin) {
                     val oldGroup = database.recycleBin
                     val newGroup = mGroupRecycleBin

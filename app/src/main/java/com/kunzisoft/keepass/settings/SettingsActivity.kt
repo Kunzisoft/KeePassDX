@@ -134,10 +134,10 @@ open class SettingsActivity
                 }
             }
             else -> {
-                // Call result in fragment
+                // TODO Call result in fragment by viewmodel
                 (supportFragmentManager
                     .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
-                    ?.onProgressDialogThreadResult(actionTask, result)
+                    ?.onDatabaseActionFinished(database, actionTask, result)
             }
         }
         coordinatorLayout?.showActionErrorIfNeeded(result)
@@ -219,6 +219,7 @@ open class SettingsActivity
      * To keep the current screen when activity is reloaded
       */
     fun keepCurrentScreen() {
+        // TODO Nested screen
         (supportFragmentManager.findFragmentByTag(TAG_NESTED) as? NestedSettingsFragment?)
                 ?.getScreen()?.let { fragmentKey ->
             intent.putExtra(FRAGMENT_ARG, fragmentKey.name)

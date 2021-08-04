@@ -26,7 +26,6 @@ import androidx.preference.SwitchPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 // TODO Move database fragment in sub class
 abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
@@ -47,9 +46,6 @@ abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
     }
 
     abstract fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?)
-
-    open fun onProgressDialogThreadResult(actionTask: String,
-                                     result: ActionRunnable.Result) {}
 
     protected fun preferenceInDevelopment(preferenceInDev: Preference) {
         preferenceInDev.setOnPreferenceClickListener { preference ->

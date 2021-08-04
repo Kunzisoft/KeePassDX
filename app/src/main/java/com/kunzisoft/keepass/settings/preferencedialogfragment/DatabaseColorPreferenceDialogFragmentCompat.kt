@@ -47,6 +47,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
     var onColorSelectedListener: ((enable: Boolean, color: Int) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
 
         val alertDialogBuilder = AlertDialog.Builder(requireActivity())
 
@@ -55,17 +56,6 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
 
         val fragmentManager = childFragmentManager
         chromaColorFragment = fragmentManager.findFragmentByTag(TAG_FRAGMENT_COLORS) as ChromaColorFragment?
-
-        mDatabase?.let { database ->
-            val initColor = try {
-                enableSwitchView.isChecked = true
-                Color.parseColor(database.customColor)
-            } catch (e: Exception) {
-                enableSwitchView.isChecked = false
-                DEFAULT_COLOR
-            }
-            arguments?.putInt(ARG_INITIAL_COLOR, initColor)
-        }
 
         if (chromaColorFragment == null) {
             chromaColorFragment = newInstance(arguments)
@@ -76,22 +66,6 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         }
 
         alertDialogBuilder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val currentColor = chromaColorFragment!!.currentColor
-            val customColorEnable = enableSwitchView.isChecked
-
-            onColorSelectedListener?.invoke(customColorEnable, currentColor)
-
-            mDatabase?.let { database ->
-                val newColor = if (customColorEnable) {
-                    ChromaUtil.getFormattedColorString(currentColor, false)
-                } else {
-                    ""
-                }
-                val oldColor = database.customColor
-                database.customColor = newColor
-                saveColor(oldColor, newColor)
-            }
-
             onDialogClosed(true)
             dismiss()
         }
@@ -112,8 +86,38 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         return dialog
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
-        // Nothing here
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.let {
+            val initColor = try {
+                enableSwitchView.isChecked = true
+                Color.parseColor(it.customColor)
+            } catch (e: Exception) {
+                enableSwitchView.isChecked = false
+                DEFAULT_COLOR
+            }
+            arguments?.putInt(ARG_INITIAL_COLOR, initColor)
+        }
+    }
+
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
+        if (positiveResult) {
+            val currentColor = chromaColorFragment!!.currentColor
+            val customColorEnable = enableSwitchView.isChecked
+
+            onColorSelectedListener?.invoke(customColorEnable, currentColor)
+            database?.let {
+                val newColor = if (customColorEnable) {
+                    ChromaUtil.getFormattedColorString(currentColor, false)
+                } else {
+                    ""
+                }
+                val oldColor = database.customColor
+                database.customColor = newColor
+                saveColor(oldColor, newColor)
+            }
+        }
     }
 
     /**

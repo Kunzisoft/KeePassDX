@@ -22,19 +22,23 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
-class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
-
         setExplanationText(R.string.parallelism_explanation)
-        inputText = mDatabase?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        inputText = database?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
+    }
+
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
         if (positiveResult) {
-            mDatabase?.let { database ->
+            database?.let {
                 val parallelism: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
@@ -53,8 +57,8 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
 
         const val MIN_PARALLELISM = 1L
 
-        fun newInstance(key: String): ParallelismPreferenceDialogFragmentCompat {
-            val fragment = ParallelismPreferenceDialogFragmentCompat()
+        fun newInstance(key: String): DatabaseParallelismPreferenceDialogFragmentCompat {
+            val fragment = DatabaseParallelismPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.DatabaseRetrieval
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -38,23 +37,35 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
 
     private var mDatabaseAutoSaveEnable = true
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    protected var mDatabase: Database? = null
+    private var mDatabase: Database? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         this.mDatabaseAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(context)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mDatabaseViewModel.database.observe(this) { database ->
             onDatabaseRetrieved(database)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        onDatabaseRetrieved(mDatabase)
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         this.mDatabase = database
+    }
+
+    override fun onDialogClosed(positiveResult: Boolean) {
+        onDialogClosed(mDatabase, positiveResult)
+    }
+
+    open fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        // To inherit to save element in database
     }
 
     override fun onDatabaseActionFinished(
@@ -62,7 +73,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         actionTask: String,
         result: ActionRunnable.Result
     ) {
-        // Optional
+        // Not used
     }
 
     protected fun saveColor(oldColor: String,
