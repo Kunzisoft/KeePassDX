@@ -43,6 +43,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
  */
 class EntrySelectionLauncherActivity : DatabaseActivity() {
 
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         var sharedWebDomain: String? = null

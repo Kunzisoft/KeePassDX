@@ -35,6 +35,7 @@ abstract class StylishActivity : AppCompatActivity() {
 
     @StyleRes
     private var themeId: Int = 0
+    private var customStyle = true
 
     /* (non-Javadoc) Workaround for HTC Linkify issues
      * @see android.app.Activity#startActivity(android.content.Intent)
@@ -52,10 +53,18 @@ abstract class StylishActivity : AppCompatActivity() {
         }
     }
 
+    open fun applyCustomStyle(): Boolean {
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.themeId = Stylish.getThemeId(this)
-        setTheme(themeId)
+
+        customStyle = applyCustomStyle()
+        if (customStyle) {
+            this.themeId = Stylish.getThemeId(this)
+            setTheme(themeId)
+        }
 
         // Several gingerbread devices have problems with FLAG_SECURE
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
@@ -63,7 +72,8 @@ abstract class StylishActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Stylish.getThemeId(this) != this.themeId) {
+
+        if (customStyle && Stylish.getThemeId(this) != this.themeId) {
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
             this.recreate()
         }

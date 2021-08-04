@@ -28,6 +28,10 @@ import com.kunzisoft.keepass.database.search.SearchHelper
  */
 class MagikeyboardLauncherActivity : DatabaseActivity() {
 
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         val readOnly = database?.isReadOnly != false

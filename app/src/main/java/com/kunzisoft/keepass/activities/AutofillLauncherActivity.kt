@@ -45,6 +45,10 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseActivity() {
 
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
