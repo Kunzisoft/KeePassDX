@@ -24,13 +24,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
@@ -41,9 +44,11 @@ import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
-class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
+class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
 
+    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private var mDatabase: Database? = null
     private var mDatabaseReadOnly: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
@@ -64,6 +69,21 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
     private var mRoundPref: InputKdfNumberPreference? = null
     private var mMemoryPref: InputKdfSizePreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
+            mDatabase = database
+            onDatabaseRetrieved(database)
+        }
+
+        mDatabaseViewModel.actionFinished.observe(viewLifecycleOwner) {
+            onDatabaseActionFinished(it.database, it.actionTask, it.result)
+        }
+
+        view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
+    }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
         setHasOptionsMenu(true)
@@ -93,6 +113,14 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             else -> {
             }
         }
+    }
+
+    private fun saveDatabase(save: Boolean) {
+        mDatabaseViewModel.saveDatabase(save)
+    }
+
+    private fun reloadDatabase() {
+        mDatabaseViewModel.reloadDatabase(false)
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -343,6 +371,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
         return view
     }
 
+    // TODO check error
     override fun onDatabaseActionFinished(database: Database,
                                           actionTask: String,
                                           result: ActionRunnable.Result) {

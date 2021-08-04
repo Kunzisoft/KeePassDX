@@ -8,11 +8,15 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseViewModel: ViewModel() {
 
     val database : LiveData<Database?> get() = _database
     private val _database = MutableLiveData<Database?>()
+
+    val actionFinished : LiveData<ActionResult> get() = _actionFinished
+    private val _actionFinished = SingleLiveEvent<ActionResult>()
 
     val saveDatabase : LiveData<Boolean> get() = _saveDatabase
     private val _saveDatabase = SingleLiveEvent<Boolean>()
@@ -68,6 +72,12 @@ class DatabaseViewModel: ViewModel() {
 
     fun defineDatabase(database: Database?) {
         this._database.value = database
+    }
+
+    fun onActionFinished(database: Database,
+                         actionTask: String,
+                         result: ActionRunnable.Result) {
+        this._actionFinished.value = ActionResult(database, actionTask, result)
     }
 
     fun saveDatabase(save: Boolean) {
@@ -167,12 +177,29 @@ class DatabaseViewModel: ViewModel() {
         _saveParallelism.value = SuperLong(oldValue, newValue, save)
     }
 
-    data class SuperString(val oldValue: String, val newValue: String, val save: Boolean)
-    data class SuperInt(val oldValue: Int, val newValue: Int, val save: Boolean)
-    data class SuperLong(val oldValue: Long, val newValue: Long, val save: Boolean)
-    data class SuperCompression(val oldValue: CompressionAlgorithm, val newValue: CompressionAlgorithm, val save: Boolean)
-    data class SuperEncryption(val oldValue: EncryptionAlgorithm, val newValue: EncryptionAlgorithm, val save: Boolean)
-    data class SuperKeyDerivation(val oldValue: KdfEngine, val newValue: KdfEngine, val save: Boolean)
-    data class SuperGroup(val oldValue: Group?, val newValue: Group?, val save: Boolean)
+    data class ActionResult(val database: Database,
+                            val actionTask: String,
+                            val result: ActionRunnable.Result)
+    data class SuperString(val oldValue: String,
+                           val newValue: String,
+                           val save: Boolean)
+    data class SuperInt(val oldValue: Int,
+                        val newValue: Int,
+                        val save: Boolean)
+    data class SuperLong(val oldValue: Long,
+                         val newValue: Long,
+                         val save: Boolean)
+    data class SuperCompression(val oldValue: CompressionAlgorithm,
+                                val newValue: CompressionAlgorithm,
+                                val save: Boolean)
+    data class SuperEncryption(val oldValue: EncryptionAlgorithm,
+                               val newValue: EncryptionAlgorithm,
+                               val save: Boolean)
+    data class SuperKeyDerivation(val oldValue: KdfEngine,
+                                  val newValue: KdfEngine,
+                                  val save: Boolean)
+    data class SuperGroup(val oldValue: Group?,
+                          val newValue: Group?,
+                          val save: Boolean)
 
 }

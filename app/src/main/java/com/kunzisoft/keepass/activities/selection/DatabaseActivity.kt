@@ -116,6 +116,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         actionTask: String,
         result: ActionRunnable.Result
     ) {
+        mDatabaseViewModel.onActionFinished(database, actionTask, result)
         // optional method implementation
     }
 

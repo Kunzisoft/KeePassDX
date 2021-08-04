@@ -90,10 +90,10 @@ object IconPackChooser {
 
     }
 
-    fun setSelectedIconPack(iconDrawableFactory: IconDrawableFactory, iconPackIdString: String?) {
+    fun setSelectedIconPack(iconPackIdString: String?) {
+        // TODO Clear Icon pack cache
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
-                iconDrawableFactory.clearCache()
                 iconPackSelected = iconPack
                 break
             }
@@ -108,8 +108,10 @@ object IconPackChooser {
      */
     fun getSelectedIconPack(context: Context, iconDrawableFactory: IconDrawableFactory): IconPack? {
         build(context)
-        if (iconPackSelected == null)
-            setSelectedIconPack(iconDrawableFactory, PreferencesUtil.getIconPackSelectedId(context))
+        if (iconPackSelected == null) {
+            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
+            iconDrawableFactory.clearCache()
+        }
         return iconPackSelected
     }
 

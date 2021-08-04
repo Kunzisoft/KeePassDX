@@ -133,12 +133,6 @@ open class SettingsActivity
                     finish()
                 }
             }
-            else -> {
-                // TODO Call result in fragment by viewmodel
-                (supportFragmentManager
-                    .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
-                    ?.onDatabaseActionFinished(database, actionTask, result)
-            }
         }
         coordinatorLayout?.showActionErrorIfNeeded(result)
     }

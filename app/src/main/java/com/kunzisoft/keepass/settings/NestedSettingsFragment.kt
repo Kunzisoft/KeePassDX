@@ -22,13 +22,13 @@ package com.kunzisoft.keepass.settings
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 
-// TODO Move database fragment in sub class
-abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
+abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     enum class Screen {
         APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY

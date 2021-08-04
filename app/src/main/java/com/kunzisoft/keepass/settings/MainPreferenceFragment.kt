@@ -21,14 +21,18 @@ package com.kunzisoft.keepass.settings
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
-class MainPreferenceFragment : DatabasePreferenceFragment() {
+class MainPreferenceFragment : PreferenceFragmentCompat() {
 
     private var mCallback: Callback? = null
 
+    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private var mDatabaseLoaded: Boolean = false
 
     override fun onAttach(context: Context) {
@@ -45,9 +49,17 @@ class MainPreferenceFragment : DatabasePreferenceFragment() {
         mCallback = null
         super.onDetach()
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
+            mDatabaseLoaded = database?.loaded == true
+            checkDatabaseLoaded()
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
 
-    override fun onDatabaseRetrieved(database: Database?) {
-        mDatabaseLoaded = database?.loaded == true
+    private fun checkDatabaseLoaded() {
+        findPreference<Preference>(getString(R.string.settings_database_key))
+            ?.isEnabled = mDatabaseLoaded
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -87,10 +99,6 @@ class MainPreferenceFragment : DatabasePreferenceFragment() {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
                 false
             }
-            // TODO Check
-            if (mDatabaseLoaded) {
-                isEnabled = false
-            }
         }
 
         findPreference<Preference>(getString(R.string.settings_database_security_key))?.apply {
@@ -106,6 +114,8 @@ class MainPreferenceFragment : DatabasePreferenceFragment() {
                 false
             }
         }
+
+        checkDatabaseLoaded()
     }
 
     interface Callback {

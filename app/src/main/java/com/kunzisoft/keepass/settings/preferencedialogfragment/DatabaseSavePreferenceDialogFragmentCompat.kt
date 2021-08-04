@@ -60,20 +60,20 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         this.mDatabase = database
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
-        onDialogClosed(mDatabase, positiveResult)
-    }
-
-    open fun onDialogClosed(database: Database?, positiveResult: Boolean) {
-        // To inherit to save element in database
-    }
-
     override fun onDatabaseActionFinished(
         database: Database,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
         // Not used
+    }
+
+    override fun onDialogClosed(positiveResult: Boolean) {
+        onDialogClosed(mDatabase, positiveResult)
+    }
+
+    open fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        // To inherit to save element in database
     }
 
     protected fun saveColor(oldColor: String,
