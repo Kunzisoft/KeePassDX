@@ -3,7 +3,6 @@ package com.kunzisoft.keepass.viewmodels
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -12,13 +11,12 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.view.DataDate
-import com.kunzisoft.keepass.view.DataTime
 import java.util.*
 
 
-class EntryEditViewModel: ViewModel() {
+class EntryEditViewModel: NodeEditViewModel() {
 
+    // TODO Better variable implementation
     private var mDatabase: Database? = null
     private var mParent: Group? = null
     private var mEntry: Entry? = null
@@ -39,11 +37,6 @@ class EntryEditViewModel: ViewModel() {
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = SingleLiveEvent<Template>()
 
-    val requestIconSelection : LiveData<IconImage> get() = _requestIconSelection
-    private val _requestIconSelection = SingleLiveEvent<IconImage>()
-    val onIconSelected : LiveData<IconImage> get() = _onIconSelected
-    private val _onIconSelected = SingleLiveEvent<IconImage>()
-
     val requestPasswordSelection : LiveData<Field> get() = _requestPasswordSelection
     private val _requestPasswordSelection = SingleLiveEvent<Field>()
     val onPasswordSelected : LiveData<Field> get() = _onPasswordSelected
@@ -55,13 +48,6 @@ class EntryEditViewModel: ViewModel() {
     private val _onCustomFieldEdited = SingleLiveEvent<FieldEdition>()
     val onCustomFieldError : LiveData<Void?> get() = _onCustomFieldError
     private val _onCustomFieldError = SingleLiveEvent<Void?>()
-
-    val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
-    private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<DataDate> get() = _onDateSelected
-    private val _onDateSelected = SingleLiveEvent<DataDate>()
-    val onTimeSelected : LiveData<DataTime> get() = _onTimeSelected
-    private val _onTimeSelected = SingleLiveEvent<DataTime>()
 
     val requestSetupOtp : LiveData<Void?> get() = _requestSetupOtp
     private val _requestSetupOtp = SingleLiveEvent<Void?>()
@@ -287,14 +273,6 @@ class EntryEditViewModel: ViewModel() {
         }
     }
 
-    fun requestIconSelection(oldIconImage: IconImage) {
-        _requestIconSelection.value = oldIconImage
-    }
-
-    fun selectIcon(iconImage: IconImage) {
-        _onIconSelected.value = iconImage
-    }
-
     fun requestPasswordSelection(passwordField: Field) {
         _requestPasswordSelection.value = passwordField
     }
@@ -321,18 +299,6 @@ class EntryEditViewModel: ViewModel() {
 
     fun showCustomFieldEditionError() {
         _onCustomFieldError.call()
-    }
-
-    fun requestDateTimeSelection(dateInstant: DateInstant) {
-        _requestDateTimeSelection.value = dateInstant
-    }
-
-    fun selectDate(year: Int, month: Int, day: Int) {
-        _onDateSelected.value = DataDate(year, month, day)
-    }
-
-    fun selectTime(hours: Int, minutes: Int) {
-        _onTimeSelected.value = DataTime(hours, minutes)
     }
 
     fun setupOtp() {

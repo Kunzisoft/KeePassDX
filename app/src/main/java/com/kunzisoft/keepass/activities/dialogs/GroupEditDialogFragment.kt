@@ -28,28 +28,31 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.IconPickerActivity
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
+import com.kunzisoft.keepass.activities.fragments.DatabaseDialogFragment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.view.DateTimeEditFieldView
+import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import org.joda.time.DateTime
 
-class GroupEditDialogFragment : DialogFragment() {
+class GroupEditDialogFragment : DatabaseDialogFragment() {
 
     private var mEditGroupListener: EditGroupListener? = null
+    private val mGroupEditViewModel: GroupEditViewModel by activityViewModels()
 
+    private var populateIconMethod: ((ImageView, IconImage) -> Unit)? = null
     private var mEditGroupDialogAction = EditGroupDialogAction.NONE
     private var mGroupInfo = GroupInfo()
 
     private lateinit var iconButtonView: ImageView
-    private var iconColor: Int = 0
+    private var mIconColor: Int = 0
     private lateinit var nameTextLayoutView: TextInputLayout
     private lateinit var nameTextView: TextView
     private lateinit var notesTextLayoutView: TextInputLayout
@@ -74,14 +77,58 @@ class GroupEditDialogFragment : DialogFragment() {
             mEditGroupListener = context as EditGroupListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + GroupEditDialogFragment::class.java.name)
+            throw ClassCastException(
+                context.toString()
+                        + " must implement " + GroupEditDialogFragment::class.java.name
+            )
         }
     }
 
     override fun onDetach() {
         mEditGroupListener = null
         super.onDetach()
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        populateIconMethod = { imageView, icon ->
+            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+        }
+        populateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mGroupEditViewModel.onIconSelected.observe(this) { iconImage ->
+            mGroupInfo.icon = iconImage
+            populateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
+        }
+
+        mGroupEditViewModel.onDateSelected.observe(this) { viewModelDate ->
+            // Save the date
+            mGroupInfo.expiryTime = DateInstant(
+                DateTime(mGroupInfo.expiryTime.date)
+                    .withYear(viewModelDate.year)
+                    .withMonthOfYear(viewModelDate.month + 1)
+                    .withDayOfMonth(viewModelDate.day)
+                    .toDate())
+            expirationView.dateTime = mGroupInfo.expiryTime
+            if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {
+                val instantTime = DateInstant(mGroupInfo.expiryTime.date, DateInstant.Type.TIME)
+                // Trick to recall selection with time
+                mGroupEditViewModel.requestDateTimeSelection(instantTime)
+            }
+        }
+
+        mGroupEditViewModel.onTimeSelected.observe(this) { viewModelTime ->
+            // Save the time
+            mGroupInfo.expiryTime = DateInstant(
+                DateTime(mGroupInfo.expiryTime.date)
+                    .withHourOfDay(viewModelTime.hours)
+                    .withMinuteOfHour(viewModelTime.minutes)
+                    .toDate(), mGroupInfo.expiryTime.type)
+            expirationView.dateTime = mGroupInfo.expiryTime
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -96,7 +143,7 @@ class GroupEditDialogFragment : DialogFragment() {
 
             // Retrieve the textColor to tint the icon
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-            iconColor = ta.getColor(0, Color.WHITE)
+            mIconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
 
             if (savedInstanceState != null
@@ -115,16 +162,13 @@ class GroupEditDialogFragment : DialogFragment() {
             }
 
             // populate info in views
-            populateInfoToViews()
-            expirationView.setOnDateClickListener = {
-                expirationView.dateTime.date.let { expiresDate ->
-                    val dateTime = DateTime(expiresDate)
-                    val defaultYear = dateTime.year
-                    val defaultMonth = dateTime.monthOfYear-1
-                    val defaultDay = dateTime.dayOfMonth
-                    DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
-                            .show(parentFragmentManager, "DatePickerFragment")
-                }
+            populateInfoToViews(mGroupInfo)
+
+            iconButtonView.setOnClickListener { _ ->
+                mGroupEditViewModel.requestIconSelection(mGroupInfo.icon)
+            }
+            expirationView.setOnDateClickListener = { dateInstant ->
+                mGroupEditViewModel.requestDateTimeSelection(dateInstant)
             }
 
             val builder = AlertDialog.Builder(activity)
@@ -136,10 +180,6 @@ class GroupEditDialogFragment : DialogFragment() {
                                 mEditGroupDialogAction,
                                 mGroupInfo)
                     }
-
-            iconButtonView.setOnClickListener { _ ->
-                IconPickerActivity.launch(activity, mGroupInfo.icon)
-            }
 
             return builder.create()
         }
@@ -165,25 +205,15 @@ class GroupEditDialogFragment : DialogFragment() {
         }
     }
 
-    fun getExpiryTime(): DateInstant {
-        retrieveGroupInfoFromViews()
-        return mGroupInfo.expiryTime
-    }
-
-    fun setExpiryTime(expiryTime: DateInstant) {
-        mGroupInfo.expiryTime = expiryTime
-        populateInfoToViews()
-    }
-
-    private fun populateInfoToViews() {
-        assignIconView()
-        nameTextView.text = mGroupInfo.title
-        notesTextLayoutView.visibility = if (mGroupInfo.notes == null) View.GONE else View.VISIBLE
-        mGroupInfo.notes?.let {
+    private fun populateInfoToViews(groupInfo: GroupInfo) {
+        mGroupEditViewModel.selectIcon(groupInfo.icon)
+        nameTextView.text = groupInfo.title
+        notesTextLayoutView.visibility = if (groupInfo.notes == null) View.GONE else View.VISIBLE
+        groupInfo.notes?.let {
             notesTextView.text = it
         }
-        expirationView.activation = mGroupInfo.expires
-        expirationView.dateTime = mGroupInfo.expiryTime
+        expirationView.activation = groupInfo.expires
+        expirationView.dateTime = groupInfo.expiryTime
     }
 
     private fun retrieveGroupInfoFromViews() {
@@ -195,16 +225,6 @@ class GroupEditDialogFragment : DialogFragment() {
         }
         mGroupInfo.expires = expirationView.activation
         mGroupInfo.expiryTime = expirationView.dateTime
-    }
-
-    private fun assignIconView() {
-        // TODO Database
-        Database.getInstance()?.iconDrawableFactory?.assignDatabaseIcon(iconButtonView, mGroupInfo.icon, iconColor)
-    }
-
-    fun setIcon(icon: IconImage) {
-        mGroupInfo.icon = icon
-        assignIconView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

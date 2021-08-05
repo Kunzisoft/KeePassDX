@@ -171,9 +171,15 @@ class EntryEditActivity : LockingActivity(),
 
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
-                selectTime(dateInstant)
+                // Launch the time picker
+                val dateTime = DateTime(dateInstant.date)
+                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
+                    .show(supportFragmentManager, "TimePickerFragment")
             } else {
-                selectDate(dateInstant)
+                // Launch the date picker
+                val dateTime = DateTime(dateInstant.date)
+                DatePickerFragment.getInstance(dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
+                    .show(supportFragmentManager, "DatePickerFragment")
             }
         }
 
@@ -585,25 +591,6 @@ class EntryEditActivity : LockingActivity(),
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    // Launch the date picker
-    private fun selectDate(dateInstant: DateInstant) {
-        val dateTime = DateTime(dateInstant.date)
-        val defaultYear = dateTime.year
-        val defaultMonth = dateTime.monthOfYear - 1
-        val defaultDay = dateTime.dayOfMonth
-        DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
-                .show(supportFragmentManager, "DatePickerFragment")
-    }
-
-    // Launch the time picker
-    private fun selectTime(dateInstant: DateInstant) {
-        val dateTime = DateTime(dateInstant.date)
-        val defaultHour = dateTime.hourOfDay
-        val defaultMinute = dateTime.minuteOfHour
-        TimePickerFragment.getInstance(defaultHour, defaultMinute)
-                .show(supportFragmentManager, "TimePickerFragment")
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {

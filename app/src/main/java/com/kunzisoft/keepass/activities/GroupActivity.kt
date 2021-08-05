@@ -77,6 +77,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
 
@@ -102,6 +103,7 @@ class GroupActivity : LockingActivity(),
     private var groupNameView: TextView? = null
 
     private val mGroupViewModel: GroupViewModel by viewModels()
+    private val mGroupEditViewModel: GroupEditViewModel by viewModels()
 
     // TODO Remove and pass through viewModel
     private var mGroupFragment: GroupFragment? = null
@@ -279,6 +281,24 @@ class GroupActivity : LockingActivity(),
             invalidateOptionsMenu()
 
             Log.i(TAG, "Finished creating tree")
+        }
+
+        mGroupEditViewModel.requestIconSelection.observe(this) { iconImage ->
+            IconPickerActivity.launch(this@GroupActivity, iconImage)
+        }
+
+        mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
+            if (dateInstant.type == DateInstant.Type.TIME) {
+                // Launch the time picker
+                val dateTime = DateTime(dateInstant.date)
+                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
+                    .show(supportFragmentManager, "TimePickerFragment")
+            } else {
+                // Launch the date picker
+                val dateTime = DateTime(dateInstant.date)
+                DatePickerFragment.getInstance(dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
+                    .show(supportFragmentManager, "DatePickerFragment")
+            }
         }
     }
 
@@ -686,33 +706,12 @@ class GroupActivity : LockingActivity(),
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
         if (datePicker?.isShown == true) {
-            val groupEditFragment = supportFragmentManager.findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as? GroupEditDialogFragment
-            groupEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
-                groupEditFragment.setExpiryTime(DateInstant(DateTime(expiresDate)
-                        .withYear(year)
-                        .withMonthOfYear(month + 1)
-                        .withDayOfMonth(day)
-                        .toDate()))
-                // Launch the time picker
-                val dateTime = DateTime(expiresDate)
-                val defaultHour = dateTime.hourOfDay
-                val defaultMinute = dateTime.minuteOfHour
-                TimePickerFragment.getInstance(defaultHour, defaultMinute)
-                        .show(supportFragmentManager, "TimePickerFragment")
-            }
+            mGroupEditViewModel.selectDate(year, month, day)
         }
     }
 
     override fun onTimeSet(view: TimePicker?, hours: Int, minutes: Int) {
-        val groupEditFragment = supportFragmentManager.findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as? GroupEditDialogFragment
-        groupEditFragment?.getExpiryTime()?.date?.let { expiresDate ->
-            // Save the date
-            groupEditFragment.setExpiryTime(
-                    DateInstant(DateTime(expiresDate)
-                    .withHourOfDay(hours)
-                    .withMinuteOfHour(minutes)
-                    .toDate()))
-        }
+        mGroupEditViewModel.selectTime(hours, minutes)
     }
 
     private fun finishNodeAction() {
@@ -1059,9 +1058,7 @@ class GroupActivity : LockingActivity(),
 
         // To create tree dialog for icon
         IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            (supportFragmentManager
-                    .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
-                    .setIcon(icon)
+            mGroupEditViewModel.selectIcon(icon)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
