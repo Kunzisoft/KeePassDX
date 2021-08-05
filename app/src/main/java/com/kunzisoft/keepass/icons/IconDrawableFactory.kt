@@ -65,6 +65,11 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     private val standardIconMap = HashMap<CacheKey, WeakReference<Drawable>>()
 
     /**
+     * To load an icon pack only if current one is different
+     */
+    private var mCurrentIconPack: IconPack? = null
+
+    /**
      * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then tint it with [tintColor] if needed
      */
     private fun getIconSuperDrawable(context: Context,
@@ -79,7 +84,11 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
                 return SuperDrawable(it)
             }
         }
-        val iconPack = IconPackChooser.getSelectedIconPack(context, this)
+        val iconPack = IconPackChooser.getSelectedIconPack(context)
+        if (mCurrentIconPack != iconPack) {
+            this.mCurrentIconPack = iconPack
+            this.clearCache()
+        }
         iconPack?.iconToResId(icon.standard.id)?.let { iconId ->
             return SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor), iconPack.tintable())
         } ?: run {

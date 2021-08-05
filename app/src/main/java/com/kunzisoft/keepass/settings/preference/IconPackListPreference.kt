@@ -45,8 +45,7 @@ class IconPackListPreference @JvmOverloads constructor(context: Context,
 
         setEntries(entries.toTypedArray())
         entryValues = values.toTypedArray()
-        // TODO database
-        IconPackChooser.getSelectedIconPack(context, Database.getInstance().iconDrawableFactory)?.let { selectedIconPack ->
+        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
             setDefaultValue(selectedIconPack.id)
         }
     }

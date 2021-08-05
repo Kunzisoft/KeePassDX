@@ -91,7 +91,6 @@ object IconPackChooser {
     }
 
     fun setSelectedIconPack(iconPackIdString: String?) {
-        // TODO Clear Icon pack cache
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
                 iconPackSelected = iconPack
@@ -106,11 +105,10 @@ object IconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack currently in usage
      */
-    fun getSelectedIconPack(context: Context, iconDrawableFactory: IconDrawableFactory): IconPack? {
+    fun getSelectedIconPack(context: Context): IconPack? {
         build(context)
         if (iconPackSelected == null) {
             setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
-            iconDrawableFactory.clearCache()
         }
         return iconPackSelected
     }
