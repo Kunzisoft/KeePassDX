@@ -200,6 +200,10 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, save)
     }
 
+    protected fun closeDatabase() {
+        mDatabase?.clearAndClose(this)
+    }
+
     override fun onResume() {
         super.onResume()
         mDatabaseTaskProvider?.registerProgressTask()

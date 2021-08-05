@@ -693,8 +693,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
 
         var keyFileResult = false
         mExternalFileHelper?.let {
-            keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data
-            ) { uri ->
+            keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
                 if (uri != null) {
                     mDatabaseKeyFileUri = uri
                     populateKeyFileTextView(uri)
@@ -706,8 +705,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    // TODO Database
-                    Database.getInstance().clearAndClose(this)
+                    closeDatabase()
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()
