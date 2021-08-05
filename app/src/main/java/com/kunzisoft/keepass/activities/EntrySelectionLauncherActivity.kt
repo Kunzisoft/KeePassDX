@@ -22,16 +22,13 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.selection.DatabaseActivity
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -187,7 +184,7 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity,
                                            intent: Intent,
                                            toast: Boolean = true) {
     // Populate Magikeyboard with entry
-    MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
+    MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
     // Consume the selection mode
     EntrySelectionHelper.removeModesFromIntent(intent)
     activity.moveTaskToBack(true)

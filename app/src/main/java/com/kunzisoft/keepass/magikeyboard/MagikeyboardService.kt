@@ -46,7 +46,7 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 
-class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
+class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     private var keyboardView: KeyboardView? = null
     private var entryText: TextView? = null
@@ -328,7 +328,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     }
 
     companion object {
-        private val TAG = MagikIME::class.java.name
+        private val TAG = MagikeyboardService::class.java.name
 
         const val KEY_BACK_KEYBOARD = 600
         const val KEY_CHANGE_KEYBOARD = 601

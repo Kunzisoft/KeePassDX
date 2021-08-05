@@ -210,7 +210,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.kunzisoft.keepass.magikeyboard.MagikIME"
+            android:name="com.kunzisoft.keepass.magikeyboard.MagikeyboardService"
             android:label="@string/keyboard_label"
             android:permission="android.permission.BIND_INPUT_METHOD" >
             <meta-data android:name="android.view.im"

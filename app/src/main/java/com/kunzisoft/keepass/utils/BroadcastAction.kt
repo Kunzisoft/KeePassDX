@@ -31,7 +31,7 @@ import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -128,7 +128,7 @@ fun Context.unregisterLockReceiver(lockReceiver: LockReceiver?) {
 fun Context.closeDatabase(database: Database?) {
     // Stop the Magikeyboard service
     stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-    MagikIME.removeEntry(this)
+    MagikeyboardService.removeEntry(this)
 
     // Stop the notification service
     stopService(Intent(this, ClipboardEntryNotificationService::class.java))

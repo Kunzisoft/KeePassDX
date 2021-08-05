@@ -49,7 +49,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
@@ -173,7 +173,7 @@ class EntryActivity : LockingActivity() {
                 ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
                 // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
                 if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                    MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
+                    MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
                 }
             }
 

@@ -186,8 +186,7 @@ class EntryEditFragment: DatabaseFragment() {
             val attachmentToUploadUri = it.attachmentToUploadUri
             val fileName = it.fileName
 
-            // TODO Database
-            Database.getInstance()?.buildNewBinaryAttachment()?.let { binaryAttachment ->
+            buildNewBinaryAttachment()?.let { binaryAttachment ->
                 val entryAttachment = Attachment(fileName, binaryAttachment)
                 // Ask to replace the current attachment
                 if ((!mAllowMultipleAttachments
