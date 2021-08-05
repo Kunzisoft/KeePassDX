@@ -862,12 +862,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // TODO remove ?
-        actionOnLock()
-    }
-
     companion object {
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
