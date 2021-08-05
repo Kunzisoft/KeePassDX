@@ -592,4 +592,10 @@
     <string name="holder">Titular</string>
     <string name="debit_credit_card">Tarjeta de Crédito / Débito</string>
     <string name="template_group_name">Plantillas</string>
+    <string name="international_bank_account_number">Número Internacional de Cuenta Bancaria</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="token">Token</string>
+    <string name="ssid">SSID</string>
+    <string name="personal_identification_number">Número de Identificación Personal</string>
+    <string name="card_verification_value">CVV</string>
 </resources>
