@@ -86,7 +86,6 @@ class GroupActivity : LockingActivity(),
         TimePickerDialog.OnTimeSetListener,
         GroupFragment.NodeClickListener,
         GroupFragment.NodesActionMenuListener,
-        DeleteNodesDialogFragment.DeleteNodeListener,
         GroupFragment.OnScrollListener,
         SortDialogFragment.SortSelectionListener {
 

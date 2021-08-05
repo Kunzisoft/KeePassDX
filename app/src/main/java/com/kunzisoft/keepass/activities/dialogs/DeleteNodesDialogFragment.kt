@@ -20,85 +20,40 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
+import com.kunzisoft.keepass.viewmodels.NodesViewModel
 
 open class DeleteNodesDialogFragment : DialogFragment() {
 
     private var mNodesToDelete: List<Node> = ArrayList()
-    private var mListener: DeleteNodeListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            mListener = context as DeleteNodeListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString()
-                    + " must implement " + DeleteNodeListener::class.java.name)
-        }
-    }
-
-    override fun onDetach() {
-        mListener = null
-        super.onDetach()
-    }
+    private val mNodesViewModel: NodesViewModel by activityViewModels()
 
     protected open fun retrieveMessage(): String {
         return getString(R.string.warning_permanently_delete_nodes)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        arguments?.apply {
-            if (containsKey(DatabaseTaskNotificationService.GROUPS_ID_KEY)
-                    && containsKey(DatabaseTaskNotificationService.ENTRIES_ID_KEY)) {
-                // TODO Database
-                mNodesToDelete = getListNodesFromBundle(Database.getInstance(), this)
-            }
-        } ?: savedInstanceState?.apply {
-            if (containsKey(DatabaseTaskNotificationService.GROUPS_ID_KEY)
-                    && containsKey(DatabaseTaskNotificationService.ENTRIES_ID_KEY)) {
-                // TODO Database
-                mNodesToDelete = getListNodesFromBundle(Database.getInstance(), savedInstanceState)
-            }
+        mNodesViewModel.nodesToDelete.observe(this) {
+            this.mNodesToDelete = it
         }
+
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
 
             builder.setMessage(retrieveMessage())
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                mListener?.permanentlyDeleteNodes(mNodesToDelete)
+                mNodesViewModel.permanentlyDeleteNodes(mNodesToDelete)
             }
             builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             // Create the AlertDialog object and return it
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putAll(getBundleFromListNodes(mNodesToDelete))
-    }
-
-    interface DeleteNodeListener {
-        fun permanentlyDeleteNodes(nodes: List<Node>)
-    }
-
-    companion object {
-        fun getInstance(nodesToDelete: List<Node>): DeleteNodesDialogFragment {
-            return DeleteNodesDialogFragment().apply {
-                arguments = getBundleFromListNodes(nodesToDelete)
-            }
-        }
     }
 }

@@ -28,6 +28,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.EmptyRecycleBinDialogFragment
@@ -49,11 +50,13 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import java.util.*
 
 abstract class LockingActivity : SpecialModeActivity(),
-    PasswordEncodingDialogFragment.Listener,
-    DeleteNodesDialogFragment.DeleteNodeListener {
+    PasswordEncodingDialogFragment.Listener {
+
+    private val mNodesViewModel: NodesViewModel by viewModels()
 
     protected var mTimeoutEnable: Boolean = true
 
@@ -86,6 +89,10 @@ abstract class LockingActivity : SpecialModeActivity(),
             if (intent != null)
                 mTimeoutEnable =
                     intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
+        }
+
+        mNodesViewModel.nodesToPermanentlyDelete.observe(this) { nodes ->
+            permanentlyDeleteNodes(nodes)
         }
 
         mExitLock = false
@@ -219,16 +226,17 @@ abstract class LockingActivity : SpecialModeActivity(),
             else {
                 val deleteNodesDialogFragment: DeleteNodesDialogFragment =
                     if (recycleBin) {
-                        EmptyRecycleBinDialogFragment.getInstance(nodes)
+                        EmptyRecycleBinDialogFragment()
                     } else {
-                        DeleteNodesDialogFragment.getInstance(nodes)
+                        DeleteNodesDialogFragment()
                     }
                 deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+                mNodesViewModel.deleteNodes(nodes)
             }
         }
     }
 
-    override fun permanentlyDeleteNodes(nodes: List<Node>) {
+    private fun permanentlyDeleteNodes(nodes: List<Node>) {
         deleteDatabaseNodes(nodes,!mReadOnly && mAutoSaveEnable)
     }
 

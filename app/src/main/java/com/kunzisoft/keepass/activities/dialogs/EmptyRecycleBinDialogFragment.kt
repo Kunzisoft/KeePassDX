@@ -20,20 +20,10 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 
 class EmptyRecycleBinDialogFragment : DeleteNodesDialogFragment() {
 
     override fun retrieveMessage(): String {
         return getString(R.string.warning_empty_recycle_bin)
-    }
-
-    companion object {
-        fun getInstance(nodesToDelete: List<Node>): EmptyRecycleBinDialogFragment {
-            return EmptyRecycleBinDialogFragment().apply {
-                arguments = getBundleFromListNodes(nodesToDelete)
-            }
-        }
     }
 }
