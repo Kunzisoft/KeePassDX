@@ -82,7 +82,6 @@ import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
 
 class GroupActivity : LockingActivity(),
-        GroupEditDialogFragment.EditGroupListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         GroupFragment.NodeClickListener,
@@ -109,7 +108,6 @@ class GroupActivity : LockingActivity(),
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
     private var mRecyclingBinIsCurrentGroup = false
-    private var mGroupNamesNotAllowed: List<String>? = null
     private var mRequestStartupSearch = true
 
     private var actionNodeMode: ActionMode? = null
@@ -300,6 +298,22 @@ class GroupActivity : LockingActivity(),
                     .show(supportFragmentManager, "DatePickerFragment")
             }
         }
+
+        mGroupEditViewModel.onGroupCreated.observe(this) { groupInfo ->
+            if (groupInfo.title.isNotEmpty()) {
+                mCurrentGroup?.let { currentGroup ->
+                    createGroup(currentGroup, groupInfo)
+                }
+            }
+        }
+
+        mGroupEditViewModel.onGroupUpdated.observe(this) { groupInfo ->
+            if (groupInfo.title.isNotEmpty()) {
+                mOldGroupToUpdate?.let { oldGroupToUpdate ->
+                    updateGroup(oldGroupToUpdate, groupInfo)
+                }
+            }
+        }
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -308,10 +322,10 @@ class GroupActivity : LockingActivity(),
         rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
 
         mGroupViewModel.setDatabase(database)
+        mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
 
         mRecyclingBinEnabled = !mReadOnly
                 && database?.isRecycleBinEnabled == true
-        mGroupNamesNotAllowed = database?.groupNamesNotAllowed
 
         mRootGroup = database?.rootGroup
         if (mCurrentGroupId == null) {
@@ -979,43 +993,6 @@ class GroupActivity : LockingActivity(),
                 return super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    override fun isValidGroupName(name: String): GroupEditDialogFragment.Error {
-        if (name.isEmpty()) {
-            return GroupEditDialogFragment.Error(true, R.string.error_no_name)
-        }
-        if (mGroupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null) {
-            return GroupEditDialogFragment.Error(true, R.string.error_word_reserved)
-        }
-        return GroupEditDialogFragment.Error(false, null)
-    }
-
-    override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
-                                  groupInfo: GroupInfo) {
-
-        if (groupInfo.title.isNotEmpty()) {
-            when (action) {
-                GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
-                    // If group creation
-                    mCurrentGroup?.let { currentGroup ->
-                        createGroup(currentGroup, groupInfo)
-                    }
-                }
-                GroupEditDialogFragment.EditGroupDialogAction.UPDATE -> {
-                    // If update add new elements
-                    mOldGroupToUpdate?.let { oldGroupToUpdate ->
-                        updateGroup(oldGroupToUpdate, groupInfo)
-                    }
-                }
-                else -> {}
-            }
-        }
-    }
-
-    override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
-                                 groupInfo: GroupInfo) {
-        // Do nothing here
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters) {
