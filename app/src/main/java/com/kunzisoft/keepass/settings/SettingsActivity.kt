@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -121,18 +120,13 @@ open class SettingsActivity
         result: ActionRunnable.Result
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
-        when (actionTask) {
-            DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
-                // Reload the current activity
-                if (result.isSuccess) {
-                    relaunchCurrentScreen()
-                } else {
-                    this.showActionErrorIfNeeded(result)
-                    finish()
-                }
-            }
-        }
+
         coordinatorLayout?.showActionErrorIfNeeded(result)
+    }
+
+    override fun reloadActivity() {
+        keepCurrentScreen()
+        super.reloadActivity()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -200,13 +194,6 @@ open class SettingsActivity
         hideOrShowLockButton(key)
     }
 
-    fun relaunchCurrentScreen() {
-        keepCurrentScreen()
-        startActivity(intent)
-        finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
-
     /**
      * To keep the current screen when activity is reloaded
       */
@@ -240,8 +227,8 @@ open class SettingsActivity
 
         // Import app properties result
         try {
-            mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { selectedfileUri ->
-                selectedfileUri?.let { uri ->
+            mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { selectedFileUri ->
+                selectedFileUri?.let { uri ->
                     val appProperties = Properties()
                     contentResolver?.openInputStream(uri)?.use { inputStream ->
                         appProperties.load(inputStream)
@@ -249,7 +236,7 @@ open class SettingsActivity
                     PreferencesUtil.setAppProperties(this, appProperties)
 
                     // Restart the current activity
-                    relaunchCurrentScreen()
+                    reloadActivity()
                     Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
                 }
             }

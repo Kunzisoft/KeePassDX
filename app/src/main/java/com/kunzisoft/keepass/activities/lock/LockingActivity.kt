@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import java.util.*
 
@@ -147,7 +148,10 @@ abstract class LockingActivity : SpecialModeActivity(),
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
                 // Reload the current activity
                 if (result.isSuccess) {
-                    reload(database)
+                    reloadActivity()
+                } else {
+                    this.showActionErrorIfNeeded(result)
+                    finish()
                 }
             }
         }
@@ -285,20 +289,8 @@ abstract class LockingActivity : SpecialModeActivity(),
         }
     }
 
-    private fun reload(database: Database) {
-        // Reload the current activity
-        startActivity(intent)
-        finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        database.wasReloaded = false
-    }
-
     override fun onResume() {
         super.onResume()
-
-        if (mDatabase?.wasReloaded == true) {
-            reload(mDatabase!!)
-        }
 
         // If in ave or registration mode, don't allow read only
         if ((mSpecialMode == SpecialMode.SAVE

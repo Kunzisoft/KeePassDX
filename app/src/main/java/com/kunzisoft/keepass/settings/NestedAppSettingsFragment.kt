@@ -402,7 +402,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     Stylish.assignStyle(activity, styleIdString)
                     // Relaunch the current activity to redraw theme
                     (activity as? SettingsActivity?)?.apply {
-                        relaunchCurrentScreen()
+                        reloadActivity()
                     }
                 }
                 styleEnabled
@@ -410,7 +410,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
             findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->
                 (activity as? SettingsActivity?)?.apply {
-                    relaunchCurrentScreen()
+                    reloadActivity()
                 }
                 true
             }

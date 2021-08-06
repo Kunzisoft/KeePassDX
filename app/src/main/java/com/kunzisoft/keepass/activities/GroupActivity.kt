@@ -66,7 +66,6 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
@@ -450,20 +449,13 @@ class GroupActivity : LockingActivity(),
                     }
                 }
             }
-            ACTION_DATABASE_RELOAD_TASK -> {
-                // Reload the current activity
-                if (!result.isSuccess) {
-                    this.showActionErrorIfNeeded(result)
-                    finish()
-                }
-            }
         }
 
         coordinatorLayout?.showActionErrorIfNeeded(result)
 
         finishNodeAction()
 
-        refreshNumberOfChildren()
+        refreshNumberOfChildren(mCurrentGroup)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -544,7 +536,7 @@ class GroupActivity : LockingActivity(),
                 }
 
                 if (toolbar != null) {
-                    if (mCurrentGroup?.containsParent() == true)
+                    if (group.containsParent())
                         toolbar?.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp)
                     else {
                         toolbar?.navigationIcon = null
@@ -554,35 +546,35 @@ class GroupActivity : LockingActivity(),
         }
 
         // Assign number of children
-        refreshNumberOfChildren()
+        refreshNumberOfChildren(group)
 
         // Hide button
-        initAddButton()
+        initAddButton(group)
     }
 
-    private fun initAddButton() {
+    private fun initAddButton(group: Group?) {
         addNodeButtonView?.apply {
             closeButtonIfOpen()
             // To enable add button
-            val addGroupEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
-            var addEntryEnabled = !mReadOnly && mCurrentGroup?.isVirtual != true
-            mCurrentGroup?.let {
+            val addGroupEnabled = !mReadOnly && group?.isVirtual != true
+            var addEntryEnabled = !mReadOnly && group?.isVirtual != true
+            group?.let {
                 if (!it.allowAddEntryIfIsRoot)
                     addEntryEnabled = it != mRootGroup && addEntryEnabled
             }
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
-            if (mCurrentGroup?.isVirtual == true)
+            if (group?.isVirtual == true)
                 hideButton()
             else if (actionNodeMode == null)
                 showButton()
         }
     }
 
-    private fun refreshNumberOfChildren() {
+    private fun refreshNumberOfChildren(group: Group?) {
         numberChildrenView?.apply {
             if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getNumberOfChildEntries(Group.ChildFilter.getDefaults(context))?.toString() ?: ""
+                text = group?.getNumberOfChildEntries(Group.ChildFilter.getDefaults(context))?.toString() ?: ""
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE

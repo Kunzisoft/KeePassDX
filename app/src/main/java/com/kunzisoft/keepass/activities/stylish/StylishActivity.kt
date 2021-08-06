@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.activities.stylish
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StyleRes
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.WindowManager
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Stylish Hide Activity that apply a dynamic style and sets FLAG_SECURE to prevent screenshots / from
@@ -55,6 +55,12 @@ abstract class StylishActivity : AppCompatActivity() {
 
     open fun applyCustomStyle(): Boolean {
         return true
+    }
+
+    open fun reloadActivity() {
+        startActivity(intent)
+        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

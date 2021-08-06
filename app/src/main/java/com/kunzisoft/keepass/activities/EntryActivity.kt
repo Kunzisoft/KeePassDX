@@ -55,7 +55,6 @@ import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -255,11 +254,6 @@ class EntryActivity : LockingActivity() {
                 // Close the current activity after an history action
                 if (result.isSuccess)
                     finish()
-            }
-            ACTION_DATABASE_RELOAD_TASK -> {
-                // Close the current activity
-                this.showActionErrorIfNeeded(result)
-                finish()
             }
         }
         coordinatorLayout?.showActionErrorIfNeeded(result)

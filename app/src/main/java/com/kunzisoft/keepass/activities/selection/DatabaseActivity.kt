@@ -204,8 +204,17 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabase?.clearAndClose(this)
     }
 
+    override fun reloadActivity() {
+        super.reloadActivity()
+        mDatabase?.wasReloaded = false
+    }
+
     override fun onResume() {
         super.onResume()
+
+        if (mDatabase?.wasReloaded == true) {
+            reloadActivity()
+        }
         mDatabaseTaskProvider?.registerProgressTask()
     }
 

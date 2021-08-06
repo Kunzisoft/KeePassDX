@@ -62,7 +62,6 @@ import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -327,11 +326,6 @@ class EntryEditActivity : LockingActivity(),
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to retrieve entry after database action", e)
                 }
-            }
-            ACTION_DATABASE_RELOAD_TASK -> {
-                // Close the current activity
-                this.showActionErrorIfNeeded(result)
-                finish()
             }
         }
         coordinatorLayout?.showActionErrorIfNeeded(result)
