@@ -682,8 +682,8 @@ class EntryEditActivity : LockingActivity(),
          * @param activity from activity
          * @param entryId Entry to update
          */
-        fun launch(activity: Activity,
-                   entryId: NodeId<UUID>) {
+        fun launchToUpdate(activity: Activity,
+                           entryId: NodeId<UUID>) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
                 intent.putExtra(KEY_ENTRY, entryId)
@@ -695,35 +695,35 @@ class EntryEditActivity : LockingActivity(),
          * Launch EntryEditActivity to add a new entry
          *
          * @param activity from activity
-         * @param group Group who will contains new entry
+         * @param groupId Group who will contains new entry
          */
-        fun launch(activity: Activity,
-                   group: Group) {
+        fun launchToCreate(activity: Activity,
+                           groupId: NodeId<*>) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
+                intent.putExtra(KEY_PARENT, groupId)
                 activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }
 
-        fun launchForSave(context: Context,
-                          entry: Entry,
-                          searchInfo: SearchInfo) {
+        fun launchToUpdateForSave(context: Context,
+                                  entryId: NodeId<UUID>,
+                                  searchInfo: SearchInfo) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
+                intent.putExtra(KEY_ENTRY, entryId)
                 EntrySelectionHelper.startActivityForSaveModeResult(context,
                         intent,
                         searchInfo)
             }
         }
 
-        fun launchForSave(context: Context,
-                          group: Group,
-                          searchInfo: SearchInfo) {
+        fun launchToCreateForSave(context: Context,
+                                  groupId: NodeId<*>,
+                                  searchInfo: SearchInfo) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
+                intent.putExtra(KEY_PARENT, groupId)
                 EntrySelectionHelper.startActivityForSaveModeResult(context,
                         intent,
                         searchInfo)
@@ -734,11 +734,11 @@ class EntryEditActivity : LockingActivity(),
          * Launch EntryEditActivity to add a new entry in keyboard selection
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             group: Group,
+                                             groupId: NodeId<*>,
                                              searchInfo: SearchInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
+                intent.putExtra(KEY_PARENT, groupId)
                 EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
                         intent,
                         searchInfo)
@@ -751,11 +751,11 @@ class EntryEditActivity : LockingActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     autofillComponent: AutofillComponent,
-                                    group: Group,
+                                    groupId: NodeId<*>,
                                     searchInfo: SearchInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
+                intent.putExtra(KEY_PARENT, groupId)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
                         autofillComponent,
@@ -766,12 +766,12 @@ class EntryEditActivity : LockingActivity(),
         /**
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
-        fun launchForRegistration(context: Context,
-                                  entry: Entry,
-                                  registerInfo: RegisterInfo? = null) {
+        fun launchToUpdateForRegistration(context: Context,
+                                          entryId: NodeId<UUID>,
+                                          registerInfo: RegisterInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
+                intent.putExtra(KEY_ENTRY, entryId)
                 EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                         intent,
                         registerInfo)
@@ -781,12 +781,12 @@ class EntryEditActivity : LockingActivity(),
         /**
          * Launch EntryEditActivity to register a new entry (from autofill)
          */
-        fun launchForRegistration(context: Context,
-                                  group: Group,
-                                  registerInfo: RegisterInfo? = null) {
+        fun launchToCreateForRegistration(context: Context,
+                                          groupId: NodeId<*>,
+                                          registerInfo: RegisterInfo? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                 val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
+                intent.putExtra(KEY_PARENT, groupId)
                 EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                         intent,
                         registerInfo)

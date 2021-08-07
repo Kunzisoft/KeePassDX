@@ -118,8 +118,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         dest.writeByte((if (isVirtual) 1 else 0).toByte())
     }
 
-    override val nodeId: NodeId<*>?
-        get() = groupKDBX?.nodeId ?: groupKDB?.nodeId
+    override val nodeId: NodeId<*>
+        get() = groupKDBX?.nodeId ?: groupKDB?.nodeId ?: NodeIdUUID()
 
     override var title: String
         get() = groupKDB?.title ?: groupKDBX?.title ?: ""

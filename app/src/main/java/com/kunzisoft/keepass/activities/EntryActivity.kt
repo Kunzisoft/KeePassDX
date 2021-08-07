@@ -373,7 +373,7 @@ class EntryActivity : LockingActivity() {
             }
             R.id.menu_edit -> {
                 mMainEntryId?.let { entryId ->
-                    EntryEditActivity.launch(this@EntryActivity, entryId)
+                    EntryEditActivity.launchToUpdate(this@EntryActivity, entryId)
                 }
                 return true
             }
@@ -428,10 +428,10 @@ class EntryActivity : LockingActivity() {
         /**
          * Open standard Entry activity
          */
-        fun launch(activity: Activity, entry: Entry, readOnly: Boolean) {
+        fun launch(activity: Activity, entryId: NodeId<UUID>, readOnly: Boolean) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
+                intent.putExtra(KEY_ENTRY, entryId)
                 ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
                 activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }

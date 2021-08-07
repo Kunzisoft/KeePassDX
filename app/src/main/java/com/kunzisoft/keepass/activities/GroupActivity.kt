@@ -211,7 +211,6 @@ class GroupActivity : LockingActivity(),
             // Save group id if real group
             if (!currentGroup.isVirtual) {
                 mCurrentGroupId = currentGroup.nodeId
-                intent.extras?.putParcelable(GROUP_ID_KEY, mCurrentGroupId)
             }
 
             // Update last access time.
@@ -233,22 +232,25 @@ class GroupActivity : LockingActivity(),
             addNodeButtonView?.setAddEntryClickListener {
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        EntryEditActivity.launch(this@GroupActivity, currentGroup)
+                        EntryEditActivity.launchToCreate(
+                            this@GroupActivity,
+                            currentGroup.nodeId
+                        )
                     },
                     {
                         // Search not used
                     },
                     { searchInfo ->
-                        EntryEditActivity.launchForSave(
+                        EntryEditActivity.launchToCreateForSave(
                             this@GroupActivity,
-                            currentGroup, searchInfo
+                            currentGroup.nodeId, searchInfo
                         )
                         onLaunchActivitySpecialMode()
                     },
                     { searchInfo ->
                         EntryEditActivity.launchForKeyboardSelectionResult(
                             this@GroupActivity,
-                            currentGroup, searchInfo
+                            currentGroup.nodeId, searchInfo
                         )
                         onLaunchActivitySpecialMode()
                     },
@@ -257,7 +259,7 @@ class GroupActivity : LockingActivity(),
                             EntryEditActivity.launchForAutofillResult(
                                 this@GroupActivity,
                                 autofillComponent,
-                                currentGroup, searchInfo
+                                currentGroup.nodeId, searchInfo
                             )
                             onLaunchActivitySpecialMode()
                         } else {
@@ -265,9 +267,9 @@ class GroupActivity : LockingActivity(),
                         }
                     },
                     { searchInfo ->
-                        EntryEditActivity.launchForRegistration(
+                        EntryEditActivity.launchToCreateForRegistration(
                             this@GroupActivity,
-                            currentGroup, searchInfo
+                            currentGroup.nodeId, searchInfo
                         )
                         onLaunchActivitySpecialMode()
                     }
@@ -488,9 +490,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mCurrentGroup?.let {
-            outState.putParcelable(GROUP_ID_KEY, it.nodeId)
-        }
+        outState.putParcelable(GROUP_ID_KEY, mCurrentGroupId)
         outState.putParcelableArray(PREVIOUS_GROUPS_IDS_KEY, mPreviousGroupsIds.toTypedArray())
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
@@ -601,7 +601,7 @@ class GroupActivity : LockingActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                         {
-                            EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
+                            EntryActivity.launch(this@GroupActivity, entryVersioned.nodeId, mReadOnly)
                         },
                         {
                             // Nothing here, a search is simply performed
@@ -661,8 +661,8 @@ class GroupActivity : LockingActivity(),
     private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
         rebuildListNodes()
         // Save to update the entry
-        EntryEditActivity.launchForSave(this@GroupActivity,
-                entry, searchInfo)
+        EntryEditActivity.launchToUpdateForSave(this@GroupActivity,
+                entry.nodeId, searchInfo)
         onLaunchActivitySpecialMode()
     }
 
@@ -688,8 +688,8 @@ class GroupActivity : LockingActivity(),
     private fun entrySelectedForRegistration(database: Database, entry: Entry, registerInfo: RegisterInfo?) {
         rebuildListNodes()
         // Registration to update the entry
-        EntryEditActivity.launchForRegistration(this@GroupActivity,
-                entry, registerInfo)
+        EntryEditActivity.launchToUpdateForRegistration(this@GroupActivity,
+                entry.nodeId, registerInfo)
         onLaunchActivitySpecialMode()
     }
 
@@ -768,7 +768,7 @@ class GroupActivity : LockingActivity(),
                         .show(supportFragmentManager,
                                 GroupEditDialogFragment.TAG_CREATE_GROUP)
             }
-            Type.ENTRY -> EntryEditActivity.launch(this@GroupActivity, (node as Entry).nodeId)
+            Type.ENTRY -> EntryEditActivity.launchToUpdate(this@GroupActivity, (node as Entry).nodeId)
         }
         return true
     }
@@ -1065,14 +1065,18 @@ class GroupActivity : LockingActivity(),
         } else {
             // Normal way when we are not in root
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
-                if (Intent.ACTION_SEARCH == intent.action) {
-                    // Remove the search
-                    removeActionSearch()
-                    reloadCurrentGroup()
-                } else if (mPreviousGroupsIds.isEmpty()) {
-                    super.onRegularBackPressed()
-                } else {
-                    mGroupViewModel.loadGroup(mPreviousGroupsIds.removeLast())
+                when {
+                    Intent.ACTION_SEARCH == intent.action -> {
+                        // Remove the search
+                        removeActionSearch()
+                        reloadCurrentGroup()
+                    }
+                    mPreviousGroupsIds.isEmpty() -> {
+                        super.onRegularBackPressed()
+                    }
+                    else -> {
+                        mGroupViewModel.loadGroup(mPreviousGroupsIds.removeLast())
+                    }
                 }
             }
             // Else in root, lock if needed
