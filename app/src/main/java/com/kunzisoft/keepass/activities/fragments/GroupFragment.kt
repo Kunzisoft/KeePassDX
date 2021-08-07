@@ -391,11 +391,9 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE
                         || resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { changedNodeId ->
-                        // TODO if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-                            // addNode(changedNode)
-                        if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
-                            mAdapter?.notifyDataSetChanged()
+                    data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let {
+                        // Simply refresh the list
+                        rebuildList()
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
                 }
             }
