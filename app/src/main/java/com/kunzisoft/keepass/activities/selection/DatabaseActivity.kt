@@ -29,7 +29,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider = DatabaseTaskProvider(this)
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
-            if (mDatabase != database) {
+            if (mDatabase == null || mDatabase != database) {
                 onDatabaseRetrieved(database)
             }
         }

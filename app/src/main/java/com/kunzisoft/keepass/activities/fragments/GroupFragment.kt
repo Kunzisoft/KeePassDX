@@ -116,11 +116,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         mGroupViewModel.group.observe(viewLifecycleOwner) {
             mCurrentGroup = it.group
             isASearchResult = it.group.isVirtual
-            try {
-                rebuildList()
-            } catch (e:Exception) {
-                Log.e(TAG, "Unable to rebuild the list", e)
-            }
+            rebuildList()
         }
     }
 
@@ -209,28 +205,32 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         activity?.intent?.let {
             specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
         }
-
-        if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
-            // To show the " no search entry found "
-            mNodesRecyclerView?.visibility = View.GONE
-            notFoundView?.visibility = View.VISIBLE
-        } else {
-            mNodesRecyclerView?.visibility = View.VISIBLE
-            notFoundView?.visibility = View.GONE
-        }
     }
 
     @Throws(IllegalArgumentException::class)
     private fun rebuildList() {
-        // Add elements to the list
-        mCurrentGroup?.let { mainGroup ->
-            // Thrown an exception when sort cannot be performed
-            mAdapter?.rebuildList(mainGroup)
-            // To visually change the elements
-            if (PreferencesUtil.APPEARANCE_CHANGED) {
-                mAdapter?.notifyDataSetChanged()
-                PreferencesUtil.APPEARANCE_CHANGED = false
+        try {
+            // Add elements to the list
+            mCurrentGroup?.let { mainGroup ->
+                // Thrown an exception when sort cannot be performed
+                mAdapter?.rebuildList(mainGroup)
+                // To visually change the elements
+                if (PreferencesUtil.APPEARANCE_CHANGED) {
+                    mAdapter?.notifyDataSetChanged()
+                    PreferencesUtil.APPEARANCE_CHANGED = false
+                }
             }
+        } catch (e:Exception) {
+            Log.e(TAG, "Unable to rebuild the list", e)
+        }
+
+        if (isASearchResult && mAdapter != null && mAdapter!!.isEmpty) {
+            // To show the " no search entry found "
+            //mNodesRecyclerView?.visibility = View.GONE
+            notFoundView?.visibility = View.VISIBLE
+        } else {
+            //mNodesRecyclerView?.visibility = View.VISIBLE
+            notFoundView?.visibility = View.GONE
         }
     }
 
@@ -246,7 +246,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
             rebuildList()
         } catch (e:Exception) {
-            Log.e(TAG, "Unable to rebuild the list with the sort", e)
+            Log.e(TAG, "Unable to sort the list", e)
         }
     }
 

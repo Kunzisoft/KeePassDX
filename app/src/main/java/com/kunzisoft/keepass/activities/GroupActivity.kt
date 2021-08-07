@@ -475,12 +475,13 @@ class GroupActivity : LockingActivity(),
     }
 
     /**
-     * Transform the KEY_SEARCH_INFO in ACTION_SEARCH, return true if KEY_SEARCH_INFO was present
+     * Transform the AUTO_SEARCH_KEY in ACTION_SEARCH, return true if AUTO_SEARCH_KEY was present
      */
     private fun manageSearchInfoIntent(intent: Intent): Boolean {
         // To relaunch the activity as ACTION_SEARCH
         val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
         val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
+        intent.removeExtra(AUTO_SEARCH_KEY)
         if (searchInfo != null && autoSearch) {
             intent.action = Intent.ACTION_SEARCH
             intent.putExtra(SearchManager.QUERY, searchInfo.toString())
@@ -588,8 +589,10 @@ class GroupActivity : LockingActivity(),
         when (node.type) {
             Type.GROUP -> try {
                 val group = node as Group
-                mCurrentGroup?.nodeId?.let {
-                    mPreviousGroupsIds.add(it)
+                if (mCurrentGroup?.isVirtual == false) {
+                    mCurrentGroup?.nodeId?.let {
+                        mPreviousGroupsIds.add(it)
+                    }
                 }
                 // Open child group
                 mGroupViewModel.loadGroup(group)
@@ -608,7 +611,7 @@ class GroupActivity : LockingActivity(),
                         },
                         { searchInfo ->
                             if (!mReadOnly)
-                                entrySelectedForSave(database, entryVersioned, searchInfo)
+                                entrySelectedForSave(entryVersioned, searchInfo)
                             else
                                 finish()
                         },
@@ -648,7 +651,7 @@ class GroupActivity : LockingActivity(),
                         },
                         { registerInfo ->
                             if (!mReadOnly)
-                                entrySelectedForRegistration(database, entryVersioned, registerInfo)
+                                entrySelectedForRegistration(entryVersioned, registerInfo)
                             else
                                 finish()
                         })
@@ -658,8 +661,8 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
-        rebuildListNodes()
+    private fun entrySelectedForSave(entry: Entry, searchInfo: SearchInfo) {
+        reloadCurrentGroup()
         // Save to update the entry
         EntryEditActivity.launchToUpdateForSave(this@GroupActivity,
                 entry.nodeId, searchInfo)
@@ -667,7 +670,7 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
-        rebuildListNodes()
+        reloadCurrentGroup()
         // Populate Magikeyboard with entry
         populateKeyboardAndMoveAppToBackground(this,
                 entry.getEntryInfo(database),
@@ -685,8 +688,8 @@ class GroupActivity : LockingActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForRegistration(database: Database, entry: Entry, registerInfo: RegisterInfo?) {
-        rebuildListNodes()
+    private fun entrySelectedForRegistration(entry: Entry, registerInfo: RegisterInfo?) {
+        reloadCurrentGroup()
         // Registration to update the entry
         EntryEditActivity.launchToUpdateForRegistration(this@GroupActivity,
                 entry.nodeId, registerInfo)
@@ -1034,17 +1037,8 @@ class GroupActivity : LockingActivity(),
         mGroupFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun rebuildListNodes() {
-        // TODO Useful ?
-        // to refresh fragment
-        mCurrentGroup?.let {
-            mGroupViewModel.loadGroup(it)
-        }
-        removeActionSearch()
-    }
-
-    private fun removeActionSearch() {
-        // Remove search in intent
+    private fun removeSearch() {
+        intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
@@ -1052,6 +1046,9 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun reloadCurrentGroup() {
+        // Remove search in intent
+        removeSearch()
+        // Reload real group
         try {
             mGroupViewModel.loadGroup(mCurrentGroupId)
         } catch (e: Exception) {
@@ -1068,20 +1065,20 @@ class GroupActivity : LockingActivity(),
                 when {
                     Intent.ACTION_SEARCH == intent.action -> {
                         // Remove the search
-                        removeActionSearch()
                         reloadCurrentGroup()
                     }
                     mPreviousGroupsIds.isEmpty() -> {
                         super.onRegularBackPressed()
                     }
                     else -> {
+                        // Load the previous group
                         mGroupViewModel.loadGroup(mPreviousGroupsIds.removeLast())
                     }
                 }
             }
             // Else in root, lock if needed
             else {
-                intent.removeExtra(AUTO_SEARCH_KEY)
+                removeSearch()
                 EntrySelectionHelper.removeModesFromIntent(intent)
                 EntrySelectionHelper.removeInfoFromIntent(intent)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {

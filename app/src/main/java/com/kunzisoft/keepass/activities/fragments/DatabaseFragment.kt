@@ -18,7 +18,7 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
         super.onStart()
 
         mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
-            if (mDatabase != database) {
+            if (mDatabase == null || mDatabase != database) {
                 requireView().resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), database)
                 this.mDatabase = database
                 onDatabaseRetrieved(database)
