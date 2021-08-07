@@ -29,7 +29,9 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider = DatabaseTaskProvider(this)
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
-            onDatabaseRetrieved(database)
+            if (mDatabase != database) {
+                onDatabaseRetrieved(database)
+            }
         }
         mDatabaseTaskProvider?.onActionFinish = { database, actionTask, result ->
             onDatabaseActionFinished(database, actionTask, result)

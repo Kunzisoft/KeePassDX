@@ -274,7 +274,7 @@ class GroupActivity : LockingActivity(),
                 )
             }
 
-            assignGroupViewElements()
+            assignGroupViewElements(currentGroup)
             invalidateOptionsMenu()
 
             Log.i(TAG, "Finished creating tree")
@@ -422,14 +422,8 @@ class GroupActivity : LockingActivity(),
             }
             ACTION_DATABASE_DELETE_NODES_TASK -> {
                 if (result.isSuccess) {
-
                     // Rebuild all the list to avoid bug when delete node from sort
-                    try {
-                        mGroupViewModel.loadGroup(mCurrentGroupId)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Unable to rebuild the list after deletion")
-                        e.printStackTrace()
-                    }
+                    reloadCurrentGroup()
 
                     // Add trash in views list if it doesn't exists
                     if (database.isRecycleBinEnabled) {
@@ -452,6 +446,9 @@ class GroupActivity : LockingActivity(),
         }
 
         coordinatorLayout?.showActionErrorIfNeeded(result)
+        if (!result.isSuccess) {
+            reloadCurrentGroup()
+        }
 
         finishNodeAction()
 
@@ -502,8 +499,7 @@ class GroupActivity : LockingActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    private fun assignGroupViewElements() {
-        val group = mCurrentGroup
+    private fun assignGroupViewElements(group: Group?) {
         // Assign title
         if (group != null) {
             val title = group.title
@@ -1039,24 +1035,28 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun rebuildListNodes() {
+        // TODO Useful ?
         // to refresh fragment
         mCurrentGroup?.let {
             mGroupViewModel.loadGroup(it)
         }
-        /* TODO Error
-        coordinatorLayout?.let { coordinatorLayout ->
-            Snackbar.make(coordinatorLayout,
-                    R.string.error_rebuild_list,
-                    Snackbar.LENGTH_LONG).asError().show()
-        }
+        removeActionSearch()
+    }
 
-         */
+    private fun removeActionSearch() {
         // Remove search in intent
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
         }
-        assignGroupViewElements()
+    }
+
+    private fun reloadCurrentGroup() {
+        try {
+            mGroupViewModel.loadGroup(mCurrentGroupId)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to rebuild the list after deletion", e)
+        }
     }
 
     override fun onBackPressed() {
@@ -1065,12 +1065,15 @@ class GroupActivity : LockingActivity(),
         } else {
             // Normal way when we are not in root
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
-                if (mPreviousGroupsIds.isEmpty()) {
+                if (Intent.ACTION_SEARCH == intent.action) {
+                    // Remove the search
+                    removeActionSearch()
+                    reloadCurrentGroup()
+                } else if (mPreviousGroupsIds.isEmpty()) {
                     super.onRegularBackPressed()
                 } else {
                     mGroupViewModel.loadGroup(mPreviousGroupsIds.removeLast())
                 }
-                rebuildListNodes()
             }
             // Else in root, lock if needed
             else {

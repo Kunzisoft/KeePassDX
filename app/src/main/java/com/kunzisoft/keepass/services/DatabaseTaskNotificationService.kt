@@ -205,9 +205,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         super.onStartCommand(intent, flags, startId)
 
         val database = Database.getInstance()
-        mDatabase = database
-        mDatabaseListeners.forEach { listener ->
-            listener.onDatabaseRetrieved(mDatabase)
+        if (mDatabase != database) {
+            mDatabase = database
+            mDatabaseListeners.forEach { listener ->
+                listener.onDatabaseRetrieved(mDatabase)
+            }
         }
 
         // Create the notification
