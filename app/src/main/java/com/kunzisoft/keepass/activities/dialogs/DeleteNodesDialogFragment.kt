@@ -28,25 +28,29 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 
-open class DeleteNodesDialogFragment : DialogFragment() {
+class DeleteNodesDialogFragment : DialogFragment() {
 
-    private var mNodesToDelete: List<Node> = ArrayList()
+    private var mNodesToDelete: List<Node> = listOf()
     private val mNodesViewModel: NodesViewModel by activityViewModels()
 
-    protected open fun retrieveMessage(): String {
-        return getString(R.string.warning_permanently_delete_nodes)
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mNodesViewModel.nodesToDelete.observe(this) {
-            this.mNodesToDelete = it
+        mNodesViewModel.nodesToDelete.observe(this) { nodes ->
+            this.mNodesToDelete = nodes
         }
-
+        var recycleBin = false
+        arguments?.apply {
+            if (containsKey(RECYCLE_BIN_TAG)) {
+                recycleBin = this.getBoolean(RECYCLE_BIN_TAG)
+            }
+        }
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
 
-            builder.setMessage(retrieveMessage())
+            builder.setMessage(if (recycleBin)
+                getString(R.string.warning_empty_recycle_bin)
+            else
+                getString(R.string.warning_permanently_delete_nodes))
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mNodesViewModel.permanentlyDeleteNodes(mNodesToDelete)
             }
@@ -55,5 +59,17 @@ open class DeleteNodesDialogFragment : DialogFragment() {
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    companion object {
+        private const val RECYCLE_BIN_TAG = "RECYCLE_BIN_TAG"
+
+        fun getInstance(recycleBin: Boolean): DeleteNodesDialogFragment {
+            return DeleteNodesDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(RECYCLE_BIN_TAG, recycleBin)
+                }
+            }
+        }
     }
 }

@@ -947,9 +947,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             nodes.forEach { nodeVersioned ->
                 when (nodeVersioned.type) {
                     Type.GROUP -> {
-                        (nodeVersioned as Group).nodeId?.let { groupId ->
-                            groupsId.add(groupId)
-                        }
+                        groupsId.add((nodeVersioned as Group).nodeId)
                     }
                     Type.ENTRY -> {
                         entriesId.add((nodeVersioned as Entry).nodeId)

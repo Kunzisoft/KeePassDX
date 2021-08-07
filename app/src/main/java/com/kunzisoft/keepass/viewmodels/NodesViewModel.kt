@@ -14,7 +14,7 @@ class NodesViewModel: ViewModel() {
     private val _nodesToPermanentlyDelete = SingleLiveEvent<List<Node>>()
 
     fun deleteNodes(nodes: List<Node>) {
-        this._nodesToDelete.value = nodes
+        this._nodesToDelete.value = nodes.toList()
     }
 
     fun permanentlyDeleteNodes(nodes: List<Node>) {

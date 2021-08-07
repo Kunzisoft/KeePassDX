@@ -31,7 +31,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.EmptyRecycleBinDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -228,13 +227,8 @@ abstract class LockingActivity : SpecialModeActivity(),
             }
             // else open the dialog to confirm deletion
             else {
-                val deleteNodesDialogFragment: DeleteNodesDialogFragment =
-                    if (recycleBin) {
-                        EmptyRecycleBinDialogFragment()
-                    } else {
-                        DeleteNodesDialogFragment()
-                    }
-                deleteNodesDialogFragment.show(supportFragmentManager, "deleteNodesDialogFragment")
+                DeleteNodesDialogFragment.getInstance(recycleBin)
+                    .show(supportFragmentManager, "deleteNodesDialogFragment")
                 mNodesViewModel.deleteNodes(nodes)
             }
         }

@@ -401,9 +401,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
         nodesPaste.forEach { nodeVersioned ->
             when (nodeVersioned.type) {
                 Type.GROUP -> {
-                    (nodeVersioned as Group).nodeId?.let { groupId ->
-                        groupsIdToCopy.add(groupId)
-                    }
+                    groupsIdToCopy.add((nodeVersioned as Group).nodeId)
                 }
                 Type.ENTRY -> {
                     entriesIdToCopy.add((nodeVersioned as Entry).nodeId)
