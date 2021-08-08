@@ -28,6 +28,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
@@ -51,6 +52,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var onScrollListener: OnScrollListener? = null
 
     private var mNodesRecyclerView: RecyclerView? = null
+    private var mLayoutManager: LinearLayoutManager? = null
     private var mAdapter: NodeAdapter? = null
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
@@ -75,6 +77,19 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     val isEmpty: Boolean
         get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
+
+    private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == SCROLL_STATE_IDLE) {
+                mGroupViewModel.assignPosition(getFirstVisiblePosition())
+            }
+        }
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            onScrollListener?.onScrolled(dy)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -108,16 +123,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         setHasOptionsMenu(true)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        mGroupViewModel.group.observe(viewLifecycleOwner) {
-            mCurrentGroup = it.group
-            isASearchResult = it.group.isVirtual
-            rebuildList()
-        }
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -165,44 +170,59 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         // To apply theme
-        val rootView = inflater.cloneInContext(contextThemed)
+        return inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.fragment_list_nodes, container, false)
-        mNodesRecyclerView = rootView.findViewById(R.id.nodes_list)
-        notFoundView = rootView.findViewById(R.id.not_found_container)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mNodesRecyclerView = view.findViewById(R.id.nodes_list)
+        notFoundView = view.findViewById(R.id.not_found_container)
+
+        mLayoutManager = LinearLayoutManager(context)
         mNodesRecyclerView?.apply {
             scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = mLayoutManager
             adapter = mAdapter
         }
 
-        onScrollListener?.let { onScrollListener ->
-            mNodesRecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    onScrollListener.onScrolled(dy)
-                }
-            })
+        mGroupViewModel.group.observe(viewLifecycleOwner) {
+            mCurrentGroup = it.group
+            isASearchResult = it.group.isVirtual
+            rebuildList()
+            // TODO Sometimes don't work after back pressed
+            it.showFromPosition?.let { position ->
+                mNodesRecyclerView?.scrollToPosition(position)
+            }
         }
-
-        return rootView
     }
 
     override fun onResume() {
         super.onResume()
 
+        mNodesRecyclerView?.addOnScrollListener(mRecycleViewScrollListener)
         activity?.intent?.let {
             specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
         }
+    }
+
+    override fun onPause() {
+
+        mNodesRecyclerView?.removeOnScrollListener(mRecycleViewScrollListener)
+        super.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        super.onSaveInstanceState(outState)
+    }
+
+    fun getFirstVisiblePosition(): Int {
+        return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
     @Throws(IllegalArgumentException::class)
@@ -224,10 +244,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         if (isASearchResult && mAdapter != null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
-            //mNodesRecyclerView?.visibility = View.GONE
             notFoundView?.visibility = View.VISIBLE
         } else {
-            //mNodesRecyclerView?.visibility = View.VISIBLE
             notFoundView?.visibility = View.GONE
         }
     }
