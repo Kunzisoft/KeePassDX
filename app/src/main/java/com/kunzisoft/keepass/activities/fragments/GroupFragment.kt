@@ -174,7 +174,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onCreateView(inflater, container, savedInstanceState)
         // To apply theme
         return inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_list_nodes, container, false)
+                .inflate(R.layout.fragment_group, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
