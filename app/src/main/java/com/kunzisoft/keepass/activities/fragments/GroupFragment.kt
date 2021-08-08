@@ -163,8 +163,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 mNodesRecyclerView?.adapter = mAdapter
             }
         }
-
-        // TODO notify menu updated?
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
