@@ -94,8 +94,9 @@ class SearchHelper {
         fun checkAutoSearchInfo(context: Context,
                                 database: Database?,
                                 searchInfo: SearchInfo?,
-                                onItemsFound: (items: List<EntryInfo>) -> Unit,
-                                onItemNotFound: () -> Unit,
+                                onItemsFound: (openedDatabase: Database,
+                                               items: List<EntryInfo>) -> Unit,
+                                onItemNotFound: (openedDatabase: Database) -> Unit,
                                 onDatabaseClosed: () -> Unit) {
             if (database == null || !database.loaded) {
                 onDatabaseClosed.invoke()
@@ -112,13 +113,13 @@ class SearchHelper {
                     )?.let { searchGroup ->
                         if (searchGroup.getNumberOfChildEntries() > 0) {
                             searchWithoutUI = true
-                            onItemsFound.invoke(
+                            onItemsFound.invoke(database,
                                     searchGroup.getChildEntriesInfo(database))
                         }
                     }
                 }
                 if (!searchWithoutUI) {
-                    onItemNotFound.invoke()
+                    onItemNotFound.invoke(database)
                 }
             }
         }

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action
 
+import android.app.Service
 import android.content.*
 import android.content.Context.*
 import android.net.Uri
@@ -83,7 +84,15 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DatabaseTaskProvider(private val activity: FragmentActivity) {
+/**
+ * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
+ * Useful to retrieve a database instance and sending tasks commands
+ */
+class DatabaseTaskProvider {
+
+    private var activity: FragmentActivity? = null
+    private var service: Service? = null
+    private var context: Context
 
     var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
 
@@ -91,7 +100,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
                           actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
-    private var intentDatabaseTask = Intent(activity.applicationContext, DatabaseTaskNotificationService::class.java)
+    private var intentDatabaseTask: Intent
 
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
@@ -100,6 +109,20 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
 
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
+
+    constructor(activity: FragmentActivity) {
+        this.activity = activity
+        this.context = activity
+        this.intentDatabaseTask = Intent(activity.applicationContext,
+            DatabaseTaskNotificationService::class.java)
+    }
+
+    constructor(service: Service) {
+        this.service = service
+        this.context = service
+        this.intentDatabaseTask = Intent(service.applicationContext,
+            DatabaseTaskNotificationService::class.java)
+    }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
@@ -126,22 +149,26 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
     private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
         override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
                                            newDatabaseInfo: SnapFileDatabaseInfo) {
-            activity.lifecycleScope.launch {
-                if (databaseChangedDialogFragment == null) {
-                    databaseChangedDialogFragment = activity.supportFragmentManager
-                        .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
-                    databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
-                }
-                if (progressTaskDialogFragment == null) {
-                    databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
-                        previousDatabaseInfo,
-                        newDatabaseInfo
-                    )
-                    databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
-                    databaseChangedDialogFragment?.show(
-                        activity.supportFragmentManager,
-                        DATABASE_CHANGED_DIALOG_TAG
-                    )
+            activity?.let { activity ->
+                activity.lifecycleScope.launch {
+                    if (databaseChangedDialogFragment == null) {
+                        databaseChangedDialogFragment = activity.supportFragmentManager
+                            .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
+                        databaseChangedDialogFragment?.actionDatabaseListener =
+                            mActionDatabaseListener
+                    }
+                    if (progressTaskDialogFragment == null) {
+                        databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
+                            previousDatabaseInfo,
+                            newDatabaseInfo
+                        )
+                        databaseChangedDialogFragment?.actionDatabaseListener =
+                            mActionDatabaseListener
+                        databaseChangedDialogFragment?.show(
+                            activity.supportFragmentManager,
+                            DATABASE_CHANGED_DIALOG_TAG
+                        )
+                    }
                 }
             }
         }
@@ -156,19 +183,21 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
     private fun startDialog(titleId: Int? = null,
                             messageId: Int? = null,
                             warningId: Int? = null) {
-        activity.lifecycleScope.launch {
-            if (progressTaskDialogFragment == null) {
-                progressTaskDialogFragment = activity.supportFragmentManager
-                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+        activity?.let { activity ->
+            activity.lifecycleScope.launch {
+                if (progressTaskDialogFragment == null) {
+                    progressTaskDialogFragment = activity.supportFragmentManager
+                        .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+                }
+                if (progressTaskDialogFragment == null) {
+                    progressTaskDialogFragment = ProgressTaskDialogFragment()
+                    progressTaskDialogFragment?.show(
+                        activity.supportFragmentManager,
+                        PROGRESS_TASK_DIALOG_TAG
+                    )
+                }
+                updateDialog(titleId, messageId, warningId)
             }
-            if (progressTaskDialogFragment == null) {
-                progressTaskDialogFragment = ProgressTaskDialogFragment()
-                progressTaskDialogFragment?.show(
-                    activity.supportFragmentManager,
-                    PROGRESS_TASK_DIALOG_TAG
-                )
-            }
-            updateDialog(titleId, messageId, warningId)
         }
     }
 
@@ -218,7 +247,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
-            activity.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+            context.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
         }
     }
 
@@ -227,7 +256,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
      */
     private fun unBindService() {
         serviceConnection?.let {
-            activity.unbindService(it)
+            context.unbindService(it)
         }
         serviceConnection = null
     }
@@ -255,7 +284,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
                 }
             }
         }
-        activity.registerReceiver(databaseTaskBroadcastReceiver,
+        context.registerReceiver(databaseTaskBroadcastReceiver,
                 IntentFilter().apply {
                     addAction(DATABASE_START_TASK_ACTION)
                     addAction(DATABASE_STOP_TASK_ACTION)
@@ -277,7 +306,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
         unBindService()
 
         try {
-            activity.unregisterReceiver(databaseTaskBroadcastReceiver)
+            context.unregisterReceiver(databaseTaskBroadcastReceiver)
         } catch (e: IllegalArgumentException) {
             // If receiver not register, do nothing
         }
@@ -288,7 +317,7 @@ class DatabaseTaskProvider(private val activity: FragmentActivity) {
             if (bundle != null)
                 intentDatabaseTask.putExtras(bundle)
             intentDatabaseTask.action = actionTask
-            activity.startService(intentDatabaseTask)
+            context.startService(intentDatabaseTask)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to perform database action", e)
             Toast.makeText(activity, R.string.error_start_database_action, Toast.LENGTH_LONG).show()

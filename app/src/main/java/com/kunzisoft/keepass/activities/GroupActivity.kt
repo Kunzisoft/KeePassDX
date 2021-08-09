@@ -600,9 +600,9 @@ class GroupActivity : LockingActivity(),
                         SearchHelper.checkAutoSearchInfo(this,
                             database,
                             searchInfo,
-                            { _ ->
+                            { openedDatabase, _ ->
                                 // Item in search, don't save
-                                entrySelectedForKeyboardSelection(database, entryVersioned)
+                                entrySelectedForKeyboardSelection(openedDatabase, entryVersioned)
                             },
                             {
                                 // Item not found, save it if required
@@ -1302,7 +1302,7 @@ class GroupActivity : LockingActivity(),
                         SearchHelper.checkAutoSearchInfo(activity,
                                 database,
                                 searchInfo,
-                                { _ ->
+                                { _, _ ->
                                     // Response is build
                                     GroupActivity.launchForSearchResult(activity,
                                             readOnly,
@@ -1349,7 +1349,7 @@ class GroupActivity : LockingActivity(),
                         SearchHelper.checkAutoSearchInfo(activity,
                                 database,
                                 searchInfo,
-                                { items ->
+                                { _, items ->
                                     // Response is build
                                     if (items.size == 1) {
                                         populateKeyboardAndMoveAppToBackground(activity,
@@ -1384,9 +1384,9 @@ class GroupActivity : LockingActivity(),
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
                                     searchInfo,
-                                    { items ->
+                                    { openedDatabase, items ->
                                         // Response is build
-                                        AutofillHelper.buildResponseAndSetResult(activity, database, items)
+                                        AutofillHelper.buildResponseAndSetResult(activity, openedDatabase, items)
                                         onValidateSpecialMode()
                                     },
                                     {
@@ -1412,7 +1412,7 @@ class GroupActivity : LockingActivity(),
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
                                     registerInfo?.searchInfo,
-                                    { _ ->
+                                    { _, _ ->
                                         // No auto search, it's a registration
                                         GroupActivity.launchForRegistration(activity,
                                                 registerInfo)

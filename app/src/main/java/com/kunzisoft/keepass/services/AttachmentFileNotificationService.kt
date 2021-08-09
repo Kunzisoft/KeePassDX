@@ -27,6 +27,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
@@ -40,6 +41,9 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 
 class AttachmentFileNotificationService: LockNotificationService() {
+
+    private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
+    private var mDatabase: Database? = null
 
     override val notificationId: Int = 10000
     private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
@@ -77,6 +81,16 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 actionListener.onAttachmentAction(attachmentNotification.uri,
                         attachmentNotification.entryAttachmentState)
             }
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider?.registerProgressTask()
+        mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
+            this.mDatabase = database
         }
     }
 
@@ -247,6 +261,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             notificationManager?.cancel(attachmentNotification.notificationId)
         }
         attachmentNotificationList.clear()
+        mDatabaseTaskProvider?.unregisterProgressTask()
 
         super.onDestroy()
     }
@@ -287,8 +302,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     // Add action to the list on start
                     attachmentNotificationList.add(attachmentNotification)
 
-                    // TODO Database
-                    Database.getInstance()?.let { database ->
+                    mDatabase?.let { database ->
                         mainScope.launch {
                             AttachmentFileAction(attachmentNotification,
                                     database,

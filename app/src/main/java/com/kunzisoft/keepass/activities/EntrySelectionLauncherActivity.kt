@@ -95,7 +95,7 @@ class EntrySelectionLauncherActivity : DatabaseActivity() {
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { items ->
+                    { _, items ->
                         // Items found
                         if (searchInfo.otpString != null) {
                             if (!readOnly) {

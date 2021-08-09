@@ -105,11 +105,9 @@ class AutofillLauncherActivity : DatabaseActivity() {
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { items ->
+                    { openedDatabase, items ->
                         // Items found
-                        database?.let {
-                            AutofillHelper.buildResponseAndSetResult(this, database, items)
-                        }
+                        AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
                         finish()
                     },
                     {
@@ -144,7 +142,7 @@ class AutofillLauncherActivity : DatabaseActivity() {
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { _ ->
+                    { _, _ ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,

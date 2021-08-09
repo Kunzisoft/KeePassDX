@@ -38,15 +38,19 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 
 class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionListener {
+
+    private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
+    private var mDatabase: Database? = null
 
     private var keyboardView: KeyboardView? = null
     private var entryText: TextView? = null
@@ -61,6 +65,11 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     override fun onCreate() {
         super.onCreate()
 
+        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider?.registerProgressTask()
+        mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
+            this.mDatabase = database
+        }
         // Remove the entry and lock the keyboard when the lock signal is receive
         lockReceiver = LockReceiver {
                         removeEntryInfo()
@@ -111,14 +120,13 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
 
             // Remove entry info if the database is not loaded
             // or if entry info timestamp is before database loaded timestamp
-            // TODO Database
-            val database = Database.getInstance()
-            val databaseTime = database.loadTimestamp
+            val databaseTime = mDatabase?.loadTimestamp
             val entryTime = entryInfoTimestamp
-            if (!database.loaded
-                    || databaseTime == null
-                    || entryTime == null
-                    || entryTime < databaseTime) {
+            if (mDatabase == null
+                || mDatabase?.loaded != true
+                || databaseTime == null
+                || entryTime == null
+                || entryTime < databaseTime) {
                 removeEntryInfo()
             }
             assignKeyboardView()
@@ -324,6 +332,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     override fun onDestroy() {
         dismissCustomKeys()
         unregisterLockReceiver(lockReceiver)
+        mDatabaseTaskProvider?.unregisterProgressTask()
         super.onDestroy()
     }
 

@@ -38,7 +38,7 @@ class MagikeyboardLauncherActivity : DatabaseActivity() {
         SearchHelper.checkAutoSearchInfo(this,
             database,
             null,
-            {
+            { _, _ ->
                 // Not called
                 // if items found directly returns before calling this activity
             },
