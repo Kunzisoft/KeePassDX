@@ -3,12 +3,10 @@ package com.kunzisoft.keepass.activities.selection
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.room.Database
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.TypeMode
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.SpecialModeView

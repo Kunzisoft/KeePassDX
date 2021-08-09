@@ -40,6 +40,8 @@ object IconPackChooser {
 
     private var isIconPackChooserBuilt: Boolean = false
 
+    var ICONS_PACK_CHANGED = false
+
     /**
      * Built the icon pack chooser based on imports made in *build.gradle*
      *
@@ -93,6 +95,8 @@ object IconPackChooser {
     fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
+                // To change list items appearance
+                ICONS_PACK_CHANGED = true
                 iconPackSelected = iconPack
                 break
             }

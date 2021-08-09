@@ -232,11 +232,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             mCurrentGroup?.let { mainGroup ->
                 // Thrown an exception when sort cannot be performed
                 mAdapter?.rebuildList(mainGroup)
-                // To visually change the elements
-                if (PreferencesUtil.APPEARANCE_CHANGED) {
-                    mAdapter?.notifyDataSetChanged()
-                    PreferencesUtil.APPEARANCE_CHANGED = false
-                }
             }
         } catch (e:Exception) {
             Log.e(TAG, "Unable to rebuild the list", e)
