@@ -356,14 +356,14 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     fun actionNodesCallback(database: Database,
                             nodes: List<Node>,
                             menuListener: NodesActionMenuListener?,
-                            actionModeCallback: ActionMode.Callback) : ActionMode.Callback {
+                            onDestroyActionMode: (mode: ActionMode?) -> Unit) : ActionMode.Callback {
 
         return object : ActionMode.Callback {
 
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 nodeActionSelectionMode = false
                 nodeActionPasteMode = PasteMode.UNDEFINED
-                return actionModeCallback.onCreateActionMode(mode, menu)
+                return true
             }
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -408,7 +408,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
                 // Add the number of items selected in title
                 mode?.title = nodes.size.toString()
-                return actionModeCallback.onPrepareActionMode(mode, menu)
+                return true
             }
 
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
@@ -438,7 +438,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                         nodeActionSelectionMode = false
                         returnValue
                     }
-                    else -> actionModeCallback.onActionItemClicked(mode, item)
+                    else -> false
                 }
             }
 
@@ -448,7 +448,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 mAdapter?.unselectActionNodes()
                 nodeActionPasteMode = PasteMode.UNDEFINED
                 nodeActionSelectionMode = false
-                actionModeCallback.onDestroyActionMode(mode)
+                onDestroyActionMode(mode)
             }
         }
     }

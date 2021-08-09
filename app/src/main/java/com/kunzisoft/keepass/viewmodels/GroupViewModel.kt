@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.Node
 
 
 class GroupViewModel: ViewModel() {

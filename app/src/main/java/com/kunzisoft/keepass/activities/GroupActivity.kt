@@ -95,7 +95,6 @@ class GroupActivity : LockingActivity(),
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
 
-    // TODO Remove and pass through viewModel
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
     private var mRecyclingBinIsCurrentGroup = false
@@ -728,28 +727,11 @@ class GroupActivity : LockingActivity(),
                 mGroupFragment?.actionNodesCallback(
                     database,
                     nodes,
-                    this,
-                    object : ActionMode.Callback {
-                        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                            return true
-                        }
-
-                        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                            return true
-                        }
-
-                        override fun onActionItemClicked(
-                            mode: ActionMode?,
-                            item: MenuItem?
-                        ): Boolean {
-                            return false
-                        }
-
-                        override fun onDestroyActionMode(mode: ActionMode?) {
-                            actionNodeMode = null
-                            addNodeButtonView?.showButton()
-                        }
-                    })?.let {
+                    this
+                ) { _ ->
+                    actionNodeMode = null
+                    addNodeButtonView?.showButton()
+                }?.let {
                     actionNodeMode = toolbarAction?.startSupportActionMode(it)
                 }
             } else {
