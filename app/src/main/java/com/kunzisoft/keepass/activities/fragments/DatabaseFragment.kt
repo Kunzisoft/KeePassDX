@@ -24,6 +24,10 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
                 onDatabaseRetrieved(database)
             }
         }
+
+        mDatabaseViewModel.actionFinished.observe(viewLifecycleOwner) { result ->
+            onDatabaseActionFinished(result.database, result.actionTask, result.result)
+        }
     }
 
     override fun onDatabaseActionFinished(

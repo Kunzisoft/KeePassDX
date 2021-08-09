@@ -59,14 +59,9 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -365,10 +360,7 @@ class GroupActivity : LockingActivity(),
         result: ActionRunnable.Result
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
-        var oldNodes: List<Node> = ArrayList()
-        result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
-            oldNodes = getListNodesFromBundle(database, oldNodesBundle)
-        }
+
         var newNodes: List<Node> = ArrayList()
         result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
             newNodes = getListNodesFromBundle(database, newNodesBundle)
@@ -377,7 +369,6 @@ class GroupActivity : LockingActivity(),
         when (actionTask) {
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
                 if (result.isSuccess) {
-                    mGroupFragment?.updateNodes(oldNodes, newNodes)
                     EntrySelectionHelper.doSpecialAction(intent,
                         {
                             // Standard not used after task
@@ -418,40 +409,10 @@ class GroupActivity : LockingActivity(),
                     )
                 }
             }
-            ACTION_DATABASE_UPDATE_GROUP_TASK -> {
-                if (result.isSuccess) {
-                    mGroupFragment?.updateNodes(oldNodes, newNodes)
-                }
-            }
-            ACTION_DATABASE_CREATE_GROUP_TASK,
-            ACTION_DATABASE_COPY_NODES_TASK,
-            ACTION_DATABASE_MOVE_NODES_TASK -> {
-                if (result.isSuccess) {
-                    mGroupFragment?.addNodes(newNodes)
-                }
-            }
             ACTION_DATABASE_DELETE_NODES_TASK -> {
                 if (result.isSuccess) {
                     // Rebuild all the list to avoid bug when delete node from sort
                     reloadCurrentGroup()
-
-                    // Add trash in views list if it doesn't exists
-                    if (database.isRecycleBinEnabled) {
-                        val recycleBin = database.recycleBin
-                        val currentGroup = mCurrentGroup
-                        if (currentGroup != null && recycleBin != null
-                            && currentGroup != recycleBin
-                        ) {
-                            // Recycle bin already here, simply update it
-                            if (mGroupFragment?.contains(recycleBin) == true) {
-                                mGroupFragment?.updateNode(recycleBin)
-                            }
-                            // Recycle bin not here, verify if parents are similar to add it
-                            else if (currentGroup == recycleBin.parent) {
-                                mGroupFragment?.addNode(recycleBin)
-                            }
-                        }
-                    }
                 }
             }
         }
