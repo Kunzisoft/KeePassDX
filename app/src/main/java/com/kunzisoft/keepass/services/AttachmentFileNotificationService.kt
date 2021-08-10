@@ -44,6 +44,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: Database? = null
+    private val mPendingCommands: MutableList<Intent?> = mutableListOf()
 
     override val notificationId: Int = 10000
     private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
@@ -91,6 +92,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
         mDatabaseTaskProvider?.registerProgressTask()
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
             this.mDatabase = database
+            // Execute each command in wait state
+            val commandIterator = this.mPendingCommands.iterator()
+            while (commandIterator.hasNext()) {
+                val command = commandIterator.next()
+                actionRequested(command)
+                commandIterator.remove()
+            }
         }
     }
 
@@ -105,6 +113,18 @@ class AttachmentFileNotificationService: LockNotificationService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
+        // Wait for database to execute action request
+        if (mDatabase != null) {
+            actionRequested(intent)
+        } else {
+            mPendingCommands.add(intent)
+        }
+
+        return START_REDELIVER_INTENT
+    }
+
+    private fun actionRequested(intent: Intent?) {
+
         val downloadFileUri: Uri? = if (intent?.hasExtra(FILE_URI_KEY) == true) {
             intent.getParcelableExtra(FILE_URI_KEY)
         } else null
@@ -112,16 +132,16 @@ class AttachmentFileNotificationService: LockNotificationService() {
         when(intent?.action) {
             ACTION_ATTACHMENT_FILE_START_UPLOAD -> {
                 actionStartUploadOrDownload(downloadFileUri,
-                        intent,
-                        StreamDirection.UPLOAD)
+                    intent,
+                    StreamDirection.UPLOAD)
             }
             ACTION_ATTACHMENT_FILE_STOP_UPLOAD -> {
                 actionStopUpload()
             }
             ACTION_ATTACHMENT_FILE_START_DOWNLOAD -> {
                 actionStartUploadOrDownload(downloadFileUri,
-                        intent,
-                        StreamDirection.DOWNLOAD)
+                    intent,
+                    StreamDirection.DOWNLOAD)
             }
             ACTION_ATTACHMENT_REMOVE -> {
                 intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
@@ -142,8 +162,6 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 }
             }
         }
-
-        return START_REDELIVER_INTENT
     }
 
     @Synchronized

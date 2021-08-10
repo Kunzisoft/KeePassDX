@@ -322,8 +322,11 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
-        if (entryAttachmentState?.downloadState == AttachmentState.START) {
-            // Add in temp list
+        // Add in temp list
+        if (mTempAttachments.contains(entryAttachmentState)) {
+            mTempAttachments.remove(entryAttachmentState)
+        }
+        if (entryAttachmentState != null) {
             mTempAttachments.add(entryAttachmentState)
         }
         _onAttachmentAction.value = entryAttachmentState

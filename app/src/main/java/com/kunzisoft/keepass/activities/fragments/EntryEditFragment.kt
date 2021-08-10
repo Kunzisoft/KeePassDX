@@ -204,25 +204,23 @@ class EntryEditFragment: DatabaseFragment() {
             when (entryAttachmentState?.downloadState) {
                 AttachmentState.START -> {
                     putAttachment(entryAttachmentState)
-                    getAttachmentViewPosition(entryAttachmentState) {
-                        mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                    getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
+                        mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
                     }
                 }
                 AttachmentState.IN_PROGRESS -> {
                     putAttachment(entryAttachmentState)
                 }
                 AttachmentState.COMPLETE -> {
-                    putAttachment(entryAttachmentState) {
-                        getAttachmentViewPosition(entryAttachmentState) {
-                            mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                    putAttachment(entryAttachmentState) { entryAttachment ->
+                        getAttachmentViewPosition(entryAttachment) { attachment, position ->
+                            mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
                         }
                     }
-                    mEntryEditViewModel.onAttachmentAction(null)
                 }
                 AttachmentState.CANCELED,
                 AttachmentState.ERROR -> {
                     removeAttachment(entryAttachmentState)
-                    mEntryEditViewModel.onAttachmentAction(null)
                 }
                 else -> {}
             }
@@ -297,15 +295,15 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     private fun putAttachment(attachment: EntryAttachmentState,
-                              onPreviewLoaded: (() -> Unit)? = null) {
+                              onPreviewLoaded: ((attachment: EntryAttachmentState) -> Unit)? = null) {
         // When only one attachment is allowed
-        if (mAllowMultipleAttachments) {
+        if (!mAllowMultipleAttachments) {
             clearAttachments()
         }
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter?.putItem(attachment)
         attachmentsAdapter?.onBinaryPreviewLoaded = {
-            onPreviewLoaded?.invoke()
+            onPreviewLoaded?.invoke(attachment)
         }
     }
 
@@ -317,10 +315,12 @@ class EntryEditFragment: DatabaseFragment() {
         attachmentsAdapter?.clear()
     }
 
-    private fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
+    private fun getAttachmentViewPosition(attachment: EntryAttachmentState,
+                                          position: (attachment: EntryAttachmentState, Float) -> Unit) {
         attachmentsListView.postDelayed({
             attachmentsAdapter?.indexOf(attachment)?.let { index ->
-                position.invoke(attachmentsContainerView.y
+                position.invoke(attachment,
+                    attachmentsContainerView.y
                         + attachmentsListView.y
                         + (attachmentsListView.getChildAt(index)?.y
                         ?: 0F)
