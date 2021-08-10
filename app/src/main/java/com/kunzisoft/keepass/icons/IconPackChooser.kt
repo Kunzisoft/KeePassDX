@@ -96,7 +96,10 @@ object IconPackChooser {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
                 // To change list items appearance
-                ICONS_PACK_CHANGED = true
+                if (iconPackSelected != null
+                    && iconPackSelected != iconPack) {
+                    ICONS_PACK_CHANGED = true
+                }
                 iconPackSelected = iconPack
                 break
             }
