@@ -188,8 +188,6 @@ class EntryEditViewModel: NodeEditViewModel() {
                     registerInfo?.let { regInfo ->
                         tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
                     }
-
-                    internalUpdateEntryInfo(tempEntryInfo)
                     return tempEntryInfo
                 }
             }
@@ -215,7 +213,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     fun saveEntryInfo(entryInfo: EntryInfo) {
         IOActionTask(
             {
-                internalUpdateEntryInfo(entryInfo)
+                removeTempAttachmentsNotCompleted(entryInfo)
                 mEntry?.let { oldEntry ->
                     // Create a clone
                     var newEntry = Entry(oldEntry)
@@ -252,7 +250,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         ).execute()
     }
 
-    private fun internalUpdateEntryInfo(entryInfo: EntryInfo) {
+    private fun removeTempAttachmentsNotCompleted(entryInfo: EntryInfo) {
         // Do not save entry in upload progression
         mTempAttachments.forEach { attachmentState ->
             if (attachmentState.streamDirection == StreamDirection.UPLOAD) {

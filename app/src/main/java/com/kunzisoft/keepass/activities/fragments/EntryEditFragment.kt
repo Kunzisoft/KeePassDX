@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -86,6 +85,13 @@ class EntryEditFragment: DatabaseFragment() {
         templateView = view.findViewById(R.id.template_view)
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+
+        attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
+        attachmentsListView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         templateView.apply {
             setOnIconClickListener {
@@ -217,10 +223,12 @@ class EntryEditFragment: DatabaseFragment() {
                             mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
                         }
                     }
+                    mEntryEditViewModel.onAttachmentAction(null)
                 }
                 AttachmentState.CANCELED,
                 AttachmentState.ERROR -> {
                     removeAttachment(entryAttachmentState)
+                    mEntryEditViewModel.onAttachmentAction(null)
                 }
                 else -> {}
             }
@@ -235,7 +243,6 @@ class EntryEditFragment: DatabaseFragment() {
 
         mAllowMultipleAttachments = database?.allowMultipleAttachments == true
 
-        attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
         attachmentsAdapter?.database = database
         attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
             if (previousSize > 0 && newSize == 0) {
@@ -243,11 +250,6 @@ class EntryEditFragment: DatabaseFragment() {
             } else if (previousSize == 0 && newSize == 1) {
                 attachmentsContainerView.expand(true)
             }
-        }
-        attachmentsListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = attachmentsAdapter
-            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
     }
 
