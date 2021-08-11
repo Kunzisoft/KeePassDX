@@ -17,13 +17,14 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.lock
+package com.kunzisoft.keepass.activities.legacy
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,6 @@ import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
@@ -102,6 +102,11 @@ abstract class LockingActivity : SpecialModeActivity(),
         super.onDatabaseRetrieved(database)
         mDatabase = database
 
+        // Focus view to reinitialize timeout,
+        // view is not necessary loaded so retry later in resume
+        viewToInvalidateTimeout()
+            ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database?.loaded)
+
         database?.let {
             // End activity if database not loaded
             if (!database.loaded) {
@@ -128,7 +133,7 @@ abstract class LockingActivity : SpecialModeActivity(),
                 TimeoutHelper.checkTimeAndLockIfTimeout(this)
                 // If onCreate already record time
                 if (!mExitLock)
-                    TimeoutHelper.recordTime(this, database)
+                    TimeoutHelper.recordTime(this, database.loaded)
             }
 
             // Force read only if the database is like that
@@ -136,6 +141,8 @@ abstract class LockingActivity : SpecialModeActivity(),
             mIconDrawableFactory = database.iconDrawableFactory
         }
     }
+
+    abstract fun viewToInvalidateTimeout(): View?
 
     override fun onDatabaseActionFinished(
         database: Database,
@@ -299,13 +306,21 @@ abstract class LockingActivity : SpecialModeActivity(),
         mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
+        // Invalidate timeout by touch
+        mDatabase?.let { database ->
+            viewToInvalidateTimeout()
+                ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database.loaded)
+        }
+
         invalidateOptionsMenu()
 
         LOCKING_ACTIVITY_UI_VISIBLE = true
     }
 
     protected fun checkTimeAndLockIfTimeoutOrResetTimeout(action: (() -> Unit)? = null) {
-        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase, action)
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this,
+            mDatabase?.loaded == true,
+            action)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -335,7 +350,8 @@ abstract class LockingActivity : SpecialModeActivity(),
 
     override fun onBackPressed() {
         if (mTimeoutEnable) {
-            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this, mDatabase) {
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this,
+                mDatabase?.loaded == true) {
                 super.onBackPressed()
             }
         } else {
@@ -361,23 +377,25 @@ abstract class LockingActivity : SpecialModeActivity(),
  * To reset the app timeout when a view is focused or changed
  */
 @SuppressLint("ClickableViewAccessibility")
-fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, database: Database?) {
+fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, databaseLoaded: Boolean?) {
     setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                //Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
-                TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context, database)
+                Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
+                TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context,
+                    databaseLoaded ?: false)
             }
         }
         false
     }
     setOnFocusChangeListener { _, _ ->
-        //Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
-        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context, database)
+        Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context,
+            databaseLoaded ?: false)
     }
     if (this is ViewGroup) {
         for (i in 0..childCount) {
-            getChildAt(i)?.resetAppTimeoutWhenViewFocusedOrChanged(context, database)
+            getChildAt(i)?.resetAppTimeoutWhenViewFocusedOrChanged(context, databaseLoaded)
         }
     }
 }

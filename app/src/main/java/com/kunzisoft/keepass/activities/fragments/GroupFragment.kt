@@ -247,6 +247,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             layoutManager = mLayoutManager
             adapter = mAdapter
         }
+        resetAppTimeoutWhenViewFocusedOrChanged(view)
 
         mGroupViewModel.group.observe(viewLifecycleOwner) {
             mCurrentGroup = it.group

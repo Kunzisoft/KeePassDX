@@ -24,7 +24,7 @@ import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.SpecialModeActivity
 
 class MagikeyboardSettingsActivity : SpecialModeActivity() {
 

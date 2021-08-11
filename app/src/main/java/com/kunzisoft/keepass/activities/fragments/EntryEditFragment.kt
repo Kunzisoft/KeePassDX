@@ -125,6 +125,8 @@ class EntryEditFragment: DatabaseFragment() {
             }
             // To prevent flickering
             rootView.showByFading()
+            // Apply timeout reset
+            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {

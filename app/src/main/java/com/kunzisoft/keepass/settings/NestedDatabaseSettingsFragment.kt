@@ -33,7 +33,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
@@ -75,14 +75,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
             mDatabase = database
+            view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), database?.loaded)
             onDatabaseRetrieved(database)
         }
 
         mDatabaseViewModel.actionFinished.observe(viewLifecycleOwner) {
             onDatabaseActionFinished(it.database, it.actionTask, it.result)
         }
-
-        view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
     }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {

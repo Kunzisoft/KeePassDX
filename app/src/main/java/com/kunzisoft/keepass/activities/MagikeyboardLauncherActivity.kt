@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.activities
 
-import com.kunzisoft.keepass.activities.selection.DatabaseActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 

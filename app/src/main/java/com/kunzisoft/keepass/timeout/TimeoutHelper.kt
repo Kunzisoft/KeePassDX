@@ -53,8 +53,8 @@ object TimeoutHelper {
      * Start the lock timer by creating an alarm,
      * if the method is recalled with a previous lock timer pending, the previous one is deleted
      */
-    private fun startLockTimer(context: Context, database: Database) {
-        if (database.loaded) {
+    private fun startLockTimer(context: Context, databaseLoaded: Boolean) {
+        if (databaseLoaded) {
             val timeout = PreferencesUtil.getAppTimeout(context)
             if (timeout != NEVER) {
                 // No timeout don't start timeout service
@@ -84,14 +84,14 @@ object TimeoutHelper {
     /**
      * Record the current time, to check it later with checkTime and start a new lock timer
      */
-    fun recordTime(context: Context, database: Database) {
+    fun recordTime(context: Context, databaseLoaded: Boolean) {
         // To prevent spam registration, record after at least 2 seconds
         if (lastAppTimeoutRecord == null
                 || lastAppTimeoutRecord!! + 2000 <= System.currentTimeMillis()) {
             Log.d(TAG, "Record app timeout")
             // Record timeout time in case timeout service is killed
             PreferencesUtil.saveCurrentTime(context)
-            startLockTimer(context, database)
+            startLockTimer(context, databaseLoaded)
             lastAppTimeoutRecord = System.currentTimeMillis()
         }
     }
@@ -147,12 +147,10 @@ object TimeoutHelper {
      * Check the time previously record then, if timeout lock the database, else reset the timer
      */
     fun checkTimeAndLockIfTimeoutOrResetTimeout(context: Context,
-                                                database: Database?,
+                                                databaseLoaded: Boolean,
                                                 action: (() -> Unit)? = null) {
         if (checkTimeAndLockIfTimeout(context)) {
-            database?.let {
-                recordTime(context, it)
-            }
+            recordTime(context, databaseLoaded)
             action?.invoke()
         }
     }

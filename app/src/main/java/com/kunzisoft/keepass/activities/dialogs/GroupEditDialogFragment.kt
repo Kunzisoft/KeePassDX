@@ -67,13 +67,6 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
-        mPopulateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
-        }
-        mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -113,6 +106,13 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         }
     }
 
+    override fun onDatabaseRetrieved(database: Database?) {
+        mPopulateIconMethod = { imageView, icon ->
+            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+        }
+        mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_group_edit, null)
@@ -127,6 +127,8 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
             mIconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
+
+            resetAppTimeoutWhenViewFocusedOrChanged(root)
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_ACTION_ID)

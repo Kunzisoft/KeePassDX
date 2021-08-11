@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.SpecialModeActivity
 
 class AutofillSettingsActivity : SpecialModeActivity() {
 

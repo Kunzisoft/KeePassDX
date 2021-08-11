@@ -36,8 +36,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -144,6 +143,10 @@ class IconPickerActivity : LockingActivity() {
         }
     }
 
+    override fun viewToInvalidateTimeout(): View? {
+        return findViewById<ViewGroup>(R.id.icon_picker_container)
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
@@ -154,10 +157,6 @@ class IconPickerActivity : LockingActivity() {
         } else {
             uploadButton.visibility = View.GONE
         }
-
-        // Focus view to reinitialize timeout
-        findViewById<ViewGroup>(R.id.icon_picker_container)
-            ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
     }
 
     private fun updateIconsSelectedViews() {

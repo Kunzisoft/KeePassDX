@@ -45,8 +45,7 @@ import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -311,10 +310,12 @@ class GroupActivity : LockingActivity(),
         }
     }
 
+    override fun viewToInvalidateTimeout(): View? {
+        return rootContainerView
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        // Focus view to reinitialize timeout
-        rootContainerView?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
 
         mGroupViewModel.setDatabase(database)
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)

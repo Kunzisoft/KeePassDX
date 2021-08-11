@@ -34,6 +34,7 @@ class IconPickerFragment : DatabaseFragment() {
 
         viewPager = view.findViewById(R.id.icon_picker_pager)
         tabLayout = view.findViewById(R.id.icon_picker_tabs)
+        resetAppTimeoutWhenViewFocusedOrChanged(view)
 
         arguments?.apply {
             if (containsKey(ICON_TAB_ARG)) {

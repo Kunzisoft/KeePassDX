@@ -34,8 +34,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -107,11 +106,8 @@ open class SettingsActivity
         return MainPreferenceFragment()
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
-        super.onDatabaseRetrieved(database)
-
-        // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, database)
+    override fun viewToInvalidateTimeout(): View? {
+        return coordinatorLayout
     }
 
     override fun onDatabaseActionFinished(

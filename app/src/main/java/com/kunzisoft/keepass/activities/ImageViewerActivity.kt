@@ -31,7 +31,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
@@ -39,6 +39,7 @@ import kotlin.math.max
 
 class ImageViewerActivity : LockingActivity() {
 
+    private var imageContainerView: ViewGroup? = null
     private lateinit var imageView: ImageView
     private lateinit var progressView: View
 
@@ -52,11 +53,11 @@ class ImageViewerActivity : LockingActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val imageContainerView: ViewGroup = findViewById(R.id.image_viewer_container)
+        imageContainerView = findViewById(R.id.image_viewer_container)
         imageView = findViewById(R.id.image_viewer_image)
         progressView = findViewById(R.id.image_viewer_progress)
 
-        Loupe.create(imageView, imageContainerView) {
+        Loupe.create(imageView, imageContainerView!!) {
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
 
                 override fun onStart(view: ImageView) {
@@ -77,6 +78,10 @@ class ImageViewerActivity : LockingActivity() {
                 }
             }
         }
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        return imageContainerView
     }
 
     override fun onDatabaseRetrieved(database: Database?) {

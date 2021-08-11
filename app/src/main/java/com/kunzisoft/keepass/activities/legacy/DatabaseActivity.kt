@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities.selection
+package com.kunzisoft.keepass.activities.legacy
 
 import android.net.Uri
 import android.os.Bundle

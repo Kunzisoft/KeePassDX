@@ -99,6 +99,7 @@ class EntryFragment: DatabaseFragment() {
             assignEntryInfo(entryInfo)
             // Smooth appearing
             rootView.showByFading()
+            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
         }
 
         mEntryViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->

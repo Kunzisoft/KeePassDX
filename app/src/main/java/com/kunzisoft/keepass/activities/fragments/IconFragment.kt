@@ -67,6 +67,8 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
         iconPickerAdapter = IconPickerAdapter(requireContext(), tintColor)
         iconPickerAdapter.iconPickerListener = this
         iconsGridView.adapter = iconPickerAdapter
+
+        resetAppTimeoutWhenViewFocusedOrChanged(view)
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
