@@ -12,9 +12,9 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.SpecialModeView
 
 /**
- * Activity to manage special mode (ie: selection mode)
+ * Activity to manage database special mode (ie: selection mode)
  */
-abstract class SpecialModeActivity : DatabaseActivity() {
+abstract class DatabaseModeActivity : DatabaseActivity() {
 
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
     private var mTypeMode: TypeMode = TypeMode.DEFAULT

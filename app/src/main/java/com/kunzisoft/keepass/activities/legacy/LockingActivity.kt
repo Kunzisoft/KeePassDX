@@ -24,7 +24,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +52,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import java.util.*
 
-abstract class LockingActivity : SpecialModeActivity(),
+abstract class LockingActivity : DatabaseModeActivity(),
     PasswordEncodingDialogFragment.Listener {
 
     private val mNodesViewModel: NodesViewModel by viewModels()

@@ -19,14 +19,14 @@
  */
 package com.kunzisoft.keepass.activities
 
-import com.kunzisoft.keepass.activities.legacy.DatabaseActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 
 /**
  * Activity to select entry in database and populate it in Magikeyboard
  */
-class MagikeyboardLauncherActivity : DatabaseActivity() {
+class MagikeyboardLauncherActivity : DatabaseModeActivity() {
 
     override fun applyCustomStyle(): Boolean {
         return false

@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.activities.legacy.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillComponent
@@ -66,7 +66,7 @@ import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import java.io.FileNotFoundException
 
-class FileDatabaseSelectActivity : SpecialModeActivity(),
+class FileDatabaseSelectActivity : DatabaseModeActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     // Views

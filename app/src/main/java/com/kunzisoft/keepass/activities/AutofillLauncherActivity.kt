@@ -31,7 +31,7 @@ import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.legacy.DatabaseActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.KeeAutofillService
@@ -43,7 +43,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class AutofillLauncherActivity : DatabaseActivity() {
+class AutofillLauncherActivity : DatabaseModeActivity() {
 
     override fun applyCustomStyle(): Boolean {
         return false

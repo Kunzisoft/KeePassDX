@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.legacy.LockingActivity
-import com.kunzisoft.keepass.activities.legacy.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -71,7 +71,7 @@ import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
 
-open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.BuilderListener {
+open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
     // Views
     private var toolbar: Toolbar? = null
