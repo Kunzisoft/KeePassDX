@@ -224,6 +224,10 @@ class EntryActivity : LockingActivity() {
         }
     }
 
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
     override fun viewToInvalidateTimeout(): View? {
         return coordinatorLayout
     }

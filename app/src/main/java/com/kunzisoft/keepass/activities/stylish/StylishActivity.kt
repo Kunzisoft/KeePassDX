@@ -58,8 +58,14 @@ abstract class StylishActivity : AppCompatActivity() {
         return true
     }
 
+    open fun finishActivityIfReloadRequested(): Boolean {
+        return false
+    }
+
     open fun reloadActivity() {
-        startActivity(intent)
+        if (!finishActivityIfReloadRequested()) {
+            startActivity(intent)
+        }
         finish()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
