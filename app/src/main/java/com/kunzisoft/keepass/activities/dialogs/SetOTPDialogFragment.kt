@@ -31,7 +31,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
@@ -49,7 +48,7 @@ import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
 
-class SetOTPDialogFragment : DialogFragment() {
+class SetOTPDialogFragment : DatabaseDialogFragment() {
 
     private var mCreateOTPElementListener: CreateOtpListener? = null
 

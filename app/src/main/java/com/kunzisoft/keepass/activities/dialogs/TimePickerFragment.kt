@@ -6,9 +6,8 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.format.DateFormat
-import androidx.fragment.app.DialogFragment
 
-class TimePickerFragment : DialogFragment() {
+class TimePickerFragment : DatabaseDialogFragment() {
 
     private var defaultHour: Int = 0
     private var defaultMinute: Int = 0

@@ -2,6 +2,7 @@ KeePassDX(3.0.0)
  * Add / Manage dynamic templates #191
  * Manually select RecycleBin group and Templates group #191
  * Small changes #1035
+ * Fix timeout in dialogs #716
 
 KeePassDX(2.10.5)
  * Increase the saving speed of database #1028

@@ -378,10 +378,11 @@ abstract class LockingActivity : SpecialModeActivity(),
  */
 @SuppressLint("ClickableViewAccessibility")
 fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, databaseLoaded: Boolean?) {
+    // Log.d(LockingActivity.TAG, "View prepared to reset app timeout")
     setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
+                // Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
                 TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context,
                     databaseLoaded ?: false)
             }
@@ -389,7 +390,7 @@ fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, databaseLoade
         false
     }
     setOnFocusChangeListener { _, _ ->
-        Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
+        // Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
         TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context,
             databaseLoaded ?: false)
     }

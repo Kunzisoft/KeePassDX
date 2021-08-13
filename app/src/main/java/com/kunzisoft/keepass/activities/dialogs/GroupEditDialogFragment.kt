@@ -31,7 +31,6 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.*
-import com.kunzisoft.keepass.activities.fragments.DatabaseDialogFragment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -107,6 +106,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
         }
@@ -127,8 +127,6 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
             mIconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
-
-            resetAppTimeoutWhenViewFocusedOrChanged(root)
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_ACTION_ID)

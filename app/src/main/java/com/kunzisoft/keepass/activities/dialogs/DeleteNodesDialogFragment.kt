@@ -22,13 +22,12 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 
-class DeleteNodesDialogFragment : DialogFragment() {
+class DeleteNodesDialogFragment : DatabaseDialogFragment() {
 
     private var mNodesToDelete: List<Node> = listOf()
     private val mNodesViewModel: NodesViewModel by activityViewModels()

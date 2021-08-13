@@ -1,7 +1,6 @@
-package com.kunzisoft.keepass.activities.fragments
+package com.kunzisoft.keepass.activities.dialogs
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.DatabaseRetrieval
@@ -20,14 +19,23 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
         mDatabaseViewModel.database.observe(this) { database ->
             this.mDatabase = database
+            resetAppTimeoutWhenViewFocusedOrChanged()
             onDatabaseRetrieved(database)
+        }
+
+        mDatabaseViewModel.actionFinished.observe(this) { result ->
+            onDatabaseActionFinished(result.database, result.actionTask, result.result)
         }
     }
 
-    protected fun resetAppTimeoutWhenViewFocusedOrChanged(view: View?) {
-        context?.let {
-            view?.resetAppTimeoutWhenViewFocusedOrChanged(it, mDatabase?.loaded)
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        resetAppTimeoutWhenViewFocusedOrChanged()
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        // Can be overridden by a subclass
     }
 
     override fun onDatabaseActionFinished(
@@ -36,5 +44,11 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         result: ActionRunnable.Result
     ) {
         // Can be overridden by a subclass
+    }
+
+    private fun resetAppTimeoutWhenViewFocusedOrChanged() {
+        context?.let {
+            dialog?.window?.decorView?.resetAppTimeoutWhenViewFocusedOrChanged(it, mDatabase?.loaded)
+        }
     }
 }

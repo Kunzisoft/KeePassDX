@@ -22,16 +22,15 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import androidx.annotation.IdRes
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.RadioGroup
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 
-class SortDialogFragment : DialogFragment() {
+class SortDialogFragment : DatabaseDialogFragment() {
 
     private var mListener: SortSelectionListener? = null
 
