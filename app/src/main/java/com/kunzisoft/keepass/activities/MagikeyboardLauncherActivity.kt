@@ -32,6 +32,10 @@ class MagikeyboardLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         val readOnly = database?.isReadOnly != false

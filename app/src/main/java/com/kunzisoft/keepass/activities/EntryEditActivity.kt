@@ -266,6 +266,10 @@ class EntryEditActivity : LockingActivity(),
         return coordinatorLayout
     }
 
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         mEntryEditViewModel.setDatabase(database)

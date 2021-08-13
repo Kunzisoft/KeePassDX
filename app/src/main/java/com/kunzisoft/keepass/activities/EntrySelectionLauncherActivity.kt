@@ -44,6 +44,10 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         var sharedWebDomain: String? = null

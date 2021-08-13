@@ -84,6 +84,10 @@ class ImageViewerActivity : LockingActivity() {
         return imageContainerView
     }
 
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
