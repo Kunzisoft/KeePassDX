@@ -26,7 +26,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 
 abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
@@ -62,7 +61,7 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
         private const val TAG_KEY = "NESTED_KEY"
 
-        fun newInstance(key: Screen, databaseReadOnly: Boolean = ReadOnlyHelper.READ_ONLY_DEFAULT)
+        fun newInstance(key: Screen)
                 : NestedSettingsFragment {
             val fragment: NestedSettingsFragment = when (key) {
                 Screen.APPLICATION,
@@ -76,7 +75,6 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
             // supply arguments to bundle.
             val args = Bundle()
             args.putInt(TAG_KEY, key.ordinal)
-            ReadOnlyHelper.putReadOnlyInBundle(args, databaseReadOnly)
             fragment.arguments = args
             return fragment
         }

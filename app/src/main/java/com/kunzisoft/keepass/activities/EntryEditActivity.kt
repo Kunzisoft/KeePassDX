@@ -679,7 +679,7 @@ class EntryEditActivity : LockingActivity(),
         const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
 
-        const val ENTRY_EDIT_FRAGMENT_TAG = "ENTRY_EDIT_FRAGMENT_TAG"
+        // TODO Only not readonly
 
         /**
          * Launch EntryEditActivity to update an existing entry

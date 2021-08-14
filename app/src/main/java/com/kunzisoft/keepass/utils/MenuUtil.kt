@@ -28,7 +28,6 @@ import android.view.MenuItem
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper.READ_ONLY_DEFAULT
 import com.kunzisoft.keepass.settings.SettingsActivity
 
 object MenuUtil {
@@ -52,7 +51,6 @@ object MenuUtil {
      */
     fun onDefaultMenuOptionsItemSelected(activity: Activity,
                                          item: MenuItem,
-                                         readOnly: Boolean = READ_ONLY_DEFAULT,
                                          timeoutEnable: Boolean = false) {
         when (item.itemId) {
             R.id.menu_contribute -> {
@@ -60,7 +58,7 @@ object MenuUtil {
             }
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity
-                SettingsActivity.launch(activity, readOnly, timeoutEnable)
+                SettingsActivity.launch(activity, timeoutEnable)
             }
             R.id.menu_about -> {
                 val intent = Intent(activity, AboutActivity::class.java)

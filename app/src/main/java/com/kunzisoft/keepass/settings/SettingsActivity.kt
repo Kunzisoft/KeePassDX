@@ -33,7 +33,6 @@ import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
@@ -181,7 +180,7 @@ open class SettingsActivity
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right)
             }
-            replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, mReadOnly), TAG_NESTED)
+            replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
             addToBackStack(TAG_NESTED)
             commit()
         }
@@ -278,9 +277,8 @@ open class SettingsActivity
         private const val TAG_NESTED = "TAG_NESTED"
         private const val FRAGMENT_ARG = "FRAGMENT_ARG"
 
-        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
+        fun launch(activity: Activity, timeoutEnable: Boolean) {
             val intent = Intent(activity, SettingsActivity::class.java)
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
             if (!timeoutEnable) {
                 activity.startActivity(intent)

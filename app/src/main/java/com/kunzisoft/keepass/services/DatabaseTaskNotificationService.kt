@@ -26,7 +26,6 @@ import android.os.*
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
@@ -398,9 +397,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     val pendingDatabaseIntent = PendingIntent.getActivity(
                         this,
                         0,
-                        Intent(this, GroupActivity::class.java).apply {
-                            ReadOnlyHelper.putReadOnlyInIntent(this, database.isReadOnly)
-                        },
+                        Intent(this, GroupActivity::class.java),
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )
                     val pendingDeleteIntent = PendingIntent.getBroadcast(

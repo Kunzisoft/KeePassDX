@@ -268,7 +268,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private fun launchGroupActivity(database: Database) {
         GroupActivity.launch(this,
                 database,
-                database.isReadOnly,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() })

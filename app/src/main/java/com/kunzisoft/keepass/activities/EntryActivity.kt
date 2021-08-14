@@ -39,7 +39,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.database.element.Attachment
@@ -219,8 +218,7 @@ class EntryActivity : LockingActivity() {
         mEntryViewModel.historySelected.observe(this) { historySelected ->
             launch(this,
                 historySelected.nodeId,
-                historySelected.historyPosition,
-                mReadOnly)
+                historySelected.historyPosition)
         }
     }
 
@@ -322,10 +320,10 @@ class EntryActivity : LockingActivity() {
             menu.findItem(R.id.menu_goto_url)?.isVisible = false
         }
 
-        if (mEntryIsHistory && !mReadOnly) {
+        if (mEntryIsHistory && !mDatabaseReadOnly) {
             inflater.inflate(R.menu.entry_history, menu)
         }
-        if (mEntryIsHistory || mReadOnly) {
+        if (mEntryIsHistory || mDatabaseReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -432,11 +430,10 @@ class EntryActivity : LockingActivity() {
         /**
          * Open standard Entry activity
          */
-        fun launch(activity: Activity, entryId: NodeId<UUID>, readOnly: Boolean) {
+        fun launch(activity: Activity, entryId: NodeId<UUID>) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
                 intent.putExtra(KEY_ENTRY, entryId)
-                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
                 activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }
@@ -444,12 +441,11 @@ class EntryActivity : LockingActivity() {
         /**
          * Open history Entry activity
          */
-        fun launch(activity: Activity, entryId: NodeId<UUID>, historyPosition: Int, readOnly: Boolean) {
+        fun launch(activity: Activity, entryId: NodeId<UUID>, historyPosition: Int) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
                 intent.putExtra(KEY_ENTRY, entryId)
                 intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
-                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
                 activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }

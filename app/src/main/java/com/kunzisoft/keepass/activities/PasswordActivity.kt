@@ -95,11 +95,11 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mPermissionAsked = false
-    private var readOnly: Boolean = false
+    private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
         set(value) {
             infoContainerView?.visibility = if (value) {
-                readOnly = true
+                mReadOnly = true
                 View.VISIBLE
             } else {
                 View.GONE
@@ -130,7 +130,11 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
+        mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
+            savedInstanceState.getBoolean(KEY_READ_ONLY)
+        } else {
+            PreferencesUtil.enableReadOnlyDatabase(this)
+        }
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
@@ -332,7 +336,6 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
     private fun launchGroupActivity(database: Database) {
         GroupActivity.launch(this,
                 database,
-                readOnly,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() }
@@ -472,7 +475,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         mDatabaseKeyFileUri?.let {
             outState.putString(KEY_KEYFILE, it.toString())
         }
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        outState.putBoolean(KEY_READ_ONLY, mReadOnly)
         outState.putBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT, false)
         super.onSaveInstanceState(outState)
     }
@@ -510,7 +513,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
             clearCredentialsViews()
         }
 
-        if (readOnly && (
+        if (mReadOnly && (
                 mSpecialMode == SpecialMode.SAVE
                 || mSpecialMode == SpecialMode.REGISTRATION)
         ) {
@@ -524,7 +527,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                 showProgressDialogAndLoadDatabase(
                         databaseUri,
                         MainCredential(password, keyFileUri),
-                        readOnly,
+                        mReadOnly,
                         cipherDatabaseEntity,
                         false)
             }
@@ -575,7 +578,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
     // Check permission
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT in 23..28
-                && !readOnly
+                && !mReadOnly
                 && !mPermissionAsked) {
             mPermissionAsked = true
             // Check self permission to show or not the dialog
@@ -652,7 +655,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
     }
 
     private fun changeOpenFileReadIcon(togglePassword: MenuItem) {
-        if (readOnly) {
+        if (mReadOnly) {
             togglePassword.setTitle(R.string.menu_file_selection_read_only)
             togglePassword.setIcon(R.drawable.ic_read_only_white_24dp)
         } else {
@@ -666,7 +669,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         when (item.itemId) {
             android.R.id.home -> finish()
             R.id.menu_open_file_read_mode_key -> {
-                readOnly = !readOnly
+                mReadOnly = !mReadOnly
                 changeOpenFileReadIcon(item)
             }
             else -> MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
@@ -724,6 +727,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         private const val KEY_KEYFILE = "keyFile"
         private const val VIEW_INTENT = "android.intent.action.VIEW"
 
+        private const val KEY_READ_ONLY = "KEY_READ_ONLY"
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
         private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"

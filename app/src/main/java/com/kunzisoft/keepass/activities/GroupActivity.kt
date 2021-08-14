@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
@@ -320,7 +319,7 @@ class GroupActivity : LockingActivity(),
         mGroupViewModel.setDatabase(database)
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
 
-        mRecyclingBinEnabled = !mReadOnly
+        mRecyclingBinEnabled = !mDatabaseReadOnly
                 && database?.isRecycleBinEnabled == true
 
         mRootGroup = database?.rootGroup
@@ -529,8 +528,8 @@ class GroupActivity : LockingActivity(),
         addNodeButtonView?.apply {
             closeButtonIfOpen()
             // To enable add button
-            val addGroupEnabled = !mReadOnly && group?.isVirtual != true
-            var addEntryEnabled = !mReadOnly && group?.isVirtual != true
+            val addGroupEnabled = !mDatabaseReadOnly && group?.isVirtual != true
+            var addEntryEnabled = !mDatabaseReadOnly && group?.isVirtual != true
             group?.let {
                 if (!it.allowAddEntryIfIsRoot)
                     addEntryEnabled = it != mRootGroup && addEntryEnabled
@@ -585,13 +584,13 @@ class GroupActivity : LockingActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        EntryActivity.launch(this@GroupActivity, entryVersioned.nodeId, mReadOnly)
+                        EntryActivity.launch(this@GroupActivity, entryVersioned.nodeId)
                     },
                     {
                         // Nothing here, a search is simply performed
                     },
                     { searchInfo ->
-                        if (!mReadOnly)
+                        if (!database.isReadOnly)
                             entrySelectedForSave(entryVersioned, searchInfo)
                         else
                             finish()
@@ -607,7 +606,7 @@ class GroupActivity : LockingActivity(),
                             },
                             {
                                 // Item not found, save it if required
-                                if (!mReadOnly
+                                if (!database.isReadOnly
                                     && searchInfo != null
                                     && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
                                 ) {
@@ -623,7 +622,7 @@ class GroupActivity : LockingActivity(),
                         )
                     },
                     { searchInfo, _ ->
-                        if (!mReadOnly
+                        if (!database.isReadOnly
                             && searchInfo != null
                             && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
                         ) {
@@ -633,7 +632,7 @@ class GroupActivity : LockingActivity(),
                         }
                     },
                     { registerInfo ->
-                        if (!mReadOnly)
+                        if (!database.isReadOnly)
                             entrySelectedForRegistration(entryVersioned, registerInfo)
                         else
                             finish()
@@ -856,7 +855,7 @@ class GroupActivity : LockingActivity(),
         val inflater = menuInflater
         inflater.inflate(R.menu.search, menu)
         inflater.inflate(R.menu.database, menu)
-        if (mReadOnly) {
+        if (mDatabaseReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
         }
         if (mSpecialMode == SpecialMode.DEFAULT) {
@@ -999,7 +998,7 @@ class GroupActivity : LockingActivity(),
             }
             else -> {
                 // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, mReadOnly, true)
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true)
                 return super.onOptionsItemSelected(item)
             }
         }
@@ -1154,31 +1153,27 @@ class GroupActivity : LockingActivity(),
 
         private fun buildIntent(context: Context,
                                 groupState: GroupState?,
-                                readOnly: Boolean,
                                 intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(context, GroupActivity::class.java)
             if (groupState != null) {
                 intent.putExtra(GROUP_STATE_KEY, groupState)
             }
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intentBuildLauncher.invoke(intent)
         }
 
         private fun checkTimeAndBuildIntent(activity: Activity,
                                             groupState: GroupState?,
-                                            readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                buildIntent(activity, groupState, readOnly, intentBuildLauncher)
+                buildIntent(activity, groupState, intentBuildLauncher)
             }
         }
 
         private fun checkTimeAndBuildIntent(context: Context,
                                             groupState: GroupState?,
-                                            readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTime(context)) {
-                buildIntent(context, groupState, readOnly, intentBuildLauncher)
+                buildIntent(context, groupState, intentBuildLauncher)
             }
         }
 
@@ -1188,9 +1183,8 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launch(context: Context,
-                   readOnly: Boolean,
                    autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 context.startActivity(intent)
             }
@@ -1202,10 +1196,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForSearchResult(context: Context,
-                                  readOnly: Boolean,
                                   searchInfo: SearchInfo,
                                   autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.addSearchInfoInIntent(
                         intent,
@@ -1222,7 +1215,8 @@ class GroupActivity : LockingActivity(),
         fun launchForSaveResult(context: Context,
                                 searchInfo: SearchInfo,
                                 autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null, false) { intent ->
+            // TODO Only not readonly
+            checkTimeAndBuildIntent(context, null) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.startActivityForSaveModeResult(context,
                         intent,
@@ -1236,10 +1230,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             readOnly: Boolean,
                                              searchInfo: SearchInfo? = null,
                                              autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
                         intent,
@@ -1254,11 +1247,10 @@ class GroupActivity : LockingActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
-                                    readOnly: Boolean,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(activity, null) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 AutofillHelper.startActivityForAutofillResult(activity,
                         intent,
@@ -1274,7 +1266,8 @@ class GroupActivity : LockingActivity(),
          */
         fun launchForRegistration(context: Context,
                                   registerInfo: RegisterInfo? = null) {
-            checkTimeAndBuildIntent(context, null, false) { intent ->
+            // TODO Only not readonly
+            checkTimeAndBuildIntent(context, null) { intent ->
                 intent.putExtra(AUTO_SEARCH_KEY, false)
                 EntrySelectionHelper.startActivityForRegistrationModeResult(context,
                         intent,
@@ -1289,14 +1282,12 @@ class GroupActivity : LockingActivity(),
          */
         fun launch(activity: Activity,
                    database: Database,
-                   readOnly: Boolean,
                    onValidateSpecialMode: () -> Unit,
                    onCancelSpecialMode: () -> Unit,
                    onLaunchActivitySpecialMode: () -> Unit) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
                         GroupActivity.launch(activity,
-                                readOnly,
                                 true)
                     },
                     { searchInfo ->
@@ -1306,16 +1297,14 @@ class GroupActivity : LockingActivity(),
                                 { _, _ ->
                                     // Response is build
                                     GroupActivity.launchForSearchResult(activity,
-                                            readOnly,
                                             searchInfo,
                                             true)
                                     onLaunchActivitySpecialMode()
                                 },
                                 {
                                     // Here no search info found
-                                    if (readOnly) {
+                                    if (database.isReadOnly) {
                                         GroupActivity.launchForSearchResult(activity,
-                                                readOnly,
                                                 searchInfo,
                                                 false)
                                     } else {
@@ -1333,7 +1322,7 @@ class GroupActivity : LockingActivity(),
                     },
                     { searchInfo ->
                         // Save info used with OTP
-                        if (!readOnly) {
+                        if (!database.isReadOnly) {
                             GroupActivity.launchForSaveResult(activity,
                                     searchInfo,
                                     false)
@@ -1360,7 +1349,6 @@ class GroupActivity : LockingActivity(),
                                     } else {
                                         // Select the one we want
                                         GroupActivity.launchForKeyboardSelectionResult(activity,
-                                                readOnly,
                                                 searchInfo,
                                                 true)
                                         onLaunchActivitySpecialMode()
@@ -1369,7 +1357,6 @@ class GroupActivity : LockingActivity(),
                                 {
                                     // Here no search info found, disable auto search
                                     GroupActivity.launchForKeyboardSelectionResult(activity,
-                                            readOnly,
                                             searchInfo,
                                             false)
                                     onLaunchActivitySpecialMode()
@@ -1393,7 +1380,6 @@ class GroupActivity : LockingActivity(),
                                     {
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
-                                                readOnly,
                                                 autofillComponent,
                                                 searchInfo,
                                                 false)
@@ -1409,7 +1395,7 @@ class GroupActivity : LockingActivity(),
                         }
                     },
                     { registerInfo ->
-                        if (!readOnly) {
+                        if (!database.isReadOnly) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
                                     registerInfo?.searchInfo,

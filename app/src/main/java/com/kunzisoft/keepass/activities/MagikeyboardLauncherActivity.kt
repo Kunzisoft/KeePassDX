@@ -38,7 +38,6 @@ class MagikeyboardLauncherActivity : DatabaseModeActivity() {
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        val readOnly = database?.isReadOnly != false
         SearchHelper.checkAutoSearchInfo(this,
             database,
             null,
@@ -48,7 +47,7 @@ class MagikeyboardLauncherActivity : DatabaseModeActivity() {
             },
             {
                 // Select if not found
-                GroupActivity.launchForKeyboardSelectionResult(this, readOnly)
+                GroupActivity.launchForKeyboardSelectionResult(this)
             },
             {
                 // Pass extra to get entry

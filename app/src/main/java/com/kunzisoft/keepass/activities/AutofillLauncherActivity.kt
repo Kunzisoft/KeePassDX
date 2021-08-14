@@ -117,7 +117,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                database?.isReadOnly != false,
                                 autofillComponent,
                                 searchInfo,
                                 false)

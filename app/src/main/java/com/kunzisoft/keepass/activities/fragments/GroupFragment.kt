@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.database.element.Database
@@ -71,7 +70,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
 
-    private var readOnly: Boolean = false
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
 
     private var mRecycleBinEnable: Boolean = false
@@ -123,8 +121,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
-
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -275,11 +271,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onPause()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
-        super.onSaveInstanceState(outState)
-    }
-
     fun getFirstVisiblePosition(): Int {
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
@@ -378,7 +369,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     // Open and Edit for a single item
                     if (nodes.size == 1) {
                         // Edition
-                        if (readOnly
+                        if (database.isReadOnly
                                 || (mRecycleBinEnable && nodes[0] == mRecycleBin)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
@@ -388,20 +379,20 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     }
 
                     // Move
-                    if (readOnly
+                    if (database.isReadOnly
                             || isASearchResult) {
                         menu?.removeItem(R.id.menu_move)
                     }
 
                     // Copy (not allowed for group)
-                    if (readOnly
+                    if (database.isReadOnly
                             || isASearchResult
                             || nodes.any { it.type == Type.GROUP }) {
                         menu?.removeItem(R.id.menu_copy)
                     }
 
                     // Deletion
-                    if (readOnly
+                    if (database.isReadOnly
                             || (mRecycleBinEnable && nodes.any { it == mRecycleBin })) {
                         menu?.removeItem(R.id.menu_delete)
                     }

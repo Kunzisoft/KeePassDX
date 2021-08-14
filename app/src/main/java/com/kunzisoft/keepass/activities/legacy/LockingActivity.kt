@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -64,15 +63,7 @@ abstract class LockingActivity : DatabaseModeActivity(),
 
     private var mDatabase: Database? = null
 
-    // Force readOnly if Entry Selection mode
-    protected var mReadOnly: Boolean
-        get() {
-            return mReadOnlyToSave
-        }
-        set(value) {
-            mReadOnlyToSave = value
-        }
-    private var mReadOnlyToSave: Boolean = false
+    protected var mDatabaseReadOnly: Boolean = true
     private var mAutoSaveEnable: Boolean = true
 
     protected var mIconDrawableFactory: IconDrawableFactory? = null
@@ -135,8 +126,7 @@ abstract class LockingActivity : DatabaseModeActivity(),
                     TimeoutHelper.recordTime(this, database.loaded)
             }
 
-            // Force read only if the database is like that
-            mReadOnly = database.isReadOnly || mReadOnly
+            mDatabaseReadOnly = database.isReadOnly
             mIconDrawableFactory = database.iconDrawableFactory
         }
     }
@@ -190,22 +180,22 @@ abstract class LockingActivity : DatabaseModeActivity(),
 
     fun createEntry(newEntry: Entry,
                     parent: Group) {
-        createDatabaseEntry(newEntry, parent, !mReadOnly && mAutoSaveEnable)
+        createDatabaseEntry(newEntry, parent, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     fun updateEntry(oldEntry: Entry,
                     entryToUpdate: Entry) {
-        updateDatabaseEntry(oldEntry, entryToUpdate, !mReadOnly && mAutoSaveEnable)
+        updateDatabaseEntry(oldEntry, entryToUpdate, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     fun copyNodes(nodesToCopy: List<Node>,
                   newParent: Group) {
-        copyDatabaseNodes(nodesToCopy, newParent, !mReadOnly && mAutoSaveEnable)
+        copyDatabaseNodes(nodesToCopy, newParent, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     fun moveNodes(nodesToMove: List<Node>,
                   newParent: Group) {
-        moveDatabaseNodes(nodesToMove, newParent, !mReadOnly && mAutoSaveEnable)
+        moveDatabaseNodes(nodesToMove, newParent, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     private fun eachNodeRecyclable(database: Database, nodes: List<Node>): Boolean {
@@ -241,7 +231,7 @@ abstract class LockingActivity : DatabaseModeActivity(),
     }
 
     private fun permanentlyDeleteNodes(nodes: List<Node>) {
-        deleteDatabaseNodes(nodes,!mReadOnly && mAutoSaveEnable)
+        deleteDatabaseNodes(nodes,!mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     fun createGroup(parent: Group,
@@ -253,7 +243,7 @@ abstract class LockingActivity : DatabaseModeActivity(),
             }
             // Not really needed here because added in runnable but safe
             newGroup.parent = parent
-            createDatabaseGroup(newGroup, parent, !mReadOnly && mAutoSaveEnable)
+            createDatabaseGroup(newGroup, parent, !mDatabaseReadOnly && mAutoSaveEnable)
         }
     }
 
@@ -268,17 +258,17 @@ abstract class LockingActivity : DatabaseModeActivity(),
                 this.setGroupInfo(groupInfo)
             }
         }
-        updateDatabaseGroup(oldGroup, updateGroup, !mReadOnly && mAutoSaveEnable)
+        updateDatabaseGroup(oldGroup, updateGroup, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     fun restoreEntryHistory(mainEntryId: NodeId<UUID>,
                             entryHistoryPosition: Int) {
-        restoreDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
+        restoreDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     fun deleteEntryHistory(mainEntryId: NodeId<UUID>,
                            entryHistoryPosition: Int) {
-        deleteDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mReadOnly && mAutoSaveEnable)
+        deleteDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mDatabaseReadOnly && mAutoSaveEnable)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -295,14 +285,13 @@ abstract class LockingActivity : DatabaseModeActivity(),
         // If in ave or registration mode, don't allow read only
         if ((mSpecialMode == SpecialMode.SAVE
                         || mSpecialMode == SpecialMode.REGISTRATION)
-                && mReadOnly) {
+                && mDatabaseReadOnly) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
             EntrySelectionHelper.removeModesFromIntent(intent)
             finish()
         }
 
         // To refresh when back to normal workflow from selection workflow
-        mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
         // Invalidate timeout by touch

@@ -122,13 +122,11 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             } else {
                                 // Select the one we want
                                 GroupActivity.launchForKeyboardSelectionResult(this,
-                                        readOnly,
                                         searchInfo,
                                         true)
                             }
                         } else {
                             GroupActivity.launchForSearchResult(this,
-                                    readOnly,
                                     searchInfo,
                                     true)
                         }
@@ -148,7 +146,6 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             }
                         } else if (readOnly || searchShareForMagikeyboard) {
                             GroupActivity.launchForKeyboardSelectionResult(this,
-                                    readOnly,
                                     searchInfo,
                                     false)
                         } else {

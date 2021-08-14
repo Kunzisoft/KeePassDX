@@ -32,7 +32,6 @@ import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -87,9 +86,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
         setHasOptionsMenu(true)
 
-        // TODO Read only
-        mDatabaseReadOnly = mDatabaseReadOnly || ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
-
         mScreen = screen
         val database = mDatabase
         // Load the preferences from an XML resource
@@ -124,7 +120,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
     override fun onDatabaseRetrieved(database: Database?) {
         mDatabase = database
-        mDatabaseReadOnly = mDatabaseReadOnly || database?.isReadOnly == true
+        mDatabaseReadOnly = database?.isReadOnly == true
 
         mDatabase?.let {
             if (it.loaded) {
@@ -674,16 +670,11 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                 // Check the time lock before launching settings
                 // TODO activity menu
                 (activity as SettingsActivity?)?.let {
-                    MenuUtil.onDefaultMenuOptionsItemSelected(it, item, mDatabaseReadOnly, true)
+                    MenuUtil.onDefaultMenuOptionsItemSelected(it, item, true)
                 }
                 super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, mDatabaseReadOnly)
-        super.onSaveInstanceState(outState)
     }
 
     companion object {
