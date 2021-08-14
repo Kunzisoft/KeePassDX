@@ -51,7 +51,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import java.util.*
 
-abstract class LockingActivity : DatabaseModeActivity(),
+abstract class DatabaseLockActivity : DatabaseModeActivity(),
     PasswordEncodingDialogFragment.Listener {
 
     private val mNodesViewModel: NodesViewModel by viewModels()
@@ -128,6 +128,8 @@ abstract class LockingActivity : DatabaseModeActivity(),
 
             mDatabaseReadOnly = database.isReadOnly
             mIconDrawableFactory = database.iconDrawableFactory
+
+            checkRegister()
         }
     }
 
@@ -180,22 +182,22 @@ abstract class LockingActivity : DatabaseModeActivity(),
 
     fun createEntry(newEntry: Entry,
                     parent: Group) {
-        createDatabaseEntry(newEntry, parent, !mDatabaseReadOnly && mAutoSaveEnable)
+        createDatabaseEntry(newEntry, parent, mAutoSaveEnable)
     }
 
     fun updateEntry(oldEntry: Entry,
                     entryToUpdate: Entry) {
-        updateDatabaseEntry(oldEntry, entryToUpdate, !mDatabaseReadOnly && mAutoSaveEnable)
+        updateDatabaseEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
     }
 
     fun copyNodes(nodesToCopy: List<Node>,
                   newParent: Group) {
-        copyDatabaseNodes(nodesToCopy, newParent, !mDatabaseReadOnly && mAutoSaveEnable)
+        copyDatabaseNodes(nodesToCopy, newParent, mAutoSaveEnable)
     }
 
     fun moveNodes(nodesToMove: List<Node>,
                   newParent: Group) {
-        moveDatabaseNodes(nodesToMove, newParent, !mDatabaseReadOnly && mAutoSaveEnable)
+        moveDatabaseNodes(nodesToMove, newParent, mAutoSaveEnable)
     }
 
     private fun eachNodeRecyclable(database: Database, nodes: List<Node>): Boolean {
@@ -231,7 +233,7 @@ abstract class LockingActivity : DatabaseModeActivity(),
     }
 
     private fun permanentlyDeleteNodes(nodes: List<Node>) {
-        deleteDatabaseNodes(nodes,!mDatabaseReadOnly && mAutoSaveEnable)
+        deleteDatabaseNodes(nodes, mAutoSaveEnable)
     }
 
     fun createGroup(parent: Group,
@@ -243,7 +245,7 @@ abstract class LockingActivity : DatabaseModeActivity(),
             }
             // Not really needed here because added in runnable but safe
             newGroup.parent = parent
-            createDatabaseGroup(newGroup, parent, !mDatabaseReadOnly && mAutoSaveEnable)
+            createDatabaseGroup(newGroup, parent, mAutoSaveEnable)
         }
     }
 
@@ -258,17 +260,17 @@ abstract class LockingActivity : DatabaseModeActivity(),
                 this.setGroupInfo(groupInfo)
             }
         }
-        updateDatabaseGroup(oldGroup, updateGroup, !mDatabaseReadOnly && mAutoSaveEnable)
+        updateDatabaseGroup(oldGroup, updateGroup, mAutoSaveEnable)
     }
 
     fun restoreEntryHistory(mainEntryId: NodeId<UUID>,
                             entryHistoryPosition: Int) {
-        restoreDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mDatabaseReadOnly && mAutoSaveEnable)
+        restoreDatabaseEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     fun deleteEntryHistory(mainEntryId: NodeId<UUID>,
                            entryHistoryPosition: Int) {
-        deleteDatabaseEntryHistory(mainEntryId, entryHistoryPosition, !mDatabaseReadOnly && mAutoSaveEnable)
+        deleteDatabaseEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -279,17 +281,21 @@ abstract class LockingActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    private fun checkRegister() {
         // If in ave or registration mode, don't allow read only
         if ((mSpecialMode == SpecialMode.SAVE
-                        || mSpecialMode == SpecialMode.REGISTRATION)
-                && mDatabaseReadOnly) {
+                    || mSpecialMode == SpecialMode.REGISTRATION)
+            && mDatabaseReadOnly) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
             EntrySelectionHelper.removeModesFromIntent(intent)
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        checkRegister()
 
         // To refresh when back to normal workflow from selection workflow
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)

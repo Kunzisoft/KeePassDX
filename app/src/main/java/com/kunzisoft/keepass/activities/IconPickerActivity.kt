@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -49,7 +49,7 @@ import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.*
 
 
-class IconPickerActivity : LockingActivity() {
+class IconPickerActivity : DatabaseLockActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var coordinatorLayout: CoordinatorLayout

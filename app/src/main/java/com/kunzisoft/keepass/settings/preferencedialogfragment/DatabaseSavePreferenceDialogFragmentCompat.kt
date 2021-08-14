@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import com.kunzisoft.keepass.activities.DatabaseRetrieval
+import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database

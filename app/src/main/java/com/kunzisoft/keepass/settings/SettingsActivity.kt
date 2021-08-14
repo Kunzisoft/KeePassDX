@@ -33,7 +33,7 @@ import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -43,7 +43,7 @@ import org.joda.time.DateTime
 import java.util.*
 
 open class SettingsActivity
-    : LockingActivity(),
+    : DatabaseLockActivity(),
         MainPreferenceFragment.Callback,
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
@@ -257,7 +257,7 @@ open class SettingsActivity
             }
         } catch (e: Exception) {
             Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
-            Log.e(LockingActivity.TAG, "Unable to export app properties", e)
+            Log.e(DatabaseLockActivity.TAG, "Unable to export app properties", e)
         }
     }
 

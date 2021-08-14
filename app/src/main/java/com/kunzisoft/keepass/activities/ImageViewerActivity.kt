@@ -31,13 +31,13 @@ import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import kotlin.math.max
 
-class ImageViewerActivity : LockingActivity() {
+class ImageViewerActivity : DatabaseLockActivity() {
 
     private var imageContainerView: ViewGroup? = null
     private lateinit var imageView: ImageView

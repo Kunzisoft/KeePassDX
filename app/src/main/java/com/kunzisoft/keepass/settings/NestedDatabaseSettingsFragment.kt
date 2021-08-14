@@ -30,7 +30,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.DatabaseRetrieval
+import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm

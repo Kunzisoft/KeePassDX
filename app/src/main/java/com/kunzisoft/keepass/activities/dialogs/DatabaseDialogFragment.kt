@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.kunzisoft.keepass.activities.DatabaseRetrieval
+import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable

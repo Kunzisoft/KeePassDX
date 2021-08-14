@@ -43,7 +43,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.*
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillComponent
@@ -219,7 +219,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         }
 
         // Don't allow auto open prompt if lock become when UI visible
-        mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
+        mAllowAutoOpenBiometricPrompt = if (DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
             false
         else
             mAllowAutoOpenBiometricPrompt
@@ -464,7 +464,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
 
     override fun onPause() {
         // Reinit locking activity UI variable
-        LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
+        DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
         mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
@@ -706,7 +706,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         if (!keyFileResult) {
             // this block if not a key file response
             when (resultCode) {
-                LockingActivity.RESULT_EXIT_LOCK -> {
+                DatabaseLockActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
                     closeDatabase()
                 }

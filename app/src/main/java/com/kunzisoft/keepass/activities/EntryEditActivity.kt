@@ -46,7 +46,7 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -74,7 +74,7 @@ import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EntryEditActivity : LockingActivity(),
+class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,

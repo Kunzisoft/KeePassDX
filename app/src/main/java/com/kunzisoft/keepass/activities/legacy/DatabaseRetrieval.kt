@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities
+package com.kunzisoft.keepass.activities.legacy
 
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable

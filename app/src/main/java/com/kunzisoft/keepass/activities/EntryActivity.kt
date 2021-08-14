@@ -40,7 +40,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -64,7 +64,7 @@ import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
 import kotlin.collections.HashMap
 
-class EntryActivity : LockingActivity() {
+class EntryActivity : DatabaseLockActivity() {
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null

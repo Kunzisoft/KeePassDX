@@ -3,7 +3,6 @@ package com.kunzisoft.keepass.activities.legacy
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.kunzisoft.keepass.activities.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
@@ -142,7 +141,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
     }
 
     fun saveDatabase() {
-        mDatabaseTaskProvider?.startDatabaseSave(mDatabase?.isReadOnly != true)
+        mDatabaseTaskProvider?.startDatabaseSave(true)
     }
 
     fun reloadDatabase() {

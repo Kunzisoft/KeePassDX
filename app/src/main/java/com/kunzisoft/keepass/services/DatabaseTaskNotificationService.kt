@@ -212,7 +212,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         // Create the notification
-        buildMessage(intent)
+        buildMessage(intent, database.isReadOnly)
 
         val intentAction = intent?.action
 
@@ -287,8 +287,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     saveDatabaseInfo()
                                 }
                                 // Save the database info after performing save action
-                                if (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true) {
+                                if (!database.isReadOnly
+                                    && (intentAction == ACTION_DATABASE_SAVE
+                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)) {
                                     database.fileUri?.let {
                                         val newSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                                                 FileDatabaseInfo(applicationContext, it))
@@ -332,13 +333,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildMessage(intent: Intent?) {
+    private fun buildMessage(intent: Intent?, readOnly: Boolean) {
         // Assign elements for updates
         val intentAction = intent?.action
 
         var saveAction = false
         if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
-            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
+            saveAction = !readOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
         }
 
         mIconId = if (intentAction == null)
@@ -612,7 +613,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     newGroup,
                     parent,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
             }
         } else {
@@ -637,7 +638,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     oldGroup,
                     newGroup,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
             }
         } else {
@@ -662,7 +663,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     newEntry,
                     parent,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
             }
         } else {
@@ -687,7 +688,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     oldEntry,
                     newEntry,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
             }
         } else {
@@ -708,7 +709,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
             }
         } else {
@@ -729,7 +730,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
             }
         } else {
@@ -745,7 +746,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 DeleteNodesRunnable(this,
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                     AfterActionNodesRunnable())
         } else {
             null
@@ -764,7 +765,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
             }
         } else {
             null
@@ -783,7 +784,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
             }
         } else {
             null
@@ -806,7 +807,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 database,
                 oldElement,
                 newElement,
-                intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -822,7 +823,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             return RemoveUnlinkedDataDatabaseRunnable(this,
                 database,
-                intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -837,7 +838,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
                 database,
-                intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -855,7 +856,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             SaveDatabaseRunnable(this,
                 database,
-                intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
         } else {
             null
         }

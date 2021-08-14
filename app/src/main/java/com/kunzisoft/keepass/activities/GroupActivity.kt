@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.legacy.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -70,7 +70,7 @@ import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
 
-class GroupActivity : LockingActivity(),
+class GroupActivity : DatabaseLockActivity(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         GroupFragment.NodeClickListener,
