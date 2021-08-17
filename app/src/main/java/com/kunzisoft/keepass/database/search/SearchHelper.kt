@@ -51,6 +51,8 @@ class SearchHelper {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
                             return false
+                        if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
+                            return false
                         if (entryContainsString(database, node, searchParameters)) {
                             searchGroup?.addChildEntry(node)
                             incrementEntry++

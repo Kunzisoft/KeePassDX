@@ -670,6 +670,7 @@ class Database {
                     searchInOther = true
                     searchInUUIDs = false
                     searchInTags = false
+                    searchInTemplates = false
                 }, omitBackup, max)
     }
 
