@@ -315,6 +315,7 @@ abstract class DatabaseVersioned<
     }
 
     fun updateGroup(group: Group) {
+        group.parent?.updateChildGroup(group)
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
             groupIndexes[groupId] = group
@@ -335,6 +336,7 @@ abstract class DatabaseVersioned<
     }
 
     open fun updateEntry(entry: Entry) {
+        entry.parent?.updateChildEntry(entry)
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
             entryIndexes[entryId] = entry
