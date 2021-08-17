@@ -175,52 +175,10 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
 
-        var oldNodes: List<Node> = ArrayList()
-        result.data?.getBundle(DatabaseTaskNotificationService.OLD_NODES_KEY)?.let { oldNodesBundle ->
-            oldNodes =
-                DatabaseTaskNotificationService.getListNodesFromBundle(database, oldNodesBundle)
-        }
-        var newNodes: List<Node> = ArrayList()
-        result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
-            newNodes =
-                DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
-        }
-
-        when (actionTask) {
-            DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ENTRY_TASK,
-            DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_GROUP_TASK -> {
-                if (result.isSuccess) {
-                    updateNodes(oldNodes, newNodes)
-                }
-            }
-            DatabaseTaskNotificationService.ACTION_DATABASE_CREATE_GROUP_TASK,
-            DatabaseTaskNotificationService.ACTION_DATABASE_COPY_NODES_TASK,
-            DatabaseTaskNotificationService.ACTION_DATABASE_MOVE_NODES_TASK -> {
-                if (result.isSuccess) {
-                    addNodes(newNodes)
-                }
-            }
-            DatabaseTaskNotificationService.ACTION_DATABASE_DELETE_NODES_TASK -> {
-                if (result.isSuccess) {
-                    // Add trash in views list if it doesn't exists
-                    if (database.isRecycleBinEnabled) {
-                        val recycleBin = database.recycleBin
-                        val currentGroup = mCurrentGroup
-                        if (currentGroup != null && recycleBin != null
-                            && currentGroup != recycleBin
-                        ) {
-                            // Recycle bin already here, simply update it
-                            if (contains(recycleBin)) {
-                                updateNode(recycleBin)
-                            }
-                            // Recycle bin not here, verify if parents are similar to add it
-                            else if (currentGroup == recycleBin.parent) {
-                                addNode(recycleBin)
-                            }
-                        }
-                    }
-                }
-            }
+        // Too many special cases to make specific additions or deletions,
+        // rebuilt the list works well.
+        if (result.isSuccess) {
+            rebuildList()
         }
     }
 
@@ -249,7 +207,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             mCurrentGroup = it.group
             isASearchResult = it.group.isVirtual
             rebuildList()
-            // TODO Sometimes don't work after back pressed
             it.showFromPosition?.let { position ->
                 mNodesRecyclerView?.scrollToPosition(position)
             }

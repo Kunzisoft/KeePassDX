@@ -57,7 +57,6 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
@@ -408,12 +407,6 @@ class GroupActivity : DatabaseLockActivity(),
                     )
                 }
             }
-            ACTION_DATABASE_DELETE_NODES_TASK -> {
-                if (result.isSuccess) {
-                    // Rebuild all the list to avoid bug when delete node from sort
-                    reloadCurrentGroup()
-                }
-            }
         }
 
         coordinatorLayout?.showActionErrorIfNeeded(result)
@@ -546,8 +539,8 @@ class GroupActivity : DatabaseLockActivity(),
     private fun refreshNumberOfChildren(group: Group?) {
         numberChildrenView?.apply {
             if (PreferencesUtil.showNumberEntries(context)) {
-                text = group?.getNumberOfChildEntries(Group.ChildFilter.getDefaults(context))
-                    ?.toString() ?: ""
+                group?.refreshNumberOfChildEntries(Group.ChildFilter.getDefaults(context))
+                text = group?.numberOfChildEntries?.toString() ?: ""
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE

@@ -148,8 +148,7 @@ class NodeAdapter (private val context: Context,
                         && oldItem.username == newItem.username
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
-                typeContentTheSame = oldItem.getNumberOfChildEntries(mEntryFilters) ==
-                        newItem.getNumberOfChildEntries(mEntryFilters)
+                typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
             }
             return typeContentTheSame
                     && oldItem.type == newItem.type
@@ -357,7 +356,7 @@ class NodeAdapter (private val context: Context,
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries(mEntryFilters)
+                            .numberOfChildEntries
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE

@@ -111,7 +111,7 @@ class SearchHelper {
                             PreferencesUtil.omitBackup(context),
                             MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->
-                        if (searchGroup.getNumberOfChildEntries() > 0) {
+                        if (searchGroup.numberOfChildEntries > 0) {
                             searchWithoutUI = true
                             onItemsFound.invoke(database,
                                     searchGroup.getChildEntriesInfo(database))
