@@ -142,10 +142,7 @@ class GroupActivity : DatabaseLockActivity(),
         taTextColor.recycle()
 
         // Retrieve group if defined at launch
-        if (intent != null) {
-            mCurrentGroupState = intent.getParcelableExtra(GROUP_STATE_KEY)
-            intent.removeExtra(GROUP_STATE_KEY)
-        }
+        manageIntent(intent)
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
@@ -191,72 +188,67 @@ class GroupActivity : DatabaseLockActivity(),
             mCurrentGroup = currentGroup
             mRecyclingBinIsCurrentGroup = it.isRecycleBin
 
-            // Save group id if real group
             if (!currentGroup.isVirtual) {
+                // Save group id if real group
                 mCurrentGroupState = GroupState(currentGroup.nodeId, it.showFromPosition)
-            }
 
-            // Update last access time.
-            currentGroup.touch(modified = false, touchParents = false)
+                // Update last access time.
+                currentGroup.touch(modified = false, touchParents = false)
 
-            // To relaunch the activity with ACTION_SEARCH
-            if (manageSearchInfoIntent(intent)) {
-                startActivity(intent)
-            }
-
-            // Add listeners to the add buttons
-            addNodeButtonView?.setAddGroupClickListener {
-                GroupEditDialogFragment.create(GroupInfo().apply {
-                    if (currentGroup.allowAddNoteInGroup) {
-                        notes = ""
-                    }
-                }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
-            }
-            addNodeButtonView?.setAddEntryClickListener {
-                EntrySelectionHelper.doSpecialAction(intent,
-                    {
-                        EntryEditActivity.launchToCreate(
-                            this@GroupActivity,
-                            currentGroup.nodeId
-                        )
-                    },
-                    {
-                        // Search not used
-                    },
-                    { searchInfo ->
-                        EntryEditActivity.launchToCreateForSave(
-                            this@GroupActivity,
-                            currentGroup.nodeId, searchInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    },
-                    { searchInfo ->
-                        EntryEditActivity.launchForKeyboardSelectionResult(
-                            this@GroupActivity,
-                            currentGroup.nodeId, searchInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    },
-                    { searchInfo, autofillComponent ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            EntryEditActivity.launchForAutofillResult(
+                // Add listeners to the add buttons
+                addNodeButtonView?.setAddGroupClickListener {
+                    GroupEditDialogFragment.create(GroupInfo().apply {
+                        if (currentGroup.allowAddNoteInGroup) {
+                            notes = ""
+                        }
+                    }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
+                }
+                addNodeButtonView?.setAddEntryClickListener {
+                    EntrySelectionHelper.doSpecialAction(intent,
+                        {
+                            EntryEditActivity.launchToCreate(
                                 this@GroupActivity,
-                                autofillComponent,
+                                currentGroup.nodeId
+                            )
+                        },
+                        {
+                            // Search not used
+                        },
+                        { searchInfo ->
+                            EntryEditActivity.launchToCreateForSave(
+                                this@GroupActivity,
                                 currentGroup.nodeId, searchInfo
                             )
                             onLaunchActivitySpecialMode()
-                        } else {
-                            onCancelSpecialMode()
+                        },
+                        { searchInfo ->
+                            EntryEditActivity.launchForKeyboardSelectionResult(
+                                this@GroupActivity,
+                                currentGroup.nodeId, searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
+                        },
+                        { searchInfo, autofillComponent ->
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                EntryEditActivity.launchForAutofillResult(
+                                    this@GroupActivity,
+                                    autofillComponent,
+                                    currentGroup.nodeId, searchInfo
+                                )
+                                onLaunchActivitySpecialMode()
+                            } else {
+                                onCancelSpecialMode()
+                            }
+                        },
+                        { searchInfo ->
+                            EntryEditActivity.launchToCreateForRegistration(
+                                this@GroupActivity,
+                                currentGroup.nodeId, searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
                         }
-                    },
-                    { searchInfo ->
-                        EntryEditActivity.launchToCreateForRegistration(
-                            this@GroupActivity,
-                            currentGroup.nodeId, searchInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    }
-                )
+                    )
+                }
             }
 
             assignGroupViewElements(currentGroup)
@@ -419,15 +411,29 @@ class GroupActivity : DatabaseLockActivity(),
         refreshNumberOfChildren(mCurrentGroup)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
+    /**
+     * Transform the AUTO_SEARCH_KEY in ACTION_SEARCH, return true if AUTO_SEARCH_KEY was present
+     */
+    private fun transformSearchInfoIntent(intent: Intent) {
+        // To relaunch the activity as ACTION_SEARCH
+        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
+        intent.removeExtra(AUTO_SEARCH_KEY)
+        if (searchInfo != null && autoSearch) {
+            intent.action = Intent.ACTION_SEARCH
+            intent.putExtra(SearchManager.QUERY, searchInfo.toString())
+        }
+    }
 
-        intent?.let { intentNotNull ->
+    private fun manageIntent(intent: Intent?) {
+        intent?.let {
+            if (intent.extras?.containsKey(GROUP_STATE_KEY) == true) {
+                mCurrentGroupState = intent.getParcelableExtra(GROUP_STATE_KEY)
+                intent.removeExtra(GROUP_STATE_KEY)
+            }
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
-            manageSearchInfoIntent(intentNotNull)
-            Log.d(TAG, "setNewIntent: $intentNotNull")
-            setIntent(intentNotNull)
-            if (Intent.ACTION_SEARCH == intentNotNull.action) {
+            transformSearchInfoIntent(intent)
+            if (Intent.ACTION_SEARCH == intent.action) {
                 finishNodeAction()
                 val searchString =
                     intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
@@ -439,20 +445,11 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    /**
-     * Transform the AUTO_SEARCH_KEY in ACTION_SEARCH, return true if AUTO_SEARCH_KEY was present
-     */
-    private fun manageSearchInfoIntent(intent: Intent): Boolean {
-        // To relaunch the activity as ACTION_SEARCH
-        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-        val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
-        intent.removeExtra(AUTO_SEARCH_KEY)
-        if (searchInfo != null && autoSearch) {
-            intent.action = Intent.ACTION_SEARCH
-            intent.putExtra(SearchManager.QUERY, searchInfo.toString())
-            return true
-        }
-        return false
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.d(TAG, "setNewIntent: $intent")
+        setIntent(intent)
+        manageIntent(intent)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
