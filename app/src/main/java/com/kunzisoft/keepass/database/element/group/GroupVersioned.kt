@@ -101,7 +101,8 @@ abstract class GroupVersioned
     override fun updateChildGroup(group: Group) {
         val index = this.childGroups.indexOfFirst { it.nodeId == group.nodeId }
         if (index >= 0) {
-            this.childGroups.removeAt(index)
+            val oldGroup = this.childGroups.removeAt(index)
+            group.nodeIndexInParentForNaturalOrder = oldGroup.nodeIndexInParentForNaturalOrder
             this.childGroups.add(index, group)
         }
     }
@@ -109,7 +110,8 @@ abstract class GroupVersioned
     override fun updateChildEntry(entry: Entry) {
         val index = this.childEntries.indexOfFirst { it.nodeId == entry.nodeId }
         if (index >= 0) {
-            this.childEntries.removeAt(index)
+            val oldEntry = this.childEntries.removeAt(index)
+            entry.nodeIndexInParentForNaturalOrder = oldEntry.nodeIndexInParentForNaturalOrder
             this.childEntries.add(index, entry)
         }
     }
