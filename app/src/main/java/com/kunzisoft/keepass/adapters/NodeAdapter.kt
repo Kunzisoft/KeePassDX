@@ -142,9 +142,20 @@ class NodeAdapter (private val context: Context,
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
-            return oldItem.type == newItem.type
+            var typeContentTheSame = true
+            if (oldItem is Entry && newItem is Entry) {
+                typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
+                        && oldItem.username == newItem.username
+                        && oldItem.containsAttachment() == newItem.containsAttachment()
+            } else if (oldItem is Group && newItem is Group) {
+                typeContentTheSame = oldItem.getNumberOfChildEntries(mEntryFilters) ==
+                        newItem.getNumberOfChildEntries(mEntryFilters)
+            }
+            return typeContentTheSame
+                    && oldItem.type == newItem.type
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
+                    && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
         }
 
         override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
