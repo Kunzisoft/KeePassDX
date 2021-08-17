@@ -32,6 +32,10 @@ interface GroupVersionedInterface<Group: GroupVersionedInterface<Group, Entry>, 
 
     fun addChildEntry(entry: Entry)
 
+    fun updateChildGroup(group: Group)
+
+    fun updateChildEntry(entry: Entry)
+
     fun removeChildGroup(group: Group)
 
     fun removeChildEntry(entry: Entry)

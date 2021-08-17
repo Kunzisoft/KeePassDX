@@ -340,6 +340,24 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         }
     }
 
+    override fun updateChildGroup(group: Group) {
+        group.groupKDB?.let {
+            groupKDB?.updateChildGroup(it)
+        }
+        group.groupKDBX?.let {
+            groupKDBX?.updateChildGroup(it)
+        }
+    }
+
+    override fun updateChildEntry(entry: Entry) {
+        entry.entryKDB?.let {
+            groupKDB?.updateChildEntry(it)
+        }
+        entry.entryKDBX?.let {
+            groupKDBX?.updateChildEntry(it)
+        }
+    }
+
     override fun removeChildGroup(group: Group) {
         group.groupKDB?.let {
             groupKDB?.removeChildGroup(it)

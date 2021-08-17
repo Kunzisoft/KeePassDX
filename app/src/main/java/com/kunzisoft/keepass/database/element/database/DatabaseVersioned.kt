@@ -242,13 +242,6 @@ abstract class DatabaseVersioned<
         }
     }
 
-    fun updateGroupIndex(group: Group) {
-        val groupId = group.nodeId
-        if (groupIndexes.containsKey(groupId)) {
-            groupIndexes[groupId] = group
-        }
-    }
-
     fun removeGroupIndex(group: Group) {
         this.groupIndexes.remove(group.nodeId)
     }
@@ -291,13 +284,6 @@ abstract class DatabaseVersioned<
         }
     }
 
-    fun updateEntryIndex(entry: Entry) {
-        val entryId = entry.nodeId
-        if (entryIndexes.containsKey(entryId)) {
-            entryIndexes[entryId] = entry
-        }
-    }
-
     fun removeEntryIndex(entry: Entry) {
         this.entryIndexes.remove(entry.nodeId)
     }
@@ -329,7 +315,10 @@ abstract class DatabaseVersioned<
     }
 
     fun updateGroup(group: Group) {
-        updateGroupIndex(group)
+        val groupId = group.nodeId
+        if (groupIndexes.containsKey(groupId)) {
+            groupIndexes[groupId] = group
+        }
     }
 
     fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
@@ -346,7 +335,10 @@ abstract class DatabaseVersioned<
     }
 
     open fun updateEntry(entry: Entry) {
-        updateEntryIndex(entry)
+        val entryId = entry.nodeId
+        if (entryIndexes.containsKey(entryId)) {
+            entryIndexes[entryId] = entry
+        }
     }
 
     open fun removeEntryFrom(entryToRemove: Entry, parent: Group?) {
