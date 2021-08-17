@@ -62,6 +62,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mActionRunning = false
+    private var mStopServiceAfterCurrentActionFinished = false
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -299,7 +300,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                                 removeIntentData(intent)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
-                                if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                if (mStopServiceAfterCurrentActionFinished)
+                                    stopSelf()
+                                else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!database.loaded) {
                                         stopSelf()
                                     } else {
@@ -490,6 +493,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Service is stopped after receive the broadcast
             super.actionOnLock()
         }
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+        mStopServiceAfterCurrentActionFinished = true
     }
 
     private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {
