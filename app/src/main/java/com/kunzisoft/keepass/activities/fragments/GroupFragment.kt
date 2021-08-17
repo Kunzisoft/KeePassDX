@@ -41,7 +41,6 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
@@ -416,42 +415,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 }
             }
         }
-    }
-
-    fun contains(node: Node): Boolean {
-        return mAdapter?.contains(node) ?: false
-    }
-
-    fun addNode(newNode: Node) {
-        mAdapter?.addNode(newNode)
-    }
-
-    fun addNodes(newNodes: List<Node>) {
-        mAdapter?.addNodes(newNodes)
-    }
-
-    fun updateNode(oldNode: Node, newNode: Node? = null) {
-        mAdapter?.updateNode(oldNode, newNode ?: oldNode)
-    }
-
-    fun updateNodes(oldNodes: List<Node>, newNodes: List<Node>) {
-        mAdapter?.updateNodes(oldNodes, newNodes)
-    }
-
-    fun removeNode(pwNode: Node) {
-        mAdapter?.removeNode(pwNode)
-    }
-
-    fun removeNodes(nodes: List<Node>) {
-        mAdapter?.removeNodes(nodes)
-    }
-
-    fun removeNodeAt(position: Int) {
-        mAdapter?.removeNodeAt(position)
-    }
-
-    fun removeNodesAt(positions: IntArray) {
-        mAdapter?.removeNodesAt(positions)
     }
 
     /**
