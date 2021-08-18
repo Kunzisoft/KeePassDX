@@ -75,7 +75,6 @@ class EntryActivity : DatabaseLockActivity() {
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
 
-    private var mDatabase: Database? = null
     private val mEntryViewModel: EntryViewModel by viewModels()
 
     private var mMainEntryId: NodeId<UUID>? = null
@@ -239,7 +238,6 @@ class EntryActivity : DatabaseLockActivity() {
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
-        mDatabase = database
         mEntryViewModel.loadEntry(mDatabase, mMainEntryId, mHistoryPosition)
 
         // Assign title icon

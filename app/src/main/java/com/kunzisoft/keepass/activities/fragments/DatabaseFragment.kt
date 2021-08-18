@@ -14,7 +14,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: Database? = null
+    protected var mDatabase: Database? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -101,7 +101,6 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mSearchInfo: SearchInfo? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
-    private var mDatabase: Database? = null
     private var mParent: Group? = null
     private var mEntry: Entry? = null
     private var mIsTemplate: Boolean = false
@@ -281,7 +280,6 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        mDatabase = database
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
         retrieveEntry(database)

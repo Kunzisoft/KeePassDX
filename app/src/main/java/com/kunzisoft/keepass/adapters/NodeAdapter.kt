@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -245,6 +246,10 @@ class NodeAdapter (private val context: Context,
         }
         mNodeSortedList.addAll(newNodes)
         mNodeSortedList.endBatchedUpdates()
+    }
+
+    fun indexOf(node: Node): Int {
+        return mNodeSortedList.indexOf(node)
     }
 
     fun notifyNodeChanged(node: Node) {

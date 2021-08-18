@@ -61,8 +61,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
 
-    private var mDatabase: Database? = null
-
     protected var mDatabaseReadOnly: Boolean = true
     private var mAutoSaveEnable: Boolean = true
 
@@ -90,7 +88,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        mDatabase = database
 
         // End activity if database not loaded
         if (database == null || !database.loaded) {

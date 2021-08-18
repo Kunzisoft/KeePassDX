@@ -89,7 +89,6 @@ class GroupActivity : DatabaseLockActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
-    private var mDatabase: Database? = null
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
 
@@ -308,7 +307,6 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
-        mDatabase = database
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
 
         mRecyclingBinEnabled = !mDatabaseReadOnly

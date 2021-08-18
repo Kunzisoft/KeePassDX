@@ -66,8 +66,6 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var mDatabase: Database? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -153,8 +151,6 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-
-        mDatabase = database
 
         if (database?.allowCustomIcons == true) {
             uploadButton.setOpenDocumentClickListener(mExternalFileHelper)

@@ -411,6 +411,12 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let {
                         // Simply refresh the list
                         rebuildList()
+                        // Scroll to the new entry
+                        mDatabase?.getEntryById(it)?.let { entry ->
+                            mAdapter?.indexOf(entry)?.let { position ->
+                                mNodesRecyclerView?.scrollToPosition(position)
+                            }
+                        }
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
                 }
             }

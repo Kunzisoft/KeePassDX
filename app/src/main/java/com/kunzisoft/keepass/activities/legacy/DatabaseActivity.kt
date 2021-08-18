@@ -20,7 +20,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by viewModels()
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    protected var mDatabase: Database? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
