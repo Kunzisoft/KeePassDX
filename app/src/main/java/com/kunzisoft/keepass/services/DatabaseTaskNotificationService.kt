@@ -62,7 +62,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mActionRunning = false
-    private var mStopServiceAfterCurrentActionFinished = false
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -287,10 +286,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 if (intentAction == ACTION_DATABASE_LOAD_TASK) {
                                     saveDatabaseInfo()
                                 }
+                                val save = !database.isReadOnly
+                                        && (intentAction == ACTION_DATABASE_SAVE
+                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
                                 // Save the database info after performing save action
-                                if (!database.isReadOnly
-                                    && (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)) {
+                                if (save) {
                                     database.fileUri?.let {
                                         val newSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                                                 FileDatabaseInfo(applicationContext, it))
@@ -300,9 +300,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                                 removeIntentData(intent)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
-                                if (mStopServiceAfterCurrentActionFinished)
-                                    stopSelf()
-                                else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                // Stop service after save if user remove task
+                                if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!database.loaded) {
                                         stopSelf()
                                     } else {
@@ -493,11 +492,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Service is stopped after receive the broadcast
             super.actionOnLock()
         }
-    }
-
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        super.onTaskRemoved(rootIntent)
-        mStopServiceAfterCurrentActionFinished = true
     }
 
     private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {

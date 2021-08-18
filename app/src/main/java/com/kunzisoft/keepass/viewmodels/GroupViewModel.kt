@@ -31,41 +31,38 @@ import com.kunzisoft.keepass.database.element.node.Node
 
 class GroupViewModel: ViewModel() {
 
-    private var mDatabase: Database? = null
-
     val group : LiveData<SuperGroup> get() = _group
     private val _group = MutableLiveData<SuperGroup>()
 
     val firstPositionVisible : LiveData<Int> get() = _firstPositionVisible
     private val _firstPositionVisible = MutableLiveData<Int>()
 
-    fun setDatabase(database: Database?) {
-        this.mDatabase = database
-    }
-
-    fun loadGroup(groupState: GroupActivity.GroupState?) {
+    fun loadGroup(database: Database?,
+                  groupState: GroupActivity.GroupState?) {
         IOActionTask(
             {
                 val groupId = groupState?.groupId
                 if (groupId != null) {
-                    mDatabase?.getGroupById(groupId)
+                    database?.getGroupById(groupId)
                 } else {
-                    mDatabase?.rootGroup
+                    database?.rootGroup
                 }
             },
             { group ->
                 if (group != null) {
                     _group.value = SuperGroup(group,
-                        mDatabase?.recycleBin == group,
+                        database?.recycleBin == group,
                         groupState?.firstVisibleItem)
                 }
             }
         ).execute()
     }
 
-    fun loadGroup(group: Group, showFromPosition: Int?) {
+    fun loadGroup(database: Database?,
+                  group: Group,
+                  showFromPosition: Int?) {
         _group.value = SuperGroup(group,
-            mDatabase?.recycleBin == group,
+            database?.recycleBin == group,
             showFromPosition)
     }
 
@@ -73,16 +70,17 @@ class GroupViewModel: ViewModel() {
         _firstPositionVisible.value = position
     }
 
-    fun loadGroupFromSearch(searchQuery: String,
+    fun loadGroupFromSearch(database: Database?,
+                            searchQuery: String,
                             omitBackup: Boolean) {
         IOActionTask(
             {
-                mDatabase?.createVirtualGroupFromSearch(searchQuery, omitBackup)
+                database?.createVirtualGroupFromSearch(searchQuery, omitBackup)
             },
             { group ->
                 if (group != null) {
                     _group.value = SuperGroup(group,
-                        mDatabase?.recycleBin == group,
+                        database?.recycleBin == group,
                         0)
                 }
             }

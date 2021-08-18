@@ -44,7 +44,7 @@ abstract class LockNotificationService : NotificationService() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         if (!TimeoutHelper.temporarilyDisableTimeout) {
-            stopSelf()
+            actionOnLock()
         }
         super.onTaskRemoved(rootIntent)
     }

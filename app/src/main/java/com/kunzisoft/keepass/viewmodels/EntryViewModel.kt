@@ -36,8 +36,6 @@ import java.util.*
 
 class EntryViewModel: ViewModel() {
 
-    private var mDatabase: Database? = null
-
     val template : LiveData<Template> get() = _template
     private val _template = MutableLiveData<Template>()
 
@@ -67,15 +65,11 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun setDatabase(database: Database?) {
-        mDatabase = database
-    }
-
-    fun loadEntry(entryId: NodeId<UUID>?, historyPosition: Int) {
+    fun loadEntry(database: Database?, entryId: NodeId<UUID>?, historyPosition: Int) {
         if (entryId != null) {
             IOActionTask(
                 {
-                    mDatabase?.getEntryById(entryId)
+                    database?.getEntryById(entryId)
                 },
                 { mainEntry ->
                     // Manage current version and history
@@ -92,25 +86,25 @@ class EntryViewModel: ViewModel() {
                     IOActionTask(
                         {
                             val entryTemplate = currentEntry?.let {
-                                mDatabase?.getTemplate(it)
+                                database?.getTemplate(it)
                             } ?: Template.STANDARD
 
                             // To simplify template field visibility
                             currentEntry?.let { entry ->
                                 // Add mainEntry to check the parent and define the template state
-                                mDatabase?.decodeEntryWithTemplateConfiguration(entry, mainEntry)
+                                database?.decodeEntryWithTemplateConfiguration(entry, mainEntry)
                                     ?.let {
                                         // To update current modification time
                                         it.touch(modified = false, touchParents = false)
 
                                         // Build history info
                                         val entryInfoHistory = it.getHistory().map { entryHistory ->
-                                            entryHistory.getEntryInfo(mDatabase)
+                                            entryHistory.getEntryInfo(database)
                                         }
 
                                         EntryInfoHistory(
                                             entryTemplate,
-                                            it.getEntryInfo(mDatabase),
+                                            it.getEntryInfo(database),
                                             entryInfoHistory
                                         )
                                     }
@@ -129,8 +123,8 @@ class EntryViewModel: ViewModel() {
         }
     }
 
-    fun updateEntry() {
-        loadEntry(_mainEntryId.value, _historyPosition.value ?: -1)
+    fun updateEntry(database: Database?) {
+        loadEntry(database, _mainEntryId.value, _historyPosition.value ?: -1)
     }
 
     fun onOtpElementUpdated(optElement: OtpElement?) {

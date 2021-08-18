@@ -75,6 +75,7 @@ class EntryActivity : DatabaseLockActivity() {
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
 
+    private var mDatabase: Database? = null
     private val mEntryViewModel: EntryViewModel by viewModels()
 
     private var mMainEntryId: NodeId<UUID>? = null
@@ -216,9 +217,14 @@ class EntryActivity : DatabaseLockActivity() {
         }
 
         mEntryViewModel.historySelected.observe(this) { historySelected ->
-            launch(this,
-                historySelected.nodeId,
-                historySelected.historyPosition)
+            mDatabase?.let { database ->
+                launch(
+                    this,
+                    database,
+                    historySelected.nodeId,
+                    historySelected.historyPosition
+                )
+            }
         }
     }
 
@@ -233,8 +239,8 @@ class EntryActivity : DatabaseLockActivity() {
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
-        mEntryViewModel.setDatabase(database)
-        mEntryViewModel.loadEntry(mMainEntryId, mHistoryPosition)
+        mDatabase = database
+        mEntryViewModel.loadEntry(mDatabase, mMainEntryId, mHistoryPosition)
 
         // Assign title icon
         mIcon?.let { icon ->
@@ -293,7 +299,7 @@ class EntryActivity : DatabaseLockActivity() {
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 // Reload the current id from database
-                mEntryViewModel.updateEntry()
+                mEntryViewModel.updateEntry(mDatabase)
             }
         }
 
@@ -430,23 +436,38 @@ class EntryActivity : DatabaseLockActivity() {
         /**
          * Open standard Entry activity
          */
-        fun launch(activity: Activity, entryId: NodeId<UUID>) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entryId)
-                activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+        fun launch(activity: Activity,
+                   database: Database,
+                   entryId: NodeId<UUID>) {
+            if (database.loaded) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    activity.startActivityForResult(
+                        intent,
+                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
+                    )
+                }
             }
         }
 
         /**
          * Open history Entry activity
          */
-        fun launch(activity: Activity, entryId: NodeId<UUID>, historyPosition: Int) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entryId)
-                intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
-                activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+        fun launch(activity: Activity,
+                   database: Database,
+                   entryId: NodeId<UUID>,
+                   historyPosition: Int) {
+            if (database.loaded) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                    activity.startActivityForResult(
+                        intent,
+                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
+                    )
+                }
             }
         }
     }

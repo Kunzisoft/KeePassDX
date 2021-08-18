@@ -89,6 +89,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
+    private var mDatabase: Database? = null
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
 
@@ -307,7 +308,7 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
-        mGroupViewModel.setDatabase(database)
+        mDatabase = database
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
 
         mRecyclingBinEnabled = !mDatabaseReadOnly
@@ -316,10 +317,10 @@ class GroupActivity : DatabaseLockActivity(),
         mRootGroup = database?.rootGroup
         if (mCurrentGroupState == null) {
             mRootGroup?.let { rootGroup ->
-                mGroupViewModel.loadGroup(rootGroup, 0)
+                mGroupViewModel.loadGroup(database, rootGroup, 0)
             }
         } else {
-            mGroupViewModel.loadGroup(mCurrentGroupState)
+            mGroupViewModel.loadGroup(database, mCurrentGroupState)
         }
 
         // Search suggestion
@@ -438,6 +439,7 @@ class GroupActivity : DatabaseLockActivity(),
                 val searchString =
                     intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
                 mGroupViewModel.loadGroupFromSearch(
+                    mDatabase,
                     searchString,
                     PreferencesUtil.omitBackup(this)
                 )
@@ -564,7 +566,7 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 // Open child group
-                mGroupViewModel.loadGroup(group, 0)
+                mGroupViewModel.loadGroup(database, group, 0)
 
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
@@ -574,7 +576,11 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        EntryActivity.launch(this@GroupActivity, entryVersioned.nodeId)
+                        EntryActivity.launch(
+                            this@GroupActivity,
+                            database,
+                            entryVersioned.nodeId
+                        )
                     },
                     {
                         // Nothing here, a search is simply performed
@@ -1061,7 +1067,7 @@ class GroupActivity : DatabaseLockActivity(),
         removeSearch()
         // Reload real group
         try {
-            mGroupViewModel.loadGroup(mCurrentGroupState)
+            mGroupViewModel.loadGroup(mDatabase, mCurrentGroupState)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to rebuild the list after deletion", e)
         }
@@ -1083,7 +1089,7 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                     else -> {
                         // Load the previous group
-                        mGroupViewModel.loadGroup(mPreviousGroupsIds.removeLast())
+                        mGroupViewModel.loadGroup(mDatabase, mPreviousGroupsIds.removeLast())
                     }
                 }
             }
@@ -1277,8 +1283,12 @@ class GroupActivity : DatabaseLockActivity(),
                    onLaunchActivitySpecialMode: () -> Unit) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
-                        GroupActivity.launch(activity,
-                                true)
+                        if (database.loaded) {
+                            GroupActivity.launch(
+                                activity,
+                                true
+                            )
+                        }
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,
@@ -1312,17 +1322,23 @@ class GroupActivity : DatabaseLockActivity(),
                     },
                     { searchInfo ->
                         // Save info used with OTP
-                        if (!database.isReadOnly) {
-                            GroupActivity.launchForSaveResult(activity,
+                        if (database.loaded) {
+                            if (!database.isReadOnly) {
+                                GroupActivity.launchForSaveResult(
+                                    activity,
                                     searchInfo,
-                                    false)
-                            onLaunchActivitySpecialMode()
-                        }  else {
-                            Toast.makeText(activity.applicationContext,
+                                    false
+                                )
+                                onLaunchActivitySpecialMode()
+                            } else {
+                                Toast.makeText(
+                                    activity.applicationContext,
                                     R.string.autofill_read_only_save,
-                                    Toast.LENGTH_LONG)
+                                    Toast.LENGTH_LONG
+                                )
                                     .show()
-                            onCancelSpecialMode()
+                                onCancelSpecialMode()
+                            }
                         }
                     },
                     { searchInfo ->

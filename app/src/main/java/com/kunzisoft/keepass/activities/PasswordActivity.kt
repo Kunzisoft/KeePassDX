@@ -248,65 +248,74 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_LOAD_TASK -> {
-                // Recheck advanced unlock if error
-                advancedUnlockFragment?.initAdvancedUnlockMode()
+                // CHeck if database really loaded
+                if (database.loaded) {
+                    // Recheck advanced unlock if error
+                    advancedUnlockFragment?.initAdvancedUnlockMode()
 
-                if (result.isSuccess) {
-                    mDatabaseKeyFileUri = null
-                    clearCredentialsViews(true)
-                    launchGroupActivity(database)
-                } else {
-                    var resultError = ""
-                    val resultException = result.exception
-                    val resultMessage = result.message
+                    if (result.isSuccess) {
+                        mDatabaseKeyFileUri = null
+                        clearCredentialsViews(true)
+                        launchGroupActivity(database)
+                    } else {
+                        var resultError = ""
+                        val resultException = result.exception
+                        val resultMessage = result.message
 
-                    if (resultException != null) {
-                        resultError = resultException.getLocalizedMessage(resources)
+                        if (resultException != null) {
+                            resultError = resultException.getLocalizedMessage(resources)
 
-                        when (resultException) {
-                            is DuplicateUuidDatabaseException -> {
-                                // Relaunch loading if we need to fix UUID
-                                showLoadDatabaseDuplicateUuidMessage {
+                            when (resultException) {
+                                is DuplicateUuidDatabaseException -> {
+                                    // Relaunch loading if we need to fix UUID
+                                    showLoadDatabaseDuplicateUuidMessage {
 
-                                    var databaseUri: Uri? = null
-                                    var mainCredential: MainCredential = MainCredential()
-                                    var readOnly = true
-                                    var cipherEntity: CipherDatabaseEntity? = null
+                                        var databaseUri: Uri? = null
+                                        var mainCredential = MainCredential()
+                                        var readOnly = true
+                                        var cipherEntity: CipherDatabaseEntity? = null
 
-                                    result.data?.let { resultData ->
-                                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                        mainCredential = resultData.getParcelable(MAIN_CREDENTIAL_KEY) ?: mainCredential
-                                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                        cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
-                                    }
+                                        result.data?.let { resultData ->
+                                            databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                            mainCredential =
+                                                resultData.getParcelable(MAIN_CREDENTIAL_KEY)
+                                                    ?: mainCredential
+                                            readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                            cipherEntity =
+                                                resultData.getParcelable(CIPHER_ENTITY_KEY)
+                                        }
 
-                                    databaseUri?.let { databaseFileUri ->
-                                        showProgressDialogAndLoadDatabase(
-                                            databaseFileUri,
-                                            mainCredential,
-                                            readOnly,
-                                            cipherEntity,
-                                            true)
+                                        databaseUri?.let { databaseFileUri ->
+                                            showProgressDialogAndLoadDatabase(
+                                                databaseFileUri,
+                                                mainCredential,
+                                                readOnly,
+                                                cipherEntity,
+                                                true
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                            is FileNotFoundDatabaseException -> {
-                                // Remove this default database inaccessible
-                                if (mDefaultDatabase) {
-                                    databaseFileViewModel.removeDefaultDatabase()
+                                is FileNotFoundDatabaseException -> {
+                                    // Remove this default database inaccessible
+                                    if (mDefaultDatabase) {
+                                        databaseFileViewModel.removeDefaultDatabase()
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    // Show error message
-                    if (resultMessage != null && resultMessage.isNotEmpty()) {
-                        resultError = "$resultError $resultMessage"
+                        // Show error message
+                        if (resultMessage != null && resultMessage.isNotEmpty()) {
+                            resultError = "$resultError $resultMessage"
+                        }
+                        Log.e(TAG, resultError)
+                        Snackbar.make(
+                            coordinatorLayout,
+                            resultError,
+                            Snackbar.LENGTH_LONG
+                        ).asError().show()
                     }
-                    Log.e(TAG, resultError)
-                    Snackbar.make(coordinatorLayout,
-                        resultError,
-                        Snackbar.LENGTH_LONG).asError().show()
                 }
             }
         }

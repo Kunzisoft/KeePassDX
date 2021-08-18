@@ -92,20 +92,22 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         super.onDatabaseRetrieved(database)
         mDatabase = database
 
+        // End activity if database not loaded
+        if (database == null || !database.loaded) {
+            finish()
+        }
+
         // Focus view to reinitialize timeout,
         // view is not necessary loaded so retry later in resume
         viewToInvalidateTimeout()
             ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database?.loaded)
 
         database?.let {
-            // End activity if database not loaded
-            if (!database.loaded) {
-                finish()
-            }
             // check timeout
             if (mTimeoutEnable) {
                 if (mLockReceiver == null) {
                     mLockReceiver = LockReceiver {
+                        mDatabase = null
                         closeDatabase(database)
                         if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
                             LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
