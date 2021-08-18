@@ -51,7 +51,7 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // If allowed, lock and exit
-        if (!TimeoutHelper.temporarilyDisableTimeout) {
+        if (!TimeoutHelper.temporarilyDisableLock) {
             intent.action?.let {
                 when (it) {
                     Intent.ACTION_SCREEN_ON -> {

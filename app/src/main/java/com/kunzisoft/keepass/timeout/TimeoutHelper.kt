@@ -25,7 +25,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
@@ -39,7 +38,7 @@ object TimeoutHelper {
     private const val TAG = "TimeoutHelper"
 
     private var lastAppTimeoutRecord: Long? = null
-    var temporarilyDisableTimeout = false
+    var temporarilyDisableLock = false
         private set
 
     private fun getLockPendingIntent(context: Context): PendingIntent {
@@ -103,7 +102,7 @@ object TimeoutHelper {
      */
     fun checkTime(context: Context, timeoutAction: (() -> Unit)? = null): Boolean {
         // No effect if temporarily disable
-        if (temporarilyDisableTimeout)
+        if (temporarilyDisableLock)
             return true
 
         // Check whether the timeout has expired
@@ -159,13 +158,13 @@ object TimeoutHelper {
      * Temporarily disable timeout, checkTime() function always return true
      */
     fun temporarilyDisableTimeout() {
-        temporarilyDisableTimeout = true
+        temporarilyDisableLock = true
     }
 
     /**
      * Release the temporarily disable timeout
      */
     fun releaseTemporarilyDisableTimeout() {
-        temporarilyDisableTimeout = false
+        temporarilyDisableLock = false
     }
 }

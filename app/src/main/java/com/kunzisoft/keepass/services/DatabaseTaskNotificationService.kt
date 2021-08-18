@@ -62,6 +62,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mActionRunning = false
+    private var mTaskRemovedRequested = false
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -301,7 +302,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 removeIntentData(intent)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 // Stop service after save if user remove task
-                                if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                if (save && mTaskRemovedRequested) {
+                                    actionOnLock()
+                                } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!database.loaded) {
                                         stopSelf()
                                     } else {
@@ -312,6 +315,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                         } catch (e: IllegalStateException) {}
                                     }
                                 }
+                                mTaskRemovedRequested = false
                             }
 
                             sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
@@ -485,13 +489,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     override fun actionOnLock() {
-        if (!TimeoutHelper.temporarilyDisableTimeout) {
+        if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
             // Remove the lock timer (no more needed if it exists)
             TimeoutHelper.cancelLockTimer(this)
             // Service is stopped after receive the broadcast
             super.actionOnLock()
         }
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        if (TimeoutHelper.temporarilyDisableLock) {
+            mTaskRemovedRequested = true
+        }
+        super.onTaskRemoved(rootIntent)
     }
 
     private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {
