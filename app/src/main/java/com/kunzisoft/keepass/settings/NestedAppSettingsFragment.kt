@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil
@@ -188,6 +189,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
             startActivity(Intent(context, AutofillSettingsActivity::class.java))
             false
+        }
+
+        findPreference<Preference>(getString(R.string.clipboard_notifications_key))?.setOnPreferenceChangeListener { _, newValue ->
+            if (!(newValue as Boolean)) {
+                ClipboardEntryNotificationService.removeNotification(context)
+            }
+            true
         }
 
         findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
