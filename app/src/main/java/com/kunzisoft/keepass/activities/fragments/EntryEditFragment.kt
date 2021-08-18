@@ -130,7 +130,7 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
-            mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
+            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, retrieveEntryInfo())
         }
 
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->

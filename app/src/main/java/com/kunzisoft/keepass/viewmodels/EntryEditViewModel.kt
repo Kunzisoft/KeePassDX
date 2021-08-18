@@ -16,19 +16,13 @@ import java.util.*
 
 class EntryEditViewModel: NodeEditViewModel() {
 
-    // TODO Better variable implementation
-    private var mDatabase: Database? = null
-    private var mParent: Group? = null
-    private var mEntry: Entry? = null
-    private var mIsTemplate: Boolean = false
-
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
 
-    val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
-    private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
+    val requestEntryInfoUpdate : LiveData<EntryUpdate> get() = _requestEntryInfoUpdate
+    private val _requestEntryInfoUpdate = SingleLiveEvent<EntryUpdate>()
     val onEntrySaved : LiveData<EntrySave> get() = _onEntrySaved
     private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
@@ -65,45 +59,16 @@ class EntryEditViewModel: NodeEditViewModel() {
     val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
-    fun setDatabase(database: Database?) {
-        this.mDatabase = database
-    }
 
-    fun initializeEntryToUpdate(entryId: NodeId<UUID>,
-                                registerInfo: RegisterInfo?,
-                                searchInfo: SearchInfo?) {
+    fun loadTemplateEntry(database: Database,
+                          entry: Entry?,
+                          isTemplate: Boolean,
+                          registerInfo: RegisterInfo?,
+                          searchInfo: SearchInfo?) {
         IOActionTask(
             {
-                mEntry = getEntry(entryId)
-                mIsTemplate = isEntryATemplate()
-            },
-            {
-                loadTemplateEntry(registerInfo, searchInfo)
-            }
-        ).execute()
-    }
-
-    fun initializeEntryToCreate(parentId: NodeId<*>,
-                                registerInfo: RegisterInfo?,
-                                searchInfo: SearchInfo?) {
-        IOActionTask(
-            {
-                mParent = getGroup(parentId)
-                mEntry = createEntry(mParent)
-                mIsTemplate = isEntryATemplate()
-            },
-            {
-                loadTemplateEntry(registerInfo, searchInfo)
-            }
-        ).execute()
-    }
-
-    private fun loadTemplateEntry(registerInfo: RegisterInfo?,
-                                  searchInfo: SearchInfo?) {
-        IOActionTask(
-            {
-                val templates = getTemplates()
-                val entryTemplate = getEntryTemplate()
+                val templates = database.getTemplates(isTemplate)
+                val entryTemplate = entry?.let { database.getTemplate(it) } ?: Template.STANDARD
                 TemplatesLoad(templates, entryTemplate)
             },
             { templatesLoad ->
@@ -113,7 +78,24 @@ class EntryEditViewModel: NodeEditViewModel() {
 
                 IOActionTask(
                     {
-                        loadEntryInfo(registerInfo, searchInfo)
+                        var entryInfo: EntryInfo? = null
+                        // Decode the entry / load entry info
+                        entry?.let {
+                            database.decodeEntryWithTemplateConfiguration(it).let { entry ->
+                                // Load entry info
+                                entry.getEntryInfo(database, true).let { tempEntryInfo ->
+                                    // Retrieve data from registration
+                                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
+                                        tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
+                                    }
+                                    registerInfo?.let { regInfo ->
+                                        tempEntryInfo.saveRegisterInfo(database, regInfo)
+                                    }
+                                    entryInfo = tempEntryInfo
+                                }
+                            }
+                        }
+                        entryInfo
                     },
                     { entryInfo ->
                         _entryInfo.value = entryInfo
@@ -123,123 +105,46 @@ class EntryEditViewModel: NodeEditViewModel() {
         ).execute()
     }
 
-    private fun getEntry(entryId: NodeId<UUID>): Entry? {
-        // Create an Entry copy to modify from the database entry
-        val tempEntry = mDatabase?.getEntryById(entryId)
-        // Retrieve the parent
-        tempEntry?.let { entry ->
-            // If no parent, add root group as parent
-            if (entry.parent == null) {
-                entry.parent = mDatabase?.rootGroup
-            }
-        }
-        return tempEntry
-    }
-
-    private fun getGroup(groupId: NodeId<*>): Group? {
-        return mDatabase?.getGroupById(groupId)
-    }
-
-    private fun createEntry(parentGroup: Group?): Entry? {
-        return mDatabase?.createEntry()?.apply {
-            // Add the default icon from parent if not a folder
-            val parentIcon = parentGroup?.icon
-            // Set default icon
-            if (parentIcon != null) {
-                if (parentIcon.custom.isUnknown
-                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID) {
-                    icon = IconImage(parentIcon.standard)
-                }
-                if (!parentIcon.custom.isUnknown) {
-                    icon = IconImage(parentIcon.custom)
-                }
-            }
-            // Set default username
-            username = mDatabase?.defaultUsername ?: ""
-            // Warning only the entry recognize is parent, parent don't yet recognize the new entry
-            // Useful to recognize child state (ie: entry is a template)
-            parent = parentGroup
-        }
-    }
-
-    private fun isEntryATemplate(): Boolean {
-        // Define is current entry is a template (in direct template group)
-        return mDatabase?.entryIsTemplate(mEntry) ?: false
-    }
-
-    private fun getTemplates(): List<Template> {
-        return mDatabase?.getTemplates(mIsTemplate) ?: listOf()
-    }
-
-    private fun getEntryTemplate(): Template {
-        return mEntry?.let { mDatabase?.getTemplate(it) } ?: Template.STANDARD
-    }
-
-    private fun loadEntryInfo(registerInfo: RegisterInfo?, searchInfo: SearchInfo?): EntryInfo? {
-        // Decode the entry
-        mEntry?.let {
-            mDatabase?.decodeEntryWithTemplateConfiguration(it)?.let { entry ->
-                // Load entry info
-                entry.getEntryInfo(mDatabase, true).let { tempEntryInfo ->
-                    // Retrieve data from registration
-                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
-                        tempEntryInfo.saveSearchInfo(mDatabase, tempSearchInfo)
-                    }
-                    registerInfo?.let { regInfo ->
-                        tempEntryInfo.saveRegisterInfo(mDatabase, regInfo)
-                    }
-                    return tempEntryInfo
-                }
-            }
-        }
-        return null
-    }
-
     fun changeTemplate(template: Template) {
         if (_onTemplateChanged.value != template) {
             _onTemplateChanged.value = template
         }
     }
 
-    // TODO Move
-    fun entryIsTemplate(): Boolean {
-        return mIsTemplate
+    fun requestEntryInfoUpdate(database: Database?, entry: Entry?, parent: Group?) {
+        _requestEntryInfoUpdate.value = EntryUpdate(database, entry, parent)
     }
 
-    fun requestEntryInfoUpdate() {
-        _requestEntryInfoUpdate.call()
-    }
-
-    fun saveEntryInfo(entryInfo: EntryInfo) {
+    fun saveEntryInfo(database: Database?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
         IOActionTask(
             {
                 removeTempAttachmentsNotCompleted(entryInfo)
-                mEntry?.let { oldEntry ->
+                entry?.let { oldEntry ->
                     // Create a clone
                     var newEntry = Entry(oldEntry)
 
                     // Build info
-                    newEntry.setEntryInfo(mDatabase, entryInfo)
+                    newEntry.setEntryInfo(database, entryInfo)
 
                     // Encode entry properties for template
                     _onTemplateChanged.value?.let { template ->
                         newEntry =
-                            mDatabase?.encodeEntryWithTemplateConfiguration(newEntry, template)
+                            database?.encodeEntryWithTemplateConfiguration(newEntry, template)
                                 ?: newEntry
                     }
 
                     // Delete temp attachment if not used
                     mTempAttachments.forEach { tempAttachmentState ->
                         val tempAttachment = tempAttachmentState.attachment
-                        mDatabase?.attachmentPool?.let { binaryPool ->
+                        database?.attachmentPool?.let { binaryPool ->
                             if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                                mDatabase?.removeAttachmentIfNotUsed(tempAttachment)
+                                database.removeAttachmentIfNotUsed(tempAttachment)
                             }
                         }
                     }
 
                     // Return entry to save
-                    EntrySave(oldEntry, newEntry, mParent)
+                    EntrySave(oldEntry, newEntry, parent)
                 }
             },
             { entrySave ->
@@ -335,6 +240,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     data class TemplatesLoad(val templates: List<Template>, val defaultTemplate: Template)
+    data class EntryUpdate(val database: Database?, val entry: Entry?, val parent: Group?)
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)

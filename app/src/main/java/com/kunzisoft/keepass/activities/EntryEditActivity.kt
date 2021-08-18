@@ -48,9 +48,12 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
+import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.*
@@ -98,6 +101,10 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mSearchInfo: SearchInfo? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
+    private var mDatabase: Database? = null
+    private var mParent: Group? = null
+    private var mEntry: Entry? = null
+    private var mIsTemplate: Boolean = false
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -146,6 +153,8 @@ class EntryEditActivity : DatabaseLockActivity(),
             intent.removeExtra(KEY_PARENT)
             mParentId = parent
         }
+
+        retrieveEntry(mDatabase)
 
         // To retrieve attachment
         mExternalFileHelper = ExternalFileHelper(this)
@@ -272,16 +281,78 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        mEntryEditViewModel.setDatabase(database)
+        mDatabase = database
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
+        retrieveEntry(database)
+    }
+
+    private fun retrieveEntry(database: Database?) {
         database?.let {
             mEntryId?.let {
-                mEntryEditViewModel.initializeEntryToUpdate(it, mRegisterInfo, mSearchInfo)
+                IOActionTask(
+                    {
+                        // Create an Entry copy to modify from the database entry
+                        mEntry = database.getEntryById(it)
+                        // Retrieve the parent
+                        mEntry?.let { entry ->
+                            // If no parent, add root group as parent
+                            if (entry.parent == null) {
+                                entry.parent = database.rootGroup
+                            }
+                        }
+                        // Define if current entry is a template (in direct template group)
+                        mIsTemplate = database.entryIsTemplate(mEntry)
+                    },
+                    {
+                        mEntryEditViewModel.loadTemplateEntry(
+                            database,
+                            mEntry,
+                            mIsTemplate,
+                            mRegisterInfo,
+                            mSearchInfo
+                        )
+                    }
+                ).execute()
                 mEntryId = null
             }
+
             mParentId?.let {
-                mEntryEditViewModel.initializeEntryToCreate(it, mRegisterInfo, mSearchInfo)
+                IOActionTask(
+                    {
+                        mParent = database.getGroupById(it)
+                        mParent?.let { parentGroup ->
+                            mEntry = database.createEntry()?.apply {
+                                // Add the default icon from parent if not a folder
+                                val parentIcon = parentGroup.icon
+                                // Set default icon
+                                if (parentIcon.custom.isUnknown
+                                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
+                                ) {
+                                    icon = IconImage(parentIcon.standard)
+                                }
+                                if (!parentIcon.custom.isUnknown) {
+                                    icon = IconImage(parentIcon.custom)
+                                }
+                                // Set default username
+                                username = database.defaultUsername
+                                // Warning only the entry recognize is parent, parent don't yet recognize the new entry
+                                // Useful to recognize child state (ie: entry is a template)
+                                parent = parentGroup
+                            }
+                        }
+                        mIsTemplate = database.entryIsTemplate(mEntry)
+                    },
+                    {
+                        mEntryEditViewModel.loadTemplateEntry(
+                            database,
+                            mEntry,
+                            mIsTemplate,
+                            mRegisterInfo,
+                            mSearchInfo
+                        )
+                    }
+                ).execute()
                 mParentId = null
             }
         }
@@ -475,7 +546,7 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun saveEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        mEntryEditViewModel.requestEntryInfoUpdate()
+        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase, mEntry, mParent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -493,7 +564,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         menu?.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
-            isEnabled = !mEntryEditViewModel.entryIsTemplate()
+            isEnabled = !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
@@ -501,7 +572,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         menu?.findItem(R.id.menu_add_otp)?.apply {
             // OTP not compatible below KitKat
             isEnabled = mAllowOTP
-                    && !mEntryEditViewModel.entryIsTemplate()
+                    && !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
