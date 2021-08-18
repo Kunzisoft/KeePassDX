@@ -280,6 +280,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         { result ->
                             try {
                                 mActionTaskListeners.forEach { actionTaskListener ->
+                                    mTaskRemovedRequested = false
                                     actionTaskListener.onStopAction(database, intentAction!!, result)
                                 }
                             } finally {
