@@ -309,6 +309,12 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 createDatabaseButtonView?.visibility = View.GONE
             }
         }
+
+        mDatabase?.let { database ->
+            if (database.loaded) {
+                launchGroupActivity(database)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

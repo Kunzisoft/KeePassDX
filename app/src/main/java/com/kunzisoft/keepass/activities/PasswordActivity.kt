@@ -228,6 +228,13 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         }
 
         checkPermission()
+
+        mDatabase?.let { database ->
+            if (database.loaded) {
+                clearCredentialsViews(true)
+                launchGroupActivity(database)
+            }
+        }
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -235,7 +242,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         if (database?.loaded == true) {
             // If the database isn't accessible make sure to clear the password field, if it
             // was saved in the instance state
-            clearCredentialsViews()
+            clearCredentialsViews(true)
             launchGroupActivity(database)
         }
     }
@@ -254,7 +261,6 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                     advancedUnlockFragment?.initAdvancedUnlockMode()
 
                     if (result.isSuccess) {
-                        mDatabaseKeyFileUri = null
                         clearCredentialsViews(true)
                         launchGroupActivity(database)
                     } else {
@@ -443,6 +449,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
     private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile) {
         populatePasswordTextView(null)
         if (clearKeyFile) {
+            mDatabaseKeyFileUri = null
             populateKeyFileTextView(null)
         }
     }
