@@ -88,6 +88,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
+    private var loadingView: ProgressBar? = null
 
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
@@ -128,6 +129,7 @@ class GroupActivity : DatabaseLockActivity(),
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
+        loadingView = findViewById(R.id.loading)
 
         lockView?.setOnClickListener {
             lockAndExit()
@@ -254,7 +256,7 @@ class GroupActivity : DatabaseLockActivity(),
             assignGroupViewElements(currentGroup)
             invalidateOptionsMenu()
 
-            Log.i(TAG, "Finished creating tree")
+            loadingView?.hideByFading()
         }
 
         mGroupViewModel.firstPositionVisible.observe(this) { firstPositionVisible ->
