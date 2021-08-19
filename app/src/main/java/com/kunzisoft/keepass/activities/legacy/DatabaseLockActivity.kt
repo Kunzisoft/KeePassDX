@@ -86,11 +86,15 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mExitLock = false
     }
 
+    open fun finishActivityIfDatabaseNotLoaded(): Boolean {
+        return true
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
         // End activity if database not loaded
-        if (database == null || !database.loaded) {
+        if (finishActivityIfDatabaseNotLoaded() && (database == null || !database.loaded)) {
             finish()
         }
 
