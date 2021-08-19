@@ -230,20 +230,14 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         checkPermission()
 
         mDatabase?.let { database ->
-            if (database.loaded) {
-                clearCredentialsViews(true)
-                launchGroupActivity(database)
-            }
+            launchGroupActivityIfLoaded(database)
         }
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        if (database?.loaded == true) {
-            // If the database isn't accessible make sure to clear the password field, if it
-            // was saved in the instance state
-            clearCredentialsViews(true)
-            launchGroupActivity(database)
+        if (database != null) {
+            launchGroupActivityIfLoaded(database)
         }
     }
 
@@ -255,73 +249,69 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_LOAD_TASK -> {
-                // CHeck if database really loaded
-                if (database.loaded) {
-                    // Recheck advanced unlock if error
-                    advancedUnlockFragment?.initAdvancedUnlockMode()
+                // Recheck advanced unlock if error
+                advancedUnlockFragment?.initAdvancedUnlockMode()
 
-                    if (result.isSuccess) {
-                        clearCredentialsViews(true)
-                        launchGroupActivity(database)
-                    } else {
-                        var resultError = ""
-                        val resultException = result.exception
-                        val resultMessage = result.message
+                if (result.isSuccess) {
+                    launchGroupActivityIfLoaded(database)
+                } else {
+                    var resultError = ""
+                    val resultException = result.exception
+                    val resultMessage = result.message
 
-                        if (resultException != null) {
-                            resultError = resultException.getLocalizedMessage(resources)
+                    if (resultException != null) {
+                        resultError = resultException.getLocalizedMessage(resources)
 
-                            when (resultException) {
-                                is DuplicateUuidDatabaseException -> {
-                                    // Relaunch loading if we need to fix UUID
-                                    showLoadDatabaseDuplicateUuidMessage {
+                        when (resultException) {
+                            is DuplicateUuidDatabaseException -> {
+                                // Relaunch loading if we need to fix UUID
+                                showLoadDatabaseDuplicateUuidMessage {
 
-                                        var databaseUri: Uri? = null
-                                        var mainCredential = MainCredential()
-                                        var readOnly = true
-                                        var cipherEntity: CipherDatabaseEntity? = null
+                                    var databaseUri: Uri? = null
+                                    var mainCredential = MainCredential()
+                                    var readOnly = true
+                                    var cipherEntity: CipherDatabaseEntity? = null
 
-                                        result.data?.let { resultData ->
-                                            databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                            mainCredential =
-                                                resultData.getParcelable(MAIN_CREDENTIAL_KEY)
-                                                    ?: mainCredential
-                                            readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                            cipherEntity =
-                                                resultData.getParcelable(CIPHER_ENTITY_KEY)
-                                        }
-
-                                        databaseUri?.let { databaseFileUri ->
-                                            showProgressDialogAndLoadDatabase(
-                                                databaseFileUri,
-                                                mainCredential,
-                                                readOnly,
-                                                cipherEntity,
-                                                true
-                                            )
-                                        }
+                                    result.data?.let { resultData ->
+                                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                        mainCredential =
+                                            resultData.getParcelable(MAIN_CREDENTIAL_KEY)
+                                                ?: mainCredential
+                                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                        cipherEntity =
+                                            resultData.getParcelable(CIPHER_ENTITY_KEY)
                                     }
-                                }
-                                is FileNotFoundDatabaseException -> {
-                                    // Remove this default database inaccessible
-                                    if (mDefaultDatabase) {
-                                        databaseFileViewModel.removeDefaultDatabase()
+
+                                    databaseUri?.let { databaseFileUri ->
+                                        showProgressDialogAndLoadDatabase(
+                                            databaseFileUri,
+                                            mainCredential,
+                                            readOnly,
+                                            cipherEntity,
+                                            true
+                                        )
                                     }
                                 }
                             }
+                            is FileNotFoundDatabaseException -> {
+                                // Remove this default database inaccessible
+                                if (mDefaultDatabase) {
+                                    databaseFileViewModel.removeDefaultDatabase()
+                                }
+                            }
                         }
-
-                        // Show error message
-                        if (resultMessage != null && resultMessage.isNotEmpty()) {
-                            resultError = "$resultError $resultMessage"
-                        }
-                        Log.e(TAG, resultError)
-                        Snackbar.make(
-                            coordinatorLayout,
-                            resultError,
-                            Snackbar.LENGTH_LONG
-                        ).asError().show()
                     }
+
+                    // Show error message
+                    if (resultMessage != null && resultMessage.isNotEmpty()) {
+                        resultError = "$resultError $resultMessage"
+                    }
+                    Log.e(TAG, resultError)
+                    Snackbar.make(
+                        coordinatorLayout,
+                        resultError,
+                        Snackbar.LENGTH_LONG
+                    ).asError().show()
                 }
             }
         }
@@ -348,13 +338,17 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         getUriFromIntent(intent)
     }
 
-    private fun launchGroupActivity(database: Database) {
-        GroupActivity.launch(this,
+    private fun launchGroupActivityIfLoaded(database: Database) {
+        // Check if database really loaded
+        if (database.loaded) {
+            clearCredentialsViews(true)
+            GroupActivity.launch(this,
                 database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() }
-        )
+            )
+        }
     }
 
     override fun onValidateSpecialMode() {

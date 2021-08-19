@@ -200,8 +200,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        if (database?.loaded == true) {
-            launchGroupActivity(database)
+        if (database != null) {
+            launchGroupActivityIfLoaded(database)
         }
     }
 
@@ -221,9 +221,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
             }
             ACTION_DATABASE_LOAD_TASK -> {
-                if (result.isSuccess
-                    && database.loaded) {
-                    launchGroupActivity(database)
+                if (result.isSuccess) {
+                    launchGroupActivityIfLoaded(database)
                 } else {
                     var resultError = ""
                     val resultMessage = result.message
@@ -265,12 +264,14 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 { onLaunchActivitySpecialMode() })
     }
 
-    private fun launchGroupActivity(database: Database) {
-        GroupActivity.launch(this,
+    private fun launchGroupActivityIfLoaded(database: Database) {
+        if (database.loaded) {
+            GroupActivity.launch(this,
                 database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() })
+        }
     }
 
     override fun onValidateSpecialMode() {
@@ -311,9 +312,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
 
         mDatabase?.let { database ->
-            if (database.loaded) {
-                launchGroupActivity(database)
-            }
+            launchGroupActivityIfLoaded(database)
         }
     }
 
