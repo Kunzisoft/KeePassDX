@@ -26,7 +26,7 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.icons.IconPackChooser.ICONS_PACK_CHANGED
+import com.kunzisoft.keepass.settings.NestedAppSettingsFragment.Companion.DATABASE_APPEARANCE_PREFERENCE_CHANGED
 
 /**
  * Stylish Hide Activity that apply a dynamic style and sets FLAG_SECURE to prevent screenshots / from
@@ -87,8 +87,8 @@ abstract class StylishActivity : AppCompatActivity() {
         super.onResume()
 
         if ((customStyle && Stylish.getThemeId(this) != this.themeId)
-            || ICONS_PACK_CHANGED) {
-            ICONS_PACK_CHANGED = false
+            || DATABASE_APPEARANCE_PREFERENCE_CHANGED) {
+            DATABASE_APPEARANCE_PREFERENCE_CHANGED = false
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
             this.recreate()
         }

@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -108,7 +107,7 @@ class NodeAdapter (private val context: Context,
         taTextColor.recycle()
     }
 
-    fun assignPreferences() {
+    private fun assignPreferences() {
         this.mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         notifyChangeSort(

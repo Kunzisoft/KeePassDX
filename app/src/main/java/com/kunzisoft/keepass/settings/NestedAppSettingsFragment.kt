@@ -392,6 +392,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     private fun onCreateAppearancePreferences(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
+        DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
+
         activity?.let { activity ->
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
@@ -510,5 +512,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     companion object {
         private const val REQUEST_CODE_AUTOFILL = 5201
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
+
+        var DATABASE_APPEARANCE_PREFERENCE_CHANGED = false
     }
 }
