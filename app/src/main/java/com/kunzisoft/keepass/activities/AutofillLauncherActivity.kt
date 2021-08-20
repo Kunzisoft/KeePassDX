@@ -114,12 +114,13 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
                         finish()
                     },
-                    {
+                    { openedDatabase ->
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                autofillComponent,
-                                searchInfo,
-                                false)
+                            openedDatabase,
+                            autofillComponent,
+                            searchInfo,
+                            false)
                     },
                     {
                         // If database not open
@@ -145,20 +146,22 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { _, _ ->
+                    { openedDatabase, _ ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,
-                                    registerInfo)
+                                openedDatabase,
+                                registerInfo)
                         } else {
                             showReadOnlySaveMessage()
                         }
                     },
-                    {
+                    { openedDatabase ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,
-                                    registerInfo)
+                                openedDatabase,
+                                registerInfo)
                         } else {
                             showReadOnlySaveMessage()
                         }

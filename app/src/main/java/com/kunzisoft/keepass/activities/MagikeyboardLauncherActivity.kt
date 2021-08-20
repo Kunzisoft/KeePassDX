@@ -45,9 +45,9 @@ class MagikeyboardLauncherActivity : DatabaseModeActivity() {
                 // Not called
                 // if items found directly returns before calling this activity
             },
-            {
+            { openedDatabase ->
                 // Select if not found
-                GroupActivity.launchForKeyboardSelectionResult(this)
+                GroupActivity.launchForKeyboardSelectionResult(this, openedDatabase)
             },
             {
                 // Pass extra to get entry

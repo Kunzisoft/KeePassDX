@@ -217,8 +217,11 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
                     databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
                 }
-                GroupActivity.launch(this@FileDatabaseSelectActivity,
-                    PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
+                GroupActivity.launch(
+                    this@FileDatabaseSelectActivity,
+                    database,
+                    PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity)
+                )
             }
             ACTION_DATABASE_LOAD_TASK -> {
                 if (result.isSuccess) {

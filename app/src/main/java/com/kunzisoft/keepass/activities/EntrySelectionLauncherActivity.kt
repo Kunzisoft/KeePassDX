@@ -99,13 +99,15 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { _, items ->
+                    { openedDatabase, items ->
                         // Items found
                         if (searchInfo.otpString != null) {
                             if (!readOnly) {
-                                GroupActivity.launchForSaveResult(this,
-                                        searchInfo,
-                                        false)
+                                GroupActivity.launchForSaveResult(
+                                    this,
+                                    openedDatabase,
+                                    searchInfo,
+                                    false)
                             } else {
                                 Toast.makeText(applicationContext,
                                         R.string.autofill_read_only_save,
@@ -116,28 +118,32 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             if (items.size == 1) {
                                 // Automatically populate keyboard
                                 val entryPopulate = items[0]
-                                populateKeyboardAndMoveAppToBackground(this,
+                                populateKeyboardAndMoveAppToBackground(
+                                    this,
                                         entryPopulate,
                                         intent)
                             } else {
                                 // Select the one we want
                                 GroupActivity.launchForKeyboardSelectionResult(this,
-                                        searchInfo,
-                                        true)
+                                    openedDatabase,
+                                    searchInfo,
+                                    true)
                             }
                         } else {
                             GroupActivity.launchForSearchResult(this,
-                                    searchInfo,
-                                    true)
+                                openedDatabase,
+                                searchInfo,
+                                true)
                         }
                     },
-                    {
+                    { openedDatabase ->
                         // Show the database UI to select the entry
                         if (searchInfo.otpString != null) {
                             if (!readOnly) {
                                 GroupActivity.launchForSaveResult(this,
-                                        searchInfo,
-                                        false)
+                                    openedDatabase,
+                                    searchInfo,
+                                    false)
                             } else {
                                 Toast.makeText(applicationContext,
                                         R.string.autofill_read_only_save,
@@ -146,12 +152,14 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             }
                         } else if (readOnly || searchShareForMagikeyboard) {
                             GroupActivity.launchForKeyboardSelectionResult(this,
-                                    searchInfo,
-                                    false)
+                                openedDatabase,
+                                searchInfo,
+                                false)
                         } else {
                             GroupActivity.launchForSaveResult(this,
-                                    searchInfo,
-                                    false)
+                                openedDatabase,
+                                searchInfo,
+                                false)
                         }
                     },
                     {

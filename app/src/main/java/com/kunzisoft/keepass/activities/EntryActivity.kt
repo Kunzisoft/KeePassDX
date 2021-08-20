@@ -378,8 +378,14 @@ class EntryActivity : DatabaseLockActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                mMainEntryId?.let { entryId ->
-                    EntryEditActivity.launchToUpdate(this@EntryActivity, entryId)
+                mDatabase?.let { database ->
+                    mMainEntryId?.let { entryId ->
+                        EntryEditActivity.launchToUpdate(
+                            this,
+                            database,
+                            entryId
+                        )
+                    }
                 }
                 return true
             }

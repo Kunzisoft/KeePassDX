@@ -748,59 +748,67 @@ class EntryEditActivity : DatabaseLockActivity(),
         const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
 
-        // TODO Only not readonly
-
         /**
-         * Launch EntryEditActivity to update an existing entry
-         *
-         * @param activity from activity
-         * @param entryId Entry to update
+         * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
         fun launchToUpdate(activity: Activity,
+                           database: Database,
                            entryId: NodeId<UUID>) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entryId)
-                activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                }
             }
         }
 
         /**
-         * Launch EntryEditActivity to add a new entry
-         *
-         * @param activity from activity
-         * @param groupId Group who will contains new entry
+         * Launch EntryEditActivity to add a new entry in an existent group
          */
         fun launchToCreate(activity: Activity,
+                           database: Database,
                            groupId: NodeId<*>) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, groupId)
-                activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                }
             }
         }
 
         fun launchToUpdateForSave(context: Context,
+                                  database: Database,
                                   entryId: NodeId<UUID>,
                                   searchInfo: SearchInfo) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entryId)
-                EntrySelectionHelper.startActivityForSaveModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    EntrySelectionHelper.startActivityForSaveModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
         fun launchToCreateForSave(context: Context,
+                                  database: Database,
                                   groupId: NodeId<*>,
                                   searchInfo: SearchInfo) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, groupId)
-                EntrySelectionHelper.startActivityForSaveModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForSaveModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -808,14 +816,19 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in keyboard selection
          */
         fun launchForKeyboardSelectionResult(context: Context,
+                                             database: Database,
                                              groupId: NodeId<*>,
                                              searchInfo: SearchInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, groupId)
-                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -824,16 +837,21 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
+                                    database: Database,
                                     autofillComponent: AutofillComponent,
                                     groupId: NodeId<*>,
                                     searchInfo: SearchInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, groupId)
-                AutofillHelper.startActivityForAutofillResult(activity,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    AutofillHelper.startActivityForAutofillResult(
+                        activity,
                         intent,
                         autofillComponent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -841,14 +859,19 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
         fun launchToUpdateForRegistration(context: Context,
+                                          database: Database,
                                           entryId: NodeId<UUID>,
                                           registerInfo: RegisterInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entryId)
-                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    EntrySelectionHelper.startActivityForRegistrationModeResult(
+                        context,
                         intent,
-                        registerInfo)
+                        registerInfo
+                    )
+                }
             }
         }
 
@@ -856,14 +879,19 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register a new entry (from autofill)
          */
         fun launchToCreateForRegistration(context: Context,
+                                          database: Database,
                                           groupId: NodeId<*>,
                                           registerInfo: RegisterInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, groupId)
-                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForRegistrationModeResult(
+                        context,
                         intent,
-                        registerInfo)
+                        registerInfo
+                    )
+                }
             }
         }
     }

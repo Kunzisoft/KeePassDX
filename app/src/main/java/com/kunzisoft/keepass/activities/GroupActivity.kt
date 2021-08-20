@@ -206,50 +206,61 @@ class GroupActivity : DatabaseLockActivity(),
                     }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
                 }
                 addNodeButtonView?.setAddEntryClickListener {
-                    EntrySelectionHelper.doSpecialAction(intent,
-                        {
-                            EntryEditActivity.launchToCreate(
-                                this@GroupActivity,
-                                currentGroup.nodeId
-                            )
-                        },
-                        {
-                            // Search not used
-                        },
-                        { searchInfo ->
-                            EntryEditActivity.launchToCreateForSave(
-                                this@GroupActivity,
-                                currentGroup.nodeId, searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo ->
-                            EntryEditActivity.launchForKeyboardSelectionResult(
-                                this@GroupActivity,
-                                currentGroup.nodeId, searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo, autofillComponent ->
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                EntryEditActivity.launchForAutofillResult(
+                    mDatabase?.let { database ->
+                        EntrySelectionHelper.doSpecialAction(intent,
+                            {
+                                EntryEditActivity.launchToCreate(
                                     this@GroupActivity,
-                                    autofillComponent,
-                                    currentGroup.nodeId, searchInfo
+                                    database,
+                                    currentGroup.nodeId
+                                )
+                            },
+                            {
+                                // Search not used
+                            },
+                            { searchInfo ->
+                                EntryEditActivity.launchToCreateForSave(
+                                    this@GroupActivity,
+                                    database,
+                                    currentGroup.nodeId,
+                                    searchInfo
                                 )
                                 onLaunchActivitySpecialMode()
-                            } else {
-                                onCancelSpecialMode()
+                            },
+                            { searchInfo ->
+                                EntryEditActivity.launchForKeyboardSelectionResult(
+                                    this@GroupActivity,
+                                    database,
+                                    currentGroup.nodeId,
+                                    searchInfo
+                                )
+                                onLaunchActivitySpecialMode()
+                            },
+                            { searchInfo, autofillComponent ->
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    EntryEditActivity.launchForAutofillResult(
+                                        this@GroupActivity,
+                                        database,
+                                        autofillComponent,
+                                        currentGroup.nodeId,
+                                        searchInfo
+                                    )
+                                    onLaunchActivitySpecialMode()
+                                } else {
+                                    onCancelSpecialMode()
+                                }
+                            },
+                            { searchInfo ->
+                                EntryEditActivity.launchToCreateForRegistration(
+                                    this@GroupActivity,
+                                    database,
+                                    currentGroup.nodeId,
+                                    searchInfo
+                                )
+                                onLaunchActivitySpecialMode()
                             }
-                        },
-                        { searchInfo ->
-                            EntryEditActivity.launchToCreateForRegistration(
-                                this@GroupActivity,
-                                currentGroup.nodeId, searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        }
-                    )
+                        )
+                    }
                 }
             }
 
@@ -587,7 +598,7 @@ class GroupActivity : DatabaseLockActivity(),
                     },
                     { searchInfo ->
                         if (!database.isReadOnly)
-                            entrySelectedForSave(entryVersioned, searchInfo)
+                            entrySelectedForSave(database, entryVersioned, searchInfo)
                         else
                             finish()
                     },
@@ -629,7 +640,7 @@ class GroupActivity : DatabaseLockActivity(),
                     },
                     { registerInfo ->
                         if (!database.isReadOnly)
-                            entrySelectedForRegistration(entryVersioned, registerInfo)
+                            entrySelectedForRegistration(database, entryVersioned, registerInfo)
                         else
                             finish()
                     })
@@ -639,12 +650,14 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun entrySelectedForSave(entry: Entry, searchInfo: SearchInfo) {
+    private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
         reloadCurrentGroup()
         // Save to update the entry
         EntryEditActivity.launchToUpdateForSave(
             this@GroupActivity,
-            entry.nodeId, searchInfo
+            database,
+            entry.nodeId,
+            searchInfo
         )
         onLaunchActivitySpecialMode()
     }
@@ -672,12 +685,18 @@ class GroupActivity : DatabaseLockActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForRegistration(entry: Entry, registerInfo: RegisterInfo?) {
+    private fun entrySelectedForRegistration(
+        database: Database,
+        entry: Entry,
+        registerInfo: RegisterInfo?
+    ) {
         reloadCurrentGroup()
         // Registration to update the entry
         EntryEditActivity.launchToUpdateForRegistration(
             this@GroupActivity,
-            entry.nodeId, registerInfo
+            database,
+            entry.nodeId,
+            registerInfo
         )
         onLaunchActivitySpecialMode()
     }
@@ -765,6 +784,7 @@ class GroupActivity : DatabaseLockActivity(),
             }
             Type.ENTRY -> EntryEditActivity.launchToUpdate(
                 this@GroupActivity,
+                database,
                 (node as Entry).nodeId
             )
         }
@@ -1180,10 +1200,13 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launch(context: Context,
+                   database: Database,
                    autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                context.startActivity(intent)
+            if (database.loaded) {
+                checkTimeAndBuildIntent(context, null) { intent ->
+                    intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                    context.startActivity(intent)
+                }
             }
         }
 
@@ -1193,14 +1216,18 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForSearchResult(context: Context,
+                                  database: Database,
                                   searchInfo: SearchInfo,
                                   autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                EntrySelectionHelper.addSearchInfoInIntent(
+            if (database.loaded) {
+                checkTimeAndBuildIntent(context, null) { intent ->
+                    intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                    EntrySelectionHelper.addSearchInfoInIntent(
                         intent,
-                        searchInfo)
-                context.startActivity(intent)
+                        searchInfo
+                    )
+                    context.startActivity(intent)
+                }
             }
         }
 
@@ -1210,14 +1237,18 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForSaveResult(context: Context,
+                                database: Database,
                                 searchInfo: SearchInfo,
                                 autoSearch: Boolean = false) {
-            // TODO Only not readonly
-            checkTimeAndBuildIntent(context, null) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                EntrySelectionHelper.startActivityForSaveModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                checkTimeAndBuildIntent(context, null) { intent ->
+                    intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                    EntrySelectionHelper.startActivityForSaveModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -1227,13 +1258,18 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForKeyboardSelectionResult(context: Context,
+                                             database: Database,
                                              searchInfo: SearchInfo? = null,
                                              autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(context, null) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
+            if (database.loaded) {
+                checkTimeAndBuildIntent(context, null) { intent ->
+                    intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                    EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -1244,15 +1280,20 @@ class GroupActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
+                                    database: Database,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
-            checkTimeAndBuildIntent(activity, null) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                AutofillHelper.startActivityForAutofillResult(activity,
+            if (database.loaded) {
+                checkTimeAndBuildIntent(activity, null) { intent ->
+                    intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
+                    AutofillHelper.startActivityForAutofillResult(
+                        activity,
                         intent,
                         autofillComponent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -1262,13 +1303,17 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForRegistration(context: Context,
+                                  database: Database,
                                   registerInfo: RegisterInfo? = null) {
-            // TODO Only not readonly
-            checkTimeAndBuildIntent(context, null) { intent ->
-                intent.putExtra(AUTO_SEARCH_KEY, false)
-                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                checkTimeAndBuildIntent(context, null) { intent ->
+                    intent.putExtra(AUTO_SEARCH_KEY, false)
+                    EntrySelectionHelper.startActivityForRegistrationModeResult(
+                        context,
                         intent,
-                        registerInfo)
+                        registerInfo
+                    )
+                }
             }
         }
 
@@ -1284,12 +1329,11 @@ class GroupActivity : DatabaseLockActivity(),
                    onLaunchActivitySpecialMode: () -> Unit) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
-                        if (database.loaded) {
-                            GroupActivity.launch(
-                                activity,
-                                true
-                            )
-                        }
+                        GroupActivity.launch(
+                            activity,
+                            database,
+                            true
+                        )
                     },
                     { searchInfo ->
                         SearchHelper.checkAutoSearchInfo(activity,
@@ -1298,20 +1342,23 @@ class GroupActivity : DatabaseLockActivity(),
                                 { _, _ ->
                                     // Response is build
                                     GroupActivity.launchForSearchResult(activity,
-                                            searchInfo,
-                                            true)
+                                        database,
+                                        searchInfo,
+                                        true)
                                     onLaunchActivitySpecialMode()
                                 },
                                 {
                                     // Here no search info found
                                     if (database.isReadOnly) {
                                         GroupActivity.launchForSearchResult(activity,
-                                                searchInfo,
-                                                false)
+                                            database,
+                                            searchInfo,
+                                            false)
                                     } else {
                                         GroupActivity.launchForSaveResult(activity,
-                                                searchInfo,
-                                                false)
+                                            database,
+                                            searchInfo,
+                                            false)
                                     }
                                     onLaunchActivitySpecialMode()
                                 },
@@ -1327,6 +1374,7 @@ class GroupActivity : DatabaseLockActivity(),
                             if (!database.isReadOnly) {
                                 GroupActivity.launchForSaveResult(
                                     activity,
+                                    database,
                                     searchInfo,
                                     false
                                 )
@@ -1356,16 +1404,18 @@ class GroupActivity : DatabaseLockActivity(),
                                     } else {
                                         // Select the one we want
                                         GroupActivity.launchForKeyboardSelectionResult(activity,
-                                                searchInfo,
-                                                true)
+                                            database,
+                                            searchInfo,
+                                            true)
                                         onLaunchActivitySpecialMode()
                                     }
                                 },
                                 {
                                     // Here no search info found, disable auto search
                                     GroupActivity.launchForKeyboardSelectionResult(activity,
-                                            searchInfo,
-                                            false)
+                                        database,
+                                        searchInfo,
+                                        false)
                                     onLaunchActivitySpecialMode()
                                 },
                                 {
@@ -1387,9 +1437,10 @@ class GroupActivity : DatabaseLockActivity(),
                                     {
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
-                                                autofillComponent,
-                                                searchInfo,
-                                                false)
+                                            database,
+                                            autofillComponent,
+                                            searchInfo,
+                                            false)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
@@ -1409,13 +1460,15 @@ class GroupActivity : DatabaseLockActivity(),
                                     { _, _ ->
                                         // No auto search, it's a registration
                                         GroupActivity.launchForRegistration(activity,
-                                                registerInfo)
+                                            database,
+                                            registerInfo)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForRegistration(activity,
-                                                registerInfo)
+                                            database,
+                                            registerInfo)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
