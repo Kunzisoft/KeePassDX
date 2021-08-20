@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.services
 
 import android.content.Intent
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
@@ -42,7 +43,9 @@ abstract class LockNotificationService : NotificationService() {
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        stopSelf()
+        if (!TimeoutHelper.temporarilyDisableLock) {
+            actionOnLock()
+        }
         super.onTaskRemoved(rootIntent)
     }
 

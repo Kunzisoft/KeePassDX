@@ -112,8 +112,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center_vertical"
-                                android:layout_marginLeft="@dimen/image_list_margin"
-                                android:layout_marginStart="@dimen/image_list_margin"
+                                android:layout_marginLeft="@dimen/image_list_margin_vertical"
+                                android:layout_marginStart="@dimen/image_list_margin_vertical"
                                 android:layout_weight="1"
                                 android:text="@string/root"
                                 android:maxLines="2"
@@ -156,6 +156,17 @@
         android:theme="?attr/toolbarActionAppearance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
 
     <include
         layout="@layout/view_button_lock"

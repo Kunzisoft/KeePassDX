@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.app
 
 import androidx.multidex.MultiDexApplication
 import com.kunzisoft.keepass.activities.stylish.Stylish
-import com.kunzisoft.keepass.database.element.Database
 
 class App : MultiDexApplication() {
 
@@ -30,10 +29,5 @@ class App : MultiDexApplication() {
 
         Stylish.load(this)
         PRNGFixes.apply()
-    }
-
-    override fun onTerminate() {
-        Database.getInstance().clearAndClose(this)
-        super.onTerminate()
     }
 }

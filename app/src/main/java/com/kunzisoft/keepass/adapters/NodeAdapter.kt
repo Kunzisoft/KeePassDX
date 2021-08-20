@@ -107,7 +107,7 @@ class NodeAdapter (private val context: Context,
         taTextColor.recycle()
     }
 
-    fun assignPreferences() {
+    private fun assignPreferences() {
         this.mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         notifyChangeSort(
@@ -142,9 +142,19 @@ class NodeAdapter (private val context: Context,
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
-            return oldItem.type == newItem.type
+            var typeContentTheSame = true
+            if (oldItem is Entry && newItem is Entry) {
+                typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
+                        && oldItem.username == newItem.username
+                        && oldItem.containsAttachment() == newItem.containsAttachment()
+            } else if (oldItem is Group && newItem is Group) {
+                typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
+            }
+            return typeContentTheSame
+                    && oldItem.type == newItem.type
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
+                    && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
         }
 
         override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
@@ -235,6 +245,10 @@ class NodeAdapter (private val context: Context,
         }
         mNodeSortedList.addAll(newNodes)
         mNodeSortedList.endBatchedUpdates()
+    }
+
+    fun indexOf(node: Node): Int {
+        return mNodeSortedList.indexOf(node)
     }
 
     fun notifyNodeChanged(node: Node) {
@@ -346,7 +360,7 @@ class NodeAdapter (private val context: Context,
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries(mEntryFilters)
+                            .numberOfChildEntries
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
@@ -358,10 +372,10 @@ class NodeAdapter (private val context: Context,
 
         // Assign click
         holder.container.setOnClickListener {
-            mNodeClickCallback?.onNodeClick(subNode)
+            mNodeClickCallback?.onNodeClick(database, subNode)
         }
         holder.container.setOnLongClickListener {
-            mNodeClickCallback?.onNodeLongClick(subNode) ?: false
+            mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
     }
     
@@ -380,8 +394,8 @@ class NodeAdapter (private val context: Context,
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(node: Node)
-        fun onNodeLongClick(node: Node): Boolean
+        fun onNodeClick(database: Database, node: Node)
+        fun onNodeLongClick(database: Database, node: Node): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -22,14 +22,13 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -39,14 +38,18 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
  * Activity to search or select entry in database,
  * Commonly used with Magikeyboard
  */
-class EntrySelectionLauncherActivity : AppCompatActivity() {
+class EntrySelectionLauncherActivity : DatabaseModeActivity() {
 
-    private var mDatabase: Database? = null
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
 
-        mDatabase = Database.getInstance()
-
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
         var sharedWebDomain: String? = null
         var otpString: String? = null
 
@@ -72,23 +75,19 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
             else -> {}
         }
 
-
         // Build domain search param
         val searchInfo = SearchInfo().apply {
             this.webDomain = sharedWebDomain
             this.otpString = otpString
         }
+
         SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
             searchInfo.webDomain = concreteWebDomain
-            mDatabase?.let { database ->
-                launch(database, searchInfo)
-            }
+            launch(database, searchInfo)
         }
-
-        super.onCreate(savedInstanceState)
     }
 
-    private fun launch(database: Database,
+    private fun launch(database: Database?,
                        searchInfo: SearchInfo) {
 
         if (!searchInfo.containsOnlyNullValues()) {
@@ -96,17 +95,19 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
             val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
             // If database is open
-            val readOnly = database.isReadOnly
+            val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { items ->
+                    { openedDatabase, items ->
                         // Items found
                         if (searchInfo.otpString != null) {
                             if (!readOnly) {
-                                GroupActivity.launchForSaveResult(this,
-                                        searchInfo,
-                                        false)
+                                GroupActivity.launchForSaveResult(
+                                    this,
+                                    openedDatabase,
+                                    searchInfo,
+                                    false)
                             } else {
                                 Toast.makeText(applicationContext,
                                         R.string.autofill_read_only_save,
@@ -117,30 +118,32 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                             if (items.size == 1) {
                                 // Automatically populate keyboard
                                 val entryPopulate = items[0]
-                                populateKeyboardAndMoveAppToBackground(this,
+                                populateKeyboardAndMoveAppToBackground(
+                                    this,
                                         entryPopulate,
                                         intent)
                             } else {
                                 // Select the one we want
                                 GroupActivity.launchForKeyboardSelectionResult(this,
-                                        readOnly,
-                                        searchInfo,
-                                        true)
+                                    openedDatabase,
+                                    searchInfo,
+                                    true)
                             }
                         } else {
                             GroupActivity.launchForSearchResult(this,
-                                    readOnly,
-                                    searchInfo,
-                                    true)
+                                openedDatabase,
+                                searchInfo,
+                                true)
                         }
                     },
-                    {
+                    { openedDatabase ->
                         // Show the database UI to select the entry
                         if (searchInfo.otpString != null) {
                             if (!readOnly) {
                                 GroupActivity.launchForSaveResult(this,
-                                        searchInfo,
-                                        false)
+                                    openedDatabase,
+                                    searchInfo,
+                                    false)
                             } else {
                                 Toast.makeText(applicationContext,
                                         R.string.autofill_read_only_save,
@@ -149,13 +152,14 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                             }
                         } else if (readOnly || searchShareForMagikeyboard) {
                             GroupActivity.launchForKeyboardSelectionResult(this,
-                                    readOnly,
-                                    searchInfo,
-                                    false)
+                                openedDatabase,
+                                searchInfo,
+                                false)
                         } else {
                             GroupActivity.launchForSaveResult(this,
-                                    searchInfo,
-                                    false)
+                                openedDatabase,
+                                searchInfo,
+                                false)
                         }
                     },
                     {
@@ -189,7 +193,7 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity,
                                            intent: Intent,
                                            toast: Boolean = true) {
     // Populate Magikeyboard with entry
-    MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
+    MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
     // Consume the selection mode
     EntrySelectionHelper.removeModesFromIntent(intent)
     activity.moveTaskToBack(true)

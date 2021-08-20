@@ -36,8 +36,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -50,7 +49,7 @@ import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.*
 
 
-class IconPickerActivity : LockingActivity() {
+class IconPickerActivity : DatabaseLockActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -84,11 +83,6 @@ class IconPickerActivity : LockingActivity() {
         mExternalFileHelper = ExternalFileHelper(this)
 
         uploadButton = findViewById(R.id.icon_picker_upload)
-        if (mDatabase?.allowCustomIcons == true) {
-            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
-        } else {
-            uploadButton.visibility = View.GONE
-        }
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
@@ -113,9 +107,6 @@ class IconPickerActivity : LockingActivity() {
         } else {
             mIconImage = savedInstanceState.getParcelable(EXTRA_ICON) ?: mIconImage
         }
-
-        // Focus view to reinitialize timeout
-        findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard
@@ -147,6 +138,24 @@ class IconPickerActivity : LockingActivity() {
                 iconCustomRemoved.errorConsumed = true
             }
             uploadButton.isEnabled = true
+        }
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        return findViewById<ViewGroup>(R.id.icon_picker_container)
+    }
+
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        if (database?.allowCustomIcons == true) {
+            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
+        } else {
+            uploadButton.visibility = View.GONE
         }
     }
 

@@ -34,54 +34,52 @@ class UpdateEntryRunnable constructor(
         afterActionNodesFinish: AfterActionNodesFinish?)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
-    // Keep backup of original values in case save fails
-    private var mBackupEntryHistory: Entry = Entry(mOldEntry)
-
     override fun nodeAction() {
-        // WARNING : Re attribute parent removed in entry edit activity to save memory
-        mNewEntry.addParentFrom(mOldEntry)
+        if (mOldEntry.nodeId == mNewEntry.nodeId) {
+            // WARNING : Re attribute parent removed in entry edit activity to save memory
+            mNewEntry.addParentFrom(mOldEntry)
 
-        // Build oldest attachments
-        val oldEntryAttachments = mOldEntry.getAttachments(database.attachmentPool, true)
-        val newEntryAttachments = mNewEntry.getAttachments(database.attachmentPool, true)
-        val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
-        // Not use equals because only check name
-        newEntryAttachments.forEach { newAttachment ->
-            oldEntryAttachments.forEach { oldAttachment ->
-                if (oldAttachment.name == newAttachment.name
-                        && oldAttachment.binaryData == newAttachment.binaryData)
-                    attachmentsToRemove.remove(oldAttachment)
+            // Build oldest attachments
+            val oldEntryAttachments = mOldEntry.getAttachments(database.attachmentPool, true)
+            val newEntryAttachments = mNewEntry.getAttachments(database.attachmentPool, true)
+            val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
+            // Not use equals because only check name
+            newEntryAttachments.forEach { newAttachment ->
+                oldEntryAttachments.forEach { oldAttachment ->
+                    if (oldAttachment.name == newAttachment.name
+                        && oldAttachment.binaryData == newAttachment.binaryData
+                    )
+                        attachmentsToRemove.remove(oldAttachment)
+                }
             }
-        }
 
-        // Update entry with new values
-        mOldEntry.updateWith(mNewEntry)
-        mNewEntry.touch(modified = true, touchParents = true)
+            // Update entry with new values
+            mNewEntry.touch(modified = true, touchParents = true)
 
-        // Create an entry history (an entry history don't have history)
-        mOldEntry.addEntryToHistory(Entry(mBackupEntryHistory, copyHistory = false))
-        database.removeOldestEntryHistory(mOldEntry, database.attachmentPool)
+            // Create an entry history (an entry history don't have history)
+            mNewEntry.addEntryToHistory(Entry(mOldEntry, copyHistory = false))
+            database.removeOldestEntryHistory(mNewEntry, database.attachmentPool)
 
-        // Only change data in index
-        database.updateEntry(mOldEntry)
+            // Only change data in index
+            database.updateEntry(mNewEntry)
 
-        // Remove oldest attachments
-        attachmentsToRemove.forEach {
-            database.removeAttachmentIfNotUsed(it)
+            // Remove oldest attachments
+            attachmentsToRemove.forEach {
+                database.removeAttachmentIfNotUsed(it)
+            }
         }
     }
 
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
-            mOldEntry.updateWith(mBackupEntryHistory)
             // If we fail to save, back out changes to global structure
             database.updateEntry(mOldEntry)
         }
 
         val oldNodesReturn = ArrayList<Node>()
-        oldNodesReturn.add(mBackupEntryHistory)
+        oldNodesReturn.add(mOldEntry)
         val newNodesReturn = ArrayList<Node>()
-        newNodesReturn.add(mOldEntry)
+        newNodesReturn.add(mNewEntry)
         return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

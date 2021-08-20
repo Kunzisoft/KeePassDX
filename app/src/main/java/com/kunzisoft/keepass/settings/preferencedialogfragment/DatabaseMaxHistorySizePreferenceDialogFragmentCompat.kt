@@ -22,19 +22,23 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.utils.DataByte
 
-class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class DatabaseMaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     private var dataByte = DataByte(2L, DataByte.ByteFormat.MEBIBYTE)
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
-
         setExplanationText(R.string.max_history_size_summary)
-        mDatabase?.historyMaxSize?.let { maxItemsDatabase ->
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.historyMaxSize?.let { maxItemsDatabase ->
             dataByte = DataByte(maxItemsDatabase, DataByte.ByteFormat.BYTE)
-                    .toBetterByteFormat()
+                .toBetterByteFormat()
             inputText = dataByte.number.toString()
             if (dataByte.number >= 0) {
                 setUnitText(dataByte.format.stringId)
@@ -54,13 +58,13 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                 }
                 showInputText(isChecked)
             }, maxItemsDatabase > INFINITE_MAX_HISTORY_SIZE)
-
         }
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            mDatabase?.let { database ->
+            database?.let {
                 val maxHistorySize: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
@@ -80,7 +84,7 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                 val oldMaxHistorySize = database.historyMaxSize
                 database.historyMaxSize = numberOfBytes
 
-                mProgressDatabaseTaskProvider?.startDatabaseSaveMaxHistorySize(oldMaxHistorySize, numberOfBytes, mDatabaseAutoSaveEnable)
+                saveMaxHistorySize(oldMaxHistorySize, numberOfBytes)
             }
         }
     }
@@ -92,8 +96,8 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
         private val INFINITE_MAX_HISTORY_SIZE_DATA_BYTE = DataByte(INFINITE_MAX_HISTORY_SIZE, DataByte.ByteFormat.MEBIBYTE)
         private val DEFAULT_MAX_HISTORY_SIZE_DATA_BYTE = DataByte(6L, DataByte.ByteFormat.MEBIBYTE)
 
-        fun newInstance(key: String): MaxHistorySizePreferenceDialogFragmentCompat {
-            val fragment = MaxHistorySizePreferenceDialogFragmentCompat()
+        fun newInstance(key: String): DatabaseMaxHistorySizePreferenceDialogFragmentCompat {
+            val fragment = DatabaseMaxHistorySizePreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

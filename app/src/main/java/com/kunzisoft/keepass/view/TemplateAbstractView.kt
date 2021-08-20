@@ -71,6 +71,16 @@ abstract class TemplateAbstractView<
 
     // To show icon image
     var populateIconMethod: ((ImageView, IconImage) -> Unit)? = null
+        set(value) {
+            field = value
+            refreshIcon()
+        }
+
+    fun refreshIcon() {
+        mEntryInfo?.icon?.let {
+            populateIconMethod?.invoke(entryIconView, it)
+        }
+    }
 
     fun setTemplate(template: Template?) {
         if (mTemplate != template) {

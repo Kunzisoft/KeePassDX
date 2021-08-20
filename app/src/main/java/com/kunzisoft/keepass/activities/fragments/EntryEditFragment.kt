@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,15 +32,13 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
@@ -49,10 +46,6 @@ import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
 class EntryEditFragment: DatabaseFragment() {
-
-    private var iconColor: Int = 0
-
-    var drawFactory: IconDrawableFactory? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
 
@@ -62,10 +55,19 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
+    private var mAllowMultipleAttachments: Boolean = false
+
+    private var mIconColor: Int = 0
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
+        // Retrieve the textColor to tint the icon
+        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        mIconColor = taIconColor?.getColor(0, Color.BLACK) ?: Color.BLACK
+        taIconColor?.recycle()
 
         return inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.fragment_entry_edit, container, false)
@@ -74,11 +76,6 @@ class EntryEditFragment: DatabaseFragment() {
     override fun onViewCreated(view: View,
                                savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Retrieve the textColor to tint the icon
-        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        iconColor = taIconColor?.getColor(0, Color.WHITE) ?: Color.WHITE
-        taIconColor?.recycle()
 
         rootView = view
         // Hide only the first time
@@ -89,12 +86,14 @@ class EntryEditFragment: DatabaseFragment() {
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
 
-        view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), mDatabase)
+        attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
+        attachmentsListView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         templateView.apply {
-            populateIconMethod = { imageView, icon ->
-                drawFactory?.assignDatabaseIcon(imageView, icon, iconColor)
-            }
             setOnIconClickListener {
                 mEntryEditViewModel.requestIconSelection(templateView.getIcon())
             }
@@ -109,20 +108,6 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
-        attachmentsAdapter?.database = mDatabase
-        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
-            if (previousSize > 0 && newSize == 0) {
-                attachmentsContainerView.collapse(true)
-            } else if (previousSize == 0 && newSize == 1) {
-                attachmentsContainerView.expand(true)
-            }
-        }
-        attachmentsListView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = attachmentsAdapter
-            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        }
         if (savedInstanceState != null) {
             val attachments: List<Attachment> =
                 savedInstanceState.getParcelableArrayList(ATTACHMENTS_TAG) ?: listOf()
@@ -140,10 +125,12 @@ class EntryEditFragment: DatabaseFragment() {
             }
             // To prevent flickering
             rootView.showByFading()
+            // Apply timeout reset
+            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
-            mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
+            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, retrieveEntryInfo())
         }
 
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
@@ -206,10 +193,11 @@ class EntryEditFragment: DatabaseFragment() {
         mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
             val attachmentToUploadUri = it.attachmentToUploadUri
             val fileName = it.fileName
-            mDatabase?.buildNewBinaryAttachment()?.let { binaryAttachment ->
+
+            buildNewBinaryAttachment()?.let { binaryAttachment ->
                 val entryAttachment = Attachment(fileName, binaryAttachment)
                 // Ask to replace the current attachment
-                if ((mDatabase?.allowMultipleAttachments == false
+                if ((!mAllowMultipleAttachments
                             && containsAttachment()) ||
                     containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
                     ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
@@ -224,17 +212,17 @@ class EntryEditFragment: DatabaseFragment() {
             when (entryAttachmentState?.downloadState) {
                 AttachmentState.START -> {
                     putAttachment(entryAttachmentState)
-                    getAttachmentViewPosition(entryAttachmentState) {
-                        mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                    getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
+                        mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
                     }
                 }
                 AttachmentState.IN_PROGRESS -> {
                     putAttachment(entryAttachmentState)
                 }
                 AttachmentState.COMPLETE -> {
-                    putAttachment(entryAttachmentState) {
-                        getAttachmentViewPosition(entryAttachmentState) {
-                            mEntryEditViewModel.binaryPreviewLoaded(entryAttachmentState, it)
+                    putAttachment(entryAttachmentState) { entryAttachment ->
+                        getAttachmentViewPosition(entryAttachment) { attachment, position ->
+                            mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
                         }
                     }
                     mEntryEditViewModel.onAttachmentAction(null)
@@ -249,16 +237,22 @@ class EntryEditFragment: DatabaseFragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onDatabaseRetrieved(database: Database?) {
 
-        drawFactory = mDatabase?.iconDrawableFactory
-    }
+        templateView.populateIconMethod = { imageView, icon ->
+            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+        }
 
-    override fun onDetach() {
-        super.onDetach()
+        mAllowMultipleAttachments = database?.allowMultipleAttachments == true
 
-        drawFactory = null
+        attachmentsAdapter?.database = database
+        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                attachmentsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                attachmentsContainerView.expand(true)
+            }
+        }
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {
@@ -305,15 +299,15 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     private fun putAttachment(attachment: EntryAttachmentState,
-                              onPreviewLoaded: (() -> Unit)? = null) {
+                              onPreviewLoaded: ((attachment: EntryAttachmentState) -> Unit)? = null) {
         // When only one attachment is allowed
-        if (mDatabase?.allowMultipleAttachments == false) {
+        if (!mAllowMultipleAttachments) {
             clearAttachments()
         }
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter?.putItem(attachment)
         attachmentsAdapter?.onBinaryPreviewLoaded = {
-            onPreviewLoaded?.invoke()
+            onPreviewLoaded?.invoke(attachment)
         }
     }
 
@@ -325,10 +319,12 @@ class EntryEditFragment: DatabaseFragment() {
         attachmentsAdapter?.clear()
     }
 
-    private fun getAttachmentViewPosition(attachment: EntryAttachmentState, position: (Float) -> Unit) {
+    private fun getAttachmentViewPosition(attachment: EntryAttachmentState,
+                                          position: (attachment: EntryAttachmentState, Float) -> Unit) {
         attachmentsListView.postDelayed({
             attachmentsAdapter?.indexOf(attachment)?.let { index ->
-                position.invoke(attachmentsContainerView.y
+                position.invoke(attachment,
+                    attachmentsContainerView.y
                         + attachmentsListView.y
                         + (attachmentsListView.getChildAt(index)?.y
                         ?: 0F)

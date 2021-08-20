@@ -34,4 +34,6 @@ class SearchParameters {
     var searchInOther = true
     var searchInUUIDs = false
     var searchInTags = true
+
+    var searchInTemplates = false
 }

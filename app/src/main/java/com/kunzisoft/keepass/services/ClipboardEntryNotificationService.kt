@@ -302,5 +302,9 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             if (!startService)
                 context.stopService(intent)
         }
+
+        fun removeNotification(context: Context?) {
+            context?.stopService(Intent(context, ClipboardEntryNotificationService::class.java))
+        }
     }
 }

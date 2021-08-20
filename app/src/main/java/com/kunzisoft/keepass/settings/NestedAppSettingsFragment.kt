@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil
@@ -188,6 +189,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
             startActivity(Intent(context, AutofillSettingsActivity::class.java))
             false
+        }
+
+        findPreference<Preference>(getString(R.string.clipboard_notifications_key))?.setOnPreferenceChangeListener { _, newValue ->
+            if (!(newValue as Boolean)) {
+                ClipboardEntryNotificationService.removeNotification(context)
+            }
+            true
         }
 
         findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
@@ -384,8 +392,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     private fun onCreateAppearancePreferences(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
-        // To change list items appearance
-        PreferencesUtil.APPEARANCE_CHANGED = true
+        DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
 
         activity?.let { activity ->
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
@@ -402,7 +409,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     Stylish.assignStyle(activity, styleIdString)
                     // Relaunch the current activity to redraw theme
                     (activity as? SettingsActivity?)?.apply {
-                        relaunchCurrentScreen()
+                        reloadActivity()
                     }
                 }
                 styleEnabled
@@ -410,7 +417,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
             findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->
                 (activity as? SettingsActivity?)?.apply {
-                    relaunchCurrentScreen()
+                    reloadActivity()
                 }
                 true
             }
@@ -426,9 +433,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         }
                     }
                 if (iconPackEnabled) {
-                    mDatabase?.let {
-                        IconPackChooser.setSelectedIconPack(it.iconDrawableFactory, iconPackId)
-                    }
+                    IconPackChooser.setSelectedIconPack(iconPackId)
                 }
                 iconPackEnabled
             }
@@ -507,5 +512,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     companion object {
         private const val REQUEST_CODE_AUTOFILL = 5201
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
+
+        var DATABASE_APPEARANCE_PREFERENCE_CHANGED = false
     }
 }

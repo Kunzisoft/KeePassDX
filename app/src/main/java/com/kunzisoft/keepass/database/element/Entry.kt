@@ -45,15 +45,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
     var entryKDBX: EntryKDBX? = null
         private set
 
-    fun updateWith(entry: Entry, copyHistory: Boolean = true) {
-        entry.entryKDB?.let {
-            this.entryKDB?.updateWith(it)
-        }
-        entry.entryKDBX?.let {
-            this.entryKDBX?.updateWith(it, copyHistory)
-        }
-    }
-
     /**
      * Use this constructor to copy an Entry with exact same values
      */
@@ -64,7 +55,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         if (entry.entryKDBX != null) {
             this.entryKDBX = EntryKDBX()
         }
-        updateWith(entry, copyHistory)
+        entry.entryKDB?.let {
+            this.entryKDB?.updateWith(it)
+        }
+        entry.entryKDBX?.let {
+            this.entryKDBX?.updateWith(it, copyHistory)
+        }
     }
 
     constructor(entry: EntryKDB) {

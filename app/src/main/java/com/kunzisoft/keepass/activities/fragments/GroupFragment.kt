@@ -25,31 +25,39 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ActionMode
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodeAdapter
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.*
 
-class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
+class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
 
     private var mNodesRecyclerView: RecyclerView? = null
-    var mainGroup: Group? = null
-        private set
+    private var mLayoutManager: LinearLayoutManager? = null
     private var mAdapter: NodeAdapter? = null
+
+    private val mGroupViewModel: GroupViewModel by activityViewModels()
+
+    private var mCurrentGroup: Group? = null
 
     var nodeActionSelectionMode = false
         private set
@@ -61,11 +69,26 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
 
-    private var readOnly: Boolean = false
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
+
+    private var mRecycleBinEnable: Boolean = false
+    private var mRecycleBin: Group? = null
 
     val isEmpty: Boolean
         get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
+
+    private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == SCROLL_STATE_IDLE) {
+                mGroupViewModel.assignPosition(getFirstVisiblePosition())
+            }
+        }
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            onScrollListener?.onScrolled(dy)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -97,130 +120,134 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+    }
 
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
-
-        arguments?.let { args ->
-            // Contains all the group in element
-            if (args.containsKey(GROUP_KEY)) {
-                mainGroup = args.getParcelable(GROUP_KEY)
-            }
-            if (args.containsKey(IS_SEARCH)) {
-                isASearchResult = args.getBoolean(IS_SEARCH)
-            }
-        }
+    override fun onDatabaseRetrieved(database: Database?) {
+        mRecycleBinEnable = database?.isRecycleBinEnabled == true
+        mRecycleBin = database?.recycleBin
 
         contextThemed?.let { context ->
-            mDatabase?.let { database ->
-                mAdapter = NodeAdapter(context, database)
-            }
-            mAdapter?.apply {
-                setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
-                    override fun onNodeClick(node: Node) {
-                        if (nodeActionSelectionMode) {
-                            if (listActionNodes.contains(node)) {
-                                // Remove selected item if already selected
-                                listActionNodes.remove(node)
+            database?.let { database ->
+                mAdapter = NodeAdapter(context, database).apply {
+                    setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
+                        override fun onNodeClick(database: Database, node: Node) {
+                            if (nodeActionSelectionMode) {
+                                if (listActionNodes.contains(node)) {
+                                    // Remove selected item if already selected
+                                    listActionNodes.remove(node)
+                                } else {
+                                    // Add selected item if not already selected
+                                    listActionNodes.add(node)
+                                }
+                                nodeClickListener?.onNodeSelected(database, listActionNodes)
+                                setActionNodes(listActionNodes)
+                                notifyNodeChanged(node)
                             } else {
-                                // Add selected item if not already selected
-                                listActionNodes.add(node)
+                                nodeClickListener?.onNodeClick(database, node)
                             }
-                            nodeClickListener?.onNodeSelected(listActionNodes)
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
-                        } else {
-                            nodeClickListener?.onNodeClick(node)
                         }
-                    }
 
-                    override fun onNodeLongClick(node: Node): Boolean {
-                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-                            // Select the first item after a long click
-                            if (!listActionNodes.contains(node))
-                                listActionNodes.add(node)
+                        override fun onNodeLongClick(database: Database, node: Node): Boolean {
+                            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                                // Select the first item after a long click
+                                if (!listActionNodes.contains(node))
+                                    listActionNodes.add(node)
 
-                            nodeClickListener?.onNodeSelected(listActionNodes)
+                                nodeClickListener?.onNodeSelected(database, listActionNodes)
 
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
+                                setActionNodes(listActionNodes)
+                                notifyNodeChanged(node)
+                            }
+                            return true
                         }
-                        return true
-                    }
-                })
+                    })
+                }
+                mNodesRecyclerView?.adapter = mAdapter
             }
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
-        super.onSaveInstanceState(outState)
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+
+        // Too many special cases to make specific additions or deletions,
+        // rebuilt the list works well.
+        if (result.isSuccess) {
+            rebuildList()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         // To apply theme
-        val rootView = inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_list_nodes, container, false)
-        mNodesRecyclerView = rootView.findViewById(R.id.nodes_list)
-        notFoundView = rootView.findViewById(R.id.not_found_container)
+        return inflater.cloneInContext(contextThemed)
+                .inflate(R.layout.fragment_group, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mNodesRecyclerView = view.findViewById(R.id.nodes_list)
+        notFoundView = view.findViewById(R.id.not_found_container)
+
+        mLayoutManager = LinearLayoutManager(context)
         mNodesRecyclerView?.apply {
             scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = mLayoutManager
             adapter = mAdapter
         }
+        resetAppTimeoutWhenViewFocusedOrChanged(view)
 
-        onScrollListener?.let { onScrollListener ->
-            mNodesRecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    onScrollListener.onScrolled(dy)
-                }
-            })
+        mGroupViewModel.group.observe(viewLifecycleOwner) {
+            mCurrentGroup = it.group
+            isASearchResult = it.group.isVirtual
+            rebuildList()
+            it.showFromPosition?.let { position ->
+                mNodesRecyclerView?.scrollToPosition(position)
+            }
         }
-
-        return rootView
     }
 
     override fun onResume() {
         super.onResume()
 
+        mNodesRecyclerView?.addOnScrollListener(mRecycleViewScrollListener)
         activity?.intent?.let {
             specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
         }
+    }
 
-        // Refresh data
-        try {
-            rebuildList()
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to rebuild the list during resume")
-            e.printStackTrace()
-        }
+    override fun onPause() {
 
-        if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
-            // To show the " no search entry found "
-            mNodesRecyclerView?.visibility = View.GONE
-            notFoundView?.visibility = View.VISIBLE
-        } else {
-            mNodesRecyclerView?.visibility = View.VISIBLE
-            notFoundView?.visibility = View.GONE
-        }
+        mNodesRecyclerView?.removeOnScrollListener(mRecycleViewScrollListener)
+        super.onPause()
+    }
+
+    fun getFirstVisiblePosition(): Int {
+        return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
     @Throws(IllegalArgumentException::class)
-    fun rebuildList() {
-        // Add elements to the list
-        mainGroup?.let { mainGroup ->
-            mAdapter?.apply {
+    private fun rebuildList() {
+        try {
+            // Add elements to the list
+            mCurrentGroup?.let { mainGroup ->
                 // Thrown an exception when sort cannot be performed
-                rebuildList(mainGroup)
-                // To visually change the elements
-                if (PreferencesUtil.APPEARANCE_CHANGED) {
-                    notifyDataSetChanged()
-                    PreferencesUtil.APPEARANCE_CHANGED = false
-                }
+                mAdapter?.rebuildList(mainGroup)
             }
+        } catch (e:Exception) {
+            Log.e(TAG, "Unable to rebuild the list", e)
+        }
+
+        if (isASearchResult && mAdapter != null && mAdapter!!.isEmpty) {
+            // To show the " no search entry found "
+            notFoundView?.visibility = View.VISIBLE
+        } else {
+            notFoundView?.visibility = View.GONE
         }
     }
 
@@ -236,8 +263,7 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
             rebuildList()
         } catch (e:Exception) {
-            Log.e(TAG, "Unable to rebuild the list with the sort")
-            e.printStackTrace()
+            Log.e(TAG, "Unable to sort the list", e)
         }
     }
 
@@ -253,7 +279,7 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             R.id.menu_sort -> {
                 context?.let { context ->
                     val sortDialogFragment: SortDialogFragment =
-                            if (mDatabase?.isRecycleBinEnabled == true) {
+                            if (mRecycleBinEnable) {
                                 SortDialogFragment.getInstance(
                                         PreferencesUtil.getListSort(context),
                                         PreferencesUtil.getAscendingSort(context),
@@ -275,94 +301,92 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
         }
     }
 
-    fun actionNodesCallback(nodes: List<Node>,
+    fun actionNodesCallback(database: Database,
+                            nodes: List<Node>,
                             menuListener: NodesActionMenuListener?,
-                            actionModeCallback: ActionMode.Callback) : ActionMode.Callback {
+                            onDestroyActionMode: (mode: ActionMode?) -> Unit) : ActionMode.Callback {
 
         return object : ActionMode.Callback {
 
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 nodeActionSelectionMode = false
                 nodeActionPasteMode = PasteMode.UNDEFINED
-                return actionModeCallback.onCreateActionMode(mode, menu)
+                return true
             }
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
+                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
+                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+                } else {
+                    nodeActionSelectionMode = true
+                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
 
-                mDatabase?.let { database ->
-                    if (nodeActionPasteMode != PasteMode.UNDEFINED) {
-                        mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-                    } else {
-                        nodeActionSelectionMode = true
-                        mode?.menuInflater?.inflate(R.menu.node_menu, menu)
-
-                        // Open and Edit for a single item
-                        if (nodes.size == 1) {
-                            // Edition
-                            if (readOnly
-                                    || (database.isRecycleBinEnabled && nodes[0] == database.recycleBin)) {
-                                menu?.removeItem(R.id.menu_edit)
-                            }
-                        } else {
-                            menu?.removeItem(R.id.menu_open)
+                    // Open and Edit for a single item
+                    if (nodes.size == 1) {
+                        // Edition
+                        if (database.isReadOnly
+                                || (mRecycleBinEnable && nodes[0] == mRecycleBin)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
-
-                        // Move
-                        if (readOnly
-                                || isASearchResult) {
-                            menu?.removeItem(R.id.menu_move)
-                        }
-
-                        // Copy (not allowed for group)
-                        if (readOnly
-                                || isASearchResult
-                                || nodes.any { it.type == Type.GROUP }) {
-                            menu?.removeItem(R.id.menu_copy)
-                        }
-
-                        // Deletion
-                        if (readOnly
-                                || (database.isRecycleBinEnabled && nodes.any { it == database.recycleBin })) {
-                            menu?.removeItem(R.id.menu_delete)
-                        }
+                    } else {
+                        menu?.removeItem(R.id.menu_open)
+                        menu?.removeItem(R.id.menu_edit)
                     }
 
-                    // Add the number of items selected in title
-                    mode?.title = nodes.size.toString()
+                    // Move
+                    if (database.isReadOnly
+                            || isASearchResult) {
+                        menu?.removeItem(R.id.menu_move)
+                    }
+
+                    // Copy (not allowed for group)
+                    if (database.isReadOnly
+                            || isASearchResult
+                            || nodes.any { it.type == Type.GROUP }) {
+                        menu?.removeItem(R.id.menu_copy)
+                    }
+
+                    // Deletion
+                    if (database.isReadOnly
+                            || (mRecycleBinEnable && nodes.any { it == mRecycleBin })) {
+                        menu?.removeItem(R.id.menu_delete)
+                    }
                 }
-                return actionModeCallback.onPrepareActionMode(mode, menu)
+
+                // Add the number of items selected in title
+                mode?.title = nodes.size.toString()
+                return true
             }
 
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                 if (menuListener == null)
                     return false
                 return when (item?.itemId) {
-                    R.id.menu_open -> menuListener.onOpenMenuClick(nodes[0])
-                    R.id.menu_edit -> menuListener.onEditMenuClick(nodes[0])
+                    R.id.menu_open -> menuListener.onOpenMenuClick(database, nodes[0])
+                    R.id.menu_edit -> menuListener.onEditMenuClick(database, nodes[0])
                     R.id.menu_copy -> {
                         nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
                         mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onCopyMenuClick(nodes)
+                        val returnValue = menuListener.onCopyMenuClick(database, nodes)
                         nodeActionSelectionMode = false
                         returnValue
                     }
                     R.id.menu_move -> {
                         nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
                         mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onMoveMenuClick(nodes)
+                        val returnValue = menuListener.onMoveMenuClick(database, nodes)
                         nodeActionSelectionMode = false
                         returnValue
                     }
-                    R.id.menu_delete -> menuListener.onDeleteMenuClick(nodes)
+                    R.id.menu_delete -> menuListener.onDeleteMenuClick(database, nodes)
                     R.id.menu_paste -> {
-                        val returnValue = menuListener.onPasteMenuClick(nodeActionPasteMode, nodes)
+                        val returnValue = menuListener.onPasteMenuClick(database, nodeActionPasteMode, nodes)
                         nodeActionPasteMode = PasteMode.UNDEFINED
                         nodeActionSelectionMode = false
                         returnValue
                     }
-                    else -> actionModeCallback.onActionItemClicked(mode, item)
+                    else -> false
                 }
             }
 
@@ -372,7 +396,7 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
                 mAdapter?.unselectActionNodes()
                 nodeActionPasteMode = PasteMode.UNDEFINED
                 nodeActionSelectionMode = false
-                actionModeCallback.onDestroyActionMode(mode)
+                onDestroyActionMode(mode)
             }
         }
     }
@@ -384,71 +408,39 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE
                         || resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<Node>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { changedNode ->
-                        if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-                            addNode(changedNode)
-                        if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
-                            mAdapter?.notifyDataSetChanged()
+                    data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let {
+                        // Simply refresh the list
+                        rebuildList()
+                        // Scroll to the new entry
+                        mDatabase?.getEntryById(it)?.let { entry ->
+                            mAdapter?.indexOf(entry)?.let { position ->
+                                mNodesRecyclerView?.scrollToPosition(position)
+                            }
+                        }
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
                 }
             }
         }
     }
 
-    fun contains(node: Node): Boolean {
-        return mAdapter?.contains(node) ?: false
-    }
-
-    fun addNode(newNode: Node) {
-        mAdapter?.addNode(newNode)
-    }
-
-    fun addNodes(newNodes: List<Node>) {
-        mAdapter?.addNodes(newNodes)
-    }
-
-    fun updateNode(oldNode: Node, newNode: Node? = null) {
-        mAdapter?.updateNode(oldNode, newNode ?: oldNode)
-    }
-
-    fun updateNodes(oldNodes: List<Node>, newNodes: List<Node>) {
-        mAdapter?.updateNodes(oldNodes, newNodes)
-    }
-
-    fun removeNode(pwNode: Node) {
-        mAdapter?.removeNode(pwNode)
-    }
-
-    fun removeNodes(nodes: List<Node>) {
-        mAdapter?.removeNodes(nodes)
-    }
-
-    fun removeNodeAt(position: Int) {
-        mAdapter?.removeNodeAt(position)
-    }
-
-    fun removeNodesAt(positions: IntArray) {
-        mAdapter?.removeNodesAt(positions)
-    }
-
     /**
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickListener {
-        fun onNodeClick(node: Node)
-        fun onNodeSelected(nodes: List<Node>): Boolean
+        fun onNodeClick(database: Database, node: Node)
+        fun onNodeSelected(database: Database, nodes: List<Node>): Boolean
     }
 
     /**
      * Menu listener to redefine to do an action in menu
      */
     interface NodesActionMenuListener {
-        fun onOpenMenuClick(node: Node): Boolean
-        fun onEditMenuClick(node: Node): Boolean
-        fun onCopyMenuClick(nodes: List<Node>): Boolean
-        fun onMoveMenuClick(nodes: List<Node>): Boolean
-        fun onDeleteMenuClick(nodes: List<Node>): Boolean
-        fun onPasteMenuClick(pasteMode: PasteMode?, nodes: List<Node>): Boolean
+        fun onOpenMenuClick(database: Database, node: Node): Boolean
+        fun onEditMenuClick(database: Database, node: Node): Boolean
+        fun onCopyMenuClick(database: Database, nodes: List<Node>): Boolean
+        fun onMoveMenuClick(database: Database, nodes: List<Node>): Boolean
+        fun onDeleteMenuClick(database: Database, nodes: List<Node>): Boolean
+        fun onPasteMenuClick(database: Database, pasteMode: PasteMode?, nodes: List<Node>): Boolean
     }
 
     enum class PasteMode {
@@ -467,22 +459,6 @@ class ListNodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionLi
     }
 
     companion object {
-
-        private val TAG = ListNodesFragment::class.java.name
-
-        private const val GROUP_KEY = "GROUP_KEY"
-        private const val IS_SEARCH = "IS_SEARCH"
-
-        fun newInstance(group: Group?, readOnly: Boolean, isASearch: Boolean): ListNodesFragment {
-            val bundle = Bundle()
-            if (group != null) {
-                bundle.putParcelable(GROUP_KEY, group)
-            }
-            bundle.putBoolean(IS_SEARCH, isASearch)
-            ReadOnlyHelper.putReadOnlyInBundle(bundle, readOnly)
-            val listNodesFragment = ListNodesFragment()
-            listNodesFragment.arguments = bundle
-            return listNodesFragment
-        }
+        private val TAG = GroupFragment::class.java.name
     }
 }

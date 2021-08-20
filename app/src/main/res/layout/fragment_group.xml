@@ -22,6 +22,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nodes_list"
+        android:contentDescription="@string/content_description_node_children"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/windowBackground"
+        android:paddingBottom="?attr/actionBarSize"
+        android:clipToPadding="false" />
     <LinearLayout
         android:id="@+id/not_found_container"
         android:layout_gravity="center"
@@ -41,13 +51,4 @@
             android:layout_height="wrap_content"
             android:text="@string/no_results"/>
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/nodes_list"
-        android:contentDescription="@string/content_description_node_children"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"
-        android:paddingBottom="?attr/actionBarSize"
-        android:clipToPadding="false" />
 </FrameLayout>

@@ -19,38 +19,41 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 
 /**
  * Activity to select entry in database and populate it in Magikeyboard
  */
-class MagikeyboardLauncherActivity : AppCompatActivity() {
+class MagikeyboardLauncherActivity : DatabaseModeActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
 
-        val database = Database.getInstance()
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
 
-        val readOnly = database.isReadOnly
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
         SearchHelper.checkAutoSearchInfo(this,
-                database,
-                null,
-                {
-                    // Not called
-                    // if items found directly returns before calling this activity
-                },
-                {
-                    // Select if not found
-                    GroupActivity.launchForKeyboardSelectionResult(this, readOnly)
-                },
-                {
-                    // Pass extra to get entry
-                    FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this)
-                }
+            database,
+            null,
+            { _, _ ->
+                // Not called
+                // if items found directly returns before calling this activity
+            },
+            { openedDatabase ->
+                // Select if not found
+                GroupActivity.launchForKeyboardSelectionResult(this, openedDatabase)
+            },
+            {
+                // Pass extra to get entry
+                FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this)
+            }
         )
         finish()
-        super.onCreate(savedInstanceState)
     }
 }

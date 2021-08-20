@@ -35,28 +35,26 @@ import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.isVisible
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
@@ -66,7 +64,7 @@ import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
 import kotlin.collections.HashMap
 
-class EntryActivity : LockingActivity() {
+class EntryActivity : DatabaseLockActivity() {
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
@@ -79,11 +77,17 @@ class EntryActivity : LockingActivity() {
 
     private val mEntryViewModel: EntryViewModel by viewModels()
 
+    private var mMainEntryId: NodeId<UUID>? = null
+    private var mHistoryPosition: Int = -1
+    private var mEntryIsHistory: Boolean = false
+    private var mUrl: String? = null
+
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var iconColor: Int = 0
+    private var mIcon: IconImage? = null
+    private var mIconColor: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,23 +112,18 @@ class EntryActivity : LockingActivity() {
         collapsingToolbarLayout?.title = " "
         toolbar?.title = " "
 
-        // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
-
         // Retrieve the textColor to tint the icon
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        iconColor = taIconColor.getColor(0, Color.BLACK)
+        mIconColor = taIconColor.getColor(0, Color.BLACK)
         taIconColor.recycle()
-
-        mReadOnly = mDatabase?.isReadOnly != false || mReadOnly
 
         // Get Entry from UUID
         try {
             intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
+                mMainEntryId = entryId
                 intent.removeExtra(KEY_ENTRY)
-                val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+                mHistoryPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
-                mEntryViewModel.loadEntry(entryId, historyPosition)
             }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
@@ -139,6 +138,30 @@ class EntryActivity : LockingActivity() {
             lockAndExit()
         }
 
+        mEntryViewModel.mainEntryId.observe(this) { mainEntryId ->
+            this.mMainEntryId = mainEntryId
+            invalidateOptionsMenu()
+        }
+
+        mEntryViewModel.historyPosition.observe(this) { historyPosition ->
+            this.mHistoryPosition = historyPosition
+            val entryIsHistory = historyPosition > -1
+            this.mEntryIsHistory = entryIsHistory
+            // Assign history dedicated view
+            historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
+            if (entryIsHistory) {
+                val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+                collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
+                taColorAccent.recycle()
+            }
+            invalidateOptionsMenu()
+        }
+
+        mEntryViewModel.url.observe(this) { url ->
+            this.mUrl = url
+            invalidateOptionsMenu()
+        }
+
         mEntryViewModel.entryInfo.observe(this) { entryInfo ->
             // Manage entry copy to start notification if allowed (at the first start)
             if (savedInstanceState == null) {
@@ -146,13 +169,14 @@ class EntryActivity : LockingActivity() {
                 ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
                 // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
                 if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                    MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
+                    MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
                 }
             }
 
             // Assign title icon
+            mIcon = entryInfo.icon
             titleIconView?.let { iconView ->
-                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, iconColor)
+                mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
             }
 
             // Assign title text
@@ -164,18 +188,6 @@ class EntryActivity : LockingActivity() {
             invalidateOptionsMenu()
 
             loadingView?.hideByFading()
-        }
-
-        mEntryViewModel.entryIsHistory.observe(this) { entryIsHistory ->
-            // Assign history dedicated view
-            historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
-            if (entryIsHistory) {
-                val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-                collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-                taColorAccent.recycle()
-            }
-
-            invalidateOptionsMenu()
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
@@ -204,28 +216,53 @@ class EntryActivity : LockingActivity() {
         }
 
         mEntryViewModel.historySelected.observe(this) { historySelected ->
-            launch(this,
-                historySelected.nodeId,
-                historySelected.historyPosition,
-                mReadOnly)
-        }
-
-        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-            when (actionTask) {
-                ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
-                ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
-                    // Close the current activity after an history action
-                    if (result.isSuccess)
-                        finish()
-                }
-                ACTION_DATABASE_RELOAD_TASK -> {
-                    // Close the current activity
-                    this.showActionErrorIfNeeded(result)
-                    finish()
-                }
+            mDatabase?.let { database ->
+                launch(
+                    this,
+                    database,
+                    historySelected.nodeId,
+                    historySelected.historyPosition
+                )
             }
-            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
+    }
+
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        return coordinatorLayout
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        mEntryViewModel.loadEntry(mDatabase, mMainEntryId, mHistoryPosition)
+
+        // Assign title icon
+        mIcon?.let { icon ->
+            titleIconView?.let { iconView ->
+                mIconDrawableFactory?.assignDatabaseIcon(iconView, icon, mIconColor)
+            }
+        }
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
+            ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
+                // Close the current activity after an history action
+                if (result.isSuccess)
+                    finish()
+            }
+        }
+        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     override fun onResume() {
@@ -260,7 +297,7 @@ class EntryActivity : LockingActivity() {
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 // Reload the current id from database
-                mEntryViewModel.updateEntry()
+                mEntryViewModel.updateEntry(mDatabase)
             }
         }
 
@@ -283,16 +320,14 @@ class EntryActivity : LockingActivity() {
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
 
-        if (mEntryViewModel.getEntry()?.url?.isEmpty() != false) {
+        if (mUrl?.isEmpty() != false) {
             menu.findItem(R.id.menu_goto_url)?.isVisible = false
         }
 
-        val entryIsHistory = mEntryViewModel.getEntryIsHistory()
-
-        if (entryIsHistory && !mReadOnly) {
+        if (mEntryIsHistory && !mDatabaseReadOnly) {
             inflater.inflate(R.menu.entry_history, menu)
         }
-        if (entryIsHistory || mReadOnly) {
+        if (mEntryIsHistory || mDatabaseReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -343,38 +378,42 @@ class EntryActivity : LockingActivity() {
                 return true
             }
             R.id.menu_edit -> {
-                mEntryViewModel.getEntry()?.let { entry ->
-                    EntryEditActivity.launch(this@EntryActivity, entry)
+                mDatabase?.let { database ->
+                    mMainEntryId?.let { entryId ->
+                        EntryEditActivity.launchToUpdate(
+                            this,
+                            database,
+                            entryId
+                        )
+                    }
                 }
                 return true
             }
             R.id.menu_goto_url -> {
-                mEntryViewModel.getEntry()?.url?.let { url ->
+                mUrl?.let { url ->
                     UriUtil.gotoUrl(this, url)
                 }
                 return true
             }
             R.id.menu_restore_entry_history -> {
-                mEntryViewModel.getMainEntry()?.let { mainEntry ->
-                    mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
-                            mainEntry,
-                            mEntryViewModel.getEntryHistoryPosition(),
-                            !mReadOnly && mAutoSaveEnable)
+                mMainEntryId?.let { mainEntryId ->
+                    restoreEntryHistory(
+                        mainEntryId,
+                        mHistoryPosition)
                 }
             }
             R.id.menu_delete_entry_history -> {
-                mEntryViewModel.getMainEntry()?.let { mainEntry ->
-                    mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
-                            mainEntry,
-                            mEntryViewModel.getEntryHistoryPosition(),
-                            !mReadOnly && mAutoSaveEnable)
+                mMainEntryId?.let { mainEntryId ->
+                    deleteEntryHistory(
+                        mainEntryId,
+                        mHistoryPosition)
                 }
             }
             R.id.menu_save_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
+                saveDatabase()
             }
             R.id.menu_reload_database -> {
-                mProgressDatabaseTaskProvider?.startDatabaseReload(false)
+                reloadDatabase()
             }
             android.R.id.home -> finish() // close this activity and return to preview activity (if there is any)
         }
@@ -384,7 +423,7 @@ class EntryActivity : LockingActivity() {
     override fun finish() {
         // Transit data in previous Activity after an update
         Intent().apply {
-            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntryViewModel.getEntry())
+            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mMainEntryId)
             setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, this)
         }
         super.finish()
@@ -401,25 +440,38 @@ class EntryActivity : LockingActivity() {
         /**
          * Open standard Entry activity
          */
-        fun launch(activity: Activity, entry: Entry, readOnly: Boolean) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
-                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-                activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+        fun launch(activity: Activity,
+                   database: Database,
+                   entryId: NodeId<UUID>) {
+            if (database.loaded) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    activity.startActivityForResult(
+                        intent,
+                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
+                    )
+                }
             }
         }
 
         /**
          * Open history Entry activity
          */
-        fun launch(activity: Activity, entryId: NodeId<UUID>, historyPosition: Int, readOnly: Boolean) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entryId)
-                intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
-                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-                activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+        fun launch(activity: Activity,
+                   database: Database,
+                   entryId: NodeId<UUID>,
+                   historyPosition: Int) {
+            if (database.loaded) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                    activity.startActivityForResult(
+                        intent,
+                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
+                    )
+                }
             }
         }
     }
