@@ -18,8 +18,8 @@ import java.util.*
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
 
-    private val mDatabaseViewModel: DatabaseViewModel by viewModels()
-    private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
+    protected val mDatabaseViewModel: DatabaseViewModel by viewModels()
+    protected var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     protected var mDatabase: Database? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,74 +34,6 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         }
         mDatabaseTaskProvider?.onActionFinish = { database, actionTask, result ->
             onDatabaseActionFinished(database, actionTask, result)
-        }
-
-        mDatabaseViewModel.saveDatabase.observe(this) { save ->
-            mDatabaseTaskProvider?.startDatabaseSave(save)
-        }
-
-        mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
-            mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
-        }
-
-        mDatabaseViewModel.saveName.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveDescription.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveDescription(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveDefaultUsername.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveColor.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveColor(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveCompression.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveCompression(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.removeUnlinkData.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseRemoveUnlinkedData(it)
-        }
-
-        mDatabaseViewModel.saveRecycleBin.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveRecycleBin(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveTemplatesGroup.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveTemplatesGroup(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveMaxHistoryItems.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveMaxHistoryItems(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveMaxHistorySize.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveMaxHistorySize(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveEncryption.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveEncryption(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveKeyDerivation.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveKeyDerivation(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveIterations.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveIterations(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveMemoryUsage.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveMemoryUsage(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveParallelism.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveParallelism(it.oldValue, it.newValue, it.save)
         }
     }
 
@@ -125,80 +57,12 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider?.startDatabaseCreate(databaseUri, mainCredential)
     }
 
-    // TODO Database functions
-
     fun loadDatabase(databaseUri: Uri,
                      mainCredential: MainCredential,
                      readOnly: Boolean,
                      cipherEntity: CipherDatabaseEntity?,
                      fixDuplicateUuid: Boolean) {
         mDatabaseTaskProvider?.startDatabaseLoad(databaseUri, mainCredential, readOnly, cipherEntity, fixDuplicateUuid)
-    }
-
-    fun assignDatabasePassword(databaseUri: Uri,
-                               mainCredential: MainCredential) {
-        mDatabaseTaskProvider?.startDatabaseAssignPassword(databaseUri, mainCredential)
-    }
-
-    fun saveDatabase() {
-        mDatabaseTaskProvider?.startDatabaseSave(true)
-    }
-
-    fun reloadDatabase() {
-        mDatabaseTaskProvider?.startDatabaseReload(false)
-    }
-
-    fun createDatabaseEntry(newEntry: Entry,
-                            parent: Group,
-                            save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseCreateEntry(newEntry, parent, save)
-    }
-
-    fun updateDatabaseEntry(oldEntry: Entry,
-                            entryToUpdate: Entry,
-                            save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseUpdateEntry(oldEntry, entryToUpdate, save)
-    }
-
-    fun copyDatabaseNodes(nodesToCopy: List<Node>,
-                          newParent: Group,
-                          save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseCopyNodes(nodesToCopy, newParent, save)
-    }
-
-    fun moveDatabaseNodes(nodesToMove: List<Node>,
-                          newParent: Group,
-                          save: Boolean)  {
-        mDatabaseTaskProvider?.startDatabaseMoveNodes(nodesToMove, newParent, save)
-    }
-
-    fun deleteDatabaseNodes(nodesToDelete: List<Node>,
-                            save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseDeleteNodes(nodesToDelete, save)
-    }
-
-    fun createDatabaseGroup(newGroup: Group,
-                            parent: Group,
-                            save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseCreateGroup(newGroup, parent, save)
-    }
-
-    fun updateDatabaseGroup(oldGroup: Group,
-                            groupToUpdate: Group,
-                            save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseUpdateGroup(oldGroup, groupToUpdate, save)
-    }
-
-    fun restoreDatabaseEntryHistory(mainEntryId: NodeId<UUID>,
-                                    entryHistoryPosition: Int,
-                                    save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(mainEntryId, entryHistoryPosition, save)
-    }
-
-    fun deleteDatabaseEntryHistory(mainEntryId: NodeId<UUID>,
-                                   entryHistoryPosition: Int,
-                                   save: Boolean) {
-        mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, save)
     }
 
     protected fun closeDatabase() {

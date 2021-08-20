@@ -46,7 +46,6 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
     }
 
     protected fun buildNewBinaryAttachment(): BinaryData? {
-        // TODO Async ?
         return mDatabase?.buildNewBinaryAttachment()
     }
 }

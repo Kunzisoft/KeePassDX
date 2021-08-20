@@ -80,7 +80,75 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
 
         mNodesViewModel.nodesToPermanentlyDelete.observe(this) { nodes ->
-            permanentlyDeleteNodes(nodes)
+            deleteDatabaseNodes(nodes)
+        }
+
+        mDatabaseViewModel.saveDatabase.observe(this) { save ->
+            mDatabaseTaskProvider?.startDatabaseSave(save)
+        }
+
+        mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
+            mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+        }
+
+        mDatabaseViewModel.saveName.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveDescription.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveDescription(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveDefaultUsername.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveColor.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveColor(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveCompression.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveCompression(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.removeUnlinkData.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseRemoveUnlinkedData(it)
+        }
+
+        mDatabaseViewModel.saveRecycleBin.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveRecycleBin(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveTemplatesGroup.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveTemplatesGroup(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveMaxHistoryItems.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveMaxHistoryItems(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveMaxHistorySize.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveMaxHistorySize(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveEncryption.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveEncryption(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveKeyDerivation.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveKeyDerivation(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveIterations.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveIterations(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveMemoryUsage.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveMemoryUsage(it.oldValue, it.newValue, it.save)
+        }
+
+        mDatabaseViewModel.saveParallelism.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseSaveParallelism(it.oldValue, it.newValue, it.save)
         }
 
         mExitLock = false
@@ -159,13 +227,13 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
                                                     mainCredential: MainCredential) {
-        assignPasswordValidated(databaseUri, mainCredential)
+        assignDatabasePassword(databaseUri, mainCredential)
     }
 
-    private fun assignPasswordValidated(databaseUri: Uri?,
-                                        mainCredential: MainCredential) {
+    private fun assignDatabasePassword(databaseUri: Uri?,
+                                       mainCredential: MainCredential) {
         if (databaseUri != null) {
-            assignDatabasePassword(databaseUri, mainCredential)
+            mDatabaseTaskProvider?.startDatabaseAssignPassword(databaseUri, mainCredential)
         }
     }
 
@@ -174,7 +242,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
                 if (database.validatePasswordEncoding(mainCredential)) {
-                    assignPasswordValidated(databaseUri, mainCredential)
+                    assignDatabasePassword(databaseUri, mainCredential)
                 } else {
                     PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
                         .show(supportFragmentManager, "passwordEncodingTag")
@@ -183,24 +251,32 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
+    fun saveDatabase() {
+        mDatabaseTaskProvider?.startDatabaseSave(true)
+    }
+
+    fun reloadDatabase() {
+        mDatabaseTaskProvider?.startDatabaseReload(false)
+    }
+
     fun createEntry(newEntry: Entry,
                     parent: Group) {
-        createDatabaseEntry(newEntry, parent, mAutoSaveEnable)
+        mDatabaseTaskProvider?.startDatabaseCreateEntry(newEntry, parent, mAutoSaveEnable)
     }
 
     fun updateEntry(oldEntry: Entry,
                     entryToUpdate: Entry) {
-        updateDatabaseEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
+        mDatabaseTaskProvider?.startDatabaseUpdateEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
     }
 
     fun copyNodes(nodesToCopy: List<Node>,
                   newParent: Group) {
-        copyDatabaseNodes(nodesToCopy, newParent, mAutoSaveEnable)
+        mDatabaseTaskProvider?.startDatabaseCopyNodes(nodesToCopy, newParent, mAutoSaveEnable)
     }
 
     fun moveNodes(nodesToMove: List<Node>,
                   newParent: Group) {
-        moveDatabaseNodes(nodesToMove, newParent, mAutoSaveEnable)
+        mDatabaseTaskProvider?.startDatabaseMoveNodes(nodesToMove, newParent, mAutoSaveEnable)
     }
 
     private fun eachNodeRecyclable(database: Database, nodes: List<Node>): Boolean {
@@ -224,7 +300,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
             // If recycle bin enabled and not in recycle bin, move in recycle bin
             if (eachNodeRecyclable(database, nodes)) {
-                permanentlyDeleteNodes(nodes)
+                deleteDatabaseNodes(nodes)
             }
             // else open the dialog to confirm deletion
             else {
@@ -235,8 +311,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
-    private fun permanentlyDeleteNodes(nodes: List<Node>) {
-        deleteDatabaseNodes(nodes, mAutoSaveEnable)
+    private fun deleteDatabaseNodes(nodes: List<Node>) {
+        mDatabaseTaskProvider?.startDatabaseDeleteNodes(nodes, mAutoSaveEnable)
     }
 
     fun createGroup(parent: Group,
@@ -248,7 +324,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             }
             // Not really needed here because added in runnable but safe
             newGroup.parent = parent
-            createDatabaseGroup(newGroup, parent, mAutoSaveEnable)
+            mDatabaseTaskProvider?.startDatabaseCreateGroup(newGroup, parent, mAutoSaveEnable)
         }
     }
 
@@ -263,17 +339,18 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 this.setGroupInfo(groupInfo)
             }
         }
-        updateDatabaseGroup(oldGroup, updateGroup, mAutoSaveEnable)
+        mDatabaseTaskProvider?.startDatabaseUpdateGroup(oldGroup, updateGroup, mAutoSaveEnable)
     }
 
     fun restoreEntryHistory(mainEntryId: NodeId<UUID>,
                             entryHistoryPosition: Int) {
-        restoreDatabaseEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
+        mDatabaseTaskProvider
+            ?.startDatabaseRestoreEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     fun deleteEntryHistory(mainEntryId: NodeId<UUID>,
                            entryHistoryPosition: Int) {
-        deleteDatabaseEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
+        mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
