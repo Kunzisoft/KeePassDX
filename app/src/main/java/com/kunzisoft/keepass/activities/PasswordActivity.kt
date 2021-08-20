@@ -422,7 +422,6 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
             // Init Biometric elements
             advancedUnlockFragment?.loadDatabase(databaseFileUri,
                     mAllowAutoOpenBiometricPrompt)
-                                        // TODO && mDatabaseTaskProvider?.isBinded() != true)
         }
 
         enableOrNotTheConfirmationButton()
