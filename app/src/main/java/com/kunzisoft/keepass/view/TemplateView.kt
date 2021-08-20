@@ -119,8 +119,8 @@ class TemplateView @JvmOverloads constructor(context: Context,
 
         // Hide empty custom fields
         emptyCustomFields.forEach { customFieldId ->
-            templateContainerView.findViewById<View>(customFieldId.viewId)
-                .isVisible = false
+            templateContainerView.findViewById<View?>(customFieldId.viewId)
+                ?.isVisible = false
         }
 
         mEntryInfo?.let { entryInfo ->
