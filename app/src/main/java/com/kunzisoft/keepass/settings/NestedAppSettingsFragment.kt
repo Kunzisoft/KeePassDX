@@ -392,8 +392,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     private fun onCreateAppearancePreferences(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
-        DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
-
         activity?.let { activity ->
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
@@ -453,6 +451,26 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 false
             }
         }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // To reload group when appearence settings are modified
+        when (preference?.key) {
+            getString(R.string.setting_style_key),
+            getString(R.string.setting_style_brightness_key),
+            getString(R.string.setting_icon_pack_choose_key),
+            getString(R.string.list_entries_show_username_key),
+            getString(R.string.list_groups_show_number_entries_key),
+            getString(R.string.list_size_key),
+            getString(R.string.monospace_font_fields_enable_key),
+            getString(R.string.hide_expired_entries_key),
+            getString(R.string.show_uuid_key),
+            getString(R.string.enable_education_screens_key),
+            getString(R.string.reset_education_screens_key) -> {
+                DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference?) {

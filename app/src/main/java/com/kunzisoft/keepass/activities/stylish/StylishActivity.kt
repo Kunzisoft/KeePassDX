@@ -22,6 +22,8 @@ package com.kunzisoft.keepass.activities.stylish
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
 import androidx.annotation.StyleRes
@@ -90,7 +92,12 @@ abstract class StylishActivity : AppCompatActivity() {
             || DATABASE_APPEARANCE_PREFERENCE_CHANGED) {
             DATABASE_APPEARANCE_PREFERENCE_CHANGED = false
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
-            this.recreate()
+            recreateActivity()
         }
+    }
+
+    private fun recreateActivity() {
+        // To prevent KitKat bugs
+        Handler(Looper.getMainLooper()).post { recreate() }
     }
 }

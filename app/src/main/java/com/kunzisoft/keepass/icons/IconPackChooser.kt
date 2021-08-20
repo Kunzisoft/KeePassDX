@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
-import com.kunzisoft.keepass.settings.NestedAppSettingsFragment.Companion.DATABASE_APPEARANCE_PREFERENCE_CHANGED
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
@@ -93,11 +92,6 @@ object IconPackChooser {
     fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
-                // To change list items appearance
-                if (iconPackSelected != null
-                    && iconPackSelected != iconPack) {
-                    DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
-                }
                 iconPackSelected = iconPack
                 break
             }
