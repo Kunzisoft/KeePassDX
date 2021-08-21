@@ -56,7 +56,7 @@ object UriUtil {
                 }
             }
         } catch (e: Exception) {
-            Log.e("FileData", "Unable to get document file", e)
+            Log.e(TAG, "Unable to get document file", e)
             null
         }
     }
@@ -110,6 +110,83 @@ object UriUtil {
         return Uri.decode(uri) ?: ""
     }
 
+    private fun persistUriPermission(contentResolver: ContentResolver?,
+                                     uri: Uri,
+                                     release: Boolean,
+                                     readOnly: Boolean) {
+        try {
+            // try to persist read and write permissions
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                contentResolver?.apply {
+                    var readPermissionAllowed = false
+                    var writePermissionAllowed = false
+                    // Check current permissions allowed
+                    persistedUriPermissions.find { uriPermission ->
+                        uriPermission.uri == uri
+                    }?.let { uriPermission ->
+                        Log.d(TAG, "Check URI permission : $uriPermission")
+                        if (uriPermission.isReadPermission) {
+                            readPermissionAllowed = true
+                        }
+                        if (uriPermission.isWritePermission) {
+                            writePermissionAllowed = true
+                        }
+                    }
+
+                    // Release permission
+                    if (release) {
+                        if (writePermissionAllowed) {
+                            Log.d(TAG, "Release write permission : $uri")
+                            val removeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            releasePersistableUriPermission(uri, removeFlags)
+                        }
+                        if (readPermissionAllowed) {
+                            Log.d(TAG, "Release read permission $uri")
+                            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            releasePersistableUriPermission(uri, takeFlags)
+                        }
+                    }
+
+                    // Take missing permission
+                    if (!readPermissionAllowed) {
+                        Log.d(TAG, "Take read permission $uri")
+                        val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        takePersistableUriPermission(uri, takeFlags)
+                    }
+                    if (readOnly) {
+                        if (writePermissionAllowed) {
+                            Log.d(TAG, "Release write permission $uri")
+                            val removeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            releasePersistableUriPermission(uri, removeFlags)
+                        }
+                    } else {
+                        if (!writePermissionAllowed) {
+                            Log.d(TAG, "Take write permission $uri")
+                            val takeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            takePersistableUriPermission(uri, takeFlags)
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            if (release)
+                Log.e(TAG, "Unable to release persistable URI permission", e)
+            else
+                Log.e(TAG, "Unable to take persistable URI permission", e)
+        }
+    }
+
+    fun takeUriPermission(contentResolver: ContentResolver?,
+                          uri: Uri,
+                          readOnly: Boolean = false) {
+        persistUriPermission(contentResolver, uri, false, readOnly)
+    }
+
+    fun releaseUriPermission(contentResolver: ContentResolver?,
+                             uri: Uri) {
+        persistUriPermission(contentResolver, uri, release = true, readOnly = false)
+    }
+
     fun getUriFromIntent(intent: Intent, key: String): Uri? {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -156,7 +233,7 @@ object UriUtil {
             context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
             return true
         } catch (e: Exception) {
-            Log.e(javaClass.simpleName, "App not accessible", e)
+            Log.e(TAG, "App not accessible", e)
         }
         return false
     }
@@ -165,7 +242,7 @@ object UriUtil {
         try {
             context.startActivity(context.applicationContext.packageManager.getLaunchIntentForPackage(packageName))
         } catch (e: Exception) {
-            Log.e(javaClass.simpleName, "App cannot be open", e)
+            Log.e(TAG, "App cannot be open", e)
         }
     }
 
@@ -177,4 +254,5 @@ object UriUtil {
         }
     }
 
+    private const val TAG = "UriUtil"
 }

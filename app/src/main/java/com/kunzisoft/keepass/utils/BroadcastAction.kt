@@ -30,6 +30,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
@@ -139,4 +140,21 @@ fun Context.closeDatabase(database: Database?) {
     }
     // Clear data
     database?.clearAndClose(this)
+
+    // Release not useful URI permission
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        applicationContext?.let { appContext ->
+            val fileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(appContext)
+            fileDatabaseHistoryAction.getDatabaseFileList { databaseFileList ->
+                val listToNotRemove = databaseFileList.map { it.databaseUri }
+                // Remove URI permission for not database files
+                val resolver = appContext.contentResolver
+                resolver.persistedUriPermissions.forEach { uriPermission ->
+                    val uri = uriPermission.uri
+                    if (!listToNotRemove.contains(uri))
+                        UriUtil.releaseUriPermission(resolver, uri)
+                }
+            }
+        }
+    }
 }
