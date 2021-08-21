@@ -84,10 +84,10 @@
                 android:gravity="center_vertical"
                 android:maxLines="2"
                 tools:text="Node Title" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
                 style="@style/KeepassDXStyle.TextAppearance.Group.SubTitle"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-4dp"
@@ -95,6 +95,14 @@
                 android:lines="1"
                 android:singleLine="true"
                 tools:text="Node SubTitle" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/node_meta"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C"
+                android:lines="1"
+                android:singleLine="true"
+                style="@style/KeepassDXStyle.TextAppearance.Group.Meta" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView

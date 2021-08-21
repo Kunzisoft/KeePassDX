@@ -290,6 +290,9 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.Meta.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:textSize">11sp</item>
+    </style>
 
     <style name="KeepassDXStyle.TextAppearance.Default" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">16sp</item>
@@ -339,17 +342,28 @@
         <item name="android:textColor">@color/entry_subtitle_color</item>
         <item name="android:tint">@color/entry_subtitle_color</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.Entry.Meta" parent="KeepassDXStyle.TextAppearance.Tiny">
+        <item name="android:textColor">@color/entry_title_color</item>
+        <item name="android:tint">@color/entry_title_color</item>
+        <item name="android:textSize">11sp</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.Entry.Icon" parent="KeepassDXStyle.TextAppearance.Small">
         <item name="tint">@color/entry_subtitle_color</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Group.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">@color/group_title_color</item>
         <item name="android:tint">@color/group_title_color</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Group.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
         <item name="android:textColor">@color/group_subtitle_color</item>
         <item name="android:tint">@color/group_subtitle_color</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Group.Meta" parent="KeepassDXStyle.TextAppearance.Tiny">
+        <item name="android:textColor">@color/group_title_color</item>
+        <item name="android:tint">@color/group_title_color</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <!-- Button Style -->

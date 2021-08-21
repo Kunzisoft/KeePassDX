@@ -107,18 +107,31 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintStart_toStartOf="parent" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/group_name"
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:orientation="vertical"
                                 android:layout_gravity="start|center_vertical"
                                 android:layout_marginLeft="@dimen/image_list_margin_vertical"
                                 android:layout_marginStart="@dimen/image_list_margin_vertical"
-                                android:layout_weight="1"
-                                android:text="@string/root"
-                                android:maxLines="2"
-                                android:ellipsize="end"
-                                style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
+                                android:layout_weight="1">
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/group_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="@string/root"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/group_meta"
+                                    android:layout_height="match_parent"
+                                    android:layout_width="match_parent"
+                                    tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C"
+                                    android:lines="1"
+                                    android:singleLine="true"
+                                    style="@style/KeepassDXStyle.TextAppearance.Meta.TextOnPrimary" />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>

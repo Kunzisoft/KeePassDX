@@ -88,6 +88,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
+    private var groupMetaView: TextView? = null
     private var loadingView: ProgressBar? = null
 
     private val mGroupViewModel: GroupViewModel by viewModels()
@@ -127,6 +128,7 @@ class GroupActivity : DatabaseLockActivity(),
         toolbar = findViewById(R.id.toolbar)
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
+        groupMetaView = findViewById(R.id.group_meta)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
@@ -477,17 +479,20 @@ class GroupActivity : DatabaseLockActivity(),
     private fun assignGroupViewElements(group: Group?) {
         // Assign title
         if (group != null) {
-            val title = group.title
-            if (title.isNotEmpty()) {
-                if (groupNameView != null) {
-                    groupNameView?.text = title
-                    groupNameView?.invalidate()
+            if (groupNameView != null) {
+                val title = group.title
+                groupNameView?.text = if (title.isNotEmpty()) title else getText(R.string.root)
+                groupNameView?.invalidate()
+            }
+            if (groupMetaView != null) {
+                val meta = group.nodeId.toString()
+                groupMetaView?.text = meta
+                if (meta.isNotEmpty() && PreferencesUtil.showUUID(this)) {
+                    groupMetaView?.visibility = View.VISIBLE
+                } else {
+                    groupMetaView?.visibility = View.GONE
                 }
-            } else {
-                if (groupNameView != null) {
-                    groupNameView?.text = getText(R.string.root)
-                    groupNameView?.invalidate()
-                }
+                groupMetaView?.invalidate()
             }
         }
 

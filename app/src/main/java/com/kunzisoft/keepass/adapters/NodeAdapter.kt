@@ -68,6 +68,7 @@ class NodeAdapter (private val context: Context,
 
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
+    private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
 
     private var mActionNodesList = LinkedList<Node>()
@@ -121,6 +122,7 @@ class NodeAdapter (private val context: Context,
 
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowUUID = PreferencesUtil.showUUID(context)
 
         this.mEntryFilters = Group.ChildFilter.getDefaults(context)
 
@@ -151,6 +153,7 @@ class NodeAdapter (private val context: Context,
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
             }
             return typeContentTheSame
+                    && oldItem.nodeId == newItem.nodeId
                     && oldItem.type == newItem.type
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
@@ -333,6 +336,11 @@ class NodeAdapter (private val context: Context,
             strikeOut(subNode.isCurrentlyExpires)
             visibility = View.GONE
         }
+        // Add meta text to show UUID
+        holder.meta.apply {
+            text = subNode.nodeId.toString()
+            visibility = if (mShowUUID) View.VISIBLE else View.GONE
+        }
 
         // Specific elements for entry
         if (subNode.type == Type.ENTRY) {
@@ -404,6 +412,7 @@ class NodeAdapter (private val context: Context,
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
+        var meta: TextView = itemView.findViewById(R.id.node_meta)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
     }
