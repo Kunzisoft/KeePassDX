@@ -33,6 +33,7 @@
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
     <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
+    <string name="external_icon_url" translatable="false">https://www.keepassdx.com/#icons</string>
     <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="credentials_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Credentials</string>
     <string name="otp_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/OTP</string>

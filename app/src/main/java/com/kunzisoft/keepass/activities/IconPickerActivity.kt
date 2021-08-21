@@ -192,11 +192,16 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
-
-        if (mCustomIconsSelectionMode) {
-            menuInflater.inflate(R.menu.icon, menu)
-        }
+        menuInflater.inflate(R.menu.icon, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_delete)?.apply {
+            isEnabled = mCustomIconsSelectionMode
+            isVisible = isEnabled
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -212,6 +217,9 @@ class IconPickerActivity : DatabaseLockActivity() {
                 mIconsSelected.forEach { iconToRemove ->
                     removeCustomIcon(iconToRemove)
                 }
+            }
+            R.id.menu_external_icon -> {
+                UriUtil.gotoUrl(this, R.string.external_icon_url)
             }
         }
 
