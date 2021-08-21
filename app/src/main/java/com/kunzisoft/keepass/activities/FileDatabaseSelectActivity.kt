@@ -188,14 +188,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             // Retrieve settings for default database
             mAdapterDatabaseHistory?.setDefaultDatabase(it)
         }
-
-        // Construct adapter with listeners
-        if (PreferencesUtil.showRecentFiles(this@FileDatabaseSelectActivity)) {
-            databaseFilesViewModel.loadListOfDatabases()
-        } else {
-            mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
-            mAdapterDatabaseHistory?.notifyDataSetChanged()
-        }
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -211,34 +203,47 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         result: ActionRunnable.Result
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
-        when (actionTask) {
-            ACTION_DATABASE_CREATE_TASK -> {
-                result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
-                    val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
-                    databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
-                }
-                GroupActivity.launch(
-                    this@FileDatabaseSelectActivity,
-                    database,
-                    PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity)
-                )
-            }
-            ACTION_DATABASE_LOAD_TASK -> {
-                if (result.isSuccess) {
-                    launchGroupActivityIfLoaded(database)
-                } else {
-                    var resultError = ""
-                    val resultMessage = result.message
-                    // Show error message
-                    if (resultMessage != null && resultMessage.isNotEmpty()) {
-                        resultError = "$resultError $resultMessage"
+
+        if (result.isSuccess) {
+            // Update list
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_TASK,
+                ACTION_DATABASE_LOAD_TASK -> {
+                    result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
+                        val mainCredential =
+                            result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
+                                ?: MainCredential()
+                        databaseFilesViewModel.addDatabaseFile(
+                            databaseUri,
+                            mainCredential.keyFileUri
+                        )
                     }
-                    Log.e(TAG, resultError)
-                    Snackbar.make(coordinatorLayout,
-                        resultError,
-                        Snackbar.LENGTH_LONG).asError().show()
                 }
             }
+            // Launch activity
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_TASK -> {
+                    GroupActivity.launch(
+                        this@FileDatabaseSelectActivity,
+                        database,
+                        PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity)
+                    )
+                }
+                ACTION_DATABASE_LOAD_TASK -> {
+                    launchGroupActivityIfLoaded(database)
+                }
+            }
+        } else {
+            var resultError = ""
+            val resultMessage = result.message
+            // Show error message
+            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                resultError = "$resultError $resultMessage"
+            }
+            Log.e(TAG, resultError)
+            Snackbar.make(coordinatorLayout,
+                resultError,
+                Snackbar.LENGTH_LONG).asError().show()
         }
     }
 
@@ -316,6 +321,13 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
         mDatabase?.let { database ->
             launchGroupActivityIfLoaded(database)
+        }
+
+        // Show recent files if allowed
+        if (PreferencesUtil.showRecentFiles(this@FileDatabaseSelectActivity)) {
+            databaseFilesViewModel.loadListOfDatabases()
+        } else {
+            mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
         }
     }
 

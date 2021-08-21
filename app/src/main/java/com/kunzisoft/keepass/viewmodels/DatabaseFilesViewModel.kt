@@ -77,6 +77,9 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
             databaseFileAdded?.let { _ ->
                 databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     this.databaseFileAction = DatabaseFileAction.ADD
+                    if (this.databaseFileList.contains(databaseFileAdded)) {
+                        this.databaseFileList.remove(databaseFileAdded)
+                    }
                     this.databaseFileList.add(databaseFileAdded)
                     this.databaseFileToActivate = databaseFileAdded
                 }
