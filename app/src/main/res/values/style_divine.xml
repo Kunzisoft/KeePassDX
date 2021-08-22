@@ -23,6 +23,7 @@
     <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.Light.WhiteBar.v23" >
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlNormal">@color/grey_light</item>

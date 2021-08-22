@@ -33,7 +33,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
     }
-    private val valueView = TextInputEditText(context).apply {
+    private val valueView = TextInputEditText(
+        ContextThemeWrapper(getContext(),
+        R.style.KeepassDXStyle_TextInputLayout)
+    ).apply {
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
