@@ -301,8 +301,9 @@ class EntryEditFragment: DatabaseFragment() {
     private fun putAttachment(attachment: EntryAttachmentState,
                               onPreviewLoaded: ((attachment: EntryAttachmentState) -> Unit)? = null) {
         // When only one attachment is allowed
-        if (!mAllowMultipleAttachments) {
-            clearAttachments()
+        if (!mAllowMultipleAttachments
+            && attachment.downloadState == AttachmentState.START) {
+            attachmentsAdapter?.clear()
         }
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter?.putItem(attachment)
@@ -313,10 +314,6 @@ class EntryEditFragment: DatabaseFragment() {
 
     private fun removeAttachment(attachment: EntryAttachmentState) {
         attachmentsAdapter?.removeItem(attachment)
-    }
-
-    private fun clearAttachments() {
-        attachmentsAdapter?.clear()
     }
 
     private fun getAttachmentViewPosition(attachment: EntryAttachmentState,
