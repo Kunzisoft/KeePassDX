@@ -268,6 +268,8 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                 if (result.isSuccess) {
                     launchGroupActivityIfLoaded(database)
                 } else {
+                    passwordView?.requestFocus()
+
                     var resultError = ""
                     val resultException = result.exception
                     val resultMessage = result.message
