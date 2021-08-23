@@ -442,9 +442,11 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         enableOrNotTheConfirmationButton()
 
         // Auto select the password field and open keyboard
-        passwordView?.requestFocusFromTouch()
-        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
-        inputMethodManager?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
+        passwordView?.postDelayed({
+            passwordView?.requestFocusFromTouch()
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
+            inputMethodManager?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
+        }, 100)
     }
 
     private fun enableOrNotTheConfirmationButton() {
