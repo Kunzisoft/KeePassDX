@@ -267,6 +267,24 @@ class EntryEditActivity : DatabaseLockActivity(),
             } ?: run {
                 updateEntry(entrySave.oldEntry, entrySave.newEntry)
             }
+
+            // Don't wait for saving if it's to provide autofill
+            mDatabase?.let { database ->
+                EntrySelectionHelper.doSpecialAction(intent,
+                    {},
+                    {},
+                    {},
+                    {
+                        entryValidatedForKeyboardSelection(database, entrySave.newEntry)
+                    },
+                    { _, _ ->
+                        entryValidatedForAutofillSelection(database, entrySave.newEntry)
+                    },
+                    {
+                        entryValidatedForAutofillRegistration(entrySave.newEntry)
+                    }
+                )
+            }
         }
     }
 
@@ -376,22 +394,22 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 EntrySelectionHelper.doSpecialAction(intent,
                                     {
                                         // Finish naturally
-                                        finishForEntryResult(actionTask, entry)
+                                        finishForEntryResult(entry)
                                     },
                                     {
                                         // Nothing when search retrieved
                                     },
                                     {
-                                        entryValidatedForSave(actionTask, entry)
+                                        entryValidatedForSave(entry)
                                     },
                                     {
-                                        entryValidatedForKeyboardSelection(database, actionTask, entry)
+                                        entryValidatedForKeyboardSelection(database, entry)
                                     },
                                     { _, _ ->
                                         entryValidatedForAutofillSelection(database, entry)
                                     },
                                     {
-                                        entryValidatedForAutofillRegistration(actionTask, entry)
+                                        entryValidatedForAutofillRegistration(entry)
                                     }
                                 )
                             }
@@ -405,19 +423,19 @@ class EntryEditActivity : DatabaseLockActivity(),
         coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
-    private fun entryValidatedForSave(actionTask: String, entry: Entry) {
+    private fun entryValidatedForSave(entry: Entry) {
         onValidateSpecialMode()
-        finishForEntryResult(actionTask, entry)
+        finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(database: Database, actionTask: String, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
         // Populate Magikeyboard with entry
         populateKeyboardAndMoveAppToBackground(this,
                 entry.getEntryInfo(database),
                 intent)
         onValidateSpecialMode()
         // Don't keep activity history for entry edition
-        finishForEntryResult(actionTask, entry)
+        finishForEntryResult(entry)
     }
 
     private fun entryValidatedForAutofillSelection(database: Database, entry: Entry) {
@@ -430,9 +448,9 @@ class EntryEditActivity : DatabaseLockActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForAutofillRegistration(actionTask: String, entry: Entry) {
+    private fun entryValidatedForAutofillRegistration(entry: Entry) {
         onValidateSpecialMode()
-        finishForEntryResult(actionTask, entry)
+        finishForEntryResult(entry)
     }
 
     override fun onResume() {
@@ -712,21 +730,14 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun finishForEntryResult(actionTask: String, entry: Entry) {
+    private fun finishForEntryResult(entry: Entry) {
         // Assign entry callback as a result
         try {
             val bundle = Bundle()
             val intentEntry = Intent()
             bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
             intentEntry.putExtras(bundle)
-            when (actionTask) {
-                ACTION_DATABASE_CREATE_ENTRY_TASK -> {
-                    setResult(ADD_ENTRY_RESULT_CODE, intentEntry)
-                }
-                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                    setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry)
-                }
-            }
+            setResult(ADD_OR_UPDATE_ENTRY_RESULT_CODE, intentEntry)
             super.finish()
         } catch (e: Exception) {
             // Exception when parcelable can't be done
@@ -743,8 +754,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         const val KEY_PARENT = "parent"
 
         // Keys for callback
-        const val ADD_ENTRY_RESULT_CODE = 31
-        const val UPDATE_ENTRY_RESULT_CODE = 32
+        const val ADD_OR_UPDATE_ENTRY_RESULT_CODE = 31
         const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
 

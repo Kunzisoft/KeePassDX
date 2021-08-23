@@ -3,7 +3,7 @@ KeePassDX(3.0.0)
  * Manually select RecycleBin group and Templates group #191
  * Fix timeout in dialogs #716
  * Check URI permissions #626
- * Small changes #1035 #1043
+ * Small changes #1035 #1043 #942
 
 KeePassDX(2.10.5)
  * Increase the saving speed of database #1028

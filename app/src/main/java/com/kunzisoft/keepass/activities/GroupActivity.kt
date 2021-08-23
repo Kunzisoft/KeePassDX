@@ -623,9 +623,8 @@ class GroupActivity : DatabaseLockActivity(),
                                     && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
                                 ) {
                                     updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
-                                } else {
-                                    entrySelectedForKeyboardSelection(database, entryVersioned)
                                 }
+                                entrySelectedForKeyboardSelection(database, entryVersioned)
                             },
                             {
                                 // Normally not append
@@ -639,9 +638,8 @@ class GroupActivity : DatabaseLockActivity(),
                             && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
                         ) {
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
-                        } else {
-                            entrySelectedForAutofillSelection(database, entryVersioned)
                         }
+                        entrySelectedForAutofillSelection(database, entryVersioned)
                     },
                     { registerInfo ->
                         if (!database.isReadOnly)

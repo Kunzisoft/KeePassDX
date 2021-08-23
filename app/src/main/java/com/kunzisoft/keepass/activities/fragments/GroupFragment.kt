@@ -406,8 +406,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
-                if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE
-                        || resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
+                if (resultCode == EntryEditActivity.ADD_OR_UPDATE_ENTRY_RESULT_CODE) {
                     data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let {
                         // Simply refresh the list
                         rebuildList()
