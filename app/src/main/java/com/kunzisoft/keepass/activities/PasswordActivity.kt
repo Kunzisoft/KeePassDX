@@ -268,7 +268,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                 if (result.isSuccess) {
                     launchGroupActivityIfLoaded(database)
                 } else {
-                    passwordView?.requestFocus()
+                    passwordView?.requestFocusFromTouch()
 
                     var resultError = ""
                     val resultException = result.exception
@@ -443,9 +443,8 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
 
         // Auto select the password field and open keyboard
         passwordView?.requestFocusFromTouch()
-        val imm: InputMethodManager? =
-            getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
-        imm?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
+        inputMethodManager?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun enableOrNotTheConfirmationButton() {
