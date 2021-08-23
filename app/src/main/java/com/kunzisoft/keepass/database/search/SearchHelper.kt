@@ -72,6 +72,7 @@ class SearchHelper {
                 },
                 false)
 
+        searchGroup?.refreshNumberOfChildEntries()
         return searchGroup
     }
 
