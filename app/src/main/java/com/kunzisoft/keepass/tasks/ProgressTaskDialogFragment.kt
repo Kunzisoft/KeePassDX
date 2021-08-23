@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.tasks
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -29,6 +30,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
+import java.lang.Exception
 
 open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
@@ -46,29 +48,33 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        activity?.let {
-            val builder = AlertDialog.Builder(it)
-            // Get the layout inflater
-            val inflater = it.layoutInflater
+        try {
+            activity?.let {
+                val builder = AlertDialog.Builder(it)
+                // Get the layout inflater
+                val inflater = it.layoutInflater
 
-            // Inflate and set the layout for the dialog
-            // Pass null as the parent view because its going in the dialog layout
-            @SuppressLint("InflateParams")
-            val root = inflater.inflate(R.layout.fragment_progress, null)
-            builder.setView(root)
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                @SuppressLint("InflateParams")
+                val root = inflater.inflate(R.layout.fragment_progress, null)
+                builder.setView(root)
 
-            titleView = root.findViewById(R.id.progress_dialog_title)
-            messageView = root.findViewById(R.id.progress_dialog_message)
-            warningView = root.findViewById(R.id.progress_dialog_warning)
-            progressView = root.findViewById(R.id.progress_dialog_bar)
+                titleView = root.findViewById(R.id.progress_dialog_title)
+                messageView = root.findViewById(R.id.progress_dialog_message)
+                warningView = root.findViewById(R.id.progress_dialog_warning)
+                progressView = root.findViewById(R.id.progress_dialog_bar)
 
-            updateTitle(title)
-            updateMessage(message)
-            updateWarning(warning)
+                updateTitle(title)
+                updateMessage(message)
+                updateWarning(warning)
 
-            isCancelable = false
+                isCancelable = false
 
-            return builder.create()
+                return builder.create()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to create progress dialog")
         }
         return super.onCreateDialog(savedInstanceState)
     }
@@ -104,9 +110,8 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     }
 
     companion object {
-
+        private val TAG = ProgressTaskDialogFragment::class.java.simpleName
         const val PROGRESS_TASK_DIALOG_TAG = "progressDialogFragment"
-
         const val UNDEFINED = -1
     }
 }
