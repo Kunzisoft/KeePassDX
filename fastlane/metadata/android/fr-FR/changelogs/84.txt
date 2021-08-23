@@ -2,4 +2,4 @@
  * Sélection manuelle des groupes de la corbeille et des templates #191
  * Correction du délai d'expiration dans les dialogues #716
  * Vérification des permissions URI #626
- * Petits changements #1035
+ * Petits changements #1035 #1043

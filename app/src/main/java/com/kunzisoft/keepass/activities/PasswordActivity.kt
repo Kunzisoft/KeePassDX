@@ -31,8 +31,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
@@ -70,6 +73,7 @@ import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
+
 
 open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
@@ -150,6 +154,13 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                 if (editable.toString().isNotEmpty() && checkboxPasswordView?.isChecked != true)
                     checkboxPasswordView?.isChecked = true
             }
+        })
+        passwordView?.setOnEditorActionListener(OnEditorActionListener { _, _, keyEvent ->
+            if (keyEvent.keyCode == KEYCODE_ENTER) {
+                verifyCheckboxesAndLoadDatabase()
+                return@OnEditorActionListener true
+            }
+            false
         })
 
         // If is a view intent
@@ -425,6 +436,12 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         }
 
         enableOrNotTheConfirmationButton()
+
+        // Auto select the password field and open keyboard
+        passwordView?.requestFocus()
+        val imm: InputMethodManager? =
+            getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
+        imm?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun enableOrNotTheConfirmationButton() {
