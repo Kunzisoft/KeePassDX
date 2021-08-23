@@ -57,7 +57,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 LayoutParams.WRAP_CONTENT).also {
             it.topMargin = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
-                    8f,
+                    12f,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)

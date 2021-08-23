@@ -288,7 +288,7 @@
     </style>
 
     <!-- CheckBox -->
-    <style name="KeepassDXStyle.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+    <style name="KeepassDXStyle.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
 
