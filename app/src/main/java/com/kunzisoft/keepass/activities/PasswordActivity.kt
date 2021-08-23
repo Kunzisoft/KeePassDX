@@ -155,13 +155,15 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                     checkboxPasswordView?.isChecked = true
             }
         })
-        passwordView?.setOnEditorActionListener(OnEditorActionListener { _, _, keyEvent ->
-            if (keyEvent.keyCode == KEYCODE_ENTER) {
+        passwordView?.setOnKeyListener { _, _, keyEvent ->
+            var handled = false
+            if (keyEvent.action == KeyEvent.ACTION_DOWN
+                && keyEvent?.keyCode == KEYCODE_ENTER) {
                 verifyCheckboxesAndLoadDatabase()
-                return@OnEditorActionListener true
+                handled = true
             }
-            false
-        })
+            handled
+        }
 
         // If is a view intent
         getUriFromIntent(intent)
@@ -438,7 +440,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         enableOrNotTheConfirmationButton()
 
         // Auto select the password field and open keyboard
-        passwordView?.requestFocus()
+        passwordView?.requestFocusFromTouch()
         val imm: InputMethodManager? =
             getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
         imm?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
