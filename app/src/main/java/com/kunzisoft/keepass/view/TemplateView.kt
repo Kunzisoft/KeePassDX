@@ -119,8 +119,8 @@ class TemplateView @JvmOverloads constructor(context: Context,
 
         // Hide empty custom fields
         emptyCustomFields.forEach { customFieldId ->
-            templateContainerView.findViewById<View>(customFieldId.viewId)
-                .isVisible = false
+            templateContainerView.findViewById<View?>(customFieldId.viewId)
+                ?.isVisible = false
         }
 
         mEntryInfo?.let { entryInfo ->
@@ -131,20 +131,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
             }
         }
         return emptyCustomFields
-    }
-
-    override fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
-        customFieldIdByName(fieldName)?.let { fieldId ->
-            val editView: View? = templateContainerView.findViewById(fieldId.viewId)
-                ?: customFieldsContainerView.findViewById(fieldId.viewId)
-            if (editView is GenericFieldView) {
-                if (!templateFieldNotEmpty ||
-                    (editView.tag == FIELD_CUSTOM_TAG
-                            && editView.value.isNotEmpty()))
-                    return Field(fieldName, ProtectedString(fieldId.protected, editView.value))
-            }
-        }
-        return null
     }
 
     /*

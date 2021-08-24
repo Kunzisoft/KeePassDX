@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
@@ -90,10 +89,9 @@ object IconPackChooser {
 
     }
 
-    fun setSelectedIconPack(iconDrawableFactory: IconDrawableFactory, iconPackIdString: String?) {
+    fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
-                iconDrawableFactory.clearCache()
                 iconPackSelected = iconPack
                 break
             }
@@ -106,10 +104,11 @@ object IconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack currently in usage
      */
-    fun getSelectedIconPack(context: Context, iconDrawableFactory: IconDrawableFactory): IconPack? {
+    fun getSelectedIconPack(context: Context): IconPack? {
         build(context)
-        if (iconPackSelected == null)
-            setSelectedIconPack(iconDrawableFactory, PreferencesUtil.getIconPackSelectedId(context))
+        if (iconPackSelected == null) {
+            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
+        }
         return iconPackSelected
     }
 

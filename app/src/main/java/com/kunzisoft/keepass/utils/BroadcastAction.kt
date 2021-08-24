@@ -30,8 +30,9 @@ import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -51,7 +52,7 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // If allowed, lock and exit
-        if (!TimeoutHelper.temporarilyDisableTimeout) {
+        if (!TimeoutHelper.temporarilyDisableLock) {
             intent.action?.let {
                 when (it) {
                     Intent.ACTION_SCREEN_ON -> {
@@ -125,10 +126,10 @@ fun Context.unregisterLockReceiver(lockReceiver: LockReceiver?) {
     }
 }
 
-fun Context.closeDatabase() {
+fun Context.closeDatabase(database: Database?) {
     // Stop the Magikeyboard service
     stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-    MagikIME.removeEntry(this)
+    MagikeyboardService.removeEntry(this)
 
     // Stop the notification service
     stopService(Intent(this, ClipboardEntryNotificationService::class.java))
@@ -138,5 +139,22 @@ fun Context.closeDatabase() {
         cancelAll()
     }
     // Clear data
-    Database.getInstance().clearAndClose(this)
+    database?.clearAndClose(this)
+
+    // Release not useful URI permission
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        applicationContext?.let { appContext ->
+            val fileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(appContext)
+            fileDatabaseHistoryAction.getDatabaseFileList { databaseFileList ->
+                val listToNotRemove = databaseFileList.map { it.databaseUri }
+                // Remove URI permission for not database files
+                val resolver = appContext.contentResolver
+                resolver.persistedUriPermissions.forEach { uriPermission ->
+                    val uri = uriPermission.uri
+                    if (!listToNotRemove.contains(uri))
+                        UriUtil.releaseUriPermission(resolver, uri)
+                }
+            }
+        }
+    }
 }

@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
@@ -34,7 +33,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.applyFontVisibility
 
-class GeneratePasswordDialogFragment : DialogFragment() {
+class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
 
     private var mListener: GeneratePasswordListener? = null
 

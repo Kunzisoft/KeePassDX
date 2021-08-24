@@ -37,8 +37,6 @@ import java.util.*
 
 object PreferencesUtil {
 
-    var APPEARANCE_CHANGED = false
-
     fun saveDefaultDatabasePath(context: Context, defaultDatabaseUri: Uri?) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {

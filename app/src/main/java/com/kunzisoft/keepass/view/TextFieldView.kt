@@ -88,6 +88,8 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         changeProtectedValueParameters()
     }
 
+    override var default: String = ""
+
     fun setMaxChars(numberChars: Int) {
         when {
             numberChars <= 0 -> {

@@ -26,7 +26,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -117,14 +117,14 @@ class KeyboardEntryNotificationService : LockNotificationService() {
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        MagikIME.removeEntry(this)
+        MagikeyboardService.removeEntry(this)
 
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
         // Remove the entry from the keyboard
-        MagikIME.removeEntry(this)
+        MagikeyboardService.removeEntry(this)
 
         pendingDeleteIntent?.cancel()
 
@@ -165,7 +165,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
                     })
                 }
             } else {
-                MagikIME.removeEntry(context)
+                MagikeyboardService.removeEntry(context)
             }
 
             if (!startService)

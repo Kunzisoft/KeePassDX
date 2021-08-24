@@ -25,14 +25,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
-import android.os.Bundle
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.KeeAutofillService
@@ -44,13 +43,18 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class AutofillLauncherActivity : AppCompatActivity() {
+class AutofillLauncherActivity : DatabaseModeActivity() {
 
-    private var mDatabase: Database? = null
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
 
-        mDatabase = Database.getInstance()
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
 
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
@@ -64,9 +68,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        mDatabase?.let { database ->
-                            launchSelection(database, searchInfo)
-                        }
+                        launchSelection(database, searchInfo)
                     }
                 }
                 SpecialMode.REGISTRATION -> {
@@ -75,9 +77,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        mDatabase?.let { database ->
-                            launchRegistration(database, searchInfo, registerInfo)
-                        }
+                        launchRegistration(database, searchInfo, registerInfo)
                     }
                 }
                 else -> {
@@ -87,11 +87,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
                 }
             }
         }
-
-        super.onCreate(savedInstanceState)
     }
 
-    private fun launchSelection(database: Database,
+    private fun launchSelection(database: Database?,
                                 searchInfo: SearchInfo) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
@@ -111,18 +109,18 @@ class AutofillLauncherActivity : AppCompatActivity() {
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { items ->
+                    { openedDatabase, items ->
                         // Items found
-                        AutofillHelper.buildResponseAndSetResult(this, database, items)
+                        AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
                         finish()
                     },
-                    {
+                    { openedDatabase ->
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                database.isReadOnly,
-                                autofillComponent,
-                                searchInfo,
-                                false)
+                            openedDatabase,
+                            autofillComponent,
+                            searchInfo,
+                            false)
                     },
                     {
                         // If database not open
@@ -134,7 +132,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchRegistration(database: Database,
+    private fun launchRegistration(database: Database?,
                                    searchInfo: SearchInfo,
                                    registerInfo: RegisterInfo?) {
         if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
@@ -144,24 +142,26 @@ class AutofillLauncherActivity : AppCompatActivity() {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
         } else {
-            val readOnly = database.isReadOnly
+            val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { _ ->
+                    { openedDatabase, _ ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,
-                                    registerInfo)
+                                openedDatabase,
+                                registerInfo)
                         } else {
                             showReadOnlySaveMessage()
                         }
                     },
-                    {
+                    { openedDatabase ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,
-                                    registerInfo)
+                                openedDatabase,
+                                registerInfo)
                         } else {
                             showReadOnlySaveMessage()
                         }

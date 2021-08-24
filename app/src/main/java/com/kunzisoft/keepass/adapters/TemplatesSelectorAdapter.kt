@@ -12,10 +12,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.icons.IconDrawableFactory
 
 
 class TemplatesSelectorAdapter(private val context: Context,
-                               private val database: Database?,
+                               private val iconDrawableFactory: IconDrawableFactory?,
                                private var templates: List<Template>): BaseAdapter() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -43,7 +44,7 @@ class TemplatesSelectorAdapter(private val context: Context,
         }
 
         holder.icon?.let { icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(icon, template.icon, mIconColor)
+            iconDrawableFactory?.assignDatabaseIcon(icon, template.icon, mIconColor)
         }
         holder.name?.text = TemplateField.getLocalizedName(context, template.title)
 

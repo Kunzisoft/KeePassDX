@@ -24,6 +24,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
@@ -31,6 +32,7 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
         ListRadioItemAdapter.RadioItemSelectedCallback<Group> {
 
+    private var mGroupsAdapter: ListRadioItemAdapter<Group>? = null
     private var mGroupTemplates: Group? = null
 
     override fun onBindDialogView(view: View) {
@@ -40,14 +42,17 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            val groupsAdapter = ListRadioItemAdapter<Group>(activity)
-            groupsAdapter.setRadioItemSelectedCallback(this)
-            recyclerView.adapter = groupsAdapter
+            mGroupsAdapter = ListRadioItemAdapter(activity)
+            mGroupsAdapter?.setRadioItemSelectedCallback(this)
+            recyclerView.adapter = mGroupsAdapter
+        }
+    }
 
-            mDatabase?.let { database ->
-                mGroupTemplates = database.templatesGroup
-                groupsAdapter.setItems(database.getAllGroupsWithoutRoot(), mGroupTemplates)
-            }
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.let {
+            mGroupTemplates = database.templatesGroup
+            mGroupsAdapter?.setItems(database.getAllGroupsWithoutRoot(), mGroupTemplates)
         }
     }
 
@@ -55,18 +60,15 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
         mGroupTemplates = item
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            mDatabase?.let { database ->
+            database?.let {
                 if (database.allowConfigurableTemplatesGroup) {
                     val oldGroup = database.templatesGroup
                     val newGroup = mGroupTemplates
                     database.setTemplatesGroup(newGroup)
-                    mProgressDatabaseTaskProvider?.startDatabaseSaveTemplatesGroup(
-                        oldGroup,
-                        newGroup,
-                        mDatabaseAutoSaveEnable
-                    )
+                    saveTemplatesGroup(oldGroup, newGroup)
                 }
             }
         }

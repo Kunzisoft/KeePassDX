@@ -22,14 +22,18 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
-class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
-
         setExplanationText(R.string.max_history_items_summary)
-        mDatabase?.historyMaxItems?.let { maxItemsDatabase ->
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.historyMaxItems?.let { maxItemsDatabase ->
             inputText = maxItemsDatabase.toString()
             setSwitchAction({ isChecked ->
                 inputText = if (!isChecked) {
@@ -42,9 +46,10 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
         }
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            mDatabase?.let { database ->
+            database?.let {
                 var maxHistoryItems: Int = try {
                     inputText.toInt()
                 } catch (e: NumberFormatException) {
@@ -60,7 +65,7 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
                 // Remove all history items
                 database.removeOldestHistoryForEachEntry()
 
-                mProgressDatabaseTaskProvider?.startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems, mDatabaseAutoSaveEnable)
+                saveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems)
             }
         }
     }
@@ -70,8 +75,8 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
         const val DEFAULT_MAX_HISTORY_ITEMS = 10
         const val NONE_MAX_HISTORY_ITEMS = -1
 
-        fun newInstance(key: String): MaxHistoryItemsPreferenceDialogFragmentCompat {
-            val fragment = MaxHistoryItemsPreferenceDialogFragmentCompat()
+        fun newInstance(key: String): DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat {
+            val fragment = DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

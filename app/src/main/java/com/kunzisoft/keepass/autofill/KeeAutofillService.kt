@@ -36,6 +36,7 @@ import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.CreditCard
@@ -50,20 +51,30 @@ import java.util.concurrent.atomic.AtomicBoolean
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
-    var applicationIdBlocklist: Set<String>? = null
-    var webDomainBlocklist: Set<String>? = null
-    var askToSaveData: Boolean = false
-    var autofillInlineSuggestionsEnabled: Boolean = false
-    private var mLock = AtomicBoolean()
-
+    private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: Database? = null
+    private var applicationIdBlocklist: Set<String>? = null
+    private var webDomainBlocklist: Set<String>? = null
+    private var askToSaveData: Boolean = false
+    private var autofillInlineSuggestionsEnabled: Boolean = false
+    private var mLock = AtomicBoolean()
 
     override fun onCreate() {
         super.onCreate()
 
-        mDatabase = Database.getInstance()
+        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider?.registerProgressTask()
+        mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
+            this.mDatabase = database
+        }
 
         getPreferences()
+    }
+
+    override fun onDestroy() {
+        mDatabaseTaskProvider?.unregisterProgressTask()
+
+        super.onDestroy()
     }
 
     private fun getPreferences() {
@@ -102,20 +113,18 @@ class KeeAutofillService : AutofillService() {
                         } else {
                             null
                         }
-                        mDatabase?.let { database ->
-                            launchSelection(database,
-                                    searchInfo,
-                                    parseResult,
-                                    inlineSuggestionsRequest,
-                                    callback)
-                        }
+                        launchSelection(mDatabase,
+                                searchInfo,
+                                parseResult,
+                                inlineSuggestionsRequest,
+                                callback)
                     }
                 }
             }
         }
     }
 
-    private fun launchSelection(database: Database,
+    private fun launchSelection(database: Database?,
                                 searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: InlineSuggestionsRequest?,
@@ -123,9 +132,9 @@ class KeeAutofillService : AutofillService() {
         SearchHelper.checkAutoSearchInfo(this,
                 database,
                 searchInfo,
-                { items ->
+                { openedDatabase, items ->
                     callback.onSuccess(
-                            AutofillHelper.buildResponse(this, database,
+                            AutofillHelper.buildResponse(this, openedDatabase,
                                     items, parseResult, inlineSuggestionsRequest)
                     )
                 },

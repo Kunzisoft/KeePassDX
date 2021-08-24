@@ -48,6 +48,10 @@ class FileDatabaseInfo : Serializable {
     }
 
     fun init() {
+        // Check permission
+        fileUri?.let { uri ->
+            UriUtil.takeUriPermission(context.contentResolver, uri)
+        }
         documentFile = UriUtil.getFileData(context, fileUri)
     }
 

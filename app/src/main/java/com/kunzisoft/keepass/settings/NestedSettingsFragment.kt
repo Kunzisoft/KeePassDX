@@ -22,13 +22,12 @@ package com.kunzisoft.keepass.settings
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
-abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
+abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     enum class Screen {
         APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY
@@ -47,9 +46,6 @@ abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
 
     abstract fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?)
 
-    open fun onProgressDialogThreadResult(actionTask: String,
-                                     result: ActionRunnable.Result) {}
-
     protected fun preferenceInDevelopment(preferenceInDev: Preference) {
         preferenceInDev.setOnPreferenceClickListener { preference ->
             try { // don't check if we can
@@ -65,7 +61,7 @@ abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
 
         private const val TAG_KEY = "NESTED_KEY"
 
-        fun newInstance(key: Screen, databaseReadOnly: Boolean = ReadOnlyHelper.READ_ONLY_DEFAULT)
+        fun newInstance(key: Screen)
                 : NestedSettingsFragment {
             val fragment: NestedSettingsFragment = when (key) {
                 Screen.APPLICATION,
@@ -79,7 +75,6 @@ abstract class NestedSettingsFragment : DatabasePreferenceFragment() {
             // supply arguments to bundle.
             val args = Bundle()
             args.putInt(TAG_KEY, key.ordinal)
-            ReadOnlyHelper.putReadOnlyInBundle(args, databaseReadOnly)
             fragment.arguments = args
             return fragment
         }

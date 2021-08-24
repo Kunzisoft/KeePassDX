@@ -28,8 +28,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import android.util.AttributeSet
 
-import com.kunzisoft.keepass.magikeyboard.MagikIME.Companion.KEY_BACK_KEYBOARD
-import com.kunzisoft.keepass.magikeyboard.MagikIME.Companion.KEY_CHANGE_KEYBOARD
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService.Companion.KEY_BACK_KEYBOARD
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService.Companion.KEY_CHANGE_KEYBOARD
 
 class MagikeyboardView : KeyboardView {
 

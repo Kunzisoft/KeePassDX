@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/date_time_label"
@@ -20,7 +21,7 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_warning_white_24dp"
             android:contentDescription="@string/content_description_file_information"
-            android:tint="?android:attr/textColor"/>
+            app:tint="?android:attr/textColor"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/date_time_value"
             android:layout_width="match_parent"

@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.database.action
 
+import android.app.Service
 import android.content.*
-import android.content.Context.BIND_ABOVE_CLIENT
-import android.content.Context.BIND_NOT_FOREGROUND
+import android.content.Context.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Co
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -83,12 +84,23 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
+/**
+ * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
+ * Useful to retrieve a database instance and sending tasks commands
+ */
+class DatabaseTaskProvider {
 
-    var onActionFinish: ((actionTask: String,
+    private var activity: FragmentActivity? = null
+    private var service: Service? = null
+    private var context: Context
+
+    var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
+
+    var onActionFinish: ((database: Database,
+                          actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
-    private var intentDatabaseTask = Intent(activity.applicationContext, DatabaseTaskNotificationService::class.java)
+    private var intentDatabaseTask: Intent
 
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
@@ -98,17 +110,31 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
+    constructor(activity: FragmentActivity) {
+        this.activity = activity
+        this.context = activity
+        this.intentDatabaseTask = Intent(activity.applicationContext,
+            DatabaseTaskNotificationService::class.java)
+    }
+
+    constructor(service: Service) {
+        this.service = service
+        this.context = service
+        this.intentDatabaseTask = Intent(service.applicationContext,
+            DatabaseTaskNotificationService::class.java)
+    }
+
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
+        override fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
             startDialog(titleId, messageId, warningId)
         }
 
-        override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
+        override fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
             updateDialog(titleId, messageId, warningId)
         }
 
-        override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
-            onActionFinish?.invoke(actionTask, result)
+        override fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result) {
+            onActionFinish?.invoke(database, actionTask, result)
             // Remove the progress task
             stopDialog()
         }
@@ -123,43 +149,55 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
         override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
                                            newDatabaseInfo: SnapFileDatabaseInfo) {
-            activity.lifecycleScope.launch {
-                if (databaseChangedDialogFragment == null) {
-                    databaseChangedDialogFragment = activity.supportFragmentManager
-                        .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
-                    databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
-                }
-                if (progressTaskDialogFragment == null) {
-                    databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
-                        previousDatabaseInfo,
-                        newDatabaseInfo
-                    )
-                    databaseChangedDialogFragment?.actionDatabaseListener = mActionDatabaseListener
-                    databaseChangedDialogFragment?.show(
-                        activity.supportFragmentManager,
-                        DATABASE_CHANGED_DIALOG_TAG
-                    )
+            activity?.let { activity ->
+                activity.lifecycleScope.launch {
+                    if (databaseChangedDialogFragment == null) {
+                        databaseChangedDialogFragment = activity.supportFragmentManager
+                            .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
+                        databaseChangedDialogFragment?.actionDatabaseListener =
+                            mActionDatabaseListener
+                    }
+                    if (progressTaskDialogFragment == null) {
+                        databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
+                            previousDatabaseInfo,
+                            newDatabaseInfo
+                        )
+                        databaseChangedDialogFragment?.actionDatabaseListener =
+                            mActionDatabaseListener
+                        databaseChangedDialogFragment?.show(
+                            activity.supportFragmentManager,
+                            DATABASE_CHANGED_DIALOG_TAG
+                        )
+                    }
                 }
             }
+        }
+    }
+
+    private var databaseListener = object: DatabaseTaskNotificationService.DatabaseListener {
+        override fun onDatabaseRetrieved(database: Database?) {
+            onDatabaseRetrieved?.invoke(database)
         }
     }
 
     private fun startDialog(titleId: Int? = null,
                             messageId: Int? = null,
                             warningId: Int? = null) {
-        activity.lifecycleScope.launch {
-            if (progressTaskDialogFragment == null) {
-                progressTaskDialogFragment = activity.supportFragmentManager
-                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+        activity?.let { activity ->
+            activity.lifecycleScope.launch {
+                if (progressTaskDialogFragment == null) {
+                    progressTaskDialogFragment = activity.supportFragmentManager
+                        .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+                }
+                if (progressTaskDialogFragment == null) {
+                    progressTaskDialogFragment = ProgressTaskDialogFragment()
+                    progressTaskDialogFragment?.show(
+                        activity.supportFragmentManager,
+                        PROGRESS_TASK_DIALOG_TAG
+                    )
+                }
+                updateDialog(titleId, messageId, warningId)
             }
-            if (progressTaskDialogFragment == null) {
-                progressTaskDialogFragment = ProgressTaskDialogFragment()
-                progressTaskDialogFragment?.show(
-                    activity.supportFragmentManager,
-                    PROGRESS_TASK_DIALOG_TAG
-                )
-            }
-            updateDialog(titleId, messageId, warningId)
         }
     }
 
@@ -187,16 +225,19 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             serviceConnection = object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
-                        addActionTaskListener(actionTaskListener)
+                        addDatabaseListener(databaseListener)
                         addDatabaseFileInfoListener(databaseInfoListener)
-                        getService().checkAction()
+                        addActionTaskListener(actionTaskListener)
+                        getService().checkDatabase()
                         getService().checkDatabaseInfo()
+                        getService().checkAction()
                     }
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
-                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
                     mBinder?.removeActionTaskListener(actionTaskListener)
+                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
+                    mBinder?.removeDatabaseListener(databaseListener)
                     mBinder = null
                 }
             }
@@ -206,7 +247,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
-            activity.bindService(intentDatabaseTask, it, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+            context.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
         }
     }
 
@@ -215,7 +256,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
      */
     private fun unBindService() {
         serviceConnection?.let {
-            activity.unbindService(it)
+            context.unbindService(it)
         }
         serviceConnection = null
     }
@@ -243,7 +284,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
                 }
             }
         }
-        activity.registerReceiver(databaseTaskBroadcastReceiver,
+        context.registerReceiver(databaseTaskBroadcastReceiver,
                 IntentFilter().apply {
                     addAction(DATABASE_START_TASK_ACTION)
                     addAction(DATABASE_STOP_TASK_ACTION)
@@ -257,14 +298,15 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     fun unregisterProgressTask() {
         stopDialog()
 
-        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
         mBinder?.removeActionTaskListener(actionTaskListener)
+        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
+        mBinder?.removeDatabaseListener(databaseListener)
         mBinder = null
 
         unBindService()
 
         try {
-            activity.unregisterReceiver(databaseTaskBroadcastReceiver)
+            context.unregisterReceiver(databaseTaskBroadcastReceiver)
         } catch (e: IllegalArgumentException) {
             // If receiver not register, do nothing
         }
@@ -275,7 +317,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
             if (bundle != null)
                 intentDatabaseTask.putExtras(bundle)
             intentDatabaseTask.action = actionTask
-            activity.startService(intentDatabaseTask)
+            context.startService(intentDatabaseTask)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to perform database action", e)
             Toast.makeText(activity, R.string.error_start_database_action, Toast.LENGTH_LONG).show()
@@ -388,9 +430,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
         nodesPaste.forEach { nodeVersioned ->
             when (nodeVersioned.type) {
                 Type.GROUP -> {
-                    (nodeVersioned as Group).nodeId?.let { groupId ->
-                        groupsIdToCopy.add(groupId)
-                    }
+                    groupsIdToCopy.add((nodeVersioned as Group).nodeId)
                 }
                 Type.ENTRY -> {
                     entriesIdToCopy.add((nodeVersioned as Entry).nodeId)
@@ -433,22 +473,22 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
       -----------------
     */
 
-    fun startDatabaseRestoreEntryHistory(mainEntry: Entry,
+    fun startDatabaseRestoreEntryHistory(mainEntryId: NodeId<UUID>,
                                          entryHistoryPosition: Int,
                                          save: Boolean) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntry.nodeId)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntryId)
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_RESTORE_ENTRY_HISTORY)
     }
 
-    fun startDatabaseDeleteEntryHistory(mainEntry: Entry,
+    fun startDatabaseDeleteEntryHistory(mainEntryId: NodeId<UUID>,
                                         entryHistoryPosition: Int,
                                         save: Boolean) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntry.nodeId)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntryId)
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
@@ -639,6 +679,6 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     }
 
     companion object {
-        private val TAG = ProgressDatabaseTaskProvider::class.java.name
+        private val TAG = DatabaseTaskProvider::class.java.name
     }
 }

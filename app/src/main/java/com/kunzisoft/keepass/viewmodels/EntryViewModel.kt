@@ -1,3 +1,22 @@
+/*
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.viewmodels
 
 import androidx.lifecycle.LiveData
@@ -6,7 +25,6 @@ import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
@@ -18,21 +36,20 @@ import java.util.*
 
 class EntryViewModel: ViewModel() {
 
-    private val mDatabase: Database? = Database.getInstance()
-
-    private var mEntryTemplate: Template? = null
-    private var mEntry: Entry? = null
-    private var mLastEntryVersion: Entry? = null
-    private var mHistoryPosition: Int = -1
-
     val template : LiveData<Template> get() = _template
     private val _template = MutableLiveData<Template>()
 
+    val mainEntryId : LiveData<NodeId<UUID>?> get() = _mainEntryId
+    private val _mainEntryId = MutableLiveData<NodeId<UUID>?>()
+
+    val historyPosition : LiveData<Int> get() = _historyPosition
+    private val _historyPosition = MutableLiveData<Int>()
+
+    val url : LiveData<String?> get() = _url
+    private val _url = MutableLiveData<String?>()
+
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
-
-    val entryIsHistory : LiveData<Boolean> get() = _entryIsHistory
-    private val _entryIsHistory = MutableLiveData<Boolean>()
 
     val entryHistory : LiveData<List<EntryInfo>> get() = _entryHistory
     private val _entryHistory = MutableLiveData<List<EntryInfo>>()
@@ -48,79 +65,66 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun loadEntry(entryId: NodeId<UUID>, historyPosition: Int) {
-        IOActionTask(
-            {
-                // Manage current version and history
-                mLastEntryVersion = mDatabase?.getEntryById(entryId)
+    fun loadEntry(database: Database?, entryId: NodeId<UUID>?, historyPosition: Int) {
+        if (entryId != null) {
+            IOActionTask(
+                {
+                    database?.getEntryById(entryId)
+                },
+                { mainEntry ->
+                    // Manage current version and history
+                    _mainEntryId.value = mainEntry?.nodeId
+                    _historyPosition.value = historyPosition
 
-                mEntry = if (historyPosition > -1) {
-                    mLastEntryVersion?.getHistory()?.get(historyPosition)
-                } else {
-                    mLastEntryVersion
-                }
-
-                mEntryTemplate = mEntry?.let {
-                    mDatabase?.getTemplate(it)
-                } ?: Template.STANDARD
-
-                mHistoryPosition = historyPosition
-
-                // To simplify template field visibility
-                mEntry?.let { entry ->
-                    // Add mLastEntryVersion to check the parent and define the template state
-                    mDatabase?.decodeEntryWithTemplateConfiguration(entry, mLastEntryVersion)?.let {
-                        // To update current modification time
-                        it.touch(modified = false, touchParents = false)
-
-                        // Build history info
-                        val entryInfoHistory = it.getHistory().map { entryHistory ->
-                            entryHistory.getEntryInfo(mDatabase)
-                        }
-
-                        EntryInfoHistory(
-                            mEntryTemplate ?: Template.STANDARD,
-                            it.getEntryInfo(mDatabase),
-                            entryInfoHistory
-                        )
+                    val currentEntry = if (historyPosition > -1) {
+                        mainEntry?.getHistory()?.get(historyPosition)
+                    } else {
+                        mainEntry
                     }
-                }
-            },
-            { entryInfoHistory ->
-                if (entryInfoHistory != null) {
-                    _template.value = entryInfoHistory.template
-                    _entryInfo.value = entryInfoHistory.entryInfo
-                    _entryIsHistory.value = mHistoryPosition != -1
-                    _entryHistory.value = entryInfoHistory.entryHistory
-                }
-            }
-        ).execute()
-    }
+                    _url.value = currentEntry?.url
 
-    fun updateEntry() {
-        mEntry?.nodeId?.let { nodeId ->
-            loadEntry(nodeId, mHistoryPosition)
+                    IOActionTask(
+                        {
+                            val entryTemplate = currentEntry?.let {
+                                database?.getTemplate(it)
+                            } ?: Template.STANDARD
+
+                            // To simplify template field visibility
+                            currentEntry?.let { entry ->
+                                // Add mainEntry to check the parent and define the template state
+                                database?.decodeEntryWithTemplateConfiguration(entry, mainEntry)
+                                    ?.let {
+                                        // To update current modification time
+                                        it.touch(modified = false, touchParents = false)
+
+                                        // Build history info
+                                        val entryInfoHistory = it.getHistory().map { entryHistory ->
+                                            entryHistory.getEntryInfo(database)
+                                        }
+
+                                        EntryInfoHistory(
+                                            entryTemplate,
+                                            it.getEntryInfo(database),
+                                            entryInfoHistory
+                                        )
+                                    }
+                            }
+                        },
+                        { entryInfoHistory ->
+                            if (entryInfoHistory != null) {
+                                _template.value = entryInfoHistory.template
+                                _entryInfo.value = entryInfoHistory.entryInfo
+                                _entryHistory.value = entryInfoHistory.entryHistory
+                            }
+                        }
+                    ).execute()
+                }
+            ).execute()
         }
     }
 
-    // TODO Remove
-    fun getEntry(): Entry? {
-        return mEntry
-    }
-
-    // TODO Remove
-    fun getMainEntry(): Entry? {
-        return mLastEntryVersion
-    }
-
-    // TODO Remove
-    fun getEntryHistoryPosition(): Int {
-        return mHistoryPosition
-    }
-
-    // TODO Remove
-    fun getEntryIsHistory(): Boolean {
-        return entryIsHistory.value ?: false
+    fun updateEntry(database: Database?) {
+        loadEntry(database, _mainEntryId.value, _historyPosition.value ?: -1)
     }
 
     fun onOtpElementUpdated(optElement: OtpElement?) {

@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities.selection
+package com.kunzisoft.keepass.activities.legacy
 
 import android.os.Bundle
 import android.view.View
@@ -7,15 +7,14 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.TypeMode
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.SpecialModeView
 
 /**
- * Activity to manage special mode (ie: selection mode)
+ * Activity to manage database special mode (ie: selection mode)
  */
-abstract class SpecialModeActivity : StylishActivity() {
+abstract class DatabaseModeActivity : DatabaseActivity() {
 
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
     private var mTypeMode: TypeMode = TypeMode.DEFAULT

@@ -23,19 +23,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
-class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
-
         explanationText = getString(R.string.rounds_explanation)
-        inputText = mDatabase?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        inputText = database?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
+    }
+
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
         if (positiveResult) {
-            mDatabase?.let { database ->
+            database?.let {
                 var rounds: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
@@ -54,7 +58,7 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
                     database.numberKeyEncryptionRounds = Long.MAX_VALUE
                 }
 
-                mProgressDatabaseTaskProvider?.startDatabaseSaveIterations(oldRounds, rounds, mDatabaseAutoSaveEnable)
+                saveIterations(oldRounds, rounds)
             }
         }
     }
@@ -63,8 +67,8 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
 
         const val MIN_ITERATIONS = 1L
 
-        fun newInstance(key: String): RoundsPreferenceDialogFragmentCompat {
-            val fragment = RoundsPreferenceDialogFragmentCompat()
+        fun newInstance(key: String): DatabaseRoundsPreferenceDialogFragmentCompat {
+            val fragment = DatabaseRoundsPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

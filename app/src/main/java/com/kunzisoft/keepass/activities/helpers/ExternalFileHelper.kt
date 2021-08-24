@@ -127,17 +127,7 @@ class ExternalFileHelper {
                     if (data != null) {
                         val uri = data.data
                         if (uri != null) {
-                            try {
-                                // try to persist read and write permissions
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                    activity?.contentResolver?.apply {
-                                        takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                        takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                                    }
-                                }
-                            } catch (e: Exception) {
-                                // nop
-                            }
+                            UriUtil.takeUriPermission(activity?.contentResolver, uri)
                             onFileSelected?.invoke(uri)
                         }
                     }

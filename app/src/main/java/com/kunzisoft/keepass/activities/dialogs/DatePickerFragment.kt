@@ -4,9 +4,8 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 
-class DatePickerFragment : DialogFragment() {
+class DatePickerFragment : DatabaseDialogFragment() {
 
     private var mDefaultYear: Int = 2000
     private var mDefaultMonth: Int = 1

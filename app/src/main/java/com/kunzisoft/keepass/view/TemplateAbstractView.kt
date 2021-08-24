@@ -71,6 +71,16 @@ abstract class TemplateAbstractView<
 
     // To show icon image
     var populateIconMethod: ((ImageView, IconImage) -> Unit)? = null
+        set(value) {
+            field = value
+            refreshIcon()
+        }
+
+    fun refreshIcon() {
+        mEntryInfo?.icon?.let {
+            populateIconMethod?.invoke(entryIconView, it)
+        }
+    }
 
     fun setTemplate(template: Template?) {
         if (mTemplate != template) {
@@ -131,7 +141,8 @@ abstract class TemplateAbstractView<
                             templateAttribute,
                             Field(
                                 templateAttribute.label,
-                                ProtectedString(templateAttribute.protected, "")
+                                ProtectedString(templateAttribute.protected,
+                                    templateAttribute.default)
                             ),
                             fieldTag
                         )
@@ -223,7 +234,14 @@ abstract class TemplateAbstractView<
             val indexOldItem = indexCustomFieldIdByName(field.name)
             if (indexOldItem >= 0)
                 mCustomFieldIds.removeAt(indexOldItem)
-            mCustomFieldIds.add(FieldId(field.name, itemView!!.id, field.protectedValue.isProtected))
+            if (itemView?.id != null) {
+                mCustomFieldIds.add(
+                    FieldId(
+                        itemView.id,
+                        field
+                    )
+                )
+            }
         }
         return itemView
     }
@@ -441,32 +459,49 @@ abstract class TemplateAbstractView<
      * -------------
      */
 
-    protected data class FieldId(var label: String, var viewId: Int, var protected: Boolean)
+    protected data class FieldId(var viewId: Int, var field: Field)
 
     private fun isStandardFieldName(name: String): Boolean {
         return TemplateField.isStandardFieldName(name)
     }
 
     protected fun customFieldIdByName(name: String): FieldId? {
-        return mCustomFieldIds.find { it.label.equals(name, true) }
+        return mCustomFieldIds.find { it.field.name.equals(name, true) }
     }
 
     protected fun indexCustomFieldIdByName(name: String): Int {
-        return mCustomFieldIds.indexOfFirst { it.label.equals(name, true) }
+        return mCustomFieldIds.indexOfFirst { it.field.name.equals(name, true) }
     }
 
     private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false) {
         mEntryInfo?.customFields = mCustomFieldIds.mapNotNull {
-            getCustomField(it.label, templateFieldNotEmpty)
+            getCustomField(it.field.name, templateFieldNotEmpty)
         }.toMutableList()
     }
 
     protected fun getCustomField(fieldName: String): Field {
         return getCustomField(fieldName, false)
-            ?: Field(fieldName, ProtectedString(false, ""))
+            ?: Field(fieldName, ProtectedString(false))
     }
 
-    protected abstract fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field?
+    protected fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
+        customFieldIdByName(fieldName)?.let { fieldId ->
+            val editView: View? = templateContainerView.findViewById(fieldId.viewId)
+                ?: customFieldsContainerView.findViewById(fieldId.viewId)
+            if (editView is GenericFieldView) {
+                // Do not return field with a default value
+                val defaultViewValue = if (editView.value == editView.default) "" else editView.value
+                if (!templateFieldNotEmpty
+                    || (editView.tag == FIELD_CUSTOM_TAG && defaultViewValue.isNotEmpty())) {
+                    return Field(
+                        fieldName,
+                        ProtectedString(fieldId.field.protectedValue.isProtected, defaultViewValue)
+                    )
+                }
+            }
+        }
+        return null
+    }
 
     /**
      * Update a custom field or create a new one if doesn't exists, the old value is lost
@@ -483,16 +518,19 @@ abstract class TemplateAbstractView<
                 replaceCustomField(customField, customField, focus)
             } else {
                 val newCustomView = buildViewForCustomField(customField)
-                customFieldsContainerView.addView(newCustomView)
-                val fieldId = FieldId(customField.name,
-                    newCustomView!!.id,
-                    customField.protectedValue.isProtected)
-                val indexOldItem = indexCustomFieldIdByName(fieldId.label)
-                if (indexOldItem >= 0)
-                    mCustomFieldIds.removeAt(indexOldItem)
-                mCustomFieldIds.add(indexOldItem, fieldId)
-                if (focus)
-                    newCustomView.requestFocus()
+                newCustomView?.let {
+                    customFieldsContainerView.addView(newCustomView)
+                    val fieldId = FieldId(
+                        newCustomView.id,
+                        customField
+                    )
+                    val indexOldItem = indexCustomFieldIdByName(fieldId.field.name)
+                    if (indexOldItem >= 0)
+                        mCustomFieldIds.removeAt(indexOldItem)
+                    mCustomFieldIds.add(indexOldItem, fieldId)
+                    if (focus)
+                        newCustomView.requestFocus()
+                }
                 true
             }
         } else {
@@ -526,12 +564,18 @@ abstract class TemplateAbstractView<
                         mCustomFieldIds.removeAt(oldPosition)
 
                     val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
-                    parentGroup.addView(newCustomView, indexInParent)
-                    mCustomFieldIds.add(oldPosition, FieldId(newCustomFieldWithValue.name,
-                        newCustomView!!.id,
-                        newCustomFieldWithValue.protectedValue.isProtected))
-                    if (focus)
-                        newCustomView.requestFocus()
+                    newCustomView?.let {
+                        parentGroup.addView(newCustomView, indexInParent)
+                        mCustomFieldIds.add(
+                            oldPosition,
+                            FieldId(
+                                newCustomView.id,
+                                newCustomFieldWithValue
+                            )
+                        )
+                        if (focus)
+                            newCustomView.requestFocus()
+                    }
                     return true
                 }
             }

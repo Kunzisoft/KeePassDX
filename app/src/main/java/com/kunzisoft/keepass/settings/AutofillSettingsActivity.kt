@@ -23,9 +23,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 
-class AutofillSettingsActivity : SpecialModeActivity() {
+class AutofillSettingsActivity : DatabaseModeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

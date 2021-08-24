@@ -33,7 +33,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
     }
-    private val valueView = TextInputEditText(context).apply {
+    private val valueView = TextInputEditText(
+        ContextThemeWrapper(getContext(),
+        R.style.KeepassDXStyle_TextInputLayout)
+    ).apply {
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
@@ -54,7 +57,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 LayoutParams.WRAP_CONTENT).also {
             it.topMargin = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
-                    8f,
+                    12f,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
@@ -121,6 +124,8 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         set(value) {
             valueView.setText(value)
         }
+
+    override var default: String = ""
 
     fun setMaxChars(numberChars: Int) {
         when {

@@ -45,15 +45,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
     var entryKDBX: EntryKDBX? = null
         private set
 
-    fun updateWith(entry: Entry, copyHistory: Boolean = true) {
-        entry.entryKDB?.let {
-            this.entryKDB?.updateWith(it)
-        }
-        entry.entryKDBX?.let {
-            this.entryKDBX?.updateWith(it, copyHistory)
-        }
-    }
-
     /**
      * Use this constructor to copy an Entry with exact same values
      */
@@ -64,7 +55,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         if (entry.entryKDBX != null) {
             this.entryKDBX = EntryKDBX()
         }
-        updateWith(entry, copyHistory)
+        entry.entryKDB?.let {
+            this.entryKDB?.updateWith(it)
+        }
+        entry.entryKDBX?.let {
+            this.entryKDBX?.updateWith(it, copyHistory)
+        }
     }
 
     constructor(entry: EntryKDB) {
@@ -397,10 +393,16 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Retrieve generated entry info.
      * If are not [raw] data, remove parameter fields and add auto generated elements in auto custom fields
      */
-    fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
+    fun getEntryInfo(database: Database?,
+                     raw: Boolean = false,
+                     removeTemplateConfiguration: Boolean = true): EntryInfo {
         val entryInfo = EntryInfo()
         // Remove unwanted template fields
-        (database?.removeTemplateConfiguration(this) ?: this).apply {
+        val baseInfo = if (removeTemplateConfiguration)
+            database?.removeTemplateConfiguration(this) ?: this
+        else
+            this
+        baseInfo.apply {
             if (raw)
                 database?.stopManageEntry(this)
             else

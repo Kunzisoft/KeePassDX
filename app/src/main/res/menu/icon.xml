@@ -25,4 +25,10 @@
         android:orderInCategory="10"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_external_icon"
+        android:icon="@drawable/ic_open_browser_white_24dp"
+        android:title="@string/menu_external_icon"
+        android:orderInCategory="15"
+        app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="ifRoom" />
 </menu>

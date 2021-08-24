@@ -46,12 +46,14 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
+import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.*
@@ -62,10 +64,10 @@ import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
@@ -75,7 +77,7 @@ import org.joda.time.DateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EntryEditActivity : LockingActivity(),
+class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
@@ -93,7 +95,18 @@ class EntryEditActivity : LockingActivity(),
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
 
+    private var mEntryId: NodeId<UUID>? = null
+    private var mParentId: NodeId<*>? = null
+    private var mRegisterInfo: RegisterInfo? = null
+    private var mSearchInfo: SearchInfo? = null
+
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
+    private var mParent: Group? = null
+    private var mEntry: Entry? = null
+    private var mIsTemplate: Boolean = false
+
+    private var mAllowCustomFields = false
+    private var mAllowOTP = false
 
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -122,26 +135,25 @@ class EntryEditActivity : LockingActivity(),
         validateButton = findViewById(R.id.entry_edit_validate)
         loadingView = findViewById(R.id.loading)
 
-        // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this, mDatabase)
-
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
-        val registerInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-        val searchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        mRegisterInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        mSearchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
             intent.removeExtra(KEY_ENTRY)
-            mEntryEditViewModel.initializeEntryToUpdate(entryToUpdate, registerInfo, searchInfo)
+            mEntryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
             intent.removeExtra(KEY_PARENT)
-            mEntryEditViewModel.initializeEntryToCreate(parent, registerInfo, searchInfo)
+            mParentId = parent
         }
+
+        retrieveEntry(mDatabase)
 
         // To retrieve attachment
         mExternalFileHelper = ExternalFileHelper(this)
@@ -165,9 +177,15 @@ class EntryEditActivity : LockingActivity(),
 
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
-                selectTime(dateInstant)
+                // Launch the time picker
+                val dateTime = DateTime(dateInstant.date)
+                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
+                    .show(supportFragmentManager, "TimePickerFragment")
             } else {
-                selectDate(dateInstant)
+                // Launch the date picker
+                val dateTime = DateTime(dateInstant.date)
+                DatePickerFragment.getInstance(dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
+                    .show(supportFragmentManager, "DatePickerFragment")
             }
         }
 
@@ -227,7 +245,7 @@ class EntryEditActivity : LockingActivity(),
             templateSelectorSpinner?.apply {
                 // Build template selector
                 if (templates.isNotEmpty()) {
-                    adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mDatabase, templates)
+                    adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mIconDrawableFactory, templates)
                     setSelection(templates.indexOf(defaultTemplate))
                     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -245,105 +263,194 @@ class EntryEditActivity : LockingActivity(),
         mEntryEditViewModel.onEntrySaved.observe(this) { entrySave ->
             // Open a progress dialog and save entry
             entrySave.parent?.let { parent ->
-                mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
-                    entrySave.newEntry,
-                    parent,
-                    !mReadOnly && mAutoSaveEnable
-                )
+                createEntry(entrySave.newEntry, parent)
             } ?: run {
-                mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
-                    entrySave.oldEntry,
-                    entrySave.newEntry,
-                    !mReadOnly && mAutoSaveEnable
+                updateEntry(entrySave.oldEntry, entrySave.newEntry)
+            }
+
+            // Don't wait for saving if it's to provide autofill
+            mDatabase?.let { database ->
+                EntrySelectionHelper.doSpecialAction(intent,
+                    {},
+                    {},
+                    {},
+                    {
+                        entryValidatedForKeyboardSelection(database, entrySave.newEntry)
+                    },
+                    { _, _ ->
+                        entryValidatedForAutofillSelection(database, entrySave.newEntry)
+                    },
+                    {
+                        entryValidatedForAutofillRegistration(entrySave.newEntry)
+                    }
                 )
             }
         }
+    }
 
-        // Create progress dialog
-        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-            when (actionTask) {
-                ACTION_DATABASE_CREATE_ENTRY_TASK,
-                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                    try {
-                        if (result.isSuccess) {
-                            var newNodes: List<Node> = ArrayList()
-                            result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
-                                mDatabase?.let { database ->
-                                    newNodes = DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
-                                }
-                            }
-                            if (newNodes.size == 1) {
-                                (newNodes[0] as? Entry?)?.let { entry ->
-                                    EntrySelectionHelper.doSpecialAction(intent,
-                                            {
-                                                // Finish naturally
-                                                finishForEntryResult(actionTask, entry)
-                                            },
-                                            {
-                                                // Nothing when search retrieved
-                                            },
-                                            {
-                                                entryValidatedForSave(actionTask, entry)
-                                            },
-                                            {
-                                                entryValidatedForKeyboardSelection(actionTask, entry)
-                                            },
-                                            { _, _ ->
-                                                entryValidatedForAutofillSelection(entry)
-                                            },
-                                            {
-                                                entryValidatedForAutofillRegistration(actionTask, entry)
-                                            }
-                                    )
-                                }
+    override fun viewToInvalidateTimeout(): View? {
+        return coordinatorLayout
+    }
+
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        mAllowCustomFields = database?.allowEntryCustomFields() == true
+        mAllowOTP = database?.allowOTP == true
+        retrieveEntry(database)
+    }
+
+    private fun retrieveEntry(database: Database?) {
+        database?.let {
+            mEntryId?.let {
+                IOActionTask(
+                    {
+                        // Create an Entry copy to modify from the database entry
+                        mEntry = database.getEntryById(it)
+                        // Retrieve the parent
+                        mEntry?.let { entry ->
+                            // If no parent, add root group as parent
+                            if (entry.parent == null) {
+                                entry.parent = database.rootGroup
                             }
                         }
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Unable to retrieve entry after database action", e)
+                        // Define if current entry is a template (in direct template group)
+                        mIsTemplate = database.entryIsTemplate(mEntry)
+                    },
+                    {
+                        mEntryEditViewModel.loadTemplateEntry(
+                            database,
+                            mEntry,
+                            mIsTemplate,
+                            mRegisterInfo,
+                            mSearchInfo
+                        )
                     }
-                }
-                ACTION_DATABASE_RELOAD_TASK -> {
-                    // Close the current activity
-                    this.showActionErrorIfNeeded(result)
-                    finish()
+                ).execute()
+                mEntryId = null
+            }
+
+            mParentId?.let {
+                IOActionTask(
+                    {
+                        mParent = database.getGroupById(it)
+                        mParent?.let { parentGroup ->
+                            mEntry = database.createEntry()?.apply {
+                                // Add the default icon from parent if not a folder
+                                val parentIcon = parentGroup.icon
+                                // Set default icon
+                                if (parentIcon.custom.isUnknown
+                                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
+                                ) {
+                                    icon = IconImage(parentIcon.standard)
+                                }
+                                if (!parentIcon.custom.isUnknown) {
+                                    icon = IconImage(parentIcon.custom)
+                                }
+                                // Set default username
+                                username = database.defaultUsername
+                                // Warning only the entry recognize is parent, parent don't yet recognize the new entry
+                                // Useful to recognize child state (ie: entry is a template)
+                                parent = parentGroup
+                            }
+                        }
+                        mIsTemplate = database.entryIsTemplate(mEntry)
+                    },
+                    {
+                        mEntryEditViewModel.loadTemplateEntry(
+                            database,
+                            mEntry,
+                            mIsTemplate,
+                            mRegisterInfo,
+                            mSearchInfo
+                        )
+                    }
+                ).execute()
+                mParentId = null
+            }
+        }
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            ACTION_DATABASE_CREATE_ENTRY_TASK,
+            ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                try {
+                    if (result.isSuccess) {
+                        var newNodes: List<Node> = ArrayList()
+                        result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
+                            newNodes = DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
+                        }
+                        if (newNodes.size == 1) {
+                            (newNodes[0] as? Entry?)?.let { entry ->
+                                EntrySelectionHelper.doSpecialAction(intent,
+                                    {
+                                        // Finish naturally
+                                        finishForEntryResult(entry)
+                                    },
+                                    {
+                                        // Nothing when search retrieved
+                                    },
+                                    {
+                                        entryValidatedForSave(entry)
+                                    },
+                                    {
+                                        entryValidatedForKeyboardSelection(database, entry)
+                                    },
+                                    { _, _ ->
+                                        entryValidatedForAutofillSelection(database, entry)
+                                    },
+                                    {
+                                        entryValidatedForAutofillRegistration(entry)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to retrieve entry after database action", e)
                 }
             }
-            coordinatorLayout?.showActionErrorIfNeeded(result)
         }
+        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
-    private fun entryValidatedForSave(actionTask: String, entry: Entry) {
+    private fun entryValidatedForSave(entry: Entry) {
         onValidateSpecialMode()
-        finishForEntryResult(actionTask, entry)
+        finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(actionTask: String, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
         // Populate Magikeyboard with entry
-        mDatabase?.let { database ->
-            populateKeyboardAndMoveAppToBackground(this,
-                    entry.getEntryInfo(database),
-                    intent)
-        }
+        populateKeyboardAndMoveAppToBackground(this,
+                entry.getEntryInfo(database),
+                intent)
         onValidateSpecialMode()
         // Don't keep activity history for entry edition
-        finishForEntryResult(actionTask, entry)
+        finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForAutofillSelection(entry: Entry) {
+    private fun entryValidatedForAutofillSelection(database: Database, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mDatabase?.let { database ->
-                AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
-                        database,
-                        entry.getEntryInfo(database))
-            }
+            AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
+                    database,
+                    entry.getEntryInfo(database))
         }
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForAutofillRegistration(actionTask: String, entry: Entry) {
+    private fun entryValidatedForAutofillRegistration(entry: Entry) {
         onValidateSpecialMode()
-        finishForEntryResult(actionTask, entry)
+        finishForEntryResult(entry)
     }
 
     override fun onResume() {
@@ -455,7 +562,7 @@ class EntryEditActivity : LockingActivity(),
      */
     private fun saveEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        mEntryEditViewModel.requestEntryInfoUpdate()
+        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase, mEntry, mParent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -466,25 +573,22 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
-        val allowCustomField = mDatabase?.allowEntryCustomFields() == true
-
         menu?.findItem(R.id.menu_add_field)?.apply {
-            isEnabled = allowCustomField
+            isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
 
         menu?.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
-            isEnabled = !mEntryEditViewModel.entryIsTemplate()
+            isEnabled = !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
 
         menu?.findItem(R.id.menu_add_otp)?.apply {
-            val allowOTP = mDatabase?.allowOTP == true
             // OTP not compatible below KitKat
-            isEnabled = allowOTP
-                    && !mEntryEditViewModel.entryIsTemplate()
+            isEnabled = mAllowOTP
+                    && !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
@@ -513,7 +617,7 @@ class EntryEditActivity : LockingActivity(),
 
         if (!generatePasswordEductionPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
-            val addNewFieldEducationPerformed = mDatabase?.allowEntryCustomFields() == true
+            val addNewFieldEducationPerformed = mAllowCustomFields
                     && addNewFieldView != null
                     && addNewFieldView.isVisible
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
@@ -575,25 +679,6 @@ class EntryEditActivity : LockingActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-    // Launch the date picker
-    private fun selectDate(dateInstant: DateInstant) {
-        val dateTime = DateTime(dateInstant.date)
-        val defaultYear = dateTime.year
-        val defaultMonth = dateTime.monthOfYear - 1
-        val defaultDay = dateTime.dayOfMonth
-        DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
-                .show(supportFragmentManager, "DatePickerFragment")
-    }
-
-    // Launch the time picker
-    private fun selectTime(dateInstant: DateInstant) {
-        val dateTime = DateTime(dateInstant.date)
-        val defaultHour = dateTime.hourOfDay
-        val defaultMinute = dateTime.minuteOfHour
-        TimePickerFragment.getInstance(defaultHour, defaultMinute)
-                .show(supportFragmentManager, "TimePickerFragment")
-    }
-
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
         // To fix android 4.4 issue
         // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
@@ -645,21 +730,14 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    private fun finishForEntryResult(actionTask: String, entry: Entry) {
+    private fun finishForEntryResult(entry: Entry) {
         // Assign entry callback as a result
         try {
             val bundle = Bundle()
             val intentEntry = Intent()
-            bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry)
+            bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
             intentEntry.putExtras(bundle)
-            when (actionTask) {
-                ACTION_DATABASE_CREATE_ENTRY_TASK -> {
-                    setResult(ADD_ENTRY_RESULT_CODE, intentEntry)
-                }
-                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                    setResult(UPDATE_ENTRY_RESULT_CODE, intentEntry)
-                }
-            }
+            setResult(ADD_OR_UPDATE_ENTRY_RESULT_CODE, intentEntry)
             super.finish()
         } catch (e: Exception) {
             // Exception when parcelable can't be done
@@ -676,64 +754,71 @@ class EntryEditActivity : LockingActivity(),
         const val KEY_PARENT = "parent"
 
         // Keys for callback
-        const val ADD_ENTRY_RESULT_CODE = 31
-        const val UPDATE_ENTRY_RESULT_CODE = 32
+        const val ADD_OR_UPDATE_ENTRY_RESULT_CODE = 31
         const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
 
-        const val ENTRY_EDIT_FRAGMENT_TAG = "ENTRY_EDIT_FRAGMENT_TAG"
-
         /**
-         * Launch EntryEditActivity to update an existing entry
-         *
-         * @param activity from activity
-         * @param entry Entry to update
+         * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
-        fun launch(activity: Activity,
-                   entry: Entry) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
-                activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+        fun launchToUpdate(activity: Activity,
+                           database: Database,
+                           entryId: NodeId<UUID>) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                }
             }
         }
 
         /**
-         * Launch EntryEditActivity to add a new entry
-         *
-         * @param activity from activity
-         * @param group Group who will contains new entry
+         * Launch EntryEditActivity to add a new entry in an existent group
          */
-        fun launch(activity: Activity,
-                   group: Group) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
-                activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+        fun launchToCreate(activity: Activity,
+                           database: Database,
+                           groupId: NodeId<*>) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                }
             }
         }
 
-        fun launchForSave(context: Context,
-                          entry: Entry,
-                          searchInfo: SearchInfo) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
-                EntrySelectionHelper.startActivityForSaveModeResult(context,
+        fun launchToUpdateForSave(context: Context,
+                                  database: Database,
+                                  entryId: NodeId<UUID>,
+                                  searchInfo: SearchInfo) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    EntrySelectionHelper.startActivityForSaveModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
-        fun launchForSave(context: Context,
-                          group: Group,
-                          searchInfo: SearchInfo) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
-                EntrySelectionHelper.startActivityForSaveModeResult(context,
+        fun launchToCreateForSave(context: Context,
+                                  database: Database,
+                                  groupId: NodeId<*>,
+                                  searchInfo: SearchInfo) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForSaveModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -741,14 +826,19 @@ class EntryEditActivity : LockingActivity(),
          * Launch EntryEditActivity to add a new entry in keyboard selection
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             group: Group,
+                                             database: Database,
+                                             groupId: NodeId<*>,
                                              searchInfo: SearchInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
-                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(context,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
+                        context,
                         intent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
@@ -757,46 +847,61 @@ class EntryEditActivity : LockingActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
+                                    database: Database,
                                     autofillComponent: AutofillComponent,
-                                    group: Group,
+                                    groupId: NodeId<*>,
                                     searchInfo: SearchInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
-                AutofillHelper.startActivityForAutofillResult(activity,
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                    val intent = Intent(activity, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    AutofillHelper.startActivityForAutofillResult(
+                        activity,
                         intent,
                         autofillComponent,
-                        searchInfo)
+                        searchInfo
+                    )
+                }
             }
         }
 
         /**
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
-        fun launchForRegistration(context: Context,
-                                  entry: Entry,
-                                  registerInfo: RegisterInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_ENTRY, entry.nodeId)
-                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
+        fun launchToUpdateForRegistration(context: Context,
+                                          database: Database,
+                                          entryId: NodeId<UUID>,
+                                          registerInfo: RegisterInfo? = null) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_ENTRY, entryId)
+                    EntrySelectionHelper.startActivityForRegistrationModeResult(
+                        context,
                         intent,
-                        registerInfo)
+                        registerInfo
+                    )
+                }
             }
         }
 
         /**
          * Launch EntryEditActivity to register a new entry (from autofill)
          */
-        fun launchForRegistration(context: Context,
-                                  group: Group,
-                                  registerInfo: RegisterInfo? = null) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                val intent = Intent(context, EntryEditActivity::class.java)
-                intent.putExtra(KEY_PARENT, group.nodeId)
-                EntrySelectionHelper.startActivityForRegistrationModeResult(context,
+        fun launchToCreateForRegistration(context: Context,
+                                          database: Database,
+                                          groupId: NodeId<*>,
+                                          registerInfo: RegisterInfo? = null) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForRegistrationModeResult(
+                        context,
                         intent,
-                        registerInfo)
+                        registerInfo
+                    )
+                }
             }
         }
     }

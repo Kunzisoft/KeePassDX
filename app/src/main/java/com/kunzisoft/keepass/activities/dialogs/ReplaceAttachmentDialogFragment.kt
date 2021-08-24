@@ -25,14 +25,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
 
 /**
  * Custom Dialog to confirm big file to upload
  */
-class ReplaceFileDialogFragment : DialogFragment() {
+class ReplaceFileDialogFragment : DatabaseDialogFragment() {
 
     private var mActionChooseListener: ActionChooseListener? = null
 
