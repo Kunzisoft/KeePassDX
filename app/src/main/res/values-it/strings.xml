@@ -139,7 +139,7 @@
     <string name="version_label">Versione %1$s</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
     <string name="no_credentials_stored">Questo database non contiene alcuna credenziale.</string>
-    <string name="education_unlock_summary">Inserisci la password o il file chiave per sbloccare la base di dati.
+    <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
 \n
 \nEseguire il backup del file del database in un luogo sicuro dopo ogni modifica.</string>
     <string-array name="list_size_options">
@@ -253,7 +253,7 @@
     <string name="education_read_only_title">Proteggi da scrittura il tuo database</string>
     <string name="education_read_only_summary">Cambia la modalità di apertura per la sessione.
 \n
-\n«Sola lettura» impedisce modifiche accidentali al databae.
+\n«Sola lettura» impedisce modifiche accidentali al database.
 \n«Modificabile» permette di aggiungere, eliminare o modificare tutti gli elementi.</string>
     <string name="education_field_copy_title">Copia un campo</string>
     <string name="education_field_copy_summary">I campi copiati possono essere incollati ovunque. 
@@ -478,7 +478,7 @@
     <string name="content_description_credentials_information">Info credenziali</string>
     <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce</string>
     <string name="show_uuid_title">Mostra UUID</string>
-    <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per una base du dati aperta in sola lettura.</string>
+    <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
     <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando un modulo viene convalidato</string>
     <string name="autofill_ask_to_save_data_title">Chiedi di salvare i dati</string>
     <string name="autofill_save_search_info_summary">Prova a salvare le informazioni di ricerca quando effettui una selezione di immissione manuale</string>
