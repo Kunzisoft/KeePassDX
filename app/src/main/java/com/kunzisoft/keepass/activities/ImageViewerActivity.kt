@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -43,6 +44,7 @@ class ImageViewerActivity : DatabaseLockActivity() {
     private lateinit var imageView: ImageView
     private lateinit var progressView: View
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,12 +54,21 @@ class ImageViewerActivity : DatabaseLockActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar.setOnTouchListener { _, _ ->
+            resetAppTimeout()
+            false
+        }
 
         imageContainerView = findViewById(R.id.image_viewer_container)
         imageView = findViewById(R.id.image_viewer_image)
         progressView = findViewById(R.id.image_viewer_progress)
 
         Loupe.create(imageView, imageContainerView!!) {
+            onViewTouchedListener = View.OnTouchListener { _, _ ->
+                // to reset timeout when Loupe image view touched
+                resetAppTimeout()
+                false
+            }
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
 
                 override fun onStart(view: ImageView) {
@@ -81,7 +92,8 @@ class ImageViewerActivity : DatabaseLockActivity() {
     }
 
     override fun viewToInvalidateTimeout(): View? {
-        return imageContainerView
+        // Null to manually manage events
+        return null
     }
 
     override fun finishActivityIfReloadRequested(): Boolean {

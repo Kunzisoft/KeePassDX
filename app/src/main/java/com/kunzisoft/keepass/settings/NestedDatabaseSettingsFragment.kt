@@ -32,7 +32,7 @@ import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
@@ -74,7 +74,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
             mDatabase = database
-            view.resetAppTimeoutWhenViewFocusedOrChanged(requireContext(), database?.loaded)
+            view.resetAppTimeoutWhenViewTouchedOrFocused(requireContext(), database?.loaded)
             onDatabaseRetrieved(database)
         }
 

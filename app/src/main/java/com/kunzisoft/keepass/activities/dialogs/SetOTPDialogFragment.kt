@@ -79,11 +79,15 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
     private var mOnFocusChangeListener = View.OnFocusChangeListener { _, isFocus ->
         if (!isFocus)
             mManualEvent = true
+        else
+            resetAppTimeout()
     }
+    @SuppressLint("ClickableViewAccessibility")
     private var mOnTouchListener = View.OnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 mManualEvent = true
+                resetAppTimeout()
             }
         }
         false
@@ -93,6 +97,10 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
     private var mCounterWellFormed = false
     private var mPeriodWellFormed = false
     private var mDigitsWellFormed = false
+
+    override fun overrideTimeoutTouchAndFocusEvents(): Boolean {
+        return true
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -224,8 +232,11 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(activity)
             builder.apply {
                 setView(root)
-                        .setPositiveButton(android.R.string.ok) {_, _ -> }
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            resetAppTimeout()
+                        }
                         .setNegativeButton(android.R.string.cancel) { _, _ ->
+                            resetAppTimeout()
                         }
             }
 

@@ -30,6 +30,7 @@ package com.igreenwood.loupe
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.Rect
@@ -108,6 +109,8 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
     var viewDragFriction = DEFAULT_VIEW_DRAG_FRICTION
     // drag distance threshold in dp for swipe to dismiss
     var dragDismissDistanceInDp = DEFAULT_DRAG_DISMISS_DISTANCE_IN_DP
+    // on view touched
+    var onViewTouchedListener: View.OnTouchListener? = null
     // on view translate listener
     var onViewTranslateListener: OnViewTranslateListener? = null
     // on scale changed
@@ -272,7 +275,10 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
     private var imageViewRef: WeakReference<ImageView> = WeakReference(imageView)
     private var containerRef: WeakReference<ViewGroup> = WeakReference(container)
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+        onViewTouchedListener?.onTouch(view, event)
+
         event ?: return false
         val imageView = imageViewRef.get() ?: return false
         val container = containerRef.get() ?: return false
