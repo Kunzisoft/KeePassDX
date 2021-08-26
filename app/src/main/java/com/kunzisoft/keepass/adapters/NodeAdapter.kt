@@ -26,6 +26,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
@@ -148,6 +149,7 @@ class NodeAdapter (private val context: Context,
             if (oldItem is Entry && newItem is Entry) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
                         && oldItem.username == newItem.username
+                        && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
@@ -357,6 +359,25 @@ class NodeAdapter (private val context: Context,
                 }
             }
 
+            val otpElement = entry.getOtpElement()
+            holder.otpContainer?.removeCallbacks(holder.otpRunnable)
+            holder.otpRunnable = null
+            if (otpElement != null && otpElement.token.isNotEmpty()) {
+                holder.otpProgress?.apply {
+                    max = otpElement.period
+                    progress = otpElement.secondsRemaining
+                }
+                holder.otpToken?.text = otpElement.token
+                holder.otpRunnable = Runnable {
+                    holder.otpProgress?.progress = otpElement.secondsRemaining
+                    holder.otpToken?.text = otpElement.token
+                    holder.otpContainer?.postDelayed(holder.otpRunnable, 200)
+                }
+                holder.otpContainer?.post(holder.otpRunnable)
+                holder.otpContainer?.visibility = View.VISIBLE
+            } else {
+                holder.otpContainer?.visibility = View.GONE
+            }
             holder.attachmentIcon?.visibility =
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
@@ -413,6 +434,10 @@ class NodeAdapter (private val context: Context,
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
+        var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
+        var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
+        var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
+        var otpRunnable: Runnable? = null
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
     }

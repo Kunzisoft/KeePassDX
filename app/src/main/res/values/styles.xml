@@ -354,6 +354,7 @@
     <style name="KeepassDXStyle.TextAppearance.Entry.Title" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">@color/entry_title_color</item>
         <item name="android:tint">@color/entry_title_color</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Entry.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
@@ -364,6 +365,12 @@
         <item name="android:textColor">@color/entry_title_color</item>
         <item name="android:tint">@color/entry_title_color</item>
         <item name="android:textSize">11sp</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Entry.Info" parent="KeepassDXStyle.TextAppearance.Small">
+        <item name="android:textColor">@color/entry_info_color</item>
+        <item name="android:tint">@color/entry_info_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Entry.Icon" parent="KeepassDXStyle.TextAppearance.Small">
         <item name="tint">@color/entry_subtitle_color</item>
@@ -475,6 +482,10 @@
 	</style>
 
     <!-- Progress bar -->
+    <style name="KeepassDXStyle.ProgressBar.Circle.NoBackground" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
+        <item name="android:background">@null</item>
+    </style>
     <style name="KeepassDXStyle.ProgressBar.Circle" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
         <item name="android:background">@drawable/background_progress_circle</item>
