@@ -515,7 +515,9 @@ abstract class TemplateAbstractView<
         return if (!isStandardFieldName(customField.name)) {
             customFieldsContainerView.visibility = View.VISIBLE
             if (indexCustomFieldIdByName(customField.name) >= 0) {
-                replaceCustomField(customField, customField, focus)
+                // Update a custom field with a new value,
+                // new field name must be the same as old field name
+                replaceCustomField(customField, customField, false, focus)
             } else {
                 val newCustomView = buildViewForCustomField(customField)
                 newCustomView?.let {
@@ -544,10 +546,10 @@ abstract class TemplateAbstractView<
         return put
     }
 
-    /**
-     * Update a custom field and keep the old value
-     */
-    private fun replaceCustomField(oldField: Field, newField: Field, focus: Boolean): Boolean {
+    private fun replaceCustomField(oldField: Field,
+                                   newField: Field,
+                                   keepOldValue: Boolean,
+                                   focus: Boolean): Boolean {
         if (!isStandardFieldName(newField.name)) {
             customFieldIdByName(oldField.name)?.viewId?.let { viewId ->
                 customFieldsContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
@@ -557,8 +559,12 @@ abstract class TemplateAbstractView<
                     val indexInParent = parentGroup.indexOfChild(viewToReplace)
                     parentGroup.removeView(viewToReplace)
 
-                    val newCustomFieldWithValue = Field(newField.name,
-                        ProtectedString(newField.protectedValue.isProtected, oldValue))
+                    val newCustomFieldWithValue = if (keepOldValue)
+                        Field(newField.name,
+                            ProtectedString(newField.protectedValue.isProtected, oldValue)
+                        )
+                    else
+                        newField
                     val oldPosition = indexCustomFieldIdByName(oldField.name)
                     if (oldPosition >= 0)
                         mCustomFieldIds.removeAt(oldPosition)
@@ -583,8 +589,11 @@ abstract class TemplateAbstractView<
         return false
     }
 
+    /**
+     * Update a custom field and keep the old value
+     */
     fun replaceCustomField(oldField: Field, newField: Field): Boolean {
-        val replace = replaceCustomField(oldField, newField, true)
+        val replace = replaceCustomField(oldField, newField, keepOldValue = true, focus = true)
         retrieveCustomFieldsFromView()
         return replace
     }
