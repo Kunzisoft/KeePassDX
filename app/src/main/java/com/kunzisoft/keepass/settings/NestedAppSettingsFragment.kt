@@ -454,7 +454,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        // To reload group when appearence settings are modified
+        // To reload group when appearance settings are modified
         when (preference?.key) {
             getString(R.string.setting_style_key),
             getString(R.string.setting_style_brightness_key),
@@ -464,6 +464,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.list_size_key),
             getString(R.string.monospace_font_fields_enable_key),
             getString(R.string.hide_expired_entries_key),
+            getString(R.string.show_otp_token_key),
             getString(R.string.show_uuid_key),
             getString(R.string.enable_education_screens_key),
             getString(R.string.reset_education_screens_key) -> {

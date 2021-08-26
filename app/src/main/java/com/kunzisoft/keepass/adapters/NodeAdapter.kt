@@ -69,6 +69,7 @@ class NodeAdapter (private val context: Context,
 
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
+    private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
 
@@ -123,6 +124,7 @@ class NodeAdapter (private val context: Context,
 
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
         this.mEntryFilters = Group.ChildFilter.getDefaults(context)
@@ -362,7 +364,9 @@ class NodeAdapter (private val context: Context,
             val otpElement = entry.getOtpElement()
             holder.otpContainer?.removeCallbacks(holder.otpRunnable)
             holder.otpRunnable = null
-            if (otpElement != null && otpElement.token.isNotEmpty()) {
+            if (otpElement != null
+                && mShowOTP
+                && otpElement.token.isNotEmpty()) {
                 holder.otpProgress?.apply {
                     max = otpElement.period
                     progress = otpElement.secondsRemaining

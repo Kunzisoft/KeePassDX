@@ -81,6 +81,11 @@
             android:summary="@string/hide_expired_entries_summary"
             android:defaultValue="@bool/hide_expired_entries_default"/>
         <SwitchPreference
+            android:key="@string/show_otp_token_key"
+            android:title="@string/show_otp_token_title"
+            android:summary="@string/show_otp_token_summary"
+            android:defaultValue="@bool/show_otp_token_default"/>
+        <SwitchPreference
             android:key="@string/show_uuid_key"
             android:title="@string/show_uuid_title"
             android:summary="@string/show_uuid_summary"

@@ -625,5 +625,7 @@
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
     <string name="show_uuid_title">Show UUID</string>
-    <string name="show_uuid_summary">Displays the UUID linked to an entry</string>
+    <string name="show_uuid_summary">Displays the UUID linked to an entry or a group</string>
+    <string name="show_otp_token_title">Show OTP Token</string>
+    <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
 </resources>
