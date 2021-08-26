@@ -143,13 +143,13 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
-            intent.removeExtra(KEY_ENTRY)
+            //intent.removeExtra(KEY_ENTRY)
             mEntryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
-            intent.removeExtra(KEY_PARENT)
+            //intent.removeExtra(KEY_PARENT)
             mParentId = parent
         }
 
