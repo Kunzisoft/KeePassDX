@@ -132,17 +132,30 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     tools:text="5136" />
-
-                <ProgressBar
-                    android:id="@+id/node_otp_progress"
-                    style="@style/KeepassDXStyle.ProgressBar.Circle.Secondary"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp"
-                    android:max="100"
-                    android:progress="60" />
+                    android:layout_marginLeft="4dp">
+                    <ProgressBar
+                        android:id="@+id/node_otp_progress"
+                        style="@style/KeepassDXStyle.ProgressBar.Circle.Secondary"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:max="100"
+                        android:progress="60" />
+                    <TextView
+                        android:id="@+id/node_otp_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        style="@style/KeepassDXStyle.TextAppearance.Entry.Info"
+                        android:textSize="11sp"
+                        tools:text="70" />
+
+                </FrameLayout>
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView

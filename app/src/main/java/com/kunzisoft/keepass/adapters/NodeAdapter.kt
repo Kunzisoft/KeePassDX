@@ -41,6 +41,8 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
@@ -363,21 +365,19 @@ class NodeAdapter (private val context: Context,
 
             val otpElement = entry.getOtpElement()
             holder.otpContainer?.removeCallbacks(holder.otpRunnable)
-            holder.otpRunnable = null
             if (otpElement != null
                 && mShowOTP
                 && otpElement.token.isNotEmpty()) {
-                holder.otpProgress?.apply {
-                    max = otpElement.period
-                    progress = otpElement.secondsRemaining
+
+                // Execute runnable to show progress
+                holder.otpRunnable.action = {
+                    populateOtpView(holder, otpElement)
                 }
-                holder.otpToken?.text = otpElement.token
-                holder.otpRunnable = Runnable {
-                    holder.otpProgress?.progress = otpElement.secondsRemaining
-                    holder.otpToken?.text = otpElement.token
-                    holder.otpContainer?.postDelayed(holder.otpRunnable, 200)
+                if (otpElement.type == OtpType.TOTP) {
+                    holder.otpRunnable.postDelayed()
                 }
-                holder.otpContainer?.postDelayed(holder.otpRunnable, 500)
+                populateOtpView(holder, otpElement)
+
                 holder.otpContainer?.visibility = View.VISIBLE
             } else {
                 holder.otpContainer?.visibility = View.GONE
@@ -411,7 +411,41 @@ class NodeAdapter (private val context: Context,
             mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
     }
-    
+
+    private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
+        when (otpElement?.type) {
+            OtpType.HOTP -> {
+                holder?.otpCounter?.text = otpElement.counter.toString()
+                holder?.otpProgress?.apply {
+                    max = 100
+                    progress = 100
+                }
+            }
+            OtpType.TOTP -> {
+                holder?.otpCounter?.text = otpElement.secondsRemaining.toString()
+                holder?.otpProgress?.apply {
+                    max = otpElement.period
+                    progress = otpElement.secondsRemaining
+                }
+            }
+        }
+        holder?.otpToken?.text = otpElement?.token
+    }
+
+    class OtpRunnable(val view: View?): Runnable {
+
+        var action: (() -> Unit)? = null
+
+        override fun run() {
+            action?.invoke()
+            postDelayed()
+        }
+
+        fun postDelayed() {
+            view?.postDelayed(this, 500)
+        }
+    }
+
     override fun getItemCount(): Int {
         return mNodeSortedList.size()
     }
@@ -440,8 +474,9 @@ class NodeAdapter (private val context: Context,
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
         var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
+        var otpCounter: TextView? = itemView.findViewById(R.id.node_otp_counter)
         var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
-        var otpRunnable: Runnable? = null
+        var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
     }
