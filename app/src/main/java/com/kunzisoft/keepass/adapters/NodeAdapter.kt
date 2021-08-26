@@ -373,7 +373,7 @@ class NodeAdapter (private val context: Context,
                     holder.otpToken?.text = otpElement.token
                     holder.otpContainer?.postDelayed(holder.otpRunnable, 200)
                 }
-                holder.otpContainer?.post(holder.otpRunnable)
+                holder.otpContainer?.postDelayed(holder.otpRunnable, 500)
                 holder.otpContainer?.visibility = View.VISIBLE
             } else {
                 holder.otpContainer?.visibility = View.GONE

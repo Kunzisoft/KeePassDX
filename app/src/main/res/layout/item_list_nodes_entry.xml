@@ -118,8 +118,8 @@
                 android:id="@+id/node_otp_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:layout_marginRight="18dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/node_attachment_icon"
@@ -135,12 +135,12 @@
 
                 <ProgressBar
                     android:id="@+id/node_otp_progress"
-                    style="@style/KeepassDXStyle.ProgressBar.Circle.NoBackground"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    style="@style/KeepassDXStyle.ProgressBar.Circle.Secondary"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
                     android:max="100"
                     android:progress="60" />
             </LinearLayout>
