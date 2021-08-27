@@ -3,4 +3,4 @@
  * Setting to display OTP Token in list #655
  * Fix timeout in dialogs #716
  * Check URI permissions #626
- * Small changes #1035 #1043 #942
+ * Small changes #1035 #1043 #942 #1021
