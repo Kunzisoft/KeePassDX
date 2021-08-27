@@ -17,49 +17,53 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingBottom="2dp">
+
     <TextView
         android:id="@+id/entry_field_label"
-        android:layout_width="0dp"
+        style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/entry_field_show"
-        tools:text="title"
-        style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"	/>
+        android:layout_toStartOf="@+id/entry_field_show"
+        android:layout_toLeftOf="@+id/entry_field_show"
+        tools:text="title" />
+
     <TextView
         android:id="@+id/entry_field_value"
-        android:layout_width="0dp"
+        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/entry_field_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/entry_field_show"
+        android:layout_below="@+id/entry_field_label"
+        android:layout_toStartOf="@+id/entry_field_show"
+        android:layout_toLeftOf="@+id/entry_field_show"
         android:textIsSelectable="true"
-        tools:text="value"
-        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+        tools:text="value" />
+
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/entry_field_show"
+        style="@style/KeepassDXStyle.ImageButton.Simple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/entry_field_copy"
-        android:src="@drawable/ic_visibility_state"
+        android:layout_marginTop="4dp"
+        android:layout_toStartOf="@+id/entry_field_copy"
+        android:layout_toLeftOf="@+id/entry_field_copy"
         android:contentDescription="@string/menu_showpass"
-        style="@style/KeepassDXStyle.ImageButton.Simple"/>
+        android:src="@drawable/ic_visibility_state" />
+
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/entry_field_copy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ic_content_copy_white_24dp"
         android:contentDescription="@string/menu_copy"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         style="@style/KeepassDXStyle.ImageButton.Simple"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
