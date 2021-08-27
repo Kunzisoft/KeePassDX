@@ -17,28 +17,24 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	tools:targetApi="o"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
 
 	<com.kunzisoft.keepass.view.TemplateEditView
 		android:id="@+id/template_view"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container"/>
+		android:layout_height="wrap_content"/>
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle"
-		app:layout_constraintTop_toBottomOf="@+id/template_view"
-		app:layout_constraintBottom_toBottomOf="parent">
+		style="?attr/cardViewStyle">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -62,4 +58,4 @@
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
