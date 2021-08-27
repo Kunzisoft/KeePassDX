@@ -245,8 +245,8 @@
         <item name="colorControlActivated">?attr/colorAccent</item>
     </style>
     <style name="KeepassDXStyle.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:paddingTop">1dp</item>
-        <item name="android:paddingBottom">1dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
         <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
         <item name="hintTextColor">?attr/colorAccent</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.TextInputEditText</item>
