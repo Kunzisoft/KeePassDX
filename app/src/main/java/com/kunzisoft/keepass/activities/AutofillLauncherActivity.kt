@@ -65,6 +65,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                         webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
                         webScheme = intent.getStringExtra(KEY_SEARCH_SCHEME)
+                        manualSelection = intent.getBooleanExtra(KEY_MANUAL_SELECTION, false)
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
@@ -198,6 +199,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
     companion object {
 
+        private const val KEY_MANUAL_SELECTION = "KEY_MANUAL_SELECTION"
         private const val KEY_SEARCH_APPLICATION_ID = "KEY_SEARCH_APPLICATION_ID"
         private const val KEY_SEARCH_DOMAIN = "KEY_SEARCH_DOMAIN"
         private const val KEY_SEARCH_SCHEME = "KEY_SEARCH_SCHEME"
@@ -214,6 +216,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
                             putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
                             putExtra(KEY_SEARCH_SCHEME, it.webScheme)
+                            putExtra(KEY_MANUAL_SELECTION, it.manualSelection)
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             inlineSuggestionsRequest?.let {

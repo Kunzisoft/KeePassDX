@@ -42,6 +42,7 @@ import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
@@ -306,6 +307,26 @@ object AutofillHelper {
             val dataSet = buildDataset(context, database, entryInfo, parseResult, inlinePresentation)
             dataSet?.let {
                 responseBuilder.addDataset(it)
+            }
+        }
+
+        if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+            val searchInfo = SearchInfo().apply {
+                applicationId = parseResult.applicationId
+                webDomain = parseResult.webDomain
+                webScheme = parseResult.webScheme
+                manualSelection = true
+            }
+
+            val manualSelectionView = newRemoteViews(context, database, context.getString(R.string.autofill_manual_selection_prompt), null)
+            val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(context,
+                    searchInfo, null)
+            val builder = Dataset.Builder(manualSelectionView)
+            // enable manual selection only for the form field that has focus
+            parseResult.focusedId?.let { autofillId ->
+                builder.setValue(autofillId, AutofillValue.forText("dummy"))
+                builder.setAuthentication(intentSender)
+                responseBuilder.addDataset(builder.build())
             }
         }
 

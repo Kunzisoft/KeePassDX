@@ -44,6 +44,7 @@ class StructureParser(private val structure: AssistStructure) {
     fun parse(saveValue: Boolean = false): Result? {
         try {
             result = Result()
+            result?.focusedId = getFocusedID()
             result?.apply {
                 allowSaveValues = saveValue
                 usernameIdCandidate = null
@@ -72,6 +73,35 @@ class StructureParser(private val structure: AssistStructure) {
         } catch (e: Exception) {
             return null
         }
+    }
+
+    /*
+     * Note: SDK >= Q provides this method...
+     * fillContext.getFocusedId()
+     */
+    private fun getFocusedID(): AutofillId? {
+        for (i in 0 until structure.windowNodeCount) {
+            val windowNode = structure.getWindowNodeAt(i)
+            val autofillId = traverse(windowNode.rootViewNode)
+            if (autofillId != null) {
+                return autofillId
+            }
+        }
+        return null
+    }
+
+    private fun traverse(node: AssistStructure.ViewNode): AutofillId? {
+        if (node.visibility == View.VISIBLE && node.autofillHints != null) {
+            return node.autofillId
+        } else {
+            for (i in 0 until node.childCount) {
+                val autoFillId = traverse(node.getChildAt(i))
+                if (autoFillId != null) {
+                    return autoFillId
+                }
+            }
+        }
+        return null
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
@@ -399,7 +429,6 @@ class StructureParser(private val structure: AssistStructure) {
     class Result {
         var isWebView: Boolean = false
         var applicationId: String? = null
-
         var webDomain: String? = null
             set(value) {
                 if (field == null)
@@ -417,6 +446,9 @@ class StructureParser(private val structure: AssistStructure) {
         var creditCardExpirationYearOptions: Array<CharSequence>? = null
         var creditCardExpirationMonthOptions: Array<CharSequence>? = null
         var creditCardExpirationDayOptions: Array<CharSequence>? = null
+
+        // the AutofillId of the view that triggered autofill.
+        var focusedId: AutofillId? = null
 
         var usernameId: AutofillId? = null
             set(value) {

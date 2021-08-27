@@ -106,7 +106,7 @@ class SearchHelper {
             } else if (TimeoutHelper.checkTime(context)) {
                 var searchWithoutUI = false
                 if (PreferencesUtil.isAutofillAutoSearchEnable(context)
-                        && searchInfo != null
+                        && searchInfo != null && !searchInfo.manualSelection
                         && !searchInfo.containsOnlyNullValues()) {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
