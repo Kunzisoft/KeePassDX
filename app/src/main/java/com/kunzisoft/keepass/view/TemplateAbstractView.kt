@@ -200,7 +200,7 @@ abstract class TemplateAbstractView<
             TemplateAttributeType.TEXT,
             field.protectedValue.isProtected,
             TemplateAttributeOption().apply {
-                setNumberLines(3)
+                setNumberLines(20)
             },
             TemplateAttributeAction.CUSTOM_EDITION
         ).apply {
