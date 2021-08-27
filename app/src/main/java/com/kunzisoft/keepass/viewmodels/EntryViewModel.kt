@@ -45,9 +45,6 @@ class EntryViewModel: ViewModel() {
     val historyPosition : LiveData<Int> get() = _historyPosition
     private val _historyPosition = MutableLiveData<Int>()
 
-    val url : LiveData<String?> get() = _url
-    private val _url = MutableLiveData<String?>()
-
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
 
@@ -76,15 +73,14 @@ class EntryViewModel: ViewModel() {
                     _mainEntryId.value = mainEntry?.nodeId
                     _historyPosition.value = historyPosition
 
-                    val currentEntry = if (historyPosition > -1) {
-                        mainEntry?.getHistory()?.get(historyPosition)
-                    } else {
-                        mainEntry
-                    }
-                    _url.value = currentEntry?.url
-
                     IOActionTask(
                         {
+                            val currentEntry = if (historyPosition > -1) {
+                                mainEntry?.getHistory()?.get(historyPosition)
+                            } else {
+                                mainEntry
+                            }
+
                             val entryTemplate = currentEntry?.let {
                                 database?.getTemplate(it)
                             } ?: Template.STANDARD
