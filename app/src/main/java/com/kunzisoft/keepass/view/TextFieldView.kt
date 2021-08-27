@@ -138,11 +138,11 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         when {
             labelView.text.contains(APPLICATION_ID_FIELD_NAME) -> {
                 val packageName = valueView.text.toString()
-                if (UriUtil.isExternalAppInstalled(context, packageName)) {
+                // TODO #996 if (UriUtil.isExternalAppInstalled(context, packageName)) {
                     valueView.customLink {
                         UriUtil.openExternalApp(context, packageName)
                     }
-                }
+                //}
             }
             else -> {
                 LinkifyCompat.addLinks(valueView, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
