@@ -64,7 +64,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 it.addRule(ALIGN_PARENT_END)
             }
         }
@@ -95,7 +95,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     it?.addRule(START_OF, actionImageButtonId)
                 }
             }
@@ -104,7 +104,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             id = valueViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     it?.addRule(START_OF, actionImageButtonId)
                 }
                 it?.addRule(BELOW, labelViewId)

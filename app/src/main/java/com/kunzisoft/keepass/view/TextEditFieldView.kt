@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
@@ -41,11 +42,11 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
         inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
             importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
         }
         maxLines = 1
@@ -61,7 +62,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 it.addRule(ALIGN_PARENT_END)
             }
         }
@@ -82,7 +83,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     it?.addRule(START_OF, actionImageButtonId)
                 }
             }
