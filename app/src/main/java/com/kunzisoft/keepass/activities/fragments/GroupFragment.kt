@@ -219,6 +219,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         activity?.intent?.let {
             specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
         }
+
+        rebuildList()
     }
 
     override fun onPause() {
