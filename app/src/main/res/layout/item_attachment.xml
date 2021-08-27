@@ -38,43 +38,40 @@
         android:background="?android:attr/windowBackground"
         android:scaleType="fitStart" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/item_attachment_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignBottom="@+id/item_attachment_thumbnail"
         android:background="?attr/cardBackgroundTransparentColor">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:contentDescription="@string/entry_attachments"
-            android:src="@drawable/ic_attach_file_broken_white_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/ic_attach_file_broken_white_24dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_attachment_title"
             style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_attachment_size_container"
-            app:layout_constraintStart_toEndOf="@+id/item_attachment_broken"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@+id/item_attachment_size_container"
+            android:layout_toLeftOf="@+id/item_attachment_size_container"
+            android:layout_toEndOf="@+id/item_attachment_broken"
+            android:layout_toRightOf="@+id/item_attachment_broken"
+            android:gravity="center_vertical"
             tools:text="BinaryFile.attach" />
 
         <LinearLayout
             android:id="@+id/item_attachment_size_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_attachment_action_container"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_toLeftOf="@+id/item_attachment_action_container"
+            android:layout_toStartOf="@+id/item_attachment_action_container">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_attachment_size"
@@ -101,10 +98,9 @@
         <FrameLayout
             android:id="@+id/item_attachment_action_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/item_attachment_delete_button"
@@ -150,5 +146,5 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
         </FrameLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </RelativeLayout>
