@@ -5,29 +5,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
-import java.util.*
 
 
 class EntryEditViewModel: NodeEditViewModel() {
 
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
-    val entryInfo : LiveData<EntryInfo> get() = _entryInfo
-    private val _entryInfo = MutableLiveData<EntryInfo>()
+    val templatesEntry : LiveData<TemplatesEntry> get() = _templatesEntry
+    private val _templatesEntry = MutableLiveData<TemplatesEntry>()
 
     val requestEntryInfoUpdate : LiveData<EntryUpdate> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<EntryUpdate>()
     val onEntrySaved : LiveData<EntrySave> get() = _onEntrySaved
     private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
-    val templates : LiveData<TemplatesLoad> get() = _templates
-    private val _templates = MutableLiveData<TemplatesLoad>()
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = SingleLiveEvent<Template>()
 
@@ -69,38 +63,27 @@ class EntryEditViewModel: NodeEditViewModel() {
             {
                 val templates = database.getTemplates(isTemplate)
                 val entryTemplate = entry?.let { database.getTemplate(it) } ?: Template.STANDARD
-                TemplatesLoad(templates, entryTemplate)
-            },
-            { templatesLoad ->
-                // Call templates init before populate entry info
-                _templates.value = templatesLoad
-                changeTemplate(templatesLoad!!.defaultTemplate)
-
-                IOActionTask(
-                    {
-                        var entryInfo: EntryInfo? = null
-                        // Decode the entry / load entry info
-                        entry?.let {
-                            database.decodeEntryWithTemplateConfiguration(it).let { entry ->
-                                // Load entry info
-                                entry.getEntryInfo(database, true).let { tempEntryInfo ->
-                                    // Retrieve data from registration
-                                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
-                                        tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
-                                    }
-                                    registerInfo?.let { regInfo ->
-                                        tempEntryInfo.saveRegisterInfo(database, regInfo)
-                                    }
-                                    entryInfo = tempEntryInfo
-                                }
+                var entryInfo: EntryInfo? = null
+                // Decode the entry / load entry info
+                entry?.let {
+                    database.decodeEntryWithTemplateConfiguration(it).let { entry ->
+                        // Load entry info
+                        entry.getEntryInfo(database, true).let { tempEntryInfo ->
+                            // Retrieve data from registration
+                            (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
+                                tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
                             }
+                            registerInfo?.let { regInfo ->
+                                tempEntryInfo.saveRegisterInfo(database, regInfo)
+                            }
+                            entryInfo = tempEntryInfo
                         }
-                        entryInfo
-                    },
-                    { entryInfo ->
-                        _entryInfo.value = entryInfo
                     }
-                ).execute()
+                }
+                TemplatesEntry(templates, entryTemplate, entryInfo)
+            },
+            { templatesEntry ->
+                _templatesEntry.value = templatesEntry
             }
         ).execute()
     }
@@ -239,7 +222,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
     }
 
-    data class TemplatesLoad(val templates: List<Template>, val defaultTemplate: Template)
+    data class TemplatesEntry(val templates: List<Template>, val defaultTemplate: Template, val entryInfo: EntryInfo?)
     data class EntryUpdate(val database: Database?, val entry: Entry?, val parent: Group?)
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
