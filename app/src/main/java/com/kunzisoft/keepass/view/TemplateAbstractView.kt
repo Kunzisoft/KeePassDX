@@ -48,7 +48,7 @@ abstract class TemplateAbstractView<
     protected var entryIconView: ImageView
     private var titleContainerView: ViewGroup
     protected var templateContainerView: ViewGroup
-    protected var customFieldsContainerView: SectionView
+    private var customFieldsContainerView: SectionView
     private var notReferencedFieldsContainerView: SectionView
 
     init {
@@ -95,7 +95,7 @@ abstract class TemplateAbstractView<
         }
     }
 
-    fun buildTemplate() {
+    private fun buildTemplate() {
         // Retrieve preferences
         mHideProtectedValue = PreferencesUtil.hideProtectedValue(context)
 
@@ -465,7 +465,7 @@ abstract class TemplateAbstractView<
         return TemplateField.isStandardFieldName(name)
     }
 
-    protected fun customFieldIdByName(name: String): FieldId? {
+    private fun customFieldIdByName(name: String): FieldId? {
         return mCustomFieldIds.find { it.field.name.equals(name, true) }
     }
 
@@ -484,7 +484,7 @@ abstract class TemplateAbstractView<
             ?: Field(fieldName, ProtectedString(false))
     }
 
-    protected fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
+    private fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
         customFieldIdByName(fieldName)?.let { fieldId ->
             val editView: View? = templateContainerView.findViewById(fieldId.viewId)
                 ?: customFieldsContainerView.findViewById(fieldId.viewId)
