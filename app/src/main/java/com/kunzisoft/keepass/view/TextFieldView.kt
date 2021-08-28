@@ -127,9 +127,16 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         showButton.apply {
             id = showButtonId
             layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, copyButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, copyButtonId)
+                if (copyButton.isVisible) {
+                    it?.addRule(LEFT_OF, copyButtonId)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        it?.addRule(START_OF, copyButtonId)
+                    }
+                } else {
+                    it?.addRule(ALIGN_PARENT_RIGHT)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        it?.addRule(ALIGN_PARENT_END)
+                    }
                 }
             }
         }
@@ -219,6 +226,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             changeProtectedValueParameters()
         }
         changeProtectedValueParameters()
+        invalidate()
     }
 
     private fun changeProtectedValueParameters() {
@@ -288,10 +296,15 @@ class TextFieldView @JvmOverloads constructor(context: Context,
                 }
             }
         }
+        invalidate()
     }
 
-    fun setCopyButtonClickListener(onActionClickListener: OnClickListener?) {
-        setOnActionClickListener(onActionClickListener, null)
+    fun setCopyButtonClickListener(onActionClickListener: ((label: String, value: String) -> Unit)?) {
+        val clickListener = if (onActionClickListener != null)
+            OnClickListener { onActionClickListener.invoke(label, value) }
+        else
+            null
+        setOnActionClickListener(clickListener, null)
     }
 
     override fun setOnActionClickListener(
@@ -300,6 +313,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
     ) {
         copyButton.setOnClickListener(onActionClickListener)
         copyButton.isVisible = onActionClickListener != null
+        invalidate()
     }
 
     override var isFieldVisible: Boolean
@@ -309,6 +323,11 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         set(value) {
             isVisible = value
         }
+
+    override fun invalidate() {
+        super.invalidate()
+        buildViews()
+    }
 
     enum class ButtonState {
         ACTIVATE, DEACTIVATE, GONE

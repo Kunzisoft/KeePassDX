@@ -3,4 +3,4 @@
  * Paramètres pour afficher les jetons OTP dans la liste #655
  * Correction du délai d'expiration dans les dialogues #716
  * Vérification des permissions URI #626
- * Petits changements #1035 #1043 #942 #1021
+ * Améliorations #1035 #1043 #942 #1021 #1027
