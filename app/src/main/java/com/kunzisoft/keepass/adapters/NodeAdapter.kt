@@ -442,7 +442,7 @@ class NodeAdapter (private val context: Context,
         }
 
         fun postDelayed() {
-            view?.postDelayed(this, 500)
+            view?.postDelayed(this, 1000)
         }
     }
 
