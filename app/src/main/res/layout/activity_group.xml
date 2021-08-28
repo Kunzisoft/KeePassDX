@@ -99,8 +99,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_marginLeft="@dimen/image_list_margin_vertical"
-                            android:layout_marginStart="@dimen/image_list_margin_vertical"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginStart="14dp"
                             android:layout_weight="1">
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/group_name"
