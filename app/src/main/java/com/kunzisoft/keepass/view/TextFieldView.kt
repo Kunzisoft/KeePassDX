@@ -56,7 +56,20 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
-        )
+        ).also {
+            it.leftMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                4f,
+                resources.displayMetrics
+            ).toInt()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                it.marginStart = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    4f,
+                    resources.displayMetrics
+                ).toInt()
+            }
+        }
     }
     private val valueView = AppCompatTextView(context).apply {
         setTextAppearance(context,
@@ -69,11 +82,18 @@ class TextFieldView @JvmOverloads constructor(context: Context,
                 4f,
                 resources.displayMetrics
             ).toInt()
-            it.bottomMargin = TypedValue.applyDimension(
+            it.leftMargin = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                4f,
+                8f,
                 resources.displayMetrics
             ).toInt()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                it.marginStart = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    8f,
+                    resources.displayMetrics
+                ).toInt()
+            }
         }
         setTextIsSelectable(true)
     }
@@ -81,13 +101,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
         layoutParams = LayoutParams(
             LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT).also {
-            it.topMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                6f,
-                resources.displayMetrics
-            ).toInt()
-        }
+            LayoutParams.WRAP_CONTENT)
         setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_visibility_state))
         contentDescription = context.getString(R.string.menu_showpass)
     }
@@ -95,13 +109,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
         layoutParams = LayoutParams(
             LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT).also {
-            it.topMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                6f,
-                resources.displayMetrics
-            ).toInt()
-        }
+            LayoutParams.WRAP_CONTENT)
         setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_content_copy_white_24dp))
         contentDescription = context.getString(R.string.menu_copy)
     }

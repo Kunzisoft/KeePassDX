@@ -469,14 +469,21 @@
         <item name="android:textColor">?attr/colorAccent</item>
 		<item name="android:textSize">12sp</item>
         <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingStart">4dp</item>
         <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
 	</style>
     <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
-		<item name="android:padding">5sp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
         <item name="android:textSize">16sp</item>
 	</style>
 
