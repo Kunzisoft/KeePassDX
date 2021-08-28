@@ -117,22 +117,22 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return findViewWithTag<TextFieldView?>(FIELD_PASSWORD_TAG)?.getCopyButtonView()
     }
 
-    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId>  {
+    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField>  {
         val emptyCustomFields = super.populateViewsWithEntryInfo(false)
 
         // Hide empty custom fields
         emptyCustomFields.forEach { customFieldId ->
-            templateContainerView.findViewById<View?>(customFieldId.viewId)
-                ?.isVisible = false
+            customFieldId.view.isVisible = false
         }
 
+        removeOtpRunnable()
         mEntryInfo?.let { entryInfo ->
             // Assign specific OTP dynamic view
-            removeOtpRunnable()
             entryInfo.otpModel?.let {
                 assignOtp(it)
             }
         }
+
         return emptyCustomFields
     }
 
@@ -149,11 +149,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
     private var mOnOtpElementUpdated: ((OtpElement?) -> Unit)? = null
 
     private fun getOtpTokenView(): TextFieldView? {
-        val indexFieldViewId = indexCustomFieldIdByName(OTP_TOKEN_FIELD)
-        if (indexFieldViewId >= 0) {
-            // Template contains the custom view
-            val customFieldId = mCustomFieldIds[indexFieldViewId]
-            return findViewById(customFieldId.viewId)
+        getViewFieldByName(OTP_TOKEN_FIELD)?.let { viewField ->
+            val view = viewField.view
+            if (view is TextFieldView)
+                return view
         }
         return null
     }
