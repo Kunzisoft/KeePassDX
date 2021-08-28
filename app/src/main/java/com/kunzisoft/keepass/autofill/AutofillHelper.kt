@@ -317,11 +317,14 @@ object AutofillHelper {
                 webScheme = parseResult.webScheme
                 manualSelection = true
             }
-
-            val manualSelectionView = newRemoteViews(context, database, context.getString(R.string.autofill_manual_selection_prompt), null)
+            val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_entry)
+            manualSelectionView.setTextViewText(R.id.autofill_entry_text, context.getString(R.string.autofill_manual_selection_prompt))
+            manualSelectionView.setImageViewResource(R.id.autofill_entry_icon, R.mipmap.ic_launcher_round)
             val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(context,
-                    searchInfo, null)
+                    searchInfo, inlineSuggestionsRequest)
+
             val builder = Dataset.Builder(manualSelectionView)
+
             // enable manual selection only for the form field that has focus
             parseResult.focusedId?.let { autofillId ->
                 builder.setValue(autofillId, AutofillValue.forText("dummy"))
