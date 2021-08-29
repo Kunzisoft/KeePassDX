@@ -59,8 +59,8 @@ abstract class TemplateAbstractView<
         entryIconView = findViewById(R.id.template_icon_button)
         titleContainerView = findViewById(R.id.template_title_container)
         templateContainerView = findViewById(R.id.template_fields_container)
-        // To fix card view margin in KitKat-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        // To fix card view margin below Marshmallow
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             val paddingVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
             val paddingHorizontal = resources.getDimensionPixelSize(R.dimen.card_view_margin_horizontal)
             templateContainerView.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
