@@ -63,6 +63,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mActionRunning = false
     private var mTaskRemovedRequested = false
+    private var mCreationState = false
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mTitleId: Int = R.string.database_opened
@@ -158,7 +159,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
                     // Call listener to indicate a change in database info
-                    if (previousDatabaseInfo != null) {
+                    if (!mCreationState && previousDatabaseInfo != null) {
                         mDatabaseInfoListeners.forEach { listener ->
                             listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
                         }
@@ -517,6 +518,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             if (databaseUri == null)
                 return null
 
+            mCreationState = true
+
             return CreateDatabaseRunnable(this,
                 database,
                 databaseUri,
@@ -550,6 +553,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             if (databaseUri == null)
                 return  null
+
+            mCreationState = false
 
             return LoadDatabaseRunnable(
                     this,
