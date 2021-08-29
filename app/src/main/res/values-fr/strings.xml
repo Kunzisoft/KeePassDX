@@ -200,7 +200,7 @@
     <string name="monospace_font_fields_enable_summary">Change la fonte utilisée dans les champs pour une meilleure visibilité des caractères</string>
     <string name="allow_copy_password_title">Faire confiance au presse-papier</string>
     <string name="allow_copy_password_summary">Autorise la copie du mot de passe de l’entrée et des champs protégés dans le presse-papier</string>
-    <string name="allow_copy_password_warning">Attention : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
+    <string name="allow_copy_password_warning">Attention : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -424,7 +424,7 @@
     <string name="keyboard_auto_go_action_summary">Effectuer l\'action de la touche \"Go\" automatiquement après avoir appuyé sur une touche \"Champ\" du clavier</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
-    <string name="download_progression">En cours : %1$d% %</string>
+    <string name="download_progression">En cours : %1$d%%</string>
     <string name="download_finalization">Finalisation…</string>
     <string name="download_complete">Terminé !</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
