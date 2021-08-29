@@ -143,13 +143,13 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
-            intent.removeExtra(KEY_ENTRY)
+            //intent.removeExtra(KEY_ENTRY)
             mEntryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
-            intent.removeExtra(KEY_PARENT)
+            //intent.removeExtra(KEY_PARENT)
             mParentId = parent
         }
 
@@ -166,7 +166,37 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Save button
         validateButton?.setOnClickListener { saveEntry() }
 
-        mEntryEditViewModel.entryInfo.observe(this) {
+        mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
+            // Change template dynamically
+            templatesEntry?.templates?.let { templates ->
+                val defaultTemplate = templatesEntry.defaultTemplate
+                templateSelectorSpinner?.apply {
+                    // Build template selector
+                    if (templates.isNotEmpty()) {
+                        adapter = TemplatesSelectorAdapter(
+                            this@EntryEditActivity,
+                            mIconDrawableFactory,
+                            templates
+                        )
+                        setSelection(templates.indexOf(defaultTemplate))
+                        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                mEntryEditViewModel.changeTemplate(templates[position])
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {}
+                        }
+                    } else {
+                        visibility = View.GONE
+                    }
+                }
+            }
+
             loadingView?.hideByFading()
         }
 
@@ -236,27 +266,6 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         mEntryEditViewModel.attachmentDeleted.observe(this) {
             mAttachmentFileBinderManager?.removeBinaryAttachment(it)
-        }
-
-        // Change template dynamically
-        mEntryEditViewModel.templates.observe(this) { templatesLoaded ->
-            val templates = templatesLoaded.templates
-            val defaultTemplate = templatesLoaded.defaultTemplate
-            templateSelectorSpinner?.apply {
-                // Build template selector
-                if (templates.isNotEmpty()) {
-                    adapter = TemplatesSelectorAdapter(this@EntryEditActivity, mIconDrawableFactory, templates)
-                    setSelection(templates.indexOf(defaultTemplate))
-                    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            mEntryEditViewModel.changeTemplate(templates[position])
-                        }
-                        override fun onNothingSelected(parent: AdapterView<*>?) {}
-                    }
-                } else {
-                    visibility = View.GONE
-                }
-            }
         }
 
         // Build new entry from the entry info retrieved

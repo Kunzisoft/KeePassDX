@@ -56,18 +56,20 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 setMaxLines(templateAttribute.options.getNumberLines())
                 // TODO Linkify
                 value = field.protectedValue.stringValue
+                // Here the value is often empty
 
                 if (field.protectedValue.isProtected) {
                     if (mFirstTimeAskAllowCopyProtectedFields) {
                         setCopyButtonState(TextFieldView.ButtonState.DEACTIVATE)
-                        setCopyButtonClickListener {
+                        setCopyButtonClickListener { _, _ ->
                             mOnAskCopySafeClickListener?.invoke()
                         }
                     } else {
                         if (mAllowCopyProtectedFields) {
                             setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
-                            setCopyButtonClickListener {
-                                mOnCopyActionClickListener?.invoke(field)
+                            setCopyButtonClickListener { label, value ->
+                                mOnCopyActionClickListener
+                                    ?.invoke(Field(label, ProtectedString(false, value)))
                             }
                         } else {
                             setCopyButtonState(TextFieldView.ButtonState.GONE)
@@ -76,8 +78,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
                     }
                 } else {
                     setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
-                    setCopyButtonClickListener {
-                        mOnCopyActionClickListener?.invoke(field)
+                    setCopyButtonClickListener { label, value ->
+                        mOnCopyActionClickListener
+                            ?.invoke(Field(label, ProtectedString(false, value)))
                     }
                 }
             }
@@ -114,22 +117,22 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return findViewWithTag<TextFieldView?>(FIELD_PASSWORD_TAG)?.getCopyButtonView()
     }
 
-    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId>  {
+    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField>  {
         val emptyCustomFields = super.populateViewsWithEntryInfo(false)
 
         // Hide empty custom fields
         emptyCustomFields.forEach { customFieldId ->
-            templateContainerView.findViewById<View?>(customFieldId.viewId)
-                ?.isVisible = false
+            customFieldId.view.isVisible = false
         }
 
+        removeOtpRunnable()
         mEntryInfo?.let { entryInfo ->
             // Assign specific OTP dynamic view
-            removeOtpRunnable()
             entryInfo.otpModel?.let {
                 assignOtp(it)
             }
         }
+
         return emptyCustomFields
     }
 
@@ -146,11 +149,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
     private var mOnOtpElementUpdated: ((OtpElement?) -> Unit)? = null
 
     private fun getOtpTokenView(): TextFieldView? {
-        val indexFieldViewId = indexCustomFieldIdByName(OTP_TOKEN_FIELD)
-        if (indexFieldViewId >= 0) {
-            // Template contains the custom view
-            val customFieldId = mCustomFieldIds[indexFieldViewId]
-            return findViewById(customFieldId.viewId)
+        getViewFieldByName(OTP_TOKEN_FIELD)?.let { viewField ->
+            val view = viewField.view
+            if (view is TextFieldView)
+                return view
         }
         return null
     }
@@ -166,7 +168,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 label = otpElement.type.name
                 value = otpElement.token
                 setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
-                setCopyButtonClickListener {
+                setCopyButtonClickListener { _, _ ->
                     mOnCopyActionClickListener?.invoke(Field(
                         otpElement.type.name,
                         ProtectedString(false, otpElement.token)))

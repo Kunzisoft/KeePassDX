@@ -169,7 +169,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         // Focus view to reinitialize timeout,
         // view is not necessary loaded so retry later in resume
         viewToInvalidateTimeout()
-            ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database?.loaded)
+            ?.resetAppTimeoutWhenViewTouchedOrFocused(this, database?.loaded)
 
         database?.let {
             // check timeout
@@ -383,7 +383,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         // Invalidate timeout by touch
         mDatabase?.let { database ->
             viewToInvalidateTimeout()
-                ?.resetAppTimeoutWhenViewFocusedOrChanged(this, database.loaded)
+                ?.resetAppTimeoutWhenViewTouchedOrFocused(this, database.loaded)
         }
 
         invalidateOptionsMenu()
@@ -422,6 +422,11 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         sendBroadcast(Intent(LOCK_ACTION))
     }
 
+    fun resetAppTimeout() {
+        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this,
+            mDatabase?.loaded ?: false)
+    }
+
     override fun onBackPressed() {
         if (mTimeoutEnable) {
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this,
@@ -451,12 +456,12 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
  * To reset the app timeout when a view is focused or changed
  */
 @SuppressLint("ClickableViewAccessibility")
-fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, databaseLoaded: Boolean?) {
-    // Log.d(LockingActivity.TAG, "View prepared to reset app timeout")
+fun View.resetAppTimeoutWhenViewTouchedOrFocused(context: Context, databaseLoaded: Boolean?) {
+    // Log.d(DatabaseLockActivity.TAG, "View prepared to reset app timeout")
     setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                // Log.d(LockingActivity.TAG, "View touched, try to reset app timeout")
+                // Log.d(DatabaseLockActivity.TAG, "View touched, try to reset app timeout")
                 TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context,
                     databaseLoaded ?: false)
             }
@@ -464,13 +469,13 @@ fun View.resetAppTimeoutWhenViewFocusedOrChanged(context: Context, databaseLoade
         false
     }
     setOnFocusChangeListener { _, _ ->
-        // Log.d(LockingActivity.TAG, "View focused, try to reset app timeout")
+        // Log.d(DatabaseLockActivity.TAG, "View focused, try to reset app timeout")
         TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(context,
             databaseLoaded ?: false)
     }
     if (this is ViewGroup) {
         for (i in 0..childCount) {
-            getChildAt(i)?.resetAppTimeoutWhenViewFocusedOrChanged(context, databaseLoaded)
+            getChildAt(i)?.resetAppTimeoutWhenViewTouchedOrFocused(context, databaseLoaded)
         }
     }
 }

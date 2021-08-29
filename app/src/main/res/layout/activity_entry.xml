@@ -70,16 +70,16 @@
                 tools:targetApi="lollipop">
             </androidx.appcompat.widget.Toolbar>
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/entry_progress"
                 android:visibility="gone"
-                style="?android:attr/progressBarStyleHorizontal"
                 android:indeterminate="false"
+                app:indicatorColor="?attr/colorAccent"
                 android:progress="10"
                 android:max="30"
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="4dp" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

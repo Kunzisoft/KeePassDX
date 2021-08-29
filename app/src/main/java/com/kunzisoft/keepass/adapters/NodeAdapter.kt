@@ -26,6 +26,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
@@ -40,6 +41,8 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
@@ -68,6 +71,7 @@ class NodeAdapter (private val context: Context,
 
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
+    private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
 
@@ -122,6 +126,7 @@ class NodeAdapter (private val context: Context,
 
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
         this.mEntryFilters = Group.ChildFilter.getDefaults(context)
@@ -148,6 +153,7 @@ class NodeAdapter (private val context: Context,
             if (oldItem is Entry && newItem is Entry) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
                         && oldItem.username == newItem.username
+                        && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
@@ -357,6 +363,25 @@ class NodeAdapter (private val context: Context,
                 }
             }
 
+            val otpElement = entry.getOtpElement()
+            holder.otpContainer?.removeCallbacks(holder.otpRunnable)
+            if (otpElement != null
+                && mShowOTP
+                && otpElement.token.isNotEmpty()) {
+
+                // Execute runnable to show progress
+                holder.otpRunnable.action = {
+                    populateOtpView(holder, otpElement)
+                }
+                if (otpElement.type == OtpType.TOTP) {
+                    holder.otpRunnable.postDelayed()
+                }
+                populateOtpView(holder, otpElement)
+
+                holder.otpContainer?.visibility = View.VISIBLE
+            } else {
+                holder.otpContainer?.visibility = View.GONE
+            }
             holder.attachmentIcon?.visibility =
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
@@ -386,7 +411,41 @@ class NodeAdapter (private val context: Context,
             mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
     }
-    
+
+    private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
+        when (otpElement?.type) {
+            OtpType.HOTP -> {
+                holder?.otpCounter?.text = otpElement.counter.toString()
+                holder?.otpProgress?.apply {
+                    max = 100
+                    progress = 100
+                }
+            }
+            OtpType.TOTP -> {
+                holder?.otpCounter?.text = otpElement.secondsRemaining.toString()
+                holder?.otpProgress?.apply {
+                    max = otpElement.period
+                    progress = otpElement.secondsRemaining
+                }
+            }
+        }
+        holder?.otpToken?.text = otpElement?.token
+    }
+
+    class OtpRunnable(val view: View?): Runnable {
+
+        var action: (() -> Unit)? = null
+
+        override fun run() {
+            action?.invoke()
+            postDelayed()
+        }
+
+        fun postDelayed() {
+            view?.postDelayed(this, 1000)
+        }
+    }
+
     override fun getItemCount(): Int {
         return mNodeSortedList.size()
     }
@@ -413,6 +472,11 @@ class NodeAdapter (private val context: Context,
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
+        var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
+        var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
+        var otpCounter: TextView? = itemView.findViewById(R.id.node_otp_counter)
+        var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
+        var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
     }

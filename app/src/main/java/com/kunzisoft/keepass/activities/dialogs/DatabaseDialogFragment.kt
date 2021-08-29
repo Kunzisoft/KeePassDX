@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
-import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
@@ -19,7 +20,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
         mDatabaseViewModel.database.observe(this) { database ->
             this.mDatabase = database
-            resetAppTimeoutWhenViewFocusedOrChanged()
+            resetAppTimeoutOnTouchOrFocus()
             onDatabaseRetrieved(database)
         }
 
@@ -31,7 +32,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        resetAppTimeoutWhenViewFocusedOrChanged()
+        resetAppTimeoutOnTouchOrFocus()
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -46,9 +47,25 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         // Can be overridden by a subclass
     }
 
-    private fun resetAppTimeoutWhenViewFocusedOrChanged() {
+    fun resetAppTimeout() {
         context?.let {
-            dialog?.window?.decorView?.resetAppTimeoutWhenViewFocusedOrChanged(it, mDatabase?.loaded)
+            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(it,
+                mDatabase?.loaded ?: false)
+        }
+    }
+
+    open fun overrideTimeoutTouchAndFocusEvents(): Boolean {
+        return false
+    }
+
+    private fun resetAppTimeoutOnTouchOrFocus() {
+        if (!overrideTimeoutTouchAndFocusEvents()) {
+            context?.let {
+                dialog?.window?.decorView?.resetAppTimeoutWhenViewTouchedOrFocused(
+                    it,
+                    mDatabase?.loaded
+                )
+            }
         }
     }
 }

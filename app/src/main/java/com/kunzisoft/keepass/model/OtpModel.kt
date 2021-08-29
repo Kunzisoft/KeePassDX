@@ -56,7 +56,7 @@ class OtpModel() : Parcelable {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as OtpElement
+        other as OtpModel
 
         if (type != other.type) return false
         // Token type is important only if it's a TOTP

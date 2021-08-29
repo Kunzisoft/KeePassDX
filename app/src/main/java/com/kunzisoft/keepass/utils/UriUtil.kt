@@ -239,8 +239,23 @@ object UriUtil {
     }
 
     fun openExternalApp(context: Context, packageName: String) {
+        var launchIntent: Intent? = null
         try {
-            context.startActivity(context.applicationContext.packageManager.getLaunchIntentForPackage(packageName))
+            launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        } catch (ignored: Exception) {
+        }
+        try {
+            if (launchIntent == null) {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .setData(Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
+                )
+            } else {
+                context.startActivity(launchIntent)
+            }
         } catch (e: Exception) {
             Log.e(TAG, "App cannot be open", e)
         }

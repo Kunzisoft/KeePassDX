@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
-import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -33,7 +33,7 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
 
     protected fun resetAppTimeoutWhenViewFocusedOrChanged(view: View?) {
         context?.let {
-            view?.resetAppTimeoutWhenViewFocusedOrChanged(it, mDatabase?.loaded)
+            view?.resetAppTimeoutWhenViewTouchedOrFocused(it, mDatabase?.loaded)
         }
     }
 

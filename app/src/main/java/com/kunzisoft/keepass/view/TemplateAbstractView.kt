@@ -39,7 +39,7 @@ abstract class TemplateAbstractView<
     private var mTemplate: Template? = null
     protected var mEntryInfo: EntryInfo? = null
 
-    protected var mCustomFieldIds = mutableListOf<FieldId>()
+    private var mViewFields = mutableListOf<ViewField>()
 
     protected var mFontInVisibility: Boolean = PreferencesUtil.fieldFontIsInVisibility(context)
     protected var mHideProtectedValue: Boolean = PreferencesUtil.hideProtectedValue(context)
@@ -48,7 +48,7 @@ abstract class TemplateAbstractView<
     protected var entryIconView: ImageView
     private var titleContainerView: ViewGroup
     protected var templateContainerView: ViewGroup
-    protected var customFieldsContainerView: SectionView
+    private var customFieldsContainerView: SectionView
     private var notReferencedFieldsContainerView: SectionView
 
     init {
@@ -95,7 +95,7 @@ abstract class TemplateAbstractView<
         }
     }
 
-    fun buildTemplate() {
+    private fun buildTemplate() {
         // Retrieve preferences
         mHideProtectedValue = PreferencesUtil.hideProtectedValue(context)
 
@@ -104,7 +104,7 @@ abstract class TemplateAbstractView<
         templateContainerView.removeAllViews()
         customFieldsContainerView.removeAllViews()
         notReferencedFieldsContainerView.removeAllViews()
-        mCustomFieldIds.clear()
+        mViewFields.clear()
 
         mTemplate?.let { template ->
 
@@ -200,7 +200,7 @@ abstract class TemplateAbstractView<
             TemplateAttributeType.TEXT,
             field.protectedValue.isProtected,
             TemplateAttributeOption().apply {
-                setNumberLines(3)
+                setNumberLines(20)
             },
             TemplateAttributeAction.CUSTOM_EDITION
         ).apply {
@@ -231,13 +231,13 @@ abstract class TemplateAbstractView<
 
         // Add new custom view id to the custom field list
         if (fieldTag == FIELD_CUSTOM_TAG) {
-            val indexOldItem = indexCustomFieldIdByName(field.name)
+            val indexOldItem = getIndexViewFieldByName(field.name)
             if (indexOldItem >= 0)
-                mCustomFieldIds.removeAt(indexOldItem)
+                mViewFields.removeAt(indexOldItem)
             if (itemView?.id != null) {
-                mCustomFieldIds.add(
-                    FieldId(
-                        itemView.id,
+                mViewFields.add(
+                    ViewField(
+                        itemView,
                         field
                     )
                 )
@@ -320,7 +320,7 @@ abstract class TemplateAbstractView<
     /**
      * Return empty custom fields
      */
-    protected open fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId> {
+    protected open fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField> {
         mEntryInfo?.let { entryInfo ->
 
             populateEntryFieldView(FIELD_TITLE_TAG,
@@ -350,15 +350,14 @@ abstract class TemplateAbstractView<
                 showEmptyFields)
 
             customFieldsContainerView.removeAllViews()
-            val emptyCustomFields = mutableListOf<FieldId>().also { it.addAll(mCustomFieldIds) }
+            val emptyCustomFields = mutableListOf<ViewField>().also { it.addAll(mViewFields) }
             entryInfo.customFields.forEach { customField ->
-                val indexFieldViewId = indexCustomFieldIdByName(customField.name)
+                val indexFieldViewId = getIndexViewFieldByName(customField.name)
                 if (indexFieldViewId >= 0) {
                     // Template contains the custom view
-                    val customFieldId = mCustomFieldIds[indexFieldViewId]
-                    emptyCustomFields.remove(customFieldId)
-                    templateContainerView.findViewById<View>(customFieldId.viewId)
-                        ?.let { customView ->
+                    val viewField = mViewFields[indexFieldViewId]
+                    emptyCustomFields.remove(viewField)
+                    viewField.view.let { customView ->
                             if (customView is GenericTextFieldView) {
                                 customView.value = customField.protectedValue.stringValue
                                 customView.applyFontVisibility(mFontInVisibility)
@@ -459,22 +458,22 @@ abstract class TemplateAbstractView<
      * -------------
      */
 
-    protected data class FieldId(var viewId: Int, var field: Field)
+    protected data class ViewField(var view: View, var field: Field)
 
     private fun isStandardFieldName(name: String): Boolean {
         return TemplateField.isStandardFieldName(name)
     }
 
-    protected fun customFieldIdByName(name: String): FieldId? {
-        return mCustomFieldIds.find { it.field.name.equals(name, true) }
+    protected fun getViewFieldByName(name: String): ViewField? {
+        return mViewFields.find { it.field.name.equals(name, true) }
     }
 
-    protected fun indexCustomFieldIdByName(name: String): Int {
-        return mCustomFieldIds.indexOfFirst { it.field.name.equals(name, true) }
+    private fun getIndexViewFieldByName(name: String): Int {
+        return mViewFields.indexOfFirst { it.field.name.equals(name, true) }
     }
 
     private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false) {
-        mEntryInfo?.customFields = mCustomFieldIds.mapNotNull {
+        mEntryInfo?.customFields = mViewFields.mapNotNull {
             getCustomField(it.field.name, templateFieldNotEmpty)
         }.toMutableList()
     }
@@ -484,10 +483,9 @@ abstract class TemplateAbstractView<
             ?: Field(fieldName, ProtectedString(false))
     }
 
-    protected fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
-        customFieldIdByName(fieldName)?.let { fieldId ->
-            val editView: View? = templateContainerView.findViewById(fieldId.viewId)
-                ?: customFieldsContainerView.findViewById(fieldId.viewId)
+    private fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
+        getViewFieldByName(fieldName)?.let { fieldId ->
+            val editView: View? = fieldId.view
             if (editView is GenericFieldView) {
                 // Do not return field with a default value
                 val defaultViewValue = if (editView.value == editView.default) "" else editView.value
@@ -514,20 +512,22 @@ abstract class TemplateAbstractView<
 
         return if (!isStandardFieldName(customField.name)) {
             customFieldsContainerView.visibility = View.VISIBLE
-            if (indexCustomFieldIdByName(customField.name) >= 0) {
-                replaceCustomField(customField, customField, focus)
+            if (getIndexViewFieldByName(customField.name) >= 0) {
+                // Update a custom field with a new value,
+                // new field name must be the same as old field name
+                replaceCustomField(customField, customField, false, focus)
             } else {
                 val newCustomView = buildViewForCustomField(customField)
                 newCustomView?.let {
                     customFieldsContainerView.addView(newCustomView)
-                    val fieldId = FieldId(
-                        newCustomView.id,
+                    val fieldId = ViewField(
+                        newCustomView,
                         customField
                     )
-                    val indexOldItem = indexCustomFieldIdByName(fieldId.field.name)
+                    val indexOldItem = getIndexViewFieldByName(fieldId.field.name)
                     if (indexOldItem >= 0)
-                        mCustomFieldIds.removeAt(indexOldItem)
-                    mCustomFieldIds.add(indexOldItem, fieldId)
+                        mViewFields.removeAt(indexOldItem)
+                    mViewFields.add(indexOldItem, fieldId)
                     if (focus)
                         newCustomView.requestFocus()
                 }
@@ -544,58 +544,63 @@ abstract class TemplateAbstractView<
         return put
     }
 
-    /**
-     * Update a custom field and keep the old value
-     */
-    private fun replaceCustomField(oldField: Field, newField: Field, focus: Boolean): Boolean {
+    private fun replaceCustomField(oldField: Field,
+                                   newField: Field,
+                                   keepOldValue: Boolean,
+                                   focus: Boolean): Boolean {
         if (!isStandardFieldName(newField.name)) {
-            customFieldIdByName(oldField.name)?.viewId?.let { viewId ->
-                customFieldsContainerView.findViewById<View>(viewId)?.let { viewToReplace ->
-                    val oldValue = getCustomField(oldField.name).protectedValue.toString()
+            getViewFieldByName(oldField.name)?.view?.let { viewToReplace ->
+                val oldValue = getCustomField(oldField.name).protectedValue.toString()
 
-                    val parentGroup = viewToReplace.parent as ViewGroup
-                    val indexInParent = parentGroup.indexOfChild(viewToReplace)
-                    parentGroup.removeView(viewToReplace)
+                val parentGroup = viewToReplace.parent as ViewGroup
+                val indexInParent = parentGroup.indexOfChild(viewToReplace)
+                parentGroup.removeView(viewToReplace)
 
-                    val newCustomFieldWithValue = Field(newField.name,
-                        ProtectedString(newField.protectedValue.isProtected, oldValue))
-                    val oldPosition = indexCustomFieldIdByName(oldField.name)
-                    if (oldPosition >= 0)
-                        mCustomFieldIds.removeAt(oldPosition)
+                val newCustomFieldWithValue = if (keepOldValue)
+                    Field(newField.name,
+                        ProtectedString(newField.protectedValue.isProtected, oldValue)
+                    )
+                else
+                    newField
+                val oldPosition = getIndexViewFieldByName(oldField.name)
+                if (oldPosition >= 0)
+                    mViewFields.removeAt(oldPosition)
 
-                    val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
-                    newCustomView?.let {
-                        parentGroup.addView(newCustomView, indexInParent)
-                        mCustomFieldIds.add(
-                            oldPosition,
-                            FieldId(
-                                newCustomView.id,
-                                newCustomFieldWithValue
-                            )
+                val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
+                newCustomView?.let {
+                    parentGroup.addView(newCustomView, indexInParent)
+                    mViewFields.add(
+                        oldPosition,
+                        ViewField(
+                            newCustomView,
+                            newCustomFieldWithValue
                         )
-                        if (focus)
-                            newCustomView.requestFocus()
-                    }
-                    return true
+                    )
+                    if (focus)
+                        newCustomView.requestFocus()
                 }
+                return true
             }
         }
         return false
     }
 
+    /**
+     * Update a custom field and keep the old value
+     */
     fun replaceCustomField(oldField: Field, newField: Field): Boolean {
-        val replace = replaceCustomField(oldField, newField, true)
+        val replace = replaceCustomField(oldField, newField, keepOldValue = true, focus = true)
         retrieveCustomFieldsFromView()
         return replace
     }
 
     fun removeCustomField(oldCustomField: Field) {
-        val indexOldField = indexCustomFieldIdByName(oldCustomField.name)
+        val indexOldField = getIndexViewFieldByName(oldCustomField.name)
         if (indexOldField >= 0) {
-            mCustomFieldIds[indexOldField].viewId.let { viewId ->
-                customFieldsContainerView.removeViewById(viewId)
+            mViewFields[indexOldField].let { fieldView ->
+                customFieldsContainerView.removeViewById(fieldView.view.id)
             }
-            mCustomFieldIds.removeAt(indexOldField)
+            mViewFields.removeAt(indexOldField)
         }
         retrieveCustomFieldsFromView()
     }

@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.timeout
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -30,6 +29,7 @@ import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.exception.ClipboardException
 import com.kunzisoft.keepass.settings.PreferencesUtil

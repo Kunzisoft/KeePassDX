@@ -157,11 +157,6 @@ class EntryActivity : DatabaseLockActivity() {
             invalidateOptionsMenu()
         }
 
-        mEntryViewModel.url.observe(this) { url ->
-            this.mUrl = url
-            invalidateOptionsMenu()
-        }
-
         mEntryViewModel.entryInfo.observe(this) { entryInfo ->
             // Manage entry copy to start notification if allowed (at the first start)
             if (savedInstanceState == null) {
@@ -183,6 +178,8 @@ class EntryActivity : DatabaseLockActivity() {
             val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
             collapsingToolbarLayout?.title = entryTitle
             toolbar?.title = entryTitle
+
+            mUrl = entryInfo.url
 
             // Refresh Menu
             invalidateOptionsMenu()

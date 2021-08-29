@@ -1,5 +1,6 @@
  * Add / Manage dynamic templates #191
  * Allow to manually select RecycleBin group and Templates group #191
+ * Setting to display OTP Token in list #655
  * Fix timeout in dialogs #716
  * Check URI permissions #626
- * Small changes #1035 #1043 #942
+ * Improvements #1035 #1043 #942 #1021 #1027

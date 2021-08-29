@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.activities.dialogs
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.MainCredential

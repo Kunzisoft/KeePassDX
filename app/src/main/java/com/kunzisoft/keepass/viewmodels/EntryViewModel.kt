@@ -45,9 +45,6 @@ class EntryViewModel: ViewModel() {
     val historyPosition : LiveData<Int> get() = _historyPosition
     private val _historyPosition = MutableLiveData<Int>()
 
-    val url : LiveData<String?> get() = _url
-    private val _url = MutableLiveData<String?>()
-
     val entryInfo : LiveData<EntryInfo> get() = _entryInfo
     private val _entryInfo = MutableLiveData<EntryInfo>()
 
@@ -66,58 +63,49 @@ class EntryViewModel: ViewModel() {
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
     fun loadEntry(database: Database?, entryId: NodeId<UUID>?, historyPosition: Int) {
-        if (entryId != null) {
+        if (database != null && entryId != null) {
             IOActionTask(
                 {
-                    database?.getEntryById(entryId)
-                },
-                { mainEntry ->
-                    // Manage current version and history
-                    _mainEntryId.value = mainEntry?.nodeId
-                    _historyPosition.value = historyPosition
-
+                    val mainEntry = database.getEntryById(entryId)
                     val currentEntry = if (historyPosition > -1) {
                         mainEntry?.getHistory()?.get(historyPosition)
                     } else {
                         mainEntry
                     }
-                    _url.value = currentEntry?.url
 
-                    IOActionTask(
-                        {
-                            val entryTemplate = currentEntry?.let {
-                                database?.getTemplate(it)
-                            } ?: Template.STANDARD
+                    val entryTemplate = currentEntry?.let {
+                        database.getTemplate(it)
+                    } ?: Template.STANDARD
 
-                            // To simplify template field visibility
-                            currentEntry?.let { entry ->
-                                // Add mainEntry to check the parent and define the template state
-                                database?.decodeEntryWithTemplateConfiguration(entry, mainEntry)
-                                    ?.let {
-                                        // To update current modification time
-                                        it.touch(modified = false, touchParents = false)
+                    // To simplify template field visibility
+                    currentEntry?.let { entry ->
+                        // Add mainEntry to check the parent and define the template state
+                        database.decodeEntryWithTemplateConfiguration(entry, mainEntry).let {
+                            // To update current modification time
+                            it.touch(modified = false, touchParents = false)
 
-                                        // Build history info
-                                        val entryInfoHistory = it.getHistory().map { entryHistory ->
-                                            entryHistory.getEntryInfo(database)
-                                        }
-
-                                        EntryInfoHistory(
-                                            entryTemplate,
-                                            it.getEntryInfo(database),
-                                            entryInfoHistory
-                                        )
-                                    }
+                            // Build history info
+                            val entryInfoHistory = it.getHistory().map { entryHistory ->
+                                entryHistory.getEntryInfo(database)
                             }
-                        },
-                        { entryInfoHistory ->
-                            if (entryInfoHistory != null) {
-                                _template.value = entryInfoHistory.template
-                                _entryInfo.value = entryInfoHistory.entryInfo
-                                _entryHistory.value = entryInfoHistory.entryHistory
-                            }
+
+                            EntryInfoHistory(
+                                mainEntry!!.nodeId,
+                                entryTemplate,
+                                it.getEntryInfo(database),
+                                entryInfoHistory
+                            )
                         }
-                    ).execute()
+                    }
+                },
+                { entryInfoHistory ->
+                    if (entryInfoHistory != null) {
+                        _mainEntryId.value = entryInfoHistory.mainEntryId
+                        _historyPosition.value = historyPosition
+                        _template.value = entryInfoHistory.template
+                        _entryInfo.value = entryInfoHistory.entryInfo
+                        _entryHistory.value = entryInfoHistory.entryHistory
+                    }
                 }
             ).execute()
         }
@@ -143,7 +131,8 @@ class EntryViewModel: ViewModel() {
         _historySelected.value = EntryHistory(NodeIdUUID(item.id), null, item, position)
     }
 
-    data class EntryInfoHistory(val template: Template,
+    data class EntryInfoHistory(var mainEntryId: NodeId<UUID>,
+                                val template: Template,
                                 val entryInfo: EntryInfo,
                                 val entryHistory: List<EntryInfo>)
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)

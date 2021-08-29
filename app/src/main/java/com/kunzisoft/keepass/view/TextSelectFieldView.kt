@@ -2,20 +2,26 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.os.Build
+import android.text.InputType
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+
 
 class TextSelectFieldView @JvmOverloads constructor(context: Context,
                                                     attrs: AttributeSet? = null,
@@ -28,30 +34,54 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     private var actionImageButtonId = ViewCompat.generateViewId()
     private var mDefaultPosition = 0
 
-    private val labelView = AppCompatTextView(context).apply {
-        setTextAppearance(context, R.style.KeepassDXStyle_TextAppearance_LabelTextStyle)
+    private val labelView = TextInputLayout(context).apply {
         layoutParams = LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT).also {
-            val leftMargin = 4f
-            it.leftMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                leftMargin,
-                resources.displayMetrics
-            ).toInt()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.marginStart = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    leftMargin,
-                    resources.displayMetrics
-                ).toInt()
-            }
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT)
+    }
+    private val valueView = TextInputEditText(
+        ContextThemeWrapper(context,
+            R.style.KeepassDXStyle_TextInputLayout)
+    ).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT)
+        inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
+            importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
+        }
+        val drawable = ContextCompat.getDrawable(context, R.drawable.ic_arrow_down_white_24dp)
+            ?.apply {
+                mutate().colorFilter = BlendModeColorFilterCompat
+                    .createBlendModeColorFilterCompat(currentTextColor, BlendModeCompat.SRC_IN)
+            }
+        setCompoundDrawablesWithIntrinsicBounds(
+            null,
+            null,
+            drawable,
+            null
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            setCompoundDrawablesRelativeWithIntrinsicBounds(
+                null,
+                null,
+                drawable,
+                null
+            )
+        }
+        isFocusable = false
+        inputType = InputType.TYPE_NULL
+        maxLines = 1
     }
     private val valueSpinnerView = Spinner(context).apply {
         layoutParams = LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT)
+            0,
+            0
+        )
     }
     private var actionImageButton = AppCompatImageButton(
             ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
@@ -64,7 +94,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 it.addRule(ALIGN_PARENT_END)
             }
         }
@@ -75,15 +105,22 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     init {
         // Manually write view to avoid view id bugs
         buildViews()
+        labelView.addView(valueView)
         addView(labelView)
         addView(valueSpinnerView)
         addView(actionImageButton)
 
+        valueView.apply {
+            setOnClickListener {
+                valueSpinnerView.performClick()
+            }
+        }
         valueSpinnerView.apply {
             adapter = valueSpinnerAdapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    valueSpinnerAdapter.getItem(position)
+                    val stringValue = valueSpinnerAdapter.getItem(position)
+                    valueView.setText(stringValue)
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
@@ -95,7 +132,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     it?.addRule(START_OF, actionImageButtonId)
                 }
             }
@@ -104,7 +141,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             id = valueViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     it?.addRule(START_OF, actionImageButtonId)
                 }
                 it?.addRule(BELOW, labelViewId)

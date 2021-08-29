@@ -192,7 +192,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<FieldId> {
+    override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField> {
         refreshIcon()
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }

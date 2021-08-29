@@ -118,10 +118,11 @@ class EntryEditFragment: DatabaseFragment() {
             templateView.setTemplate(template)
         }
 
-        mEntryEditViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
+        mEntryEditViewModel.templatesEntry.observe(viewLifecycleOwner) { templateEntry ->
+            templateView.setTemplate(templateEntry.defaultTemplate)
             // Load entry info only the first time to keep change locally
             if (savedInstanceState == null) {
-                assignEntryInfo(entryInfo)
+                assignEntryInfo(templateEntry.entryInfo)
             }
             // To prevent flickering
             rootView.showByFading()

@@ -17,22 +17,20 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	tools:targetApi="o"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
 
 	<androidx.cardview.widget.CardView
 		android:id="@+id/template_header_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle"
-		android:visibility="gone"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/template_fields_container">
+		android:visibility="gone">
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
@@ -61,8 +59,6 @@
 		android:id="@+id/template_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toBottomOf="@+id/template_header_container"
-		app:layout_constraintBottom_toTopOf="@+id/not_referenced_fields_container"
 		android:orientation="vertical" />
 
 	<com.kunzisoft.keepass.view.SectionView
@@ -70,16 +66,12 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle"
-		android:layout_marginBottom="@dimen/card_view_margin_vertical"
-		app:layout_constraintTop_toBottomOf="@+id/template_fields_container"
-		app:layout_constraintBottom_toTopOf="@+id/custom_fields_container"/>
+		android:layout_marginBottom="@dimen/card_view_margin_vertical"/>
 
 	<com.kunzisoft.keepass.view.SectionView
 		android:id="@+id/custom_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle"
-		app:layout_constraintTop_toBottomOf="@+id/not_referenced_fields_container"
-		app:layout_constraintBottom_toBottomOf="parent"/>
+		style="?attr/cardViewStyle"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

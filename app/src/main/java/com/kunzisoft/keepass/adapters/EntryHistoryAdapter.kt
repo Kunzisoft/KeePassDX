@@ -44,7 +44,6 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
         holder.lastModifiedView.text = entryHistory.lastModificationTime.getDateTimeString(context.resources)
         holder.titleView.text = entryHistory.title
         holder.usernameView.text = entryHistory.username
-        holder.urlView.text = entryHistory.url
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.invoke(entryHistory, position)
@@ -64,6 +63,5 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
         var lastModifiedView: TextView = itemView.findViewById(R.id.entry_history_last_modified)
         var titleView: TextView = itemView.findViewById(R.id.entry_history_title)
         var usernameView: TextView = itemView.findViewById(R.id.entry_history_username)
-        var urlView: TextView = itemView.findViewById(R.id.entry_history_url)
     }
 }

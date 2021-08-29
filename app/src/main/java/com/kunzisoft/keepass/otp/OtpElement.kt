@@ -185,6 +185,19 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         return secondsRemaining == otpModel.period
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is OtpElement) return false
+
+        if (otpModel != other.otpModel) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return otpModel.hashCode()
+    }
+
     companion object {
         const val MIN_HOTP_COUNTER = 0
         const val MAX_HOTP_COUNTER = Long.MAX_VALUE
