@@ -31,7 +31,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:contentDescription="@string/content_description_entry_icon"
-        android:src="@drawable/ic_key_white_24dp" />
+        android:src="@drawable/ic_arrow_right_green_24dp" />
 
     <TextView
         android:id="@+id/autofill_entry_text"

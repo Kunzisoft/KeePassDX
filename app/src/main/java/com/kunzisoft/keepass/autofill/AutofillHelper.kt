@@ -25,6 +25,7 @@ import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -37,6 +38,7 @@ import android.view.autofill.AutofillValue
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
+import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
@@ -52,7 +54,6 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -273,6 +274,27 @@ object AutofillHelper {
         return null
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("RestrictedApi")
+    private fun buildInlinePresentationForManualSelection(context: Context,
+                                                          inlinePresentationSpec: InlinePresentationSpec,
+                                                          pendingIntent: PendingIntent): InlinePresentation? {
+        // Make sure that the IME spec claims support for v1 UI template.
+        val imeStyle = inlinePresentationSpec.style
+        if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+            return null
+
+        // Build the content for IME UI
+        return InlinePresentation(
+                InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                    setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                    setTitle(context.getString(R.string.autofill_manual_selection_prompt))
+                    setStartIcon(Icon.createWithResource(context, R.drawable.ic_arrow_right_green_24dp).apply {
+                        setTintBlendMode(BlendMode.DST)
+                    })
+                }.build().slice, inlinePresentationSpec, false)
+    }
+
     fun buildResponse(context: Context,
                       database: Database,
                       entriesInfo: List<EntryInfo>,
@@ -296,18 +318,28 @@ object AutofillHelper {
         }
 
         // Add inline suggestion for new IME and dataset
-        entriesInfo.forEachIndexed { index, entryInfo ->
-            val inlinePresentation = inlineSuggestionsRequest?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, index, entryInfo)
-                } else {
-                    null
+        var numberInlineSuggestions = 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            inlineSuggestionsRequest?.let {
+                numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
+                if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+                    if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
+                        --numberInlineSuggestions
+                    }
                 }
             }
-            val dataSet = buildDataset(context, database, entryInfo, parseResult, inlinePresentation)
-            dataSet?.let {
-                responseBuilder.addDataset(it)
+
+        }
+
+        entriesInfo.forEachIndexed { _, entry ->
+            val inlinePresentation = if (numberInlineSuggestions > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                inlineSuggestionsRequest?.let {
+                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, numberInlineSuggestions--, entry)
+                }
+            } else {
+                null
             }
+            responseBuilder.addDataset(buildDataset(context, database, entry, parseResult, inlinePresentation))
         }
 
         if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
@@ -319,16 +351,26 @@ object AutofillHelper {
             }
             val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_entry)
             manualSelectionView.setTextViewText(R.id.autofill_entry_text, context.getString(R.string.autofill_manual_selection_prompt))
-            manualSelectionView.setImageViewResource(R.id.autofill_entry_icon, R.mipmap.ic_launcher_round)
-            val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(context,
+            // manualSelectionView.setImageViewResource(R.id.autofill_entry_icon, R.mipmap.ic_launcher_round)
+            val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
                     searchInfo, inlineSuggestionsRequest)
 
             val builder = Dataset.Builder(manualSelectionView)
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                inlineSuggestionsRequest?.let {
+                    val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                    val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                    inlinePresentation?.let {
+                        builder.setInlinePresentation(it)
+                    }
+                }
+            }
+
             // enable manual selection only for the form field that has focus
             parseResult.focusedId?.let { autofillId ->
                 builder.setValue(autofillId, AutofillValue.forText("dummy"))
-                builder.setAuthentication(intentSender)
+                builder.setAuthentication(pendingIntent.intentSender)
                 responseBuilder.addDataset(builder.build())
             }
         }
@@ -371,6 +413,7 @@ object AutofillHelper {
                     } else {
                         buildResponse(activity, database, entriesInfo, result, null)
                     }
+                    response.apply {  }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")
                     mReplyIntent.putExtra(
