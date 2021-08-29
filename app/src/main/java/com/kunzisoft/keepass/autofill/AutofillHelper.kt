@@ -351,27 +351,26 @@ object AutofillHelper {
             }
             val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_entry)
             manualSelectionView.setTextViewText(R.id.autofill_entry_text, context.getString(R.string.autofill_manual_selection_prompt))
-            // manualSelectionView.setImageViewResource(R.id.autofill_entry_icon, R.mipmap.ic_launcher_round)
             val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
                     searchInfo, inlineSuggestionsRequest)
 
-            val builder = Dataset.Builder(manualSelectionView)
+            parseResult.allAutofillIds().let { autofillIds ->
+                autofillIds.forEach { id ->
+                    val builder = Dataset.Builder(manualSelectionView)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                inlineSuggestionsRequest?.let {
-                    val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
-                    val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
-                    inlinePresentation?.let {
-                        builder.setInlinePresentation(it)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        inlineSuggestionsRequest?.let {
+                            val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                            val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                            inlinePresentation?.let {
+                                builder.setInlinePresentation(it)
+                            }
+                        }
                     }
+                    builder.setValue(id, AutofillValue.forText("dummy"))
+                    builder.setAuthentication(pendingIntent.intentSender)
+                    responseBuilder.addDataset(builder.build())
                 }
-            }
-
-            // enable manual selection only for the form field that has focus
-            parseResult.focusedId?.let { autofillId ->
-                builder.setValue(autofillId, AutofillValue.forText("dummy"))
-                builder.setAuthentication(pendingIntent.intentSender)
-                responseBuilder.addDataset(builder.build())
             }
         }
 
@@ -413,7 +412,6 @@ object AutofillHelper {
                     } else {
                         buildResponse(activity, database, entriesInfo, result, null)
                     }
-                    response.apply {  }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")
                     mReplyIntent.putExtra(
