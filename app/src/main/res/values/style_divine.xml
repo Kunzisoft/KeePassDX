@@ -19,8 +19,10 @@
 -->
 <resources>
     <!-- White Style -->
-    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.White.v21" />
-    <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.Light.WhiteBar.v23" >
+    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.White.v23" />
+    <style name="KeepassDXStyle.White.v23" parent="KeepassDXStyle.White.v21" />
+    <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.White.Base" />
+    <style name="KeepassDXStyle.White.Base" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="colorSecondary">@color/orange</item>
