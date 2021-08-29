@@ -375,8 +375,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     override fun onResume() {
         super.onResume()
 
-        checkRegister()
-
         // To refresh when back to normal workflow from selection workflow
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 

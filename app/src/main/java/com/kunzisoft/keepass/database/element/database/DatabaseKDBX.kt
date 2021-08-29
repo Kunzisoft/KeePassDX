@@ -46,7 +46,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
@@ -134,7 +133,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     constructor(databaseName: String,
                 rootName: String,
-                templateGroupName: String? = null) {
+                templatesGroupName: String? = null) {
         name = databaseName
         kdbxVersion = FILE_VERSION_31
         val group = createGroup().apply {
@@ -142,20 +141,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
         }
         rootGroup = group
-        if (templateGroupName != null) {
-            val templateGroup = createGroup().apply {
-                title = templateGroupName
-                icon.standard = getStandardIcon(IconImageStandard.BUILD_ID)
-            }
-            addGroupTo(templateGroup, rootGroup)
-            entryTemplatesGroup = templateGroup.id
-
-            // Build default templates
-            TemplateEngine.getDefaults().forEach { defaultTemplate ->
-                mTemplateEngine.createTemplateEntry(defaultTemplate).also {
-                    addEntryTo(it, templateGroup)
-                }
-            }
+        if (templatesGroupName != null) {
+            val templatesGroup = mTemplateEngine.createNewTemplatesGroup(templatesGroupName)
+            entryTemplatesGroup = templatesGroup.id
+            entryTemplatesGroupChanged = templatesGroup.lastModificationTime
         }
     }
 
@@ -357,21 +346,16 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return entryTemplatesGroup != UUID_ZERO
     }
 
-    fun enableTemplatesGroup(enable: Boolean, resources: Resources) {
+    fun enableTemplatesGroup(enable: Boolean, templatesGroupName: String) {
         // Create templates group only if a group with a valid name don't already exists
         val firstGroupWithValidName = getGroupIndexes().firstOrNull {
-            it.title == TemplateEngine.getDefaultTemplateGroupName(resources)
+            it.title == templatesGroupName
         }
         if (enable) {
-            val uuidTemplatesGroup = if (firstGroupWithValidName == null) {
-                val newUuidTemplatesGroup = mTemplateEngine.createNewTemplatesGroup(resources)
-                addGroupTo(newUuidTemplatesGroup, rootGroup)
-                newUuidTemplatesGroup
-            } else {
-                firstGroupWithValidName
-            }
-            entryTemplatesGroup = uuidTemplatesGroup.id
-            entryTemplatesGroupChanged = uuidTemplatesGroup.lastModificationTime
+            val templatesGroup = firstGroupWithValidName
+                ?: mTemplateEngine.createNewTemplatesGroup(templatesGroupName)
+            entryTemplatesGroup = templatesGroup.id
+            entryTemplatesGroupChanged = templatesGroup.lastModificationTime
         } else {
             removeTemplatesGroup()
         }

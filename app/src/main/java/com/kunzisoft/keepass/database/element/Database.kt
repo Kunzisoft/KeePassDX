@@ -450,8 +450,8 @@ class Database {
     val isTemplatesEnabled: Boolean
         get() = mDatabaseKDBX?.isTemplatesGroupEnabled() ?: false
 
-    fun enableTemplates(enable: Boolean, resources: Resources) {
-        mDatabaseKDBX?.enableTemplatesGroup(enable, resources)
+    fun enableTemplates(enable: Boolean, templatesGroupName: String) {
+        mDatabaseKDBX?.enableTemplatesGroup(enable, templatesGroupName)
     }
 
     val templatesGroup: Group?
