@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
@@ -247,7 +248,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                 isEnabled = if (!mDatabaseReadOnly) {
                     setOnPreferenceChangeListener { _, newValue ->
                         val templatesEnabled = newValue as Boolean
-                        database.enableTemplates(templatesEnabled, resources)
+                        database.enableTemplates(templatesEnabled,
+                            TemplateEngine.getDefaultTemplateGroupName(resources)
+                        )
                         refreshTemplatesGroup(database)
                         // Save the database if not in readonly mode
                         saveDatabase(mDatabaseAutoSaveEnabled)
@@ -258,7 +261,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                     false
                 }
             }
-            // Recycle Bin group
+            // Refresh templates group
             refreshTemplatesGroup(database)
         } else {
             templatesGroupPrefCategory?.isVisible = false

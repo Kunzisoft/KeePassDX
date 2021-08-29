@@ -42,14 +42,22 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return Template(CREATION)
     }
 
-    fun createNewTemplatesGroup(resources: Resources): GroupKDBX {
-        return mDatabase.createGroup().apply {
-            title = getDefaultTemplateGroupName(resources)
-            icon.standard = mDatabase.getStandardIcon(IconImageStandard.FOLDER_ID)
+    fun createNewTemplatesGroup(templatesGroupName: String): GroupKDBX {
+        val newTemplatesGroup = mDatabase.createGroup().apply {
+            title = templatesGroupName
+            icon.standard = mDatabase.getStandardIcon(IconImageStandard.BUILD_ID)
             enableAutoType = false
             enableSearching = false
             isExpanded = false
         }
+        mDatabase.addGroupTo(newTemplatesGroup, mDatabase.rootGroup)
+        // Build default templates
+        getDefaults().forEach { defaultTemplate ->
+            createTemplateEntry(defaultTemplate).also {
+                mDatabase.addEntryTo(it, newTemplatesGroup)
+            }
+        }
+        return newTemplatesGroup
     }
 
     fun clearCache() {
