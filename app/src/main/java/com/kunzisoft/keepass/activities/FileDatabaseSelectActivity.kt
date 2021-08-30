@@ -125,13 +125,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             }
         }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryDeleteListener { fileDatabaseHistoryToDelete ->
-            // Remove from app database
-            fileDatabaseHistoryToDelete.databaseUri?.let { databaseUri ->
-                UriUtil.releaseUriPermission(
-                    contentResolver,
-                    databaseUri
-                )
-            }
             databaseFilesViewModel.deleteDatabaseFile(fileDatabaseHistoryToDelete)
             true
         }
