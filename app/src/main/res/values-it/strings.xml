@@ -599,4 +599,5 @@
     <string name="holder">Titolare</string>
     <string name="debit_credit_card">Carta di debito / credito</string>
     <string name="template_group_name">Modelli</string>
+    <string name="menu_external_icon">Icona esterna</string>
 </resources>
