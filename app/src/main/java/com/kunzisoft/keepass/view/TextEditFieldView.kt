@@ -161,8 +161,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setProtection(protection: Boolean, hiddenProtectedValue: Boolean) {
-        // hiddenProtectedValue don't work with TextInputLayout
+    fun setProtection(protection: Boolean) {
         if (protection) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD

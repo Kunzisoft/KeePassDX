@@ -62,7 +62,8 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                                      field: Field): TextEditFieldView? {
         return context?.let {
             TextEditFieldView(it).apply {
-                setProtection(field.protectedValue.isProtected, mHideProtectedValue)
+                // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
+                setProtection(field.protectedValue.isProtected)
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
