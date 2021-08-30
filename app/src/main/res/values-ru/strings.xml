@@ -480,7 +480,7 @@
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
-    <string name="show_uuid_summary">Показывать UUID, связанный с записью</string>
+    <string name="show_uuid_summary">Показывать UUID, связанный с записью или группой</string>
     <string name="show_uuid_title">Показывать UUID</string>
     <string name="autofill_read_only_save">Сохранение данных невозможно для базы, открытой только для чтения.</string>
     <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после проверки формы</string>
@@ -596,4 +596,7 @@
     <string name="holder">Владелец</string>
     <string name="debit_credit_card">Банковская карта</string>
     <string name="template_group_name">Шаблоны</string>
+    <string name="show_otp_token_title">Показывать токен OTP</string>
+    <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
+    <string name="menu_external_icon">Внешний значок</string>
 </resources>
