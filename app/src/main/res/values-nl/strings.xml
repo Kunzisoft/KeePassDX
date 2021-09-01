@@ -317,7 +317,7 @@
     <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer de duur van het klembord verloopt of de melding wordt gesloten nadat u deze bent gaan gebruiken</string>
     <string name="recycle_bin">Prullenmand</string>
     <string name="keyboard_selection_entry_title">Itemselectie</string>
-    <string name="keyboard_selection_entry_summary">Invoervelden in Magikeyboard tonen bij het bekijken van een item</string>
+    <string name="keyboard_selection_entry_summary">Vul, bij het bekijken van een item in KeePassDX, Magikeyboard met dat item</string>
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
     <string name="delete_entered_password_summary">Wis het ingevoerde wachtwoord na een verbindingspoging met een database</string>
     <string name="content_description_open_file">Bestand openen</string>
@@ -439,7 +439,7 @@
     <string name="validate">Valideren</string>
     <string name="contribution">Bijdragen</string>
     <string name="contact">Contact</string>
-    <string name="keyboard_search_share_summary">Zoek automatisch naar gedeelde informatie om het toetsenbord te vullen</string>
+    <string name="keyboard_search_share_summary">Filter, wanneer een URL met KeePassDX is gedeeld, de items met dat URL-domein</string>
     <string name="keyboard_search_share_title">Gedeelde informatie zoeken</string>
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
@@ -486,7 +486,7 @@
     <string name="autofill_close_database_title">Database sluiten</string>
     <string name="keyboard_previous_lock_summary">Schakel na het vergrendelen van de database automatisch terug naar het vorige toetsenbord</string>
     <string name="keyboard_previous_lock_title">Database vergrendelen</string>
-    <string name="keyboard_save_search_info_summary">Probeer gedeelde informatie op te slaan bij een handmatige invoerselectie</string>
+    <string name="keyboard_save_search_info_summary">Probeer, wanneer een URL met KeePassDX is gedeeld en een item is geselecteerd, dat item te onthouden voor verder gebruik</string>
     <string name="keyboard_save_search_info_title">Gedeelde info opslaan</string>
     <string name="notification">Melding</string>
     <string name="biometric_security_update_required">Biometrische beveiligingsupdate vereist.</string>

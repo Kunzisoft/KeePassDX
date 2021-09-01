@@ -139,7 +139,7 @@
     <string name="version_label">Versione %1$s</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
     <string name="no_credentials_stored">Questo database non contiene alcuna credenziale.</string>
-    <string name="education_unlock_summary">Inserisci la password o il file chiave per sbloccare la base di dati.
+    <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
 \n
 \nEseguire il backup del file del database in un luogo sicuro dopo ogni modifica.</string>
     <string-array name="list_size_options">
@@ -253,7 +253,7 @@
     <string name="education_read_only_title">Proteggi da scrittura il tuo database</string>
     <string name="education_read_only_summary">Cambia la modalità di apertura per la sessione.
 \n
-\n«Sola lettura» impedisce modifiche accidentali al databae.
+\n«Sola lettura» impedisce modifiche accidentali al database.
 \n«Modificabile» permette di aggiungere, eliminare o modificare tutti gli elementi.</string>
     <string name="education_field_copy_title">Copia un campo</string>
     <string name="education_field_copy_summary">I campi copiati possono essere incollati ovunque. 
@@ -316,7 +316,7 @@
     <string name="clear_clipboard_notification_summary">Blocca il database quando scade la durata degli appunti o la notifica viene chiusa dopo che inizi ad usarlo</string>
     <string name="recycle_bin">Cestino</string>
     <string name="keyboard_selection_entry_title">Selezione elemento</string>
-    <string name="keyboard_selection_entry_summary">Mostra i campi di input nella Magitastiera durante la visualizzazione di un elemento</string>
+    <string name="keyboard_selection_entry_summary">Durante la visualizzazione di una voce in KeePassDX, inseriscila nella Magitastiera</string>
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
     <string name="content_description_open_file">Apri il file</string>
@@ -448,7 +448,7 @@
     <string name="autofill_web_domain_blocklist_title">Lista di blocco per domini web</string>
     <string name="autofill_application_id_blocklist_title">Lista di blocco per app</string>
     <string name="autofill_application_id_blocklist_summary">La lista di blocco impedisce l\'auto riempimento nelle app</string>
-    <string name="keyboard_search_share_summary">Cerca automaticamente le informazioni condivise per compilare la tastiera</string>
+    <string name="keyboard_search_share_summary">Durante la condivisione di una URL a KeePassDX, filtra le voci che usano quel dominio</string>
     <string name="keyboard_search_share_title">Cerca informazioni condivise</string>
     <string name="filter">Filtro</string>
     <string name="error_string_type">Questo testo non soddisfa l\'elemento richiesto.</string>
@@ -478,7 +478,7 @@
     <string name="content_description_credentials_information">Info credenziali</string>
     <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce</string>
     <string name="show_uuid_title">Mostra UUID</string>
-    <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per una base du dati aperta in sola lettura.</string>
+    <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
     <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando un modulo viene convalidato</string>
     <string name="autofill_ask_to_save_data_title">Chiedi di salvare i dati</string>
     <string name="autofill_save_search_info_summary">Prova a salvare le informazioni di ricerca quando effettui una selezione di immissione manuale</string>
@@ -487,7 +487,7 @@
     <string name="autofill_close_database_title">Chiudi database</string>
     <string name="keyboard_previous_lock_summary">Torna automaticamente alla tastiera precedente dopo aver bloccato il database</string>
     <string name="keyboard_previous_lock_title">Blocca il database</string>
-    <string name="keyboard_save_search_info_summary">Prova a salvare le informazioni condivise quando effettui una selezione di immissione manuale</string>
+    <string name="keyboard_save_search_info_summary">Dopo la una URL in KeePassDX, quando viene selezionata una voce, prova a salvare quella voce per usi futuri</string>
     <string name="keyboard_save_search_info_title">Salva le informazioni condivise</string>
     <string name="notification">Notifica</string>
     <string name="biometric_security_update_required">È necessario un aggiornamento della sicurezza biometrica.</string>
@@ -565,4 +565,38 @@
     <string name="import_app_properties_title">Importa le proprietà dell\'app</string>
     <string name="error_word_reserved">Questa parola è riservata e non può essere usata.</string>
     <string name="error_move_group_here">Non è possibile spostare un gruppo qui.</string>
+    <string name="templates">Modelli</string>
+    <string name="templates_group_uuid_title">Gruppo di modelli</string>
+    <string name="templates_group_enable_summary">Usa modelli dinamici per riempire i campi di una voce</string>
+    <string name="templates_group_enable_title">Utilizzo dei modelli</string>
+    <string name="version">Versione</string>
+    <string name="template">Modello</string>
+    <string name="standard">Standard</string>
+    <string name="membership">Abbonamento</string>
+    <string name="secure_note">Nota sicura</string>
+    <string name="international_bank_account_number">IBAN</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="bank_name">Nome banca</string>
+    <string name="bank">Banca</string>
+    <string name="account">Profilo</string>
+    <string name="seed">Seme</string>
+    <string name="private_key">Chiave privata</string>
+    <string name="public_key">Chiave pubblica</string>
+    <string name="token">Token</string>
+    <string name="cryptocurrency">Portafoglio di criptovaluta</string>
+    <string name="type">Tipo</string>
+    <string name="ssid">SSID</string>
+    <string name="wireless">Wifi</string>
+    <string name="email_address">Indirizzo email</string>
+    <string name="email">Email</string>
+    <string name="date_of_issue">Data di emissione</string>
+    <string name="place_of_issue">Luogo di emissione</string>
+    <string name="name">Nome</string>
+    <string name="id_card">Carta d\'identità</string>
+    <string name="personal_identification_number">PIN</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="number">Numero</string>
+    <string name="holder">Titolare</string>
+    <string name="debit_credit_card">Carta di debito / credito</string>
+    <string name="template_group_name">Modelli</string>
 </resources>

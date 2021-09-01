@@ -415,14 +415,12 @@ class NodeAdapter (private val context: Context,
     private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
         when (otpElement?.type) {
             OtpType.HOTP -> {
-                holder?.otpCounter?.text = otpElement.counter.toString()
                 holder?.otpProgress?.apply {
                     max = 100
                     progress = 100
                 }
             }
             OtpType.TOTP -> {
-                holder?.otpCounter?.text = otpElement.secondsRemaining.toString()
                 holder?.otpProgress?.apply {
                     max = otpElement.period
                     progress = otpElement.secondsRemaining
@@ -474,7 +472,6 @@ class NodeAdapter (private val context: Context,
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
         var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
-        var otpCounter: TextView? = itemView.findViewById(R.id.node_otp_counter)
         var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)

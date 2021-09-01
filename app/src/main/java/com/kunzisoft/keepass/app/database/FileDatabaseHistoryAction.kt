@@ -189,26 +189,36 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun deleteKeyFileByDatabaseUri(databaseUri: Uri) {
+    fun deleteKeyFileByDatabaseUri(databaseUri: Uri,
+                                   result: (() ->Unit)? = null) {
         IOActionTask(
                 {
                     databaseFileHistoryDao.deleteKeyFileByDatabaseUri(databaseUri.toString())
+                },
+                {
+                    result?.invoke()
                 }
         ).execute()
     }
 
-    fun deleteAllKeyFiles() {
+    fun deleteAllKeyFiles(result: (() ->Unit)? = null) {
         IOActionTask(
                 {
                     databaseFileHistoryDao.deleteAllKeyFiles()
+                },
+                {
+                    result?.invoke()
                 }
         ).execute()
     }
 
-    fun deleteAll() {
+    fun deleteAll(result: (() ->Unit)? = null) {
         IOActionTask(
                 {
                     databaseFileHistoryDao.deleteAll()
+                },
+                {
+                    result?.invoke()
                 }
         ).execute()
     }

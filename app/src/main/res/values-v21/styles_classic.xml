@@ -18,9 +18,9 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v21" >
+    <style name="KeepassDXStyle.Clear.v21" parent="KeepassDXStyle.Clear.Base" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/grey_dark</item>
         <item name="android:navigationBarColor">@color/grey_dark</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>

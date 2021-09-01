@@ -81,14 +81,18 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         activity?.let { activity ->
             findPreference<Preference>(getString(R.string.remember_database_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll()
+                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll {
+                        UriUtil.releaseAllUnnecessaryPermissionUris(activity.applicationContext)
+                    }
                 }
                 true
             }
 
             findPreference<Preference>(getString(R.string.remember_keyfile_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles()
+                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles {
+                        UriUtil.releaseAllUnnecessaryPermissionUris(activity.applicationContext)
+                    }
                 }
                 true
             }
