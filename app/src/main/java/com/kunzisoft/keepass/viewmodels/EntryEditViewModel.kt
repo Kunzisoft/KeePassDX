@@ -12,6 +12,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 
 class EntryEditViewModel: NodeEditViewModel() {
 
+    private var mTemplate: Template? = null
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
     val templatesEntry : LiveData<TemplatesEntry> get() = _templatesEntry
@@ -62,7 +63,9 @@ class EntryEditViewModel: NodeEditViewModel() {
         IOActionTask(
             {
                 val templates = database.getTemplates(isTemplate)
-                val entryTemplate = entry?.let { database.getTemplate(it) } ?: Template.STANDARD
+                val entryTemplate = mTemplate
+                    ?: (entry?.let { database.getTemplate(it) }
+                        ?: Template.STANDARD)
                 var entryInfo: EntryInfo? = null
                 // Decode the entry / load entry info
                 entry?.let {
@@ -89,6 +92,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun changeTemplate(template: Template) {
+        this.mTemplate = template
         if (_onTemplateChanged.value != template) {
             _onTemplateChanged.value = template
         }
