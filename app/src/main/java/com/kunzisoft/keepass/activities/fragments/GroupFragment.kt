@@ -417,7 +417,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                                 mNodesRecyclerView?.scrollToPosition(position)
                             }
                         }
-                    } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
+                    } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
                 }
             }
         }

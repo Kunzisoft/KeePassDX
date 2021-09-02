@@ -120,11 +120,12 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get Entry from UUID
         try {
-            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { entryId ->
-                mMainEntryId = entryId
+            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { mainEntryId ->
                 intent.removeExtra(KEY_ENTRY)
-                mHistoryPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+                val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
+
+                mEntryViewModel.loadEntry(mDatabase, mainEntryId, historyPosition)
             }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
@@ -139,54 +140,53 @@ class EntryActivity : DatabaseLockActivity() {
             lockAndExit()
         }
 
-        mEntryViewModel.mainEntryId.observe(this) { mainEntryId ->
-            this.mMainEntryId = mainEntryId
-            invalidateOptionsMenu()
-        }
+        mEntryViewModel.entryInfoHistory.observe(this) { entryInfoHistory ->
+            if (entryInfoHistory != null) {
+                this.mMainEntryId = entryInfoHistory.mainEntryId
 
-        mEntryViewModel.historyPosition.observe(this) { historyPosition ->
-            this.mHistoryPosition = historyPosition
-            val entryIsHistory = historyPosition > -1
-            this.mEntryIsHistory = entryIsHistory
-            // Assign history dedicated view
-            historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
-            if (entryIsHistory) {
-                val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-                collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-                taColorAccent.recycle()
-            }
-            invalidateOptionsMenu()
-        }
-
-        mEntryViewModel.entryInfo.observe(this) { entryInfo ->
-            // Manage entry copy to start notification if allowed (at the first start)
-            if (savedInstanceState == null) {
-                // Manage entry to launch copying notification if allowed
-                ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
-                // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
-                if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                    MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
+                // Manage history position
+                val historyPosition = entryInfoHistory.historyPosition
+                this.mHistoryPosition = historyPosition
+                val entryIsHistory = historyPosition > -1
+                this.mEntryIsHistory = entryIsHistory
+                // Assign history dedicated view
+                historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
+                if (entryIsHistory) {
+                    val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+                    collapsingToolbarLayout?.contentScrim =
+                        ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
+                    taColorAccent.recycle()
                 }
+
+                val entryInfo = entryInfoHistory.entryInfo
+                // Manage entry copy to start notification if allowed (at the first start)
+                if (savedInstanceState == null) {
+                    // Manage entry to launch copying notification if allowed
+                    ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
+                    // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
+                    if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
+                        MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
+                    }
+                }
+                // Assign title icon
+                mIcon = entryInfo.icon
+                titleIconView?.let { iconView ->
+                    mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
+                }
+                // Assign title text
+                val entryTitle =
+                    if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
+                collapsingToolbarLayout?.title = entryTitle
+                toolbar?.title = entryTitle
+                mUrl = entryInfo.url
+
+                loadingView?.hideByFading()
+                mEntryLoaded = true
+            } else {
+                finish()
             }
-
-            // Assign title icon
-            mIcon = entryInfo.icon
-            titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
-            }
-
-            // Assign title text
-            val entryTitle = if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
-            collapsingToolbarLayout?.title = entryTitle
-            toolbar?.title = entryTitle
-
-            mUrl = entryInfo.url
-
             // Refresh Menu
             invalidateOptionsMenu()
-
-            loadingView?.hideByFading()
-            mEntryLoaded = true
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
@@ -237,7 +237,7 @@ class EntryActivity : DatabaseLockActivity() {
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
-        mEntryViewModel.loadEntry(mDatabase, mMainEntryId, mHistoryPosition)
+        mEntryViewModel.loadDatabase(database)
 
         // Assign title icon
         mIcon?.let { icon ->
@@ -296,7 +296,7 @@ class EntryActivity : DatabaseLockActivity() {
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 // Reload the current id from database
-                mEntryViewModel.updateEntry(mDatabase)
+                mEntryViewModel.loadDatabase(mDatabase)
             }
         }
 

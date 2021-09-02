@@ -36,20 +36,14 @@ import java.util.*
 
 class EntryViewModel: ViewModel() {
 
-    val template : LiveData<Template> get() = _template
-    private val _template = MutableLiveData<Template>()
+    private var mMainEntryId: NodeId<UUID>? = null
+    private var mHistoryPosition: Int = -1
 
-    val mainEntryId : LiveData<NodeId<UUID>?> get() = _mainEntryId
-    private val _mainEntryId = MutableLiveData<NodeId<UUID>?>()
+    val entryInfoHistory : LiveData<EntryInfoHistory?> get() = _entryInfoHistory
+    private val _entryInfoHistory = MutableLiveData<EntryInfoHistory?>()
 
-    val historyPosition : LiveData<Int> get() = _historyPosition
-    private val _historyPosition = MutableLiveData<Int>()
-
-    val entryInfo : LiveData<EntryInfo> get() = _entryInfo
-    private val _entryInfo = MutableLiveData<EntryInfo>()
-
-    val entryHistory : LiveData<List<EntryInfo>> get() = _entryHistory
-    private val _entryHistory = MutableLiveData<List<EntryInfo>>()
+    val entryHistory : LiveData<List<EntryInfo>?> get() = _entryHistory
+    private val _entryHistory = MutableLiveData<List<EntryInfo>?>()
 
     val onOtpElementUpdated : LiveData<OtpElement?> get() = _onOtpElementUpdated
     private val _onOtpElementUpdated = SingleLiveEvent<OtpElement?>()
@@ -62,11 +56,18 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun loadEntry(database: Database?, entryId: NodeId<UUID>?, historyPosition: Int) {
-        if (database != null && entryId != null) {
+    fun loadDatabase(database: Database?) {
+        loadEntry(database, mMainEntryId, mHistoryPosition)
+    }
+
+    fun loadEntry(database: Database?, mainEntryId: NodeId<UUID>?, historyPosition: Int = -1) {
+        this.mMainEntryId = mainEntryId
+        this.mHistoryPosition = historyPosition
+
+        if (database != null && mainEntryId != null) {
             IOActionTask(
                 {
-                    val mainEntry = database.getEntryById(entryId)
+                    val mainEntry = database.getEntryById(mainEntryId)
                     val currentEntry = if (historyPosition > -1) {
                         mainEntry?.getHistory()?.get(historyPosition)
                     } else {
@@ -91,6 +92,7 @@ class EntryViewModel: ViewModel() {
 
                             EntryInfoHistory(
                                 mainEntry!!.nodeId,
+                                historyPosition,
                                 entryTemplate,
                                 it.getEntryInfo(database),
                                 entryInfoHistory
@@ -99,20 +101,11 @@ class EntryViewModel: ViewModel() {
                     }
                 },
                 { entryInfoHistory ->
-                    if (entryInfoHistory != null) {
-                        _mainEntryId.value = entryInfoHistory.mainEntryId
-                        _historyPosition.value = historyPosition
-                        _template.value = entryInfoHistory.template
-                        _entryInfo.value = entryInfoHistory.entryInfo
-                        _entryHistory.value = entryInfoHistory.entryHistory
-                    }
+                    _entryInfoHistory.value = entryInfoHistory
+                    _entryHistory.value = entryInfoHistory?.entryHistory
                 }
             ).execute()
         }
-    }
-
-    fun updateEntry(database: Database?) {
-        loadEntry(database, _mainEntryId.value, _historyPosition.value ?: -1)
     }
 
     fun onOtpElementUpdated(optElement: OtpElement?) {
@@ -132,6 +125,7 @@ class EntryViewModel: ViewModel() {
     }
 
     data class EntryInfoHistory(var mainEntryId: NodeId<UUID>,
+                                var historyPosition: Int,
                                 val template: Template,
                                 val entryInfo: EntryInfo,
                                 val entryHistory: List<EntryInfo>)
