@@ -233,7 +233,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
-    @Throws(IllegalArgumentException::class)
     private fun rebuildList() {
         try {
             // Add elements to the list
