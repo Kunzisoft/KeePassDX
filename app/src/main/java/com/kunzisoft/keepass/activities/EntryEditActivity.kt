@@ -94,7 +94,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
     private var mTemplate: Template? = null
-    private var mIsTemplate: Boolean = false
+    private var mIsTemplate: Boolean = true
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -202,6 +202,8 @@ class EntryEditActivity : DatabaseLockActivity(),
             }
 
             loadingView?.hideByFading()
+
+            invalidateOptionsMenu()
         }
 
         // View model listeners
