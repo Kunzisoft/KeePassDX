@@ -23,8 +23,11 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider = DatabaseTaskProvider(this)
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
-            if (mDatabase == null || mDatabase != database || database?.wasReloaded == true) {
-                database?.wasReloaded = true
+            val databaseWasReloaded = database?.wasReloaded == true
+            if (databaseWasReloaded && finishActivityIfReloadRequested()) {
+                finish()
+            } else if (mDatabase == null || mDatabase != database || databaseWasReloaded) {
+                database?.wasReloaded = false
                 onDatabaseRetrieved(database)
             }
         }
