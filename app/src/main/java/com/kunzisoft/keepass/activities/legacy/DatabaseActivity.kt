@@ -7,14 +7,9 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
-import java.util.*
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
 
@@ -28,7 +23,8 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider = DatabaseTaskProvider(this)
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
-            if (mDatabase == null || mDatabase != database) {
+            if (mDatabase == null || mDatabase != database || database?.wasReloaded == true) {
+                database?.wasReloaded = true
                 onDatabaseRetrieved(database)
             }
         }
@@ -69,17 +65,8 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabase?.clearAndClose(this)
     }
 
-    override fun reloadActivity() {
-        super.reloadActivity()
-        mDatabase?.wasReloaded = false
-    }
-
     override fun onResume() {
         super.onResume()
-
-        if (mDatabase?.wasReloaded == true) {
-            reloadActivity()
-        }
         mDatabaseTaskProvider?.registerProgressTask()
     }
 
