@@ -186,6 +186,39 @@ class EntryInfo : NodeInfo {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is EntryInfo) return false
+        if (!super.equals(other)) return false
+
+        if (id != other.id) return false
+        if (username != other.username) return false
+        if (password != other.password) return false
+        if (url != other.url) return false
+        if (notes != other.notes) return false
+        if (customFields != other.customFields) return false
+        if (attachments != other.attachments) return false
+        if (otpModel != other.otpModel) return false
+        if (isTemplate != other.isTemplate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + username.hashCode()
+        result = 31 * result + password.hashCode()
+        result = 31 * result + url.hashCode()
+        result = 31 * result + notes.hashCode()
+        result = 31 * result + customFields.hashCode()
+        result = 31 * result + attachments.hashCode()
+        result = 31 * result + (otpModel?.hashCode() ?: 0)
+        result = 31 * result + isTemplate.hashCode()
+        return result
+    }
+
+
     companion object {
 
         const val WEB_DOMAIN_FIELD_NAME = "URL"
