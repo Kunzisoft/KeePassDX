@@ -122,19 +122,21 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.templatesEntry.observe(viewLifecycleOwner) { templateEntry ->
-            val selectedTemplate = if (mTemplate != null)
-                mTemplate
-            else
-                templateEntry.defaultTemplate
-            templateView.setTemplate(selectedTemplate)
-            // Load entry info only the first time to keep change locally
-            if (savedInstanceState == null) {
-                assignEntryInfo(templateEntry.entryInfo)
+            if (templateEntry != null) {
+                val selectedTemplate = if (mTemplate != null)
+                    mTemplate
+                else
+                    templateEntry.defaultTemplate
+                templateView.setTemplate(selectedTemplate)
+                // Load entry info only the first time to keep change locally
+                if (savedInstanceState == null) {
+                    assignEntryInfo(templateEntry.entryInfo)
+                }
+                // To prevent flickering
+                rootView.showByFading()
+                // Apply timeout reset
+                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
             }
-            // To prevent flickering
-            rootView.showByFading()
-            // Apply timeout reset
-            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {

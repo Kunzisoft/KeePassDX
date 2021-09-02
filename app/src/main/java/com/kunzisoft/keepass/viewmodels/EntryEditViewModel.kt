@@ -25,8 +25,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     private var mIsTemplate: Boolean = false
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
-    val templatesEntry : LiveData<TemplatesEntry> get() = _templatesEntry
-    private val _templatesEntry = MutableLiveData<TemplatesEntry>()
+    val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
+    private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
 
     val requestEntryInfoUpdate : LiveData<EntryUpdate> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<EntryUpdate>()
@@ -90,22 +90,22 @@ class EntryEditViewModel: NodeEditViewModel() {
                             if (entry.parent == null) {
                                 entry.parent = database.rootGroup
                             }
+                            // Define if current entry is a template (in direct template group)
+                            mIsTemplate = database.entryIsTemplate(mEntry)
+                            decodeTemplateEntry(
+                                database,
+                                entry,
+                                mIsTemplate,
+                                registerInfo,
+                                searchInfo
+                            )
                         }
-                        // Define if current entry is a template (in direct template group)
-                        mIsTemplate = database.entryIsTemplate(mEntry)
-                        decodeTemplateEntry(
-                            database,
-                            mEntry,
-                            mIsTemplate,
-                            registerInfo,
-                            searchInfo
-                        )
                     },
                     { templatesEntry ->
+                        mEntryId = null
                         _templatesEntry.value = templatesEntry
                     }
                 ).execute()
-                mEntryId = null
             }
 
             mParentId?.let {
@@ -131,21 +131,21 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 // Useful to recognize child state (ie: entry is a template)
                                 parent = parentGroup
                             }
+                            mIsTemplate = database.entryIsTemplate(mEntry)
+                            decodeTemplateEntry(
+                                database,
+                                mEntry,
+                                mIsTemplate,
+                                registerInfo,
+                                searchInfo
+                            )
                         }
-                        mIsTemplate = database.entryIsTemplate(mEntry)
-                        decodeTemplateEntry(
-                            database,
-                            mEntry,
-                            mIsTemplate,
-                            registerInfo,
-                            searchInfo
-                        )
                     },
                     { templatesEntry ->
+                        mParentId = null
                         _templatesEntry.value = templatesEntry
                     }
                 ).execute()
-                mParentId = null
             }
         }
     }

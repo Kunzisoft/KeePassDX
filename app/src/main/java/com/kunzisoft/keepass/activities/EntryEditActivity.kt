@@ -168,43 +168,46 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
-            // Change template dynamically
-            this.mIsTemplate = templatesEntry.isTemplate
-            templatesEntry?.templates?.let { templates ->
-                templateSelectorSpinner?.apply {
-                    // Build template selector
-                    if (templates.isNotEmpty()) {
-                        adapter = TemplatesSelectorAdapter(
-                            this@EntryEditActivity,
-                            mIconDrawableFactory,
-                            templates
-                        )
-                        val selectedTemplate = if (mTemplate != null)
-                            mTemplate
-                        else
-                            templatesEntry.defaultTemplate
-                        setSelection(templates.indexOf(selectedTemplate))
-                        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                mEntryEditViewModel.changeTemplate(templates[position])
-                            }
+            if (templatesEntry != null) {
+                // Change template dynamically
+                this.mIsTemplate = templatesEntry.isTemplate
+                templatesEntry.templates.let { templates ->
+                    templateSelectorSpinner?.apply {
+                        // Build template selector
+                        if (templates.isNotEmpty()) {
+                            adapter = TemplatesSelectorAdapter(
+                                this@EntryEditActivity,
+                                mIconDrawableFactory,
+                                templates
+                            )
+                            val selectedTemplate = if (mTemplate != null)
+                                mTemplate
+                            else
+                                templatesEntry.defaultTemplate
+                            setSelection(templates.indexOf(selectedTemplate))
+                            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    mEntryEditViewModel.changeTemplate(templates[position])
+                                }
 
-                            override fun onNothingSelected(parent: AdapterView<*>?) {}
+                                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                            }
+                        } else {
+                            visibility = View.GONE
                         }
-                    } else {
-                        visibility = View.GONE
                     }
                 }
+
+                loadingView?.hideByFading()
+                mEntryLoaded = true
+            } else {
+                finish()
             }
-
-            loadingView?.hideByFading()
-            mEntryLoaded = true
-
             invalidateOptionsMenu()
         }
 
