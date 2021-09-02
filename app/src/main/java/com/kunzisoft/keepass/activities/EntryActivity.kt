@@ -81,6 +81,7 @@ class EntryActivity : DatabaseLockActivity() {
     private var mHistoryPosition: Int = -1
     private var mEntryIsHistory: Boolean = false
     private var mUrl: String? = null
+    private var mEntryLoaded = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
@@ -185,6 +186,7 @@ class EntryActivity : DatabaseLockActivity() {
             invalidateOptionsMenu()
 
             loadingView?.hideByFading()
+            mEntryLoaded = true
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
@@ -310,32 +312,41 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
+        if (mEntryLoaded) {
+            val inflater = menuInflater
+            MenuUtil.contributionMenuInflater(inflater, menu)
 
-        val inflater = menuInflater
-        MenuUtil.contributionMenuInflater(inflater, menu)
+            inflater.inflate(R.menu.entry, menu)
+            inflater.inflate(R.menu.database, menu)
 
-        inflater.inflate(R.menu.entry, menu)
-        inflater.inflate(R.menu.database, menu)
+            if (mEntryIsHistory && !mDatabaseReadOnly) {
+                inflater.inflate(R.menu.entry_history, menu)
+            }
 
-        if (mUrl?.isEmpty() != false) {
-            menu.findItem(R.id.menu_goto_url)?.isVisible = false
+            // Show education views
+            Handler(Looper.getMainLooper()).post {
+                performedNextEducation(
+                    EntryActivityEducation(
+                        this
+                    ), menu
+                )
+            }
         }
+        return true
+    }
 
-        if (mEntryIsHistory && !mDatabaseReadOnly) {
-            inflater.inflate(R.menu.entry_history, menu)
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (mUrl?.isEmpty() != false) {
+            menu?.findItem(R.id.menu_goto_url)?.isVisible = false
         }
         if (mEntryIsHistory || mDatabaseReadOnly) {
-            menu.findItem(R.id.menu_save_database)?.isVisible = false
-            menu.findItem(R.id.menu_edit)?.isVisible = false
+            menu?.findItem(R.id.menu_save_database)?.isVisible = false
+            menu?.findItem(R.id.menu_edit)?.isVisible = false
         }
         if (mSpecialMode != SpecialMode.DEFAULT) {
-            menu.findItem(R.id.menu_reload_database)?.isVisible = false
+            menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
-
-        // Show education views
-        Handler(Looper.getMainLooper()).post { performedNextEducation(EntryActivityEducation(this), menu) }
-
-        return true
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,

@@ -94,7 +94,8 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
     private var mTemplate: Template? = null
-    private var mIsTemplate: Boolean = true
+    private var mIsTemplate: Boolean = false
+    private var mEntryLoaded: Boolean = false
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -202,6 +203,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             }
 
             loadingView?.hideByFading()
+            mEntryLoaded = true
 
             invalidateOptionsMenu()
         }
@@ -511,24 +513,28 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.entry_edit, menu)
+        if (mEntryLoaded) {
+            menuInflater.inflate(R.menu.entry_edit, menu)
+            entryEditActivityEducation?.let {
+                Handler(Looper.getMainLooper()).post {
+                    performedNextEducation(it)
+                }
+            }
+        }
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-
         menu?.findItem(R.id.menu_add_field)?.apply {
             isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
-
         menu?.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
             isEnabled = !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-
         menu?.findItem(R.id.menu_add_otp)?.apply {
             // OTP not compatible below KitKat
             isEnabled = mAllowOTP
@@ -536,14 +542,10 @@ class EntryEditActivity : DatabaseLockActivity(),
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-
-        entryEditActivityEducation?.let {
-            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
-        }
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
 
         val entryEditFragment = supportFragmentManager.findFragmentById(R.id.entry_edit_content)
                 as? EntryEditFragment?
