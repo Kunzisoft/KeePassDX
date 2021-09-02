@@ -48,12 +48,9 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
-import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.*
@@ -95,14 +92,8 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
 
-    private var mEntryId: NodeId<UUID>? = null
-    private var mParentId: NodeId<*>? = null
-    private var mRegisterInfo: RegisterInfo? = null
-    private var mSearchInfo: SearchInfo? = null
-
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
-    private var mParent: Group? = null
-    private var mEntry: Entry? = null
+    private var mTemplate: Template? = null
     private var mIsTemplate: Boolean = false
 
     private var mAllowCustomFields = false
@@ -138,22 +129,27 @@ class EntryEditActivity : DatabaseLockActivity(),
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
-        mRegisterInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-        mSearchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-
         // Entry is retrieve, it's an entry to update
+        var entryId: NodeId<UUID>? = null
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
-            //intent.removeExtra(KEY_ENTRY)
-            mEntryId = entryToUpdate
+            intent.removeExtra(KEY_ENTRY)
+            entryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
+        var parentId: NodeId<*>? = null
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
-            //intent.removeExtra(KEY_PARENT)
-            mParentId = parent
+            intent.removeExtra(KEY_PARENT)
+            parentId = parent
         }
 
-        retrieveEntry(mDatabase)
+        mEntryEditViewModel.loadTemplateEntry(
+            mDatabase,
+            entryId,
+            parentId,
+            EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent),
+            EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        )
 
         // To retrieve attachment
         mExternalFileHelper = ExternalFileHelper(this)
@@ -166,10 +162,14 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Save button
         validateButton?.setOnClickListener { saveEntry() }
 
+        mEntryEditViewModel.onTemplateChanged.observe(this) { template ->
+            this.mTemplate = template
+        }
+
         mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
             // Change template dynamically
+            this.mIsTemplate = templatesEntry.isTemplate
             templatesEntry?.templates?.let { templates ->
-                val defaultTemplate = templatesEntry.defaultTemplate
                 templateSelectorSpinner?.apply {
                     // Build template selector
                     if (templates.isNotEmpty()) {
@@ -178,7 +178,11 @@ class EntryEditActivity : DatabaseLockActivity(),
                             mIconDrawableFactory,
                             templates
                         )
-                        setSelection(templates.indexOf(defaultTemplate))
+                        val selectedTemplate = if (mTemplate != null)
+                            mTemplate
+                        else
+                            templatesEntry.defaultTemplate
+                        setSelection(templates.indexOf(selectedTemplate))
                         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
                                 parent: AdapterView<*>?,
@@ -309,78 +313,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         super.onDatabaseRetrieved(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
-        retrieveEntry(database)
-    }
-
-    private fun retrieveEntry(database: Database?) {
-        database?.let {
-            mEntryId?.let {
-                IOActionTask(
-                    {
-                        // Create an Entry copy to modify from the database entry
-                        mEntry = database.getEntryById(it)
-                        // Retrieve the parent
-                        mEntry?.let { entry ->
-                            // If no parent, add root group as parent
-                            if (entry.parent == null) {
-                                entry.parent = database.rootGroup
-                            }
-                        }
-                        // Define if current entry is a template (in direct template group)
-                        mIsTemplate = database.entryIsTemplate(mEntry)
-                    },
-                    {
-                        mEntryEditViewModel.loadTemplateEntry(
-                            database,
-                            mEntry,
-                            mIsTemplate,
-                            mRegisterInfo,
-                            mSearchInfo
-                        )
-                    }
-                ).execute()
-                mEntryId = null
-            }
-
-            mParentId?.let {
-                IOActionTask(
-                    {
-                        mParent = database.getGroupById(it)
-                        mParent?.let { parentGroup ->
-                            mEntry = database.createEntry()?.apply {
-                                // Add the default icon from parent if not a folder
-                                val parentIcon = parentGroup.icon
-                                // Set default icon
-                                if (parentIcon.custom.isUnknown
-                                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
-                                ) {
-                                    icon = IconImage(parentIcon.standard)
-                                }
-                                if (!parentIcon.custom.isUnknown) {
-                                    icon = IconImage(parentIcon.custom)
-                                }
-                                // Set default username
-                                username = database.defaultUsername
-                                // Warning only the entry recognize is parent, parent don't yet recognize the new entry
-                                // Useful to recognize child state (ie: entry is a template)
-                                parent = parentGroup
-                            }
-                        }
-                        mIsTemplate = database.entryIsTemplate(mEntry)
-                    },
-                    {
-                        mEntryEditViewModel.loadTemplateEntry(
-                            database,
-                            mEntry,
-                            mIsTemplate,
-                            mRegisterInfo,
-                            mSearchInfo
-                        )
-                    }
-                ).execute()
-                mParentId = null
-            }
-        }
+        mEntryEditViewModel.loadDatabase(database)
     }
 
     override fun onDatabaseActionFinished(
@@ -571,7 +504,7 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun saveEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase, mEntry, mParent)
+        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

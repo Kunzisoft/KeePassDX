@@ -5,14 +5,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
+import java.util.*
 
 
 class EntryEditViewModel: NodeEditViewModel() {
 
-    private var mTemplate: Template? = null
+    private var mEntryId: NodeId<UUID>? = null
+    private var mParentId: NodeId<*>? = null
+    private var mRegisterInfo: RegisterInfo? = null
+    private var mSearchInfo: SearchInfo? = null
+    private var mParent: Group? = null
+    private var mEntry: Entry? = null
+    private var mIsTemplate: Boolean = false
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
     val templatesEntry : LiveData<TemplatesEntry> get() = _templatesEntry
@@ -24,7 +34,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
-    private val _onTemplateChanged = SingleLiveEvent<Template>()
+    private val _onTemplateChanged = MutableLiveData<Template>()
 
     val requestPasswordSelection : LiveData<Field> get() = _requestPasswordSelection
     private val _requestPasswordSelection = SingleLiveEvent<Field>()
@@ -54,52 +64,128 @@ class EntryEditViewModel: NodeEditViewModel() {
     val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
+    fun loadDatabase(database: Database?) {
+        loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo, mSearchInfo)
+    }
 
-    fun loadTemplateEntry(database: Database,
-                          entry: Entry?,
-                          isTemplate: Boolean,
+    fun loadTemplateEntry(database: Database?,
+                          entryId: NodeId<UUID>?,
+                          parentId: NodeId<*>?,
                           registerInfo: RegisterInfo?,
                           searchInfo: SearchInfo?) {
-        IOActionTask(
-            {
-                val templates = database.getTemplates(isTemplate)
-                val entryTemplate = mTemplate
-                    ?: (entry?.let { database.getTemplate(it) }
-                        ?: Template.STANDARD)
-                var entryInfo: EntryInfo? = null
-                // Decode the entry / load entry info
-                entry?.let {
-                    database.decodeEntryWithTemplateConfiguration(it).let { entry ->
-                        // Load entry info
-                        entry.getEntryInfo(database, true).let { tempEntryInfo ->
-                            // Retrieve data from registration
-                            (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
-                                tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
+        this.mEntryId = entryId
+        this.mParentId = parentId
+        this.mRegisterInfo = registerInfo
+        this.mSearchInfo = searchInfo
+
+        database?.let {
+            mEntryId?.let {
+                IOActionTask(
+                    {
+                        // Create an Entry copy to modify from the database entry
+                        mEntry = database.getEntryById(it)
+                        // Retrieve the parent
+                        mEntry?.let { entry ->
+                            // If no parent, add root group as parent
+                            if (entry.parent == null) {
+                                entry.parent = database.rootGroup
                             }
-                            registerInfo?.let { regInfo ->
-                                tempEntryInfo.saveRegisterInfo(database, regInfo)
-                            }
-                            entryInfo = tempEntryInfo
                         }
+                        // Define if current entry is a template (in direct template group)
+                        mIsTemplate = database.entryIsTemplate(mEntry)
+                        decodeTemplateEntry(
+                            database,
+                            mEntry,
+                            mIsTemplate,
+                            registerInfo,
+                            searchInfo
+                        )
+                    },
+                    { templatesEntry ->
+                        _templatesEntry.value = templatesEntry
                     }
-                }
-                TemplatesEntry(templates, entryTemplate, entryInfo)
-            },
-            { templatesEntry ->
-                _templatesEntry.value = templatesEntry
+                ).execute()
+                mEntryId = null
             }
-        ).execute()
+
+            mParentId?.let {
+                IOActionTask(
+                    {
+                        mParent = database.getGroupById(it)
+                        mParent?.let { parentGroup ->
+                            mEntry = database.createEntry()?.apply {
+                                // Add the default icon from parent if not a folder
+                                val parentIcon = parentGroup.icon
+                                // Set default icon
+                                if (parentIcon.custom.isUnknown
+                                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
+                                ) {
+                                    icon = IconImage(parentIcon.standard)
+                                }
+                                if (!parentIcon.custom.isUnknown) {
+                                    icon = IconImage(parentIcon.custom)
+                                }
+                                // Set default username
+                                username = database.defaultUsername
+                                // Warning only the entry recognize is parent, parent don't yet recognize the new entry
+                                // Useful to recognize child state (ie: entry is a template)
+                                parent = parentGroup
+                            }
+                        }
+                        mIsTemplate = database.entryIsTemplate(mEntry)
+                        decodeTemplateEntry(
+                            database,
+                            mEntry,
+                            mIsTemplate,
+                            registerInfo,
+                            searchInfo
+                        )
+                    },
+                    { templatesEntry ->
+                        _templatesEntry.value = templatesEntry
+                    }
+                ).execute()
+                mParentId = null
+            }
+        }
+    }
+
+    private fun decodeTemplateEntry(database: Database,
+                                    entry: Entry?,
+                                    isTemplate: Boolean,
+                                    registerInfo: RegisterInfo?,
+                                    searchInfo: SearchInfo?): TemplatesEntry {
+        val templates = database.getTemplates(isTemplate)
+        val entryTemplate = entry?.let { database.getTemplate(it) }
+                ?: Template.STANDARD
+        var entryInfo: EntryInfo? = null
+        // Decode the entry / load entry info
+        entry?.let {
+            database.decodeEntryWithTemplateConfiguration(it).let { entry ->
+                // Load entry info
+                entry.getEntryInfo(database, true).let { tempEntryInfo ->
+                    // Retrieve data from registration
+                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
+                        tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
+                    }
+                    registerInfo?.let { regInfo ->
+                        tempEntryInfo.saveRegisterInfo(database, regInfo)
+                    }
+                    entryInfo = tempEntryInfo
+                }
+            }
+        }
+        return TemplatesEntry(isTemplate, templates, entryTemplate, entryInfo)
     }
 
     fun changeTemplate(template: Template) {
-        this.mTemplate = template
         if (_onTemplateChanged.value != template) {
             _onTemplateChanged.value = template
         }
     }
 
-    fun requestEntryInfoUpdate(database: Database?, entry: Entry?, parent: Group?) {
-        _requestEntryInfoUpdate.value = EntryUpdate(database, entry, parent)
+    fun requestEntryInfoUpdate(database: Database?) {
+        _requestEntryInfoUpdate.value = EntryUpdate(database, mEntry, mParent)
     }
 
     fun saveEntryInfo(database: Database?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
@@ -226,7 +312,10 @@ class EntryEditViewModel: NodeEditViewModel() {
         _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
     }
 
-    data class TemplatesEntry(val templates: List<Template>, val defaultTemplate: Template, val entryInfo: EntryInfo?)
+    data class TemplatesEntry(val isTemplate: Boolean,
+                              val templates: List<Template>,
+                              val defaultTemplate: Template,
+                              val entryInfo: EntryInfo?)
     data class EntryUpdate(val database: Database?, val entry: Entry?, val parent: Group?)
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
