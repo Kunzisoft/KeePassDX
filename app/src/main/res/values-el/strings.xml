@@ -599,4 +599,7 @@
     <string name="show_otp_token_summary">Εμφανίζει OTP tokens στη λίστα καταχωρήσεων</string>
     <string name="show_otp_token_title">Εμφάνιση OTP Token</string>
     <string name="menu_external_icon">Εξωτερικό εικονίδιο</string>
+    <string name="autofill_manual_selection_summary">Εμφάνισης επιλογής για να επιτρέψει στον χρήστη να επιλέξει την καταχώρηση βάσης δεδομένων</string>
+    <string name="autofill_manual_selection_title">Χειροκίνητη επιλογή</string>
+    <string name="autofill_select_entry">Επιλογή καταχώρησης…</string>
 </resources>
