@@ -473,7 +473,7 @@
     <string name="data">Дані</string>
     <string name="database_data_remove_unlinked_attachments_title">Вилучити незв\'язані дані</string>
     <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані із записом</string>
-    <string name="show_uuid_summary">Показ пов\'язаного з записом UUID</string>
+    <string name="show_uuid_summary">Показ пов\'язаного з записом чи групою UUID</string>
     <string name="show_uuid_title">Показувати UUID</string>
     <string name="autofill_read_only_save">Збереження даних заборонено для бази даних, відкритої лише для читання.</string>
     <string name="autofill_ask_to_save_data_summary">Запитувати зберігати дані після перевірки форми</string>
@@ -596,4 +596,7 @@
     <string name="holder">Власник</string>
     <string name="debit_credit_card">Дебетова / кредитна картка</string>
     <string name="template_group_name">Шаблони</string>
+    <string name="show_otp_token_summary">Показує токени OTP у списку записів</string>
+    <string name="show_otp_token_title">Показувати токен OTP</string>
+    <string name="menu_external_icon">Зовнішня піктограма</string>
 </resources>

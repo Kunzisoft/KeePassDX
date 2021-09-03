@@ -346,7 +346,7 @@
     <string name="menu_advanced_unlock_settings">Sblocco avanzato</string>
     <string name="entry_history">Cronologia</string>
     <string name="entry_setup_otp">Imposta password usa e getta</string>
-    <string name="otp_type">Tipo di password OTP</string>
+    <string name="otp_type">Tipo di OTP</string>
     <string name="otp_secret">Segreto</string>
     <string name="otp_period">Periodo (secondi)</string>
     <string name="otp_counter">Contatore</string>
@@ -476,7 +476,7 @@
 \n
 \nIl tuo database può diventare molto grande e ridurre le prestazioni con questo caricamento.</string>
     <string name="content_description_credentials_information">Info credenziali</string>
-    <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce</string>
+    <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce o a un gruppo</string>
     <string name="show_uuid_title">Mostra UUID</string>
     <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
     <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando un modulo viene convalidato</string>
@@ -599,4 +599,7 @@
     <string name="holder">Titolare</string>
     <string name="debit_credit_card">Carta di debito / credito</string>
     <string name="template_group_name">Modelli</string>
+    <string name="menu_external_icon">Icona esterna</string>
+    <string name="show_otp_token_summary">Mostra i token OTP nella lista delle voci</string>
+    <string name="show_otp_token_title">Mostra token OTP</string>
 </resources>

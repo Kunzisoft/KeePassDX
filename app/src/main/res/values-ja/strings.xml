@@ -366,9 +366,9 @@
     <string name="keyboard_notification_entry_title">通知情報</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="keyboard_search_share_title">共有情報の検索</string>
-    <string name="keyboard_search_share_summary">共有情報を自動的に検索して、結果をキーボードに格納します</string>
+    <string name="keyboard_search_share_summary">URL を KeePassDX に共有するとそのドメインを使ってエントリーを検索します</string>
     <string name="keyboard_save_search_info_title">共有情報の保存</string>
-    <string name="keyboard_save_search_info_summary">手動でエントリーを選択したとき、共有情報の保存を試みます</string>
+    <string name="keyboard_save_search_info_summary">KeePassDX に URL を共有して、エントリーが選択されたとき、さらなる使用のためそのエントリーを記憶しておきます</string>
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるとき、データベースも閉じます</string>
     <string name="keyboard_entry_timeout_title">タイムアウト</string>
@@ -489,7 +489,7 @@
     <string name="hide_expired_entries_title">有効期限切れのエントリーを非表示にする</string>
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>
     <string name="show_uuid_title">UUID を表示</string>
-    <string name="show_uuid_summary">エントリーにリンクされた UUID を表示します</string>
+    <string name="show_uuid_summary">エントリーやグループにリンクされた UUID を表示します</string>
     <string name="autofill_read_only_save">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
@@ -567,7 +567,7 @@
     <string name="templates">Templates</string>
     <string name="secure_note">セキュアメモ</string>
     <string name="bank_identifier_code">SWIFTコード</string>
-    <string name="international_bank_account_number"></string>
+    <string name="international_bank_account_number"/>
     <string name="bank_name">銀行名</string>
     <string name="bank">銀行</string>
     <string name="account">口座</string>
@@ -588,4 +588,10 @@
     <string name="holder">所有者</string>
     <string name="template_group_name">Templates</string>
     <string name="debit_credit_card">クレジットカード/デビットカード</string>
+    <string name="show_otp_token_summary">エントリーの一覧にOTP トークンを表示します</string>
+    <string name="show_otp_token_title">OTP トークンを表示</string>
+    <string name="version">バージョン</string>
+    <string name="standard">標準</string>
+    <string name="membership">メンバーシップ</string>
+    <string name="type">Type</string>
 </resources>
