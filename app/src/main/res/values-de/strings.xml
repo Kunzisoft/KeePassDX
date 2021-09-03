@@ -203,7 +203,7 @@
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_autofill_service_title">Standarddienst für automatisches Ausfüllen festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare schnell in anderen Apps auszufüllen</string>
-    <string name="autofill_select_entry">Eintrag auswählen</string>
+    <string name="autofill_select_entry">Eintrag auswählen…</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperrerkennung zusammenhängen</string>
