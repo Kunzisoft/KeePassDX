@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 class SearchInfo : ObjectNameResource, Parcelable {
-
+    var manualSelection: Boolean = false
     var applicationId: String? = null
         set(value) {
             field = when {

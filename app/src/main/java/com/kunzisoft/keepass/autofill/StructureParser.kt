@@ -143,19 +143,19 @@ class StructureParser(private val structure: AssistStructure) {
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
-                it.contains("cc-name", true) -> {
+                it.equals("cc-name", true) -> {
                     Log.d(TAG, "Autofill credit card name hint")
                     result?.creditCardHolderId = autofillId
                     result?.creditCardHolder = node.autofillValue?.textValue?.toString()
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_NUMBER, true)
-                        || it.contains("cc-number", true) -> {
+                        || it.equals("cc-number", true) -> {
                     Log.d(TAG, "Autofill credit card number hint")
                     result?.creditCardNumberId = autofillId
                     result?.creditCardNumber = node.autofillValue?.textValue?.toString()
                 }
                 // expect date string as defined in https://html.spec.whatwg.org, e.g. 2014-12
-                it.contains("cc-exp", true) -> {
+                it.equals("cc-exp", true) -> {
                     Log.d(TAG, "Autofill credit card expiration date hint")
                     result?.creditCardExpirationDateId = autofillId
                     node.autofillValue?.let { value ->
@@ -182,7 +182,7 @@ class StructureParser(private val structure: AssistStructure) {
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR, true)
-                        || it.contains("cc-exp-year", true) -> {
+                        || it.equals("cc-exp-year", true) -> {
                     Log.d(TAG, "Autofill credit card expiration year hint")
                     result?.creditCardExpirationYearId = autofillId
                     if (node.autofillOptions != null) {
@@ -204,7 +204,7 @@ class StructureParser(private val structure: AssistStructure) {
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH, true)
-                        || it.contains("cc-exp-month", true) -> {
+                        || it.equals("cc-exp-month", true) -> {
                     Log.d(TAG, "Autofill credit card expiration month hint")
                     result?.creditCardExpirationMonthId = autofillId
                     if (node.autofillOptions != null) {
@@ -227,7 +227,7 @@ class StructureParser(private val structure: AssistStructure) {
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DAY, true)
-                        || it.contains("cc-exp-day", true) -> {
+                        || it.equals("cc-exp-day", true) -> {
                     Log.d(TAG, "Autofill credit card expiration day hint")
                     result?.creditCardExpirationDayId = autofillId
                     if (node.autofillOptions != null) {
@@ -399,7 +399,6 @@ class StructureParser(private val structure: AssistStructure) {
     class Result {
         var isWebView: Boolean = false
         var applicationId: String? = null
-
         var webDomain: String? = null
             set(value) {
                 if (field == null)

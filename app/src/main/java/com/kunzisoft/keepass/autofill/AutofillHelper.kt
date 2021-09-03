@@ -25,6 +25,7 @@ import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -37,11 +38,13 @@ import android.view.autofill.AutofillValue
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
+import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
@@ -51,7 +54,6 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -126,12 +128,14 @@ object AutofillHelper {
         if (entryInfo.expires) {
             val year = entryInfo.expiryTime.getYearInt()
             val month = entryInfo.expiryTime.getMonthInt()
+            val monthString = month.toString().padStart(2, '0')
             val day = entryInfo.expiryTime.getDay()
+            val dayString = day.toString().padStart(2, '0')
 
             struct.creditCardExpirationDateId?.let {
                 if (struct.isWebView) {
                     // set date string as defined in https://html.spec.whatwg.org
-                    builder.setValue(it, AutofillValue.forText("$year\u002D$month"))
+                    builder.setValue(it, AutofillValue.forText("$year\u002D$monthString"))
                 } else {
                     builder.setValue(it, AutofillValue.forDate(entryInfo.expiryTime.date.time))
                 }
@@ -157,24 +161,24 @@ object AutofillHelper {
             }
             struct.creditCardExpirationMonthId?.let {
                 if (struct.isWebView) {
-                    builder.setValue(it, AutofillValue.forText(month.toString()))
+                    builder.setValue(it, AutofillValue.forText(monthString))
                 } else {
                     if (struct.creditCardExpirationMonthOptions != null) {
                         // index starts at 0
                         builder.setValue(it, AutofillValue.forList(month - 1))
                     } else {
-                        builder.setValue(it, AutofillValue.forText(month.toString()))
+                        builder.setValue(it, AutofillValue.forText(monthString))
                     }
                 }
             }
             struct.creditCardExpirationDayId?.let {
                 if (struct.isWebView) {
-                    builder.setValue(it, AutofillValue.forText(day.toString()))
+                    builder.setValue(it, AutofillValue.forText(dayString))
                 } else {
                     if (struct.creditCardExpirationDayOptions != null) {
                         builder.setValue(it, AutofillValue.forList(day - 1))
                     } else {
-                        builder.setValue(it, AutofillValue.forText(day.toString()))
+                        builder.setValue(it, AutofillValue.forText(dayString))
                     }
                 }
             }
@@ -270,6 +274,27 @@ object AutofillHelper {
         return null
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("RestrictedApi")
+    private fun buildInlinePresentationForManualSelection(context: Context,
+                                                          inlinePresentationSpec: InlinePresentationSpec,
+                                                          pendingIntent: PendingIntent): InlinePresentation? {
+        // Make sure that the IME spec claims support for v1 UI template.
+        val imeStyle = inlinePresentationSpec.style
+        if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+            return null
+
+        // Build the content for IME UI
+        return InlinePresentation(
+                InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                    setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                    setTitle(context.getString(R.string.autofill_manual_selection_prompt))
+                    setStartIcon(Icon.createWithResource(context, R.drawable.ic_arrow_right_green_24dp).apply {
+                        setTintBlendMode(BlendMode.DST)
+                    })
+                }.build().slice, inlinePresentationSpec, false)
+    }
+
     fun buildResponse(context: Context,
                       database: Database,
                       entriesInfo: List<EntryInfo>,
@@ -293,17 +318,59 @@ object AutofillHelper {
         }
 
         // Add inline suggestion for new IME and dataset
-        entriesInfo.forEachIndexed { index, entryInfo ->
-            val inlinePresentation = inlineSuggestionsRequest?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, index, entryInfo)
-                } else {
-                    null
+        var numberInlineSuggestions = 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            inlineSuggestionsRequest?.let {
+                numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
+                if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+                    if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
+                        --numberInlineSuggestions
+                    }
                 }
             }
-            val dataSet = buildDataset(context, database, entryInfo, parseResult, inlinePresentation)
-            dataSet?.let {
-                responseBuilder.addDataset(it)
+
+        }
+
+        entriesInfo.forEachIndexed { _, entry ->
+            val inlinePresentation = if (numberInlineSuggestions > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                inlineSuggestionsRequest?.let {
+                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, numberInlineSuggestions--, entry)
+                }
+            } else {
+                null
+            }
+            responseBuilder.addDataset(buildDataset(context, database, entry, parseResult, inlinePresentation))
+        }
+
+        if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+            val searchInfo = SearchInfo().apply {
+                applicationId = parseResult.applicationId
+                webDomain = parseResult.webDomain
+                webScheme = parseResult.webScheme
+                manualSelection = true
+            }
+            val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_entry)
+            manualSelectionView.setTextViewText(R.id.autofill_entry_text, context.getString(R.string.autofill_manual_selection_prompt))
+            val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
+                    searchInfo, inlineSuggestionsRequest)
+
+            parseResult.allAutofillIds().let { autofillIds ->
+                autofillIds.forEach { id ->
+                    val builder = Dataset.Builder(manualSelectionView)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        inlineSuggestionsRequest?.let {
+                            val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                            val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                            inlinePresentation?.let {
+                                builder.setInlinePresentation(it)
+                            }
+                        }
+                    }
+                    builder.setValue(id, AutofillValue.forText("dummy"))
+                    builder.setAuthentication(pendingIntent.intentSender)
+                    responseBuilder.addDataset(builder.build())
+                }
             }
         }
 

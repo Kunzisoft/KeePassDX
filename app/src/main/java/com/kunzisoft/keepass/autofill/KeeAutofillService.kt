@@ -161,8 +161,8 @@ class KeeAutofillService : AutofillService() {
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(this,
-                        searchInfo, inlineSuggestionsRequest)
+                val intentSender = AutofillLauncherActivity.getPendingIntentForSelection(this,
+                        searchInfo, inlineSuggestionsRequest).intentSender
                 val responseBuilder = FillResponse.Builder()
                 val remoteViewsUnlock: RemoteViews = if (database == null) {
                     if (!parseResult.webDomain.isNullOrEmpty()) {
