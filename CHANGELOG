@@ -4,7 +4,8 @@ KeePassDX(3.0.0)
  * Setting to display OTP Token in list #655
  * Fix timeout in dialogs #716
  * Check URI permissions #626
- * Improvements #1035 #1043 #942 #1021 #1027
+ * Better autofill implementation #943 #946 #984 #1070 (Thx @uduerholz)
+ * Improvements #680 #1035 #1043 #942 #1021 #1027
 
 KeePassDX(2.10.5)
  * Increase the saving speed of database #1028
