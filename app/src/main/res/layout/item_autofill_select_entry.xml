@@ -18,7 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:minHeight="36dp"
     android:orientation="horizontal">
     <ImageView
         android:layout_width="24dp"
@@ -26,7 +26,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/autofill_select_entry"
         android:src="@drawable/ic_arrow_right_green_24dp"/>
     <TextView
         android:layout_width="wrap_content"
@@ -38,5 +38,5 @@
         android:paddingEnd="12dp"
         android:paddingLeft="12dp"
         android:paddingStart="12dp"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
 </LinearLayout>

@@ -288,7 +288,7 @@ object AutofillHelper {
         return InlinePresentation(
                 InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
                     setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
-                    setTitle(context.getString(R.string.autofill_manual_selection_prompt))
+                    setTitle(context.getString(R.string.autofill_select_entry))
                     setStartIcon(Icon.createWithResource(context, R.drawable.ic_arrow_right_green_24dp).apply {
                         setTintBlendMode(BlendMode.DST)
                     })
@@ -349,8 +349,7 @@ object AutofillHelper {
                 webScheme = parseResult.webScheme
                 manualSelection = true
             }
-            val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_entry)
-            manualSelectionView.setTextViewText(R.id.autofill_entry_text, context.getString(R.string.autofill_manual_selection_prompt))
+            val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_select_entry)
             val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
                     searchInfo, inlineSuggestionsRequest)
 
@@ -367,7 +366,7 @@ object AutofillHelper {
                             }
                         }
                     }
-                    builder.setValue(id, AutofillValue.forText("dummy"))
+                    builder.setValue(id, null)
                     builder.setAuthentication(pendingIntent.intentSender)
                     responseBuilder.addDataset(builder.build())
                 }
