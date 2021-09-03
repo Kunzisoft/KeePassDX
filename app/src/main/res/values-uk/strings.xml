@@ -599,4 +599,7 @@
     <string name="show_otp_token_summary">Показує токени OTP у списку записів</string>
     <string name="show_otp_token_title">Показувати токен OTP</string>
     <string name="menu_external_icon">Зовнішня піктограма</string>
+    <string name="autofill_manual_selection_summary">Параметр показу, який дає користувачеві змогу вибрати запис бази даних</string>
+    <string name="autofill_manual_selection_title">Вибір вручну</string>
+    <string name="autofill_select_entry">Вибрати запис…</string>
 </resources>
