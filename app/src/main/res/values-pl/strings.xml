@@ -599,4 +599,7 @@
     <string name="show_otp_token_summary">Wyświetla tokeny OTP na liście wpisów</string>
     <string name="show_otp_token_title">Pokaż token OTP</string>
     <string name="menu_external_icon">Ikona zewnętrzna</string>
+    <string name="autofill_manual_selection_summary">Wyświetl opcję pozwalającą użytkownikowi wybrać wpis bazy danych</string>
+    <string name="autofill_manual_selection_title">Wybór ręczny</string>
+    <string name="autofill_select_entry">Wybierz wpis…</string>
 </resources>
