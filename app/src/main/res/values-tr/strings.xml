@@ -594,4 +594,7 @@
     <string name="show_otp_token_summary">Girdiler listesinde OTP belirteçlerini görüntüler</string>
     <string name="show_otp_token_title">OTP Belirtecini Göster</string>
     <string name="menu_external_icon">Harici simge</string>
+    <string name="autofill_manual_selection_summary">Kullanıcının veri tabanı girdisini seçmesine izin veren seçeneği göster</string>
+    <string name="autofill_manual_selection_title">Elle seçim</string>
+    <string name="autofill_select_entry">Girdi seç…</string>
 </resources>
