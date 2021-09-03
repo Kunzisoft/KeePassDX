@@ -352,6 +352,7 @@
     <string name="autofill_service_name">KeePassDX form autofilling</string>
     <string name="autofill_sign_in_prompt">Sign in with KeePassDX</string>
     <string name="autofill_explanation_summary">Enable autofilling to quickly fill out forms in other apps</string>
+    <string name="autofill_select_entry">Select entry</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
     <string name="autofill_preference_title">Autofill settings</string>
     <string name="password_size_title">Generated password size</string>
