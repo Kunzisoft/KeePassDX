@@ -599,4 +599,7 @@
     <string name="show_otp_token_summary">在条目列表中显示 OTP 令牌</string>
     <string name="show_otp_token_title">显示 OTP 令牌</string>
     <string name="menu_external_icon">外部图标</string>
+    <string name="autofill_manual_selection_summary">显示让用户选择数据库条目的选项</string>
+    <string name="autofill_manual_selection_title">手动选择</string>
+    <string name="autofill_select_entry">选择条目…</string>
 </resources>
