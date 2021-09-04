@@ -478,6 +478,7 @@
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
     <string name="custom_fields">Custom fields</string>
+    <string name="previous_password">Previous password</string>
     <string name="back_to_previous_keyboard">Back to previous keyboard</string>
     <string name="select_entry">Select entry</string>
     <string name="backspace">Backspace</string>

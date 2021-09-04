@@ -371,6 +371,23 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         } else null
     }
 
+    fun getPreviousPassword(): String? {
+        var previousPassword: String? = null
+
+        val sortedHistory = history.sortedByDescending { entry ->
+            entry.lastModificationTime.date
+        }
+
+        for (entry in sortedHistory) {
+            if (entry.password != password) {
+                previousPassword = entry.password
+                break
+            }
+        }
+
+        return previousPassword
+    }
+
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
         usageCount.plusOne()

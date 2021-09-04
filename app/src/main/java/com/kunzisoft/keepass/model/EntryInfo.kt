@@ -42,6 +42,7 @@ class EntryInfo : NodeInfo {
     var notes: String = ""
     var customFields: MutableList<Field> = mutableListOf()
     var attachments: MutableList<Attachment> = mutableListOf()
+    var previousPassword: String? = null
     var otpModel: OtpModel? = null
     var isTemplate: Boolean = false
 
@@ -55,6 +56,7 @@ class EntryInfo : NodeInfo {
         notes = parcel.readString() ?: notes
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
+        previousPassword = parcel.readString() ?: previousPassword
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
         isTemplate = parcel.readByte().toInt() != 0
     }
@@ -72,6 +74,7 @@ class EntryInfo : NodeInfo {
         parcel.writeString(notes)
         parcel.writeList(customFields)
         parcel.writeList(attachments)
+        parcel.writeString(previousPassword)
         parcel.writeParcelable(otpModel, flags)
         parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }

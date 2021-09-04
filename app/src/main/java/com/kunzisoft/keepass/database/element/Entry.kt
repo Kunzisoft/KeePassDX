@@ -383,6 +383,10 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return entryKDBX?.getSize(attachmentPool) ?: 0L
     }
 
+    private fun getPreviousPassword(): String? {
+        return entryKDBX?.getPreviousPassword()
+    }
+
     /*
       ------------
       Converter
@@ -420,6 +424,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.url = url
             entryInfo.notes = notes
             entryInfo.customFields = getExtraFields().toMutableList()
+            entryInfo.previousPassword = getPreviousPassword()
             // Add otpElement to generate token
             entryInfo.otpModel = getOtpElement()?.otpModel
             if (!raw) {

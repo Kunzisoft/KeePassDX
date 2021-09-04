@@ -278,6 +278,12 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 }
                 popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
             }
+            KEY_PREVIOUS_PASSWORD -> {
+                if (entryInfoKey != null && entryInfoKey!!.previousPassword != null) {
+                    currentInputConnection.commitText((entryInfoKey!!.previousPassword), 1)
+                }
+                actionTabAutomatically()
+            }
             Keyboard.KEYCODE_DELETE -> {
                 inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
             }
@@ -349,6 +355,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         private const val KEY_OTP = 515
         private const val KEY_URL = 520
         private const val KEY_FIELDS = 530
+        private const val KEY_PREVIOUS_PASSWORD = 545
 
         // TODO Retrieve entry info from id and service when database is open
         private var entryInfoKey: EntryInfo? = null
