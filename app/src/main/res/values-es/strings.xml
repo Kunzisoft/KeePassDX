@@ -601,4 +601,7 @@
     <string name="show_otp_token_summary">Muestra los tokens OTP en la lista de entradas</string>
     <string name="show_otp_token_title">Mostrar token OTP</string>
     <string name="menu_external_icon">Icono externo</string>
+    <string name="autofill_manual_selection_summary">Mostrar opción para permitir al usuario seleccionar la entrada de la base de datos</string>
+    <string name="autofill_manual_selection_title">Selección manual</string>
+    <string name="autofill_select_entry">Seleccionar entrada…</string>
 </resources>
