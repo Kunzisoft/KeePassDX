@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.autofill
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.assist.AssistStructure
 import android.content.Intent
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
@@ -95,11 +96,15 @@ class KeeAutofillService : AutofillService() {
             mLock.set(true)
             // Check user's settings for authenticating Responses and Datasets.
             val latestStructure = request.fillContexts.last().structure
+
             StructureParser(latestStructure).parse()?.let { parseResult ->
 
                 // Build search info only if applicationId or webDomain are not blocked
                 if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
                         && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+
+                    parseResult.focusedId = getIdWithFocus(request.fillContexts.last())
+
                     val searchInfo = SearchInfo().apply {
                         applicationId = parseResult.applicationId
                         webDomain = parseResult.webDomain
@@ -122,6 +127,37 @@ class KeeAutofillService : AutofillService() {
                 }
             }
         }
+    }
+
+    private fun getIdWithFocus(fillContext: FillContext) : AutofillId? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return fillContext.focusedId
+        } else {
+            val structure: AssistStructure = fillContext.structure
+
+            for (i in 0 until structure.windowNodeCount) {
+                val windowNode = structure.getWindowNodeAt(i)
+                val autofillId = traverse(windowNode.rootViewNode)
+                if (autofillId != null) {
+                    return autofillId
+                }
+            }
+        }
+        return null
+    }
+
+    private fun traverse(node: AssistStructure.ViewNode) : AutofillId? {
+        if (node.isFocused) {
+            return node.autofillId
+        } else {
+            for (i in 0 until node.childCount) {
+                val autoFillId = traverse(node.getChildAt(i))
+                if (autoFillId != null) {
+                    return autoFillId
+                }
+            }
+        }
+        return null
     }
 
     private fun launchSelection(database: Database?,

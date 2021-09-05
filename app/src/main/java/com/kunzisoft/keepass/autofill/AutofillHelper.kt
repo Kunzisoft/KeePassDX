@@ -25,7 +25,6 @@ import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -33,12 +32,12 @@ import android.service.autofill.Dataset
 import android.service.autofill.FillResponse
 import android.service.autofill.InlinePresentation
 import android.util.Log
+import android.view.autofill.AutofillId
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
-import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
@@ -50,8 +49,12 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.otp.OtpTokenType
+import com.kunzisoft.keepass.otp.OtpType
+import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlin.collections.ArrayList
@@ -87,6 +90,14 @@ object AutofillHelper {
         if (entryInfo.username.isNotEmpty())
             return entryInfo.username
         return ""
+    }
+
+    private fun makeOTPEntryTitle(entryInfo: EntryInfo): String {
+        if (entryInfo.username.isNotEmpty())
+            return String.format("OTP (%s)", entryInfo.username)
+        if (entryInfo.title.isNotEmpty())
+            return String.format("OTP (%s)", entryInfo.title)
+        return "OTP"
     }
 
     private fun newRemoteViews(context: Context,
@@ -215,6 +226,55 @@ object AutofillHelper {
         }
     }
 
+    private fun buildOTPDataset(context: Context,
+                                database: Database,
+                                entryInfo: EntryInfo,
+                                struct: StructureParser.Result,
+                                inlinePresentation: InlinePresentation?): Dataset? {
+        val otpModel: OtpModel? = entryInfo.otpModel
+        val title = makeOTPEntryTitle(entryInfo)
+        val views = newRemoteViews(context, database, title, entryInfo.icon)
+        val builder = Dataset.Builder(views)
+
+        if (otpModel?.secret == null)
+            return null
+
+        val autoFillId: AutofillId? = when {
+            struct.OTPId != null -> {
+                struct.OTPId
+            }
+            else -> {
+                struct.focusedId
+            }
+        }
+
+        if (autoFillId != null) {
+            otpModel.run {
+                // calculate OTP value
+                val token: String =
+                        when (type) {
+                            OtpType.HOTP -> TokenCalculator.HOTP(secret, counter, digits, algorithm)
+                            OtpType.TOTP -> when (tokenType) {
+                                OtpTokenType.STEAM -> TokenCalculator.TOTP_Steam(secret, period, digits, algorithm)
+                                else -> TokenCalculator.TOTP_RFC6238(secret, period, digits, algorithm)
+                            }
+                        }
+                builder.setValue(autoFillId, AutofillValue.forText(token))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    inlinePresentation?.let {
+                        builder.setInlinePresentation(it)
+                    }
+                }
+                return try {
+                    builder.build()
+                } catch (e: Exception) {
+                    null
+                }
+            }
+        }
+        return null
+    }
+
     /**
      * Method to assign a drawable to a new icon from a database icon
      */
@@ -276,23 +336,70 @@ object AutofillHelper {
 
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
-    private fun buildInlinePresentationForManualSelection(context: Context,
-                                                          inlinePresentationSpec: InlinePresentationSpec,
-                                                          pendingIntent: PendingIntent): InlinePresentation? {
-        // Make sure that the IME spec claims support for v1 UI template.
-        val imeStyle = inlinePresentationSpec.style
-        if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
-            return null
+    private fun buildInlinePresentationForOTPEntry(context: Context,
+                                                   inlineSuggestionsRequest: InlineSuggestionsRequest,
+                                                   positionItem: Int,
+                                                   entryInfo: EntryInfo): InlinePresentation? {
+        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+        val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
 
-        // Build the content for IME UI
-        return InlinePresentation(
-                InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
-                    setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
-                    setTitle(context.getString(R.string.autofill_manual_selection_prompt))
-                    setStartIcon(Icon.createWithResource(context, R.drawable.ic_arrow_right_green_24dp).apply {
-                        setTintBlendMode(BlendMode.DST)
-                    })
-                }.build().slice, inlinePresentationSpec, false)
+        if (positionItem <= maxSuggestion - 1
+                && inlinePresentationSpecs.size > positionItem) {
+            val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
+
+            // Make sure that the IME spec claims support for v1 UI template.
+            val imeStyle = inlinePresentationSpec.style
+            if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+                return null
+
+            // Build the content for IME UI
+            val pendingIntent = PendingIntent.getActivity(context,
+                    0,
+                    Intent(context, AutofillSettingsActivity::class.java),
+                    0)
+            return InlinePresentation(
+                    InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                        setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                        setTitle(makeOTPEntryTitle(entryInfo))
+                        setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
+                            setTintBlendMode(BlendMode.DST)
+                        })
+                        setEndIcon(Icon.createWithResource(context, R.drawable.ic_otp_green_24dp).apply {
+                            setTintBlendMode(BlendMode.DST)
+                        })
+                    }.build().slice, inlinePresentationSpec, false)
+        }
+        return null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("RestrictedApi")
+    private fun buildInlinePresentationForManualSelection(context: Context,
+                                                          inlineSuggestionsRequest: InlineSuggestionsRequest,
+                                                          pendingIntent: PendingIntent,
+                                                          positionItem: Int): InlinePresentation? {
+        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+        val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
+
+        if (positionItem <= maxSuggestion - 1
+                && inlinePresentationSpecs.size > positionItem) {
+            val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
+            // Make sure that the IME spec claims support for v1 UI template.
+            val imeStyle = inlinePresentationSpec.style
+            if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+                return null
+
+            // Build the content for IME UI
+            return InlinePresentation(
+                    InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                        setContentDescription(context.getString(R.string.autofill_manual_selection_summary))
+                        setTitle(context.getString(R.string.autofill_manual_selection_prompt))
+                        setStartIcon(Icon.createWithResource(context, R.drawable.ic_arrow_right_green_24dp).apply {
+                            setTintBlendMode(BlendMode.DST)
+                        })
+                    }.build().slice, inlinePresentationSpec, false)
+        }
+        return null
     }
 
     fun buildResponse(context: Context,
@@ -317,29 +424,54 @@ object AutofillHelper {
             }
         }
 
-        // Add inline suggestion for new IME and dataset
-        var numberInlineSuggestions = 0
+        var maxInlineItems = entriesInfo.size
+        var inlinePosition = 0
+
+        // if inline suggestions are supported
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             inlineSuggestionsRequest?.let {
-                numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
-                if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
-                    if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
-                        --numberInlineSuggestions
-                    }
-                }
+                maxInlineItems = it.maxSuggestionCount
             }
-
+            if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+                --maxInlineItems
+            }
+            if (PreferencesUtil.isAutofillOTPSelectionEnable(context)) {
+                --maxInlineItems
+            }
         }
 
+        val entriesToDisplay = minOf(maxInlineItems, entriesInfo.size)
+
         entriesInfo.forEachIndexed { _, entry ->
-            val inlinePresentation = if (numberInlineSuggestions > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                inlineSuggestionsRequest?.let {
-                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, numberInlineSuggestions--, entry)
-                }
-            } else {
+            val inlinePresentation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && inlinePosition < entriesToDisplay) {
+                    inlineSuggestionsRequest?.let {
+                        buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, inlinePosition++, entry)
+                    }
+                } else {
                 null
             }
+
             responseBuilder.addDataset(buildDataset(context, database, entry, parseResult, inlinePresentation))
+        }
+
+        if (PreferencesUtil.isAutofillOTPSelectionEnable(context)) {
+            for (entry in entriesInfo) {
+                entry.otpModel?.let {
+                    val inlinePresentation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        inlineSuggestionsRequest?.let {
+                            buildInlinePresentationForOTPEntry(context, inlineSuggestionsRequest, inlinePosition++, entry)
+                        }
+                    } else {
+                        null
+                    }
+                    responseBuilder.addDataset(buildOTPDataset(context, database, entry, parseResult, inlinePresentation))
+                }
+
+                // show only the first OTP value, if there is more than one
+                if (entry.otpModel != null) {
+                    break
+                }
+            }
         }
 
         if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
@@ -360,8 +492,7 @@ object AutofillHelper {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         inlineSuggestionsRequest?.let {
-                            val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
-                            val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                            val inlinePresentation = buildInlinePresentationForManualSelection(context, inlineSuggestionsRequest, pendingIntent, inlinePosition)
                             inlinePresentation?.let {
                                 builder.setInlinePresentation(it)
                             }

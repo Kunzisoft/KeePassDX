@@ -490,6 +490,9 @@
     <string name="autofill_manual_selection_prompt">Select entry...</string>
     <string name="autofill_manual_selection_title">Manual selection</string>
     <string name="autofill_manual_selection_summary">Display option to let the user select database entry</string>
+    <string name="autofill_otp_selection_prompt">OTP</string>
+    <string name="autofill_otp_selection_title">OTP</string>
+    <string name="autofill_otp_selection_summary">Suggest OTP value if available</string>
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>

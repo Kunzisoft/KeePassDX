@@ -48,6 +48,7 @@ class StructureParser(private val structure: AssistStructure) {
                 allowSaveValues = saveValue
                 usernameIdCandidate = null
                 usernameValueCandidate = null
+
                 mainLoop@ for (i in 0 until structure.windowNodeCount) {
                     val windowNode = structure.getWindowNodeAt(i)
                     applicationId = windowNode.title.toString().split("/")[0]
@@ -65,10 +66,7 @@ class StructureParser(private val structure: AssistStructure) {
                 }
             }
 
-            return if (result?.passwordId != null || result?.creditCardNumberId != null)
-                    result
-                else
-                    null
+            return result;
         } catch (e: Exception) {
             return null
         }
@@ -129,6 +127,7 @@ class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
+                it.equals("one-time-code") -> { result?.OTPId = autofillId }
                 it.contains(View.AUTOFILL_HINT_USERNAME, true)
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
@@ -417,6 +416,19 @@ class StructureParser(private val structure: AssistStructure) {
         var creditCardExpirationMonthOptions: Array<CharSequence>? = null
         var creditCardExpirationDayOptions: Array<CharSequence>? = null
 
+        // the AutofillId of the view that triggered autofill.
+        var focusedId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var OTPId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
         var usernameId: AutofillId? = null
             set(value) {
                 if (field == null)
@@ -486,6 +498,9 @@ class StructureParser(private val structure: AssistStructure) {
                 all.add(it)
             }
             cardVerificationValueId?.let {
+                all.add(it)
+            }
+            OTPId?.let {
                 all.add(it)
             }
             return all.toTypedArray()
