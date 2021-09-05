@@ -174,14 +174,14 @@ class KeeAutofillService : AutofillService() {
                                     items, parseResult, inlineSuggestionsRequest)
                     )
                 },
-                {
+                { openedDatabase ->
                     // Show UI if no search result
-                    showUIForEntrySelection(parseResult,
+                    showUIForEntrySelection(parseResult, openedDatabase,
                             searchInfo, inlineSuggestionsRequest, callback)
                 },
                 {
                     // Show UI if database not open
-                    showUIForEntrySelection(parseResult,
+                    showUIForEntrySelection(parseResult, null,
                             searchInfo, inlineSuggestionsRequest, callback)
                 }
         )
@@ -189,6 +189,7 @@ class KeeAutofillService : AutofillService() {
 
     @SuppressLint("RestrictedApi")
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
+                                        database: Database?,
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                         callback: FillCallback) {
@@ -199,16 +200,48 @@ class KeeAutofillService : AutofillService() {
                 val intentSender = AutofillLauncherActivity.getPendingIntentForSelection(this,
                         searchInfo, inlineSuggestionsRequest).intentSender
                 val responseBuilder = FillResponse.Builder()
-                val remoteViewsUnlock: RemoteViews = if (!parseResult.webDomain.isNullOrEmpty()) {
-                    RemoteViews(packageName, R.layout.item_autofill_unlock_web_domain).apply {
-                        setTextViewText(R.id.autofill_web_domain_text, parseResult.webDomain)
-                    }
-                } else if (!parseResult.applicationId.isNullOrEmpty()) {
-                    RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
-                        setTextViewText(R.id.autofill_app_id_text, parseResult.applicationId)
+                val remoteViewsUnlock: RemoteViews = if (database == null) {
+                    if (!parseResult.webDomain.isNullOrEmpty()) {
+                        RemoteViews(
+                            packageName,
+                            R.layout.item_autofill_unlock_web_domain
+                        ).apply {
+                            setTextViewText(
+                                R.id.autofill_web_domain_text,
+                                parseResult.webDomain
+                            )
+                        }
+                    } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                        RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
+                            setTextViewText(
+                                R.id.autofill_app_id_text,
+                                parseResult.applicationId
+                            )
+                        }
+                    } else {
+                        RemoteViews(packageName, R.layout.item_autofill_unlock)
                     }
                 } else {
-                    RemoteViews(packageName, R.layout.item_autofill_unlock)
+                    if (!parseResult.webDomain.isNullOrEmpty()) {
+                        RemoteViews(
+                            packageName,
+                            R.layout.item_autofill_select_entry_web_domain
+                        ).apply {
+                            setTextViewText(
+                                R.id.autofill_web_domain_text,
+                                parseResult.webDomain
+                            )
+                        }
+                    } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                        RemoteViews(packageName, R.layout.item_autofill_select_entry_app_id).apply {
+                            setTextViewText(
+                                R.id.autofill_app_id_text,
+                                parseResult.applicationId
+                            )
+                        }
+                    } else {
+                        RemoteViews(packageName, R.layout.item_autofill_select_entry)
+                    }
                 }
 
                 // Tell the autofill framework the interest to save credentials

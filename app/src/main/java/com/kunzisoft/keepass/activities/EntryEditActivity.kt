@@ -48,12 +48,9 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
-import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.*
@@ -95,15 +92,10 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
 
-    private var mEntryId: NodeId<UUID>? = null
-    private var mParentId: NodeId<*>? = null
-    private var mRegisterInfo: RegisterInfo? = null
-    private var mSearchInfo: SearchInfo? = null
-
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
-    private var mParent: Group? = null
-    private var mEntry: Entry? = null
+    private var mTemplate: Template? = null
     private var mIsTemplate: Boolean = false
+    private var mEntryLoaded: Boolean = false
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -138,22 +130,27 @@ class EntryEditActivity : DatabaseLockActivity(),
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
-        mRegisterInfo = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-        mSearchInfo = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
-
         // Entry is retrieve, it's an entry to update
+        var entryId: NodeId<UUID>? = null
         intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
-            //intent.removeExtra(KEY_ENTRY)
-            mEntryId = entryToUpdate
+            intent.removeExtra(KEY_ENTRY)
+            entryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
+        var parentId: NodeId<*>? = null
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
-            //intent.removeExtra(KEY_PARENT)
-            mParentId = parent
+            intent.removeExtra(KEY_PARENT)
+            parentId = parent
         }
 
-        retrieveEntry(mDatabase)
+        mEntryEditViewModel.loadTemplateEntry(
+            mDatabase,
+            entryId,
+            parentId,
+            EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent),
+            EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        )
 
         // To retrieve attachment
         mExternalFileHelper = ExternalFileHelper(this)
@@ -166,38 +163,52 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Save button
         validateButton?.setOnClickListener { saveEntry() }
 
-        mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
-            // Change template dynamically
-            templatesEntry?.templates?.let { templates ->
-                val defaultTemplate = templatesEntry.defaultTemplate
-                templateSelectorSpinner?.apply {
-                    // Build template selector
-                    if (templates.isNotEmpty()) {
-                        adapter = TemplatesSelectorAdapter(
-                            this@EntryEditActivity,
-                            mIconDrawableFactory,
-                            templates
-                        )
-                        setSelection(templates.indexOf(defaultTemplate))
-                        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                mEntryEditViewModel.changeTemplate(templates[position])
-                            }
+        mEntryEditViewModel.onTemplateChanged.observe(this) { template ->
+            this.mTemplate = template
+        }
 
-                            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
+            if (templatesEntry != null) {
+                // Change template dynamically
+                this.mIsTemplate = templatesEntry.isTemplate
+                templatesEntry.templates.let { templates ->
+                    templateSelectorSpinner?.apply {
+                        // Build template selector
+                        if (templates.isNotEmpty()) {
+                            adapter = TemplatesSelectorAdapter(
+                                this@EntryEditActivity,
+                                mIconDrawableFactory,
+                                templates
+                            )
+                            val selectedTemplate = if (mTemplate != null)
+                                mTemplate
+                            else
+                                templatesEntry.defaultTemplate
+                            setSelection(templates.indexOf(selectedTemplate))
+                            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    mEntryEditViewModel.changeTemplate(templates[position])
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                            }
+                        } else {
+                            visibility = View.GONE
                         }
-                    } else {
-                        visibility = View.GONE
                     }
                 }
-            }
 
-            loadingView?.hideByFading()
+                loadingView?.hideByFading()
+                mEntryLoaded = true
+            } else {
+                finish()
+            }
+            invalidateOptionsMenu()
         }
 
         // View model listeners
@@ -309,78 +320,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         super.onDatabaseRetrieved(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
-        retrieveEntry(database)
-    }
-
-    private fun retrieveEntry(database: Database?) {
-        database?.let {
-            mEntryId?.let {
-                IOActionTask(
-                    {
-                        // Create an Entry copy to modify from the database entry
-                        mEntry = database.getEntryById(it)
-                        // Retrieve the parent
-                        mEntry?.let { entry ->
-                            // If no parent, add root group as parent
-                            if (entry.parent == null) {
-                                entry.parent = database.rootGroup
-                            }
-                        }
-                        // Define if current entry is a template (in direct template group)
-                        mIsTemplate = database.entryIsTemplate(mEntry)
-                    },
-                    {
-                        mEntryEditViewModel.loadTemplateEntry(
-                            database,
-                            mEntry,
-                            mIsTemplate,
-                            mRegisterInfo,
-                            mSearchInfo
-                        )
-                    }
-                ).execute()
-                mEntryId = null
-            }
-
-            mParentId?.let {
-                IOActionTask(
-                    {
-                        mParent = database.getGroupById(it)
-                        mParent?.let { parentGroup ->
-                            mEntry = database.createEntry()?.apply {
-                                // Add the default icon from parent if not a folder
-                                val parentIcon = parentGroup.icon
-                                // Set default icon
-                                if (parentIcon.custom.isUnknown
-                                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
-                                ) {
-                                    icon = IconImage(parentIcon.standard)
-                                }
-                                if (!parentIcon.custom.isUnknown) {
-                                    icon = IconImage(parentIcon.custom)
-                                }
-                                // Set default username
-                                username = database.defaultUsername
-                                // Warning only the entry recognize is parent, parent don't yet recognize the new entry
-                                // Useful to recognize child state (ie: entry is a template)
-                                parent = parentGroup
-                            }
-                        }
-                        mIsTemplate = database.entryIsTemplate(mEntry)
-                    },
-                    {
-                        mEntryEditViewModel.loadTemplateEntry(
-                            database,
-                            mEntry,
-                            mIsTemplate,
-                            mRegisterInfo,
-                            mSearchInfo
-                        )
-                    }
-                ).execute()
-                mParentId = null
-            }
-        }
+        mEntryEditViewModel.loadDatabase(database)
     }
 
     override fun onDatabaseActionFinished(
@@ -571,29 +511,33 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun saveEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase, mEntry, mParent)
+        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.entry_edit, menu)
+        if (mEntryLoaded) {
+            menuInflater.inflate(R.menu.entry_edit, menu)
+            entryEditActivityEducation?.let {
+                Handler(Looper.getMainLooper()).post {
+                    performedNextEducation(it)
+                }
+            }
+        }
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-
         menu?.findItem(R.id.menu_add_field)?.apply {
             isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
-
         menu?.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
             isEnabled = !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-
         menu?.findItem(R.id.menu_add_otp)?.apply {
             // OTP not compatible below KitKat
             isEnabled = mAllowOTP
@@ -601,14 +545,10 @@ class EntryEditActivity : DatabaseLockActivity(),
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-
-        entryEditActivityEducation?.let {
-            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
-        }
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
 
         val entryEditFragment = supportFragmentManager.findFragmentById(R.id.entry_edit_content)
                 as? EntryEditFragment?

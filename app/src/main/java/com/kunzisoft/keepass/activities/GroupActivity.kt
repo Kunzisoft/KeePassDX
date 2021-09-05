@@ -487,7 +487,9 @@ class GroupActivity : DatabaseLockActivity(),
             if (groupMetaView != null) {
                 val meta = group.nodeId.toString()
                 groupMetaView?.text = meta
-                if (meta.isNotEmpty() && PreferencesUtil.showUUID(this)) {
+                if (meta.isNotEmpty()
+                    && !group.isVirtual
+                    && PreferencesUtil.showUUID(this)) {
                     groupMetaView?.visibility = View.VISIBLE
                 } else {
                     groupMetaView?.visibility = View.GONE

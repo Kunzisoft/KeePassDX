@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -55,6 +56,7 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
+    private var mTemplate: Template? = null
     private var mAllowMultipleAttachments: Boolean = false
 
     private var mIconColor: Int = 0
@@ -115,19 +117,26 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
+            this.mTemplate = template
             templateView.setTemplate(template)
         }
 
         mEntryEditViewModel.templatesEntry.observe(viewLifecycleOwner) { templateEntry ->
-            templateView.setTemplate(templateEntry.defaultTemplate)
-            // Load entry info only the first time to keep change locally
-            if (savedInstanceState == null) {
-                assignEntryInfo(templateEntry.entryInfo)
+            if (templateEntry != null) {
+                val selectedTemplate = if (mTemplate != null)
+                    mTemplate
+                else
+                    templateEntry.defaultTemplate
+                templateView.setTemplate(selectedTemplate)
+                // Load entry info only the first time to keep change locally
+                if (savedInstanceState == null) {
+                    assignEntryInfo(templateEntry.entryInfo)
+                }
+                // To prevent flickering
+                rootView.showByFading()
+                // Apply timeout reset
+                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
             }
-            // To prevent flickering
-            rootView.showByFading()
-            // Apply timeout reset
-            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {

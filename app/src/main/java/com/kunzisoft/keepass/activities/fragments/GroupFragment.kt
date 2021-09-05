@@ -233,7 +233,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
-    @Throws(IllegalArgumentException::class)
     private fun rebuildList() {
         try {
             // Add elements to the list
@@ -418,7 +417,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                                 mNodesRecyclerView?.scrollToPosition(position)
                             }
                         }
-                    } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
+                    } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
                 }
             }
         }

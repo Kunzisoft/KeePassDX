@@ -227,14 +227,14 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
-        fun getAuthIntentSenderForRegistration(context: Context,
-                                               registerInfo: RegisterInfo): IntentSender {
+        fun getPendingIntentForRegistration(context: Context,
+                                            registerInfo: RegisterInfo): PendingIntent {
             return PendingIntent.getActivity(context, 0,
                     Intent(context, AutofillLauncherActivity::class.java).apply {
                         EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
                         putExtra(KEY_REGISTER_INFO, registerInfo)
                     },
-                    PendingIntent.FLAG_CANCEL_CURRENT).intentSender
+                    PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
         fun launchForRegistration(context: Context,

@@ -55,9 +55,11 @@ class EntryHistoryFragment: StylishFragment() {
      * History
      * -------------
      */
-    private fun assignHistory(history: List<EntryInfo>) {
+    private fun assignHistory(history: List<EntryInfo>?) {
         historyAdapter?.clear()
-        historyAdapter?.entryHistoryList?.addAll(history)
+        history?.let {
+            historyAdapter?.entryHistoryList?.addAll(history)
+        }
         historyAdapter?.onItemClickListener = { item, position ->
             mEntryViewModel.onHistorySelected(item, position)
         }

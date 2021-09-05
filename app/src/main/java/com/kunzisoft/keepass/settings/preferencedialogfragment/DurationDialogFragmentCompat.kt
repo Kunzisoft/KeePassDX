@@ -125,6 +125,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             }
         }
 
+        mEnabled = isSwitchActivated()
         setSwitchAction({ isChecked ->
             mEnabled = isChecked
         }, mDays + mHours + mMinutes + mSeconds > 0)

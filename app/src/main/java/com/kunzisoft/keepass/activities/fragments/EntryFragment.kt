@@ -91,15 +91,14 @@ class EntryFragment: DatabaseFragment() {
         uuidView = view.findViewById(R.id.entry_UUID)
         uuidReferenceView = view.findViewById(R.id.entry_UUID_reference)
 
-        mEntryViewModel.template.observe(viewLifecycleOwner) { template ->
-            templateView.setTemplate(template)
-        }
-
-        mEntryViewModel.entryInfo.observe(viewLifecycleOwner) { entryInfo ->
-            assignEntryInfo(entryInfo)
-            // Smooth appearing
-            rootView.showByFading()
-            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+        mEntryViewModel.entryInfoHistory.observe(viewLifecycleOwner) { entryInfoHistory ->
+            if (entryInfoHistory != null) {
+                templateView.setTemplate(entryInfoHistory.template)
+                assignEntryInfo(entryInfoHistory.entryInfo)
+                // Smooth appearing
+                rootView.showByFading()
+                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+            }
         }
 
         mEntryViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->

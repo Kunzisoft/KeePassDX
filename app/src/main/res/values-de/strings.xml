@@ -203,6 +203,7 @@
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_autofill_service_title">Standarddienst für automatisches Ausfüllen festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare schnell in anderen Apps auszufüllen</string>
+    <string name="autofill_select_entry">Eintrag auswählen…</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperrerkennung zusammenhängen</string>
@@ -448,7 +449,6 @@
     <string name="validate">Validieren</string>
     <string name="autofill_auto_search_summary">Suchergebnisse automatisch nach Web-Domain oder Anwendungs-ID vorschlagen</string>
     <string name="autofill_auto_search_title">Automatische Suche</string>
-    <string name="autofill_manual_selection_prompt">Eintrag auswählen...</string>
     <string name="autofill_manual_selection_title">Manuelle Auswahl</string>
     <string name="autofill_manual_selection_summary">Manuelle Auswahl des Datenbank-Eintrags ermöglichen</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>

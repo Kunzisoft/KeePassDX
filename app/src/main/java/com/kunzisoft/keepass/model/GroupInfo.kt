@@ -24,6 +24,22 @@ class GroupInfo : NodeInfo {
         parcel.writeString(notes)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GroupInfo) return false
+        if (!super.equals(other)) return false
+
+        if (notes != other.notes) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (notes?.hashCode() ?: 0)
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<GroupInfo> {
         override fun createFromParcel(parcel: Parcel): GroupInfo {
             return GroupInfo(parcel)
