@@ -224,7 +224,7 @@
     <string name="application_appearance">Rozhraní</string>
     <string name="other">Ostatní</string>
     <string name="keyboard">Klávesnice</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_title">Klávesnice Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky identity</string>
     <string name="allow_no_password_title">Umožnit bez hlavního klíče</string>
     <string name="allow_no_password_summary">Povolit klepnutí na \"Otevřít\", i když není vybráno žádné heslo</string>
@@ -267,7 +267,7 @@
     <string name="education_sort_summary">Vyberte řazení položek a skupin.</string>
     <string name="education_donation_title">Zapojit se</string>
     <string name="education_donation_summary">Zapojte se a pomozte zvýšit stabilitu, bezpečnost a doplnění dalších funkcí.</string>
-    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato &lt;strong&gt;bez reklam&lt;/strong&gt;, je \u0020&lt;strong&gt;svobodný software pod copyleft licencí&lt;/strong&gt; a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
+    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato <strong>bez reklam</strong>, je <strong>svobodný software pod copyleft licencí</strong> a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
     <string name="html_text_buy_pro">Zakoupením varianty \"pro\" získáte přístup k tomuto &lt;strong&gt;vizuálnímu stylu&lt;/strong&gt; a hlavně pomůžete &lt;strong&gt;uskutečnění komunitních projektů.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuální styl&lt;/strong&gt; je k dispozici díky vaší štědrosti.</string>
     <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity počítáme s Vaším &lt;strong&gt;přispěním.&lt;/strong&gt;</string>
@@ -285,8 +285,8 @@
     <string name="icon_pack_choose_title">Sada ikon</string>
     <string name="icon_pack_choose_summary">Sada ikon používaných v aplikaci</string>
     <string name="build_label">Sestavení %1$s</string>
-    <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
+    <string name="keyboard_name">Klávesnice Magikeyboard</string>
+    <string name="keyboard_label">Klávesnice Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard nastavení</string>
     <string name="keyboard_entry_category">Záznam</string>
     <string name="keyboard_entry_timeout_title">Časový limit</string>
@@ -411,7 +411,7 @@
     <string name="hide_expired_entries_summary">Propadlé záznamy nebudou ukázány</string>
     <string name="contact">Kontakt</string>
     <string name="contribution">Příspěvky</string>
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Zpětná vazba</string>
     <string name="auto_focus_search_title">Snadné hledání</string>
     <string name="auto_focus_search_summary">Při otevření databáze žádat hledání</string>
     <string name="remember_database_locations_title">Pamatovat si umístění databází</string>
@@ -480,7 +480,7 @@
     <string name="autofill_ask_to_save_data_summary">Zeptat se na uložení dat, jakmile byl formulář přezkoušen</string>
     <string name="autofill_ask_to_save_data_title">Zeptat se před uložením</string>
     <string name="autofill_save_search_info_summary">Pokuste se uložit údaje hledání, když manuálně vybíráte položku</string>
-    <string name="autofill_save_search_info_title">Uložit info hledání</string>
+    <string name="autofill_save_search_info_title">Uložit výsledky vyhledávání</string>
     <string name="autofill_close_database_summary">Zavřít databázi po samovyplnění polí</string>
     <string name="autofill_close_database_title">Zavřít databázi</string>
     <string name="keyboard_previous_lock_summary">Po uzamknutí databáze automaticky přepnout zpět na předchozí klávesnici</string>
@@ -491,9 +491,9 @@
     <string name="biometric_security_update_required">Vyžadována aktualizace biometrického zabezpečení.</string>
     <string name="configure_biometric">Žádné přihlašovací ani biometrické údaje nejsou registrovány.</string>
     <string name="warning_empty_recycle_bin">Trvale odstranit všechny uzly z koše\?</string>
-    <string name="registration_mode">Režim registrace</string>
-    <string name="save_mode">Režim ukládání</string>
-    <string name="search_mode">Režim vyhledávání</string>
+    <string name="registration_mode">Registrace</string>
+    <string name="save_mode">Uložit</string>
+    <string name="search_mode">Vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno kolonky již existuje.</string>
     <string name="error_registration_read_only">Uložení nové položky v režimu databáze pouze pro čtení není povoleno</string>
     <string name="enter">Enter</string>
@@ -599,4 +599,7 @@
     <string name="show_otp_token_summary">Ukáže OTP tokeny v seznamu záznamů</string>
     <string name="show_otp_token_title">Ukázat OTP token</string>
     <string name="menu_external_icon">Externí ikona</string>
+    <string name="autofill_select_entry">Vyberte položku…</string>
+    <string name="autofill_manual_selection_summary">Zobrazit možnosti umožňující uživateli si vybrat položku z databáze</string>
+    <string name="autofill_manual_selection_title">Ruční výběr</string>
 </resources>
