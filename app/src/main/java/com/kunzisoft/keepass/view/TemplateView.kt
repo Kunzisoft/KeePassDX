@@ -53,7 +53,6 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 label = templateAttribute.alias
                         ?: TemplateField.getLocalizedName(context, field.name)
                 setMaxChars(templateAttribute.options.getNumberChars())
-                setMaxLines(templateAttribute.options.getNumberLines())
                 // TODO Linkify
                 value = field.protectedValue.stringValue
                 // Here the value is often empty

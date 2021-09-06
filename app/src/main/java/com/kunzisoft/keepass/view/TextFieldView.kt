@@ -214,18 +214,6 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setMaxLines(numberLines: Int) {
-        when {
-            numberLines <= 0 -> {
-                valueView.maxLines = MAX_LINES_LIMIT
-            }
-            else -> {
-                val lines = if (numberLines > MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
-                valueView.maxLines = lines
-            }
-        }
-    }
-
     fun setProtection(protection: Boolean, hiddenProtectedValue: Boolean = false) {
         showButton.isVisible = protection
         showButton.isSelected = hiddenProtectedValue
@@ -343,6 +331,5 @@ class TextFieldView @JvmOverloads constructor(context: Context,
 
     companion object {
         const val MAX_CHARS_LIMIT = Integer.MAX_VALUE
-        const val MAX_LINES_LIMIT = 40
     }
 }
