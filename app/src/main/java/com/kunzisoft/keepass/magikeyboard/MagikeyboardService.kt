@@ -178,6 +178,12 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         assignKeyboardView()
     }
 
+    override fun onEvaluateFullscreenMode(): Boolean {
+        val fullscreenAllowed = resources.getBoolean(R.bool.magikeyboard_allow_fullscreen_mode)
+
+        return fullscreenAllowed && super.onEvaluateFullscreenMode()
+    }
+
     private fun playVibration(keyCode: Int) {
         when (keyCode) {
             Keyboard.KEYCODE_DELETE -> {}
