@@ -46,8 +46,6 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
 
     private var mDefault: DateInstant = DateInstant.NEVER_EXPIRES
 
-    var setOnDateClickListener: ((DateInstant) -> Unit)? = null
-
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_date_time, this)
