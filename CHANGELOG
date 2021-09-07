@@ -5,7 +5,7 @@ KeePassDX(3.0.0)
  * Fix timeout in dialogs #716
  * Check URI permissions #626
  * Better autofill implementation #943 #946 #984 #1070 (Thx @uduerholz)
- * Improvements #680 #1035 #1043 #942 #1021 #1027 #1082 #1083 (Thx @chenxiaolong)
+ * Improvements #680 #1035 #1043 #942 #1021 #1027 #1046 #1082 #1083 (Thx @chenxiaolong)
 
 KeePassDX(2.10.5)
  * Increase the saving speed of database #1028

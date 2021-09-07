@@ -53,8 +53,10 @@ class StructureParser(private val structure: AssistStructure) {
                     applicationId = windowNode.title.toString().split("/")[0]
                     Log.d(TAG, "Autofill applicationId: $applicationId")
 
-                    if (parseViewNode(windowNode.rootViewNode))
-                        break@mainLoop
+                    if (applicationId?.contains("PopupWindow:") == false) {
+                        if (parseViewNode(windowNode.rootViewNode))
+                            break@mainLoop
+                    }
                 }
                 // If not explicit username field found, add the field just before password field.
                 if (usernameId == null && passwordId != null && usernameIdCandidate != null) {
