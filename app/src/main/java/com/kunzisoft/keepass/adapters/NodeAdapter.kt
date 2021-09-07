@@ -28,6 +28,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -41,9 +42,11 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.*
@@ -77,6 +80,7 @@ class NodeAdapter (private val context: Context,
 
     private var mActionNodesList = LinkedList<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
+    private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
     private val mContentSelectionColor: Int
@@ -428,6 +432,17 @@ class NodeAdapter (private val context: Context,
             }
         }
         holder?.otpToken?.text = otpElement?.token
+        holder?.otpContainer?.setOnClickListener {
+            otpElement?.token?.let { token ->
+                Toast.makeText(
+                        context,
+                        context.getString(R.string.copy_field,
+                                TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN)),
+                        Toast.LENGTH_LONG
+                ).show()
+                mClipboardHelper.copyToClipboard(token)
+            }
+        }
     }
 
     class OtpRunnable(val view: View?): Runnable {
