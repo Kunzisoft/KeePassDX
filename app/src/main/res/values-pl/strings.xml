@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="feedback">Informacje zwrotne</string>
-    <string name="homepage">Strona domowa</string>
+    <string name="homepage">Strona główna</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
@@ -129,10 +129,10 @@
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
     <string name="extended_ASCII">Rozszerzone ASCII</string>
-    <string name="allow">Zezwalaj</string>
+    <string name="allow">Zezwól</string>
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
-    <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
+    <string name="clipboard_error_clear">Nie udało się wyczyścić schowka</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
 \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
@@ -312,7 +312,7 @@
     <string name="clear_clipboard_notification_summary">Blokowanie bazy danych po wygaśnięciu czasu trwania schowka lub zamknięciu powiadomienia po rozpoczęciu korzystania z niej</string>
     <string name="recycle_bin">Kosz</string>
     <string name="keyboard_selection_entry_title">Wybór wpisu</string>
-    <string name="keyboard_selection_entry_summary">Pokaż pola wprowadzania w Magikeyboard podczas przeglądania wpisu</string>
+    <string name="keyboard_selection_entry_summary">Podczas przeglądania wpisu w KeePassDX zapełnij Magikeyboard tym wpisem</string>
     <string name="delete_entered_password_title">Usuń hasło</string>
     <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia z bazą danych</string>
     <string name="content_description_open_file">Otwórz plik</string>
@@ -439,7 +439,7 @@
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
     <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
     <string name="error_label_exists">Ta etykieta już istnieje.</string>
-    <string name="keyboard_search_share_summary">Automatyczne wyszukiwanie udostępnionych informacji w celu zapełnienia klawiatury</string>
+    <string name="keyboard_search_share_summary">Udostępniając KeePassDX adres URL, filtruj wpisy przy użyciu tej domeny adresu URL</string>
     <string name="keyboard_search_share_title">Wyszukaj udostępnione informacje</string>
     <string name="autofill_block_restart">Zrestartuj aplikację zawierającą formularz, aby aktywować blokadę.</string>
     <string name="autofill_block">Blokowanie autouzupełniania</string>
@@ -484,7 +484,7 @@
     <string name="autofill_close_database_title">Zamknij bazę danych</string>
     <string name="keyboard_previous_lock_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury po zablokowaniu bazy danych</string>
     <string name="keyboard_previous_lock_title">Zablokuj bazę danych</string>
-    <string name="keyboard_save_search_info_summary">Spróbuj zapisać udostępnione informacje podczas ręcznego wybierania pozycji</string>
+    <string name="keyboard_save_search_info_summary">Po udostępnieniu KeePassDX adresu URL, kiedy wpis jest wybrany, spróbuj zapamiętać ten wpis do dalszych zastosowań</string>
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
     <string name="notification">Powiadomienia</string>
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
@@ -562,4 +562,38 @@
     <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
     <string name="error_move_group_here">Nie możesz przenieść tutaj grupy.</string>
     <string name="error_word_reserved">To słowo jest zastrzeżone i nie może być używane.</string>
+    <string name="name">Imię i nazwisko</string>
+    <string name="standard">Standardowe</string>
+    <string name="seed">Fraza seed</string>
+    <string name="id_card">Dowód osobisty</string>
+    <string name="templates">Szablony</string>
+    <string name="templates_group_uuid_title">Grupa szablonów</string>
+    <string name="templates_group_enable_summary">Użyj dynamicznych szablonów, aby wypełnić pola wpisu</string>
+    <string name="templates_group_enable_title">Wykorzystanie szablonów</string>
+    <string name="version">Wersja</string>
+    <string name="template">Szablon</string>
+    <string name="membership">Członkostwo</string>
+    <string name="secure_note">Bezpieczna notatka</string>
+    <string name="international_bank_account_number">Numer IBAN</string>
+    <string name="bank_identifier_code">Kod SWIFT / BIC</string>
+    <string name="bank_name">Nazwa banku</string>
+    <string name="bank">Bank</string>
+    <string name="account">Konto</string>
+    <string name="private_key">Klucz prywatny</string>
+    <string name="public_key">Klucz publiczny</string>
+    <string name="token">Token</string>
+    <string name="cryptocurrency">Portfel kryptowalut</string>
+    <string name="type">Typ</string>
+    <string name="ssid">Nazwa SSID</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="email_address">Adres e-mail</string>
+    <string name="email">E-mail</string>
+    <string name="date_of_issue">Data wydania</string>
+    <string name="place_of_issue">Miejsce wydania</string>
+    <string name="personal_identification_number">Kod PIN</string>
+    <string name="card_verification_value">Kod CVV</string>
+    <string name="number">Numer</string>
+    <string name="holder">Posiadacz</string>
+    <string name="debit_credit_card">Karta debetowa / kredytowa</string>
+    <string name="template_group_name">Szablony</string>
 </resources>

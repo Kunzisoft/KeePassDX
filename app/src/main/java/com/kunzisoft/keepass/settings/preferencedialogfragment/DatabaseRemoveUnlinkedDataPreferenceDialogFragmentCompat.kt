@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
 class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -36,10 +37,11 @@ class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePre
         }.toString()
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
-        database?.let { _ ->
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
+        database?.let {
             if (positiveResult) {
-                mProgressDatabaseTaskProvider?.startDatabaseRemoveUnlinkedData(mDatabaseAutoSaveEnable)
+                removeUnlinkedData()
             }
         }
     }

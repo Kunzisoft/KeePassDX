@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings
 import android.app.Activity
 import android.app.backup.BackupManager
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -33,24 +32,20 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
-import com.kunzisoft.keepass.activities.stylish.Stylish
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import org.joda.time.DateTime
 import java.util.*
 
 open class SettingsActivity
-    : LockingActivity(),
+    : DatabaseLockActivity(),
         MainPreferenceFragment.Callback,
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-        PasswordEncodingDialogFragment.Listener {
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     private var backupManager: BackupManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -60,16 +55,7 @@ open class SettingsActivity
     private var toolbar: Toolbar? = null
     private var lockView: View? = null
 
-    /**
-     * Retrieve the main fragment to show in first
-     * @return The main fragment
-     */
-    protected open fun retrieveMainFragment(): Fragment {
-        return MainPreferenceFragment()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_toolbar)
@@ -91,9 +77,6 @@ open class SettingsActivity
             lockAndExit()
         }
 
-        // Focus view to reinitialize timeout
-        coordinatorLayout?.resetAppTimeoutWhenViewFocusedOrChanged(this)
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())
@@ -104,29 +87,6 @@ open class SettingsActivity
 
         backupManager = BackupManager(this)
 
-        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
-            when (actionTask) {
-                DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
-                    // Reload the current activity
-                    if (result.isSuccess) {
-                        startActivity(intent)
-                        finish()
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    } else {
-                        this.showActionErrorIfNeeded(result)
-                        finish()
-                    }
-                }
-                else -> {
-                    // Call result in fragment
-                    (supportFragmentManager
-                            .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
-                            ?.onProgressDialogThreadResult(actionTask, result)
-                }
-            }
-            coordinatorLayout?.showActionErrorIfNeeded(result)
-        }
-
         // To reload the current screen
         if (intent.extras?.containsKey(FRAGMENT_ARG) == true) {
             intent.extras?.getString(FRAGMENT_ARG)?.let { fragmentScreenName ->
@@ -135,6 +95,37 @@ open class SettingsActivity
             // Eat state
             intent.removeExtra(FRAGMENT_ARG)
         }
+    }
+
+    /**
+     * Retrieve the main fragment to show in first
+     * @return The main fragment
+     */
+    protected open fun retrieveMainFragment(): Fragment {
+        return MainPreferenceFragment()
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        return coordinatorLayout
+    }
+
+    override fun finishActivityIfDatabaseNotLoaded(): Boolean {
+        return false
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+
+        coordinatorLayout?.showActionErrorIfNeeded(result)
+    }
+
+    override fun reloadActivity() {
+        keepCurrentScreen()
+        super.reloadActivity()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -150,31 +141,8 @@ open class SettingsActivity
         super.onStop()
     }
 
-    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                                    mainCredential: MainCredential) {
-        databaseUri?.let {
-            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
-                    databaseUri,
-                    mainCredential
-            )
-        }
-    }
-
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        Database.getInstance().let { database ->
-            database.fileUri?.let { databaseUri ->
-                // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(mainCredential)) {
-                    mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
-                            databaseUri,
-                            mainCredential
-                    )
-                } else {
-                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
-                            .show(supportFragmentManager, "passwordEncodingTag")
-                }
-            }
-        }
+        assignPassword(mainCredential)
     }
 
     override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
@@ -216,7 +184,7 @@ open class SettingsActivity
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right)
             }
-            replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, mReadOnly), TAG_NESTED)
+            replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key), TAG_NESTED)
             addToBackStack(TAG_NESTED)
             commit()
         }
@@ -225,17 +193,10 @@ open class SettingsActivity
         hideOrShowLockButton(key)
     }
 
-    fun relaunchCurrentScreen() {
-        keepCurrentScreen()
-        startActivity(intent)
-        finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
-
     /**
      * To keep the current screen when activity is reloaded
       */
-    fun keepCurrentScreen() {
+    private fun keepCurrentScreen() {
         (supportFragmentManager.findFragmentByTag(TAG_NESTED) as? NestedSettingsFragment?)
                 ?.getScreen()?.let { fragmentKey ->
             intent.putExtra(FRAGMENT_ARG, fragmentKey.name)
@@ -244,7 +205,7 @@ open class SettingsActivity
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
         if (mTimeoutEnable)
-            TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
+            checkTimeAndLockIfTimeoutOrResetTimeout {
                 replaceFragment(key, reload)
             }
         else
@@ -256,7 +217,8 @@ open class SettingsActivity
     }
 
     fun exportAppProperties() {
-        appPropertiesFileCreationRequestCode = mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name))
+        appPropertiesFileCreationRequestCode = mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name,
+            DateTime.now().toLocalDateTime().toString("yyyy-MM-dd'_'HH-mm")))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -264,8 +226,8 @@ open class SettingsActivity
 
         // Import app properties result
         try {
-            mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { selectedfileUri ->
-                selectedfileUri?.let { uri ->
+            mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { selectedFileUri ->
+                selectedFileUri?.let { uri ->
                     val appProperties = Properties()
                     contentResolver?.openInputStream(uri)?.use { inputStream ->
                         appProperties.load(inputStream)
@@ -273,7 +235,7 @@ open class SettingsActivity
                     PreferencesUtil.setAppProperties(this, appProperties)
 
                     // Restart the current activity
-                    relaunchCurrentScreen()
+                    reloadActivity()
                     Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
                 }
             }
@@ -299,7 +261,7 @@ open class SettingsActivity
             }
         } catch (e: Exception) {
             Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
-            Log.e(LockingActivity.TAG, "Unable to export app properties", e)
+            Log.e(DatabaseLockActivity.TAG, "Unable to export app properties", e)
         }
     }
 
@@ -319,9 +281,8 @@ open class SettingsActivity
         private const val TAG_NESTED = "TAG_NESTED"
         private const val FRAGMENT_ARG = "FRAGMENT_ARG"
 
-        fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
+        fun launch(activity: Activity, timeoutEnable: Boolean) {
             val intent = Intent(activity, SettingsActivity::class.java)
-            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intent.putExtra(TIMEOUT_ENABLE_KEY, timeoutEnable)
             if (!timeoutEnable) {
                 activity.startActivity(intent)

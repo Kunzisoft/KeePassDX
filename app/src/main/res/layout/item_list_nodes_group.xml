@@ -25,81 +25,103 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/KeepassDXStyle.Selectable.Item">
+
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:minHeight="56dp"
+        android:maxHeight="72dp"
         app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/selectableItemBackground" >
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/node_image_identifier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_right_white_24dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="@dimen/image_list_margin"
-            android:layout_marginStart="@dimen/image_list_margin"
-            android:layout_marginRight="@dimen/image_list_margin"
-            android:layout_marginEnd="@dimen/image_list_margin"
-            android:src="@drawable/ic_blank_32dp"
-            android:scaleType="fitXY"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/node_image_identifier"
-            android:layout_toEndOf="@+id/node_image_identifier" />
+            android:layout_marginStart="@dimen/image_list_margin_vertical"
+            android:layout_marginLeft="@dimen/image_list_margin_vertical"
+            android:layout_marginTop="@dimen/image_list_margin_horizontal"
+            android:layout_marginEnd="@dimen/image_list_margin_vertical"
+            android:layout_marginRight="@dimen/image_list_margin_vertical"
+            android:layout_marginBottom="@dimen/image_list_margin_horizontal"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_blank_32dp" />
+
         <TextView
             android:id="@+id/node_child_numbers"
+            style="@style/KeepassDXStyle.TextAppearance.Info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="3"
-            android:layout_marginEnd="-18dp"
-            android:layout_marginRight="-18dp"
-            style="@style/KeepassDXStyle.TextAppearance.Info"
-            android:layout_toLeftOf="@+id/node_icon"
+            android:layout_alignTop="@+id/node_icon"
+            android:layout_marginEnd="-32dp"
+            android:layout_marginRight="-32dp"
             android:layout_toStartOf="@+id/node_icon"
-            android:layout_alignTop="@+id/node_icon" />
+            android:layout_toLeftOf="@+id/node_icon"
+            tools:text="3" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="2dp"
+            android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@+id/node_image_identifier"
+            android:layout_toLeftOf="@+id/node_image_identifier"
+            android:layout_toEndOf="@+id/node_icon"
             android:layout_toRightOf="@+id/node_icon"
-            android:layout_toEndOf="@+id/node_icon">
+            android:orientation="vertical">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
+                style="@style/KeepassDXStyle.TextAppearance.Group.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                tools:text="Node Title"
-                android:maxLines="2"
                 android:ellipsize="end"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Title" />
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                tools:text="Node Title" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
+                style="@style/KeepassDXStyle.TextAppearance.Group.SubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                tools:text="Node SubTitle"
                 android:layout_marginTop="-4dp"
+                android:gravity="center_vertical"
                 android:lines="1"
                 android:singleLine="true"
-                style="@style/KeepassDXStyle.TextAppearance.Group.SubTitle" />
+                android:visibility="gone"
+                tools:text="Node SubTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/node_meta"
+                style="@style/KeepassDXStyle.TextAppearance.Group.Meta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:singleLine="true"
+                tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C" />
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/node_image_identifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/image_list_margin_vertical"
+            android:layout_marginLeft="@dimen/image_list_margin_vertical"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/ic_arrow_right_white_24dp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

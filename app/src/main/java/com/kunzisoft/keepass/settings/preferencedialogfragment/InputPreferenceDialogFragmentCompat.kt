@@ -155,6 +155,10 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         }
     }
 
+    fun isSwitchActivated(): Boolean {
+        return switchElementView?.isChecked == true
+    }
+
     fun activateSwitch() {
         if (switchElementView?.isChecked != true)
             switchElementView?.isChecked = true

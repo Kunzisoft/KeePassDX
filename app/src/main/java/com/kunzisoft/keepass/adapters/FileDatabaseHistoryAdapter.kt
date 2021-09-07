@@ -30,6 +30,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedList
+import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.view.collapse
@@ -44,11 +46,43 @@ class FileDatabaseHistoryAdapter(context: Context)
     private var fileSelectClearListener: ((DatabaseFile)->Boolean)? = null
     private var saveAliasListener: ((DatabaseFile)->Unit)? = null
 
-    private val listDatabaseFiles = ArrayList<DatabaseFile>()
+    private var mDefaultDatabase: DatabaseFile? = null
+    private var mExpandedDatabaseFile: SuperDatabaseFile? = null
+    private var mPreviousExpandedDatabaseFile: SuperDatabaseFile? = null
 
-    private var mDefaultDatabaseFile: DatabaseFile? = null
-    private var mExpandedDatabaseFile: DatabaseFile? = null
-    private var mPreviousExpandedDatabaseFile: DatabaseFile? = null
+    private val mListPosition = mutableListOf<SuperDatabaseFile>()
+    private val mSortedListDatabaseFiles = SortedList(SuperDatabaseFile::class.java,
+        object: SortedListAdapterCallback<SuperDatabaseFile>(this) {
+            override fun compare(item1: SuperDatabaseFile, item2: SuperDatabaseFile): Int {
+                val indexItem1 = mListPosition.indexOf(item1)
+                val indexItem2 = mListPosition.indexOf(item2)
+                return if (indexItem1 == -1 && indexItem2 == -1)
+                    -1
+                else if (indexItem1 < indexItem2)
+                    -1
+                else if (indexItem1 > indexItem2)
+                    1
+                else
+                    0
+            }
+
+            override fun areContentsTheSame(oldItem: SuperDatabaseFile, newItem: SuperDatabaseFile): Boolean {
+                val oldDatabaseFile = oldItem.databaseFile
+                val newDatabaseFile = newItem.databaseFile
+                return oldDatabaseFile.databaseUri == newDatabaseFile.databaseUri
+                        && oldDatabaseFile.databaseDecodedPath == newDatabaseFile.databaseDecodedPath
+                        && oldDatabaseFile.databaseAlias == newDatabaseFile.databaseAlias
+                        && oldDatabaseFile.databaseFileExists == newDatabaseFile.databaseFileExists
+                        && oldDatabaseFile.databaseLastModified == newDatabaseFile.databaseLastModified
+                        && oldDatabaseFile.databaseSize == newDatabaseFile.databaseSize
+                        && oldItem.default == newItem.default
+            }
+
+            override fun areItemsTheSame(item1: SuperDatabaseFile, item2: SuperDatabaseFile): Boolean {
+                return item1.databaseFile == item2.databaseFile
+            }
+        }
+    )
 
     @ColorInt
     private val defaultColor: Int
@@ -71,7 +105,8 @@ class FileDatabaseHistoryAdapter(context: Context)
 
     override fun onBindViewHolder(holder: FileDatabaseHistoryViewHolder, position: Int) {
         // Get info from position
-        val databaseFile = listDatabaseFiles[position]
+        val superDatabaseFile = mSortedListDatabaseFiles[position]
+        val databaseFile = superDatabaseFile.databaseFile
 
         // Click item to open file
         holder.fileContainer.setOnClickListener {
@@ -80,7 +115,7 @@ class FileDatabaseHistoryAdapter(context: Context)
 
         // Default database
         holder.defaultFileButton.apply {
-            this.isChecked = mDefaultDatabaseFile == databaseFile
+            this.isChecked = superDatabaseFile.default
             setOnClickListener {
                 defaultDatabaseListener?.invoke(if (isChecked) databaseFile else null)
             }
@@ -115,7 +150,7 @@ class FileDatabaseHistoryAdapter(context: Context)
         }
 
         // Click on information
-        val isExpanded = databaseFile == mExpandedDatabaseFile
+        val isExpanded = superDatabaseFile == mExpandedDatabaseFile
         // Hides or shows info
         holder.fileExpandContainer.apply {
             if (isExpanded) {
@@ -151,16 +186,16 @@ class FileDatabaseHistoryAdapter(context: Context)
         }
 
         if (isExpanded) {
-            mPreviousExpandedDatabaseFile = databaseFile
+            mPreviousExpandedDatabaseFile = superDatabaseFile
         }
         holder.fileInformationButton.apply {
             animate().rotation(if (isExpanded) 180F else 0F).start()
             setOnClickListener {
-                mExpandedDatabaseFile = if (isExpanded) null else databaseFile
+                mExpandedDatabaseFile = if (isExpanded) null else superDatabaseFile
                 // Notify change
-                val previousExpandedPosition = listDatabaseFiles.indexOf(mPreviousExpandedDatabaseFile)
+                val previousExpandedPosition = mListPosition.indexOf(mPreviousExpandedDatabaseFile)
                 notifyItemChanged(previousExpandedPosition)
-                val expandedPosition = listDatabaseFiles.indexOf(mExpandedDatabaseFile)
+                val expandedPosition = mListPosition.indexOf(mExpandedDatabaseFile)
                 notifyItemChanged(expandedPosition)
             }
         }
@@ -172,50 +207,67 @@ class FileDatabaseHistoryAdapter(context: Context)
     }
 
     override fun getItemCount(): Int {
-        return listDatabaseFiles.size
+        return mSortedListDatabaseFiles.size()
     }
 
     fun clearDatabaseFileHistoryList() {
-        listDatabaseFiles.clear()
+        mListPosition.clear()
+        mSortedListDatabaseFiles.clear()
     }
 
     fun addDatabaseFileHistory(fileDatabaseHistoryToAdd: DatabaseFile) {
-        listDatabaseFiles.add(0, fileDatabaseHistoryToAdd)
-        notifyItemInserted(0)
+        val superToAdd = SuperDatabaseFile(fileDatabaseHistoryToAdd)
+        mListPosition.add(0, superToAdd)
+        mSortedListDatabaseFiles.add(superToAdd)
     }
 
     fun updateDatabaseFileHistory(fileDatabaseHistoryToUpdate: DatabaseFile) {
-        val index = listDatabaseFiles.indexOf(fileDatabaseHistoryToUpdate)
-        if (listDatabaseFiles.remove(fileDatabaseHistoryToUpdate)) {
-            listDatabaseFiles.add(index, fileDatabaseHistoryToUpdate)
-            notifyItemChanged(index)
+        val superToUpdate = SuperDatabaseFile(fileDatabaseHistoryToUpdate)
+        val index = mListPosition.indexOf(superToUpdate)
+        if (mListPosition.remove(superToUpdate)) {
+            mListPosition.add(index, superToUpdate)
         }
+        mSortedListDatabaseFiles.updateItemAt(index, superToUpdate)
     }
 
     fun deleteDatabaseFileHistory(fileDatabaseHistoryToDelete: DatabaseFile) {
-        val index = listDatabaseFiles.indexOf(fileDatabaseHistoryToDelete)
-        if (listDatabaseFiles.remove(fileDatabaseHistoryToDelete)) {
-            notifyItemRemoved(index)
-        }
+        val superToDelete = SuperDatabaseFile(fileDatabaseHistoryToDelete)
+        val index = mListPosition.indexOf(superToDelete)
+        mListPosition.remove(superToDelete)
+        mSortedListDatabaseFiles.removeItemAt(index)
     }
 
     fun replaceAllDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<DatabaseFile>) {
-        if (listDatabaseFiles.isEmpty()) {
-            listFileDatabaseHistoryToAdd.forEach {
-                listDatabaseFiles.add(it)
-                notifyItemInserted(listDatabaseFiles.size)
-            }
-        } else {
-            listDatabaseFiles.clear()
-            listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)
-            notifyDataSetChanged()
+        val superMapToReplace = listFileDatabaseHistoryToAdd.map {
+            SuperDatabaseFile(it)
         }
+        mListPosition.clear()
+        mListPosition.addAll(superMapToReplace)
+        mSortedListDatabaseFiles.replaceAll(superMapToReplace)
     }
 
     fun setDefaultDatabase(databaseUri: Uri?) {
-        val defaultDatabaseFile = listDatabaseFiles.firstOrNull { it.databaseUri == databaseUri }
-        mDefaultDatabaseFile = defaultDatabaseFile
-        notifyDataSetChanged()
+        // Remove default from last item
+        val oldDefaultDatabasePosition = mListPosition.indexOfFirst {
+            it.default
+        }
+        if (oldDefaultDatabasePosition >= 0) {
+            val oldDefaultDatabase = mListPosition[oldDefaultDatabasePosition].apply {
+                default = false
+            }
+            mSortedListDatabaseFiles.updateItemAt(oldDefaultDatabasePosition, oldDefaultDatabase)
+        }
+        // Add default to new item
+        val newDefaultDatabaseFilePosition = mListPosition.indexOfFirst {
+            it.databaseFile.databaseUri == databaseUri
+        }
+        if (newDefaultDatabaseFilePosition >= 0) {
+            val newDefaultDatabase = mListPosition[newDefaultDatabaseFilePosition].apply {
+                default = true
+            }
+            mDefaultDatabase = newDefaultDatabase.databaseFile
+            mSortedListDatabaseFiles.updateItemAt(newDefaultDatabaseFilePosition, newDefaultDatabase)
+        }
     }
 
     fun setOnDefaultDatabaseListener(listener: ((DatabaseFile?) -> Unit)?) {
@@ -232,6 +284,30 @@ class FileDatabaseHistoryAdapter(context: Context)
 
     fun setOnSaveAliasListener(listener : ((DatabaseFile)->Unit)?) {
         this.saveAliasListener = listener
+    }
+
+    private inner class SuperDatabaseFile(
+        var databaseFile: DatabaseFile,
+        var default: Boolean = false
+    ) {
+
+        init {
+            if (mDefaultDatabase == databaseFile)
+                this.default = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is SuperDatabaseFile) return false
+
+            if (databaseFile != other.databaseFile) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return databaseFile.hashCode()
+        }
     }
 
     class FileDatabaseHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

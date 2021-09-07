@@ -44,14 +44,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     // Virtual group is used to defined a detached database group
     var isVirtual = false
 
-    fun updateWith(group: Group) {
-        group.groupKDB?.let {
-            this.groupKDB?.updateWith(it)
-        }
-        group.groupKDBX?.let {
-            this.groupKDBX?.updateWith(it)
-        }
-    }
+    var numberOfChildEntries: Int = 0
 
     /**
      * Use this constructor to copy a Group
@@ -65,7 +58,12 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             if (this.groupKDBX == null)
                 this.groupKDBX = GroupKDBX()
         }
-        updateWith(group)
+        group.groupKDB?.let {
+            this.groupKDB?.updateWith(it)
+        }
+        group.groupKDBX?.let {
+            this.groupKDBX?.updateWith(it)
+        }
     }
 
     constructor(group: GroupKDB) {
@@ -118,8 +116,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         dest.writeByte((if (isVirtual) 1 else 0).toByte())
     }
 
-    override val nodeId: NodeId<*>?
-        get() = groupKDBX?.nodeId ?: groupKDB?.nodeId
+    override val nodeId: NodeId<*>
+        get() = groupKDBX?.nodeId ?: groupKDB?.nodeId ?: NodeIdUUID()
 
     override var title: String
         get() = groupKDB?.title ?: groupKDBX?.title ?: ""
@@ -270,6 +268,20 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         ArrayList()
     }
 
+    fun getFilteredChildGroups(filters: Array<ChildFilter>): List<Group> {
+        return groupKDB?.getChildGroups()?.map {
+            Group(it).apply {
+                this.refreshNumberOfChildEntries(filters)
+            }
+        } ?:
+        groupKDBX?.getChildGroups()?.map {
+            Group(it).apply {
+                this.refreshNumberOfChildEntries(filters)
+            }
+        } ?:
+        ArrayList()
+    }
+
     override fun getChildEntries(): List<Entry> {
         return groupKDB?.getChildEntries()?.map {
             Entry(it)
@@ -306,8 +318,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         ArrayList()
     }
 
-    fun getNumberOfChildEntries(filters: Array<ChildFilter> = emptyArray()): Int {
-        return getFilteredChildEntries(filters).size
+    fun refreshNumberOfChildEntries(filters: Array<ChildFilter> = emptyArray()) {
+        this.numberOfChildEntries = getFilteredChildEntries(filters).size
     }
 
     /**
@@ -319,7 +331,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     }
 
     fun getFilteredChildren(filters: Array<ChildFilter>): List<Node> {
-        return getChildGroups() + getFilteredChildEntries(filters)
+        val nodes = getFilteredChildGroups(filters) + getFilteredChildEntries(filters)
+        refreshNumberOfChildEntries(filters)
+        return nodes
     }
 
     override fun addChildGroup(group: Group) {
@@ -337,6 +351,24 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         }
         entry.entryKDBX?.let {
             groupKDBX?.addChildEntry(it)
+        }
+    }
+
+    override fun updateChildGroup(group: Group) {
+        group.groupKDB?.let {
+            groupKDB?.updateChildGroup(it)
+        }
+        group.groupKDBX?.let {
+            groupKDBX?.updateChildGroup(it)
+        }
+    }
+
+    override fun updateChildEntry(entry: Entry) {
+        entry.entryKDB?.let {
+            groupKDB?.updateChildEntry(it)
+        }
+        entry.entryKDBX?.let {
+            groupKDBX?.updateChildEntry(it)
         }
     }
 
@@ -455,4 +487,10 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         result = 31 * result + (groupKDBX?.hashCode() ?: 0)
         return result
     }
+
+    override fun toString(): String {
+        return groupKDB?.toString() ?: groupKDBX?.toString() ?: "Undefined"
+    }
+
+
 }

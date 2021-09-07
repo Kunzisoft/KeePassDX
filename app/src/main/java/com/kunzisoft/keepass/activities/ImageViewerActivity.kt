@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -31,16 +32,19 @@ import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import kotlin.math.max
 
-class ImageViewerActivity : LockingActivity() {
+class ImageViewerActivity : DatabaseLockActivity() {
 
-    private var mDatabase: Database? = null
+    private var imageContainerView: ViewGroup? = null
+    private lateinit var imageView: ImageView
+    private lateinit var progressView: View
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,49 +54,21 @@ class ImageViewerActivity : LockingActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        val imageContainerView: ViewGroup = findViewById(R.id.image_viewer_container)
-        val imageView: ImageView = findViewById(R.id.image_viewer_image)
-        val progressView: View = findViewById(R.id.image_viewer_progress)
-
-        // Approximately, to not OOM and allow a zoom
-        val mImagePreviewMaxWidth = max(
-                resources.displayMetrics.widthPixels * 2,
-                resources.displayMetrics.heightPixels * 2
-        )
-
-        mDatabase = Database.getInstance()
-
-        try {
-            progressView.visibility = View.VISIBLE
-            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
-
-                supportActionBar?.title = attachment.name
-
-                val size = attachment.binaryData.getSize()
-                supportActionBar?.subtitle = Formatter.formatFileSize(this, size)
-
-                mDatabase?.let { database ->
-                    BinaryDatabaseManager.loadBitmap(
-                            database,
-                            attachment.binaryData,
-                            mImagePreviewMaxWidth
-                    ) { bitmapLoaded ->
-                        if (bitmapLoaded == null) {
-                            finish()
-                        } else {
-                            progressView.visibility = View.GONE
-                            imageView.setImageBitmap(bitmapLoaded)
-                        }
-                    }
-                }
-            } ?: finish()
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to view the binary", e)
-            finish()
+        toolbar.setOnTouchListener { _, _ ->
+            resetAppTimeout()
+            false
         }
 
-        Loupe.create(imageView, imageContainerView) {
+        imageContainerView = findViewById(R.id.image_viewer_container)
+        imageView = findViewById(R.id.image_viewer_image)
+        progressView = findViewById(R.id.image_viewer_progress)
+
+        Loupe.create(imageView, imageContainerView!!) {
+            onViewTouchedListener = View.OnTouchListener { _, _ ->
+                // to reset timeout when Loupe image view touched
+                resetAppTimeout()
+                false
+            }
             onViewTranslateListener = object : Loupe.OnViewTranslateListener {
 
                 override fun onStart(view: ImageView) {
@@ -112,6 +88,54 @@ class ImageViewerActivity : LockingActivity() {
                     finish()
                 }
             }
+        }
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        // Null to manually manage events
+        return null
+    }
+
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        try {
+            progressView.visibility = View.VISIBLE
+            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
+
+                supportActionBar?.title = attachment.name
+
+                val size = attachment.binaryData.getSize()
+                supportActionBar?.subtitle = Formatter.formatFileSize(this, size)
+
+                // Approximately, to not OOM and allow a zoom
+                val mImagePreviewMaxWidth = max(
+                    resources.displayMetrics.widthPixels * 2,
+                    resources.displayMetrics.heightPixels * 2
+                )
+
+                database?.let { database ->
+                    BinaryDatabaseManager.loadBitmap(
+                        database,
+                        attachment.binaryData,
+                        mImagePreviewMaxWidth
+                    ) { bitmapLoaded ->
+                        if (bitmapLoaded == null) {
+                            finish()
+                        } else {
+                            progressView.visibility = View.GONE
+                            imageView.setImageBitmap(bitmapLoaded)
+                        }
+                    }
+                }
+            } ?: finish()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to view the binary", e)
+            finish()
         }
     }
 

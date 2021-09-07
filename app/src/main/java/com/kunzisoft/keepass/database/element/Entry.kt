@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
@@ -46,15 +45,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
     var entryKDBX: EntryKDBX? = null
         private set
 
-    fun updateWith(entry: Entry, copyHistory: Boolean = true) {
-        entry.entryKDB?.let {
-            this.entryKDB?.updateWith(it)
-        }
-        entry.entryKDBX?.let {
-            this.entryKDBX?.updateWith(it, copyHistory)
-        }
-    }
-
     /**
      * Use this constructor to copy an Entry with exact same values
      */
@@ -65,7 +55,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         if (entry.entryKDBX != null) {
             this.entryKDBX = EntryKDBX()
         }
-        updateWith(entry, copyHistory)
+        entry.entryKDB?.let {
+            this.entryKDB?.updateWith(it)
+        }
+        entry.entryKDBX?.let {
+            this.entryKDBX?.updateWith(it, copyHistory)
+        }
     }
 
     constructor(entry: EntryKDB) {
@@ -283,8 +278,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getExtraFields(): List<Field> {
         val extraFields = ArrayList<Field>()
         entryKDBX?.let {
-            it.doForEachDecodedCustomField { key, value ->
-                extraFields.add(Field(key, value))
+            it.doForEachDecodedCustomField { field ->
+                extraFields.add(field)
             }
         }
         return extraFields
@@ -294,7 +289,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Update or add an extra field to the list (standard or custom)
      */
     fun putExtraField(field: Field) {
-        entryKDBX?.putField(field.name, field.protectedValue)
+        entryKDBX?.putField(field)
     }
 
     private fun addExtraFields(fields: List<Field>) {
@@ -310,7 +305,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getOtpElement(): OtpElement? {
         entryKDBX?.let {
             return OtpEntryFields.parseFields { key ->
-                it.getField(key)?.toString()
+                it.getFieldValue(key)?.toString()
             }
         }
         return null
@@ -398,37 +393,46 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Retrieve generated entry info.
      * If are not [raw] data, remove parameter fields and add auto generated elements in auto custom fields
      */
-    fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
+    fun getEntryInfo(database: Database?,
+                     raw: Boolean = false,
+                     removeTemplateConfiguration: Boolean = true): EntryInfo {
         val entryInfo = EntryInfo()
-        if (raw)
-            database?.stopManageEntry(this)
+        // Remove unwanted template fields
+        val baseInfo = if (removeTemplateConfiguration)
+            database?.removeTemplateConfiguration(this) ?: this
         else
-            database?.startManageEntry(this)
+            this
+        baseInfo.apply {
+            if (raw)
+                database?.stopManageEntry(this)
+            else
+                database?.startManageEntry(this)
 
-        entryInfo.id = nodeId.toString()
-        entryInfo.title = title
-        entryInfo.icon = icon
-        entryInfo.username = username
-        entryInfo.password = password
-        entryInfo.creationTime = creationTime
-        entryInfo.lastModificationTime = lastModificationTime
-        entryInfo.expires = expires
-        entryInfo.expiryTime = expiryTime
-        entryInfo.url = url
-        entryInfo.notes = notes
-        entryInfo.customFields = getExtraFields()
-        // Add otpElement to generate token
-        entryInfo.otpModel = getOtpElement()?.otpModel
-        if (!raw) {
-            // Replace parameter fields by generated OTP fields
-            entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
-        }
-        database?.attachmentPool?.let { binaryPool ->
-            entryInfo.attachments = getAttachments(binaryPool)
-        }
+            entryInfo.id = nodeId.id
+            entryInfo.title = title
+            entryInfo.icon = icon
+            entryInfo.username = username
+            entryInfo.password = password
+            entryInfo.creationTime = creationTime
+            entryInfo.lastModificationTime = lastModificationTime
+            entryInfo.expires = expires
+            entryInfo.expiryTime = expiryTime
+            entryInfo.url = url
+            entryInfo.notes = notes
+            entryInfo.customFields = getExtraFields().toMutableList()
+            // Add otpElement to generate token
+            entryInfo.otpModel = getOtpElement()?.otpModel
+            if (!raw) {
+                // Replace parameter fields by generated OTP fields
+                entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
+            }
+            database?.attachmentPool?.let { binaryPool ->
+                entryInfo.attachments = getAttachments(binaryPool).toMutableList()
+            }
 
-        if (!raw)
-            database?.stopManageEntry(this)
+            if (!raw)
+                database?.stopManageEntry(this)
+        }
         return entryInfo
     }
 

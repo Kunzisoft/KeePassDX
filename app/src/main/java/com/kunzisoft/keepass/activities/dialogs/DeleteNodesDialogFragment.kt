@@ -20,61 +20,38 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
+import com.kunzisoft.keepass.viewmodels.NodesViewModel
 
-open class DeleteNodesDialogFragment : DialogFragment() {
+class DeleteNodesDialogFragment : DatabaseDialogFragment() {
 
-    private var mNodesToDelete: List<Node> = ArrayList()
-    private var mListener: DeleteNodeListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            mListener = context as DeleteNodeListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString()
-                    + " must implement " + DeleteNodeListener::class.java.name)
-        }
-    }
-
-    override fun onDetach() {
-        mListener = null
-        super.onDetach()
-    }
-
-    protected open fun retrieveMessage(): String {
-        return getString(R.string.warning_permanently_delete_nodes)
-    }
+    private var mNodesToDelete: List<Node> = listOf()
+    private val mNodesViewModel: NodesViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
+        mNodesViewModel.nodesToDelete.observe(this) { nodes ->
+            this.mNodesToDelete = nodes
+        }
+        var recycleBin = false
         arguments?.apply {
-            if (containsKey(DatabaseTaskNotificationService.GROUPS_ID_KEY)
-                    && containsKey(DatabaseTaskNotificationService.ENTRIES_ID_KEY)) {
-                mNodesToDelete = getListNodesFromBundle(Database.getInstance(), this)
-            }
-        } ?: savedInstanceState?.apply {
-            if (containsKey(DatabaseTaskNotificationService.GROUPS_ID_KEY)
-                    && containsKey(DatabaseTaskNotificationService.ENTRIES_ID_KEY)) {
-                mNodesToDelete = getListNodesFromBundle(Database.getInstance(), savedInstanceState)
+            if (containsKey(RECYCLE_BIN_TAG)) {
+                recycleBin = this.getBoolean(RECYCLE_BIN_TAG)
             }
         }
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
 
-            builder.setMessage(retrieveMessage())
+            builder.setMessage(if (recycleBin)
+                getString(R.string.warning_empty_recycle_bin)
+            else
+                getString(R.string.warning_permanently_delete_nodes))
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                mListener?.permanentlyDeleteNodes(mNodesToDelete)
+                mNodesViewModel.permanentlyDeleteNodes(mNodesToDelete)
             }
             builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             // Create the AlertDialog object and return it
@@ -83,19 +60,14 @@ open class DeleteNodesDialogFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putAll(getBundleFromListNodes(mNodesToDelete))
-    }
-
-    interface DeleteNodeListener {
-        fun permanentlyDeleteNodes(nodes: List<Node>)
-    }
-
     companion object {
-        fun getInstance(nodesToDelete: List<Node>): DeleteNodesDialogFragment {
+        private const val RECYCLE_BIN_TAG = "RECYCLE_BIN_TAG"
+
+        fun getInstance(recycleBin: Boolean): DeleteNodesDialogFragment {
             return DeleteNodesDialogFragment().apply {
-                arguments = getBundleFromListNodes(nodesToDelete)
+                arguments = Bundle().apply {
+                    putBoolean(RECYCLE_BIN_TAG, recycleBin)
+                }
             }
         }
     }

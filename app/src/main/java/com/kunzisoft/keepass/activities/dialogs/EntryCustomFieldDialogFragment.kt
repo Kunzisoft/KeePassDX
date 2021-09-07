@@ -31,14 +31,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.Field
 
 
-class EntryCustomFieldDialogFragment: DialogFragment() {
+class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
 
     private var oldField: Field? = null
 

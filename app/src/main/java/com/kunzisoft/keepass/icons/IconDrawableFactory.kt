@@ -33,6 +33,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -64,9 +65,17 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     private val standardIconMap = HashMap<CacheKey, WeakReference<Drawable>>()
 
     /**
+     * To load an icon pack only if current one is different
+     */
+    private var mCurrentIconPack: IconPack? = null
+
+    /**
      * Get the [SuperDrawable] [iconDraw] (from cache, or build it and add it to the cache if not exists yet), then tint it with [tintColor] if needed
      */
-    private fun getIconSuperDrawable(context: Context, iconDraw: IconImageDraw, width: Int, tintColor: Int = Color.WHITE): SuperDrawable {
+    private fun getIconSuperDrawable(context: Context,
+                                     iconDraw: IconImageDraw,
+                                     width: Int,
+                                     tintColor: Int = Color.WHITE): SuperDrawable {
         val icon = iconDraw.getIconImageToDraw()
         val customIconBinary = retrieveCustomIconBinary(icon.custom.uuid)
         val binaryCache = retrieveBinaryCache()
@@ -76,6 +85,10 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
             }
         }
         val iconPack = IconPackChooser.getSelectedIconPack(context)
+        if (mCurrentIconPack != iconPack) {
+            this.mCurrentIconPack = iconPack
+            this.clearCache()
+        }
         iconPack?.iconToResId(icon.standard.id)?.let { iconId ->
             return SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor), iconPack.tintable())
         } ?: run {

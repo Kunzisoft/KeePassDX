@@ -36,27 +36,45 @@ import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import org.joda.time.DateTime
 import java.util.concurrent.atomic.AtomicBoolean
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
-    var applicationIdBlocklist: Set<String>? = null
-    var webDomainBlocklist: Set<String>? = null
-    var askToSaveData: Boolean = false
-    var autofillInlineSuggestionsEnabled: Boolean = false
+    private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
+    private var mDatabase: Database? = null
+    private var applicationIdBlocklist: Set<String>? = null
+    private var webDomainBlocklist: Set<String>? = null
+    private var askToSaveData: Boolean = false
+    private var autofillInlineSuggestionsEnabled: Boolean = false
     private var mLock = AtomicBoolean()
 
     override fun onCreate() {
         super.onCreate()
+
+        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider?.registerProgressTask()
+        mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
+            this.mDatabase = database
+        }
+
         getPreferences()
+    }
+
+    override fun onDestroy() {
+        mDatabaseTaskProvider?.unregisterProgressTask()
+
+        super.onDestroy()
     }
 
     private fun getPreferences() {
@@ -95,7 +113,8 @@ class KeeAutofillService : AutofillService() {
                         } else {
                             null
                         }
-                        launchSelection(searchInfo,
+                        launchSelection(mDatabase,
+                                searchInfo,
                                 parseResult,
                                 inlineSuggestionsRequest,
                                 callback)
@@ -105,27 +124,28 @@ class KeeAutofillService : AutofillService() {
         }
     }
 
-    private fun launchSelection(searchInfo: SearchInfo,
+    private fun launchSelection(database: Database?,
+                                searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                 callback: FillCallback) {
         SearchHelper.checkAutoSearchInfo(this,
-                Database.getInstance(),
+                database,
                 searchInfo,
-                { items ->
+                { openedDatabase, items ->
                     callback.onSuccess(
-                            AutofillHelper.buildResponse(this,
+                            AutofillHelper.buildResponse(this, openedDatabase,
                                     items, parseResult, inlineSuggestionsRequest)
                     )
                 },
-                {
+                { openedDatabase ->
                     // Show UI if no search result
-                    showUIForEntrySelection(parseResult,
+                    showUIForEntrySelection(parseResult, openedDatabase,
                             searchInfo, inlineSuggestionsRequest, callback)
                 },
                 {
                     // Show UI if database not open
-                    showUIForEntrySelection(parseResult,
+                    showUIForEntrySelection(parseResult, null,
                             searchInfo, inlineSuggestionsRequest, callback)
                 }
         )
@@ -133,6 +153,7 @@ class KeeAutofillService : AutofillService() {
 
     @SuppressLint("RestrictedApi")
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
+                                        database: Database?,
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: InlineSuggestionsRequest?,
                                         callback: FillCallback) {
@@ -140,38 +161,87 @@ class KeeAutofillService : AutofillService() {
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val intentSender = AutofillLauncherActivity.getAuthIntentSenderForSelection(this,
-                        searchInfo, inlineSuggestionsRequest)
+                val intentSender = AutofillLauncherActivity.getPendingIntentForSelection(this,
+                        searchInfo, inlineSuggestionsRequest).intentSender
                 val responseBuilder = FillResponse.Builder()
-                val remoteViewsUnlock: RemoteViews = if (!parseResult.webDomain.isNullOrEmpty()) {
-                    RemoteViews(packageName, R.layout.item_autofill_unlock_web_domain).apply {
-                        setTextViewText(R.id.autofill_web_domain_text, parseResult.webDomain)
-                    }
-                } else if (!parseResult.applicationId.isNullOrEmpty()) {
-                    RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
-                        setTextViewText(R.id.autofill_app_id_text, parseResult.applicationId)
+                val remoteViewsUnlock: RemoteViews = if (database == null) {
+                    if (!parseResult.webDomain.isNullOrEmpty()) {
+                        RemoteViews(
+                            packageName,
+                            R.layout.item_autofill_unlock_web_domain
+                        ).apply {
+                            setTextViewText(
+                                R.id.autofill_web_domain_text,
+                                parseResult.webDomain
+                            )
+                        }
+                    } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                        RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
+                            setTextViewText(
+                                R.id.autofill_app_id_text,
+                                parseResult.applicationId
+                            )
+                        }
+                    } else {
+                        RemoteViews(packageName, R.layout.item_autofill_unlock)
                     }
                 } else {
-                    RemoteViews(packageName, R.layout.item_autofill_unlock)
+                    if (!parseResult.webDomain.isNullOrEmpty()) {
+                        RemoteViews(
+                            packageName,
+                            R.layout.item_autofill_select_entry_web_domain
+                        ).apply {
+                            setTextViewText(
+                                R.id.autofill_web_domain_text,
+                                parseResult.webDomain
+                            )
+                        }
+                    } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                        RemoteViews(packageName, R.layout.item_autofill_select_entry_app_id).apply {
+                            setTextViewText(
+                                R.id.autofill_app_id_text,
+                                parseResult.applicationId
+                            )
+                        }
+                    } else {
+                        RemoteViews(packageName, R.layout.item_autofill_select_entry)
+                    }
                 }
 
-                // Tell to service the interest to save credentials
+                // Tell the autofill framework the interest to save credentials
                 if (askToSaveData) {
                     var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
-                    val info = ArrayList<AutofillId>()
+                    val requiredIds = ArrayList<AutofillId>()
+                    val optionalIds = ArrayList<AutofillId>()
+
                     // Only if at least a password
                     parseResult.passwordId?.let { passwordInfo ->
                         parseResult.usernameId?.let { usernameInfo ->
                             types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
-                            info.add(usernameInfo)
+                            requiredIds.add(usernameInfo)
                         }
                         types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
-                        info.add(passwordInfo)
+                        requiredIds.add(passwordInfo)
                     }
-                    if (info.isNotEmpty()) {
-                        responseBuilder.setSaveInfo(
-                                SaveInfo.Builder(types, info.toTypedArray()).build()
-                        )
+                    // or a credit card form
+                    if (requiredIds.isEmpty()) {
+                        parseResult.creditCardNumberId?.let { numberId ->
+                            types = types or SaveInfo.SAVE_DATA_TYPE_CREDIT_CARD
+                            requiredIds.add(numberId)
+                            Log.d(TAG, "Asking to save credit card number")
+                        }
+                        parseResult.creditCardExpirationDateId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardExpirationYearId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardExpirationMonthId?.let { id -> optionalIds.add(id) }
+                        parseResult.creditCardHolderId?.let { id -> optionalIds.add(id) }
+                        parseResult.cardVerificationValueId?.let { id -> optionalIds.add(id) }
+                    }
+                    if (requiredIds.isNotEmpty()) {
+                        val builder = SaveInfo.Builder(types, requiredIds.toTypedArray())
+                        if (optionalIds.isNotEmpty()) {
+                            builder.setOptionalIds(optionalIds.toTypedArray())
+                        }
+                        responseBuilder.setSaveInfo(builder.build())
                     }
                 }
 
@@ -223,14 +293,35 @@ class KeeAutofillService : AutofillService() {
                         && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
                     Log.d(TAG, "autofill onSaveRequest password")
 
+                    // Build expiration from date or from year and month
+                    var expiration: DateTime? = parseResult.creditCardExpirationValue
+                    if (parseResult.creditCardExpirationValue == null
+                        && parseResult.creditCardExpirationYearValue != 0
+                        && parseResult.creditCardExpirationMonthValue != 0) {
+                        expiration = DateTime()
+                            .withYear(parseResult.creditCardExpirationYearValue)
+                            .withMonthOfYear(parseResult.creditCardExpirationMonthValue)
+                        if (parseResult.creditCardExpirationDayValue != 0) {
+                            expiration = expiration.withDayOfMonth(parseResult.creditCardExpirationDayValue)
+                        }
+                    }
+
                     // Show UI to save data
-                    val registerInfo = RegisterInfo(SearchInfo().apply {
-                        applicationId = parseResult.applicationId
-                        webDomain = parseResult.webDomain
-                        webScheme = parseResult.webScheme
-                    },
+                    val registerInfo = RegisterInfo(
+                            SearchInfo().apply {
+                                applicationId = parseResult.applicationId
+                                webDomain = parseResult.webDomain
+                                webScheme = parseResult.webScheme
+                            },
                             parseResult.usernameValue?.textValue?.toString(),
-                            parseResult.passwordValue?.textValue?.toString())
+                            parseResult.passwordValue?.textValue?.toString(),
+                            CreditCard(
+                                parseResult.creditCardHolder,
+                                parseResult.creditCardNumber,
+                                expiration,
+                                parseResult.cardVerificationValue
+                            ))
+
                     // TODO Callback in each activity #765
                     //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     //    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,

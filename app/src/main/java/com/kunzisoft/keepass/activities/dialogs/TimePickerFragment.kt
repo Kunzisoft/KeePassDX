@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.fragment.app.DialogFragment
 
+// Not as DatabaseDialogFragment because crash on KitKat
 class TimePickerFragment : DialogFragment() {
 
     private var defaultHour: Int = 0

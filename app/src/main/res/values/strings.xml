@@ -72,6 +72,7 @@
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="database">Database</string>
+    <string name="template_group_name">Templates</string>
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
@@ -99,6 +100,35 @@
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
+    <string name="debit_credit_card">Debit / Credit Card</string>
+    <string name="holder">Holder</string>
+    <string name="number">Number</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="personal_identification_number">PIN</string>
+    <string name="id_card">ID Card</string>
+    <string name="name">Name</string>
+    <string name="place_of_issue">Place of issue</string>
+    <string name="date_of_issue">Date of issue</string>
+    <string name="email">Email</string>
+    <string name="email_address">Email address</string>
+    <string name="wireless">Wifi</string>
+    <string name="ssid">SSID</string>
+    <string name="type">Type</string>
+    <string name="cryptocurrency">Cryptocurrency wallet</string>
+    <string name="token">Token</string>
+    <string name="public_key">Public key</string>
+    <string name="private_key">Private key</string>
+    <string name="seed">Seed</string>
+    <string name="account">Account</string>
+    <string name="bank">Bank</string>
+    <string name="bank_name">Bank name</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="international_bank_account_number">IBAN</string>
+    <string name="secure_note">Secure Note</string>
+    <string name="membership">Membership</string>
+    <string name="standard">Standard</string>
+    <string name="template">Template</string>
+    <string name="version">Version</string>
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
@@ -204,6 +234,7 @@
     <string name="menu_empty_recycle_bin">Empty the recycle bin</string>
     <string name="menu_restore_entry_history">Restore history</string>
     <string name="menu_delete_entry_history">Delete history</string>
+    <string name="menu_external_icon">External icon</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
@@ -321,6 +352,7 @@
     <string name="autofill_service_name">KeePassDX form autofilling</string>
     <string name="autofill_sign_in_prompt">Sign in with KeePassDX</string>
     <string name="autofill_explanation_summary">Enable autofilling to quickly fill out forms in other apps</string>
+    <string name="autofill_select_entry">Select entry…</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
     <string name="autofill_preference_title">Autofill settings</string>
     <string name="password_size_title">Generated password size</string>
@@ -372,6 +404,9 @@
     <string name="recycle_bin_title">Recycle bin usage</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" group before deleting</string>
     <string name="recycle_bin_group_title">Recycle bin group</string>
+    <string name="templates_group_enable_title">Templates usage</string>
+    <string name="templates_group_enable_summary">Use dynamic templates to fill in the fields of an entry</string>
+    <string name="templates_group_uuid_title">Templates group</string>
     <string name="max_history_items_title">Maximum number</string>
     <string name="max_history_items_summary">Limit the number of history items per entry</string>
     <string name="max_history_size_title">Maximum size</string>
@@ -404,6 +439,7 @@
     <string name="compression_none">None</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
+    <string name="templates">Templates</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
@@ -452,6 +488,8 @@
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
     <string name="autofill_inline_suggestions_title">Inline suggestions</string>
     <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
+    <string name="autofill_manual_selection_title">Manual selection</string>
+    <string name="autofill_manual_selection_summary">Display option to let the user select database entry</string>
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
@@ -536,6 +574,31 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string-array name="timeout_options">
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="large_timeout_options">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>5 hours</item>
+        <item>10 hours</item>
+        <item>24 hours</item>
+        <item>48 hours</item>
+        <item>1 week</item>
+        <item>1 month</item>
+        <item>Never</item>
+    </string-array>
     <string-array name="list_size_options">
         <item>Small</item>
         <item>Medium</item>
@@ -565,5 +628,7 @@
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
     <string name="show_uuid_title">Show UUID</string>
-    <string name="show_uuid_summary">Displays the UUID linked to an entry</string>
+    <string name="show_uuid_summary">Displays the UUID linked to an entry or a group</string>
+    <string name="show_otp_token_title">Show OTP Token</string>
+    <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
 </resources>

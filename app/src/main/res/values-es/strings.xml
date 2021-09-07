@@ -247,15 +247,15 @@
     <string name="education_sort_summary">Ordenar registros y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
-    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta es &lt;strong&gt;sin publicidad&lt;/strong&gt;, &lt;strong&gt;software libre con copyleft&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de gestión de contraseñas, esta <strong>no tiene publicidad</strong>, es <strong>libre, con licencia «copyleft»</strong> y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
     <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso al &lt;strong&gt;estilo visual &lt;/strong&gt;y ayudará especialmente a &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual &lt;/strong&gt;está disponible gracias a tu generosidad.</string>
+    <string name="html_text_feature_generosity">Este <strong>estilo visual</strong> está disponible gracias a su generosidad.</string>
     <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu &lt;strong&gt;contribución.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
     <string name="html_text_dev_feature_buy_pro">Al comprar la versión &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Al &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">anima a los desarrolladores a crear &lt;strong&gt;nuevas funciones&lt;/strong&gt; y a &lt;strong&gt;corregir errores&lt;/strong&gt; de acuerdo con sus comentarios.</string>
-    <string name="html_text_dev_feature_thanks">Muchas gracias por tu contribución.</string>
+    <string name="html_text_dev_feature_thanks">Muchas gracias por su contribución.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
     <string name="html_text_dev_feature_upgrade">Recuerde mantener su aplicación actualizada instalando nuevas versiones.</string>
     <string name="download">Descargar</string>
@@ -310,7 +310,7 @@
     <string name="clear_clipboard_notification_summary">Bloquear la base de datos cuando expire la duración del portapapeles o cuando se cierre la notificación después de empezar a utilizarla</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
     <string name="keyboard_selection_entry_title">Selección de entrada</string>
-    <string name="keyboard_selection_entry_summary">Mostrar campos de entrada en el Teclado mágico al ver una entrada</string>
+    <string name="keyboard_selection_entry_summary">Al ver una entrada en KeePassDX, rellenar con esta el teclado mágico</string>
     <string name="delete_entered_password_title">Eliminar contraseña</string>
     <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una bse de datos</string>
     <string name="content_description_open_file">Abrir archivo</string>
@@ -369,7 +369,7 @@
     <string name="content_description_add_item">Añadir elemento</string>
     <string name="download_complete">¡Completado!</string>
     <string name="download_finalization">Finalizando…</string>
-    <string name="download_progression">En progreso: %1$d%%</string>
+    <string name="download_progression">En curso: %1$d %%</string>
     <string name="download_initialization">Inicializando…</string>
     <string name="download_attachment">Descargar %1$s</string>
     <string name="enable_auto_save_database_summary">Guardar la base de datos después de cada acción importante (en modo \"Modificable\")</string>
@@ -436,11 +436,11 @@
     <string name="database_opened">Base de datos abierta</string>
     <string name="education_add_attachment_title">Adjuntar</string>
     <string name="education_add_attachment_summary">Cargue un archivo adjunto a la entrada para guardar datos externos importantes.</string>
-    <string name="hide_expired_entries_summary">Las entradas caducadas no se están mostrando</string>
+    <string name="hide_expired_entries_summary">No se muestran las entradas caducadas</string>
     <string name="warning_remove_unlinked_attachment">La eliminación de datos no vinculados puede disminuir el tamaño de su base de datos, pero también puede eliminar los datos usados por los complementos de KeePass.</string>
-    <string name="warning_file_too_big">Se supone que una base de datos KeePass contiene solo pequeños archivos de utilidad (como archivos de clave PGP).
+    <string name="warning_file_too_big">Una base de datos de KeePass está pensada para contener solamente archivos utilitarios pequeños (como las claves de PGP).
 \n
-\nLa base de datos puede volverse muy grande y reducir su rendimiento con esta subida.</string>
+\nSi procede con esta carga, la base de datos podría crecer mucho y afectar el rendimiento.</string>
     <string name="recycle_bin_group_title">Grupo de la papelera de reciclaje</string>
     <string name="filter">Filtrar</string>
     <string name="database_data_remove_unlinked_attachments_summary">Elimina los archivos adjuntos contenidos en la base de datos pero no vinculados a una entrada</string>
@@ -491,7 +491,7 @@
     <string name="notification">Notificación</string>
     <string name="hide_expired_entries_title">Ocultar las entradas expiradas</string>
     <string name="keyboard_search_share_title">Buscar información compartida</string>
-    <string name="upload_attachment">Subir %1$s</string>
+    <string name="upload_attachment">Cargar %1$s</string>
     <string name="education_setup_OTP_summary">Configurar la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un token solicitado para la autenticación de dos factores (2FA).</string>
     <string name="education_setup_OTP_title">Establecer la contaseña de un solo uso</string>
     <string name="education_advanced_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
@@ -522,9 +522,9 @@
     <string name="keyboard_previous_database_credentials_summary">Cambiar automáticamente al teclado anterior en la pantalla de credenciales de la base de datos</string>
     <string name="keyboard_previous_database_credentials_title">Pantalla de credenciales de la base de datos</string>
     <string name="keyboard_auto_go_action_title">Acción de la tecla automática</string>
-    <string name="keyboard_save_search_info_summary">Intentar guardar la información compartida cuando hagas una selección de entrada manual</string>
+    <string name="keyboard_save_search_info_summary">Luego de compartir un URL con KeePassDX, cuando se selecciona una entrada, intentar recordarla para futuros usos</string>
     <string name="keyboard_save_search_info_title">Guardar información compartida</string>
-    <string name="keyboard_search_share_summary">Buscar automáticamente la información compartida para llenar el teclado</string>
+    <string name="keyboard_search_share_summary">Al compartir un URL con KeePassDX, filtrar las entradas utilizando el dominio de ese URL</string>
     <string name="show_uuid_summary">Muestra el UUID vinculado a una entrada</string>
     <string name="show_uuid_title">Mostrar UUID</string>
     <string name="error_rebuild_list">No es posible reconstruir adecuadamente la lista.</string>
@@ -543,7 +543,7 @@
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
     <string name="download_canceled">¡Cancelado!</string>
     <string name="error_duplicate_file">Los datos del archivo ya existen.</string>
-    <string name="error_upload_file">Error al subir datos del archivo.</string>
+    <string name="error_upload_file">Se produjo un error al cargar los datos del archivo.</string>
     <string name="description_app_properties">Propiedades de KeePassDX para gestionar la configuración de la aplicación</string>
     <string name="content_description_otp_information">Información de contraseña de un solo uso</string>
     <string name="icon_section_custom">Personalizado</string>
@@ -564,4 +564,38 @@
     <string name="error_file_to_big">El archivo que está tratando de cargar es demasiado grande.</string>
     <string name="error_move_group_here">No puede mover un grupo aquí.</string>
     <string name="error_word_reserved">Esta palabra está reservada y no se puede usar.</string>
+    <string name="templates">Plantillas</string>
+    <string name="templates_group_uuid_title">Grupo de plantillas</string>
+    <string name="templates_group_enable_summary">Utilice plantillas dinámicas para completar los campos de una entrada</string>
+    <string name="templates_group_enable_title">Uso de plantillas</string>
+    <string name="version">Versión</string>
+    <string name="template">Plantilla</string>
+    <string name="standard">Estándar</string>
+    <string name="membership">Membresía</string>
+    <string name="secure_note">Nota Segura</string>
+    <string name="bank_name">Nombre del banco</string>
+    <string name="bank">Banco</string>
+    <string name="account">Cuenta</string>
+    <string name="seed">Semilla</string>
+    <string name="private_key">Clave privada</string>
+    <string name="public_key">Clave pública</string>
+    <string name="cryptocurrency">Billetera de criptomonedas</string>
+    <string name="type">Tipo</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="email_address">Dirección de correo electrónico</string>
+    <string name="email">Correo electrónico</string>
+    <string name="date_of_issue">Fecha de emisión</string>
+    <string name="place_of_issue">Lugar de emisión</string>
+    <string name="name">Nombre</string>
+    <string name="id_card">Tarjeta de Identificación</string>
+    <string name="number">Número</string>
+    <string name="holder">Titular</string>
+    <string name="debit_credit_card">Tarjeta de Crédito / Débito</string>
+    <string name="template_group_name">Plantillas</string>
+    <string name="international_bank_account_number">Número Internacional de Cuenta Bancaria</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="token">Token</string>
+    <string name="ssid">SSID</string>
+    <string name="personal_identification_number">Número de Identificación Personal</string>
+    <string name="card_verification_value">CVV</string>
 </resources>

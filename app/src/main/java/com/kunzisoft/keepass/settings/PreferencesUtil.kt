@@ -37,8 +37,6 @@ import java.util.*
 
 object PreferencesUtil {
 
-    var APPEARANCE_CHANGED = false
-
     fun saveDefaultDatabasePath(context: Context, defaultDatabaseUri: Uri?) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
@@ -128,6 +126,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
                 context.resources.getBoolean(R.bool.hide_expired_entries_default))
+    }
+
+    fun showOTPToken(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_otp_token_key),
+                context.resources.getBoolean(R.bool.show_otp_token_default))
     }
 
     fun showUUID(context: Context): Boolean {
@@ -340,7 +344,7 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.sort_recycle_bin_bottom_default))
     }
 
-    fun isPasswordMask(context: Context): Boolean {
+    fun hideProtectedValue(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.hide_password_key),
                 context.resources.getBoolean(R.bool.hide_password_default))
@@ -352,13 +356,13 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.monospace_font_fields_enable_default))
     }
 
-    fun isFirstTimeAskAllowCopyPasswordAndProtectedFields(context: Context): Boolean {
+    fun isFirstTimeAskAllowCopyProtectedFields(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.allow_copy_password_first_time_key),
                 context.resources.getBoolean(R.bool.allow_copy_password_first_time_default))
     }
 
-    fun allowCopyPasswordAndProtectedFields(context: Context): Boolean {
+    fun allowCopyProtectedFields(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.allow_copy_password_key),
                 context.resources.getBoolean(R.bool.allow_copy_password_default))
@@ -487,6 +491,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_inline_suggestions_key),
                 context.resources.getBoolean(R.bool.autofill_inline_suggestions_default))
+    }
+
+    fun isAutofillManualSelectionEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_manual_selection_key),
+                context.resources.getBoolean(R.bool.autofill_manual_selection_default))
     }
 
     fun isAutofillSaveSearchInfoEnable(context: Context): Boolean {
@@ -626,6 +636,7 @@ object PreferencesUtil {
                 context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_auto_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_manual_selection_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_ask_to_save_data_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_application_id_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
@@ -639,6 +650,7 @@ object PreferencesUtil {
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 

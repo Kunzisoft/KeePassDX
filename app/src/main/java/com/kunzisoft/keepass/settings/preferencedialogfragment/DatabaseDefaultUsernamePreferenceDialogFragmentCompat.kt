@@ -20,23 +20,23 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
-import android.view.View
+import com.kunzisoft.keepass.database.element.Database
 
 class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
-    override fun onBindDialogView(view: View) {
-        super.onBindDialogView(view)
-
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
         inputText = database?.defaultUsername?: ""
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
-        database?.let { database ->
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
+        database?.let {
             if (positiveResult) {
                 val newDefaultUsername = inputText
                 val oldDefaultUsername = database.defaultUsername
                 database.defaultUsername = newDefaultUsername
-                mProgressDatabaseTaskProvider?.startDatabaseSaveDefaultUsername(oldDefaultUsername, newDefaultUsername, mDatabaseAutoSaveEnable)
+                saveDefaultUsername(oldDefaultUsername, newDefaultUsername)
             }
         }
     }

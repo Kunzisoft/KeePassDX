@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 class SearchInfo : ObjectNameResource, Parcelable {
-
+    var manualSelection: Boolean = false
     var applicationId: String? = null
         set(value) {
             field = when {
@@ -42,6 +42,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     constructor()
 
     constructor(toCopy: SearchInfo?) {
+        manualSelection = toCopy?.manualSelection ?: manualSelection
         applicationId = toCopy?.applicationId
         webDomain = toCopy?.webDomain
         webScheme = toCopy?.webScheme
@@ -49,6 +50,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     private constructor(parcel: Parcel) {
+        manualSelection = parcel.readByte().toInt() != 0
         val readAppId = parcel.readString()
         applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
@@ -64,6 +66,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeByte((if (manualSelection) 1 else 0).toByte())
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")
@@ -88,10 +91,9 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is SearchInfo) return false
 
-        other as SearchInfo
-
+        if (manualSelection != other.manualSelection) return false
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
         if (webScheme != other.webScheme) return false
@@ -101,7 +103,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun hashCode(): Int {
-        var result = applicationId?.hashCode() ?: 0
+        var result = manualSelection.hashCode()
+        result = 31 * result + (applicationId?.hashCode() ?: 0)
         result = 31 * result + (webDomain?.hashCode() ?: 0)
         result = 31 * result + (webScheme?.hashCode() ?: 0)
         result = 31 * result + (otpString?.hashCode() ?: 0)

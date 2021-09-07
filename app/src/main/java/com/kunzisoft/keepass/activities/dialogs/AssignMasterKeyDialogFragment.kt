@@ -32,7 +32,6 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -41,7 +40,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
-class AssignMasterKeyDialogFragment : DialogFragment() {
+class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
 
     private var mMasterPassword: String? = null
     private var mKeyFile: Uri? = null

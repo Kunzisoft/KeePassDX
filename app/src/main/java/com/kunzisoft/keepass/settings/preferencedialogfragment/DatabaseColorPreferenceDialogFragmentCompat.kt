@@ -36,6 +36,7 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.*
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 
 class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -46,51 +47,12 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
     var onColorSelectedListener: ((enable: Boolean, color: Int) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         val alertDialogBuilder = AlertDialog.Builder(requireActivity())
 
         rootView = requireActivity().layoutInflater.inflate(R.layout.pref_dialog_input_color, null)
         enableSwitchView = rootView.findViewById(R.id.switch_element)
 
-        val fragmentManager = childFragmentManager
-        chromaColorFragment = fragmentManager.findFragmentByTag(TAG_FRAGMENT_COLORS) as ChromaColorFragment?
-
-        database?.let { database ->
-            val initColor = try {
-                enableSwitchView.isChecked = true
-                Color.parseColor(database.customColor)
-            } catch (e: Exception) {
-                enableSwitchView.isChecked = false
-                DEFAULT_COLOR
-            }
-            arguments?.putInt(ARG_INITIAL_COLOR, initColor)
-        }
-
-        if (chromaColorFragment == null) {
-            chromaColorFragment = newInstance(arguments)
-            fragmentManager.beginTransaction().apply {
-                add(com.kunzisoft.androidclearchroma.R.id.color_dialog_container, chromaColorFragment!!, TAG_FRAGMENT_COLORS)
-                commit()
-            }
-        }
-
         alertDialogBuilder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val currentColor = chromaColorFragment!!.currentColor
-            val customColorEnable = enableSwitchView.isChecked
-
-            onColorSelectedListener?.invoke(customColorEnable, currentColor)
-
-            database?.let { database ->
-                val newColor = if (customColorEnable) {
-                    ChromaUtil.getFormattedColorString(currentColor, false)
-                } else {
-                    ""
-                }
-                val oldColor = database.customColor
-                database.customColor = newColor
-                mProgressDatabaseTaskProvider?.startDatabaseSaveColor(oldColor, newColor, mDatabaseAutoSaveEnable)
-            }
-
             onDialogClosed(true)
             dismiss()
         }
@@ -111,8 +73,50 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         return dialog
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
-        // Nothing here
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        database?.let {
+            val initColor = try {
+                enableSwitchView.isChecked = true
+                Color.parseColor(it.customColor)
+            } catch (e: Exception) {
+                enableSwitchView.isChecked = false
+                DEFAULT_COLOR
+            }
+            arguments?.putInt(ARG_INITIAL_COLOR, initColor)
+        }
+
+        val fragmentManager = childFragmentManager
+        chromaColorFragment = fragmentManager.findFragmentByTag(TAG_FRAGMENT_COLORS) as ChromaColorFragment?
+
+        if (chromaColorFragment == null) {
+            chromaColorFragment = newInstance(arguments)
+            fragmentManager.beginTransaction().apply {
+                add(com.kunzisoft.androidclearchroma.R.id.color_dialog_container, chromaColorFragment!!, TAG_FRAGMENT_COLORS)
+                commit()
+            }
+        }
+    }
+
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
+        if (positiveResult) {
+            val customColorEnable = enableSwitchView.isChecked
+            chromaColorFragment?.currentColor?.let { currentColor ->
+                onColorSelectedListener?.invoke(customColorEnable, currentColor)
+                database?.let {
+                    val newColor = if (customColorEnable) {
+                        ChromaUtil.getFormattedColorString(currentColor, false)
+                    } else {
+                        ""
+                    }
+                    val oldColor = database.customColor
+                    database.customColor = newColor
+                    saveColor(oldColor, newColor)
+                }
+            }
+        }
     }
 
     /**

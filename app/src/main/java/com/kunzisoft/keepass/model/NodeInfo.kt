@@ -12,7 +12,7 @@ open class NodeInfo() : Parcelable {
     var creationTime: DateInstant = DateInstant()
     var lastModificationTime: DateInstant = DateInstant()
     var expires: Boolean = false
-    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH
+    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
 
     constructor(parcel: Parcel) : this() {
         title = parcel.readString() ?: title
@@ -34,6 +34,30 @@ open class NodeInfo() : Parcelable {
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NodeInfo) return false
+
+        if (title != other.title) return false
+        if (icon != other.icon) return false
+        if (creationTime != other.creationTime) return false
+        if (lastModificationTime != other.lastModificationTime) return false
+        if (expires != other.expires) return false
+        if (expiryTime != other.expiryTime) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = title.hashCode()
+        result = 31 * result + icon.hashCode()
+        result = 31 * result + creationTime.hashCode()
+        result = 31 * result + lastModificationTime.hashCode()
+        result = 31 * result + expires.hashCode()
+        result = 31 * result + expiryTime.hashCode()
+        return result
     }
 
     companion object CREATOR : Parcelable.Creator<NodeInfo> {

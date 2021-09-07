@@ -45,12 +45,11 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.model.MainCredential
@@ -61,12 +60,13 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import java.io.FileNotFoundException
 
-class FileDatabaseSelectActivity : SpecialModeActivity(),
+class FileDatabaseSelectActivity : DatabaseModeActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     // Views
@@ -84,8 +84,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     private var mDatabaseFileUri: Uri? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
-
-    private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +125,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             }
         }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryDeleteListener { fileDatabaseHistoryToDelete ->
-            // Remove from app database
             databaseFilesViewModel.deleteDatabaseFile(fileDatabaseHistoryToDelete)
             true
         }
@@ -190,39 +187,62 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             // Retrieve settings for default database
             mAdapterDatabaseHistory?.setDefaultDatabase(it)
         }
+    }
 
-        // Attach the dialog thread to this activity
-        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
-            onActionFinish = { actionTask, result ->
-                when (actionTask) {
-                    ACTION_DATABASE_CREATE_TASK -> {
-                        result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
-                            val mainCredential = result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY) ?: MainCredential()
-                            databaseFilesViewModel.addDatabaseFile(databaseUri, mainCredential.keyFileUri)
-                        }
-                        GroupActivity.launch(this@FileDatabaseSelectActivity,
-                                PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity))
-                    }
-                    ACTION_DATABASE_LOAD_TASK -> {
-                        val database = Database.getInstance()
-                        if (result.isSuccess
-                                && database.loaded) {
-                            launchGroupActivity(database)
-                        } else {
-                            var resultError = ""
-                            val resultMessage = result.message
-                            // Show error message
-                            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                                resultError = "$resultError $resultMessage"
-                            }
-                            Log.e(TAG, resultError)
-                            Snackbar.make(coordinatorLayout,
-                                    resultError,
-                                    Snackbar.LENGTH_LONG).asError().show()
-                        }
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        if (database != null) {
+            launchGroupActivityIfLoaded(database)
+        }
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+
+        if (result.isSuccess) {
+            // Update list
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_TASK,
+                ACTION_DATABASE_LOAD_TASK -> {
+                    result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
+                        val mainCredential =
+                            result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
+                                ?: MainCredential()
+                        databaseFilesViewModel.addDatabaseFile(
+                            databaseUri,
+                            mainCredential.keyFileUri
+                        )
                     }
                 }
             }
+            // Launch activity
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_TASK -> {
+                    GroupActivity.launch(
+                        this@FileDatabaseSelectActivity,
+                        database,
+                        PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity)
+                    )
+                }
+                ACTION_DATABASE_LOAD_TASK -> {
+                    launchGroupActivityIfLoaded(database)
+                }
+            }
+        } else {
+            var resultError = ""
+            val resultMessage = result.message
+            // Show error message
+            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                resultError = "$resultError $resultMessage"
+            }
+            Log.e(TAG, resultError)
+            Snackbar.make(coordinatorLayout,
+                resultError,
+                Snackbar.LENGTH_LONG).asError().show()
         }
     }
 
@@ -251,12 +271,14 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 { onLaunchActivitySpecialMode() })
     }
 
-    private fun launchGroupActivity(database: Database) {
-        GroupActivity.launch(this,
-                database.isReadOnly,
+    private fun launchGroupActivityIfLoaded(database: Database) {
+        if (database.loaded) {
+            GroupActivity.launch(this,
+                database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() })
+        }
     }
 
     override fun onValidateSpecialMode() {
@@ -296,28 +318,16 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             }
         }
 
-        val database = Database.getInstance()
-        if (database.loaded) {
-            launchGroupActivity(database)
-        } else {
-            // Construct adapter with listeners
-            if (PreferencesUtil.showRecentFiles(this)) {
-                databaseFilesViewModel.loadListOfDatabases()
-            } else {
-                mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
-                mAdapterDatabaseHistory?.notifyDataSetChanged()
-            }
-
-            // Register progress task
-            mProgressDatabaseTaskProvider?.registerProgressTask()
+        mDatabase?.let { database ->
+            launchGroupActivityIfLoaded(database)
         }
-    }
 
-    override fun onPause() {
-        // Unregister progress task
-        mProgressDatabaseTaskProvider?.unregisterProgressTask()
-
-        super.onPause()
+        // Show recent files if allowed
+        if (PreferencesUtil.showRecentFiles(this@FileDatabaseSelectActivity)) {
+            databaseFilesViewModel.loadListOfDatabases()
+        } else {
+            mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -329,15 +339,10 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     }
 
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-
         try {
             mDatabaseFileUri?.let { databaseUri ->
-
                 // Create the new database
-                mProgressDatabaseTaskProvider?.startDatabaseCreate(
-                        databaseUri,
-                        mainCredential
-                )
+                createDatabase(databaseUri, mainCredential)
             }
         } catch (e: Exception) {
             val error = getString(R.string.error_create_database_file)

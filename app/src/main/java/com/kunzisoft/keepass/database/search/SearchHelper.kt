@@ -51,6 +51,8 @@ class SearchHelper {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
                             return false
+                        if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
+                            return false
                         if (entryContainsString(database, node, searchParameters)) {
                             searchGroup?.addChildEntry(node)
                             incrementEntry++
@@ -70,6 +72,7 @@ class SearchHelper {
                 },
                 false)
 
+        searchGroup?.refreshNumberOfChildEntries()
         return searchGroup
     }
 
@@ -92,15 +95,18 @@ class SearchHelper {
          * Utility method to perform actions if item is found or not after an auto search in [database]
          */
         fun checkAutoSearchInfo(context: Context,
-                                database: Database,
+                                database: Database?,
                                 searchInfo: SearchInfo?,
-                                onItemsFound: (items: List<EntryInfo>) -> Unit,
-                                onItemNotFound: () -> Unit,
+                                onItemsFound: (openedDatabase: Database,
+                                               items: List<EntryInfo>) -> Unit,
+                                onItemNotFound: (openedDatabase: Database) -> Unit,
                                 onDatabaseClosed: () -> Unit) {
-            if (database.loaded && TimeoutHelper.checkTime(context)) {
+            if (database == null || !database.loaded) {
+                onDatabaseClosed.invoke()
+            } else if (TimeoutHelper.checkTime(context)) {
                 var searchWithoutUI = false
                 if (PreferencesUtil.isAutofillAutoSearchEnable(context)
-                        && searchInfo != null
+                        && searchInfo != null && !searchInfo.manualSelection
                         && !searchInfo.containsOnlyNullValues()) {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
@@ -108,18 +114,16 @@ class SearchHelper {
                             PreferencesUtil.omitBackup(context),
                             MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->
-                        if (searchGroup.getNumberOfChildEntries() > 0) {
+                        if (searchGroup.numberOfChildEntries > 0) {
                             searchWithoutUI = true
-                            onItemsFound.invoke(
+                            onItemsFound.invoke(database,
                                     searchGroup.getChildEntriesInfo(database))
                         }
                     }
                 }
                 if (!searchWithoutUI) {
-                    onItemNotFound.invoke()
+                    onItemNotFound.invoke(database)
                 }
-            } else {
-                onDatabaseClosed.invoke()
             }
         }
 

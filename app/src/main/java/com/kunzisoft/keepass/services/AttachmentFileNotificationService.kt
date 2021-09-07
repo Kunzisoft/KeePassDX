@@ -27,6 +27,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
@@ -41,6 +42,10 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 class AttachmentFileNotificationService: LockNotificationService() {
 
+    private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
+    private var mDatabase: Database? = null
+    private val mPendingCommands: MutableList<Intent?> = mutableListOf()
+
     override val notificationId: Int = 10000
     private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
 
@@ -48,8 +53,6 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
-
-    private var mDatabase: Database? = Database.getInstance()
 
     override fun retrieveChannelId(): String {
         return CHANNEL_ATTACHMENT_ID
@@ -82,6 +85,23 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
     }
 
+    override fun onCreate() {
+        super.onCreate()
+
+        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider?.registerProgressTask()
+        mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
+            this.mDatabase = database
+            // Execute each command in wait state
+            val commandIterator = this.mPendingCommands.iterator()
+            while (commandIterator.hasNext()) {
+                val command = commandIterator.next()
+                actionRequested(command)
+                commandIterator.remove()
+            }
+        }
+    }
+
     interface ActionTaskListener {
         fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState)
     }
@@ -93,6 +113,18 @@ class AttachmentFileNotificationService: LockNotificationService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
+        // Wait for database to execute action request
+        if (mDatabase != null) {
+            actionRequested(intent)
+        } else {
+            mPendingCommands.add(intent)
+        }
+
+        return START_REDELIVER_INTENT
+    }
+
+    private fun actionRequested(intent: Intent?) {
+
         val downloadFileUri: Uri? = if (intent?.hasExtra(FILE_URI_KEY) == true) {
             intent.getParcelableExtra(FILE_URI_KEY)
         } else null
@@ -100,16 +132,16 @@ class AttachmentFileNotificationService: LockNotificationService() {
         when(intent?.action) {
             ACTION_ATTACHMENT_FILE_START_UPLOAD -> {
                 actionStartUploadOrDownload(downloadFileUri,
-                        intent,
-                        StreamDirection.UPLOAD)
+                    intent,
+                    StreamDirection.UPLOAD)
             }
             ACTION_ATTACHMENT_FILE_STOP_UPLOAD -> {
                 actionStopUpload()
             }
             ACTION_ATTACHMENT_FILE_START_DOWNLOAD -> {
                 actionStartUploadOrDownload(downloadFileUri,
-                        intent,
-                        StreamDirection.DOWNLOAD)
+                    intent,
+                    StreamDirection.DOWNLOAD)
             }
             ACTION_ATTACHMENT_REMOVE -> {
                 intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
@@ -130,8 +162,6 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 }
             }
         }
-
-        return START_REDELIVER_INTENT
     }
 
     @Synchronized
@@ -249,6 +279,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             notificationManager?.cancel(attachmentNotification.notificationId)
         }
         attachmentNotificationList.clear()
+        mDatabaseTaskProvider?.unregisterProgressTask()
 
         super.onDestroy()
     }

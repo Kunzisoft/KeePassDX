@@ -77,6 +77,9 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
             databaseFileAdded?.let { _ ->
                 databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     this.databaseFileAction = DatabaseFileAction.ADD
+                    if (this.databaseFileList.contains(databaseFileAdded)) {
+                        this.databaseFileList.remove(databaseFileAdded)
+                    }
                     this.databaseFileList.add(databaseFileAdded)
                     this.databaseFileToActivate = databaseFileAdded
                 }
@@ -107,6 +110,21 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile) {
         mFileDatabaseHistoryAction?.deleteDatabaseFile(databaseFileToDelete) { databaseFileDeleted ->
             databaseFileDeleted?.let { _ ->
+                // Release database and keyfile URIs permissions
+                val contentResolver = getApplication<App>().applicationContext.contentResolver
+                databaseFileDeleted.databaseUri?.let { databaseUri ->
+                    UriUtil.releaseUriPermission(
+                        contentResolver,
+                        databaseUri
+                    )
+                }
+                databaseFileDeleted.keyFileUri?.let { keyFileUri ->
+                    UriUtil.releaseUriPermission(
+                        contentResolver,
+                        keyFileUri
+                    )
+                }
+                // Call the feedback
                 databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     databaseFileAction = DatabaseFileAction.DELETE
                     databaseFileToActivate = databaseFileDeleted

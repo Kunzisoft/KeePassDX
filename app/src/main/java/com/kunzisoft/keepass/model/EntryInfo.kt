@@ -20,29 +20,35 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import java.util.*
 
 class EntryInfo : NodeInfo {
 
-    var id: String = ""
+    var id: UUID = UUID.randomUUID()
     var username: String = ""
     var password: String = ""
     var url: String = ""
     var notes: String = ""
-    var customFields: List<Field> = ArrayList()
-    var attachments: List<Attachment> = ArrayList()
+    var customFields: MutableList<Field> = mutableListOf()
+    var attachments: MutableList<Attachment> = mutableListOf()
     var otpModel: OtpModel? = null
+    var isTemplate: Boolean = false
 
-    constructor(): super()
+    constructor() : super()
 
-    constructor(parcel: Parcel): super(parcel) {
-        id = parcel.readString() ?: id
+    constructor(parcel: Parcel) : super(parcel) {
+        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
@@ -50,6 +56,7 @@ class EntryInfo : NodeInfo {
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
+        isTemplate = parcel.readByte().toInt() != 0
     }
 
     override fun describeContents(): Int {
@@ -58,14 +65,15 @@ class EntryInfo : NodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeString(id)
+        parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
         parcel.writeString(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeArray(customFields.toTypedArray())
-        parcel.writeArray(attachments.toTypedArray())
+        parcel.writeList(customFields)
+        parcel.writeList(attachments)
         parcel.writeParcelable(otpModel, flags)
+        parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }
 
     fun containsCustomFieldsProtected(): Boolean {
@@ -133,8 +141,7 @@ class EntryInfo : NodeInfo {
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
-            }
-            else if (url != webDomainToStore){
+            } else if (url != webDomainToStore) {
                 // Save web domain in custom field
                 addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
                         ProtectedString(false, webDomainToStore)),
@@ -152,6 +159,65 @@ class EntryInfo : NodeInfo {
             }
         }
     }
+
+    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
+        registerInfo.username?.let {
+            username = it
+        }
+        registerInfo.password?.let {
+            password = it
+        }
+
+        if (database?.allowEntryCustomFields() == true) {
+            val creditCard: CreditCard? = registerInfo.creditCard
+            creditCard?.cardholder?.let {
+                addUniqueField(Field(TemplateField.LABEL_HOLDER, ProtectedString(false, it)))
+            }
+            creditCard?.expiration?.let {
+                expires = true
+                expiryTime = DateInstant(creditCard.expiration.millis)
+            }
+            creditCard?.number?.let {
+                addUniqueField(Field(TemplateField.LABEL_NUMBER, ProtectedString(false, it)))
+            }
+            creditCard?.cvv?.let {
+                addUniqueField(Field(TemplateField.LABEL_CVV, ProtectedString(true, it)))
+            }
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is EntryInfo) return false
+        if (!super.equals(other)) return false
+
+        if (id != other.id) return false
+        if (username != other.username) return false
+        if (password != other.password) return false
+        if (url != other.url) return false
+        if (notes != other.notes) return false
+        if (customFields != other.customFields) return false
+        if (attachments != other.attachments) return false
+        if (otpModel != other.otpModel) return false
+        if (isTemplate != other.isTemplate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + username.hashCode()
+        result = 31 * result + password.hashCode()
+        result = 31 * result + url.hashCode()
+        result = 31 * result + notes.hashCode()
+        result = 31 * result + customFields.hashCode()
+        result = 31 * result + attachments.hashCode()
+        result = 31 * result + (otpModel?.hashCode() ?: 0)
+        result = 31 * result + isTemplate.hashCode()
+        return result
+    }
+
 
     companion object {
 

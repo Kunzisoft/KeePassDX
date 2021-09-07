@@ -86,7 +86,7 @@
         <item name="android:windowBackground">@color/white_purple</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Purple" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.Purple" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/white_purple_light</item>
     </style>
 
@@ -158,7 +158,7 @@
         <item name="android:windowBackground">@color/black_purple_dark</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Purple.Dark" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.Purple.Dark" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_purple</item>
     </style>
 </resources>

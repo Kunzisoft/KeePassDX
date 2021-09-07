@@ -26,13 +26,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.model.EntryInfo
 
 class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHistoryAdapter.EntryHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var entryHistoryList: MutableList<Entry> = ArrayList()
-    var onItemClickListener: ((item: Entry, position: Int)->Unit)? = null
+    var entryHistoryList: MutableList<EntryInfo> = ArrayList()
+    var onItemClickListener: ((item: EntryInfo, position: Int)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryHistoryViewHolder {
         return EntryHistoryViewHolder(inflater.inflate(R.layout.item_list_entry_history, parent, false))
@@ -44,7 +44,6 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
         holder.lastModifiedView.text = entryHistory.lastModificationTime.getDateTimeString(context.resources)
         holder.titleView.text = entryHistory.title
         holder.usernameView.text = entryHistory.username
-        holder.urlView.text = entryHistory.url
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.invoke(entryHistory, position)
@@ -64,6 +63,5 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
         var lastModifiedView: TextView = itemView.findViewById(R.id.entry_history_last_modified)
         var titleView: TextView = itemView.findViewById(R.id.entry_history_title)
         var usernameView: TextView = itemView.findViewById(R.id.entry_history_username)
-        var urlView: TextView = itemView.findViewById(R.id.entry_history_url)
     }
 }

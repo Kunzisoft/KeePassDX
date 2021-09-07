@@ -23,6 +23,7 @@ import android.content.Context
 import androidx.preference.ListPreference
 import android.util.AttributeSet
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.icons.IconPackChooser
 import java.util.*
 

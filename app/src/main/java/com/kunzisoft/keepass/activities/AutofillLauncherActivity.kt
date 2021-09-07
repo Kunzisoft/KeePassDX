@@ -25,14 +25,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
-import android.os.Bundle
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.KeeAutofillService
@@ -44,9 +43,18 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class AutofillLauncherActivity : AppCompatActivity() {
+class AutofillLauncherActivity : DatabaseModeActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
+
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
 
         // Retrieve selection mode
         EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
@@ -57,10 +65,11 @@ class AutofillLauncherActivity : AppCompatActivity() {
                         applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                         webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
                         webScheme = intent.getStringExtra(KEY_SEARCH_SCHEME)
+                        manualSelection = intent.getBooleanExtra(KEY_MANUAL_SELECTION, false)
                     }
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        launchSelection(searchInfo)
+                        launchSelection(database, searchInfo)
                     }
                 }
                 SpecialMode.REGISTRATION -> {
@@ -69,7 +78,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
-                        launchRegistration(searchInfo, registerInfo)
+                        launchRegistration(database, searchInfo, registerInfo)
                     }
                 }
                 else -> {
@@ -79,11 +88,10 @@ class AutofillLauncherActivity : AppCompatActivity() {
                 }
             }
         }
-
-        super.onCreate(savedInstanceState)
     }
 
-    private fun launchSelection(searchInfo: SearchInfo) {
+    private fun launchSelection(database: Database?,
+                                searchInfo: SearchInfo) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
 
@@ -98,24 +106,22 @@ class AutofillLauncherActivity : AppCompatActivity() {
             setResult(Activity.RESULT_CANCELED)
             finish()
         } else {
-            val database = Database.getInstance()
-            val readOnly = database.isReadOnly
             // If database is open
             SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
+                    database,
                     searchInfo,
-                    { items ->
+                    { openedDatabase, items ->
                         // Items found
-                        AutofillHelper.buildResponseAndSetResult(this, items)
+                        AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
                         finish()
                     },
-                    {
+                    { openedDatabase ->
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                readOnly,
-                                autofillComponent,
-                                searchInfo,
-                                false)
+                            openedDatabase,
+                            autofillComponent,
+                            searchInfo,
+                            false)
                     },
                     {
                         // If database not open
@@ -127,7 +133,9 @@ class AutofillLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchRegistration(searchInfo: SearchInfo, registerInfo: RegisterInfo?) {
+    private fun launchRegistration(database: Database?,
+                                   searchInfo: SearchInfo,
+                                   registerInfo: RegisterInfo?) {
         if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
                         PreferencesUtil.applicationIdBlocklist(this))
                 || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
@@ -135,25 +143,26 @@ class AutofillLauncherActivity : AppCompatActivity() {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
         } else {
-            val database = Database.getInstance()
-            val readOnly = database.isReadOnly
+            val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(this,
                     database,
                     searchInfo,
-                    { _ ->
+                    { openedDatabase, _ ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,
-                                    registerInfo)
+                                openedDatabase,
+                                registerInfo)
                         } else {
                             showReadOnlySaveMessage()
                         }
                     },
-                    {
+                    { openedDatabase ->
                         if (!readOnly) {
                             // Show the database UI to select the entry
                             GroupActivity.launchForRegistration(this,
-                                    registerInfo)
+                                openedDatabase,
+                                registerInfo)
                         } else {
                             showReadOnlySaveMessage()
                         }
@@ -190,15 +199,16 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
     companion object {
 
+        private const val KEY_MANUAL_SELECTION = "KEY_MANUAL_SELECTION"
         private const val KEY_SEARCH_APPLICATION_ID = "KEY_SEARCH_APPLICATION_ID"
         private const val KEY_SEARCH_DOMAIN = "KEY_SEARCH_DOMAIN"
         private const val KEY_SEARCH_SCHEME = "KEY_SEARCH_SCHEME"
 
         private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
 
-        fun getAuthIntentSenderForSelection(context: Context,
-                                            searchInfo: SearchInfo? = null,
-                                            inlineSuggestionsRequest: InlineSuggestionsRequest? = null): IntentSender {
+        fun getPendingIntentForSelection(context: Context,
+                                         searchInfo: SearchInfo? = null,
+                                         inlineSuggestionsRequest: InlineSuggestionsRequest? = null): PendingIntent {
             return PendingIntent.getActivity(context, 0,
                     // Doesn't work with Parcelable (don't know why?)
                     Intent(context, AutofillLauncherActivity::class.java).apply {
@@ -206,6 +216,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                             putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
                             putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
                             putExtra(KEY_SEARCH_SCHEME, it.webScheme)
+                            putExtra(KEY_MANUAL_SELECTION, it.manualSelection)
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             inlineSuggestionsRequest?.let {
@@ -213,17 +224,17 @@ class AutofillLauncherActivity : AppCompatActivity() {
                             }
                         }
                     },
-                    PendingIntent.FLAG_CANCEL_CURRENT).intentSender
+                    PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
-        fun getAuthIntentSenderForRegistration(context: Context,
-                                               registerInfo: RegisterInfo): IntentSender {
+        fun getPendingIntentForRegistration(context: Context,
+                                            registerInfo: RegisterInfo): PendingIntent {
             return PendingIntent.getActivity(context, 0,
                     Intent(context, AutofillLauncherActivity::class.java).apply {
                         EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
                         putExtra(KEY_REGISTER_INFO, registerInfo)
                     },
-                    PendingIntent.FLAG_CANCEL_CURRENT).intentSender
+                    PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
         fun launchForRegistration(context: Context,

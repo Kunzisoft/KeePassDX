@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
+// Not as DatabaseDialogFragment because crash on KitKat
 class DatePickerFragment : DialogFragment() {
 
     private var mDefaultYear: Int = 2000

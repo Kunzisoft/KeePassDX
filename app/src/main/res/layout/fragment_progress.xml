@@ -18,7 +18,9 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
@@ -31,6 +33,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         style="@style/KeepassDXStyle.TextAppearance.Title"
+        android:textStyle="bold"
         android:textColor="?android:attr/textColor"/>
 
     <TextView
@@ -55,12 +58,12 @@
         android:layout_marginEnd="20dp"
         style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"/>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_dialog_bar"
-        style="?android:attr/progressBarStyleHorizontal"
+        app:indicatorColor="?attr/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:indeterminate="true"
         android:max="100"/>
 

@@ -25,6 +25,7 @@ import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -37,19 +38,23 @@ import android.view.autofill.AutofillValue
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
+import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import kotlin.collections.ArrayList
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -85,13 +90,14 @@ object AutofillHelper {
     }
 
     private fun newRemoteViews(context: Context,
+                               database: Database,
                                remoteViewsText: String,
                                remoteViewsIcon: IconImage? = null): RemoteViews {
         val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
         presentation.setTextViewText(R.id.autofill_entry_text, remoteViewsText)
         if (remoteViewsIcon != null) {
             try {
-                Database.getInstance().iconDrawableFactory.getBitmapFromIcon(context,
+                database.iconDrawableFactory.getBitmapFromIcon(context,
                         remoteViewsIcon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
                     presentation.setImageViewBitmap(R.id.autofill_entry_icon, bitmap)
                 }
@@ -103,19 +109,96 @@ object AutofillHelper {
     }
 
     private fun buildDataset(context: Context,
-                              entryInfo: EntryInfo,
-                              struct: StructureParser.Result,
-                              inlinePresentation: InlinePresentation?): Dataset? {
+                             database: Database,
+                             entryInfo: EntryInfo,
+                             struct: StructureParser.Result,
+                             inlinePresentation: InlinePresentation?): Dataset? {
         val title = makeEntryTitle(entryInfo)
-        val views = newRemoteViews(context, title, entryInfo.icon)
+        val views = newRemoteViews(context, database, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
-        builder.setId(entryInfo.id)
+        builder.setId(entryInfo.id.toString())
 
         struct.usernameId?.let { usernameId ->
             builder.setValue(usernameId, AutofillValue.forText(entryInfo.username))
         }
-        struct.passwordId?.let { password ->
-            builder.setValue(password, AutofillValue.forText(entryInfo.password))
+        struct.passwordId?.let { passwordId ->
+            builder.setValue(passwordId, AutofillValue.forText(entryInfo.password))
+        }
+
+        if (entryInfo.expires) {
+            val year = entryInfo.expiryTime.getYearInt()
+            val month = entryInfo.expiryTime.getMonthInt()
+            val monthString = month.toString().padStart(2, '0')
+            val day = entryInfo.expiryTime.getDay()
+            val dayString = day.toString().padStart(2, '0')
+
+            struct.creditCardExpirationDateId?.let {
+                if (struct.isWebView) {
+                    // set date string as defined in https://html.spec.whatwg.org
+                    builder.setValue(it, AutofillValue.forText("$year\u002D$monthString"))
+                } else {
+                    builder.setValue(it, AutofillValue.forDate(entryInfo.expiryTime.date.time))
+                }
+            }
+            struct.creditCardExpirationYearId?.let {
+                var autofillValue: AutofillValue? = null
+
+                struct.creditCardExpirationYearOptions?.let { options ->
+                    var yearIndex = options.indexOf(year.toString().substring(0, 2))
+
+                    if (yearIndex == -1) {
+                        yearIndex = options.indexOf(year.toString())
+                    }
+                    if (yearIndex != -1) {
+                        autofillValue = AutofillValue.forList(yearIndex)
+                        builder.setValue(it, autofillValue)
+                    }
+                }
+
+                if (autofillValue == null) {
+                    builder.setValue(it, AutofillValue.forText(year.toString()))
+                }
+            }
+            struct.creditCardExpirationMonthId?.let {
+                if (struct.isWebView) {
+                    builder.setValue(it, AutofillValue.forText(monthString))
+                } else {
+                    if (struct.creditCardExpirationMonthOptions != null) {
+                        // index starts at 0
+                        builder.setValue(it, AutofillValue.forList(month - 1))
+                    } else {
+                        builder.setValue(it, AutofillValue.forText(monthString))
+                    }
+                }
+            }
+            struct.creditCardExpirationDayId?.let {
+                if (struct.isWebView) {
+                    builder.setValue(it, AutofillValue.forText(dayString))
+                } else {
+                    if (struct.creditCardExpirationDayOptions != null) {
+                        builder.setValue(it, AutofillValue.forList(day - 1))
+                    } else {
+                        builder.setValue(it, AutofillValue.forText(dayString))
+                    }
+                }
+            }
+        }
+        for (field in entryInfo.customFields) {
+            if (field.name == TemplateField.LABEL_HOLDER) {
+                struct.creditCardHolderId?.let { ccNameId ->
+                    builder.setValue(ccNameId, AutofillValue.forText(field.protectedValue.stringValue))
+                }
+            }
+            if (field.name == TemplateField.LABEL_NUMBER) {
+                struct.creditCardNumberId?.let { ccnId ->
+                    builder.setValue(ccnId, AutofillValue.forText(field.protectedValue.stringValue))
+                }
+            }
+            if (field.name == TemplateField.LABEL_CVV) {
+                struct.cardVerificationValueId?.let { cvvId ->
+                    builder.setValue(cvvId, AutofillValue.forText(field.protectedValue.stringValue))
+                }
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -126,8 +209,8 @@ object AutofillHelper {
 
         return try {
             builder.build()
-        } catch (e: IllegalArgumentException) {
-            // if not value be set
+        } catch (e: Exception) {
+            // at least one value must be set
             null
         }
     }
@@ -135,9 +218,11 @@ object AutofillHelper {
     /**
      * Method to assign a drawable to a new icon from a database icon
      */
-    private fun buildIconFromEntry(context: Context, entryInfo: EntryInfo): Icon? {
+    private fun buildIconFromEntry(context: Context,
+                                   database: Database,
+                                   entryInfo: EntryInfo): Icon? {
         try {
-            Database.getInstance().iconDrawableFactory.getBitmapFromIcon(context,
+            database.iconDrawableFactory.getBitmapFromIcon(context,
                     entryInfo.icon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
                 return Icon.createWithBitmap(bitmap)
             }
@@ -150,13 +235,14 @@ object AutofillHelper {
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
     private fun buildInlinePresentationForEntry(context: Context,
+                                                database: Database,
                                                 inlineSuggestionsRequest: InlineSuggestionsRequest,
                                                 positionItem: Int,
                                                 entryInfo: EntryInfo): InlinePresentation? {
         val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
         val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
 
-        if (positionItem <= maxSuggestion-1
+        if (positionItem <= maxSuggestion - 1
                 && inlinePresentationSpecs.size > positionItem) {
             val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
 
@@ -178,7 +264,7 @@ object AutofillHelper {
                         setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
                             setTintBlendMode(BlendMode.DST)
                         })
-                        buildIconFromEntry(context, entryInfo)?.let { icon ->
+                        buildIconFromEntry(context, database, entryInfo)?.let { icon ->
                             setEndIcon(icon.apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
@@ -188,10 +274,32 @@ object AutofillHelper {
         return null
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("RestrictedApi")
+    private fun buildInlinePresentationForManualSelection(context: Context,
+                                                          inlinePresentationSpec: InlinePresentationSpec,
+                                                          pendingIntent: PendingIntent): InlinePresentation? {
+        // Make sure that the IME spec claims support for v1 UI template.
+        val imeStyle = inlinePresentationSpec.style
+        if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+            return null
+
+        // Build the content for IME UI
+        return InlinePresentation(
+                InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
+                    setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
+                    setTitle(context.getString(R.string.autofill_select_entry))
+                    setStartIcon(Icon.createWithResource(context, R.drawable.ic_arrow_right_green_24dp).apply {
+                        setTintBlendMode(BlendMode.DST)
+                    })
+                }.build().slice, inlinePresentationSpec, false)
+    }
+
     fun buildResponse(context: Context,
+                      database: Database,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
-                      inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse {
+                      inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse? {
         val responseBuilder = FillResponse.Builder()
         // Add Header
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -208,31 +316,85 @@ object AutofillHelper {
                 }
             }
         }
+
         // Add inline suggestion for new IME and dataset
-        entriesInfo.forEachIndexed { index, entryInfo ->
-            val inlinePresentation = inlineSuggestionsRequest?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    buildInlinePresentationForEntry(context, inlineSuggestionsRequest, index, entryInfo)
-                } else {
-                    null
+        var numberInlineSuggestions = 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            inlineSuggestionsRequest?.let {
+                numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
+                if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+                    if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
+                        --numberInlineSuggestions
+                    }
                 }
             }
-            responseBuilder.addDataset(buildDataset(context, entryInfo, parseResult, inlinePresentation))
+
         }
-        return responseBuilder.build()
+
+        entriesInfo.forEachIndexed { _, entry ->
+            val inlinePresentation = if (numberInlineSuggestions > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                inlineSuggestionsRequest?.let {
+                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, numberInlineSuggestions--, entry)
+                }
+            } else {
+                null
+            }
+            responseBuilder.addDataset(buildDataset(context, database, entry, parseResult, inlinePresentation))
+        }
+
+        if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
+            val searchInfo = SearchInfo().apply {
+                applicationId = parseResult.applicationId
+                webDomain = parseResult.webDomain
+                webScheme = parseResult.webScheme
+                manualSelection = true
+            }
+            val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_select_entry)
+            val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
+                    searchInfo, inlineSuggestionsRequest)
+
+            parseResult.allAutofillIds().let { autofillIds ->
+                autofillIds.forEach { id ->
+                    val builder = Dataset.Builder(manualSelectionView)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        inlineSuggestionsRequest?.let {
+                            val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                            val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                            inlinePresentation?.let {
+                                builder.setInlinePresentation(it)
+                            }
+                        }
+                    }
+                    builder.setValue(id, null)
+                    builder.setAuthentication(pendingIntent.intentSender)
+                    responseBuilder.addDataset(builder.build())
+                }
+            }
+        }
+
+        return try {
+            responseBuilder.build()
+        } catch (e: Exception) {
+            null
+        }
     }
 
     /**
      * Build the Autofill response for one entry
      */
-    fun buildResponseAndSetResult(activity: Activity, entryInfo: EntryInfo) {
-        buildResponseAndSetResult(activity, ArrayList<EntryInfo>().apply { add(entryInfo) })
+    fun buildResponseAndSetResult(activity: Activity,
+                                  database: Database,
+                                  entryInfo: EntryInfo) {
+        buildResponseAndSetResult(activity, database, ArrayList<EntryInfo>().apply { add(entryInfo) })
     }
 
     /**
      * Build the Autofill response for many entry
      */
-    fun buildResponseAndSetResult(activity: Activity, entriesInfo: List<EntryInfo>) {
+    fun buildResponseAndSetResult(activity: Activity,
+                                  database: Database,
+                                  entriesInfo: List<EntryInfo>) {
         if (entriesInfo.isEmpty()) {
             activity.setResult(Activity.RESULT_CANCELED)
         } else {
@@ -245,9 +407,9 @@ object AutofillHelper {
                         if (inlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }
-                        buildResponse(activity, entriesInfo, result, inlineSuggestionsRequest)
+                        buildResponse(activity, database, entriesInfo, result, inlineSuggestionsRequest)
                     } else {
-                        buildResponse(activity, entriesInfo, result, null)
+                        buildResponse(activity, database, entriesInfo, result, null)
                     }
                     val mReplyIntent = Intent()
                     Log.d(activity.javaClass.name, "Successed Autofill auth.")

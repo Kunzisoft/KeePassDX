@@ -26,7 +26,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +42,11 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.*
@@ -49,7 +55,8 @@ import java.util.*
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-class NodeAdapter (private val context: Context)
+class NodeAdapter (private val context: Context,
+                   private val database: Database)
     : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
     private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
@@ -67,12 +74,13 @@ class NodeAdapter (private val context: Context)
 
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
+    private var mShowOTP: Boolean = false
+    private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
 
     private var mActionNodesList = LinkedList<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
-
-    private val mDatabase: Database
+    private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
     private val mContentSelectionColor: Int
@@ -96,9 +104,6 @@ class NodeAdapter (private val context: Context)
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        // Database
-        this.mDatabase = Database.getInstance()
-
         // Color of content selection
         this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
         // Retrieve the color to tint the icon
@@ -111,7 +116,7 @@ class NodeAdapter (private val context: Context)
         taTextColor.recycle()
     }
 
-    fun assignPreferences() {
+    private fun assignPreferences() {
         this.mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         notifyChangeSort(
@@ -125,6 +130,8 @@ class NodeAdapter (private val context: Context)
 
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowOTP = PreferencesUtil.showOTPToken(context)
+        this.mShowUUID = PreferencesUtil.showUUID(context)
 
         this.mEntryFilters = Group.ChildFilter.getDefaults(context)
 
@@ -146,9 +153,21 @@ class NodeAdapter (private val context: Context)
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
-            return oldItem.type == newItem.type
+            var typeContentTheSame = true
+            if (oldItem is Entry && newItem is Entry) {
+                typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
+                        && oldItem.username == newItem.username
+                        && oldItem.getOtpElement() == newItem.getOtpElement()
+                        && oldItem.containsAttachment() == newItem.containsAttachment()
+            } else if (oldItem is Group && newItem is Group) {
+                typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
+            }
+            return typeContentTheSame
+                    && oldItem.nodeId == newItem.nodeId
+                    && oldItem.type == newItem.type
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
+                    && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
         }
 
         override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
@@ -241,6 +260,10 @@ class NodeAdapter (private val context: Context)
         mNodeSortedList.endBatchedUpdates()
     }
 
+    fun indexOf(node: Node): Int {
+        return mNodeSortedList.indexOf(node)
+    }
+
     fun notifyNodeChanged(node: Node) {
         notifyItemChanged(mNodeSortedList.indexOf(node))
     }
@@ -266,7 +289,7 @@ class NodeAdapter (private val context: Context)
      */
     fun notifyChangeSort(sortNodeEnum: SortNodeEnum,
                          sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        this.mNodeComparator = sortNodeEnum.getNodeComparator(sortNodeParameters)
+        this.mNodeComparator = sortNodeEnum.getNodeComparator(database, sortNodeParameters)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -303,7 +326,7 @@ class NodeAdapter (private val context: Context)
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            mDatabase.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
+            database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
@@ -323,11 +346,16 @@ class NodeAdapter (private val context: Context)
             strikeOut(subNode.isCurrentlyExpires)
             visibility = View.GONE
         }
+        // Add meta text to show UUID
+        holder.meta.apply {
+            text = subNode.nodeId.toString()
+            visibility = if (mShowUUID) View.VISIBLE else View.GONE
+        }
 
         // Specific elements for entry
         if (subNode.type == Type.ENTRY) {
             val entry = subNode as Entry
-            mDatabase.startManageEntry(entry)
+            database.startManageEntry(entry)
 
             holder.text.text = entry.getVisualTitle()
             holder.subText.apply {
@@ -339,10 +367,29 @@ class NodeAdapter (private val context: Context)
                 }
             }
 
+            val otpElement = entry.getOtpElement()
+            holder.otpContainer?.removeCallbacks(holder.otpRunnable)
+            if (otpElement != null
+                && mShowOTP
+                && otpElement.token.isNotEmpty()) {
+
+                // Execute runnable to show progress
+                holder.otpRunnable.action = {
+                    populateOtpView(holder, otpElement)
+                }
+                if (otpElement.type == OtpType.TOTP) {
+                    holder.otpRunnable.postDelayed()
+                }
+                populateOtpView(holder, otpElement)
+
+                holder.otpContainer?.visibility = View.VISIBLE
+            } else {
+                holder.otpContainer?.visibility = View.GONE
+            }
             holder.attachmentIcon?.visibility =
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
-            mDatabase.stopManageEntry(entry)
+            database.stopManageEntry(entry)
         }
 
         // Add number of entries in groups
@@ -350,7 +397,7 @@ class NodeAdapter (private val context: Context)
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries(mEntryFilters)
+                            .numberOfChildEntries
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
@@ -362,13 +409,56 @@ class NodeAdapter (private val context: Context)
 
         // Assign click
         holder.container.setOnClickListener {
-            mNodeClickCallback?.onNodeClick(subNode)
+            mNodeClickCallback?.onNodeClick(database, subNode)
         }
         holder.container.setOnLongClickListener {
-            mNodeClickCallback?.onNodeLongClick(subNode) ?: false
+            mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
     }
-    
+
+    private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
+        when (otpElement?.type) {
+            OtpType.HOTP -> {
+                holder?.otpProgress?.apply {
+                    max = 100
+                    progress = 100
+                }
+            }
+            OtpType.TOTP -> {
+                holder?.otpProgress?.apply {
+                    max = otpElement.period
+                    progress = otpElement.secondsRemaining
+                }
+            }
+        }
+        holder?.otpToken?.text = otpElement?.token
+        holder?.otpContainer?.setOnClickListener {
+            otpElement?.token?.let { token ->
+                Toast.makeText(
+                        context,
+                        context.getString(R.string.copy_field,
+                                TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN)),
+                        Toast.LENGTH_LONG
+                ).show()
+                mClipboardHelper.copyToClipboard(token)
+            }
+        }
+    }
+
+    class OtpRunnable(val view: View?): Runnable {
+
+        var action: (() -> Unit)? = null
+
+        override fun run() {
+            action?.invoke()
+            postDelayed()
+        }
+
+        fun postDelayed() {
+            view?.postDelayed(this, 1000)
+        }
+    }
+
     override fun getItemCount(): Int {
         return mNodeSortedList.size()
     }
@@ -384,8 +474,8 @@ class NodeAdapter (private val context: Context)
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(node: Node)
-        fun onNodeLongClick(node: Node): Boolean
+        fun onNodeClick(database: Database, node: Node)
+        fun onNodeLongClick(database: Database, node: Node): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -394,6 +484,11 @@ class NodeAdapter (private val context: Context)
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
+        var meta: TextView = itemView.findViewById(R.id.node_meta)
+        var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
+        var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
+        var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
+        var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
     }

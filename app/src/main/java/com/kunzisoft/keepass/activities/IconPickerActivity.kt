@@ -36,8 +36,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.resetAppTimeoutWhenViewFocusedOrChanged
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -50,7 +49,7 @@ import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.*
 
 
-class IconPickerActivity : LockingActivity() {
+class IconPickerActivity : DatabaseLockActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -65,16 +64,12 @@ class IconPickerActivity : LockingActivity() {
     private var mCustomIconsSelectionMode = false
     private var mIconsSelected: List<IconImageCustom> = ArrayList()
 
-    private var mDatabase: Database? = null
-
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_icon_picker)
-
-        mDatabase = Database.getInstance()
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.title = " "
@@ -88,11 +83,6 @@ class IconPickerActivity : LockingActivity() {
         mExternalFileHelper = ExternalFileHelper(this)
 
         uploadButton = findViewById(R.id.icon_picker_upload)
-        if (mDatabase?.allowCustomIcons == true) {
-            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
-        } else {
-            uploadButton.visibility = View.GONE
-        }
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
@@ -117,9 +107,6 @@ class IconPickerActivity : LockingActivity() {
         } else {
             mIconImage = savedInstanceState.getParcelable(EXTRA_ICON) ?: mIconImage
         }
-
-        // Focus view to reinitialize timeout
-        findViewById<ViewGroup>(R.id.icon_picker_container)?.resetAppTimeoutWhenViewFocusedOrChanged(this)
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
             mIconImage.standard = iconStandard
@@ -151,6 +138,24 @@ class IconPickerActivity : LockingActivity() {
                 iconCustomRemoved.errorConsumed = true
             }
             uploadButton.isEnabled = true
+        }
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        return findViewById<ViewGroup>(R.id.icon_picker_container)
+    }
+
+    override fun finishActivityIfReloadRequested(): Boolean {
+        return true
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+
+        if (database?.allowCustomIcons == true) {
+            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
+        } else {
+            uploadButton.visibility = View.GONE
         }
     }
 
@@ -187,11 +192,16 @@ class IconPickerActivity : LockingActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
-
-        if (mCustomIconsSelectionMode) {
-            menuInflater.inflate(R.menu.icon, menu)
-        }
+        menuInflater.inflate(R.menu.icon, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_delete)?.apply {
+            isEnabled = mCustomIconsSelectionMode
+            isVisible = isEnabled
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -207,6 +217,9 @@ class IconPickerActivity : LockingActivity() {
                 mIconsSelected.forEach { iconToRemove ->
                     removeCustomIcon(iconToRemove)
                 }
+            }
+            R.id.menu_external_icon -> {
+                UriUtil.gotoUrl(this, R.string.external_icon_url)
             }
         }
 

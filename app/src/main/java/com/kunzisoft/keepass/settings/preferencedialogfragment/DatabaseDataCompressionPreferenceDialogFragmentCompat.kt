@@ -24,6 +24,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
@@ -31,6 +32,8 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
         ListRadioItemAdapter.RadioItemSelectedCallback<CompressionAlgorithm> {
 
+    private var mRecyclerView: RecyclerView? = null
+    private var mCompressionAdapter: ListRadioItemAdapter<CompressionAlgorithm>? = null
     private var compressionSelected: CompressionAlgorithm? = null
 
     override fun onBindDialogView(view: View) {
@@ -38,33 +41,38 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
 
         setExplanationText(R.string.database_data_compression_summary)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.pref_dialog_list)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        mRecyclerView = view.findViewById(R.id.pref_dialog_list)
+        mRecyclerView?.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            val compressionAdapter = ListRadioItemAdapter<CompressionAlgorithm>(activity)
-            compressionAdapter.setRadioItemSelectedCallback(this)
-            recyclerView.adapter = compressionAdapter
-
-            database?.let { database ->
-                compressionSelected = database.compressionAlgorithm?.apply {
-                    compressionAdapter.setItems(database.availableCompressionAlgorithms, this)
-                }
-            }
+            mCompressionAdapter = ListRadioItemAdapter<CompressionAlgorithm>(activity)
+            mCompressionAdapter?.setRadioItemSelectedCallback(this)
         }
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        setExplanationText(R.string.database_data_compression_summary)
 
+        mRecyclerView?.adapter = mCompressionAdapter
+
+        database?.let {
+            compressionSelected = it.compressionAlgorithm
+            mCompressionAdapter?.setItems(it.availableCompressionAlgorithms, compressionSelected)
+        }
+    }
+
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            database?.let { database ->
+            database?.let {
                 if (compressionSelected != null) {
                     val newCompression = compressionSelected
                     val oldCompression = database.compressionAlgorithm
                     database.compressionAlgorithm = newCompression
 
                     if (oldCompression != null && newCompression != null)
-                        mProgressDatabaseTaskProvider?.startDatabaseSaveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
+                        saveCompression(oldCompression, newCompression)
                 }
             }
         }

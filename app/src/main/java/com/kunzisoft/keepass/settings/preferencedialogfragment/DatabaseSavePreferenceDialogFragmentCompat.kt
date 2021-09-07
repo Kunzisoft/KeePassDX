@@ -21,36 +21,133 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.content.Context
 import android.os.Bundle
-import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
+import androidx.fragment.app.activityViewModels
+import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
+import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.settings.SettingsActivity
+import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
-abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
+abstract class DatabaseSavePreferenceDialogFragmentCompat
+    : InputPreferenceDialogFragmentCompat(), DatabaseRetrieval {
 
-    protected var database: Database? = null
-    protected var mDatabaseAutoSaveEnable = true
-    protected var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        this.database = Database.getInstance()
-    }
+    private var mDatabaseAutoSaveEnable = true
+    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    private var mDatabase: Database? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        // Attach dialog thread to start action
-        if (context is SettingsActivity) {
-            mProgressDatabaseTaskProvider = context.mProgressDatabaseTaskProvider
-        }
-
         this.mDatabaseAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(context)
     }
 
-    override fun onDetach() {
-        mProgressDatabaseTaskProvider = null
-        super.onDetach()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mDatabaseViewModel.database.observe(this) { database ->
+            onDatabaseRetrieved(database)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onDatabaseRetrieved(mDatabase)
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        this.mDatabase = database
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        // Not used
+    }
+
+    override fun onDialogClosed(positiveResult: Boolean) {
+        onDialogClosed(mDatabase, positiveResult)
+    }
+
+    open fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        // To inherit to save element in database
+    }
+
+    protected fun saveColor(oldColor: String,
+                            newColor: String) {
+        mDatabaseViewModel.saveColor(oldColor, newColor, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveCompression(oldCompression: CompressionAlgorithm,
+                                  newCompression: CompressionAlgorithm) {
+        mDatabaseViewModel.saveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveDefaultUsername(oldUsername: String,
+                                      newUsername: String) {
+        mDatabaseViewModel.saveDefaultUsername(oldUsername, newUsername, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveDescription(oldDescription: String,
+                                  newDescription: String) {
+        mDatabaseViewModel.saveDescription(oldDescription, newDescription, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveEncryption(oldEncryption: EncryptionAlgorithm,
+                                 newEncryptionAlgorithm: EncryptionAlgorithm) {
+        mDatabaseViewModel.saveEncryption(oldEncryption, newEncryptionAlgorithm, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveKeyDerivation(oldKeyDerivation: KdfEngine,
+                                    newKeyDerivation: KdfEngine) {
+        mDatabaseViewModel.saveKeyDerivation(oldKeyDerivation, newKeyDerivation, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveName(oldName: String,
+                           newName: String) {
+        mDatabaseViewModel.saveName(oldName, newName, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveRecycleBin(oldGroup: Group?,
+                                 newGroup: Group?) {
+        mDatabaseViewModel.saveRecycleBin(oldGroup, newGroup, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun removeUnlinkedData() {
+        mDatabaseViewModel.removeUnlinkedData(mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveTemplatesGroup(oldGroup: Group?,
+                                     newGroup: Group?) {
+        mDatabaseViewModel.saveTemplatesGroup(oldGroup, newGroup, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveMaxHistoryItems(oldNumber: Int,
+                                      newNumber: Int) {
+        mDatabaseViewModel.saveMaxHistoryItems(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveMaxHistorySize(oldNumber: Long,
+                                     newNumber: Long) {
+        mDatabaseViewModel.saveMaxHistorySize(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveMemoryUsage(oldNumber: Long,
+                                  newNumber: Long) {
+        mDatabaseViewModel.saveMemoryUsage(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveParallelism(oldNumber: Long,
+                                  newNumber: Long) {
+        mDatabaseViewModel.saveParallelism(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    }
+
+    protected fun saveIterations(oldNumber: Long,
+                                 newNumber: Long) {
+        mDatabaseViewModel.saveIterations(oldNumber, newNumber, mDatabaseAutoSaveEnable)
     }
 
     companion object {

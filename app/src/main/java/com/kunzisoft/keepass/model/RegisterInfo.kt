@@ -5,18 +5,21 @@ import android.os.Parcelable
 
 data class RegisterInfo(val searchInfo: SearchInfo,
                         val username: String?,
-                        val password: String?): Parcelable {
+                        val password: String?,
+                        val creditCard: CreditCard?): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readParcelable(SearchInfo::class.java.classLoader) ?: SearchInfo(),
             parcel.readString() ?: "",
-            parcel.readString() ?: "") {
+            parcel.readString() ?: "",
+            parcel.readParcelable(CreditCard::class.java.classLoader)) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(searchInfo, flags)
         parcel.writeString(username)
         parcel.writeString(password)
+        parcel.writeParcelable(creditCard, flags)
     }
 
     override fun describeContents(): Int {

@@ -28,15 +28,17 @@ import java.util.*
 enum class SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
 
-    fun <G: GroupVersionedInterface<G, *>> getNodeComparator(sortNodeParameters: SortNodeParameters)
+    fun <G: GroupVersionedInterface<G, *>> getNodeComparator(
+            database: Database,
+            sortNodeParameters: SortNodeParameters)
             : Comparator<NodeVersionedInterface<G>> {
         return when (this) {
-            DB -> NodeNaturalComparator(sortNodeParameters) // Force false because natural order contains recycle bin
-            TITLE -> NodeTitleComparator(sortNodeParameters)
-            USERNAME -> NodeUsernameComparator(sortNodeParameters)
-            CREATION_TIME -> NodeCreationComparator(sortNodeParameters)
-            LAST_MODIFY_TIME -> NodeLastModificationComparator(sortNodeParameters)
-            LAST_ACCESS_TIME -> NodeLastAccessComparator(sortNodeParameters)
+            DB -> NodeNaturalComparator(database, sortNodeParameters) // Force false because natural order contains recycle bin
+            TITLE -> NodeTitleComparator(database, sortNodeParameters)
+            USERNAME -> NodeUsernameComparator(database, sortNodeParameters)
+            CREATION_TIME -> NodeCreationComparator(database, sortNodeParameters)
+            LAST_MODIFY_TIME -> NodeLastModificationComparator(database, sortNodeParameters)
+            LAST_ACCESS_TIME -> NodeLastAccessComparator(database, sortNodeParameters)
         }
     }
 
@@ -48,10 +50,8 @@ enum class SortNodeEnum {
             <
                 G: GroupVersionedInterface<*, *>,
                 T: NodeVersionedInterface<G>
-            >(var sortNodeParameters: SortNodeParameters)
+            >(var database: Database, var sortNodeParameters: SortNodeParameters)
         : Comparator<T> {
-
-        val database = Database.getInstance()
 
         abstract fun compareBySpecificOrder(object1: T, object2: T): Int
 
@@ -110,8 +110,9 @@ enum class SortNodeEnum {
      * Comparator of node by natural database placement
      */
     class NodeNaturalComparator<G: GroupVersionedInterface<*, *>, T: NodeVersionedInterface<G>>(
+            database: Database,
             sortNodeParameters: SortNodeParameters)
-        : NodeComparator<G, T>(sortNodeParameters) {
+        : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             return object1.nodeIndexInParentForNaturalOrder()
@@ -123,13 +124,14 @@ enum class SortNodeEnum {
      * Comparator of Node by Title
      */
     class NodeTitleComparator<G: GroupVersionedInterface<*, *>, T: NodeVersionedInterface<G>>(
+            database: Database,
             sortNodeParameters: SortNodeParameters)
-        : NodeComparator<G, T>(sortNodeParameters) {
+        : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val titleCompare = object1.title.compareTo(object2.title, ignoreCase = true)
             return if (titleCompare == 0)
-                NodeNaturalComparator<G, T>(sortNodeParameters)
+                NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
             else
                 titleCompare
@@ -140,8 +142,9 @@ enum class SortNodeEnum {
      * Comparator of Node by Username, Groups by title
      */
     class NodeUsernameComparator<G: GroupVersionedInterface<*, *>, T: NodeVersionedInterface<G>>(
+            database: Database,
             sortNodeParameters: SortNodeParameters)
-        : NodeComparator<G, T>(sortNodeParameters) {
+        : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             return if (object1.type == Type.ENTRY && object2.type == Type.ENTRY) {
@@ -150,12 +153,12 @@ enum class SortNodeEnum {
                         .compareTo((object2 as Entry).getEntryInfo(database).username,
                                 ignoreCase = true)
                 if (usernameCompare == 0)
-                    NodeTitleComparator<G, T>(sortNodeParameters)
+                    NodeTitleComparator<G, T>(database, sortNodeParameters)
                             .compare(object1, object2)
                 else
                     usernameCompare
             } else {
-                NodeTitleComparator<G, T>(sortNodeParameters)
+                NodeTitleComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
             }
         }
@@ -165,14 +168,15 @@ enum class SortNodeEnum {
      * Comparator of node by creation
      */
     class NodeCreationComparator<G: GroupVersionedInterface<*, *>, T: NodeVersionedInterface<G>>(
+            database: Database,
             sortNodeParameters: SortNodeParameters)
-        : NodeComparator<G, T>(sortNodeParameters) {
+        : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val creationCompare = object1.creationTime.date
                     .compareTo(object2.creationTime.date)
             return if (creationCompare == 0)
-                NodeNaturalComparator<G, T>(sortNodeParameters)
+                NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
             else
                 creationCompare
@@ -183,14 +187,15 @@ enum class SortNodeEnum {
      * Comparator of node by last modification
      */
     class NodeLastModificationComparator<G: GroupVersionedInterface<*, *>, T: NodeVersionedInterface<G>>(
+            database: Database,
             sortNodeParameters: SortNodeParameters)
-        : NodeComparator<G, T>(sortNodeParameters) {
+        : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val lastModificationCompare = object1.lastModificationTime.date
                     .compareTo(object2.lastModificationTime.date)
             return if (lastModificationCompare == 0)
-                NodeNaturalComparator<G, T>(sortNodeParameters)
+                NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
             else
                 lastModificationCompare
@@ -201,14 +206,15 @@ enum class SortNodeEnum {
      * Comparator of node by last access
      */
     class NodeLastAccessComparator<G: GroupVersionedInterface<*, *>, T: NodeVersionedInterface<G>>(
+            database: Database,
             sortNodeParameters: SortNodeParameters)
-        : NodeComparator<G, T>(sortNodeParameters) {
+        : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val lastAccessCompare = object1.lastAccessTime.date
                     .compareTo(object2.lastAccessTime.date)
             return if (lastAccessCompare == 0)
-                NodeNaturalComparator<G, T>(sortNodeParameters)
+                NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
             else
                 lastAccessCompare

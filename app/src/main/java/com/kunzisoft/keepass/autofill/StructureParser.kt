@@ -21,12 +21,14 @@ package com.kunzisoft.keepass.autofill
 import android.app.assist.AssistStructure
 import android.os.Build
 import android.text.InputType
-import androidx.annotation.RequiresApi
 import android.util.Log
 import android.view.View
 import android.view.autofill.AutofillId
 import android.view.autofill.AutofillValue
+import androidx.annotation.RequiresApi
+import org.joda.time.DateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -35,10 +37,8 @@ import java.util.*
 @RequiresApi(api = Build.VERSION_CODES.O)
 class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
-
     private var usernameNeeded = true
-
-    private var usernameCandidate: AutofillId? = null
+    private var usernameIdCandidate: AutofillId? = null
     private var usernameValueCandidate: AutofillValue? = null
 
     fun parse(saveValue: Boolean = false): Result? {
@@ -46,37 +46,42 @@ class StructureParser(private val structure: AssistStructure) {
             result = Result()
             result?.apply {
                 allowSaveValues = saveValue
-                usernameCandidate = null
+                usernameIdCandidate = null
                 usernameValueCandidate = null
                 mainLoop@ for (i in 0 until structure.windowNodeCount) {
                     val windowNode = structure.getWindowNodeAt(i)
                     applicationId = windowNode.title.toString().split("/")[0]
                     Log.d(TAG, "Autofill applicationId: $applicationId")
 
-                    if (parseViewNode(windowNode.rootViewNode))
-                        break@mainLoop
+                    if (applicationId?.contains("PopupWindow:") == false) {
+                        if (parseViewNode(windowNode.rootViewNode))
+                            break@mainLoop
+                    }
                 }
                 // If not explicit username field found, add the field just before password field.
-                if (usernameId == null && passwordId != null && usernameCandidate != null) {
-                    usernameId = usernameCandidate
+                if (usernameId == null && passwordId != null && usernameIdCandidate != null) {
+                    usernameId = usernameIdCandidate
                     if (allowSaveValues) {
                         usernameValue = usernameValueCandidate
                     }
                 }
             }
 
-            // Return the result only if password field is retrieved
-            return if ((!usernameNeeded || result?.usernameId != null)
-                    && result?.passwordId != null)
-                result
-            else
-                null
+            return if (result?.passwordId != null || result?.creditCardNumberId != null)
+                    result
+                else
+                    null
         } catch (e: Exception) {
             return null
         }
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
+        // remember this
+        if (node.className == "android.webkit.WebView") {
+            result?.isWebView = true
+        }
+
         // Get the domain of a web app
         node.webDomain?.let { webDomain ->
             if (webDomain.isNotEmpty()) {
@@ -97,8 +102,7 @@ class StructureParser(private val structure: AssistStructure) {
         var returnValue = false
         // Only parse visible nodes
         if (node.visibility == View.VISIBLE) {
-            if (node.autofillId != null
-                    && node.autofillType == View.AUTOFILL_TYPE_TEXT) {
+            if (node.autofillId != null) {
                 // Parse methods
                 val hints = node.autofillHints
                 if (hints != null && hints.isNotEmpty()) {
@@ -130,7 +134,7 @@ class StructureParser(private val structure: AssistStructure) {
                 it.contains(View.AUTOFILL_HINT_USERNAME, true)
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
-                        || it.contains(View.AUTOFILL_HINT_PHONE, true)-> {
+                        || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
                     result?.usernameId = autofillId
                     result?.usernameValue = node.autofillValue
                     Log.d(TAG, "Autofill username hint")
@@ -139,14 +143,123 @@ class StructureParser(private val structure: AssistStructure) {
                     result?.passwordId = autofillId
                     result?.passwordValue = node.autofillValue
                     Log.d(TAG, "Autofill password hint")
-                    // Username not needed in this case
-                    usernameNeeded = false
                     return true
+                }
+                it.equals("cc-name", true) -> {
+                    Log.d(TAG, "Autofill credit card name hint")
+                    result?.creditCardHolderId = autofillId
+                    result?.creditCardHolder = node.autofillValue?.textValue?.toString()
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_NUMBER, true)
+                        || it.equals("cc-number", true) -> {
+                    Log.d(TAG, "Autofill credit card number hint")
+                    result?.creditCardNumberId = autofillId
+                    result?.creditCardNumber = node.autofillValue?.textValue?.toString()
+                }
+                // expect date string as defined in https://html.spec.whatwg.org, e.g. 2014-12
+                it.equals("cc-exp", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration date hint")
+                    result?.creditCardExpirationDateId = autofillId
+                    node.autofillValue?.let { value ->
+                        if (value.isText && value.textValue.length == 7) {
+                            value.textValue.let { date ->
+                                try {
+                                    result?.creditCardExpirationValue = DateTime()
+                                        .withYear(date.substring(2, 4).toInt())
+                                        .withMonthOfYear(date.substring(5, 7).toInt())
+                                } catch(e: Exception) {
+                                    Log.e(TAG, "Unable to retrieve expiration", e)
+                                }
+                            }
+                        }
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DATE, true) -> {
+                    Log.d(TAG, "Autofill credit card expiration date hint")
+                    result?.creditCardExpirationDateId = autofillId
+                    node.autofillValue?.let { value ->
+                        if (value.isDate) {
+                            result?.creditCardExpirationValue = DateTime(value.dateValue)
+                        }
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_YEAR, true)
+                        || it.equals("cc-exp-year", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration year hint")
+                    result?.creditCardExpirationYearId = autofillId
+                    if (node.autofillOptions != null) {
+                        result?.creditCardExpirationYearOptions = node.autofillOptions
+                    }
+                    node.autofillValue?.let { value ->
+                        var year = 0
+                        try {
+                            if (value.isText) {
+                                year = value.textValue.toString().toInt()
+                            }
+                            if (value.isList) {
+                                year = node.autofillOptions?.get(value.listValue).toString().toInt()
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to retrieve expiration year", e)
+                        }
+                        result?.creditCardExpirationYearValue = year % 100
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_MONTH, true)
+                        || it.equals("cc-exp-month", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration month hint")
+                    result?.creditCardExpirationMonthId = autofillId
+                    if (node.autofillOptions != null) {
+                        result?.creditCardExpirationMonthOptions = node.autofillOptions
+                    }
+                    node.autofillValue?.let { value ->
+                        var month = 0
+                        try {
+                            if (value.isText) {
+                                month = value.textValue.toString().toInt()
+                            }
+                            if (value.isList) {
+                                // assume list starts with January (index 0)
+                                month = value.listValue + 1
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to retrieve expiration month", e)
+                        }
+                        result?.creditCardExpirationMonthValue = month
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_EXPIRATION_DAY, true)
+                        || it.equals("cc-exp-day", true) -> {
+                    Log.d(TAG, "Autofill credit card expiration day hint")
+                    result?.creditCardExpirationDayId = autofillId
+                    if (node.autofillOptions != null) {
+                        result?.creditCardExpirationDayOptions = node.autofillOptions
+                    }
+                    node.autofillValue?.let { value ->
+                        var day = 0
+                        try {
+                            if (value.isText) {
+                                day = value.textValue.toString().toInt()
+                            }
+                            if (value.isList) {
+                                day = node.autofillOptions?.get(value.listValue).toString().toInt()
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to retrieve expiration day", e)
+                        }
+                        result?.creditCardExpirationDayValue = day
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_CREDIT_CARD_SECURITY_CODE, true)
+                        || it.contains("cc-csc", true) -> {
+                    Log.d(TAG, "Autofill card security code hint")
+                    result?.cardVerificationValueId = autofillId
+                    result?.cardVerificationValue = node.autofillValue?.textValue?.toString()
                 }
                 // Ignore autocomplete="off"
                 // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
                 it.equals("off", true) ||
-                it.equals("on", true) -> {
+                        it.equals("on", true) -> {
                     Log.d(TAG, "Autofill web hint")
                     return parseNodeByHtmlAttributes(node)
                 }
@@ -171,7 +284,7 @@ class StructureParser(private val structure: AssistStructure) {
                                     Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
                                 "text" -> {
-                                    usernameCandidate = autofillId
+                                    usernameIdCandidate = autofillId
                                     usernameValueCandidate = node.autofillValue
                                     Log.d(TAG, "Autofill username candidate web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
@@ -219,15 +332,15 @@ class StructureParser(private val structure: AssistStructure) {
                             InputType.TYPE_TEXT_VARIATION_NORMAL,
                             InputType.TYPE_TEXT_VARIATION_PERSON_NAME,
                             InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) -> {
-                        usernameCandidate = autofillId
+                        usernameIdCandidate = autofillId
                         usernameValueCandidate = node.autofillValue
                         Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {
                         // Some forms used visible password as username
-                        if (usernameCandidate == null && usernameValueCandidate == null) {
-                            usernameCandidate = autofillId
+                        if (usernameIdCandidate == null && usernameValueCandidate == null) {
+                            usernameIdCandidate = autofillId
                             usernameValueCandidate = node.autofillValue
                             Log.d(TAG, "Autofill visible password android text type (as username): ${showHexInputType(inputType)}")
                         } else if (result?.passwordId == null && result?.passwordValue == null) {
@@ -243,7 +356,6 @@ class StructureParser(private val structure: AssistStructure) {
                         result?.passwordId = autofillId
                         result?.passwordValue = node.autofillValue
                         Log.d(TAG, "Autofill password android text type: ${showHexInputType(inputType)}")
-                        usernameNeeded = false
                         return true
                     }
                     inputIsVariationType(inputType,
@@ -265,16 +377,15 @@ class StructureParser(private val structure: AssistStructure) {
                 when {
                     inputIsVariationType(inputType,
                             InputType.TYPE_NUMBER_VARIATION_NORMAL) -> {
-                        usernameCandidate = autofillId
+                        usernameIdCandidate = autofillId
                         usernameValueCandidate = node.autofillValue
-                        Log.d(TAG, "Autofill usernale candidate android number type: ${showHexInputType(inputType)}")
+                        Log.d(TAG, "Autofill username candidate android number type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_NUMBER_VARIATION_PASSWORD) -> {
                         result?.passwordId = autofillId
                         result?.passwordValue = node.autofillValue
                         Log.d(TAG, "Autofill password android number type: ${showHexInputType(inputType)}")
-                        usernameNeeded = false
                         return true
                     }
                     else -> {
@@ -288,8 +399,8 @@ class StructureParser(private val structure: AssistStructure) {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     class Result {
+        var isWebView: Boolean = false
         var applicationId: String? = null
-
         var webDomain: String? = null
             set(value) {
                 if (field == null)
@@ -301,6 +412,12 @@ class StructureParser(private val structure: AssistStructure) {
                 if (field == null)
                     field = value
             }
+
+        // if the user selects the credit card expiration date from a list of options
+        // all options are stored here
+        var creditCardExpirationYearOptions: Array<CharSequence>? = null
+        var creditCardExpirationMonthOptions: Array<CharSequence>? = null
+        var creditCardExpirationDayOptions: Array<CharSequence>? = null
 
         var usernameId: AutofillId? = null
             set(value) {
@@ -314,12 +431,63 @@ class StructureParser(private val structure: AssistStructure) {
                     field = value
             }
 
+        var creditCardHolderId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var creditCardNumberId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var creditCardExpirationDateId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var creditCardExpirationYearId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var creditCardExpirationMonthId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var creditCardExpirationDayId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
+        var cardVerificationValueId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
         fun allAutofillIds(): Array<AutofillId> {
             val all = ArrayList<AutofillId>()
             usernameId?.let {
                 all.add(it)
             }
             passwordId?.let {
+                all.add(it)
+            }
+            creditCardHolderId?.let {
+                all.add(it)
+            }
+            creditCardNumberId?.let {
+                all.add(it)
+            }
+            cardVerificationValueId?.let {
                 all.add(it)
             }
             return all.toTypedArray()
@@ -337,6 +505,52 @@ class StructureParser(private val structure: AssistStructure) {
         var passwordValue: AutofillValue? = null
             set(value) {
                 if (allowSaveValues && field == null)
+                    field = value
+            }
+
+        var creditCardHolder: String? = null
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        var creditCardNumber: String? = null
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        // format MMYY
+        var creditCardExpirationValue: DateTime? = null
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        // for year of CC expiration date: YY
+        var creditCardExpirationYearValue = 0
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        // for month of CC expiration date: MM
+        var creditCardExpirationMonthValue = 0
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        var creditCardExpirationDayValue = 0
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        // the security code for the credit card (also called CVV)
+        var cardVerificationValue: String? = null
+            set(value) {
+                if (allowSaveValues)
                     field = value
             }
     }

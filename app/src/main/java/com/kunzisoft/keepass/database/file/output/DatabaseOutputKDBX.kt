@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -401,7 +400,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeTags(entry.tags)
         writePreviousParentGroup(entry.previousParentGroup)
         writeTimes(entry)
-        writeFields(entry.fields)
+        writeFields(entry.getFields())
         writeEntryBinaries(entry.binaries)
         writeCustomData(entry.customData)
         writeAutoType(entry.autoType)
@@ -433,7 +432,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         if (header!!.version.isBefore(FILE_VERSION_40)) {
             writeString(name, DatabaseKDBXXML.DateFormatter.format(date))
         } else {
-            val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(DateTime(date)))
+            val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(date))
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeString(name, b64)
         }
@@ -548,25 +547,26 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeFields(fields: Map<String, ProtectedString>) {
-
-        for ((key, value) in fields) {
-            writeField(key, value)
+    private fun writeFields(fields: List<Field>) {
+        for (field in fields) {
+            writeField(field)
         }
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeField(key: String, value: ProtectedString) {
+    private fun writeField(field: Field) {
+        val label = field.name
+        val value = field.protectedValue
 
         xml.startTag(null, DatabaseKDBXXML.ElemString)
         xml.startTag(null, DatabaseKDBXXML.ElemKey)
-        xml.text(safeXmlString(key))
+        xml.text(safeXmlString(label))
         xml.endTag(null, DatabaseKDBXXML.ElemKey)
 
         xml.startTag(null, DatabaseKDBXXML.ElemValue)
         var protect = value.isProtected
 
-        when (key) {
+        when (label) {
             MemoryProtectionConfig.ProtectDefinition.TITLE_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectTitle
             MemoryProtectionConfig.ProtectDefinition.USERNAME_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectUserName
             MemoryProtectionConfig.ProtectDefinition.PASSWORD_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectPassword

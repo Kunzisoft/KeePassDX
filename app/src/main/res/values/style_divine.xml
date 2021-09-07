@@ -19,10 +19,13 @@
 -->
 <resources>
     <!-- White Style -->
-    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.White.v21" />
-    <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.Light.WhiteBar.v23" >
+    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.White.v23" />
+    <style name="KeepassDXStyle.White.v23" parent="KeepassDXStyle.White.v21" />
+    <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.White.Base" />
+    <style name="KeepassDXStyle.White.Base" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlNormal">@color/grey_light</item>
@@ -90,7 +93,7 @@
         <item name="background">@color/white</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.White" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.White" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
@@ -157,7 +160,7 @@
         <item name="background">@color/black_lighter</item>
     </style>
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Black" parent="CardView">
+    <style name="KeepassDXStyle.Cardview.Black" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_light</item>
     </style>
 </resources>

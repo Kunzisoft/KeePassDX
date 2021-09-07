@@ -25,7 +25,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
@@ -39,7 +38,7 @@ object TimeoutHelper {
     private const val TAG = "TimeoutHelper"
 
     private var lastAppTimeoutRecord: Long? = null
-    var temporarilyDisableTimeout = false
+    var temporarilyDisableLock = false
         private set
 
     private fun getLockPendingIntent(context: Context): PendingIntent {
@@ -53,8 +52,8 @@ object TimeoutHelper {
      * Start the lock timer by creating an alarm,
      * if the method is recalled with a previous lock timer pending, the previous one is deleted
      */
-    private fun startLockTimer(context: Context) {
-        if (Database.getInstance().loaded) {
+    private fun startLockTimer(context: Context, databaseLoaded: Boolean) {
+        if (databaseLoaded) {
             val timeout = PreferencesUtil.getAppTimeout(context)
             if (timeout != NEVER) {
                 // No timeout don't start timeout service
@@ -84,14 +83,14 @@ object TimeoutHelper {
     /**
      * Record the current time, to check it later with checkTime and start a new lock timer
      */
-    fun recordTime(context: Context) {
+    fun recordTime(context: Context, databaseLoaded: Boolean) {
         // To prevent spam registration, record after at least 2 seconds
         if (lastAppTimeoutRecord == null
                 || lastAppTimeoutRecord!! + 2000 <= System.currentTimeMillis()) {
             Log.d(TAG, "Record app timeout")
             // Record timeout time in case timeout service is killed
             PreferencesUtil.saveCurrentTime(context)
-            startLockTimer(context)
+            startLockTimer(context, databaseLoaded)
             lastAppTimeoutRecord = System.currentTimeMillis()
         }
     }
@@ -103,7 +102,7 @@ object TimeoutHelper {
      */
     fun checkTime(context: Context, timeoutAction: (() -> Unit)? = null): Boolean {
         // No effect if temporarily disable
-        if (temporarilyDisableTimeout)
+        if (temporarilyDisableLock)
             return true
 
         // Check whether the timeout has expired
@@ -146,9 +145,11 @@ object TimeoutHelper {
     /**
      * Check the time previously record then, if timeout lock the database, else reset the timer
      */
-    fun checkTimeAndLockIfTimeoutOrResetTimeout(context: Context, action: (() -> Unit)? = null) {
+    fun checkTimeAndLockIfTimeoutOrResetTimeout(context: Context,
+                                                databaseLoaded: Boolean,
+                                                action: (() -> Unit)? = null) {
         if (checkTimeAndLockIfTimeout(context)) {
-            recordTime(context)
+            recordTime(context, databaseLoaded)
             action?.invoke()
         }
     }
@@ -157,13 +158,13 @@ object TimeoutHelper {
      * Temporarily disable timeout, checkTime() function always return true
      */
     fun temporarilyDisableTimeout() {
-        temporarilyDisableTimeout = true
+        temporarilyDisableLock = true
     }
 
     /**
      * Release the temporarily disable timeout
      */
     fun releaseTemporarilyDisableTimeout() {
-        temporarilyDisableTimeout = false
+        temporarilyDisableLock = false
     }
 }

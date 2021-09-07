@@ -54,10 +54,10 @@ class ListRadioItemAdapter<T>(private val context: Context)
         return radioItemList.size
     }
 
-    fun setItems(algorithms: List<T>, algorithmUsed: T) {
+    fun setItems(items: List<T>, itemUsed: T?) {
         this.radioItemList.clear()
-        this.radioItemList.addAll(algorithms)
-        this.radioItemUsed = algorithmUsed
+        this.radioItemList.addAll(items)
+        this.radioItemUsed = itemUsed
     }
 
     private fun setRadioItemUsed(radioItemUsed: T) {

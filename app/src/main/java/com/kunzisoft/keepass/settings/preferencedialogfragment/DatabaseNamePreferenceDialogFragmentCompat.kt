@@ -20,23 +20,23 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
-import android.view.View
+import com.kunzisoft.keepass.database.element.Database
 
 class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
-    override fun onBindDialogView(view: View) {
-        super.onBindDialogView(view)
-
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
         inputText = database?.name ?: ""
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            database?.let { database ->
+            database?.let {
                 val newName = inputText
                 val oldName = database.name
                 database.name = newName
-                mProgressDatabaseTaskProvider?.startDatabaseSaveName(oldName, newName, mDatabaseAutoSaveEnable)
+                saveName(oldName, newName)
             }
         }
     }

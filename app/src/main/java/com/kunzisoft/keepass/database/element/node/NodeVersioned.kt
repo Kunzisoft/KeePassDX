@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import org.joda.time.LocalDateTime
 
 /**
  * Abstract class who manage Groups and Entries
@@ -95,11 +94,10 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
 
     final override var lastAccessTime: DateInstant = DateInstant()
 
-    final override var expiryTime: DateInstant = DateInstant.NEVER_EXPIRE
+    final override var expiryTime: DateInstant = DateInstant.NEVER_EXPIRES
 
     final override val isCurrentlyExpires: Boolean
-        get() = expires
-                && LocalDateTime.fromDateFields(expiryTime.date).isBefore(LocalDateTime.now())
+        get() = expires && expiryTime.isCurrentlyExpire()
 
     /**
      * @return true if parent is present (false if not present, can be a root or a detach element)
@@ -149,5 +147,9 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
 
     override fun hashCode(): Int {
         return nodeId.hashCode()
+    }
+
+    override fun toString(): String {
+        return "$title ($nodeId)"
     }
 }

@@ -1,0 +1,7 @@
+ * Ajout / Gestion dynamique des templates #191
+ * Sélection manuelle des groupes de la corbeille et des templates #191
+ * Paramètres pour afficher les jetons OTP dans la liste #655
+ * Correction du délai d'expiration dans les dialogues #716
+ * Vérification des permissions URI #626
+ * Meilleure implémentation du remplissage auto #943 #946 #984 #1070 (Thx @uduerholz)
+ * Améliorations #680 #1035 #1043 #942 #1021 #1027 #1046 #1082 #1083 (Thx @chenxiaolong)

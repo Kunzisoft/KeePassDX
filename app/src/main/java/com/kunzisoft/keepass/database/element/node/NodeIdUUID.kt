@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element.node
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 
 class NodeIdUUID : NodeId<UUID> {
@@ -60,7 +61,7 @@ class NodeIdUUID : NodeId<UUID> {
     }
 
     override fun toString(): String {
-        return id.toString()
+        return UuidUtil.toHexString(id) ?: id.toString()
     }
 
     companion object {

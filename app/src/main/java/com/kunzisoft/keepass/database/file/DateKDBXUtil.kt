@@ -38,8 +38,8 @@ object DateKDBXUtil {
         } else dt.toDate()
     }
 
-    fun convertDateToKDBX4Time(dt: DateTime?): Long {
-        val duration = Duration(javaEpoch, dt)
+    fun convertDateToKDBX4Time(date: Date): Long {
+        val duration = Duration(javaEpoch, DateTime(date))
         val seconds = duration.millis / 1000L
         return seconds + epochOffset
     }

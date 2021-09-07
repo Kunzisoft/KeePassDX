@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseKeyDerivationPreferenceDialogFragmentCompat
@@ -33,6 +34,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
         ListRadioItemAdapter.RadioItemSelectedCallback<KdfEngine> {
 
     private var kdfEngineSelected: KdfEngine? = null
+    private var mKdfAdapter: ListRadioItemAdapter<KdfEngine>? = null
     private var roundPreference: Preference? = null
     private var memoryPreference: Preference? = null
     private var parallelismPreference: Preference? = null
@@ -46,27 +48,30 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            val kdfAdapter = ListRadioItemAdapter<KdfEngine>(activity)
-            kdfAdapter.setRadioItemSelectedCallback(this)
-            recyclerView.adapter = kdfAdapter
-
-            database?.let { database ->
-                kdfEngineSelected = database.kdfEngine?.apply {
-                    kdfAdapter.setItems(database.availableKdfEngines, this)
-                }
-            }
+            mKdfAdapter = ListRadioItemAdapter(activity)
+            mKdfAdapter?.setRadioItemSelectedCallback(this)
+            recyclerView.adapter = mKdfAdapter
         }
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        database?.let {
+            kdfEngineSelected = database.kdfEngine
+            mKdfAdapter?.setItems(database.availableKdfEngines, kdfEngineSelected)
+        }
+    }
+
+    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+        super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            database?.let { database ->
+            database?.let {
                 if (database.allowKdfModification) {
                     val newKdfEngine = kdfEngineSelected
                     val oldKdfEngine = database.kdfEngine
                     if (newKdfEngine != null && oldKdfEngine != null) {
                         database.kdfEngine = newKdfEngine
-                        mProgressDatabaseTaskProvider?.startDatabaseSaveKeyDerivation(oldKdfEngine, newKdfEngine, mDatabaseAutoSaveEnable)
+                        saveKeyDerivation(oldKdfEngine, newKdfEngine)
                     }
                 }
             }

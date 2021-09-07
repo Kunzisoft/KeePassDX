@@ -31,8 +31,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
@@ -43,13 +46,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.*
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
-import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -63,6 +65,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
@@ -71,7 +74,8 @@ import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
 
-open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.BuilderListener {
+
+open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -95,19 +99,17 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mPermissionAsked = false
-    private var readOnly: Boolean = false
+    private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
         set(value) {
             infoContainerView?.visibility = if (value) {
-                readOnly = true
+                mReadOnly = true
                 View.VISIBLE
             } else {
                 View.GONE
             }
             field = value
         }
-
-    private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
     private var mAllowAutoOpenBiometricPrompt: Boolean = true
 
@@ -132,7 +134,11 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
+        mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
+            savedInstanceState.getBoolean(KEY_READ_ONLY)
+        } else {
+            PreferencesUtil.enableReadOnlyDatabase(this)
+        }
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
@@ -149,6 +155,15 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                     checkboxPasswordView?.isChecked = true
             }
         })
+        passwordView?.setOnKeyListener { _, _, keyEvent ->
+            var handled = false
+            if (keyEvent.action == KeyEvent.ACTION_DOWN
+                && keyEvent?.keyCode == KEYCODE_ENTER) {
+                verifyCheckboxesAndLoadDatabase()
+                handled = true
+            }
+            handled
+        }
 
         // If is a view intent
         getUriFromIntent(intent)
@@ -204,72 +219,114 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
 
             onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri)
         }
+    }
 
-        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
-            onActionFinish = { actionTask, result ->
-                when (actionTask) {
-                    ACTION_DATABASE_LOAD_TASK -> {
-                        // Recheck advanced unlock if error
-                        advancedUnlockFragment?.initAdvancedUnlockMode()
+    override fun onResume() {
+        super.onResume()
 
-                        if (result.isSuccess) {
-                            mDatabaseKeyFileUri = null
-                            clearCredentialsViews(true)
-                            launchGroupActivity()
-                        } else {
-                            var resultError = ""
-                            val resultException = result.exception
-                            val resultMessage = result.message
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this@PasswordActivity)
 
-                            if (resultException != null) {
-                                resultError = resultException.getLocalizedMessage(resources)
+        // Back to previous keyboard is setting activated
+        if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@PasswordActivity)) {
+            sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+        }
 
-                                when (resultException) {
-                                    is DuplicateUuidDatabaseException -> {
-                                        // Relaunch loading if we need to fix UUID
-                                        showLoadDatabaseDuplicateUuidMessage {
+        // Don't allow auto open prompt if lock become when UI visible
+        mAllowAutoOpenBiometricPrompt = if (DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
+            false
+        else
+            mAllowAutoOpenBiometricPrompt
+        mDatabaseFileUri?.let { databaseFileUri ->
+            databaseFileViewModel.loadDatabaseFile(databaseFileUri)
+        }
 
-                                            var databaseUri: Uri? = null
-                                            var mainCredential: MainCredential = MainCredential()
-                                            var readOnly = true
-                                            var cipherEntity: CipherDatabaseEntity? = null
+        checkPermission()
 
-                                            result.data?.let { resultData ->
-                                                databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                                mainCredential = resultData.getParcelable(MAIN_CREDENTIAL_KEY) ?: mainCredential
-                                                readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                                cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
-                                            }
+        mDatabase?.let { database ->
+            launchGroupActivityIfLoaded(database)
+        }
+    }
 
-                                            databaseUri?.let { databaseFileUri ->
-                                                showProgressDialogAndLoadDatabase(
-                                                        databaseFileUri,
-                                                        mainCredential,
-                                                        readOnly,
-                                                        cipherEntity,
-                                                        true)
-                                            }
-                                        }
+    override fun onDatabaseRetrieved(database: Database?) {
+        super.onDatabaseRetrieved(database)
+        if (database != null) {
+            launchGroupActivityIfLoaded(database)
+        }
+    }
+
+    override fun onDatabaseActionFinished(
+        database: Database,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            ACTION_DATABASE_LOAD_TASK -> {
+                // Recheck advanced unlock if error
+                advancedUnlockFragment?.initAdvancedUnlockMode()
+
+                if (result.isSuccess) {
+                    launchGroupActivityIfLoaded(database)
+                } else {
+                    passwordView?.requestFocusFromTouch()
+
+                    var resultError = ""
+                    val resultException = result.exception
+                    val resultMessage = result.message
+
+                    if (resultException != null) {
+                        resultError = resultException.getLocalizedMessage(resources)
+
+                        when (resultException) {
+                            is DuplicateUuidDatabaseException -> {
+                                // Relaunch loading if we need to fix UUID
+                                showLoadDatabaseDuplicateUuidMessage {
+
+                                    var databaseUri: Uri? = null
+                                    var mainCredential = MainCredential()
+                                    var readOnly = true
+                                    var cipherEntity: CipherDatabaseEntity? = null
+
+                                    result.data?.let { resultData ->
+                                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                        mainCredential =
+                                            resultData.getParcelable(MAIN_CREDENTIAL_KEY)
+                                                ?: mainCredential
+                                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                        cipherEntity =
+                                            resultData.getParcelable(CIPHER_ENTITY_KEY)
                                     }
-                                    is FileNotFoundDatabaseException -> {
-                                        // Remove this default database inaccessible
-                                        if (mDefaultDatabase) {
-                                            databaseFileViewModel.removeDefaultDatabase()
-                                        }
+
+                                    databaseUri?.let { databaseFileUri ->
+                                        showProgressDialogAndLoadDatabase(
+                                            databaseFileUri,
+                                            mainCredential,
+                                            readOnly,
+                                            cipherEntity,
+                                            true
+                                        )
                                     }
                                 }
                             }
-
-                            // Show error message
-                            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                                resultError = "$resultError $resultMessage"
+                            is FileNotFoundDatabaseException -> {
+                                // Remove this default database inaccessible
+                                if (mDefaultDatabase) {
+                                    databaseFileViewModel.removeDefaultDatabase()
+                                }
                             }
-                            Log.e(TAG, resultError)
-                            Snackbar.make(coordinatorLayout,
-                                    resultError,
-                                    Snackbar.LENGTH_LONG).asError().show()
                         }
                     }
+
+                    // Show error message
+                    if (resultMessage != null && resultMessage.isNotEmpty()) {
+                        resultError = "$resultError $resultMessage"
+                    }
+                    Log.e(TAG, resultError)
+                    Snackbar.make(
+                        coordinatorLayout,
+                        resultError,
+                        Snackbar.LENGTH_LONG
+                    ).asError().show()
                 }
             }
         }
@@ -296,13 +353,17 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         getUriFromIntent(intent)
     }
 
-    private fun launchGroupActivity() {
-        GroupActivity.launch(this,
-                readOnly,
+    private fun launchGroupActivityIfLoaded(database: Database) {
+        // Check if database really loaded
+        if (database.loaded) {
+            clearCredentialsViews(true)
+            GroupActivity.launch(this,
+                database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() }
-        )
+            )
+        }
     }
 
     override fun onValidateSpecialMode() {
@@ -352,40 +413,6 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (Database.getInstance().loaded) {
-            launchGroupActivity()
-        } else {
-            mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
-
-            // If the database isn't accessible make sure to clear the password field, if it
-            // was saved in the instance state
-            if (Database.getInstance().loaded) {
-                clearCredentialsViews()
-            }
-
-            mProgressDatabaseTaskProvider?.registerProgressTask()
-
-            // Back to previous keyboard is setting activated
-            if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this)) {
-                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
-            }
-
-            // Don't allow auto open prompt if lock become when UI visible
-            mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
-                false
-            else
-                mAllowAutoOpenBiometricPrompt
-            mDatabaseFileUri?.let { databaseFileUri ->
-                databaseFileViewModel.loadDatabaseFile(databaseFileUri)
-            }
-
-            checkPermission()
-        }
-    }
-
     private fun onDatabaseFileLoaded(databaseFileUri: Uri?, keyFileUri: Uri?) {
         // Define Key File text
         if (mRememberKeyFile) {
@@ -409,11 +436,17 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         } else {
             // Init Biometric elements
             advancedUnlockFragment?.loadDatabase(databaseFileUri,
-                    mAllowAutoOpenBiometricPrompt
-                                        && mProgressDatabaseTaskProvider?.isBinded() != true)
+                    mAllowAutoOpenBiometricPrompt)
         }
 
         enableOrNotTheConfirmationButton()
+
+        // Auto select the password field and open keyboard
+        passwordView?.postDelayed({
+            passwordView?.requestFocusFromTouch()
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
+            inputMethodManager?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
+        }, 100)
     }
 
     private fun enableOrNotTheConfirmationButton() {
@@ -431,6 +464,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile) {
         populatePasswordTextView(null)
         if (clearKeyFile) {
+            mDatabaseKeyFileUri = null
             populateKeyFileTextView(null)
         }
     }
@@ -460,10 +494,8 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     }
 
     override fun onPause() {
-        mProgressDatabaseTaskProvider?.unregisterProgressTask()
-
         // Reinit locking activity UI variable
-        LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
+        DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
         mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
@@ -474,7 +506,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         mDatabaseKeyFileUri?.let {
             outState.putString(KEY_KEYFILE, it.toString())
         }
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        outState.putBoolean(KEY_READ_ONLY, mReadOnly)
         outState.putBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT, false)
         super.onSaveInstanceState(outState)
     }
@@ -512,7 +544,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
             clearCredentialsViews()
         }
 
-        if (readOnly && (
+        if (mReadOnly && (
                 mSpecialMode == SpecialMode.SAVE
                 || mSpecialMode == SpecialMode.REGISTRATION)
         ) {
@@ -526,7 +558,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                 showProgressDialogAndLoadDatabase(
                         databaseUri,
                         MainCredential(password, keyFileUri),
-                        readOnly,
+                        mReadOnly,
                         cipherDatabaseEntity,
                         false)
             }
@@ -538,7 +570,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
                                                   readOnly: Boolean,
                                                   cipherDatabaseEntity: CipherDatabaseEntity?,
                                                   fixDuplicateUUID: Boolean) {
-        mProgressDatabaseTaskProvider?.startDatabaseLoad(
+        loadDatabase(
                 databaseUri,
                 mainCredential,
                 readOnly,
@@ -577,7 +609,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     // Check permission
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT in 23..28
-                && !readOnly
+                && !mReadOnly
                 && !mPermissionAsked) {
             mPermissionAsked = true
             // Check self permission to show or not the dialog
@@ -654,7 +686,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
     }
 
     private fun changeOpenFileReadIcon(togglePassword: MenuItem) {
-        if (readOnly) {
+        if (mReadOnly) {
             togglePassword.setTitle(R.string.menu_file_selection_read_only)
             togglePassword.setIcon(R.drawable.ic_read_only_white_24dp)
         } else {
@@ -668,7 +700,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         when (item.itemId) {
             android.R.id.home -> finish()
             R.id.menu_open_file_read_mode_key -> {
-                readOnly = !readOnly
+                mReadOnly = !mReadOnly
                 changeOpenFileReadIcon(item)
             }
             else -> MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
@@ -695,8 +727,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
 
         var keyFileResult = false
         mExternalFileHelper?.let {
-            keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data
-            ) { uri ->
+            keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
                 if (uri != null) {
                     mDatabaseKeyFileUri = uri
                     populateKeyFileTextView(uri)
@@ -706,9 +737,9 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         if (!keyFileResult) {
             // this block if not a key file response
             when (resultCode) {
-                LockingActivity.RESULT_EXIT_LOCK -> {
+                DatabaseLockActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
-                    Database.getInstance().clearAndClose(this)
+                    closeDatabase()
                 }
                 Activity.RESULT_CANCELED -> {
                     clearCredentialsViews()
@@ -727,6 +758,7 @@ open class PasswordActivity : SpecialModeActivity(), AdvancedUnlockFragment.Buil
         private const val KEY_KEYFILE = "keyFile"
         private const val VIEW_INTENT = "android.intent.action.VIEW"
 
+        private const val KEY_READ_ONLY = "KEY_READ_ONLY"
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
         private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"

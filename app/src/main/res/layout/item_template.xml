@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?attr/cardViewStyle">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/template_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_apps_white_24dp"
+                android:contentDescription="@string/content_description_entry_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="?android:attr/textColor" />
+            <TextView
+                android:id="@+id/template_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:layout_gravity="center_vertical"
+                android:maxLines="2"
+                android:paddingStart="12dp"
+                android:paddingLeft="12dp"
+                android:paddingEnd="12dp"
+                android:paddingRight="12dp"
+                tools:text="Template"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/template_image" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

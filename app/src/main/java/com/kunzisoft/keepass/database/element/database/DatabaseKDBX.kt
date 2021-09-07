@@ -45,6 +45,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
+import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
@@ -79,6 +81,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
+    private val mTemplateEngine = TemplateEngineCompatible(this)
 
     var kdbxVersion = UnsignedInt(0)
     var name = ""
@@ -128,7 +131,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Create a new database with a root group
      */
-    constructor(databaseName: String, rootName: String) {
+    constructor(databaseName: String,
+                rootName: String,
+                templatesGroupName: String? = null) {
         name = databaseName
         kdbxVersion = FILE_VERSION_31
         val group = createGroup().apply {
@@ -136,6 +141,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
         }
         rootGroup = group
+        if (templatesGroupName != null) {
+            val templatesGroup = mTemplateEngine.createNewTemplatesGroup(templatesGroupName)
+            entryTemplatesGroup = templatesGroup.id
+            entryTemplatesGroupChanged = templatesGroup.lastModificationTime
+        }
     }
 
     override val version: String
@@ -332,9 +342,76 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
+    fun isTemplatesGroupEnabled(): Boolean {
+        return entryTemplatesGroup != UUID_ZERO
+    }
+
+    fun enableTemplatesGroup(enable: Boolean, templatesGroupName: String) {
+        // Create templates group only if a group with a valid name don't already exists
+        val firstGroupWithValidName = getGroupIndexes().firstOrNull {
+            it.title == templatesGroupName
+        }
+        if (enable) {
+            val templatesGroup = firstGroupWithValidName
+                ?: mTemplateEngine.createNewTemplatesGroup(templatesGroupName)
+            entryTemplatesGroup = templatesGroup.id
+            entryTemplatesGroupChanged = templatesGroup.lastModificationTime
+        } else {
+            removeTemplatesGroup()
+        }
+    }
+
+    fun removeTemplatesGroup() {
+        entryTemplatesGroup = UUID_ZERO
+        entryTemplatesGroupChanged = DateInstant()
+        mTemplateEngine.clearCache()
+    }
+
+    fun getTemplatesGroup(): GroupKDBX? {
+        if (isTemplatesGroupEnabled()) {
+            return getGroupById(entryTemplatesGroup)
+        }
+        return null
+    }
+
+    fun getTemplates(templateCreation: Boolean): List<Template> {
+        return if (templateCreation)
+            listOf(mTemplateEngine.getTemplateCreation())
+        else
+            mTemplateEngine.getTemplates()
+    }
+
+    fun getTemplate(entry: EntryKDBX): Template? {
+        return mTemplateEngine.getTemplate(entry)
+    }
+
+    fun decodeEntryWithTemplateConfiguration(entryKDBX: EntryKDBX, entryIsTemplate: Boolean): EntryKDBX {
+        return if (entryIsTemplate) {
+            mTemplateEngine.decodeTemplateEntry(entryKDBX)
+        } else {
+            mTemplateEngine.removeMetaTemplateRecognitionFromEntry(entryKDBX)
+        }
+    }
+
+    fun encodeEntryWithTemplateConfiguration(entryKDBX: EntryKDBX, entryIsTemplate: Boolean, template: Template): EntryKDBX {
+        return if (entryIsTemplate) {
+            mTemplateEngine.encodeTemplateEntry(entryKDBX)
+        } else {
+            mTemplateEngine.addMetaTemplateRecognitionToEntry(template, entryKDBX)
+        }
+    }
+
     /*
      * Search methods
      */
+
+    fun getGroupById(id: UUID): GroupKDBX? {
+        return this.getGroupById(NodeIdUUID(id))
+    }
+
+    fun getEntryById(id: UUID): EntryKDBX? {
+        return this.getEntryById(NodeIdUUID(id))
+    }
 
     fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
         return this.entryIndexes.values.find { entry ->
@@ -629,15 +706,23 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      */
     fun ensureRecycleBinExists(resources: Resources) {
         if (recycleBin == null) {
-            // Create recycle bin
-            val recycleBinGroup = createGroup().apply {
-                title = resources.getString(R.string.recycle_bin)
-                icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
-                enableAutoType = false
-                enableSearching = false
-                isExpanded = false
+            // Create recycle bin only if a group with a valid name don't already exists
+            val firstGroupWithValidName = getGroupIndexes().firstOrNull {
+                it.title == resources.getString(R.string.recycle_bin)
             }
-            addGroupTo(recycleBinGroup, rootGroup)
+            val recycleBinGroup = if (firstGroupWithValidName == null) {
+                val newRecycleBinGroup = createGroup().apply {
+                    title = resources.getString(R.string.recycle_bin)
+                    icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
+                    enableAutoType = false
+                    enableSearching = false
+                    isExpanded = false
+                }
+                addGroupTo(newRecycleBinGroup, rootGroup)
+                newRecycleBinGroup
+            } else {
+                firstGroupWithValidName
+            }
             recycleBinUUID = recycleBinGroup.id
             recycleBinChanged = recycleBinGroup.lastModificationTime
         }

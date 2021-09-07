@@ -31,7 +31,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
@@ -49,7 +48,7 @@ import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
 
-class SetOTPDialogFragment : DialogFragment() {
+class SetOTPDialogFragment : DatabaseDialogFragment() {
 
     private var mCreateOTPElementListener: CreateOtpListener? = null
 
@@ -80,11 +79,15 @@ class SetOTPDialogFragment : DialogFragment() {
     private var mOnFocusChangeListener = View.OnFocusChangeListener { _, isFocus ->
         if (!isFocus)
             mManualEvent = true
+        else
+            resetAppTimeout()
     }
+    @SuppressLint("ClickableViewAccessibility")
     private var mOnTouchListener = View.OnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 mManualEvent = true
+                resetAppTimeout()
             }
         }
         false
@@ -94,6 +97,10 @@ class SetOTPDialogFragment : DialogFragment() {
     private var mCounterWellFormed = false
     private var mPeriodWellFormed = false
     private var mDigitsWellFormed = false
+
+    override fun overrideTimeoutTouchAndFocusEvents(): Boolean {
+        return true
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -225,8 +232,11 @@ class SetOTPDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(activity)
             builder.apply {
                 setView(root)
-                        .setPositiveButton(android.R.string.ok) {_, _ -> }
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            resetAppTimeout()
+                        }
                         .setNegativeButton(android.R.string.cancel) { _, _ ->
+                            resetAppTimeout()
                         }
             }
 

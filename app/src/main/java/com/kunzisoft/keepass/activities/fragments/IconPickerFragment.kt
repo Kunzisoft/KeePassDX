@@ -9,19 +9,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
-class IconPickerFragment : StylishFragment() {
+class IconPickerFragment : DatabaseFragment() {
 
     private var iconPickerPagerAdapter: IconPickerPagerAdapter? = null
     private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     private val iconPickerViewModel: IconPickerViewModel by activityViewModels()
-
-    private var mDatabase: Database? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -32,19 +30,11 @@ class IconPickerFragment : StylishFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mDatabase = Database.getInstance()
+        super.onViewCreated(view, savedInstanceState)
 
         viewPager = view.findViewById(R.id.icon_picker_pager)
-        val tabLayout = view.findViewById<TabLayout>(R.id.icon_picker_tabs)
-        iconPickerPagerAdapter = IconPickerPagerAdapter(this,
-                if (mDatabase?.allowCustomIcons == true) 2 else 1)
-        viewPager.adapter = iconPickerPagerAdapter
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position) {
-                1 -> getString(R.string.icon_section_custom)
-                else -> getString(R.string.icon_section_standard)
-            }
-        }.attach()
+        tabLayout = view.findViewById(R.id.icon_picker_tabs)
+        resetAppTimeoutWhenViewFocusedOrChanged(view)
 
         arguments?.apply {
             if (containsKey(ICON_TAB_ARG)) {
@@ -56,6 +46,18 @@ class IconPickerFragment : StylishFragment() {
         iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { _ ->
             viewPager.currentItem = 1
         }
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        iconPickerPagerAdapter = IconPickerPagerAdapter(this,
+            if (database?.allowCustomIcons == true) 2 else 1)
+        viewPager.adapter = iconPickerPagerAdapter
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                1 -> getString(R.string.icon_section_custom)
+                else -> getString(R.string.icon_section_standard)
+            }
+        }.attach()
     }
 
     enum class IconTab {

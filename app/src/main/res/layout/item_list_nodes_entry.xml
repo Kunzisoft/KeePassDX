@@ -25,78 +25,156 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/KeepassDXStyle.Selectable.Item">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:minHeight="56dp"
+        android:maxHeight="72dp"
         app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/selectableItemBackground" >
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="@dimen/image_list_margin"
-            android:layout_marginStart="@dimen/image_list_margin"
-            android:layout_marginRight="@dimen/image_list_margin"
-            android:layout_marginEnd="@dimen/image_list_margin"
+            android:layout_marginTop="@dimen/image_list_margin_horizontal"
+            android:layout_marginBottom="@dimen/image_list_margin_horizontal"
+            android:layout_marginLeft="@dimen/image_list_margin_vertical"
+            android:layout_marginStart="@dimen/image_list_margin_vertical"
+            android:layout_marginRight="@dimen/image_list_margin_vertical"
+            android:layout_marginEnd="@dimen/image_list_margin_vertical"
+            android:layout_gravity="center"
             android:scaleType="fitXY"
             android:src="@drawable/ic_blank_32dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
+
         <LinearLayout
+            android:id="@+id/node_container_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="2dp"
+            android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:layout_marginLeft="@dimen/image_list_margin"
-            android:layout_marginStart="@dimen/image_list_margin"
-            android:layout_marginRight="@dimen/image_list_margin"
-            android:layout_marginEnd="@dimen/image_list_margin"
+            android:layout_marginStart="@dimen/image_list_margin_vertical"
+            android:layout_marginLeft="@dimen/image_list_margin_vertical"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/node_icon"
             app:layout_constraintLeft_toRightOf="@+id/node_icon"
-            app:layout_constraintEnd_toStartOf="@+id/node_attachment_icon"
-            app:layout_constraintRight_toLeftOf="@+id/node_attachment_icon">
+            app:layout_constraintEnd_toStartOf="@+id/node_options"
+            app:layout_constraintRight_toLeftOf="@+id/node_options">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.Entry.Title"
                 android:layout_width="wrap_content"
-                tools:text="Node Title"
-                android:maxLines="2"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Title" />
+                android:maxLines="2"
+                tools:text="Node Title" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
-                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.Entry.SubTitle"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="-4dp"
-                tools:text="Node SubTitle"
                 android:lines="1"
                 android:singleLine="true"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.SubTitle" />
+                tools:text="Node SubTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/node_meta"
+                style="@style/KeepassDXStyle.TextAppearance.Entry.Meta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:singleLine="true"
+                tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C" />
         </LinearLayout>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/node_attachment_icon"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/node_options"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/image_list_margin"
-            android:layout_marginStart="@dimen/image_list_margin"
-            android:layout_marginRight="@dimen/image_list_margin"
-            android:layout_marginEnd="@dimen/image_list_margin"
-            android:src="@drawable/ic_attach_file_white_24dp"
-            style="@style/KeepassDXStyle.TextAppearance.Entry.Icon"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/node_otp_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:padding="4dp"
+                android:orientation="horizontal"
+                android:background="?android:attr/selectableItemBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/node_attachment_icon"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/node_otp_token"
+                    style="@style/KeepassDXStyle.TextAppearance.Entry.Info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    tools:text="5136" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp">
+                    <ProgressBar
+                        android:id="@+id/node_otp_progress"
+                        style="@style/KeepassDXStyle.ProgressBar.Circle.Secondary"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:max="100"
+                        android:progress="60" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/node_attachment_icon"
+                style="@style/KeepassDXStyle.TextAppearance.Entry.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_attach_file_white_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/node_otp_container" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_marginLeft="72dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
