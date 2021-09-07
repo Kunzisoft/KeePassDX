@@ -934,9 +934,7 @@ class GroupActivity : DatabaseLockActivity(),
     ) {
 
         // If no node, show education to add new one
-        val addNodeButtonEducationPerformed = mGroupFragment != null
-                && mGroupFragment!!.isEmpty
-                && actionNodeMode == null
+        val addNodeButtonEducationPerformed = actionNodeMode == null
                 && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
                 && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(

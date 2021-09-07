@@ -74,9 +74,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var mRecycleBinEnable: Boolean = false
     private var mRecycleBin: Group? = null
 
-    val isEmpty: Boolean
-        get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
-
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
