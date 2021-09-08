@@ -392,4 +392,23 @@
     <string name="content">ഉള്ളടക്കം</string>
     <string name="device_credential">ഉപകരണ ക്രെഡൻഷ്യൽ</string>
     <string name="error_field_name_already_exists">ഈ ഫീൽഡ് നാമം ഇതിനകം ഉണ്ട്.</string>
+    <string name="version">പതിപ്പ്</string>
+    <string name="membership">അംഗത്വം</string>
+    <string name="secure_note">സുരക്ഷിത കുറിപ്പ്</string>
+    <string name="bank_name">ബാങ്കിന്റെ പേര്</string>
+    <string name="bank">ബാങ്ക്</string>
+    <string name="account">അക്കൗണ്ട്</string>
+    <string name="seed">സീഡ്</string>
+    <string name="token">ടോക്കൺ</string>
+    <string name="cryptocurrency">ക്രിപ്‌റ്റോകറൻസി വാലറ്റ്</string>
+    <string name="type">തരം</string>
+    <string name="ssid">എസ്എസ്ഐഡി</string>
+    <string name="email_address">ഇമെയിൽ വിലാസം</string>
+    <string name="email">ഇമെയിൽ</string>
+    <string name="name">പേര്</string>
+    <string name="id_card">ഐഡി കാർഡ്</string>
+    <string name="personal_identification_number">പിൻ</string>
+    <string name="card_verification_value">സിവിവി</string>
+    <string name="number">നമ്പർ</string>
+    <string name="debit_credit_card">ടെബിറ്റ്/ ക്രെഡിറ്റ് കാർഡ്</string>
 </resources>
