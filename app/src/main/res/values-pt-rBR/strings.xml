@@ -66,7 +66,7 @@
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
     <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Modificado para 2147483648.</string>
-    <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
+    <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="file_browser">Explorador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
     <string name="hint_conf_pass">Confirmar senha</string>
@@ -157,7 +157,7 @@
     <string name="show_recent_files_title">Histórico de arquivos recentes</string>
     <string name="show_recent_files_summary">Lembrar nomes recentes de arquivos</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
-    <string name="kdf_explanation">Para gerar a chave para o algoritmo de criptografia, a chave mestra é transformada usando uma função de derivação de chave com sal aleatoriamente.</string>
+    <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre é transformada usando uma função de derivação de chave salgada aleatoriamente.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
@@ -212,7 +212,7 @@
     <string name="recycle_bin_summary">Mover grupos e entradas para o grupo \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
-    <string name="allow_copy_password_title">Confiança da área de transferência</string>
+    <string name="allow_copy_password_title">Confiança na área de transferência</string>
     <string name="allow_copy_password_summary">Permitir a cópia da senha e de campos protegidos para a área de transferência</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-los.</string>
     <string name="database_name_title">Nome do banco de dados</string>
@@ -229,7 +229,7 @@
     <string name="enable_read_only_title">Somente leitura</string>
     <string name="enable_read_only_summary">Por padrão, abrir seu banco de dados no modo somente leitura</string>
     <string name="enable_education_screens_title">Telas educacionais</string>
-    <string name="enable_education_screens_summary">Destaque os elementos para aprender como o app funciona</string>
+    <string name="enable_education_screens_summary">Destaque os elementos para aprender como o aplicativo funciona</string>
     <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
     <string name="reset_education_screens_summary">Exibir todos os itens educacionais novamente</string>
     <string name="reset_education_screens_text">Telas educacionais redefinidas</string>
