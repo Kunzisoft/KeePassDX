@@ -67,7 +67,7 @@
     <string name="error_pass_match">As senhas não combinam.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
-    <string name="file_browser">Localizador de arquivos</string>
+    <string name="file_browser">Explorador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
     <string name="hint_conf_pass">Confirmar senha</string>
     <string name="hint_generated_password">Senha gerada</string>
@@ -77,7 +77,7 @@
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
     <string name="invalid_credentials">Não foi possível ler credenciais.</string>
-    <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
+    <string name="invalid_db_sig">Não pôde reconhecer formato da base de dados.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
@@ -135,7 +135,7 @@
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos não permitem que aplicativos usem a área de transferência.</string>
     <string name="clipboard_error_clear">Não foi possível limpar a área de transferência</string>
-    <string name="entry_not_found">Não pôde encontrar dado de entrada.</string>
+    <string name="entry_not_found">Não pôde encontrar dados de entrada.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="field_name">Nome do campo</string>
@@ -150,7 +150,7 @@
     <string name="menu_paste">Colar</string>
     <string name="menu_cancel">Cancelar</string>
     <string name="menu_file_selection_read_only">Somente leitura</string>
-    <string name="menu_open_file_read_and_write">Gravação</string>
+    <string name="menu_open_file_read_and_write">Modificável</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Somente leitura</string>
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
@@ -251,10 +251,11 @@
     <string name="education_entry_new_field_summary">Registrar um campo adicional, adicionar um valor e, opcionalmente, protegê-lo.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
     <string name="education_read_only_title">Proteja seu banco de modificações</string>
-    <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
-\n
-\n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados.
-\n\"Gravação\" permite você a adicionar, excluir ou modificar todos os elementos.</string>
+    <string name="education_read_only_summary">Altere o modo de abertura para a sessão. 
+\n 
+\n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados. 
+\n 
+\n\"Gravação\" permite você a adicionar, excluir ou modificar todos os elementos que desejar.</string>
     <string name="education_field_copy_title">Copiar um campo</string>
     <string name="education_field_copy_summary">Campos copiados podem ser colados em qualquer lugar. 
 \n 
