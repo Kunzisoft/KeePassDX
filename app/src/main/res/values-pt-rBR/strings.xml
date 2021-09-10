@@ -140,7 +140,7 @@
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu explorador de arquivos.</string>
+    <string name="file_not_found_content">Não pôde encontrar o arquivo. Tente reabrí-lo de seu provedor de conteúdo.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -327,7 +327,7 @@
     <string name="entry_password_generator">Gerador de senhas</string>
     <string name="content_description_password_length">Comprimento da senha</string>
     <string name="entry_add_field">Adicionar campo</string>
-    <string name="content_description_remove_field">Remover campo</string>
+    <string name="content_description_remove_field">Excluir campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
     <string name="error_copy_entry_here">Você não pode copiar uma entrada daqui.</string>
