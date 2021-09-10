@@ -25,11 +25,11 @@
     <string name="add_group">Adicionar grupo</string>
     <string name="encryption_algorithm">Algoritmo de cifragem</string>
     <string name="app_timeout">Tempo de espera</string>
-    <string name="app_timeout_summary">Tempo inativo até que o aplicativo seja bloqueado</string>
+    <string name="app_timeout_summary">Inatividade até que o aplicativo seja bloqueado</string>
     <string name="application">Aplicativo</string>
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
-    <string name="file_manager_install_description">É necessário um gerenciador de arquivos que aceite as ações ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT para criar, abrir e salvar arquivos de banco de dados.</string>
+    <string name="file_manager_install_description">Um gerenciador de arquivos que aceita a ação Intenção ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT é necessário para criar, abrir e salvar arquivos de banco de dados.</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para a área de transferência</string>
     <string name="clipboard_timeout_summary">Duração do armazenamento na área de transferência (se suportado pelo seu dispositivo)</string>
@@ -109,7 +109,7 @@
     <string name="content_description_remove_from_list">Remover</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de transformação</string>
-    <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
+    <string name="rounds_explanation">Rodadas adicionais de cifragem adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Busca</string>
@@ -157,7 +157,7 @@
     <string name="show_recent_files_title">Exibir arquivos recentes</string>
     <string name="show_recent_files_summary">Exibir locais de bancos de dados recentes</string>
     <string name="encryption_explanation">Algoritmo de cifragem usado para todos os dados.</string>
-    <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre é transformada usando uma função de derivação de chave salgada aleatoriamente.</string>
+    <string name="kdf_explanation">Para gerar uma chave para o algoritmo de cifragem, a chave mestra é transformada usando uma função de derivação de chave salgada aleatoriamente.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
@@ -175,8 +175,8 @@
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
-    <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
-    <string name="encrypted_value_stored">Senha encriptada armazenada</string>
+    <string name="warning_no_encryption_key">Continuar sem chave de cifragem\?</string>
+    <string name="encrypted_value_stored">Senha cifrada armazenada</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
     <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
@@ -199,8 +199,8 @@
     <string name="advanced_unlock">Desbloqueio avançado</string>
     <string name="biometric_unlock_enable_title">Desbloqueio biométrico</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
-    <string name="biometric_delete_all_key_title">Apague chaves de encriptação</string>
-    <string name="biometric_delete_all_key_summary">Apagar todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio avançado</string>
+    <string name="biometric_delete_all_key_title">Apague chaves de cifragem</string>
+    <string name="biometric_delete_all_key_summary">Apagar todas as chaves de cifragem relacionadas ao reconhecimento de desbloqueio avançado</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">O dispositivo está utilizando Android %1$s, mas precisa %2$s ou posterior.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
@@ -283,7 +283,7 @@
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
-    <string name="error_load_database">Falha ao carregar o banco de dados.</string>
+    <string name="error_load_database">Não foi possível carregar seu banco de dados.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
     <string name="list_entries_show_username_summary">Mostrar nomes de usuário em listas de entrada</string>
@@ -334,7 +334,7 @@
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
     <string name="content_description_node_children">Nó filho</string>
-    <string name="content_description_password_checkbox">Caixa de seleção de senha</string>
+    <string name="content_description_password_checkbox">Caixa de seleção da senha</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir mudança de visibilidade da senha</string>
     <string name="content_description_background">Plano de fundo</string>
@@ -431,7 +431,7 @@
     <string name="remember_database_locations_summary">Lembra o local onde os bancos de dados são guardados</string>
     <string name="remember_database_locations_title">Lembrar a localização dos bancos de dados</string>
     <string name="auto_focus_search_summary">Solicitar uma busca ao abrir um banco de dados</string>
-    <string name="error_create_database">Incapaz de criar arquivo de base de dados.</string>
+    <string name="error_create_database">Não foi possível criar o arquivo do banco de dados.</string>
     <string name="error_label_exists">Este rótulo já existe.</string>
     <string name="entry_attachments">Anexos</string>
     <string name="html_about_contribution">Para <strong>manter nossa liberdade</strong>, <strong>consertar erros</strong>, <strong>adicionar recursos</strong> e <strong>para estar sempre ativo</strong>, contamos com sua <strong>contribuição</strong>.</string>
@@ -469,7 +469,7 @@
     <string name="filter">Filtro</string>
     <string name="subdomain_search_summary">Buscar por domínios na web com restrições de subdomínios</string>
     <string name="subdomain_search_title">Busca de subdomínio</string>
-    <string name="error_string_type">Esse texto não combina com o item solicitado.</string>
+    <string name="error_string_type">Esse texto não coincide com o item requerido.</string>
     <string name="content_description_credentials_information">Informações de credenciais</string>
     <string name="content_description_add_item">Adicionar item</string>
     <string name="autofill_block_restart">Reinicie o aplicativo que contém o formulário para ativar o bloqueio.</string>
@@ -589,11 +589,11 @@
     <string name="templates_group_uuid_title">Grupo de modelos</string>
     <string name="templates_group_enable_summary">Use modelos dinâmicos para preencher os campos de uma entrada</string>
     <string name="templates_group_enable_title">Uso de modelos</string>
-    <string name="advanced_unlock_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio avançado\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Apagar todas as chaves de cifragem relacionadas ao reconhecimento de desbloqueio avançado\?</string>
     <string name="advanced_unlock_timeout">Tempo limite de desbloqueio avançado</string>
     <string name="temp_advanced_unlock_timeout_summary">Duração do uso de desbloqueio avançado antes de excluir seu conteúdo</string>
     <string name="temp_advanced_unlock_timeout_title">Expiração de desbloqueio avançado</string>
-    <string name="temp_advanced_unlock_enable_summary">Não armazene nenhum conteúdo criptografado para usar desbloqueio avançado</string>
+    <string name="temp_advanced_unlock_enable_summary">Não armazene nenhum conteúdo cifrado para usar desbloqueio avançado</string>
     <string name="temp_advanced_unlock_enable_title">Desbloqueio avançado temporário</string>
     <string name="device_credential_unlock_enable_summary">Permite que você use a credencial do seu dispositivo para abrir o banco de dados</string>
     <string name="device_credential_unlock_enable_title">Desbloqueio de credencial de dispositivo</string>
