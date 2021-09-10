@@ -102,20 +102,20 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sem resultados na busca</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
-    <string name="omit_backup_search_title">Não procurar por entradas no backup ou na lixeira</string>
+    <string name="omit_backup_search_title">Não buscar por entradas no backup ou na lixeira</string>
     <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
     <string name="content_description_remove_from_list">Remover</string>
     <string name="root">Raiz</string>
-    <string name="rounds">Rodadas de criptografia</string>
+    <string name="rounds">Rodadas de transformação</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Spaço</string>
     <string name="search_label">Busca</string>
     <string name="sort_db">Ordenação natural</string>
-    <string name="special">Caracteres Especiais</string>
-    <string name="search">Título/Descrição da entrada</string>
+    <string name="special">Especial</string>
+    <string name="search">Buscar</string>
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão de banco de dados não suportada.</string>
     <string name="uppercase">Letras maiúsculas</string>
@@ -171,7 +171,7 @@
     <string name="sort_creation_time">Data de criação</string>
     <string name="sort_last_modify_time">Última modificação</string>
     <string name="sort_last_access_time">Último acesso</string>
-    <string name="search_results">Resultados da pesquisa</string>
+    <string name="search_results">Resultados da busca</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
@@ -251,11 +251,10 @@
     <string name="education_entry_new_field_summary">Registrar um campo adicional, adicionar um valor e, opcionalmente, protegê-lo.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
     <string name="education_read_only_title">Proteja seu banco de modificações</string>
-    <string name="education_read_only_summary">Altere o modo de abertura para a sessão. 
-\n 
-\n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados. 
-\n 
-\n\"Gravação\" permite você a adicionar, excluir ou modificar todos os elementos que desejar.</string>
+    <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
+\n
+\n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados.
+\n\"Modificável\" permite você adicionar, excluir ou modificar todos os elementos que desejar.</string>
     <string name="education_field_copy_title">Copiar um campo</string>
     <string name="education_field_copy_summary">Campos copiados podem ser colados em qualquer lugar. 
 \n 
@@ -308,7 +307,7 @@
     <string name="keyboard_keys_category">Teclas</string>
     <string name="keyboard_key_vibrate_title">Vibrar ao clicar</string>
     <string name="keyboard_key_sound_title">Clicar audível</string>
-    <string name="selection_mode">Modo de seleção</string>
+    <string name="selection_mode">Modo seleção</string>
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
     <string name="lock_database_back_root_title">Pressione \'Voltar\' para trancar</string>
     <string name="lock_database_back_root_summary">Trancar a base de dados quando o usuário pressiona o botão \"Voltar\" na tela inicial</string>
@@ -398,13 +397,13 @@
     <string name="menu_empty_recycle_bin">Esvaziar lixeira</string>
     <string name="command_execution">Executando o comando…</string>
     <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
-    <string name="keystore_not_accessible">A chave não foi propriamente inicializada.</string>
+    <string name="keystore_not_accessible">O armazenamento chaves não foi propriamente inicializado.</string>
     <string name="recycle_bin_group_title">Grupo de lixeira</string>
     <string name="enable_auto_save_database_title">Salvar automaticamente a base de dados</string>
     <string name="enable_auto_save_database_summary">Salvar automaticamente a base de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
     <string name="discard">Descartar</string>
     <string name="contact">Contato</string>
-    <string name="auto_focus_search_title">Pesquisa rápida</string>
+    <string name="auto_focus_search_title">Busca rápida</string>
     <string name="menu_delete_entry_history">Apagar histórico</string>
     <string name="menu_restore_entry_history">Restaurar histórico</string>
     <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa de domínios da internet ou de aplicações automaticamente</string>
@@ -431,7 +430,7 @@
     <string name="remember_keyfile_locations_title">Lembrar a localização dos arquivos-chave</string>
     <string name="remember_database_locations_summary">Manter o local onde os bancos de dados são armazenados</string>
     <string name="remember_database_locations_title">Lembrar a localização dos bancos de dados</string>
-    <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>
+    <string name="auto_focus_search_summary">Solicitar uma busca ao abrir um banco de dados</string>
     <string name="error_create_database">Incapaz de criar arquivo de base de dados.</string>
     <string name="error_label_exists">Este rótulo já existe.</string>
     <string name="entry_attachments">Anexos</string>
@@ -464,12 +463,12 @@
     <string name="warning_empty_keyfile">Não é recomendado adicionar um arquivo-chave vazio.</string>
     <string name="warning_sure_remove_data">Remover esses dados mesmo assim\?</string>
     <string name="warning_sure_add_file">Adicionar o arquivo mesmo assim\?</string>
-    <string name="warning_file_too_big">Um banco de dados KeePass deve conter somente pequenos arquivos de utilitários (como arquivos de chave PGP).
+    <string name="warning_file_too_big">Um banco de dados KeePass deve conter apenas pequenos arquivos de utilitários (como arquivos de chave PGP).
 \n
 \nSeu banco de dados pode ficar muito grande e reduzir o desempenho com este upload.</string>
     <string name="filter">Filtro</string>
-    <string name="subdomain_search_summary">Pesquisar domínios da web com restrições de subdomínios</string>
-    <string name="subdomain_search_title">Pesquisa de subdomínio</string>
+    <string name="subdomain_search_summary">Buscar por domínios na web com restrições de subdomínios</string>
+    <string name="subdomain_search_title">Busca de subdomínio</string>
     <string name="error_string_type">Esse texto não combina com o item solicitado.</string>
     <string name="content_description_credentials_information">Informações de credenciais</string>
     <string name="content_description_add_item">Adicionar item</string>
@@ -517,4 +516,36 @@
     <string name="debit_credit_card">Cartão de débito / crédito</string>
     <string name="template_group_name">Modelos</string>
     <string name="content_description_otp_information">Informação de senha de uso único</string>
+    <string name="device_credential">Credencial do dispositivo</string>
+    <string name="properties">Propriedades</string>
+    <string name="credential_before_click_advanced_unlock_button">Digite a senha e clique neste botão.</string>
+    <string name="advanced_unlock_prompt_not_initialized">Incapaz de inicializar o prompt de desbloqueio avançado.</string>
+    <string name="advanced_unlock_scanning_error">Erro de desbloqueio avançado: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio avançado</string>
+    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançado. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extraia credencial de banco de dados com dados de desbloqueio avançado</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Aviso: você ainda precisa lembrar sua senha mestra se usar o reconhecimento de desbloqueio avançado.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar credenciais</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">Abra o prompt de desbloqueio avançado para desbloquear o banco de dados</string>
+    <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
+    <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
+    <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
+    <string name="warning_database_info_changed_options">Substitua as modificações externas salvando o banco de dados ou recarregue-o com as alterações mais recentes.</string>
+    <string name="warning_database_info_changed">As informações contidas em seu arquivo de banco de dados foram modificadas fora do aplicativo.</string>
+    <string name="warning_empty_recycle_bin">Deletar permanentemente todos os nós da lixeira\?</string>
+    <string name="error_export_app_properties">Erro durante a exportação de propriedades do aplicativo</string>
+    <string name="success_export_app_properties">Propriedades do aplicativo exportadas</string>
+    <string name="error_import_app_properties">Erro durante a importação de propriedades do aplicativo</string>
+    <string name="success_import_app_properties">Propriedades de aplicativos importadas</string>
+    <string name="description_app_properties">Propriedades KeePassDX para gerenciar configurações de aplicativos</string>
+    <string name="export_app_properties_summary">Crie um arquivo para exportar as propriedades do aplicativo</string>
+    <string name="export_app_properties_title">Exportar propriedades do aplicativo</string>
+    <string name="import_app_properties_summary">Selecione um arquivo para importar as propriedades do aplicativo</string>
+    <string name="import_app_properties_title">Importar propriedades do aplicativo</string>
+    <string name="registration_mode">Modo registro</string>
+    <string name="save_mode">Modo salvar</string>
+    <string name="search_mode">Modo busca</string>
+    <string name="menu_external_icon">Ícone externo</string>
 </resources>
