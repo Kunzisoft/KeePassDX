@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">Falta de memória para abrir todo o banco de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
-    <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="file_browser">Explorador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
@@ -182,7 +182,7 @@
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
-    <string name="autofill_service_name">Preenchimento Automático KeePassDX</string>
+    <string name="autofill_service_name">Preenchimento Automático do KeePass DX</string>
     <string name="autofill_sign_in_prompt">Entre com o KeePassDX</string>
     <string name="set_autofill_service_title">Definir serviço padrão de preenchimento automático</string>
     <string name="autofill_explanation_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
