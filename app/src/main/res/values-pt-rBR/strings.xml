@@ -140,7 +140,7 @@
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Não pôde encontrar o arquivo. Tente reabrí-lo de seu provedor de conteúdo.</string>
+    <string name="file_not_found_content">Não pôde encontrar o arquivo. Tente reabri-lo de seu explorador de arquivos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -406,7 +406,7 @@
     <string name="auto_focus_search_title">Busca rápida</string>
     <string name="menu_delete_entry_history">Apagar histórico</string>
     <string name="menu_restore_entry_history">Restaurar histórico</string>
-    <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa de domínios da internet ou de aplicações automaticamente</string>
+    <string name="autofill_auto_search_summary">Sugerir resultados de busca de domínios da internet ou de aplicativos automaticamente</string>
     <string name="hide_expired_entries_summary">Entradas expiradas foram escondidas</string>
     <string name="hide_expired_entries_title">Esconder entradas expiradas</string>
     <string name="download_complete">Completo!</string>
@@ -425,7 +425,7 @@
     <string name="warning_database_link_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos</string>
     <string name="warning_database_read_only">Conceder acesso de gravação de arquivo para salvar alterações na base de dados</string>
     <string name="hide_broken_locations_summary">Esconder links quebrados na lista de bases de dados recentes</string>
-    <string name="hide_broken_locations_title">Esconder links quebrados de bases de dados</string>
+    <string name="hide_broken_locations_title">Ocultar links quebrados do banco de dados</string>
     <string name="remember_keyfile_locations_summary">Manter o local onde os arquivos-chave são armazenados</string>
     <string name="remember_keyfile_locations_title">Lembrar a localização dos arquivos-chave</string>
     <string name="remember_database_locations_summary">Lembra o local onde os bancos de dados são guardados</string>
