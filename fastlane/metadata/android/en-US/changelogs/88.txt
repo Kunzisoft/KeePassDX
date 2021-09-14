@@ -1,0 +1,1 @@
+ * Fix text size and smallest margin #1085

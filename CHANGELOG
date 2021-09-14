@@ -1,3 +1,6 @@
+KeePassDX(3.0.1)
+ * Fix text size and smallest margin #1085
+
 KeePassDX(3.0.0)
  * Add / Manage dynamic templates #191
  * Manually select RecycleBin group and Templates group #191
