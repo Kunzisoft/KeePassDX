@@ -187,6 +187,6 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
 
     companion object {
         const val MAX_CHARS_LIMIT = Integer.MAX_VALUE
-        const val MAX_LINES_LIMIT = 40
+        const val MAX_LINES_LIMIT = Integer.MAX_VALUE
     }
 }
