@@ -1,2 +1,3 @@
  * Fix text size and smallest margin #1085
  * Fix number of lines during an edition #1073
+  * Fix Magikeyboard URL auto action #1100

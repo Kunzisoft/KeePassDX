@@ -1,2 +1,3 @@
  * Correction de la taille de texte et plus petites marges #1085
  * Correction du nombre de lignes d'édition #1073
+ * Correction de l'action auto de l'URL Magiclavier #1100
