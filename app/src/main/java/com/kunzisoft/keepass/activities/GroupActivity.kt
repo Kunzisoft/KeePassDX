@@ -653,6 +653,8 @@ class GroupActivity : DatabaseLockActivity(),
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
+
+        reloadGroupIfSearch()
     }
 
     private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
@@ -738,6 +740,12 @@ class GroupActivity : DatabaseLockActivity(),
         actionNodeMode?.finish()
     }
 
+    private fun reloadGroupIfSearch() {
+        if (Intent.ACTION_SEARCH == intent.action) {
+            reloadCurrentGroup()
+        }
+    }
+
     override fun onNodeSelected(
         database: Database,
         nodes: List<Node>
@@ -793,6 +801,7 @@ class GroupActivity : DatabaseLockActivity(),
                 (node as Entry).nodeId
             )
         }
+        reloadGroupIfSearch()
         return true
     }
 
@@ -847,6 +856,7 @@ class GroupActivity : DatabaseLockActivity(),
     ): Boolean {
         deleteNodes(nodes)
         finishNodeAction()
+        reloadGroupIfSearch()
         return true
     }
 
@@ -1093,7 +1103,7 @@ class GroupActivity : DatabaseLockActivity(),
         try {
             mGroupViewModel.loadGroup(mDatabase, mCurrentGroupState)
         } catch (e: Exception) {
-            Log.e(TAG, "Unable to rebuild the list after deletion", e)
+            Log.e(TAG, "Unable to rebuild the group", e)
         }
     }
 

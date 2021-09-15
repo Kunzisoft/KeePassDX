@@ -3,3 +3,4 @@
  * Fix Magikeyboard URL auto action #1100
  * Fix exception after group name change and save #1112
  * Fix timeout reset #1107
+ * Fix search actions #1091 #1092
