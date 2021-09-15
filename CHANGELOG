@@ -5,6 +5,7 @@ KeePassDX(3.0.1)
  * Fix exception after group name change and save #1112
  * Fix timeout reset #1107
  * Fix search actions #1091 #1092
+ * Small changes #1106 #1085
 
 KeePassDX(3.0.0)
  * Add / Manage dynamic templates #191
