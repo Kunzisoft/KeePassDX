@@ -30,8 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:minHeight="56dp"
-        android:maxHeight="72dp"
+        android:minHeight="48dp"
         app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,18 +87,6 @@
                 android:gravity="center_vertical"
                 android:maxLines="2"
                 tools:text="Node Title" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/node_subtext"
-                style="@style/KeepassDXStyle.TextAppearance.Group.SubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-4dp"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:singleLine="true"
-                android:visibility="gone"
-                tools:text="Node SubTitle" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"

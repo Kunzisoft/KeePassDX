@@ -1,0 +1,7 @@
+ * Correction de la taille de texte et plus petites marges #1085
+ * Correction du nombre de lignes d'édition #1073
+ * Correction de l'action auto de l'URL Magiclavier #1100
+ * Correction de l'exception après un changement de nom de groupe et sauvegarde #1112
+ * Correction de la réinitialisation du délai d'expiration #1107
+ * Correction des actions de recherche #1091 #1092
+ * Petits changements #1106 #1085

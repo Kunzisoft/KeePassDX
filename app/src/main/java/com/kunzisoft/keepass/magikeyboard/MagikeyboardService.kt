@@ -272,7 +272,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 if (entryInfoKey != null) {
                     currentInputConnection.commitText(entryInfoKey!!.url, 1)
                 }
-                actionTabAutomatically()
+                actionGoAutomatically()
             }
             KEY_FIELDS -> {
                 if (entryInfoKey != null) {
