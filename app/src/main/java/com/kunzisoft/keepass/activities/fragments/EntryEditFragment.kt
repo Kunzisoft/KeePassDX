@@ -105,6 +105,9 @@ class EntryEditFragment: DatabaseFragment() {
             setOnPasswordGenerationActionClickListener { field ->
                 mEntryEditViewModel.requestPasswordSelection(field)
             }
+            setOnDownloadIconActionClickListener { url ->
+                mEntryEditViewModel.requestDownloadIcon(url)
+            }
             setOnDateInstantClickListener { dateInstant ->
                 mEntryEditViewModel.requestDateTimeSelection(dateInstant)
             }

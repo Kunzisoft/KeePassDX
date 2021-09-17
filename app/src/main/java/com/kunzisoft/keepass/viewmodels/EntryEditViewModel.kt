@@ -257,6 +257,10 @@ class EntryEditViewModel: NodeEditViewModel() {
         _onPasswordSelected.value = passwordField
     }
 
+    fun requestDownloadIcon(url: String) {
+        // TODO
+    }
+
     fun requestCustomFieldEdition(customField: Field) {
         _requestCustomFieldEdition.value = customField
     }

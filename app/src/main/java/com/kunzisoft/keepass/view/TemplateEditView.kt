@@ -36,6 +36,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         this.mOnPasswordGenerationActionClickListener = listener
     }
 
+    private var mOnDownloadIconActionClickListener: ((String) -> Unit)? = null
+    fun setOnDownloadIconActionClickListener(listener: ((String) -> Unit)?) {
+        this.mOnDownloadIconActionClickListener = listener
+    }
+
     private var mOnDateInstantClickListener: ((DateInstant) -> Unit)? = null
     fun setOnDateInstantClickListener(listener: ((DateInstant) -> Unit)?) {
         this.mOnDateInstantClickListener = listener
@@ -112,6 +117,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 setOnActionClickListener({
                     mOnPasswordGenerationActionClickListener?.invoke(field)
                 }, R.drawable.ic_generate_password_white_24dp)
+            }
+            if (templateAttribute.options.isLink()) {
+                setOnActionClickListener({
+                    mOnDownloadIconActionClickListener?.invoke(value)
+                }, R.drawable.ic_downloading_white_24dp)
             }
         }
     }
