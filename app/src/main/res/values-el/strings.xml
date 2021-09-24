@@ -182,7 +182,7 @@
     <string name="clipboard_notifications_summary">Εμφάνιση ειδοποιήσεων πρόχειρου για αντιγραφή πεδίων κατά την προβολή μιας καταχώρησης</string>
     <string name="lock">Κλείδωμα</string>
     <string name="lock_database_screen_off_title">Κλείδωμα Οθόνης</string>
-    <string name="lock_database_screen_off_summary">Κλείδωμα της βάσης δεδομένων όταν η οθόνη είναι απενεργοποιημένη</string>
+    <string name="lock_database_screen_off_summary">Κλείδωμα της βάση δεδομένων μετά από μερικά δευτερόλεπτα μόλις η οθόνη είναι απενεργοποιηθεί</string>
     <string name="unavailable_feature_text">Δεν ήταν δυνατή η εκκίνηση αυτής της λειτουργίας.</string>
     <string name="unavailable_feature_version">Η συσκευή τρέχει Android %1$s, αλλά χρειάζεται %2$s ή μεταγενέστερη έκδοση.</string>
     <string name="unavailable_feature_hardware">Δεν ήταν δυνατή η εύρεση του αντίστοιχου υλικού.</string>
