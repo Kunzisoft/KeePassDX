@@ -199,7 +199,7 @@
     <string name="clipboard_warning">Jeśli automatyczne usuwanie schowka nie powiedzie się, ręcznie usuń jego historię.</string>
     <string name="lock">Blokada</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
-    <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
+    <string name="lock_database_screen_off_summary">Zablokuj bazę danych po kilku sekundach od wyłączenia ekranu</string>
     <string name="advanced_unlock">Odcisk palca</string>
     <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
