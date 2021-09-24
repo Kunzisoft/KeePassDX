@@ -222,7 +222,7 @@
     <string name="clipboard_notifications_summary">显示剪贴板通知，以便在查看条目时复制字段</string>
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
-    <string name="lock_database_screen_off_summary">锁屏时锁定数据库</string>
+    <string name="lock_database_screen_off_summary">屏幕关闭几秒钟后锁定数据库</string>
     <string name="biometric_unlock_enable_title">生物识别解锁</string>
     <string name="biometric_unlock_enable_summary">通过生物识别解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
