@@ -199,7 +199,7 @@
     <string name="clipboard_warning">Если автоматическая очистка буфера обмена недоступна, очистите историю буфера обмена вручную.</string>
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
-    <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
+    <string name="lock_database_screen_off_summary">Блокировать базу через несколько секунд после отключения экрана</string>
     <string name="advanced_unlock">Расширенная разблокировка</string>
     <string name="biometric_unlock_enable_title">Биометрическая разблокировка</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
