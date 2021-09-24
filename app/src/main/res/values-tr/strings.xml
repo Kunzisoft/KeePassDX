@@ -192,7 +192,7 @@
     <string name="clipboard_warning">Panodaki otomatik silme başarısız olursa, geçmişini elle silin.</string>
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
-    <string name="lock_database_screen_off_summary">Ekran kapalıyken veri tabanını kilitle</string>
+    <string name="lock_database_screen_off_summary">Ekran kapandığında birkaç saniye sonra veri tabanını kilitle</string>
     <string name="advanced_unlock">Gelişmiş kilit açma</string>
     <string name="biometric_unlock_enable_title">Biyometrik kilit açma</string>
     <string name="biometric_unlock_enable_summary">Veri tabanını açmak için biyometriklerinizi taramanızı sağlar</string>
