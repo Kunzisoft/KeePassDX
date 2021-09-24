@@ -387,7 +387,7 @@
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
     <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натисне кнопку назад на головному екрані</string>
     <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
-    <string name="lock_database_screen_off_summary">Блокувати базу даних, якщо екран вимкнено</string>
+    <string name="lock_database_screen_off_summary">Блокувати базу даних за кілька секунд після вимкнення екрана</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
     <string name="lock">Блокування</string>
     <string name="clipboard_warning">Якщо не вдалось очистити буфер обміну автоматично, видаліть його історію вручну.</string>
