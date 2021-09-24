@@ -510,6 +510,8 @@
     <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
+    <string name="enable_keep_screen_on_title">Keep screen on</string>
+    <string name="enable_keep_screen_on_summary">Keep the screen on when watching the entry</string>
     <string name="enable_education_screens_title">Educational hints</string>
     <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational hints</string>

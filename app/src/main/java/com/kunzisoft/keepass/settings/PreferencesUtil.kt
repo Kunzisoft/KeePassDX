@@ -278,6 +278,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
+    fun isKeepScreenOnEnabled(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.enable_keep_screen_on_key),
+            context.resources.getBoolean(R.bool.enable_keep_screen_on_default))
+    }
+
     fun isAdvancedUnlockEnable(context: Context): Boolean {
         return isBiometricUnlockEnable(context) || isDeviceCredentialUnlockEnable(context)
     }
@@ -595,6 +601,7 @@ object PreferencesUtil {
                 context.getString(R.string.delete_entered_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_read_only_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.omit_backup_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.subdomain_search_key) -> editor.putBoolean(name, value.toBoolean())
