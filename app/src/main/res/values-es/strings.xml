@@ -189,7 +189,7 @@
     <string name="clipboard_notifications_summary">Mostrar las notificaciones del portapapeles para copiar campos al examinar una entrada</string>
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueo de pantalla</string>
-    <string name="lock_database_screen_off_summary">Bloquear la base de datos cuando la pantalla esté apagada</string>
+    <string name="lock_database_screen_off_summary">Bloquear la base de datos después de unos segundos cuando la pantalla esté apagada</string>
     <string name="advanced_unlock">Desbloqueo avanzado</string>
     <string name="biometric_unlock_enable_title">Desbloqueo biométrico</string>
     <string name="biometric_unlock_enable_summary">Le permite escanear sus datos biométricos para abrir la base de datos</string>
