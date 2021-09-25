@@ -160,7 +160,7 @@
     <string name="clipboard_notifications_title">Zwischenablage-Benachrichtigung</string>
     <string name="clipboard_notifications_summary">Benachrichtigungen zur Zwischenablage anzeigen, um beim Betrachten eines Eintrags Felder kopieren zu können</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
-    <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
+    <string name="lock_database_screen_off_summary">Datenbank sperren, einige Sekunden nachdem der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">Neue Datenbank erstellen</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
