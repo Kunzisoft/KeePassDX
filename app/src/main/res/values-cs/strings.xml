@@ -197,7 +197,7 @@
     <string name="clipboard_warning">Vymazat historii schránky manuálně, pokud automatické vymazání schránky selže.</string>
     <string name="lock">Zamknout</string>
     <string name="lock_database_screen_off_title">Zámek obrazovky</string>
-    <string name="lock_database_screen_off_summary">Při zhasnutí obrazovky uzamknout databázi</string>
+    <string name="lock_database_screen_off_summary">Několik vteřin po zhasnutí obrazovky uzamknout databázi</string>
     <string name="advanced_unlock">Rozšířené odemknutí</string>
     <string name="biometric_unlock_enable_title">Biometrické odemknutí</string>
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním biometrického údaje</string>
