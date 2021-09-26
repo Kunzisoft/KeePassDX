@@ -198,7 +198,7 @@
     <string name="clipboard_notifications_summary">Mostrar notificações da área de transferência para copiar campos ao visualizar uma entrada</string>
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de ecrã</string>
-    <string name="lock_database_screen_off_summary">Bloquear a base de dados quando o ecrã estiver desligado</string>
+    <string name="lock_database_screen_off_summary">Bloquear a base de dados após alguns segundos após o ecrã estar desligado</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esta funcionalidade.</string>
     <string name="unavailable_feature_version">O dispositivo está a usar o Android %1$s, mas precisa do %2$s ou posterior.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
