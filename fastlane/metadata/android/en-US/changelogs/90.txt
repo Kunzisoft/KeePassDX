@@ -1,0 +1,1 @@
+ * Change default Argon2 parameters #1098
