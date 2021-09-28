@@ -112,13 +112,26 @@
                     android:text="@string/entry_history"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/entry_tags_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:paddingLeft="6dp"
+                android:paddingEnd="6dp"
+                android:paddingRight="6dp"
+                android:layout_gravity="center"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/history_container"/>
+
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/entry_content"
                 android:name="com.kunzisoft.keepass.activities.fragments.EntryFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent="@dimen/content_percent"
-                app:layout_constraintTop_toBottomOf="@+id/history_container"
+                app:layout_constraintTop_toBottomOf="@+id/entry_tags_list_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

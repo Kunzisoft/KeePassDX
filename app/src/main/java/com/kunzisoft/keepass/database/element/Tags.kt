@@ -25,8 +25,30 @@ class Tags: Parcelable {
         return 0
     }
 
+    fun setTags(tags: Tags) {
+        mTags.clear()
+        mTags.addAll(tags.mTags)
+    }
+
+    fun get(position: Int): String {
+        return mTags[position]
+    }
+
+    fun put(tag: String) {
+        if (!mTags.contains(tag))
+            mTags.add(tag)
+    }
+
     fun isEmpty(): Boolean {
         return mTags.isEmpty()
+    }
+
+    fun size(): Int {
+        return mTags.size
+    }
+
+    fun clear() {
+        mTags.clear()
     }
 
     override fun toString(): String {

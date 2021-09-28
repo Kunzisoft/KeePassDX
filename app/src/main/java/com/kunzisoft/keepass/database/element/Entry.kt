@@ -419,6 +419,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.expiryTime = expiryTime
             entryInfo.url = url
             entryInfo.notes = notes
+            entryInfo.tags = tags
             entryInfo.customFields = getExtraFields().toMutableList()
             // Add otpElement to generate token
             entryInfo.otpModel = getOtpElement()?.otpModel
@@ -453,6 +454,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         expiryTime = newEntryInfo.expiryTime
         url = newEntryInfo.url
         notes = newEntryInfo.notes
+        tags = newEntryInfo.tags
         addExtraFields(newEntryInfo.customFields)
         database?.attachmentPool?.let { binaryPool ->
             newEntryInfo.attachments.forEach { attachment ->
