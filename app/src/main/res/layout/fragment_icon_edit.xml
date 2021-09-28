@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2021 Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<androidx.core.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/default_margin"
+		android:importantForAutofill="noExcludeDescendants"
+		tools:targetApi="o">
+		<androidx.appcompat.widget.AppCompatImageView
+			android:id="@+id/icon_edit_image"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginRight="@dimen/default_margin"
+			android:layout_marginEnd="@dimen/default_margin"
+			android:src="@drawable/ic_blank_32dp"/>
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/icon_edit_name_container"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/icon_edit_name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="4dp"
+				android:layout_marginStart="4dp"
+				android:inputType="text"
+				android:maxLines="1"
+				android:singleLine="true"
+				android:hint="@string/hint_icon_name"/>
+		</com.google.android.material.textfield.TextInputLayout>
+	</LinearLayout>
+</androidx.core.widget.NestedScrollView>

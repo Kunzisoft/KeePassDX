@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.viewmodels
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -30,6 +31,10 @@ class IconPickerViewModel: ViewModel() {
         MutableLiveData<IconCustomState>()
     }
 
+    val customIconUpdated : MutableLiveData<IconCustomState> by lazy {
+        MutableLiveData<IconCustomState>()
+    }
+
     fun pickStandardIcon(icon: IconImageStandard) {
         standardIconPicked.value = icon
     }
@@ -52,6 +57,10 @@ class IconPickerViewModel: ViewModel() {
 
     fun removeCustomIcon(customIcon: IconCustomState) {
         customIconRemoved.value = customIcon
+    }
+
+    fun updateCustomIcon(customIcon: IconCustomState) {
+        customIconUpdated.value = customIcon
     }
 
     data class IconCustomState(var iconCustom: IconImageCustom? = null,
