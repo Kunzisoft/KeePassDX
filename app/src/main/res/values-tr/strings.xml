@@ -192,7 +192,7 @@
     <string name="clipboard_warning">Panodaki otomatik silme başarısız olursa, geçmişini elle silin.</string>
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
-    <string name="lock_database_screen_off_summary">Ekran kapalıyken veri tabanını kilitle</string>
+    <string name="lock_database_screen_off_summary">Ekran kapandığında birkaç saniye sonra veri tabanını kilitle</string>
     <string name="advanced_unlock">Gelişmiş kilit açma</string>
     <string name="biometric_unlock_enable_title">Biyometrik kilit açma</string>
     <string name="biometric_unlock_enable_summary">Veri tabanını açmak için biyometriklerinizi taramanızı sağlar</string>
@@ -467,7 +467,7 @@
     <string name="data">Veri</string>
     <string name="database_data_remove_unlinked_attachments_title">Bağlantısız verileri kaldır</string>
     <string name="database_data_remove_unlinked_attachments_summary">Veri tabanında bulunan ancak bir girdiye bağlı olmayan ekleri kaldırır</string>
-    <string name="show_uuid_summary">Bir girdiye bağlı UUID\'yi görüntüler</string>
+    <string name="show_uuid_summary">Bir girdiye veya gruba bağlı UUID\'yi görüntüler</string>
     <string name="show_uuid_title">UUID\'yi göster</string>
     <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
     <string name="autofill_ask_to_save_data_summary">Bir form doğrulandığında verileri kaydetmek için sor</string>
@@ -591,4 +591,10 @@
     <string name="holder">Sahip</string>
     <string name="debit_credit_card">Banka / Kredi Kartı</string>
     <string name="template_group_name">Şablonlar</string>
+    <string name="show_otp_token_summary">Girdiler listesinde OTP belirteçlerini görüntüler</string>
+    <string name="show_otp_token_title">OTP Belirtecini Göster</string>
+    <string name="menu_external_icon">Harici simge</string>
+    <string name="autofill_manual_selection_summary">Kullanıcının veri tabanı girdisini seçmesine izin veren seçeneği göster</string>
+    <string name="autofill_manual_selection_title">Elle seçim</string>
+    <string name="autofill_select_entry">Girdi seç…</string>
 </resources>
