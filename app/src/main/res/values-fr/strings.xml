@@ -182,7 +182,7 @@
     <string name="clipboard_warning">Si la suppression automatique du presse-papier échoue, supprimer son historique manuellement.</string>
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
-    <string name="lock_database_screen_off_summary">Verrouille la base de données lorsque l’écran est éteint</string>
+    <string name="lock_database_screen_off_summary">Verrouille la base de données après quelques secondes une fois l’écran éteint</string>
     <string name="advanced_unlock">Déverrouillage avancé</string>
     <string name="biometric_unlock_enable_title">Déverrouillage biométrique</string>
     <string name="biometric_unlock_enable_summary">Permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
@@ -575,12 +575,12 @@
     <string name="error_start_database_action">Une erreur s\'est produite lors de l\'exécution d\'une action sur la base de données.</string>
     <string name="error_move_group_here">Vous ne pouvez pas déplacer un groupe ici.</string>
     <string name="error_word_reserved">Ce mot est réservé et ne peut pas être utilisé.</string>
-    <string name="templates">Modèles</string>
-    <string name="templates_group_uuid_title">Groupe de modèles</string>
+    <string name="templates">Gabarits</string>
+    <string name="templates_group_uuid_title">Groupe de gabarits</string>
     <string name="templates_group_enable_summary">Utiliser les modèles dynamiques pour remplir les champs d\'une entrée</string>
-    <string name="templates_group_enable_title">Utilisation des modèles</string>
+    <string name="templates_group_enable_title">Utilisation des gabarits</string>
     <string name="version">Version</string>
-    <string name="template">Modèle</string>
+    <string name="template">Gabarit</string>
     <string name="standard">Standard</string>
     <string name="membership">Adhésion</string>
     <string name="international_bank_account_number">IBAN</string>
@@ -602,9 +602,11 @@
     <string name="name">Nom</string>
     <string name="id_card">Carte d\'identité</string>
     <string name="debit_credit_card">Carte de crédit</string>
-    <string name="template_group_name">Modèles</string>
+    <string name="template_group_name">Gabarits</string>
     <string name="secure_note">Note sécurisée</string>
     <string name="show_otp_token_summary">Affiche les jetons OTP dans la liste des entrées</string>
     <string name="show_otp_token_title">Afficher le jeton OTP</string>
     <string name="menu_external_icon">Icône externe</string>
+    <string name="autofill_manual_selection_summary">Afficher l\'option permettant à l\'utilisateur de sélectionner l\'entrée de la base de données</string>
+    <string name="autofill_manual_selection_title">Sélection manuelle</string>
 </resources>
