@@ -408,4 +408,5 @@
     <string name="education_generate_password_title">أنشئ كلمة سر قوية</string>
     <string name="save_mode">وضع الحفظ</string>
     <string name="search_mode">وضع البحث</string>
+    <string name="version">النسخة</string>
 </resources>
