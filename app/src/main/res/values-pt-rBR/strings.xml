@@ -195,7 +195,7 @@
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe seu histórico manualmente.</string>
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
-    <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
+    <string name="lock_database_screen_off_summary">Bloqueie o banco de dados após alguns segundos quando a tela for desligada</string>
     <string name="advanced_unlock">Desbloqueio avançado</string>
     <string name="biometric_unlock_enable_title">Desbloqueio biométrico</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
