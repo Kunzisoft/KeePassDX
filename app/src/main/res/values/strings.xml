@@ -91,6 +91,7 @@
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
+    <string name="tags">Tags</string>
     <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>

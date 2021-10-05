@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
+import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
@@ -45,6 +47,8 @@ import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import com.tokenautocomplete.FilteredArrayAdapter
+
 
 class EntryEditFragment: DatabaseFragment() {
 
@@ -55,6 +59,8 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
+    private lateinit var tagsCompletionView: AppCompatAutoCompleteTextView
+    private var tagsAdapter: FilteredArrayAdapter<String>? = null
 
     private var mTemplate: Template? = null
     private var mAllowMultipleAttachments: Boolean = false
@@ -87,12 +93,22 @@ class EntryEditFragment: DatabaseFragment() {
         templateView = view.findViewById(R.id.template_view)
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+        tagsCompletionView = view.findViewById(R.id.entry_tags_completion_view)
 
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
         attachmentsListView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
+        // TODO default tags in pool
+        tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf("test"))
+        tagsCompletionView.apply {
+            //allowCollapse(false)
+            //setTokenizer(CharacterTokenizer(listOf('.', ','), ","))
+            threshold = 1
+            setAdapter(tagsAdapter)
         }
 
         templateView.apply {

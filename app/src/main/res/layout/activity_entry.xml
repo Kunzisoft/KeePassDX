@@ -95,31 +95,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/history_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
                 android:visibility="gone"
                 android:background="?attr/colorAccent"
                 android:padding="12dp"
-                app:layout_constraintTop_toTopOf="parent">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="?attr/textColorInverse"
-                    android:text="@string/entry_history"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textColor="?attr/textColorInverse"
+                android:text="@string/entry_history"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/entry_tags_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="6dp"
-                android:paddingLeft="6dp"
-                android:paddingEnd="6dp"
-                android:paddingRight="6dp"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
                 android:layout_gravity="center"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"

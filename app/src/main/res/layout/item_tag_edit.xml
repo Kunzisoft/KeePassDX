@@ -13,35 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="1dp"
-    android:paddingBottom="0dp"
+    android:layout_marginStart="6dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginRight="6dp"
+    android:background="@drawable/background_completion"
     android:orientation="horizontal">
     <TextView
         android:id="@+id/tag_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="32dp"
         android:gravity="center_vertical"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
         app:drawableLeftCompat="@drawable/ic_bookmark_white_12dp"
         app:drawableStartCompat="@drawable/ic_bookmark_white_12dp"
         app:drawableTint="?attr/colorAccent"
         android:drawablePadding="2dp"
         tools:text="text"
-        android:textColor="?attr/colorAccent"
         android:textSize="12sp"
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingRight="8dp" />
-</androidx.cardview.widget.CardView>
+        android:textColor="?attr/colorAccent"
+        android:paddingLeft="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:paddingRight="4dp" />
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_close_white_24dp"
+        app:tint="?attr/colorAccent"
+        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        android:contentDescription="@string/menu_delete" />
+</LinearLayout>
