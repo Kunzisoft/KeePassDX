@@ -203,7 +203,7 @@
     <string name="clipboard_warning">Als automatisch wissen van het klembord mislukt, doe dit dan handmatig.</string>
     <string name="lock">Vergrendelen</string>
     <string name="lock_database_screen_off_title">Schermvergrendeling</string>
-    <string name="lock_database_screen_off_summary">Database vergrendelen wanneer het scherm is uitgeschakeld</string>
+    <string name="lock_database_screen_off_summary">Vergrendel de database een paar seconden nadat het scherm is uitgeschakeld</string>
     <string name="advanced_unlock">Geavanceerd ontgrendelen</string>
     <string name="biometric_unlock_enable_title">Ontgrendelen met biometrie</string>
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
