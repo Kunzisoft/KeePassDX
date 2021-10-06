@@ -13,6 +13,7 @@ Cette version pro encourage <b>les développements</b>, <b>un meilleur service</
  - Material design avec thèmes.
  - Remplissage automatique de champs.
  - Clavier de remplissage de champs.
+ - Gabarits dynamiques.
  - Historique de chaque entrée.
  - Gestion précise des paramètres.
  - Code écrit en langages natifs (Kotlin / Java / JNI / C).

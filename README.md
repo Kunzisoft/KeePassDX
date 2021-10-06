@@ -15,6 +15,7 @@
  - Material design with **themes**.
  - **Auto-Fill** and Integration.
  - Field filling **keyboard**.
+ - Dynamic **templates** 
  - **History** of each entry.
  - Precise management of **settings**.
  - Code written in **native languages** *(Kotlin / Java / JNI / C)*.

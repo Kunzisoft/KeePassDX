@@ -13,6 +13,7 @@ This pro version encourages <b>development</b>, <b>better service</b>, and you c
  - Material design with themes.
  - Auto-Fill and integration.
  - Field filling keyboard.
+ - Dynamic templates.
  - History of each entry.
  - Precise management of settings.
  - Code written in native languages (Kotlin / Java / JNI / C).
