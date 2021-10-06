@@ -1,4 +1,4 @@
-<b>Gestionnaire de mots de passe KeePass multiformats</b>, l'application permet d'enregistrer et d'utiliser des mots de passe, des clés et des identités numériques de manière sécurisée, en intégrant les normes de conception Android.
+<b>Gestionnaire de mots de passe KeePass multiformats</b>, l'application permet d'enregistrer et d'utiliser des mots de passe, des clés et des identités numériques de manière sécurisée, en intégrant les normes de conception Android et <b>ne requiert aucune connexion internet</b>.
 
 Cette version pro encourage <b>les développements</b>, <b>un meilleur service</b> et vous contribuez à la création de <b>logiciels open source sans publicité</b>.
 <i>Actuellement, l'application possède les mêmes fonctionnalités que la version gratuite avec les thèmes débloqués mais est destinée à intégrer des éléments liés à des sites et services non gratuits couramment utilisés.</i>

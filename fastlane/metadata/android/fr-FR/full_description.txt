@@ -1,4 +1,4 @@
-KeePassDX est <b>Open source</b> et <b>sans publicité</b>. <b>Gestionnaire de mots de passe KeePass multiformats</b>,  l'application permet d'enregistrer et d'utiliser des mots de passe, des clés et des identités numériques de manière sécurisée, en intégrant les normes de conception Android.
+KeePassDX est <b>Open source</b> et <b>sans publicité</b>. <b>Gestionnaire de mots de passe KeePass multiformats</b>,  l'application permet d'enregistrer et d'utiliser des mots de passe, des clés et des identités numériques de manière sécurisée, en intégrant les normes de conception Android et <b>ne requiert aucune connexion internet</b>.
 
 <b>Fonctionnalités</b>
  - Création de bases de données / entrées et groupes.
