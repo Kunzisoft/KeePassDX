@@ -108,8 +108,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/entry_tags_list_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:paddingStart="5dp"
                 android:paddingLeft="5dp"
                 android:paddingEnd="5dp"
