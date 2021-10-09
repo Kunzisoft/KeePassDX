@@ -111,7 +111,7 @@
     <string name="add_entry">إضافة مدخلة</string>
     <string name="edit_entry">تحرير مدخلة</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
-    <string name="app_timeout">مهلة التطبيق</string>
+    <string name="app_timeout">انتهت المهلة</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
     <string name="file_manager_install_description">المحرر الذي يمتلك صلاحتي ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانشاء, وفتح وحفض قواعد البيانات.</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
