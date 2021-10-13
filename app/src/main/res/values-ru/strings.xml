@@ -270,9 +270,9 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих других приложений управления паролями, здесь <strong>нет рекламы</strong>, и оно <strong>свободно от лицензирования</strong>. Приложение не собирает ваши личные данные на своих серверах независимо от версии, которую вы используете.</string>
-    <string name="html_text_buy_pro">Купив Pro-версию, у вас появится доступ к данным <strong>визуальным стилям</strong>, а также вы внесёте вклад в <strong>реализацию общественных проектов</strong></string>
+    <string name="html_text_buy_pro">Купив Pro-версию, у вас появится доступ к данным <strong>визуальным стилям</strong>, а также вы внесёте вклад в <strong>реализацию общественных проектов</strong>.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на вашу <strong>поддержку</strong></string>
+    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на вашу <strong>поддержку</strong>.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;Pro&lt;/strong&gt;-версию,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
