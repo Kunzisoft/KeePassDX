@@ -35,7 +35,7 @@ class Tags: Parcelable {
     }
 
     fun put(tag: String) {
-        if (!mTags.contains(tag))
+        if (tag.isNotEmpty() && !mTags.contains(tag))
             mTags.add(tag)
     }
 
