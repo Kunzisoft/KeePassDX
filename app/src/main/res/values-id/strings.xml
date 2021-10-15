@@ -441,15 +441,15 @@
     <string name="menu_appearance_settings">Tampilan</string>
     <string name="database_history">Riwayat</string>
     <string name="encrypted_value_stored">Enkripsi password telah disimpan.</string>
-    <string name="international_bank_account_number">IBAN</string>
+    <string name="international_bank_account_number">NRBI (IBAN)</string>
     <string name="bank_name">Nama bank</string>
     <string name="name">Nama</string>
-    <string name="debit_credit_card">Kartu Debit / kredit</string>
+    <string name="debit_credit_card">Kartu Debit/Kredit</string>
     <string name="type">Tipe</string>
     <string name="version">Versi</string>
     <string name="standard">Standar</string>
     <string name="bank">Bank</string>
     <string name="account">Akun</string>
-    <string name="cryptocurrency">Dompet mata uang kripto</string>
+    <string name="cryptocurrency">Dompet kripto</string>
     <string name="number">Nomor</string>
 </resources>
