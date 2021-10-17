@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 
 class Tags: Parcelable {
 
@@ -10,7 +11,7 @@ class Tags: Parcelable {
     constructor()
 
     constructor(values: String): this() {
-        mTags.addAll(values.split(';'))
+        mTags.addAll(values.removeSpaceChars().split(DELIMITER, DELIMITER1))
     }
 
     constructor(parcel: Parcel) : this() {
@@ -52,10 +53,14 @@ class Tags: Parcelable {
     }
 
     override fun toString(): String {
-        return mTags.joinToString(";")
+        return mTags.joinToString(DELIMITER.toString())
     }
 
     companion object CREATOR : Parcelable.Creator<Tags> {
+        const val DELIMITER= ','
+        const val DELIMITER1= ';'
+        val DELIMITERS = listOf(',', ';')
+
         override fun createFromParcel(parcel: Parcel): Tags {
             return Tags(parcel)
         }

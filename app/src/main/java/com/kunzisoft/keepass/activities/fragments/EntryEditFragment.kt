@@ -24,7 +24,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,10 +41,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.view.TemplateEditView
-import com.kunzisoft.keepass.view.collapse
-import com.kunzisoft.keepass.view.expand
-import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
 
@@ -59,7 +55,7 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
-    private lateinit var tagsCompletionView: AppCompatAutoCompleteTextView
+    private lateinit var tagsCompletionView: TagsCompletionView
     private var tagsAdapter: FilteredArrayAdapter<String>? = null
 
     private var mTemplate: Template? = null
@@ -105,8 +101,6 @@ class EntryEditFragment: DatabaseFragment() {
         // TODO default tags in pool
         tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf("test"))
         tagsCompletionView.apply {
-            //allowCollapse(false)
-            //setTokenizer(CharacterTokenizer(listOf('.', ','), ","))
             threshold = 1
             setAdapter(tagsAdapter)
         }
@@ -156,7 +150,8 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
-            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, retrieveEntryInfo())
+            val entryInfo = retrieveEntryInfo()
+            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, entryInfo)
         }
 
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
@@ -285,12 +280,21 @@ class EntryEditFragment: DatabaseFragment() {
         // Populate entry views
         templateView.setEntryInfo(entryInfo)
 
+        // Set Tags
+        entryInfo?.tags?.let { tags ->
+            tagsCompletionView.setText("")
+            for (i in 0 until tags.size()) {
+                tagsCompletionView.addObjectSync(tags.get(i))
+            }
+        }
+
         // Manage attachments
         setAttachments(entryInfo?.attachments ?: listOf())
     }
 
     private fun retrieveEntryInfo(): EntryInfo {
         val entryInfo = templateView.getEntryInfo()
+        entryInfo.tags = tagsCompletionView.getTags()
         entryInfo.attachments = getAttachments().toMutableList()
         return entryInfo
     }
