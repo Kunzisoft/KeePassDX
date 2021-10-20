@@ -188,7 +188,7 @@
     <string name="clipboard">Međuspremnik</string>
     <string name="clipboard_notifications_title">Obavijesti međuspremnika</string>
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbriši njegovu povijest ručno.</string>
-    <string name="lock_database_screen_off_summary">Zaključaj bazu podataka kada je ekran ugašen</string>
+    <string name="lock_database_screen_off_summary">Zaključaj bazu podataka nakon par sekundi kad se ekran ugasi</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
     <string name="advanced_unlock">Napredno otključavanje</string>
     <string name="advanced_unlock_explanation_summary">Koristi napredno otključavanje za jednostavnije otvaranje baze podataka</string>
