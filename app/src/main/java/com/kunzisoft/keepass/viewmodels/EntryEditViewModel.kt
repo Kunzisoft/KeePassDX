@@ -18,6 +18,8 @@ import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import com.kunzisoft.keepass.utils.UriUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -260,8 +262,14 @@ class EntryEditViewModel: NodeEditViewModel() {
         ).execute()
     }
 
-    private fun downloadFavicon(url: String, context: Context): File? {
-        return try {
+    /**
+     * Needs to specify an IO Dispatcher to define this function as suspend
+     */
+    private suspend fun downloadFavicon(
+        url: String,
+        context: Context
+    ): File? = withContext(Dispatchers.IO) {
+        try {
             Log.d(TAG, "Downloading icon: $url")
             val authority = extractAuthorityFromUrl(url)
             val faviconUrl = URL("https://icons.duckduckgo.com/ip3/${authority}.ico")
