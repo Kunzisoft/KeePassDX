@@ -195,7 +195,7 @@
     <string name="clipboard_warning">Se l\'eliminazione automatica degli appunti fallisce, cancellali manualmente.</string>
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
-    <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
+    <string name="lock_database_screen_off_summary">Blocca il database dopo alcuni secondi quando lo schermo è spento</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
     <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
