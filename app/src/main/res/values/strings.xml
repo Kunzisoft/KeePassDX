@@ -570,6 +570,7 @@
     <string name="download_finalization">Finalizing…</string>
     <string name="download_complete">Complete!</string>
     <string name="download_canceled">Canceled!</string>
+    <string name="download_icon_error">Could not download icon</string>
     <string name="unit_byte">B</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>

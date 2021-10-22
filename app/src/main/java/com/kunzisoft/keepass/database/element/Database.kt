@@ -63,6 +63,8 @@ import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class Database {
@@ -138,8 +140,18 @@ class Database {
         mDatabaseKDBX?.buildNewCustomIcon(null, result)
     }
 
+    suspend fun buildNewCustomIcon(): Pair<IconImageCustom?, BinaryData?> {
+        return suspendCoroutine { coroutine ->
+            buildNewCustomIcon { icon, binary -> coroutine.resume(Pair(icon, binary)) }
+        }
+    }
+
     fun isCustomIconBinaryDuplicate(binaryData: BinaryData): Boolean {
         return mDatabaseKDBX?.isCustomIconBinaryDuplicate(binaryData) ?: false
+    }
+
+    fun getIcon(binary: BinaryData): IconImageCustom? {
+        return mDatabaseKDBX?.getCustomIcon(binary)
     }
 
     fun removeCustomIcon(customIcon: IconImageCustom) {

@@ -29,6 +29,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
@@ -40,10 +41,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.view.TemplateEditView
-import com.kunzisoft.keepass.view.collapse
-import com.kunzisoft.keepass.view.expand
-import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
 class EntryEditFragment: DatabaseFragment() {
@@ -106,7 +104,7 @@ class EntryEditFragment: DatabaseFragment() {
                 mEntryEditViewModel.requestPasswordSelection(field)
             }
             setOnDownloadIconActionClickListener { url ->
-                mEntryEditViewModel.requestDownloadIcon(url)
+                mEntryEditViewModel.requestDownloadIcon(url, requireContext(), mDatabase)
             }
             setOnDateInstantClickListener { dateInstant ->
                 mEntryEditViewModel.requestDateTimeSelection(dateInstant)
@@ -152,6 +150,12 @@ class EntryEditFragment: DatabaseFragment() {
 
         mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->
             templateView.setPasswordField(passwordField)
+        }
+
+        mEntryEditViewModel.onIconDownloaded.observe(viewLifecycleOwner) { state ->
+            if (state.errorStringId != null) {
+                Snackbar.make(rootView, state.errorStringId, Snackbar.LENGTH_LONG).asError().show()
+            }
         }
 
         mEntryEditViewModel.onDateSelected.observe(viewLifecycleOwner) { viewModelDate ->

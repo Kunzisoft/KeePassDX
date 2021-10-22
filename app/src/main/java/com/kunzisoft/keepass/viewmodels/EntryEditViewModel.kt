@@ -1,16 +1,27 @@
 package com.kunzisoft.keepass.viewmodels
 
+import android.content.Context
 import android.net.Uri
+import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.UriUtil
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.net.URL
 import java.util.*
 
 
@@ -53,6 +64,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     val onOtpCreated : LiveData<OtpElement> get() = _onOtpCreated
     private val _onOtpCreated = SingleLiveEvent<OtpElement>()
 
+    val onIconDownloaded: LiveData<DownloadIconState> get() = _onIconDownload
+    private val _onIconDownload = SingleLiveEvent<DownloadIconState>()
     val onBuildNewAttachment : LiveData<AttachmentBuild> get() = _onBuildNewAttachment
     private val _onBuildNewAttachment = SingleLiveEvent<AttachmentBuild>()
     val onStartUploadAttachment : LiveData<AttachmentUpload> get() = _onStartUploadAttachment
@@ -228,6 +241,86 @@ class EntryEditViewModel: NodeEditViewModel() {
         ).execute()
     }
 
+    fun requestDownloadIcon(url: String, context: Context, database: Database?) {
+        if (database == null) return
+        IOActionTask(
+            action = {
+                val file = downloadFavicon(url, context)
+                if (file == null) {
+                    DownloadIconState(errorStringId = R.string.download_icon_error)
+                } else {
+                    saveFavicon(file, context, database)
+                }
+            },
+            afterActionDatabaseListener = { state ->
+                Log.d(TAG, "Download favicon state: $state")
+                state?.downloadedIcon?.getIconImageToDraw()?.let { selectIcon(it) }
+                _onIconDownload.value = state
+            }
+        ).execute()
+    }
+
+    private fun downloadFavicon(url: String, context: Context): File? {
+        return try {
+            Log.d(TAG, "Downloading icon: $url")
+            val authority = extractAuthorityFromUrl(url)
+            val faviconUrl = URL("https://icons.duckduckgo.com/ip3/${authority}.ico")
+            val file = File(context.cacheDir, "temp_favicon.ico")
+
+            // Copy the icon to a file cache
+            faviconUrl.openStream().use { input ->
+                FileOutputStream(file).use { output ->
+                    input.copyTo(output)
+                }
+            }
+            file
+        } catch (e: IOException) {
+            Log.d(TAG, "Download icon exception: $e")
+            null
+        }
+    }
+
+    private suspend fun saveFavicon(
+        file: File,
+        context: Context,
+        database: Database
+    ): DownloadIconState {
+        val documentFile = UriUtil.getFileData(context, file.toUri())
+        if (documentFile == null || documentFile.length() > MAX_ICON_SIZE) {
+            Log.d(TAG, "Error while saving favicon")
+            return DownloadIconState(errorStringId = R.string.download_icon_error)
+        }
+
+        var (customIcon, binary) = database.buildNewCustomIcon()
+        BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
+            context.contentResolver,
+            database,
+            documentFile.uri,
+            binary
+        )
+
+        if (binary != null && database.isCustomIconBinaryDuplicate(binary)) {
+            Log.d(TAG, "Favicon is duplicated. Reusing existing one")
+            // Remove duplicated icon from database
+            customIcon?.let { database.removeCustomIcon(it) }
+
+            // Look for the original icon using its binary data
+            customIcon = database.getIcon(binary)
+        }
+
+        return DownloadIconState(downloadedIcon = customIcon)
+    }
+
+    private fun extractAuthorityFromUrl(url: String): String {
+        // Using https as fallback to create the URL
+        val urlWithProtocol = when {
+            url.startsWith("https") || url.startsWith("http") -> url
+            else -> "https://$url"
+        }
+
+        return URL(urlWithProtocol).authority
+    }
+
     private fun removeTempAttachmentsNotCompleted(entryInfo: EntryInfo) {
         // Do not save entry in upload progression
         mTempAttachments.forEach { attachmentState ->
@@ -327,7 +420,14 @@ class EntryEditViewModel: NodeEditViewModel() {
     data class AttachmentUpload(val attachmentToUploadUri: Uri, val attachment: Attachment)
     data class AttachmentPosition(val entryAttachmentState: EntryAttachmentState, val viewPosition: Float)
 
+    data class DownloadIconState(
+        val downloadedIcon: IconImageCustom? = null,
+        val errorStringId: Int? = null
+    )
+
     companion object {
         private val TAG = EntryEditViewModel::class.java.name
+
+        private const val MAX_ICON_SIZE = 5242880
     }
 }

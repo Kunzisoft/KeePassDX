@@ -25,7 +25,7 @@ import kotlinx.coroutines.*
  * Class to invoke action in a separate IO thread
  */
 class IOActionTask<T>(
-        private val action: () -> T ,
+        private val action: suspend () -> T ,
         private val afterActionDatabaseListener: ((T?) -> Unit)? = null) {
 
     private val mainScope = CoroutineScope(Dispatchers.Main)

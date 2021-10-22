@@ -342,6 +342,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return this.iconsManager.getIcon(iconUuid)
     }
 
+    fun getCustomIcon(binary: BinaryData): IconImageCustom? {
+        return this.iconsManager.getIcon(binary)
+    }
+
     fun isTemplatesGroupEnabled(): Boolean {
         return entryTemplatesGroup != UUID_ZERO
     }
