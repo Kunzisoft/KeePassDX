@@ -33,6 +33,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.IconEditDialogFragment
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
@@ -139,6 +140,16 @@ class IconPickerActivity : DatabaseLockActivity() {
             }
             uploadButton.isEnabled = true
         }
+        iconPickerViewModel.customIconUpdated.observe(this) { iconCustomUpdated ->
+            if (iconCustomUpdated.error && !iconCustomUpdated.errorConsumed) {
+                Snackbar.make(coordinatorLayout, iconCustomUpdated.errorStringId, Snackbar.LENGTH_LONG).asError().show()
+                iconCustomUpdated.errorConsumed = true
+            }
+            iconCustomUpdated.iconCustom?.let {
+                mDatabase?.updateCustomIcon(it)
+            }
+            iconPickerViewModel.deselectAllCustomIcons()
+        }
     }
 
     override fun viewToInvalidateTimeout(): View? {
@@ -197,6 +208,10 @@ class IconPickerActivity : DatabaseLockActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_edit)?.apply {
+            isEnabled = mIconsSelected.size == 1
+            isVisible = isEnabled
+        }
         menu?.findItem(R.id.menu_delete)?.apply {
             isEnabled = mCustomIconsSelectionMode
             isVisible = isEnabled
@@ -212,6 +227,9 @@ class IconPickerActivity : DatabaseLockActivity() {
                 } else {
                     onBackPressed()
                 }
+            }
+            R.id.menu_edit -> {
+                updateCustomIcon(mIconsSelected[0])
             }
             R.id.menu_delete -> {
                 mIconsSelected.forEach { iconToRemove ->
@@ -275,6 +293,11 @@ class IconPickerActivity : DatabaseLockActivity() {
                 }
             }
         }
+    }
+
+    private fun updateCustomIcon(iconImageCustom: IconImageCustom) {
+        IconEditDialogFragment.update(iconImageCustom)
+            .show(supportFragmentManager, IconEditDialogFragment.TAG_UPDATE_ICON)
     }
 
     private fun removeCustomIcon(iconImageCustom: IconImageCustom) {

@@ -222,6 +222,14 @@
             android:name="com.kunzisoft.keepass.services.KeyboardEntryNotificationService"
             android:enabled="true"
             android:exported="false" />
+        <receiver
+            android:name="com.kunzisoft.keepass.receivers.DexModeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.app.action.ENTER_KNOX_DESKTOP_MODE" />
+                <action android:name="android.app.action.EXIT_KNOX_DESKTOP_MODE" />
+            </intent-filter>
+        </receiver>
 
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>

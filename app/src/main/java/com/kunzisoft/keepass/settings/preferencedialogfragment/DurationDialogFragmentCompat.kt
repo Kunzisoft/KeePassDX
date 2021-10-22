@@ -64,11 +64,13 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
 
     private fun durationToDaysHoursMinutesSeconds(duration: Long) {
         if (duration < 0) {
+            mEnabled = false
             mDays = 0
             mHours = 0
             mMinutes = 0
             mSeconds = 0
         } else {
+            mEnabled = true
             mDays = (duration / (24L * 60L * 60L * 1000L)).toInt()
             val daysMilliseconds = mDays * 24L * 60L * 60L * 1000L
             mHours = ((duration - daysMilliseconds) / (60L * 60L * 1000L)).toInt()
@@ -125,10 +127,9 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             }
         }
 
-        mEnabled = isSwitchActivated()
         setSwitchAction({ isChecked ->
             mEnabled = isChecked
-        }, mDays + mHours + mMinutes + mSeconds > 0)
+        }, mEnabled)
 
         assignValuesInViews()
     }

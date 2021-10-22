@@ -67,8 +67,10 @@ class NodeAdapter (private val context: Context,
     private var mCalculateViewTypeTextSize = Array(2) { true } // number of view type
     private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
     private var mPrefSizeMultiplier: Float = 0F
-    private var mSubtextDefaultDimension: Float = 0F
-    private var mInfoTextDefaultDimension: Float = 0F
+    private var mTextDefaultDimension: Float = 0F
+    private var mSubTextDefaultDimension: Float = 0F
+    private var mMetaTextDefaultDimension: Float = 0F
+    private var mOtpTokenTextDefaultDimension: Float = 0F
     private var mNumberChildrenTextDefaultDimension: Float = 0F
     private var mIconDefaultDimension: Float = 0F
 
@@ -303,8 +305,10 @@ class NodeAdapter (private val context: Context,
             mInflater.inflate(R.layout.item_list_nodes_entry, parent, false)
         }
         val nodeViewHolder = NodeViewHolder(view)
-        mInfoTextDefaultDimension = nodeViewHolder.text.textSize
-        mSubtextDefaultDimension = nodeViewHolder.subText.textSize
+        mTextDefaultDimension = nodeViewHolder.text.textSize
+        mSubTextDefaultDimension = nodeViewHolder.subText?.textSize ?: mSubTextDefaultDimension
+        mMetaTextDefaultDimension = nodeViewHolder.meta.textSize
+        mOtpTokenTextDefaultDimension = nodeViewHolder.otpToken?.textSize ?: mOtpTokenTextDefaultDimension
         nodeViewHolder.numberChildren?.let {
             mNumberChildrenTextDefaultDimension = it.textSize
         }
@@ -315,7 +319,9 @@ class NodeAdapter (private val context: Context,
         val subNode = mNodeSortedList.get(position)
 
         // Node selection
-        holder.container.isSelected = mActionNodesList.contains(subNode)
+        holder.container.apply {
+            isSelected = mActionNodesList.contains(subNode)
+        }
 
         // Assign image
         val iconColor = if (holder.container.isSelected)
@@ -337,19 +343,18 @@ class NodeAdapter (private val context: Context,
         // Assign text
         holder.text.apply {
             text = subNode.title
-            setTextSize(mTextSizeUnit, mInfoTextDefaultDimension, mPrefSizeMultiplier)
+            setTextSize(mTextSizeUnit, mTextDefaultDimension, mPrefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
-        }
-        // Add subText with username
-        holder.subText.apply {
-            text = ""
-            strikeOut(subNode.isCurrentlyExpires)
-            visibility = View.GONE
         }
         // Add meta text to show UUID
         holder.meta.apply {
-            text = subNode.nodeId.toString()
-            visibility = if (mShowUUID) View.VISIBLE else View.GONE
+            if (mShowUUID) {
+                text = subNode.nodeId.toString()
+                setTextSize(mTextSizeUnit, mMetaTextDefaultDimension, mPrefSizeMultiplier)
+                visibility = View.VISIBLE
+            } else {
+                visibility = View.GONE
+            }
         }
 
         // Specific elements for entry
@@ -358,12 +363,16 @@ class NodeAdapter (private val context: Context,
             database.startManageEntry(entry)
 
             holder.text.text = entry.getVisualTitle()
-            holder.subText.apply {
+            // Add subText with username
+            holder.subText?.apply {
                 val username = entry.username
                 if (mShowUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
-                    setTextSize(mTextSizeUnit, mSubtextDefaultDimension, mPrefSizeMultiplier)
+                    setTextSize(mTextSizeUnit, mSubTextDefaultDimension, mPrefSizeMultiplier)
+                    strikeOut(subNode.isCurrentlyExpires)
+                } else {
+                    visibility = View.GONE
                 }
             }
 
@@ -431,7 +440,10 @@ class NodeAdapter (private val context: Context,
                 }
             }
         }
-        holder?.otpToken?.text = otpElement?.token
+        holder?.otpToken?.apply {
+            text = otpElement?.token
+            setTextSize(mTextSizeUnit, mOtpTokenTextDefaultDimension, mPrefSizeMultiplier)
+        }
         holder?.otpContainer?.setOnClickListener {
             otpElement?.token?.let { token ->
                 Toast.makeText(
@@ -483,7 +495,7 @@ class NodeAdapter (private val context: Context,
         var imageIdentifier: ImageView? = itemView.findViewById(R.id.node_image_identifier)
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
-        var subText: TextView = itemView.findViewById(R.id.node_subtext)
+        var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
         var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)

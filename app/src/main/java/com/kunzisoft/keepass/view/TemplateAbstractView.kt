@@ -275,22 +275,26 @@ abstract class TemplateAbstractView<
                                        templateAttribute: TemplateAttribute,
                                        entryInfoValue: String,
                                        showEmptyFields: Boolean) {
-        var fieldView: TEntryFieldView? = findViewWithTag(fieldTag)
-        if (!showEmptyFields && entryInfoValue.isEmpty()) {
-            fieldView?.isFieldVisible = false
-        } else if (fieldView == null && entryInfoValue.isNotEmpty()) {
-            // Add new not referenced view if standard field not in template
-            fieldView = buildViewForNotReferencedField(
-                Field(templateAttribute.label,
-                    ProtectedString(templateAttribute.protected, "")),
-                templateAttribute
-            ) as? TEntryFieldView?
-            fieldView?.let {
-                addNotReferencedView(it as View)
+        try {
+            var fieldView: TEntryFieldView? = findViewWithTag(fieldTag)
+            if (!showEmptyFields && entryInfoValue.isEmpty()) {
+                fieldView?.isFieldVisible = false
+            } else if (fieldView == null && entryInfoValue.isNotEmpty()) {
+                // Add new not referenced view if standard field not in template
+                fieldView = buildViewForNotReferencedField(
+                    Field(templateAttribute.label,
+                        ProtectedString(templateAttribute.protected, "")),
+                    templateAttribute
+                ) as? TEntryFieldView?
+                fieldView?.let {
+                    addNotReferencedView(it as View)
+                }
             }
+            fieldView?.value = entryInfoValue
+            fieldView?.applyFontVisibility(mFontInVisibility)
+        } catch(e: Exception) {
+            Log.e(TAG, "Unable to populate entry field view", e)
         }
-        fieldView?.value = entryInfoValue
-        fieldView?.applyFontVisibility(mFontInVisibility)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -299,22 +303,25 @@ abstract class TemplateAbstractView<
                                      expires: Boolean,
                                      expiryTime: DateInstant,
                                      showEmptyFields: Boolean) {
-
-        var fieldView: TDateTimeView? = findViewWithTag(fieldTag)
-        if (!showEmptyFields && !expires) {
-            fieldView?.isFieldVisible = false
-        } else if (fieldView == null && expires) {
-            fieldView = buildViewForNotReferencedField(
-                Field(templateAttribute.label,
-                    ProtectedString(templateAttribute.protected, "")),
-                templateAttribute
-            ) as? TDateTimeView?
-            fieldView?.let {
-                addNotReferencedView(it as View)
+        try {
+            var fieldView: TDateTimeView? = findViewWithTag(fieldTag)
+            if (!showEmptyFields && !expires) {
+                fieldView?.isFieldVisible = false
+            } else if (fieldView == null && expires) {
+                fieldView = buildViewForNotReferencedField(
+                        Field(templateAttribute.label,
+                                ProtectedString(templateAttribute.protected, "")),
+                        templateAttribute
+                ) as? TDateTimeView?
+                fieldView?.let {
+                    addNotReferencedView(it as View)
+                }
             }
+            fieldView?.activation = expires
+            fieldView?.dateTime = expiryTime
+        } catch(e: Exception) {
+            Log.e(TAG, "Unable to populate date time view", e)
         }
-        fieldView?.activation = expires
-        fieldView?.dateTime = expiryTime
     }
 
     /**

@@ -1,0 +1,2 @@
+ * Changement des paramètres Argon2 par défaut #1098
+ * Ajout & édition du nom d'icone customisé #976

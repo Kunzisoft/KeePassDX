@@ -159,6 +159,10 @@ class Database {
         iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
     }
 
+    fun updateCustomIcon(customIcon: IconImageCustom) {
+        iconsManager.getIcon(customIcon.uuid).updateWith(customIcon)
+    }
+
     fun getTemplates(templateCreation: Boolean): List<Template> {
         return mDatabaseKDBX?.getTemplates(templateCreation) ?: listOf()
     }

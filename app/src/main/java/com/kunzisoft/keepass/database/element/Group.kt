@@ -177,16 +177,20 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     fun addChildrenFrom(group: Group) {
         group.groupKDB?.getChildEntries()?.forEach { entryToAdd ->
             groupKDB?.addChildEntry(entryToAdd)
+            entryToAdd.parent = groupKDB
         }
         group.groupKDB?.getChildGroups()?.forEach { groupToAdd ->
             groupKDB?.addChildGroup(groupToAdd)
+            groupToAdd.parent = groupKDB
         }
 
         group.groupKDBX?.getChildEntries()?.forEach { entryToAdd ->
             groupKDBX?.addChildEntry(entryToAdd)
+            entryToAdd.parent = groupKDBX
         }
         group.groupKDBX?.getChildGroups()?.forEach { groupToAdd ->
             groupKDBX?.addChildGroup(groupToAdd)
+            groupToAdd.parent = groupKDBX
         }
     }
 
