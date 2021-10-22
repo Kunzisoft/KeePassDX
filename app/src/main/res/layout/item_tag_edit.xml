@@ -37,12 +37,12 @@
         android:drawablePadding="2dp"
         tools:text="text"
         android:textSize="12sp"
-        android:textColor="?attr/colorAccent"
         android:paddingLeft="4dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:paddingRight="4dp" />
     <ImageView
+        android:id="@+id/tag_remove"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:padding="4dp"

@@ -23,6 +23,7 @@ class TagsCompletionView @JvmOverloads constructor(
     init {
         allowCollapse(false)
         setTokenizer(CharacterTokenizer(Tags.DELIMITERS, Tags.DELIMITER.toString()))
+        setTokenClickStyle(TokenClickStyle.Delete)
     }
 
     override fun defaultObject(completionText: String): String {
