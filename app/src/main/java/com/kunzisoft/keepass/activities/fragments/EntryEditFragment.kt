@@ -153,8 +153,27 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.onIconDownloaded.observe(viewLifecycleOwner) { state ->
-            if (state.errorStringId != null) {
-                Snackbar.make(rootView, state.errorStringId, Snackbar.LENGTH_LONG).asError().show()
+            when (state.downloadState) {
+                EntryEditViewModel.DownloadState.NONE -> {
+                    // Do nothing
+                }
+                EntryEditViewModel.DownloadState.START -> {
+                    // TODO show loading
+                }
+                EntryEditViewModel.DownloadState.COMPLETE -> {
+                    // TODO hide loading
+                    Snackbar
+                        .make(rootView, R.string.download_complete, Snackbar.LENGTH_LONG)
+                        .asSuccess()
+                        .show()
+                }
+                EntryEditViewModel.DownloadState.ERROR -> {
+                    // TODO hide loading
+                    Snackbar
+                        .make(rootView, R.string.download_icon_error, Snackbar.LENGTH_LONG)
+                        .asError()
+                        .show()
+                }
             }
         }
 

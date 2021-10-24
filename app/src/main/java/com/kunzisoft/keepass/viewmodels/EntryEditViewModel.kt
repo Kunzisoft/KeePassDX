@@ -244,14 +244,23 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun requestDownloadIcon(url: String, context: Context, database: Database?) {
-        if (database == null) return
+        if (database == null || _onIconDownload.value?.downloadState == DownloadState.START) return
+        _onIconDownload.value = DownloadIconState(downloadState = DownloadState.START)
         IOActionTask(
             action = {
                 val file = downloadFavicon(url, context)
                 if (file == null) {
-                    DownloadIconState(errorStringId = R.string.download_icon_error)
+                    DownloadIconState(downloadState = DownloadState.ERROR)
                 } else {
-                    saveFavicon(file, context, database)
+                    val downloadedIcon = saveFavicon(file, context, database)
+                    if (downloadedIcon == null) {
+                        DownloadIconState(downloadState = DownloadState.ERROR)
+                    } else {
+                        DownloadIconState(
+                            downloadedIcon = downloadedIcon,
+                            downloadState = DownloadState.COMPLETE
+                        )
+                    }
                 }
             },
             afterActionDatabaseListener = { state ->
@@ -292,12 +301,9 @@ class EntryEditViewModel: NodeEditViewModel() {
         file: File,
         context: Context,
         database: Database
-    ): DownloadIconState {
+    ): IconImageCustom? {
         val documentFile = UriUtil.getFileData(context, file.toUri())
-        if (documentFile == null || documentFile.length() > MAX_ICON_SIZE) {
-            Log.d(TAG, "Error while saving favicon")
-            return DownloadIconState(errorStringId = R.string.download_icon_error)
-        }
+        if (documentFile == null || documentFile.length() > MAX_ICON_SIZE) return null
 
         var (customIcon, binary) = database.buildNewCustomIcon()
         BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
@@ -316,7 +322,7 @@ class EntryEditViewModel: NodeEditViewModel() {
             customIcon = database.getIcon(binary)
         }
 
-        return DownloadIconState(downloadedIcon = customIcon)
+        return customIcon
     }
 
     private fun extractAuthorityFromUrl(url: String): String {
@@ -426,8 +432,12 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     data class DownloadIconState(
         val downloadedIcon: IconImageCustom? = null,
-        val errorStringId: Int? = null
+        val downloadState: DownloadState = DownloadState.NONE
     )
+
+    enum class DownloadState {
+        NONE, START, COMPLETE, ERROR
+    }
 
     companion object {
         private val TAG = EntryEditViewModel::class.java.name
