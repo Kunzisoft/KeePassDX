@@ -102,7 +102,7 @@
     <string name="warning_empty_password">هل تريد المتابعة دون حماية قاعدة البيانات بكلمة سر ؟</string>
     <string name="warning_no_encryption_key">أمتأكد أنك لا تريد استخدام أي مفتاح لتشفير ؟</string>
     <string name="version_label">الإصدار %1$s</string>
-    <string name="education_new_node_title">أضف عناصر جديدة إلى قاعدتك</string>
+    <string name="education_new_node_title">أضف عناصر إلى قاعدة البيانات</string>
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
@@ -220,8 +220,8 @@
     <string name="enable_read_only_title">محمي من التعديل</string>
     <string name="enable_read_only_summary">افتح قاعدة البيانات للقراءة فقط افتراضيا</string>
     <string name="enable_education_screens_title">شاشات تعليمية</string>
-    <string name="reset_education_screens_summary">أعد عرض كل العناصر التعليمية</string>
-    <string name="reset_education_screens_text">إعادة تعيين الشاشات التعليمية</string>
+    <string name="reset_education_screens_summary">أعد عرض كل المعلومات التعليمية</string>
+    <string name="reset_education_screens_text">إعادة تعيين الشاشات التلميحات</string>
     <string name="education_create_database_title">أنشئ قاعدة بيانات</string>
     <string name="education_create_database_summary">أنشئ ملف إدارة كلمات السر.</string>
     <string name="education_select_database_title">إفتح قاعدة بيانات</string>
@@ -482,4 +482,5 @@
     <string name="keyboard_auto_go_action_title">إجراء اللمس التلقائي</string>
     <string name="keyboard_previous_fill_in_title">إجراء لمس تلقائي</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>
+    <string name="education_advanced_unlock_title">فك القفل المتقدم لقاعدة البيانات</string>
 </resources>
