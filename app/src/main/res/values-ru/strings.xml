@@ -587,7 +587,7 @@
     <string name="cryptocurrency">Криптовалютный кошелёк</string>
     <string name="type">Тип</string>
     <string name="ssid">SSID</string>
-    <string name="wireless">WiFi</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="email_address">Адрес эл. почты</string>
     <string name="name">Имя</string>
     <string name="personal_identification_number">PIN-код</string>
