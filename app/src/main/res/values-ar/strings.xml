@@ -214,7 +214,7 @@
     <string name="keyboard_appearance_category">مظهر</string>
     <string name="keyboard_theme_title">سمة لوحة المفاتيح</string>
     <string name="keyboard_keys_category">مفاتيح</string>
-    <string name="keyboard_key_vibrate_title">إهتز عند اللمس</string>
+    <string name="keyboard_key_vibrate_title">إهتزاز عند اللمس</string>
     <string name="keyboard_key_sound_title">صوت عند اللمس</string>
     <string name="allow_no_password_title">"إسمح بالفتح دون كلمة سر "</string>
     <string name="enable_read_only_title">محمي من التعديل</string>
@@ -450,7 +450,7 @@
     <string name="keyboard_save_search_info_title">احفظ المعلومات المشاركة</string>
     <string name="custom_fields">حقول مخصصة</string>
     <string name="back_to_previous_keyboard">عُد للوحة المفاتيح السابقة</string>
-    <string name="select_entry">اختد مدخلًا</string>
+    <string name="select_entry">اختر مدخلًا</string>
     <string name="autofill_close_database_title">أغلق قاعدة البيانات</string>
     <string name="success_import_app_properties">أّستوردت خصائص التطبيق</string>
     <string name="success_export_app_properties">صُدرت خصائص التطبيق</string>
