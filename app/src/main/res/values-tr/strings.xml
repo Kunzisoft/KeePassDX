@@ -17,13 +17,13 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Geri Bildirim</string>
+    <string name="feedback">Geri bildirim</string>
     <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
     <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi ekle</string>
     <string name="edit_entry">Girdi düzenle</string>
-    <string name="add_group">Grup Ekle</string>
+    <string name="add_group">Grup ekle</string>
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
@@ -330,7 +330,7 @@
     <string name="content_description_node_children">Alt düğüm</string>
     <string name="content_description_repeat_toggle_password_visibility">Parola görünürlüğünü değiştirmeyi tekrarla</string>
     <string name="content_description_background">Arka plan</string>
-    <string name="content_description_update_from_list">Güncelleme</string>
+    <string name="content_description_update_from_list">Güncelle</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
     <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veri tabanı oluşturulamıyor.</string>
     <string name="menu_advanced_unlock_settings">Gelişmiş kilit açma</string>
@@ -345,12 +345,12 @@
     <string name="entry_setup_otp">Tek seferlik parola ayarla</string>
     <string name="otp_type">OTP türü</string>
     <string name="otp_secret">Sır</string>
-    <string name="otp_period">Periyot (saniye)</string>
+    <string name="otp_period">Dönem (saniye)</string>
     <string name="otp_counter">Sayaç</string>
     <string name="otp_digits">Basamak</string>
     <string name="otp_algorithm">Algoritma</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_invalid_OTP">Geçersiz OTP sırrı.</string>
+    <string name="error_invalid_OTP">Geçersiz gizli OTP ifadesi.</string>
     <string name="error_disallow_no_credentials">En azından bir kimlik bilgisi ayarlanmalıdır.</string>
     <string name="error_copy_group_here">Bir grubu buraya kopyalayamazsınız.</string>
     <string name="error_otp_secret_key">Gizli anahtar Base32 biçiminde olmalıdır.</string>
