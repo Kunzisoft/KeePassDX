@@ -1,3 +1,10 @@
+KeePassDX(3.1.0)
+ * Change default Argon2 parameters #1098
+ * Add & edit custom icon name #976
+
+KeePassDX(3.0.2)
+ * Samsung DeX mode #1114 #245 (Thx @chenxiaolong)
+
 KeePassDX(3.0.1)
  * Fix text size and smallest margin #1085
  * Fix number of lines during an edition #1073

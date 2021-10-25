@@ -65,7 +65,7 @@ class IconsManager(binaryCache: BinaryCache) {
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
-        return IconImageCustom(iconUuid)
+        return customCache.getCustomIcon(iconUuid) ?: IconImageCustom(iconUuid)
     }
 
     fun isCustomIconBinaryDuplicate(binaryData: BinaryData): Boolean {

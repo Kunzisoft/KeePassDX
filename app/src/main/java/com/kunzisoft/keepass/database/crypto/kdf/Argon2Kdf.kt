@@ -192,17 +192,17 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         private val MIN_VERSION = UnsignedInt(0x10)
         private val MAX_VERSION = UnsignedInt(0x13)
 
-        private val DEFAULT_ITERATIONS = UnsignedLong(2L)
+        private val DEFAULT_ITERATIONS = UnsignedLong(3L)
         private val MIN_ITERATIONS = UnsignedLong(1L)
         private val MAX_ITERATIONS = UnsignedLong(4294967295L)
 
-        private val DEFAULT_MEMORY = UnsignedLong((1024L * 1024L))
+        private val DEFAULT_MEMORY = UnsignedLong((1024L * 1024L * 16L))
         private val MIN_MEMORY = UnsignedLong(1024L * 8L)
         private val MAX_MEMORY = UnsignedInt.MAX_VALUE.toKotlinLong()
         private const val MEMORY_BLOCK_SIZE: Long = 1024L
 
-        private val DEFAULT_PARALLELISM = UnsignedInt(2)
+        private val DEFAULT_PARALLELISM = UnsignedInt(4)
         private val MIN_PARALLELISM = UnsignedInt.fromKotlinLong(1L)
-        private val MAX_PARALLELISM = UnsignedInt.fromKotlinLong(((1 shl 24) - 1))
+        private val MAX_PARALLELISM = UnsignedInt.fromKotlinLong(((1 shl 24) - 1).toLong())
     }
 }

@@ -88,6 +88,12 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Enabling/disabling MagikeyboardService is normally done by DexModeReceiver, but this
+        // additional check will allow the keyboard to be reenabled more easily if the app crashes
+        // or is force quit within DeX mode and then the user leaves DeX mode. Without this, the
+        // user would need to enter and exit DeX mode once to reenable the service.
+        MagikeyboardUtil.setEnabled(this, !DexUtil.isDexMode(resources.configuration))
+
         mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(applicationContext)
 
         setContentView(R.layout.activity_file_selection)

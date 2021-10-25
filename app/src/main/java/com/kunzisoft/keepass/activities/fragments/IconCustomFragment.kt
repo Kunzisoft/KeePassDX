@@ -55,8 +55,10 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
                 iconCustomAdded?.iconCustom?.let { icon ->
                     iconPickerAdapter.addIcon(icon)
                     iconCustomAdded.iconCustom = null
+                    try {
+                        iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
+                    } catch (ignore: Exception) {}
                 }
-                iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
             }
         }
         iconPickerViewModel.customIconRemoved.observe(viewLifecycleOwner) { iconCustomRemoved ->
@@ -64,6 +66,14 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
                 iconCustomRemoved?.iconCustom?.let { icon ->
                     iconPickerAdapter.removeIcon(icon)
                     iconCustomRemoved.iconCustom = null
+                }
+            }
+        }
+        iconPickerViewModel.customIconUpdated.observe(viewLifecycleOwner) { iconCustomUpdated ->
+            if (!iconCustomUpdated.error) {
+                iconCustomUpdated?.iconCustom?.let { icon ->
+                    iconPickerAdapter.updateIcon(icon)
+                    iconCustomUpdated.iconCustom = null
                 }
             }
         }

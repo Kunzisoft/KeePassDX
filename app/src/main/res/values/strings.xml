@@ -182,6 +182,7 @@
     <string name="hint_conf_pass">Confirm password</string>
     <string name="hint_generated_password">Generated password</string>
     <string name="hint_group_name">Group name</string>
+    <string name="hint_icon_name">Icon name</string>
     <string name="hint_keyfile">Keyfile</string>
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
