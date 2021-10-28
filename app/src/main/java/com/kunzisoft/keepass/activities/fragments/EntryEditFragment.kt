@@ -158,17 +158,17 @@ class EntryEditFragment: DatabaseFragment() {
                     // Do nothing
                 }
                 EntryEditViewModel.DownloadState.START -> {
-                    // TODO show loading
+                    templateView.setDownloadIconProgressVisible(true)
                 }
                 EntryEditViewModel.DownloadState.COMPLETE -> {
-                    // TODO hide loading
+                    templateView.setDownloadIconProgressVisible(false)
                     Snackbar
                         .make(rootView, R.string.download_complete, Snackbar.LENGTH_LONG)
                         .asSuccess()
                         .show()
                 }
                 EntryEditViewModel.DownloadState.ERROR -> {
-                    // TODO hide loading
+                    templateView.setDownloadIconProgressVisible(false)
                     Snackbar
                         .make(rootView, R.string.download_icon_error, Snackbar.LENGTH_LONG)
                         .asError()

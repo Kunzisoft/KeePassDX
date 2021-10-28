@@ -7,14 +7,18 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -27,7 +31,9 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
+    private var actionImageContainerId = ViewCompat.generateViewId()
     private var actionImageButtonId = ViewCompat.generateViewId()
+    private var actionImageProgressId = ViewCompat.generateViewId()
 
     private val labelView = TextInputLayout(context).apply {
         layoutParams = LayoutParams(
@@ -51,15 +57,15 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         }
         maxLines = 1
     }
-    private var actionImageButton = AppCompatImageButton(
-            ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
+    private var actionImageContainer = FrameLayout(context).apply {
         layoutParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT).also {
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        ).also {
             it.topMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    12f,
-                    resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP,
+                12f,
+                resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -67,7 +73,25 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             }
         }
         visibility = View.GONE
+    }
+    private var actionImageButton = AppCompatImageButton(
+        ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0
+    ).apply {
+        layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         contentDescription = context.getString(R.string.menu_edit)
+    }
+    private var actionImageProgress = ProgressBar(
+        ContextThemeWrapper(context, R.style.KeepassDXStyle_ProgressBar_Circle_Indeterminate)
+    ).apply {
+        val size = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            24f,
+            resources.displayMetrics
+        ).toInt()
+        layoutParams = FrameLayout.LayoutParams(size, size).apply {
+            gravity = Gravity.CENTER
+        }
+        visibility = View.GONE
     }
 
     init {
@@ -75,25 +99,25 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         buildViews()
         labelView.addView(valueView)
         addView(labelView)
-        addView(actionImageButton)
+        actionImageContainer.addView(actionImageProgress)
+        actionImageContainer.addView(actionImageButton)
+        addView(actionImageContainer)
     }
 
     private fun buildViews() {
         labelView.apply {
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, actionImageButtonId)
+                it?.addRule(LEFT_OF, actionImageContainerId)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, actionImageButtonId)
+                    it?.addRule(START_OF, actionImageContainerId)
                 }
             }
         }
-        valueView.apply {
-            id = valueViewId
-        }
-        actionImageButton.apply {
-            id = actionImageButtonId
-        }
+        valueView.id = valueViewId
+        actionImageContainer.id = actionImageContainerId
+        actionImageButton.id = actionImageButtonId
+        actionImageProgress.id = actionImageProgressId
     }
 
     override fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -114,7 +138,9 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             // Define views Ids with label value
             labelViewId = "labelViewId $value".hashCode()
             valueViewId = "valueViewId $value".hashCode()
+            actionImageContainerId = "actionImageContainerId $value".hashCode()
             actionImageButtonId = "actionImageButtonId $value".hashCode()
+            actionImageProgressId = "actionImageProgressId $value".hashCode()
             buildViews()
         }
 
@@ -174,7 +200,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             actionImageButton.setImageDrawable(ContextCompat.getDrawable(context, it))
         }
         actionImageButton.setOnClickListener(onActionClickListener)
-        actionImageButton.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
+        actionImageContainer.isVisible = onActionClickListener != null
     }
 
     override var isFieldVisible: Boolean
@@ -184,6 +210,16 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         set(value) {
             isVisible = value
         }
+
+    var isProgressVisible: Boolean
+        get() {
+            return actionImageProgress.isVisible
+        }
+    set(value) {
+        // Toggle visibility between the button and the progress
+        actionImageProgress.isVisible = value
+        actionImageButton.isInvisible = value
+    }
 
     companion object {
         const val MAX_CHARS_LIMIT = Integer.MAX_VALUE

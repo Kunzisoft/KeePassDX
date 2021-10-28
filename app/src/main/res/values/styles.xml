@@ -496,6 +496,10 @@
         <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
         <item name="android:background">@drawable/background_progress_circle</item>
     </style>
+    <style name="KeepassDXStyle.ProgressBar.Circle.Indeterminate" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
+        <item name="android:indeterminate">true</item>
+    </style>
 
     <!-- Transparent -->
     <style name="Theme.Transparent" parent="Theme.MaterialComponents">

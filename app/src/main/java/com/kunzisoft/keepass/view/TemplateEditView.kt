@@ -164,6 +164,13 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
     }
 
+    fun setDownloadIconProgressVisible(visible: Boolean) {
+        val urlView: TextEditFieldView? = findViewWithTag(FIELD_URL_TAG)
+        if (urlView != null) {
+            urlView.isProgressVisible = visible
+        }
+    }
+
     private fun setCurrentDateTimeSelection(action: (dateInstant: DateInstant) -> DateInstant) {
         mTempDateTimeViewId?.let { viewId ->
             val dateTimeView = getFieldViewById(viewId)
