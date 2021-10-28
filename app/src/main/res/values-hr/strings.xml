@@ -596,4 +596,5 @@
     <string name="autofill_manual_selection_title">Ručni odabir</string>
     <string name="autofill_select_entry">Odaberi unos …</string>
     <string name="menu_external_icon">Vanjska ikona</string>
+    <string name="seed">Tajna fraza</string>
 </resources>
