@@ -96,6 +96,7 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mTemplate: Template? = null
     private var mIsTemplate: Boolean = false
     private var mEntryLoaded: Boolean = false
+    private var mTemplatesSelectorAdapter: TemplatesSelectorAdapter? = null
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -175,11 +176,13 @@ class EntryEditActivity : DatabaseLockActivity(),
                     templateSelectorSpinner?.apply {
                         // Build template selector
                         if (templates.isNotEmpty()) {
-                            adapter = TemplatesSelectorAdapter(
+                            mTemplatesSelectorAdapter = TemplatesSelectorAdapter(
                                 this@EntryEditActivity,
-                                mIconDrawableFactory,
                                 templates
-                            )
+                            ).apply {
+                                iconDrawableFactory = mIconDrawableFactory
+                            }
+                            adapter = mTemplatesSelectorAdapter
                             val selectedTemplate = if (mTemplate != null)
                                 mTemplate
                             else
@@ -321,6 +324,10 @@ class EntryEditActivity : DatabaseLockActivity(),
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
         mEntryEditViewModel.loadDatabase(database)
+        mTemplatesSelectorAdapter?.apply {
+            iconDrawableFactory = mIconDrawableFactory
+            notifyDataSetChanged()
+        }
     }
 
     override fun onDatabaseActionFinished(

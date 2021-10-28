@@ -100,7 +100,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
 
         mDatabaseViewModel.saveDefaultUsername.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
+            mDatabaseTaskProvider?.startDatabaseSaveDefaultUsername(it.oldValue, it.newValue, it.save)
         }
 
         mDatabaseViewModel.saveColor.observe(this) {

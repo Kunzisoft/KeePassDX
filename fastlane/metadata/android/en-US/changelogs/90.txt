@@ -1,2 +1,3 @@
  * Change default Argon2 parameters #1098
  * Add & edit custom icon name #976
+ * Fix templates #1128 #1133 #1138

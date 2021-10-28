@@ -16,9 +16,9 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 
 
 class TemplatesSelectorAdapter(private val context: Context,
-                               private val iconDrawableFactory: IconDrawableFactory?,
                                private var templates: List<Template>): BaseAdapter() {
 
+    var iconDrawableFactory: IconDrawableFactory? = null
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var mIconColor = Color.BLACK
 
