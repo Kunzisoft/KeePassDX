@@ -517,6 +517,11 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
+    override fun onUnrecoverableKeyException(e: Exception) {
+        setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onInvalidKeyException(e: Exception) {
         setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
     }

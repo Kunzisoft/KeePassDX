@@ -28,6 +28,7 @@ import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.*
@@ -35,6 +36,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.security.KeyStore
 import java.security.UnrecoverableKeyException
@@ -164,8 +166,12 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         return null
     }
 
-    fun initEncryptData(actionIfCypherInit
-                        : (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
+    fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,) {
+        initEncryptData(actionIfCypherInit, true)
+    }
+
+    private fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
+                                firstLaunch: Boolean) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -185,10 +191,15 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
-            advancedUnlockCallback?.onInvalidKeyException(unrecoverableKeyException)
+            advancedUnlockCallback?.onUnrecoverableKeyException(unrecoverableKeyException)
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
-            advancedUnlockCallback?.onInvalidKeyException(invalidKeyException)
+            if (firstLaunch) {
+                deleteAllEntryKeysInKeystoreForBiometric(retrieveContext())
+                initEncryptData(actionIfCypherInit, false)
+            } else {
+                advancedUnlockCallback?.onInvalidKeyException(invalidKeyException)
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to initialize encrypt data", e)
             advancedUnlockCallback?.onGenericException(e)
@@ -214,8 +225,14 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun initDecryptData(ivSpecValue: String, actionIfCypherInit
-                        : (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
+    fun initDecryptData(ivSpecValue: String,
+                        actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
+        initDecryptData(ivSpecValue, actionIfCypherInit, true)
+    }
+
+    private fun initDecryptData(ivSpecValue: String,
+                        actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
+                        firstLaunch: Boolean = true) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -239,10 +256,20 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
-            deleteKeystoreKey()
+            if (firstLaunch) {
+                deleteKeystoreKey()
+                initDecryptData(ivSpecValue, actionIfCypherInit, firstLaunch)
+            } else {
+                advancedUnlockCallback?.onUnrecoverableKeyException(unrecoverableKeyException)
+            }
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize decrypt data", invalidKeyException)
-            advancedUnlockCallback?.onInvalidKeyException(invalidKeyException)
+            if (firstLaunch) {
+                deleteAllEntryKeysInKeystoreForBiometric(retrieveContext())
+                initDecryptData(ivSpecValue, actionIfCypherInit, firstLaunch)
+            } else {
+                advancedUnlockCallback?.onInvalidKeyException(invalidKeyException)
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to initialize decrypt data", e)
             advancedUnlockCallback?.onGenericException(e)
@@ -333,6 +360,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
     }
 
     interface AdvancedUnlockErrorCallback {
+        fun onUnrecoverableKeyException(e: Exception)
         fun onInvalidKeyException(e: Exception)
         fun onGenericException(e: Exception)
     }
@@ -449,6 +477,10 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
 
                     override fun handleDecryptedResult(decryptedValue: String) {}
 
+                    override fun onUnrecoverableKeyException(e: Exception) {
+                        advancedCallback.onUnrecoverableKeyException(e)
+                    }
+
                     override fun onInvalidKeyException(e: Exception) {
                         advancedCallback.onInvalidKeyException(e)
                     }
@@ -459,6 +491,33 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                 }
                 deleteKeystoreKey()
             }
+        }
+
+        fun deleteAllEntryKeysInKeystoreForBiometric(activity: FragmentActivity) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                deleteEntryKeyInKeystoreForBiometric(
+                    activity,
+                    object : AdvancedUnlockErrorCallback {
+                        fun showException(e: Exception) {
+                            Toast.makeText(activity,
+                                activity.getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
+                                Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onUnrecoverableKeyException(e: Exception) {
+                            showException(e)
+                        }
+
+                        override fun onInvalidKeyException(e: Exception) {
+                            showException(e)
+                        }
+
+                        override fun onGenericException(e: Exception) {
+                            showException(e)
+                        }
+                    })
+            }
+            CipherDatabaseAction.getInstance(activity.applicationContext).deleteAll()
         }
     }
 
