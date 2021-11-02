@@ -3,7 +3,7 @@ KeePassDX(3.1.0)
  * Add & edit custom icon name #976
  * Fix templates #1128 #1133 #1138
  * Update Autofill compatibility list #725
- * Improve fingerprint usage #1137
+ * Improve fingerprint usage #1137 #1145
 
 KeePassDX(3.0.2)
  * Samsung DeX mode #1114 #245 (Thx @chenxiaolong)

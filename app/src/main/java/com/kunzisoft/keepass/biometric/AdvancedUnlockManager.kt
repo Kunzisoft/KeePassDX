@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.biometric
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
@@ -138,18 +139,24 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                         // and the constrains (purposes) in the constructor of the Builder
                         keyGenerator?.init(
                                 KeyGenParameterSpec.Builder(
-                                        ADVANCED_UNLOCK_KEYSTORE_KEY,
-                                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                                        .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                                    ADVANCED_UNLOCK_KEYSTORE_KEY,
+                                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                                    .apply {
                                         // Require the user to authenticate with a fingerprint to authorize every use
                                         // of the key, don't use it for device credential because it's the user authentication
-                                        .apply {
-                                            if (biometricUnlockEnable) {
-                                                setUserAuthenticationRequired(true)
-                                            }
+                                        if (biometricUnlockEnable) {
+                                            setUserAuthenticationRequired(true)
                                         }
-                                        .build())
+                                        // To store in the security chip
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                                            && retrieveContext().packageManager.hasSystemFeature(
+                                                PackageManager.FEATURE_STRONGBOX_KEYSTORE)) {
+                                            setIsStrongBoxBacked(true)
+                                        }
+                                    }
+                                    .build())
                         keyGenerator?.generateKey()
                     }
                 } catch (e: Exception) {
