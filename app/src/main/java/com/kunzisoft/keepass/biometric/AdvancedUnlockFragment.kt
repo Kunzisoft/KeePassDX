@@ -444,6 +444,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun deleteEncryptedDatabaseKey() {
+        mAllowAdvancedUnlockMenu = false
         advancedUnlockManager?.closeBiometricPrompt()
         databaseFileUri?.let { databaseUri ->
             cipherDatabaseAction.deleteByDatabaseUri(databaseUri) {
