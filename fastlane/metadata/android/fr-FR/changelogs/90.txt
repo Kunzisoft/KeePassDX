@@ -2,3 +2,4 @@
  * Ajout & édition du nom d'icone customisé #976
  * Correction des gabarits #1128 #1133 #1138
  * Mise à jour de la liste de compatibilité pour le remplissage automatique #725
+ * Amélioration de l'usage de l'empreinte digitale #1137 #1145

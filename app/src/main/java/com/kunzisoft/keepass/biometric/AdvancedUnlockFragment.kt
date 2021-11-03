@@ -444,6 +444,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun deleteEncryptedDatabaseKey() {
+        mAllowAdvancedUnlockMenu = false
         advancedUnlockManager?.closeBiometricPrompt()
         databaseFileUri?.let { databaseUri ->
             cipherDatabaseAction.deleteByDatabaseUri(databaseUri) {
@@ -514,6 +515,11 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         databaseFileUri?.let {
             mBuilderListener?.onCredentialDecrypted(it, decryptedValue)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onUnrecoverableKeyException(e: Exception) {
+        setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

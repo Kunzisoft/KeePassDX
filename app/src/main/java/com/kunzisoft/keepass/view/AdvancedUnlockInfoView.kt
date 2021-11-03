@@ -104,10 +104,12 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
             return unlockMessageTextView?.text?.toString() ?: ""
         }
         set(value) {
-            if (value == null || value.isEmpty())
+            if (value == null || value.isEmpty()) {
                 unlockMessageTextView?.visibility = GONE
-            else
+            } else {
                 unlockMessageTextView?.visibility = VISIBLE
+                stopIconViewAnimation()
+            }
             unlockMessageTextView?.text = value ?: ""
         }
 
