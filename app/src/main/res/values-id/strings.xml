@@ -420,14 +420,14 @@
     <string name="error_start_database_action">Timbul galat ketika melaksanakan sebuah aksi di basisdata.</string>
     <string name="error_move_group_here">Anda tidak bisa memindahkan sebuah grup ke sini.</string>
     <string name="device_credential_unlock_enable_title">Membuka kredensial perangkat</string>
-    <string name="biometric_unlock_enable_summary">Memperbolehkan pengguna memindai biometrik pengguna untuk membuka database”</string>
+    <string name="biometric_unlock_enable_summary">Memperbolehkan Anda memindai biometrik Anda untuk membuka basis data</string>
     <string name="biometric_unlock_enable_title">Membuka kunci biometrik</string>
     <string name="advanced_unlock_explanation_summary">Gunakan buka kunci lanjutan untuk membuka database dengan lebih mudah</string>
     <string name="no_credentials_stored">Basis data ini belum menyimpan kredensial.</string>
     <string name="advanced_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci lanjutan</string>
     <string name="advanced_unlock_invalid_key">Tidak dapat membaca kunci pembuka lanjutan. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan membuka data lanjutan</string>
-    <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data lanjutan</string>
+    <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan.</string>
     <string name="credential_before_click_advanced_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
     <string name="autofill_service_name">Isi formulir KeePassDX otomatis</string>
     <string name="autofill_preference_title">Pengaturan isi otomatis</string>
@@ -440,7 +440,7 @@
     <string name="biometric">Biometrik</string>
     <string name="menu_appearance_settings">Tampilan</string>
     <string name="database_history">Riwayat</string>
-    <string name="encrypted_value_stored">Enkripsi password telah disimpan.</string>
+    <string name="encrypted_value_stored">Enkripsi kata sandi disimpan</string>
     <string name="international_bank_account_number">NRBI (IBAN)</string>
     <string name="bank_name">Nama bank</string>
     <string name="name">Nama</string>
@@ -452,4 +452,7 @@
     <string name="account">Akun</string>
     <string name="cryptocurrency">Dompet kripto</string>
     <string name="number">Nomor</string>
+    <string name="public_key">Kunci publik</string>
+    <string name="private_key">Kunci pribadi</string>
+    <string name="membership">Keanggotaan</string>
 </resources>
