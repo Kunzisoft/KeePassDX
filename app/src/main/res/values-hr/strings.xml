@@ -188,7 +188,7 @@
     <string name="clipboard">Međuspremnik</string>
     <string name="clipboard_notifications_title">Obavijesti međuspremnika</string>
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbriši njegovu povijest ručno.</string>
-    <string name="lock_database_screen_off_summary">Zaključaj bazu podataka kada je ekran ugašen</string>
+    <string name="lock_database_screen_off_summary">Zaključaj bazu podataka nakon par sekundi kad se ekran ugasi</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
     <string name="advanced_unlock">Napredno otključavanje</string>
     <string name="advanced_unlock_explanation_summary">Koristi napredno otključavanje za jednostavnije otvaranje baze podataka</string>
@@ -473,7 +473,7 @@
     <string name="notification">Obavijest</string>
     <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka</string>
     <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
-    <string name="show_uuid_summary">Prikazuje UUID povezan s unosom</string>
+    <string name="show_uuid_summary">Prikazuje UUID povezan s unosom ili grupom</string>
     <string name="show_uuid_title">Prikaži UUID</string>
     <string name="autofill_ask_to_save_data_summary">Zatraži spremanje podataka kad se obrazac provjeri</string>
     <string name="autofill_ask_to_save_data_title">Zatraži spremanje podataka</string>
@@ -590,4 +590,11 @@
     <string name="holder">Vlasnik</string>
     <string name="debit_credit_card">Debitna / kreditna kartica</string>
     <string name="template_group_name">Predlošci</string>
+    <string name="autofill_manual_selection_summary">Opcija prikaza koja omogućuje korisniku biranje unosa baze podataka</string>
+    <string name="show_otp_token_summary">Prikazuje OTP tokene u popisu unosa</string>
+    <string name="show_otp_token_title">Prikaži OTP token</string>
+    <string name="autofill_manual_selection_title">Ručni odabir</string>
+    <string name="autofill_select_entry">Odaberi unos …</string>
+    <string name="menu_external_icon">Vanjska ikona</string>
+    <string name="seed">Tajna fraza</string>
 </resources>

@@ -199,7 +199,7 @@
     <string name="clipboard_warning">Jeśli automatyczne usuwanie schowka nie powiedzie się, ręcznie usuń jego historię.</string>
     <string name="lock">Blokada</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
-    <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
+    <string name="lock_database_screen_off_summary">Zablokuj bazę danych po kilku sekundach od wyłączenia ekranu</string>
     <string name="advanced_unlock">Odcisk palca</string>
     <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
@@ -473,7 +473,7 @@
     <string name="warning_sure_remove_data">Czy mimo to usunąć te dane\?</string>
     <string name="warning_remove_unlinked_attachment">Usunięcie niepowiązanych danych może zmniejszyć rozmiar bazy danych, ale może również spowodować usunięcie danych używanych przez wtyczki KeePass.</string>
     <string name="content_description_credentials_information">Informacje o poświadczeniach</string>
-    <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem</string>
+    <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem lub grupą</string>
     <string name="show_uuid_title">Pokaż UUID</string>
     <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej jako tylko do odczytu.</string>
     <string name="autofill_ask_to_save_data_summary">Poproś o zapisanie danych po zatwierdzeniu formularza</string>
@@ -596,4 +596,10 @@
     <string name="holder">Posiadacz</string>
     <string name="debit_credit_card">Karta debetowa / kredytowa</string>
     <string name="template_group_name">Szablony</string>
+    <string name="show_otp_token_summary">Wyświetla tokeny OTP na liście wpisów</string>
+    <string name="show_otp_token_title">Pokaż token OTP</string>
+    <string name="menu_external_icon">Ikona zewnętrzna</string>
+    <string name="autofill_manual_selection_summary">Wyświetl opcję pozwalającą użytkownikowi wybrać wpis bazy danych</string>
+    <string name="autofill_manual_selection_title">Wybór ręczny</string>
+    <string name="autofill_select_entry">Wybierz wpis…</string>
 </resources>

@@ -427,4 +427,5 @@
     <string name="discard">Renunta</string>
     <string name="discard_changes">Renunti la schimbari\?</string>
     <string name="validate">Valideaza</string>
+    <string name="content_description_add_item">adaugă un element</string>
 </resources>

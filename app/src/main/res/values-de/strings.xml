@@ -75,7 +75,7 @@
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt sein.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 2147483648 eingestellt.</string>
+    <string name="error_rounds_too_large">„Schlüsseltransformationen“ zu hoch. Wird auf 2147483648 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
@@ -160,7 +160,7 @@
     <string name="clipboard_notifications_title">Zwischenablage-Benachrichtigung</string>
     <string name="clipboard_notifications_summary">Benachrichtigungen zur Zwischenablage anzeigen, um beim Betrachten eines Eintrags Felder kopieren zu können</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
-    <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
+    <string name="lock_database_screen_off_summary">Datenbank sperren, einige Sekunden nachdem der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">Neue Datenbank erstellen</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
@@ -490,7 +490,7 @@
     <string name="education_add_attachment_title">Anhang hinzufügen</string>
     <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
     <string name="warning_sure_add_file">Soll die Datei trotzdem hinzugefügt werden\?</string>
-    <string name="show_uuid_summary">Zeigt die mit einem Eintrag verknüpfte UUID an</string>
+    <string name="show_uuid_summary">Zeigt die mit einem Eintrag oder einer Gruppe verknüpfte UUID an</string>
     <string name="show_uuid_title">UUID anzeigen</string>
     <string name="autofill_read_only_save">Das Speichern von Daten ist für eine als schreibgeschützt geöffnete Datenbank nicht zulässig.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
@@ -610,4 +610,7 @@
     <string name="wireless">WLAN</string>
     <string name="email_address">E-Mail-Adresse</string>
     <string name="email">E-Mail</string>
+    <string name="menu_external_icon">Externes Symbol</string>
+    <string name="show_otp_token_summary">Zeigt OTP-Tokens in der Liste der Einträge an</string>
+    <string name="show_otp_token_title">OTP-Token anzeigen</string>
 </resources>
