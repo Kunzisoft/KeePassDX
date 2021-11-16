@@ -216,8 +216,6 @@
     <string name="enable_auto_save_database_title">自動儲存資料庫</string>
     <string name="enable_education_screens_summary">高亮界面元素來學習本應用工作方式</string>
     <string name="enable_education_screens_title">教學提示</string>
-    <string name="enable_keep_screen_on_summary">當正在閱讀條目時，保持螢幕常亮</string>
-    <string name="enable_keep_screen_on_title">螢幕常亮</string>
     <string name="enable_read_only_summary">預設以唯讀方式開啟資料庫</string>
     <string name="enable_read_only_title">寫入保護（唯讀模式）</string>
     <string name="encrypted_value_stored">已儲存加密密碼</string>
