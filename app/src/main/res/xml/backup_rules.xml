@@ -19,4 +19,6 @@
 -->
 <full-backup-content>
     <include domain="sharedpref" path="."/>
+    <include domain="database" path="."/>
+    <exclude domain="database" path="com.kunzisoft.keepass.database"/>
 </full-backup-content>
