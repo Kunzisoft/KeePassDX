@@ -3,3 +3,4 @@
  * Fix templates #1128 #1133 #1138
  * Update Autofill compatibility list #725 #1154
  * Improve fingerprint usage #1137 #1145
+ * Change backup configuration #1144
