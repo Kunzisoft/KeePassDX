@@ -17,13 +17,13 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Geri Bildirim</string>
+    <string name="feedback">Geri bildirim</string>
     <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
     <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi ekle</string>
     <string name="edit_entry">Girdi düzenle</string>
-    <string name="add_group">Grup Ekle</string>
+    <string name="add_group">Grup ekle</string>
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
@@ -192,7 +192,7 @@
     <string name="clipboard_warning">Panodaki otomatik silme başarısız olursa, geçmişini elle silin.</string>
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
-    <string name="lock_database_screen_off_summary">Ekran kapalıyken veri tabanını kilitle</string>
+    <string name="lock_database_screen_off_summary">Ekran kapandığında birkaç saniye sonra veri tabanını kilitle</string>
     <string name="advanced_unlock">Gelişmiş kilit açma</string>
     <string name="biometric_unlock_enable_title">Biyometrik kilit açma</string>
     <string name="biometric_unlock_enable_summary">Veri tabanını açmak için biyometriklerinizi taramanızı sağlar</string>
@@ -330,7 +330,7 @@
     <string name="content_description_node_children">Alt düğüm</string>
     <string name="content_description_repeat_toggle_password_visibility">Parola görünürlüğünü değiştirmeyi tekrarla</string>
     <string name="content_description_background">Arka plan</string>
-    <string name="content_description_update_from_list">Güncelleme</string>
+    <string name="content_description_update_from_list">Güncelle</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
     <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veri tabanı oluşturulamıyor.</string>
     <string name="menu_advanced_unlock_settings">Gelişmiş kilit açma</string>
@@ -345,12 +345,12 @@
     <string name="entry_setup_otp">Tek seferlik parola ayarla</string>
     <string name="otp_type">OTP türü</string>
     <string name="otp_secret">Sır</string>
-    <string name="otp_period">Periyot (saniye)</string>
+    <string name="otp_period">Dönem (saniye)</string>
     <string name="otp_counter">Sayaç</string>
     <string name="otp_digits">Basamak</string>
     <string name="otp_algorithm">Algoritma</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_invalid_OTP">Geçersiz OTP sırrı.</string>
+    <string name="error_invalid_OTP">Geçersiz gizli OTP ifadesi.</string>
     <string name="error_disallow_no_credentials">En azından bir kimlik bilgisi ayarlanmalıdır.</string>
     <string name="error_copy_group_here">Bir grubu buraya kopyalayamazsınız.</string>
     <string name="error_otp_secret_key">Gizli anahtar Base32 biçiminde olmalıdır.</string>
@@ -467,7 +467,7 @@
     <string name="data">Veri</string>
     <string name="database_data_remove_unlinked_attachments_title">Bağlantısız verileri kaldır</string>
     <string name="database_data_remove_unlinked_attachments_summary">Veri tabanında bulunan ancak bir girdiye bağlı olmayan ekleri kaldırır</string>
-    <string name="show_uuid_summary">Bir girdiye bağlı UUID\'yi görüntüler</string>
+    <string name="show_uuid_summary">Bir girdiye veya gruba bağlı UUID\'yi görüntüler</string>
     <string name="show_uuid_title">UUID\'yi göster</string>
     <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
     <string name="autofill_ask_to_save_data_summary">Bir form doğrulandığında verileri kaydetmek için sor</string>
@@ -591,4 +591,10 @@
     <string name="holder">Sahip</string>
     <string name="debit_credit_card">Banka / Kredi Kartı</string>
     <string name="template_group_name">Şablonlar</string>
+    <string name="show_otp_token_summary">Girdiler listesinde OTP belirteçlerini görüntüler</string>
+    <string name="show_otp_token_title">OTP Belirtecini Göster</string>
+    <string name="menu_external_icon">Harici simge</string>
+    <string name="autofill_manual_selection_summary">Kullanıcının veri tabanı girdisini seçmesine izin veren seçeneği göster</string>
+    <string name="autofill_manual_selection_title">Elle seçim</string>
+    <string name="autofill_select_entry">Girdi seç…</string>
 </resources>
