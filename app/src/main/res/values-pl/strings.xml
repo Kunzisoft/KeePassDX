@@ -602,4 +602,5 @@
     <string name="autofill_manual_selection_summary">Wyświetl opcję pozwalającą użytkownikowi wybrać wpis bazy danych</string>
     <string name="autofill_manual_selection_title">Wybór ręczny</string>
     <string name="autofill_select_entry">Wybierz wpis…</string>
+    <string name="hint_icon_name">Nazwa ikony</string>
 </resources>
