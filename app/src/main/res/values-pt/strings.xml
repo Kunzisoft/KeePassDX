@@ -578,4 +578,5 @@
     <string name="debit_credit_card">Cartão de crédito / débito</string>
     <string name="template_group_name">Modelos</string>
     <string name="content_description_otp_information">Informação de palavra-passe de uso único</string>
+    <string name="hint_icon_name">Nome do ícone</string>
 </resources>
