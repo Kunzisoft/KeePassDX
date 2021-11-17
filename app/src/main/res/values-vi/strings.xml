@@ -80,7 +80,7 @@
     <string name="encryption_algorithm">Thuật toánmã hoá</string>
     <string name="encryption">Mã hoá</string>
     <string name="security">Bảo mật</string>
-    <string name="master_key">Khoá chủ</string>
+    <string name="master_key">Khoá chính</string>
     <string name="add_group">Thêm nhóm</string>
     <string name="edit_entry">Sửa mục</string>
     <string name="add_entry">Thêm mục</string>
