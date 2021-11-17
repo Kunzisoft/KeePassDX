@@ -602,4 +602,5 @@
     <string name="autofill_manual_selection_summary">Εμφάνισης επιλογής για να επιτρέψει στον χρήστη να επιλέξει την καταχώρηση βάσης δεδομένων</string>
     <string name="autofill_manual_selection_title">Χειροκίνητη επιλογή</string>
     <string name="autofill_select_entry">Επιλογή καταχώρησης…</string>
+    <string name="hint_icon_name">Όνομα εικονιδίου</string>
 </resources>
