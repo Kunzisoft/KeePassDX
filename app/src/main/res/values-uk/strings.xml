@@ -602,4 +602,5 @@
     <string name="autofill_manual_selection_summary">Параметр показу, який дає користувачеві змогу вибрати запис бази даних</string>
     <string name="autofill_manual_selection_title">Вибір вручну</string>
     <string name="autofill_select_entry">Вибрати запис…</string>
+    <string name="hint_icon_name">Назва піктограми</string>
 </resources>
