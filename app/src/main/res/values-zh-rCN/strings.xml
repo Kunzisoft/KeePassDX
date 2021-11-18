@@ -400,7 +400,7 @@
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
     <string name="enable_auto_save_database_summary">在每次执行重要操作后保存数据库（仅在编辑模式下有效）</string>
-    <string name="keystore_not_accessible">密钥库未正确地初始化</string>
+    <string name="keystore_not_accessible">密钥库未正确地初始化。</string>
     <string name="entry_attachments">附件</string>
     <string name="menu_restore_entry_history">恢复历史记录</string>
     <string name="menu_delete_entry_history">删除历史记录</string>
@@ -602,4 +602,5 @@
     <string name="autofill_manual_selection_summary">显示让用户选择数据库条目的选项</string>
     <string name="autofill_manual_selection_title">手动选择</string>
     <string name="autofill_select_entry">选择条目…</string>
+    <string name="hint_icon_name">图标名称</string>
 </resources>
