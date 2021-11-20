@@ -24,6 +24,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.*
 import android.util.Log
+import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -422,6 +423,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         addAction(
                             R.drawable.ic_lock_white_24dp, getString(R.string.lock),
                             pendingDeleteIntent
+                        )
+                        setStyle(NotificationCompat.MediaStyle()
+                            .setShowActionsInCompactView(0)
                         )
                     }
                 }
