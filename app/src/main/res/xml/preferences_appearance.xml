@@ -91,6 +91,11 @@
             android:summary="@string/show_uuid_summary"
             android:defaultValue="@bool/show_uuid_default"/>
         <SwitchPreference
+            android:key="@string/show_icons_key"
+            android:title="@string/show_icons_title"
+            android:summary="@string/show_icons_summary"
+            android:defaultValue="@bool/show_icons_default"/>
+        <SwitchPreference
             android:key="@string/enable_education_screens_key"
             android:title="@string/enable_education_screens_title"
             android:summary="@string/enable_education_screens_summary"

@@ -194,6 +194,8 @@
     <bool name="show_otp_token_default" translatable="false">true</bool>
     <string name="show_uuid_key" translatable="false">show_uuid_key</string>
     <bool name="show_uuid_default" translatable="false">false</bool>
+    <string name="show_icons_key" translatable="false">show_icons_key</string>
+    <bool name="show_icons_default" translatable="false">true</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>

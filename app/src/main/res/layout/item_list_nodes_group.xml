@@ -17,98 +17,129 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/node_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/node_container"
     style="@style/KeepassDXStyle.Selectable.Item">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="?android:attr/selectableItemBackground"
         android:minHeight="48dp"
-        app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="?android:attr/selectableItemBackground" >
+        app:layout_constraintWidth_percent="@dimen/content_percent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/image_list_margin_vertical"
-            android:layout_marginLeft="@dimen/image_list_margin_vertical"
-            android:layout_marginTop="@dimen/image_list_margin_horizontal"
-            android:layout_marginEnd="@dimen/image_list_margin_vertical"
-            android:layout_marginRight="@dimen/image_list_margin_vertical"
-            android:layout_marginBottom="@dimen/image_list_margin_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_blank_32dp" />
+            android:src="@drawable/ic_blank_32dp"
+            app:layout_constraintStart_toStartOf="@+id/guideline_icon_left"
+            app:layout_constraintTop_toTopOf="@id/barrier_icon_numbers_top" />
+
 
         <TextView
             android:id="@+id/node_child_numbers"
             style="@style/KeepassDXStyle.TextAppearance.Info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/node_icon"
-            android:layout_marginEnd="-32dp"
-            android:layout_marginRight="-32dp"
-            android:layout_toStartOf="@+id/node_icon"
-            android:layout_toLeftOf="@+id/node_icon"
-            tools:text="3" />
+            android:elevation="4dp"
+            app:layout_constraintRight_toLeftOf="@+id/barrier_numbers_right"
+            app:layout_constraintTop_toTopOf="@id/barrier_icon_numbers_top"
+            tools:text="1" />
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/node_text"
+            style="@style/KeepassDXStyle.TextAppearance.Group.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/node_image_identifier"
-            android:layout_toLeftOf="@+id/node_image_identifier"
-            android:layout_toEndOf="@+id/node_icon"
-            android:layout_toRightOf="@+id/node_icon"
-            android:orientation="vertical">
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintBottom_toTopOf="@+id/node_meta"
+            app:layout_constraintLeft_toRightOf="@+id/barrier_text_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_goneMarginBottom="4dp"
+            tools:text="Node Title" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                tools:text="Node Title" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/node_meta"
+            style="@style/KeepassDXStyle.TextAppearance.Group.Meta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:lines="1"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/barrier_text_left"
+            app:layout_constraintTop_toBottomOf="@+id/node_text"
+            app:layout_constraintVertical_chainStyle="spread"
+            tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Meta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:singleLine="true"
-                tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C" />
-        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_image_identifier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/image_list_margin_vertical"
             android:layout_marginLeft="@dimen/image_list_margin_vertical"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
-            android:src="@drawable/ic_arrow_right_white_24dp" />
-    </RelativeLayout>
+            android:src="@drawable/ic_arrow_right_white_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_text_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierAllowsGoneWidgets="false"
+            app:barrierDirection="right"
+            app:barrierMargin="@dimen/image_list_margin_vertical"
+            app:constraint_referenced_ids="node_icon,node_child_numbers" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_icon_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/image_list_margin_vertical" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_v_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_icon_numbers_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierAllowsGoneWidgets="true"
+            app:barrierDirection="top"
+            app:barrierMargin="-16dp"
+            app:constraint_referenced_ids="guideline_v_middle" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_numbers_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left"
+            app:barrierMargin="8dp"
+            app:constraint_referenced_ids="guideline_icon_left" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

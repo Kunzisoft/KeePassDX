@@ -78,6 +78,7 @@ class NodeAdapter (private val context: Context,
     private var mShowNumberEntries: Boolean = true
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
+    private var mShowIcons: Boolean = true
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
 
     private var mActionNodesList = LinkedList<Node>()
@@ -134,6 +135,7 @@ class NodeAdapter (private val context: Context,
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
+        this.mShowIcons = PreferencesUtil.showIcons(context)
 
         this.mEntryFilters = Group.ChildFilter.getDefaults(context)
 
@@ -324,19 +326,24 @@ class NodeAdapter (private val context: Context,
         }
 
         // Assign image
-        val iconColor = if (holder.container.isSelected)
-            mContentSelectionColor
-        else when (subNode.type) {
-            Type.GROUP -> mIconGroupColor
-            Type.ENTRY -> mIconEntryColor
-        }
-        holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
-            // Relative size of the icon
-            layoutParams?.apply {
-                height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
-                width = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
+            if (mShowIcons) {
+                val iconColor = if (holder.container.isSelected)
+                    mContentSelectionColor
+                else when (subNode.type) {
+                    Type.GROUP -> mIconGroupColor
+                    Type.ENTRY -> mIconEntryColor
+                }
+                holder.imageIdentifier?.setColorFilter(iconColor)
+                database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
+                // Relative size of the icon
+                layoutParams?.apply {
+                    height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
+                    width = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
+                }
+                visibility = View.VISIBLE
+            } else {
+                visibility = android.view.View.GONE
             }
         }
 

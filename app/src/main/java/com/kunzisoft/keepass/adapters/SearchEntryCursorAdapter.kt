@@ -46,6 +46,7 @@ class SearchEntryCursorAdapter(private val context: Context,
     private val cursorInflater: LayoutInflater? = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
     private var mDisplayUsername: Boolean = false
+    private var mShowIcons: Boolean = true
     private var mOmitBackup: Boolean = true
     private val iconColor: Int
 
@@ -61,6 +62,7 @@ class SearchEntryCursorAdapter(private val context: Context,
     fun reInit(context: Context) {
         this.mDisplayUsername = PreferencesUtil.showUsernamesListEntries(context)
         this.mOmitBackup = PreferencesUtil.omitBackup(context)
+        this.mShowIcons = PreferencesUtil.showIcons(context)
     }
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
@@ -80,9 +82,20 @@ class SearchEntryCursorAdapter(private val context: Context,
             val viewHolder = view.tag as ViewHolder
 
             // Assign image
-            viewHolder.imageViewIcon?.let { iconView ->
-                database.iconDrawableFactory.assignDatabaseIcon(iconView, currentEntry.icon, iconColor)
+            if (mShowIcons) {
+                viewHolder.imageViewIcon?.let { iconView ->
+                    database.iconDrawableFactory.assignDatabaseIcon(iconView, currentEntry.icon, iconColor)
+                    viewHolder.imageViewIcon?.apply {
+                        visibility = View.VISIBLE
+                    }
+                }
             }
+            else {
+                viewHolder.imageViewIcon?.apply {
+                    visibility = View.GONE
+                }
+            }
+
 
             // Assign title
             viewHolder.textViewTitle?.apply {

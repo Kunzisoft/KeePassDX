@@ -507,14 +507,20 @@ class GroupActivity : DatabaseLockActivity(),
         } else {
             searchTitleView?.visibility = View.GONE
             // Assign the group icon depending of IconPack or custom icon
-            iconView?.visibility = View.VISIBLE
+
             group?.let { currentGroup ->
-                iconView?.let { imageView ->
-                    mIconDrawableFactory?.assignDatabaseIcon(
-                        imageView,
-                        currentGroup.icon,
-                        mIconColor
-                    )
+                if (PreferencesUtil.showIcons(this)) {
+                    iconView?.visibility = View.VISIBLE
+                    iconView?.let { imageView ->
+                        mIconDrawableFactory?.assignDatabaseIcon(
+                                imageView,
+                                currentGroup.icon,
+                                mIconColor
+                        )
+                    }
+                }
+                else {
+                    iconView?.visibility = View.GONE
                 }
 
                 if (toolbar != null) {
