@@ -25,7 +25,6 @@ import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -253,9 +252,13 @@ object AutofillHelper {
 
             // Build the content for IME UI
             val pendingIntent = PendingIntent.getActivity(context,
-                    0,
-                    Intent(context, AutofillSettingsActivity::class.java),
-                    0)
+                0,
+                Intent(context, AutofillSettingsActivity::class.java),
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.FLAG_IMMUTABLE
+                } else {
+                    0
+                })
             return InlinePresentation(
                     InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
                         setContentDescription(context.getString(R.string.autofill_sign_in_prompt))

@@ -416,7 +416,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     )
                     val pendingDeleteIntent = PendingIntent.getBroadcast(
                         this,
-                        4576, Intent(LOCK_ACTION), 0
+                        4576,
+                        Intent(LOCK_ACTION),
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            PendingIntent.FLAG_IMMUTABLE
+                        } else {
+                            0
+                        }
                     )
                     // Add actions in notifications
                     notificationBuilder.apply {
@@ -428,7 +434,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             R.drawable.ic_lock_database_white_32dp, getString(R.string.lock),
                             pendingDeleteIntent
                         )
-                        setStyle(NotificationCompat.MediaStyle()
+                        setStyle(
+                            NotificationCompat.MediaStyle()
                             .setShowActionsInCompactView(0)
                         )
                     }

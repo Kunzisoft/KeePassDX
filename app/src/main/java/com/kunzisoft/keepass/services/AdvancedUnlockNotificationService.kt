@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.*
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -58,7 +59,13 @@ class AdvancedUnlockNotificationService : NotificationService() {
         super.onBind(intent)
 
         val pendingDeleteIntent = PendingIntent.getBroadcast(this,
-                4577, Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION), 0)
+            4577,
+            Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION),
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE
+            } else {
+                0
+            })
         val biometricUnlockEnabled = PreferencesUtil.isBiometricUnlockEnable(this)
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(if (biometricUnlockEnabled) {

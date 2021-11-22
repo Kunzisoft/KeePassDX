@@ -23,7 +23,6 @@ import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.os.Build
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
@@ -210,31 +209,39 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                                          searchInfo: SearchInfo? = null,
                                          inlineSuggestionsRequest: InlineSuggestionsRequest? = null): PendingIntent {
             return PendingIntent.getActivity(context, 0,
-                    // Doesn't work with Parcelable (don't know why?)
-                    Intent(context, AutofillLauncherActivity::class.java).apply {
-                        searchInfo?.let {
-                            putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
-                            putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
-                            putExtra(KEY_SEARCH_SCHEME, it.webScheme)
-                            putExtra(KEY_MANUAL_SELECTION, it.manualSelection)
+                // Doesn't work with Parcelable (don't know why?)
+                Intent(context, AutofillLauncherActivity::class.java).apply {
+                    searchInfo?.let {
+                        putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
+                        putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
+                        putExtra(KEY_SEARCH_SCHEME, it.webScheme)
+                        putExtra(KEY_MANUAL_SELECTION, it.manualSelection)
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        inlineSuggestionsRequest?.let {
+                            putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
                         }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            inlineSuggestionsRequest?.let {
-                                putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
-                            }
-                        }
-                    },
-                    PendingIntent.FLAG_CANCEL_CURRENT)
+                    }
+                },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                } else {
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                })
         }
 
         fun getPendingIntentForRegistration(context: Context,
                                             registerInfo: RegisterInfo): PendingIntent {
             return PendingIntent.getActivity(context, 0,
-                    Intent(context, AutofillLauncherActivity::class.java).apply {
-                        EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
-                        putExtra(KEY_REGISTER_INFO, registerInfo)
-                    },
-                    PendingIntent.FLAG_CANCEL_CURRENT)
+                Intent(context, AutofillLauncherActivity::class.java).apply {
+                    EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
+                    putExtra(KEY_REGISTER_INFO, registerInfo)
+                },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                } else {
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                })
         }
 
         fun launchForRegistration(context: Context,
