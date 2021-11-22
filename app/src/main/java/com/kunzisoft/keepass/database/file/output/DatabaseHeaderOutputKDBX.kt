@@ -130,6 +130,6 @@ constructor(private val databaseKDBX: DatabaseKDBX,
     }
 
     companion object {
-        private val EndHeaderValue = byteArrayOf('\r'.toByte(), '\n'.toByte(), '\r'.toByte(), '\n'.toByte())
+        private val EndHeaderValue = byteArrayOf('\r'.code.toByte(), '\n'.code.toByte(), '\r'.code.toByte(), '\n'.code.toByte())
     }
 }

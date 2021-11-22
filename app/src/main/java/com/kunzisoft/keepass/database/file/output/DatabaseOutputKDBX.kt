@@ -765,7 +765,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         var character: Char
         for (element in text) {
             character = element
-            val hexChar = character.toInt()
+            val hexChar = character.code
             if (
                     hexChar in 0x20..0xD7FF ||
                     hexChar == 0x9 ||
