@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.services
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.*
 import android.net.Uri
@@ -50,6 +51,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
         mTempCipherDao = ArrayList()
     }
 
+    // It's simpler to use pendingIntent to perform REMOVE_ADVANCED_UNLOCK_KEY_ACTION
+    // because can be directly broadcast to another module or app
+    @SuppressLint("LaunchActivityFromNotification")
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
 
