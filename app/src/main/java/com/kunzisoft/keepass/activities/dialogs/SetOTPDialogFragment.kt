@@ -309,7 +309,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.let { userString ->
                     try {
-                        mOtpElement.setBase32Secret(userString.toUpperCase(Locale.ENGLISH))
+                        mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
                         otpSecretContainer?.error = null
                     } catch (exception: Exception) {
                         otpSecretContainer?.error = getString(R.string.error_otp_secret_key)

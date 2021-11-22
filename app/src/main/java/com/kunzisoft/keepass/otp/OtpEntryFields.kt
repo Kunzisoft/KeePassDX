@@ -143,7 +143,7 @@ object OtpEntryFields {
         if (otpPlainText != null && otpPlainText.isNotEmpty() && isOTPUri(otpPlainText)) {
             val uri = Uri.parse(otpPlainText.removeSpaceChars())
 
-            if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase(Locale.ENGLISH)) {
+            if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.lowercase(Locale.ENGLISH)) {
                 Log.e(TAG, "Invalid or missing scheme in uri")
                 return false
             }
@@ -309,7 +309,7 @@ object OtpEntryFields {
             }
             if (algorithmField != null) {
                 otpElement.algorithm =
-                        when (algorithmField.toUpperCase(Locale.ENGLISH)) {
+                        when (algorithmField.uppercase(Locale.ENGLISH)) {
                             TIMEOTP_ALGORITHM_SHA1_VALUE -> HashAlgorithm.SHA1
                             TIMEOTP_ALGORITHM_SHA256_VALUE -> HashAlgorithm.SHA256
                             TIMEOTP_ALGORITHM_SHA512_VALUE -> HashAlgorithm.SHA512
@@ -417,7 +417,7 @@ object OtpEntryFields {
         val output = HashMap<String, String>()
         for (element in elements) {
             val pair = element.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            output[pair[0].toLowerCase(Locale.ENGLISH)] = pair[1]
+            output[pair[0].lowercase(Locale.ENGLISH)] = pair[1]
         }
         return output
     }

@@ -86,7 +86,7 @@ object UriUtil {
 
     private fun isFileScheme(fileUri: Uri): Boolean {
         val scheme = fileUri.scheme
-        if (scheme == null || scheme.isEmpty() || scheme.toLowerCase(Locale.ENGLISH) == "file") {
+        if (scheme == null || scheme.isEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
             return true
         }
         return false
@@ -94,7 +94,7 @@ object UriUtil {
 
     private fun isContentScheme(fileUri: Uri): Boolean {
         val scheme = fileUri.scheme
-        if (scheme != null && scheme.toLowerCase(Locale.ENGLISH) == "content") {
+        if (scheme != null && scheme.lowercase(Locale.ENGLISH) == "content") {
             return true
         }
         return false
