@@ -33,8 +33,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -110,6 +112,11 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
     private var mOnSuggestionListener: SearchView.OnSuggestionListener? = null
+
+    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            AutofillHelper.buildActivityResultLauncher(this)
+        else null
 
     private var mIconColor: Int = 0
 
@@ -243,6 +250,7 @@ class GroupActivity : DatabaseLockActivity(),
                                     EntryEditActivity.launchForAutofillResult(
                                         this@GroupActivity,
                                         database,
+                                        mAutofillActivityResultLauncher,
                                         autofillComponent,
                                         currentGroup.nodeId,
                                         searchInfo
@@ -1080,10 +1088,6 @@ class GroupActivity : DatabaseLockActivity(),
             mGroupEditViewModel.selectIcon(icon)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
-
         // Directly used the onActivityResult in fragment
         mGroupFragment?.onActivityResult(requestCode, resultCode, data)
     }
@@ -1292,8 +1296,9 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
                                     database: Database,
+                                    activityResultLaunch: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
@@ -1303,6 +1308,7 @@ class GroupActivity : DatabaseLockActivity(),
                     AutofillHelper.startActivityForAutofillResult(
                         activity,
                         intent,
+                        activityResultLaunch,
                         autofillComponent,
                         searchInfo
                     )
@@ -1335,11 +1341,12 @@ class GroupActivity : DatabaseLockActivity(),
          * 		Global Launch
          * -------------------------
          */
-        fun launch(activity: Activity,
+        fun launch(activity: AppCompatActivity,
                    database: Database,
                    onValidateSpecialMode: () -> Unit,
                    onCancelSpecialMode: () -> Unit,
-                   onLaunchActivitySpecialMode: () -> Unit) {
+                   onLaunchActivitySpecialMode: () -> Unit,
+                   autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
                         GroupActivity.launch(
@@ -1451,6 +1458,7 @@ class GroupActivity : DatabaseLockActivity(),
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
                                             database,
+                                            autofillActivityResultLauncher,
                                             autofillComponent,
                                             searchInfo,
                                             false)

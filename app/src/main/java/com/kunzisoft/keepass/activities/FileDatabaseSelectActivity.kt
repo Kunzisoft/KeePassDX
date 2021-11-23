@@ -31,8 +31,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,6 +86,11 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private var mDatabaseFileUri: Uri? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
+
+    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            AutofillHelper.buildActivityResultLauncher(this)
+        else null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -274,7 +281,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     fileNoFoundAction(exception)
                 },
                 { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() })
+                { onLaunchActivitySpecialMode() },
+                mAutofillActivityResultLauncher)
     }
 
     private fun launchGroupActivityIfLoaded(database: Database) {
@@ -283,7 +291,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() })
+                { onLaunchActivitySpecialMode() },
+                mAutofillActivityResultLauncher)
         }
     }
 
@@ -361,10 +370,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
 
         mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
             if (uri != null) {
@@ -499,11 +504,13 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          */
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
+                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
+                    activityResultLauncher,
                     autofillComponent,
                     searchInfo)
         }

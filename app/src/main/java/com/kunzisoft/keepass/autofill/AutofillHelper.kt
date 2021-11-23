@@ -38,7 +38,10 @@ import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
 import android.widget.inline.InlinePresentationSpec
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
@@ -48,18 +51,16 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import kotlin.collections.ArrayList
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 object AutofillHelper {
-
-    private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
     private const val EXTRA_ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
     const val EXTRA_INLINE_SUGGESTIONS_REQUEST = "com.kunzisoft.keepass.autofill.INLINE_SUGGESTIONS_REQUEST"
@@ -430,11 +431,33 @@ object AutofillHelper {
         }
     }
 
+    fun buildActivityResultLauncher(activity: AppCompatActivity,
+                                    lockDatabase: Boolean = false): ActivityResultLauncher<Intent> {
+        return activity.registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            // Utility method to loop and close each activity with return data
+            if (it.resultCode == Activity.RESULT_OK) {
+                activity.setResult(it.resultCode, it.data)
+            }
+            if (it.resultCode == Activity.RESULT_CANCELED) {
+                activity.setResult(Activity.RESULT_CANCELED)
+            }
+            activity.finish()
+
+            if (lockDatabase && PreferencesUtil.isAutofillCloseDatabaseEnable(activity)) {
+                // Close the database
+                activity.sendBroadcast(Intent(LOCK_ACTION))
+            }
+        }
+    }
+
     /**
      * Utility method to start an activity with an Autofill for result
      */
-    fun startActivityForAutofillResult(activity: Activity,
+    fun startActivityForAutofillResult(activity: AppCompatActivity,
                                        intent: Intent,
+                                       activityResultLauncher: ActivityResultLauncher<Intent>?,
                                        autofillComponent: AutofillComponent,
                                        searchInfo: SearchInfo?) {
         EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.SELECTION)
@@ -446,21 +469,6 @@ object AutofillHelper {
             }
         }
         EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
-        activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
-    }
-
-    /**
-     * Utility method to loop and close each activity with return data
-     */
-    fun onActivityResultSetResultAndFinish(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == AUTOFILL_RESPONSE_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                activity.setResult(resultCode, data)
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                activity.setResult(Activity.RESULT_CANCELED)
-            }
-            activity.finish()
-        }
+        activityResultLauncher?.launch(intent)
     }
 }

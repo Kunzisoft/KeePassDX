@@ -35,9 +35,10 @@ import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import android.widget.TextView.OnEditorActionListener
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
@@ -75,7 +76,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
 
 
-open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
+class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -112,6 +113,11 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         }
 
     private var mAllowAutoOpenBiometricPrompt: Boolean = true
+
+    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            AutofillHelper.buildActivityResultLauncher(this)
+        else null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -361,7 +367,8 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                 database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() }
+                { onLaunchActivitySpecialMode() },
+                mAutofillActivityResultLauncher
             )
         }
     }
@@ -720,11 +727,6 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
         // To get device credential unlock result
         advancedUnlockFragment?.onActivityResult(requestCode, resultCode, data)
 
-        // To get entry in result
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
-
         var keyFileResult = false
         mExternalFileHelper?.let {
             keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
@@ -855,15 +857,17 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Throws(FileNotFoundException::class)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
                                     databaseFile: Uri,
                                     keyFile: Uri?,
+                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 AutofillHelper.startActivityForAutofillResult(
                         activity,
                         intent,
+                        activityResultLauncher,
                         autofillComponent,
                         searchInfo)
             }
@@ -891,12 +895,13 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
          * 		Global Launch
          * -------------------------
          */
-        fun launch(activity: Activity,
+        fun launch(activity: AppCompatActivity,
                    databaseUri: Uri,
                    keyFile: Uri?,
                    fileNoFoundAction: (exception: FileNotFoundException) -> Unit,
                    onCancelSpecialMode: () -> Unit,
-                   onLaunchActivitySpecialMode: () -> Unit) {
+                   onLaunchActivitySpecialMode: () -> Unit,
+                   autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
 
             try {
                 EntrySelectionHelper.doSpecialAction(activity.intent,
@@ -926,6 +931,7 @@ open class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bui
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 PasswordActivity.launchForAutofillResult(activity,
                                         databaseUri, keyFile,
+                                        autofillActivityResultLauncher,
                                         autofillComponent,
                                         searchInfo)
                                 onLaunchActivitySpecialMode()

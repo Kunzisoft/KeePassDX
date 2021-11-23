@@ -33,9 +33,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -802,8 +804,9 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in autofill selection
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
                                     database: Database,
+                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     groupId: NodeId<*>,
                                     searchInfo: SearchInfo? = null) {
@@ -814,6 +817,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                     AutofillHelper.startActivityForAutofillResult(
                         activity,
                         intent,
+                        activityResultLauncher,
                         autofillComponent,
                         searchInfo
                     )
