@@ -220,7 +220,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     }
                 },
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                    // TODO Mutable
+                    PendingIntent.FLAG_CANCEL_CURRENT
                 } else {
                     PendingIntent.FLAG_CANCEL_CURRENT
                 })
@@ -234,7 +235,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     putExtra(KEY_REGISTER_INFO, registerInfo)
                 },
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                    // TODO Mutable
+                    PendingIntent.FLAG_CANCEL_CURRENT
                 } else {
                     PendingIntent.FLAG_CANCEL_CURRENT
                 })
