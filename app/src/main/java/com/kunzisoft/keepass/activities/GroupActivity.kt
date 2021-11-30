@@ -113,6 +113,11 @@ class GroupActivity : DatabaseLockActivity(),
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
     private var mOnSuggestionListener: SearchView.OnSuggestionListener? = null
 
+    private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
+        // To create tree dialog for icon
+        mGroupEditViewModel.selectIcon(icon)
+    }
+
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             AutofillHelper.buildActivityResultLauncher(this)
@@ -285,7 +290,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         mGroupEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@GroupActivity, iconImage)
+            IconPickerActivity.launch(this@GroupActivity, iconImage, mIconSelectionActivityResultLauncher)
         }
 
         mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
@@ -1082,11 +1087,6 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        // To create tree dialog for icon
-        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            mGroupEditViewModel.selectIcon(icon)
-        }
 
         // Directly used the onActivityResult in fragment
         mGroupFragment?.onActivityResult(requestCode, resultCode, data)

@@ -27,9 +27,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -326,30 +329,28 @@ class IconPickerActivity : DatabaseLockActivity() {
     companion object {
 
         private const val ICON_PICKER_FRAGMENT_TAG = "ICON_PICKER_FRAGMENT_TAG"
-
-        private const val ICON_SELECTED_REQUEST = 15861
         private const val EXTRA_ICON = "EXTRA_ICON"
-
         private const val MAX_ICON_SIZE = 5242880
 
-        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, listener: (icon: IconImage) -> Unit) {
-            if (requestCode == ICON_SELECTED_REQUEST) {
-                if (resultCode == Activity.RESULT_OK) {
-                    listener.invoke(data?.getParcelableExtra(EXTRA_ICON) ?: IconImage())
+        fun registerIconSelectionForResult(context: FragmentActivity,
+                                           listener: (icon: IconImage) -> Unit): ActivityResultLauncher<Intent> {
+            return context.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    listener.invoke(result.data?.getParcelableExtra(EXTRA_ICON) ?: IconImage())
                 }
             }
         }
 
-        fun launch(context: Activity,
-                   previousIcon: IconImage?) {
+        fun launch(context: FragmentActivity,
+                   previousIcon: IconImage?,
+                   resultLauncher: ActivityResultLauncher<Intent>) {
             // Create an instance to return the picker icon
-            context.startActivityForResult(
-                    Intent(context,
-                    IconPickerActivity::class.java).apply {
+            resultLauncher.launch(
+                Intent(context, IconPickerActivity::class.java).apply {
                         if (previousIcon != null)
                             putExtra(EXTRA_ICON, previousIcon)
-                    },
-                    ICON_SELECTED_REQUEST)
+                    }
+            )
         }
     }
 }

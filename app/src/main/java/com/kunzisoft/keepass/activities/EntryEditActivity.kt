@@ -109,6 +109,10 @@ class EntryEditActivity : DatabaseLockActivity(),
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
 
+    private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
+        mEntryEditViewModel.selectIcon(icon)
+    }
+
     // To ask data lost only one time
     private var backPressedAlreadyApproved = false
 
@@ -233,7 +237,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@EntryEditActivity, iconImage)
+            IconPickerActivity.launch(this@EntryEditActivity, iconImage, mIconSelectionActivityResultLauncher)
         }
 
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
@@ -493,14 +497,6 @@ class EntryEditActivity : DatabaseLockActivity(),
     override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
         if (attachmentToUploadUri != null && attachment != null) {
             mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, attachment)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            mEntryEditViewModel.selectIcon(icon)
         }
     }
 
