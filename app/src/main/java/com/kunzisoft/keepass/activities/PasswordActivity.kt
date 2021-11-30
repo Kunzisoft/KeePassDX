@@ -732,18 +732,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
         // To get device credential unlock result
         advancedUnlockFragment?.onActivityResult(requestCode, resultCode, data)
-
-        // this block if not a key file response
-        // TODO advance unlock response
-        when (resultCode) {
-            DatabaseLockActivity.RESULT_EXIT_LOCK -> {
-                clearCredentialsViews()
-                closeDatabase()
-            }
-            Activity.RESULT_CANCELED -> {
-                clearCredentialsViews()
-            }
-        }
     }
 
     companion object {
