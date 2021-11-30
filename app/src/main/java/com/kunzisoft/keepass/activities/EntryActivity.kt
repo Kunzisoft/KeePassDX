@@ -62,7 +62,6 @@ import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
-import kotlin.collections.HashMap
 
 class EntryActivity : DatabaseLockActivity() {
 
@@ -84,8 +83,8 @@ class EntryActivity : DatabaseLockActivity() {
     private var mEntryLoaded = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mAttachmentSelected: Attachment? = null
 
     private var mIcon: IconImage? = null
     private var mIconColor: Int = 0
@@ -133,6 +132,15 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Init SAF manager
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildCreateDocument { createdFileUri ->
+            mAttachmentSelected?.let { attachment ->
+                if (createdFileUri != null) {
+                    mAttachmentFileBinderManager
+                        ?.startDownloadAttachment(createdFileUri, attachment)
+                }
+                mAttachmentSelected = null
+            }
+        }
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
@@ -209,9 +217,8 @@ class EntryActivity : DatabaseLockActivity() {
         }
 
         mEntryViewModel.attachmentSelected.observe(this) { attachmentSelected ->
-            mExternalFileHelper?.createDocument(attachmentSelected.name)?.let { requestCode ->
-                mAttachmentsToDownload[requestCode] = attachmentSelected
-            }
+            mAttachmentSelected = attachmentSelected
+            mExternalFileHelper?.createDocument(attachmentSelected.name)
         }
 
         mEntryViewModel.historySelected.observe(this) { historySelected ->
@@ -297,15 +304,6 @@ class EntryActivity : DatabaseLockActivity() {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 // Reload the current id from database
                 mEntryViewModel.loadDatabase(mDatabase)
-            }
-        }
-
-        mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
-            if (createdFileUri != null) {
-                mAttachmentsToDownload[requestCode]?.let { attachmentToDownload ->
-                    mAttachmentFileBinderManager
-                            ?.startDownloadAttachment(createdFileUri, attachmentToDownload)
-                }
             }
         }
     }

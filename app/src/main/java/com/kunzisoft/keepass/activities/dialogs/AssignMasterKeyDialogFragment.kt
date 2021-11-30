@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -133,6 +132,18 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
 
             mExternalFileHelper = ExternalFileHelper(this)
+            mExternalFileHelper?.buildOpenDocument { uri ->
+                uri?.let { pathUri ->
+                    UriUtil.getFileData(requireContext(), uri)?.length()?.let { lengthFile ->
+                        keyFileSelectionView?.error = null
+                        keyFileCheckBox?.isChecked = true
+                        keyFileSelectionView?.uri = pathUri
+                        if (lengthFile <= 0L) {
+                            showEmptyKeyFileConfirmationDialog()
+                        }
+                    }
+                }
+            }
             keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
 
             val dialog = builder.create()
@@ -208,7 +219,11 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
                 passwordRepeatTextInputLayout?.error = getString(R.string.error_pass_match)
             }
 
-            if (mMasterPassword == null || mMasterPassword!!.isEmpty()) {
+            if ((mMasterPassword == null
+                        || mMasterPassword!!.isEmpty())
+                && (keyFileCheckBox == null
+                        || !keyFileCheckBox!!.isChecked
+                        || keyFileSelectionView?.uri == null)) {
                 error = true
                 showEmptyPasswordConfirmationDialog()
             }
@@ -279,23 +294,6 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
                     }
             mEmptyKeyFileConfirmationDialog = builder.create()
             mEmptyKeyFileConfirmationDialog?.show()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-            uri?.let { pathUri ->
-                UriUtil.getFileData(requireContext(), uri)?.length()?.let { lengthFile ->
-                    keyFileSelectionView?.error = null
-                    keyFileCheckBox?.isChecked = true
-                    keyFileSelectionView?.uri = pathUri
-                    if (lengthFile <= 0L) {
-                        showEmptyKeyFileConfirmationDialog()
-                    }
-                }
-            }
         }
     }
 

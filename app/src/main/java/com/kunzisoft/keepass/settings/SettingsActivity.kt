@@ -49,7 +49,6 @@ open class SettingsActivity
 
     private var backupManager: BackupManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
-    private var appPropertiesFileCreationRequestCode: Int? = null
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
@@ -64,6 +63,41 @@ open class SettingsActivity
         toolbar = findViewById(R.id.toolbar)
 
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { selectedFileUri ->
+            // Import app properties result
+            try {
+                selectedFileUri?.let { uri ->
+                    val appProperties = Properties()
+                    contentResolver?.openInputStream(uri)?.use { inputStream ->
+                        appProperties.load(inputStream)
+                    }
+                    PreferencesUtil.setAppProperties(this, appProperties)
+
+                    // Restart the current activity
+                    reloadActivity()
+                    Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
+                Log.e(TAG, "Unable to import app properties", e)
+            }
+        }
+        mExternalFileHelper?.buildCreateDocument { createdFileUri ->
+            // Export app properties result
+            try {
+                createdFileUri?.let { uri ->
+                    contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                        PreferencesUtil
+                            .getAppProperties(this)
+                            .store(outputStream, getString(R.string.description_app_properties))
+                    }
+                    Toast.makeText(this, R.string.success_export_app_properties, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
+                Log.e(DatabaseLockActivity.TAG, "Unable to export app properties", e)
+            }
+        }
 
         if (savedInstanceState?.getString(TITLE_KEY).isNullOrEmpty())
             toolbar?.setTitle(R.string.settings)
@@ -217,52 +251,8 @@ open class SettingsActivity
     }
 
     fun exportAppProperties() {
-        appPropertiesFileCreationRequestCode = mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name,
+        mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name,
             DateTime.now().toLocalDateTime().toString("yyyy-MM-dd'_'HH-mm")))
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Import app properties result
-        try {
-            mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { selectedFileUri ->
-                selectedFileUri?.let { uri ->
-                    val appProperties = Properties()
-                    contentResolver?.openInputStream(uri)?.use { inputStream ->
-                        appProperties.load(inputStream)
-                    }
-                    PreferencesUtil.setAppProperties(this, appProperties)
-
-                    // Restart the current activity
-                    reloadActivity()
-                    Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
-                }
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
-            Log.e(TAG, "Unable to import app properties", e)
-        }
-
-        // Export app properties result
-        try {
-            if (requestCode == appPropertiesFileCreationRequestCode) {
-                mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
-                    createdFileUri?.let { uri ->
-                        contentResolver?.openOutputStream(uri)?.use { outputStream ->
-                            PreferencesUtil
-                                    .getAppProperties(this)
-                                    .store(outputStream, getString(R.string.description_app_properties))
-                        }
-                        Toast.makeText(this, R.string.success_export_app_properties, Toast.LENGTH_LONG).show()
-                    }
-                }
-                appPropertiesFileCreationRequestCode = null
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
-            Log.e(DatabaseLockActivity.TAG, "Unable to export app properties", e)
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -157,6 +157,21 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // To retrieve attachment
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            uri?.let { attachmentToUploadUri ->
+                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                    documentFile.name?.let { fileName ->
+                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
+                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
+                                .show(supportFragmentManager, "fileTooBigFragment")
+                        } else {
+                            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
+                        }
+                    }
+                }
+            }
+        }
+
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -487,21 +502,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
             mEntryEditViewModel.selectIcon(icon)
         }
-
-        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-            uri?.let { attachmentToUploadUri ->
-                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
-                    documentFile.name?.let { fileName ->
-                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
-                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
-                                    .show(supportFragmentManager, "fileTooBigFragment")
-                        } else {
-                            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -594,7 +594,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                         && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
                         attachmentView,
                         {
-                            mExternalFileHelper?.openDocument()
+                            addNewAttachment()
                         },
                         {
                             performedNextEducation(entryEditActivityEducation)

@@ -82,6 +82,9 @@ class IconPickerActivity : DatabaseLockActivity() {
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            addCustomIcon(uri)
+        }
 
         uploadButton = findViewById(R.id.icon_picker_upload)
 
@@ -307,14 +310,6 @@ class IconPickerActivity : DatabaseLockActivity() {
         iconPickerViewModel.removeCustomIcon(
                 IconPickerViewModel.IconCustomState(iconImageCustom, false, R.string.error_remove_file)
         )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-            addCustomIcon(uri)
-        }
     }
 
     private fun setResult() {

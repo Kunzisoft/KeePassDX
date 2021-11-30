@@ -20,14 +20,16 @@
 package com.kunzisoft.keepass.activities.helpers
 
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
@@ -37,6 +39,10 @@ class ExternalFileHelper {
 
     private var activity: FragmentActivity? = null
     private var fragment: Fragment? = null
+
+    private var getContentResultLauncher: ActivityResultLauncher<String>? = null
+    private var openDocumentResultLauncher: ActivityResultLauncher<Array<String>>? = null
+    private var createDocumentResultLauncher: ActivityResultLauncher<String>? = null
 
     constructor(context: FragmentActivity) {
         this.activity = context
@@ -48,94 +54,82 @@ class ExternalFileHelper {
         this.fragment = context
     }
 
+    fun buildOpenDocument(typeString: String = "*/*",
+                          onFileSelected: ((uri: Uri?) -> Unit)?) {
+
+        val resultCallback = ActivityResultCallback<Uri> { result ->
+            result?.let { uri ->
+                UriUtil.takeUriPermission(activity?.contentResolver, uri)
+                onFileSelected?.invoke(uri)
+            }
+        }
+
+        getContentResultLauncher = if (fragment != null) {
+            fragment?.registerForActivityResult(
+                GetContent(),
+                resultCallback
+            )
+        } else {
+            activity?.registerForActivityResult(
+                GetContent(),
+                resultCallback
+            )
+        }
+
+        openDocumentResultLauncher = if (fragment != null) {
+            fragment?.registerForActivityResult(
+                OpenDocument(),
+                resultCallback
+            )
+        } else {
+            activity?.registerForActivityResult(
+                OpenDocument(),
+                resultCallback
+            )
+        }
+    }
+
+    fun buildCreateDocument(typeString: String = "application/octet-stream",
+                            onFileCreated: (fileCreated: Uri?)->Unit) {
+
+        val resultCallback = ActivityResultCallback<Uri> { result ->
+            onFileCreated.invoke(result)
+        }
+
+        createDocumentResultLauncher = if (fragment != null) {
+            fragment?.registerForActivityResult(
+                CreateDocument(typeString),
+                resultCallback
+            )
+        } else {
+            activity?.registerForActivityResult(
+                CreateDocument(typeString),
+                resultCallback
+            )
+        }
+    }
+
     fun openDocument(getContent: Boolean = false,
                      typeString: String = "*/*") {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                if (getContent) {
-                    openActivityWithActionGetContent(typeString)
-                } else {
-                    openActivityWithActionOpenDocument(typeString)
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to open document", e)
-                showFileManagerDialogFragment()
+        try {
+            if (getContent) {
+                getContentResultLauncher?.launch(typeString)
+            } else {
+                openDocumentResultLauncher?.launch(arrayOf(typeString))
             }
-        } else {
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to open document", e)
             showFileManagerDialogFragment()
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun openActivityWithActionOpenDocument(typeString: String) {
-        val intentOpenDocument = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = typeString
-            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
-            }
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+    fun createDocument(titleString: String) {
+        try {
+            createDocumentResultLauncher?.launch(titleString)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to create document", e)
+            showFileManagerDialogFragment()
         }
-        if (fragment != null)
-            fragment?.startActivityForResult(intentOpenDocument, OPEN_DOC)
-        else
-            activity?.startActivityForResult(intentOpenDocument, OPEN_DOC)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun openActivityWithActionGetContent(typeString: String) {
-        val intentGetContent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = typeString
-            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
-            }
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        }
-        if (fragment != null)
-            fragment?.startActivityForResult(intentGetContent, GET_CONTENT)
-        else
-            activity?.startActivityForResult(intentGetContent, GET_CONTENT)
-    }
-
-    /**
-     * To use in onActivityResultCallback in Fragment or Activity
-     * @param onFileSelected Callback retrieve from data
-     * @return true if requestCode was captured, false elsewhere
-     */
-    fun onOpenDocumentResult(requestCode: Int, resultCode: Int, data: Intent?,
-                             onFileSelected: ((uri: Uri?) -> Unit)?): Boolean {
-
-        when (requestCode) {
-            FILE_BROWSE -> {
-                if (resultCode == RESULT_OK) {
-                    val filename = data?.dataString
-                    var keyUri: Uri? = null
-                    if (filename != null) {
-                        keyUri = UriUtil.parse(filename)
-                    }
-                    onFileSelected?.invoke(keyUri)
-                }
-                return true
-            }
-            GET_CONTENT, OPEN_DOC -> {
-                if (resultCode == RESULT_OK) {
-                    if (data != null) {
-                        val uri = data.data
-                        if (uri != null) {
-                            UriUtil.takeUriPermission(activity?.contentResolver, uri)
-                            onFileSelected?.invoke(uri)
-                        }
-                    }
-                }
-                return true
-            }
-        }
-        return false
     }
 
     /**
@@ -155,61 +149,49 @@ class ExternalFileHelper {
         }
     }
 
-    fun createDocument(titleString: String,
-                       typeString: String = "application/octet-stream"): Int? {
-        val idCode = getUnusedCreateFileRequestCode()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = typeString
-                    putExtra(Intent.EXTRA_TITLE, titleString)
+    class OpenDocument : ActivityResultContracts.OpenDocument() {
+        @SuppressLint("InlinedApi")
+        override fun createIntent(context: Context, input: Array<out String>): Intent {
+            return super.createIntent(context, input).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
                 }
-                if (fragment != null)
-                    fragment?.startActivityForResult(intent, idCode)
-                else
-                    activity?.startActivityForResult(intent, idCode)
-                return idCode
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to create document", e)
-                showFileManagerDialogFragment()
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
-        } else {
-            showFileManagerDialogFragment()
         }
-        return null
     }
 
-    /**
-     * To use in onActivityResultCallback in Fragment or Activity
-     * @param onFileCreated Callback retrieve from data
-     * @return true if requestCode was captured, false elsewhere
-     */
-    fun onCreateDocumentResult(requestCode: Int, resultCode: Int, data: Intent?,
-                               onFileCreated: (fileCreated: Uri?)->Unit) {
-        // Retrieve the created URI from the file manager
-        if (fileRequestCodes.contains(requestCode) && resultCode == RESULT_OK) {
-            onFileCreated.invoke(data?.data)
-            fileRequestCodes.remove(requestCode)
+    class GetContent : ActivityResultContracts.GetContent() {
+        @SuppressLint("InlinedApi")
+        override fun createIntent(context: Context, input: String): Intent {
+            return super.createIntent(context, input).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+                }
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            }
         }
     }
+
+    class CreateDocument(private val typeString: String) : ActivityResultContracts.CreateDocument() {
+        override fun createIntent(context: Context, input: String): Intent {
+            return super.createIntent(context, input).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = typeString
+            }
+        }
+    }
+
 
     companion object {
 
         private const val TAG = "OpenFileHelper"
-
-        private const val GET_CONTENT = 25745
-        private const val OPEN_DOC = 25845
-        private const val FILE_BROWSE = 25645
-
-        private var CREATE_FILE_REQUEST_CODE_DEFAULT = 3853
-        private var fileRequestCodes = ArrayList<Int>()
-
-        private fun getUnusedCreateFileRequestCode(): Int {
-            val newCreateFileRequestCode = CREATE_FILE_REQUEST_CODE_DEFAULT++
-            fileRequestCodes.add(newCreateFileRequestCode)
-            return newCreateFileRequestCode
-        }
 
         @SuppressLint("InlinedApi")
         fun allowCreateDocumentByStorageAccessFramework(packageManager: PackageManager,
@@ -231,7 +213,7 @@ class ExternalFileHelper {
 fun View.setOpenDocumentClickListener(externalFileHelper: ExternalFileHelper?) {
     externalFileHelper?.let { fileHelper ->
         setOnClickListener {
-            fileHelper.openDocument()
+            fileHelper.openDocument(false)
         }
         setOnLongClickListener {
             fileHelper.openDocument(true)

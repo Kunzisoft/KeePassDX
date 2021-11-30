@@ -148,6 +148,12 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            if (uri != null) {
+                mDatabaseKeyFileUri = uri
+                populateKeyFileTextView(uri)
+            }
+        }
         keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
@@ -727,25 +733,15 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         // To get device credential unlock result
         advancedUnlockFragment?.onActivityResult(requestCode, resultCode, data)
 
-        var keyFileResult = false
-        mExternalFileHelper?.let {
-            keyFileResult = it.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-                if (uri != null) {
-                    mDatabaseKeyFileUri = uri
-                    populateKeyFileTextView(uri)
-                }
+        // this block if not a key file response
+        // TODO advance unlock response
+        when (resultCode) {
+            DatabaseLockActivity.RESULT_EXIT_LOCK -> {
+                clearCredentialsViews()
+                closeDatabase()
             }
-        }
-        if (!keyFileResult) {
-            // this block if not a key file response
-            when (resultCode) {
-                DatabaseLockActivity.RESULT_EXIT_LOCK -> {
-                    clearCredentialsViews()
-                    closeDatabase()
-                }
-                Activity.RESULT_CANCELED -> {
-                    clearCredentialsViews()
-                }
+            Activity.RESULT_CANCELED -> {
+                clearCredentialsViews()
             }
         }
     }
