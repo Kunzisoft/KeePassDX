@@ -34,6 +34,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -41,6 +42,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -691,7 +694,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             val intentEntry = Intent()
             bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
             intentEntry.putExtras(bundle)
-            setResult(ADD_OR_UPDATE_ENTRY_RESULT_CODE, intentEntry)
+            setResult(Activity.RESULT_OK, intentEntry)
             super.finish()
         } catch (e: Exception) {
             // Exception when parcelable can't be done
@@ -706,23 +709,46 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Keys for current Activity
         const val KEY_ENTRY = "entry"
         const val KEY_PARENT = "parent"
-
-        // Keys for callback
-        const val ADD_OR_UPDATE_ENTRY_RESULT_CODE = 31
-        const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
+
+        fun registerForEntryResult(fragment: Fragment,
+                                   entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
+            return fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    entryAddedOrUpdatedListener.invoke(
+                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                    )
+                } else {
+                    entryAddedOrUpdatedListener.invoke(null)
+                }
+            }
+        }
+
+        fun registerForEntryResult(activity: FragmentActivity,
+                                   entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
+            return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    entryAddedOrUpdatedListener.invoke(
+                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                    )
+                } else {
+                    entryAddedOrUpdatedListener.invoke(null)
+                }
+            }
+        }
 
         /**
          * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
         fun launchToUpdate(activity: Activity,
                            database: Database,
-                           entryId: NodeId<UUID>) {
+                           entryId: NodeId<UUID>,
+                           activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryEditActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
-                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                    activityResultLauncher.launch(intent)
                 }
             }
         }
@@ -732,12 +758,13 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         fun launchToCreate(activity: Activity,
                            database: Database,
-                           groupId: NodeId<*>) {
+                           groupId: NodeId<*>,
+                           activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryEditActivity::class.java)
                     intent.putExtra(KEY_PARENT, groupId)
-                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                    activityResultLauncher.launch(intent)
                 }
             }
         }

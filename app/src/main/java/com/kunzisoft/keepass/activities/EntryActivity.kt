@@ -32,6 +32,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -85,6 +86,11 @@ class EntryActivity : DatabaseLockActivity() {
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentSelected: Attachment? = null
+
+    private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) {
+        // Reload the current id from database
+        mEntryViewModel.loadDatabase(mDatabase)
+    }
 
     private var mIcon: IconImage? = null
     private var mIconColor: Int = 0
@@ -227,7 +233,8 @@ class EntryActivity : DatabaseLockActivity() {
                     this,
                     database,
                     historySelected.nodeId,
-                    historySelected.historyPosition
+                    historySelected.historyPosition,
+                    mEntryActivityResultLauncher
                 )
             }
         }
@@ -295,17 +302,6 @@ class EntryActivity : DatabaseLockActivity() {
         mAttachmentFileBinderManager?.unregisterProgressTask()
 
         super.onPause()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
-                // Reload the current id from database
-                mEntryViewModel.loadDatabase(mDatabase)
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -389,7 +385,8 @@ class EntryActivity : DatabaseLockActivity() {
                         EntryEditActivity.launchToUpdate(
                             this,
                             database,
-                            entryId
+                            entryId,
+                            mEntryActivityResultLauncher
                         )
                     }
                 }
@@ -430,7 +427,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Transit data in previous Activity after an update
         Intent().apply {
             putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mMainEntryId)
-            setResult(EntryEditActivity.ADD_OR_UPDATE_ENTRY_RESULT_CODE, this)
+            setResult(Activity.RESULT_OK, this)
         }
         super.finish()
     }
@@ -448,15 +445,13 @@ class EntryActivity : DatabaseLockActivity() {
          */
         fun launch(activity: Activity,
                    database: Database,
-                   entryId: NodeId<UUID>) {
+                   entryId: NodeId<UUID>,
+                   activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
-                    activity.startActivityForResult(
-                        intent,
-                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
-                    )
+                    activityResultLauncher.launch(intent)
                 }
             }
         }
@@ -467,16 +462,14 @@ class EntryActivity : DatabaseLockActivity() {
         fun launch(activity: Activity,
                    database: Database,
                    entryId: NodeId<UUID>,
-                   historyPosition: Int) {
+                   historyPosition: Int,
+                   activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
                     intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
-                    activity.startActivityForResult(
-                        intent,
-                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
-                    )
+                    activityResultLauncher.launch(intent)
                 }
             }
         }

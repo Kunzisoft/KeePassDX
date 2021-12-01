@@ -223,11 +223,14 @@ class GroupActivity : DatabaseLockActivity(),
                     mDatabase?.let { database ->
                         EntrySelectionHelper.doSpecialAction(intent,
                             {
-                                EntryEditActivity.launchToCreate(
-                                    this@GroupActivity,
-                                    database,
-                                    currentGroup.nodeId
-                                )
+                                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                                    EntryEditActivity.launchToCreate(
+                                        this@GroupActivity,
+                                        database,
+                                        currentGroup.nodeId,
+                                        resultLauncher
+                                    )
+                                }
                             },
                             {
                                 // Search not used
@@ -607,11 +610,14 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        EntryActivity.launch(
-                            this@GroupActivity,
-                            database,
-                            entryVersioned.nodeId
-                        )
+                        mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                            EntryActivity.launch(
+                                this@GroupActivity,
+                                database,
+                                entryVersioned.nodeId,
+                                resultLauncher
+                            )
+                        }
                     },
                     {
                         // Nothing here, a search is simply performed
@@ -808,11 +814,16 @@ class GroupActivity : DatabaseLockActivity(),
                         GroupEditDialogFragment.TAG_CREATE_GROUP
                     )
             }
-            Type.ENTRY -> EntryEditActivity.launchToUpdate(
-                this@GroupActivity,
-                database,
-                (node as Entry).nodeId
-            )
+            Type.ENTRY -> {
+                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                    EntryEditActivity.launchToUpdate(
+                        this@GroupActivity,
+                        database,
+                        (node as Entry).nodeId,
+                        resultLauncher
+                    )
+                }
+            }
         }
         reloadGroupIfSearch()
         return true

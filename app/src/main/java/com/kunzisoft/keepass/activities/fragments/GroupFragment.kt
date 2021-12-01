@@ -74,6 +74,19 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var mRecycleBinEnable: Boolean = false
     private var mRecycleBin: Group? = null
 
+    var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
+        entryId?.let {
+            // Simply refresh the list
+            rebuildList()
+            // Scroll to the new entry
+            mDatabase?.getEntryById(it)?.let { entry ->
+                mAdapter?.indexOf(entry)?.let { position ->
+                    mNodesRecyclerView?.scrollToPosition(position)
+                }
+            }
+        } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
+    }
+
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -395,27 +408,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 nodeActionPasteMode = PasteMode.UNDEFINED
                 nodeActionSelectionMode = false
                 onDestroyActionMode(mode)
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
-                if (resultCode == EntryEditActivity.ADD_OR_UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let {
-                        // Simply refresh the list
-                        rebuildList()
-                        // Scroll to the new entry
-                        mDatabase?.getEntryById(it)?.let { entry ->
-                            mAdapter?.indexOf(entry)?.let { position ->
-                                mNodesRecyclerView?.scrollToPosition(position)
-                            }
-                        }
-                    } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
-                }
             }
         }
     }
