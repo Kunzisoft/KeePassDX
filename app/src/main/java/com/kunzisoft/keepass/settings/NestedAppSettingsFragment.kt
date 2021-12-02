@@ -156,7 +156,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
                             intent.data = Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
                             Log.d(javaClass.name, "Autofill enable service: intent=$intent")
-                            startActivityForResult(intent, REQUEST_CODE_AUTOFILL)
+                            startActivity(intent)
                         } else {
                             Log.d(javaClass.name, "Autofill service already enabled.")
                         }
@@ -514,7 +514,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     }
 
     companion object {
-        private const val REQUEST_CODE_AUTOFILL = 5201
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
 
         var DATABASE_APPEARANCE_PREFERENCE_CHANGED = false
