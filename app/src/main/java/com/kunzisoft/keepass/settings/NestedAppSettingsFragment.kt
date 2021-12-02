@@ -474,6 +474,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         if (dialogFragment != null) {
+            @Suppress("DEPRECATION")
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
         }
