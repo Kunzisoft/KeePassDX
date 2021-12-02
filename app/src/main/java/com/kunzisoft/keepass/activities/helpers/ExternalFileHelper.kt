@@ -54,8 +54,7 @@ class ExternalFileHelper {
         this.fragment = context
     }
 
-    fun buildOpenDocument(typeString: String = "*/*",
-                          onFileSelected: ((uri: Uri?) -> Unit)?) {
+    fun buildOpenDocument(onFileSelected: ((uri: Uri?) -> Unit)?) {
 
         val resultCallback = ActivityResultCallback<Uri> { result ->
             result?.let { uri ->
