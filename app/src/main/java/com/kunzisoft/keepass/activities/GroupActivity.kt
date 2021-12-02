@@ -1081,6 +1081,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         /*
          * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
@@ -1094,13 +1095,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         super.startActivityForResult(intent, requestCode, options)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Directly used the onActivityResult in fragment
-        mGroupFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun removeSearch() {
