@@ -434,10 +434,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             R.drawable.ic_lock_database_white_32dp, getString(R.string.lock),
                             pendingDeleteIntent
                         )
-                        setStyle(
-                            NotificationCompat.MediaStyle()
-                            .setShowActionsInCompactView(0)
-                        )
+                        // Won't work with Xiaomi and Kitkat
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
+                            setStyle(
+                                NotificationCompat.MediaStyle()
+                                    .setShowActionsInCompactView(0)
+                            )
+                        }
                     }
                 }
             }

@@ -156,7 +156,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 FILE_VERSION_41 -> "4.1"
                 else -> "UNKNOWN"
             }
-            return "KeePass 2 - KDBX$kdbxStringVersion"
+            return "V2 - KDBX$kdbxStringVersion"
         }
 
     override val kdfEngine: KdfEngine?
