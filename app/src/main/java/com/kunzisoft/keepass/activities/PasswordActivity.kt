@@ -72,6 +72,7 @@ import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
 
@@ -90,7 +91,8 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     private lateinit var coordinatorLayout: CoordinatorLayout
     private var advancedUnlockFragment: AdvancedUnlockFragment? = null
 
-    private val databaseFileViewModel: DatabaseFileViewModel by viewModels()
+    private val mDatabaseFileViewModel: DatabaseFileViewModel by viewModels()
+    private val mAdvancedUnlockViewModel: AdvancedUnlockViewModel by viewModels()
 
     private var mDefaultDatabase: Boolean = false
     private var mDatabaseFileUri: Uri? = null
@@ -111,8 +113,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             }
             field = value
         }
-
-    private var mAllowAutoOpenBiometricPrompt: Boolean = true
 
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -182,9 +182,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
             mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
         }
-        if (savedInstanceState?.containsKey(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT) == true) {
-            mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
-        }
 
         // Init Biometric elements
         advancedUnlockFragment = supportFragmentManager
@@ -200,17 +197,17 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
         // Listen password checkbox to init advanced unlock and confirmation button
         checkboxPasswordView?.setOnCheckedChangeListener { _, _ ->
-            advancedUnlockFragment?.checkUnlockAvailability()
+            mAdvancedUnlockViewModel.checkUnlockAvailability()
             enableOrNotTheConfirmationButton()
         }
 
         // Observe if default database
-        databaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
+        mDatabaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
             mDefaultDatabase = isDefaultDatabase
         }
 
         // Observe database file change
-        databaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
+        mDatabaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
             // Force read only if the file does not exists
             mForceReadOnly = databaseFile?.let {
                 !it.databaseFileExists
@@ -244,12 +241,12 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         }
 
         // Don't allow auto open prompt if lock become when UI visible
-        mAllowAutoOpenBiometricPrompt = if (DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
-            false
-        else
-            mAllowAutoOpenBiometricPrompt
+        if (DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true) {
+            mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
+        }
+
         mDatabaseFileUri?.let { databaseFileUri ->
-            databaseFileViewModel.loadDatabaseFile(databaseFileUri)
+            mDatabaseFileViewModel.loadDatabaseFile(databaseFileUri)
         }
 
         checkPermission()
@@ -275,7 +272,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         when (actionTask) {
             ACTION_DATABASE_LOAD_TASK -> {
                 // Recheck advanced unlock if error
-                advancedUnlockFragment?.initAdvancedUnlockMode()
+                mAdvancedUnlockViewModel.initAdvancedUnlockMode()
 
                 if (result.isSuccess) {
                     launchGroupActivityIfLoaded(database)
@@ -323,7 +320,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
                             is FileNotFoundDatabaseException -> {
                                 // Remove this default database inaccessible
                                 if (mDefaultDatabase) {
-                                    databaseFileViewModel.removeDefaultDatabase()
+                                    mDatabaseFileViewModel.removeDefaultDatabase()
                                 }
                             }
                         }
@@ -356,7 +353,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             mDatabaseKeyFileUri = intent?.getParcelableExtra(KEY_KEYFILE)
         }
         mDatabaseFileUri?.let {
-            databaseFileViewModel.checkIfIsDefaultDatabase(it)
+            mDatabaseFileViewModel.checkIfIsDefaultDatabase(it)
         }
     }
 
@@ -448,8 +445,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             verifyCheckboxesAndLoadDatabase(password, keyFileUri)
         } else {
             // Init Biometric elements
-            advancedUnlockFragment?.loadDatabase(databaseFileUri,
-                    mAllowAutoOpenBiometricPrompt)
+            mAdvancedUnlockViewModel.databaseFileLoaded(databaseFileUri)
         }
 
         enableOrNotTheConfirmationButton()
@@ -509,7 +505,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     override fun onPause() {
         // Reinit locking activity UI variable
         DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
-        mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
     }
@@ -520,7 +515,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             outState.putString(KEY_KEYFILE, it.toString())
         }
         outState.putBoolean(KEY_READ_ONLY, mReadOnly)
-        outState.putBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT, false)
         super.onSaveInstanceState(outState)
     }
 
@@ -722,18 +716,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(
-            requestCode: Int,
-            resultCode: Int,
-            data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        mAllowAutoOpenBiometricPrompt = false
-
-        // To get device credential unlock result
-        advancedUnlockFragment?.onActivityResult(requestCode, resultCode, data)
-    }
-
     companion object {
 
         private val TAG = PasswordActivity::class.java.name
@@ -749,8 +731,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
         private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
         private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
-
-        private const val ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT = "ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT"
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {

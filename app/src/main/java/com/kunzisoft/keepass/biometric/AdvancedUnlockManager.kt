@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.biometric
 
-import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
@@ -30,6 +30,7 @@ import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.*
@@ -312,9 +313,9 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    @Suppress("DEPRECATION")
-    @Synchronized
-    fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
+    fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt,
+                                 deviceCredentialResultLauncher: ActivityResultLauncher<Intent>
+    ) {
         // Init advanced unlock prompt
         if (biometricPrompt == null) {
             biometricPrompt = BiometricPrompt(retrieveContext(),
@@ -345,20 +346,10 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
         else if (cryptoPrompt.isDeviceCredentialOperation) {
             val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
-            retrieveContext().startActivityForResult(
-                    keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription),
-                    REQUEST_DEVICE_CREDENTIAL)
-        }
-    }
-
-    @Synchronized
-    fun onActivityResult(requestCode: Int, resultCode: Int) {
-        if (requestCode == REQUEST_DEVICE_CREDENTIAL) {
-            if (resultCode == Activity.RESULT_OK) {
-                advancedUnlockCallback?.onAuthenticationSucceeded()
-            } else {
-                advancedUnlockCallback?.onAuthenticationFailed()
-            }
+            @Suppress("DEPRECATION")
+            deviceCredentialResultLauncher.launch(
+                keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription)
+            )
         }
     }
 
@@ -389,8 +380,6 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         private const val ADVANCED_UNLOCK_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
         private const val ADVANCED_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
         private const val ADVANCED_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
-
-        private const val REQUEST_DEVICE_CREDENTIAL = 556
 
         @RequiresApi(api = Build.VERSION_CODES.M)
         fun canAuthenticate(context: Context): Int {
