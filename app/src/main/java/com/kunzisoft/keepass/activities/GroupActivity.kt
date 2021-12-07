@@ -33,8 +33,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -110,6 +112,16 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
     private var mOnSuggestionListener: SearchView.OnSuggestionListener? = null
+
+    private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
+        // To create tree dialog for icon
+        mGroupEditViewModel.selectIcon(icon)
+    }
+
+    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            AutofillHelper.buildActivityResultLauncher(this)
+        else null
 
     private var mIconColor: Int = 0
 
@@ -211,11 +223,14 @@ class GroupActivity : DatabaseLockActivity(),
                     mDatabase?.let { database ->
                         EntrySelectionHelper.doSpecialAction(intent,
                             {
-                                EntryEditActivity.launchToCreate(
-                                    this@GroupActivity,
-                                    database,
-                                    currentGroup.nodeId
-                                )
+                                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                                    EntryEditActivity.launchToCreate(
+                                        this@GroupActivity,
+                                        database,
+                                        currentGroup.nodeId,
+                                        resultLauncher
+                                    )
+                                }
                             },
                             {
                                 // Search not used
@@ -243,6 +258,7 @@ class GroupActivity : DatabaseLockActivity(),
                                     EntryEditActivity.launchForAutofillResult(
                                         this@GroupActivity,
                                         database,
+                                        mAutofillActivityResultLauncher,
                                         autofillComponent,
                                         currentGroup.nodeId,
                                         searchInfo
@@ -277,7 +293,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         mGroupEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@GroupActivity, iconImage)
+            IconPickerActivity.launch(this@GroupActivity, iconImage, mIconSelectionActivityResultLauncher)
         }
 
         mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
@@ -594,11 +610,14 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        EntryActivity.launch(
-                            this@GroupActivity,
-                            database,
-                            entryVersioned.nodeId
-                        )
+                        mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                            EntryActivity.launch(
+                                this@GroupActivity,
+                                database,
+                                entryVersioned.nodeId,
+                                resultLauncher
+                            )
+                        }
                     },
                     {
                         // Nothing here, a search is simply performed
@@ -795,11 +814,16 @@ class GroupActivity : DatabaseLockActivity(),
                         GroupEditDialogFragment.TAG_CREATE_GROUP
                     )
             }
-            Type.ENTRY -> EntryEditActivity.launchToUpdate(
-                this@GroupActivity,
-                database,
-                (node as Entry).nodeId
-            )
+            Type.ENTRY -> {
+                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                    EntryEditActivity.launchToUpdate(
+                        this@GroupActivity,
+                        database,
+                        (node as Entry).nodeId,
+                        resultLauncher
+                    )
+                }
+            }
         }
         reloadGroupIfSearch()
         return true
@@ -1057,6 +1081,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         /*
          * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
@@ -1070,22 +1095,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         super.startActivityForResult(intent, requestCode, options)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // To create tree dialog for icon
-        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            mGroupEditViewModel.selectIcon(icon)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
-
-        // Directly used the onActivityResult in fragment
-        mGroupFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun removeSearch() {
@@ -1292,8 +1301,9 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
                                     database: Database,
+                                    activityResultLaunch: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
                                     autoSearch: Boolean = false) {
@@ -1303,6 +1313,7 @@ class GroupActivity : DatabaseLockActivity(),
                     AutofillHelper.startActivityForAutofillResult(
                         activity,
                         intent,
+                        activityResultLaunch,
                         autofillComponent,
                         searchInfo
                     )
@@ -1335,11 +1346,12 @@ class GroupActivity : DatabaseLockActivity(),
          * 		Global Launch
          * -------------------------
          */
-        fun launch(activity: Activity,
+        fun launch(activity: AppCompatActivity,
                    database: Database,
                    onValidateSpecialMode: () -> Unit,
                    onCancelSpecialMode: () -> Unit,
-                   onLaunchActivitySpecialMode: () -> Unit) {
+                   onLaunchActivitySpecialMode: () -> Unit,
+                   autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
                         GroupActivity.launch(
@@ -1451,6 +1463,7 @@ class GroupActivity : DatabaseLockActivity(),
                                         // Here no search info found, disable auto search
                                         GroupActivity.launchForAutofillResult(activity,
                                             database,
+                                            autofillActivityResultLauncher,
                                             autofillComponent,
                                             searchInfo,
                                             false)

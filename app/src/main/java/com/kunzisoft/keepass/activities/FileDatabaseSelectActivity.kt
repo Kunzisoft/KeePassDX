@@ -31,8 +31,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -85,6 +87,11 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
+    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            AutofillHelper.buildActivityResultLauncher(this)
+        else null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -109,6 +116,22 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
         // Open database button
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            uri?.let {
+                launchPasswordActivityWithPath(uri)
+            }
+        }
+        mExternalFileHelper?.buildCreateDocument("application/x-keepass") { databaseFileCreatedUri ->
+            mDatabaseFileUri = databaseFileCreatedUri
+            if (mDatabaseFileUri != null) {
+                AssignMasterKeyDialogFragment.getInstance(true)
+                    .show(supportFragmentManager, "passwordDialog")
+            } else {
+                val error = getString(R.string.error_create_database)
+                Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
+                Log.e(TAG, error)
+            }
+        }
         openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
         openDatabaseButtonView?.setOpenDocumentClickListener(mExternalFileHelper)
 
@@ -256,8 +279,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
      * Create a new file by calling the content provider
      */
     private fun createNewFile() {
-        mExternalFileHelper?.createDocument( getString(R.string.database_file_name_default) +
-                getString(R.string.database_file_extension_default), "application/x-keepass")
+        mExternalFileHelper?.createDocument(
+            getString(R.string.database_file_name_default) +
+                getString(R.string.database_file_extension_default))
     }
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
@@ -274,7 +298,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     fileNoFoundAction(exception)
                 },
                 { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() })
+                { onLaunchActivitySpecialMode() },
+                mAutofillActivityResultLauncher)
     }
 
     private fun launchGroupActivityIfLoaded(database: Database) {
@@ -283,7 +308,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 database,
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() })
+                { onLaunchActivitySpecialMode() },
+                mAutofillActivityResultLauncher)
         }
     }
 
@@ -358,33 +384,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
-
-        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-            if (uri != null) {
-                launchPasswordActivityWithPath(uri)
-            }
-        }
-
-        // Retrieve the created URI from the file manager
-        mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { databaseFileCreatedUri ->
-            mDatabaseFileUri = databaseFileCreatedUri
-            if (mDatabaseFileUri != null) {
-                AssignMasterKeyDialogFragment.getInstance(true)
-                        .show(supportFragmentManager, "passwordDialog")
-            } else {
-                val error = getString(R.string.error_create_database)
-                Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
-                Log.e(TAG, error)
-            }
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
@@ -499,11 +498,13 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          */
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
+                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
+                    activityResultLauncher,
                     autofillComponent,
                     searchInfo)
         }

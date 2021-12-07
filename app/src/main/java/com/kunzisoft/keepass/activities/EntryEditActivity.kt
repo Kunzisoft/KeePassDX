@@ -33,12 +33,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -107,6 +112,10 @@ class EntryEditActivity : DatabaseLockActivity(),
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
 
+    private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
+        mEntryEditViewModel.selectIcon(icon)
+    }
+
     // To ask data lost only one time
     private var backPressedAlreadyApproved = false
 
@@ -155,6 +164,21 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // To retrieve attachment
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            uri?.let { attachmentToUploadUri ->
+                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                    documentFile.name?.let { fileName ->
+                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
+                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
+                                .show(supportFragmentManager, "fileTooBigFragment")
+                        } else {
+                            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
+                        }
+                    }
+                }
+            }
+        }
+
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -216,7 +240,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@EntryEditActivity, iconImage)
+            IconPickerActivity.launch(this@EntryEditActivity, iconImage, mIconSelectionActivityResultLauncher)
         }
 
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
@@ -479,29 +503,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        IconPickerActivity.onActivityResult(requestCode, resultCode, data) { icon ->
-            mEntryEditViewModel.selectIcon(icon)
-        }
-
-        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-            uri?.let { attachmentToUploadUri ->
-                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
-                    documentFile.name?.let { fileName ->
-                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
-                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
-                                    .show(supportFragmentManager, "fileTooBigFragment")
-                        } else {
-                            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * Set up OTP (HOTP or TOTP) and add it as extra field
      */
@@ -592,7 +593,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                         && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
                         attachmentView,
                         {
-                            mExternalFileHelper?.openDocument()
+                            addNewAttachment()
                         },
                         {
                             performedNextEducation(entryEditActivityEducation)
@@ -693,7 +694,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             val intentEntry = Intent()
             bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
             intentEntry.putExtras(bundle)
-            setResult(ADD_OR_UPDATE_ENTRY_RESULT_CODE, intentEntry)
+            setResult(Activity.RESULT_OK, intentEntry)
             super.finish()
         } catch (e: Exception) {
             // Exception when parcelable can't be done
@@ -708,23 +709,46 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Keys for current Activity
         const val KEY_ENTRY = "entry"
         const val KEY_PARENT = "parent"
-
-        // Keys for callback
-        const val ADD_OR_UPDATE_ENTRY_RESULT_CODE = 31
-        const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
+
+        fun registerForEntryResult(fragment: Fragment,
+                                   entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
+            return fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    entryAddedOrUpdatedListener.invoke(
+                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                    )
+                } else {
+                    entryAddedOrUpdatedListener.invoke(null)
+                }
+            }
+        }
+
+        fun registerForEntryResult(activity: FragmentActivity,
+                                   entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
+            return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    entryAddedOrUpdatedListener.invoke(
+                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                    )
+                } else {
+                    entryAddedOrUpdatedListener.invoke(null)
+                }
+            }
+        }
 
         /**
          * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
         fun launchToUpdate(activity: Activity,
                            database: Database,
-                           entryId: NodeId<UUID>) {
+                           entryId: NodeId<UUID>,
+                           activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryEditActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
-                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                    activityResultLauncher.launch(intent)
                 }
             }
         }
@@ -734,12 +758,13 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         fun launchToCreate(activity: Activity,
                            database: Database,
-                           groupId: NodeId<*>) {
+                           groupId: NodeId<*>,
+                           activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryEditActivity::class.java)
                     intent.putExtra(KEY_PARENT, groupId)
-                    activity.startActivityForResult(intent, ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
+                    activityResultLauncher.launch(intent)
                 }
             }
         }
@@ -802,8 +827,9 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in autofill selection
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity,
+        fun launchForAutofillResult(activity: AppCompatActivity,
                                     database: Database,
+                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     groupId: NodeId<*>,
                                     searchInfo: SearchInfo? = null) {
@@ -814,6 +840,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                     AutofillHelper.startActivityForAutofillResult(
                         activity,
                         intent,
+                        activityResultLauncher,
                         autofillComponent,
                         searchInfo
                     )

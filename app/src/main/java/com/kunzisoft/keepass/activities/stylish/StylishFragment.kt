@@ -23,12 +23,12 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.StyleRes
-import androidx.fragment.app.Fragment
-import androidx.appcompat.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StyleRes
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.fragment.app.Fragment
 
 abstract class StylishFragment : Fragment() {
 
@@ -42,7 +42,6 @@ abstract class StylishFragment : Fragment() {
         contextThemed = ContextThemeWrapper(context, themeId)
     }
 
-    @Suppress("DEPRECATION")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // To fix status bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -58,6 +57,7 @@ abstract class StylishFragment : Fragment() {
                 try {
                     val taWindowStatusLight = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowLightStatusBar))
                     if (taWindowStatusLight?.getBoolean(0, false) == true) {
+                        @Suppress("DEPRECATION")
                         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                     }
                     taWindowStatusLight?.recycle()

@@ -29,6 +29,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
