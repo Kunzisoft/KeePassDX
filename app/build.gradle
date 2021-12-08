@@ -106,7 +106,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$android_appcompat_version"
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.1.0'
