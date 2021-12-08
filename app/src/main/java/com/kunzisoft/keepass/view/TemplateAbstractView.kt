@@ -86,7 +86,8 @@ abstract class TemplateAbstractView<
         if (mTemplate != template) {
             mTemplate = template
             if (mEntryInfo != null) {
-                populateEntryInfoWithViews(true)
+                populateEntryInfoWithViews(templateFieldNotEmpty = true,
+                                           retrieveDefaultValues = false)
             }
             buildTemplateAndPopulateInfo()
             clearFocus()
@@ -203,9 +204,7 @@ abstract class TemplateAbstractView<
                 setNumberLines(20)
             },
             TemplateAttributeAction.CUSTOM_EDITION
-        ).apply {
-                default = field.protectedValue.stringValue
-        }
+        )
         return buildViewForTemplateField(customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
 
@@ -390,7 +389,8 @@ abstract class TemplateAbstractView<
         return emptyList()
     }
 
-    protected open fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
+    protected open fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
+                                                  retrieveDefaultValues: Boolean) {
         if (mEntryInfo == null)
             mEntryInfo = EntryInfo()
 
@@ -429,11 +429,12 @@ abstract class TemplateAbstractView<
             mEntryInfo?.notes = it
         }
 
-        retrieveCustomFieldsFromView(templateFieldNotEmpty)
+        retrieveCustomFieldsFromView(templateFieldNotEmpty, retrieveDefaultValues)
     }
 
     fun getEntryInfo(): EntryInfo {
-        populateEntryInfoWithViews(true)
+        populateEntryInfoWithViews(templateFieldNotEmpty = true,
+                                   retrieveDefaultValues = true)
         return mEntryInfo ?: EntryInfo()
     }
 
@@ -479,23 +480,31 @@ abstract class TemplateAbstractView<
         return mViewFields.indexOfFirst { it.field.name.equals(name, true) }
     }
 
-    private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false) {
+    private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false,
+                                             retrieveDefaultValues: Boolean = false) {
         mEntryInfo?.customFields = mViewFields.mapNotNull {
-            getCustomField(it.field.name, templateFieldNotEmpty)
+            getCustomField(it.field.name, templateFieldNotEmpty, retrieveDefaultValues)
         }.toMutableList()
     }
 
     protected fun getCustomField(fieldName: String): Field {
-        return getCustomField(fieldName, false)
-            ?: Field(fieldName, ProtectedString(false))
+        return getCustomField(fieldName,
+            templateFieldNotEmpty = false,
+            retrieveDefaultValues = false
+        ) ?: Field(fieldName, ProtectedString(false))
     }
 
-    private fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
+    private fun getCustomField(fieldName: String,
+                               templateFieldNotEmpty: Boolean,
+                               retrieveDefaultValues: Boolean): Field? {
         getViewFieldByName(fieldName)?.let { fieldId ->
-            val editView: View? = fieldId.view
+            val editView: View = fieldId.view
             if (editView is GenericFieldView) {
                 // Do not return field with a default value
-                val defaultViewValue = if (editView.value == editView.default) "" else editView.value
+                val defaultViewValue =
+                    if (retrieveDefaultValues || editView.value != editView.default) {
+                        editView.value
+                    } else ""
                 if (!templateFieldNotEmpty
                     || (editView.tag == FIELD_CUSTOM_TAG && defaultViewValue.isNotEmpty())) {
                     return Field(
@@ -641,7 +650,8 @@ abstract class TemplateAbstractView<
     override fun onSaveInstanceState(): Parcelable {
         val superSave = super.onSaveInstanceState()
         val saveState = SavedState(superSave)
-        populateEntryInfoWithViews(false)
+        populateEntryInfoWithViews(templateFieldNotEmpty = false,
+                                   retrieveDefaultValues = false)
         saveState.template = this.mTemplate
         saveState.entryInfo = this.mEntryInfo
         onSaveEntryInstanceState(saveState)

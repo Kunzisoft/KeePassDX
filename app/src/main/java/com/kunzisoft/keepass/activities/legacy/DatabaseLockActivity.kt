@@ -100,7 +100,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
 
         mDatabaseViewModel.saveDefaultUsername.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
+            mDatabaseTaskProvider?.startDatabaseSaveDefaultUsername(it.oldValue, it.newValue, it.save)
         }
 
         mDatabaseViewModel.saveColor.observe(this) {
@@ -180,8 +180,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                         closeDatabase(database)
                         if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
                             LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
-                        // Add onActivityForResult response
-                        setResult(RESULT_EXIT_LOCK)
+                        mExitLock = true
                         closeOptionsMenu()
                         finish()
                     }
@@ -353,14 +352,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_EXIT_LOCK) {
-            mExitLock = true
-            lockAndExit()
-        }
-    }
-
     private fun checkRegister() {
         // If in ave or registration mode, don't allow read only
         if ((mSpecialMode == SpecialMode.SAVE
@@ -439,8 +430,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     companion object {
 
         const val TAG = "LockingActivity"
-
-        const val RESULT_EXIT_LOCK = 1450
 
         const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
         const val TIMEOUT_ENABLE_KEY_DEFAULT = true

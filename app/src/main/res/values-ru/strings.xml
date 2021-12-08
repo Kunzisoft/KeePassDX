@@ -199,7 +199,7 @@
     <string name="clipboard_warning">Если автоматическая очистка буфера обмена недоступна, очистите историю буфера обмена вручную.</string>
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
-    <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
+    <string name="lock_database_screen_off_summary">Блокировать базу через несколько секунд после отключения экрана</string>
     <string name="advanced_unlock">Расширенная разблокировка</string>
     <string name="biometric_unlock_enable_title">Биометрическая разблокировка</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
@@ -480,7 +480,7 @@
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
-    <string name="show_uuid_summary">Показывать UUID, связанный с записью</string>
+    <string name="show_uuid_summary">Показывать UUID, связанный с записью или группой</string>
     <string name="show_uuid_title">Показывать UUID</string>
     <string name="autofill_read_only_save">Сохранение данных невозможно для базы, открытой только для чтения.</string>
     <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после проверки формы</string>
@@ -587,7 +587,7 @@
     <string name="cryptocurrency">Криптовалютный кошелёк</string>
     <string name="type">Тип</string>
     <string name="ssid">SSID</string>
-    <string name="wireless">WiFi</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="email_address">Адрес эл. почты</string>
     <string name="name">Имя</string>
     <string name="personal_identification_number">PIN-код</string>
@@ -596,4 +596,10 @@
     <string name="holder">Владелец</string>
     <string name="debit_credit_card">Банковская карта</string>
     <string name="template_group_name">Шаблоны</string>
+    <string name="show_otp_token_title">Показывать токен OTP</string>
+    <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
+    <string name="menu_external_icon">Внешний значок</string>
+    <string name="autofill_select_entry">Выбор записи…</string>
+    <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запить из базы</string>
+    <string name="autofill_manual_selection_title">Ручной выбор</string>
 </resources>

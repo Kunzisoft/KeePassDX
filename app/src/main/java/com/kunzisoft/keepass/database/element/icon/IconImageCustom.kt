@@ -32,6 +32,16 @@ class IconImageCustom : IconImageDraw {
     var name: String = ""
     var lastModificationTime: DateInstant? = null
 
+    fun updateWith(icon: IconImageCustom) {
+        this.name = icon.name
+        this.lastModificationTime = icon.lastModificationTime
+    }
+
+    constructor(copy: IconImageCustom) {
+        this.uuid = copy.uuid
+        updateWith(copy)
+    }
+
     constructor(name: String = "", lastModificationTime: DateInstant? = null) {
         this.uuid = DatabaseVersioned.UUID_ZERO
         this.name = name

@@ -124,25 +124,29 @@ abstract class DatabaseVersioned<
 
     @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
-        val keyData = keyInputStream.readBytes()
+        try {
+            val keyData = keyInputStream.readBytes()
 
-        // Check XML key file
-        val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
-        if (xmlKeyByteArray != null) {
-            return xmlKeyByteArray
-        }
-
-        // Check 32 bytes key file
-        when (keyData.size) {
-            32 -> return keyData
-            64 -> try {
-                return Hex.decodeHex(String(keyData).toCharArray())
-            } catch (ignoredException: Exception) {
-                // Key is not base 64, treat it as binary data
+            // Check XML key file
+            val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
+            if (xmlKeyByteArray != null) {
+                return xmlKeyByteArray
             }
+
+            // Check 32 bytes key file
+            when (keyData.size) {
+                32 -> return keyData
+                64 -> try {
+                    return Hex.decodeHex(String(keyData).toCharArray())
+                } catch (ignoredException: Exception) {
+                    // Key is not base 64, treat it as binary data
+                }
+            }
+            // Hash file as binary data
+            return HashManager.hashSha256(keyData)
+        } catch (outOfMemoryError: OutOfMemoryError) {
+            throw IOException("Keyfile data is too large", outOfMemoryError)
         }
-        // Hash file as binary data
-        return HashManager.hashSha256(keyData)
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

@@ -39,7 +39,11 @@ object Stylish {
      */
     fun load(context: Context) {
         Log.d(Stylish::class.java.name, "Attatching to " + context.packageName)
-        themeString = PreferencesUtil.getStyle(context)
+        try {
+            themeString = PreferencesUtil.getStyle(context)
+        } catch (e: Exception) {
+            Log.e("Stylish", "Unable to get preference style", e)
+        }
     }
 
     fun retrieveEquivalentSystemStyle(context: Context, styleString: String): String {

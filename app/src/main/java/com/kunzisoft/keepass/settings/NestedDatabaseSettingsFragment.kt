@@ -57,7 +57,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
     private var dbNamePref: InputTextPreference? = null
     private var dbDescriptionPref: InputTextPreference? = null
-    private var dbDefaultUsername: InputTextPreference? = null
+    private var dbDefaultUsernamePref: InputTextPreference? = null
     private var dbCustomColorPref: DialogColorPreference? = null
     private var dbDataCompressionPref: Preference? = null
     private var recycleBinGroupPref: DialogListExplanationPreference? = null
@@ -164,11 +164,11 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
 
         // Database default username
-        dbDefaultUsername = findPreference(getString(R.string.database_default_username_key))
+        dbDefaultUsernamePref = findPreference(getString(R.string.database_default_username_key))
         if (database.allowDefaultUsername) {
-            dbDefaultUsername?.summary = database.defaultUsername
+            dbDefaultUsernamePref?.summary = database.defaultUsername
         } else {
-            dbDefaultUsername?.isEnabled = false
+            dbDefaultUsernamePref?.isEnabled = false
             // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
         }
 
@@ -416,7 +416,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                     mDatabase?.defaultUsername = oldDefaultUsername
                                     oldDefaultUsername
                                 }
-                        dbDefaultUsername?.summary = defaultUsernameToShow
+                        dbDefaultUsernamePref?.summary = defaultUsernameToShow
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COLOR_TASK -> {
                         val oldColor = data.getString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)!!
@@ -632,6 +632,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
 
         if (dialogFragment != null && !mDatabaseReadOnly) {
+            @Suppress("DEPRECATION")
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
         }

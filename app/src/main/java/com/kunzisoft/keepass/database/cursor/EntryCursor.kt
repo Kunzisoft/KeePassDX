@@ -68,7 +68,7 @@ abstract class EntryCursor<EntryId, PwEntryV : EntryVersioned<*, EntryId, *, *>>
         pwEntry.notes = getString(getColumnIndex(COLUMN_INDEX_NOTES))
         pwEntry.expiryTime = DateInstant(getString(getColumnIndex(COLUMN_INDEX_EXPIRY_TIME)))
         pwEntry.expires = getString(getColumnIndex(COLUMN_INDEX_EXPIRES))
-                                        .toLowerCase(Locale.ENGLISH) != "false"
+                                        .lowercase(Locale.ENGLISH) != "false"
     }
 
     companion object {

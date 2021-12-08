@@ -24,6 +24,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.*
 import android.util.Log
+import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -407,11 +408,21 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         this,
                         0,
                         Intent(this, GroupActivity::class.java),
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                        } else {
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        }
                     )
                     val pendingDeleteIntent = PendingIntent.getBroadcast(
                         this,
-                        4576, Intent(LOCK_ACTION), 0
+                        4576,
+                        Intent(LOCK_ACTION),
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            PendingIntent.FLAG_IMMUTABLE
+                        } else {
+                            0
+                        }
                     )
                     // Add actions in notifications
                     notificationBuilder.apply {
@@ -420,9 +431,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         // Unfortunately swipe is disabled in lollipop+
                         setDeleteIntent(pendingDeleteIntent)
                         addAction(
-                            R.drawable.ic_lock_white_24dp, getString(R.string.lock),
+                            R.drawable.ic_lock_database_white_32dp, getString(R.string.lock),
                             pendingDeleteIntent
                         )
+                        // Won't work with Xiaomi and Kitkat
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
+                            setStyle(
+                                NotificationCompat.MediaStyle()
+                                    .setShowActionsInCompactView(0)
+                            )
+                        }
                     }
                 }
             }

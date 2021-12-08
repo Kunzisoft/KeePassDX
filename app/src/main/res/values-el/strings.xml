@@ -182,7 +182,7 @@
     <string name="clipboard_notifications_summary">Εμφάνιση ειδοποιήσεων πρόχειρου για αντιγραφή πεδίων κατά την προβολή μιας καταχώρησης</string>
     <string name="lock">Κλείδωμα</string>
     <string name="lock_database_screen_off_title">Κλείδωμα Οθόνης</string>
-    <string name="lock_database_screen_off_summary">Κλείδωμα της βάσης δεδομένων όταν η οθόνη είναι απενεργοποιημένη</string>
+    <string name="lock_database_screen_off_summary">Κλείδωμα της βάση δεδομένων μετά από μερικά δευτερόλεπτα μόλις η οθόνη είναι απενεργοποιηθεί</string>
     <string name="unavailable_feature_text">Δεν ήταν δυνατή η εκκίνηση αυτής της λειτουργίας.</string>
     <string name="unavailable_feature_version">Η συσκευή τρέχει Android %1$s, αλλά χρειάζεται %2$s ή μεταγενέστερη έκδοση.</string>
     <string name="unavailable_feature_hardware">Δεν ήταν δυνατή η εύρεση του αντίστοιχου υλικού.</string>
@@ -473,7 +473,7 @@
     <string name="error_string_type">Αυτό το κείμενο δεν ταιριάζει με το ζητούμενο στοιχείο.</string>
     <string name="content_description_credentials_information">Πληροφορίες Διαπιστευτηρίων</string>
     <string name="content_description_add_item">Προσθήκη είδους</string>
-    <string name="show_uuid_summary">Εμφανίζει το UUID που είναι συνδεδεμένο σε μια καταχώριση</string>
+    <string name="show_uuid_summary">Εμφανίζει το UUID που είναι συνδεδεμένο σε μια καταχώρηση ή σε μια ομάδα</string>
     <string name="show_uuid_title">Εμφάνιση UUID</string>
     <string name="autofill_read_only_save">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
     <string name="autofill_ask_to_save_data_summary">Ζητήστε να αποθηκεύσετε δεδομένα όταν επικυρώνεται μια φόρμα</string>
@@ -583,7 +583,7 @@
     <string name="cryptocurrency">Πορτοφόλι κρυπτονομισμάτων</string>
     <string name="type">Τύπος</string>
     <string name="ssid">SSID</string>
-    <string name="wireless">Wifi</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="email_address">Διεύθυνση ηλεκτρονικού ταχυδρομείου</string>
     <string name="email">Email</string>
     <string name="date_of_issue">Ημερομηνία έκδοσης</string>
@@ -596,4 +596,10 @@
     <string name="holder">Κάτοχος</string>
     <string name="debit_credit_card">Χρεωστική / Πιστωτική Κάρτα</string>
     <string name="template_group_name">Πρότυπα</string>
+    <string name="show_otp_token_summary">Εμφανίζει OTP tokens στη λίστα καταχωρήσεων</string>
+    <string name="show_otp_token_title">Εμφάνιση OTP Token</string>
+    <string name="menu_external_icon">Εξωτερικό εικονίδιο</string>
+    <string name="autofill_manual_selection_summary">Εμφάνισης επιλογής για να επιτρέψει στον χρήστη να επιλέξει την καταχώρηση βάσης δεδομένων</string>
+    <string name="autofill_manual_selection_title">Χειροκίνητη επιλογή</string>
+    <string name="autofill_select_entry">Επιλογή καταχώρησης…</string>
 </resources>

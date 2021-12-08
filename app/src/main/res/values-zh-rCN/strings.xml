@@ -222,7 +222,7 @@
     <string name="clipboard_notifications_summary">显示剪贴板通知，以便在查看条目时复制字段</string>
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
-    <string name="lock_database_screen_off_summary">锁屏时锁定数据库</string>
+    <string name="lock_database_screen_off_summary">屏幕关闭几秒钟后锁定数据库</string>
     <string name="biometric_unlock_enable_title">生物识别解锁</string>
     <string name="biometric_unlock_enable_summary">通过生物识别解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
@@ -473,7 +473,7 @@
     <string name="data">数据</string>
     <string name="database_data_remove_unlinked_attachments_title">删除未链接的数据</string>
     <string name="database_data_remove_unlinked_attachments_summary">删除包含于数据库中但未连接到一个条目的附件</string>
-    <string name="show_uuid_summary">显示与一个条目相链接的UUID</string>
+    <string name="show_uuid_summary">显示与一个条目或群组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
     <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
     <string name="autofill_ask_to_save_data_summary">表单经过验证时，询问是否保存数据</string>
@@ -583,7 +583,7 @@
     <string name="cryptocurrency">加密货币钱包</string>
     <string name="type">类型</string>
     <string name="ssid">SSID</string>
-    <string name="wireless">Wifi</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="email_address">电子邮件地址</string>
     <string name="email">电子邮件</string>
     <string name="date_of_issue">发行日期</string>
@@ -596,4 +596,10 @@
     <string name="holder">持卡人</string>
     <string name="debit_credit_card">借记卡/信用卡</string>
     <string name="template_group_name">模板</string>
+    <string name="show_otp_token_summary">在条目列表中显示 OTP 令牌</string>
+    <string name="show_otp_token_title">显示 OTP 令牌</string>
+    <string name="menu_external_icon">外部图标</string>
+    <string name="autofill_manual_selection_summary">显示让用户选择数据库条目的选项</string>
+    <string name="autofill_manual_selection_title">手动选择</string>
+    <string name="autofill_select_entry">选择条目…</string>
 </resources>

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.services
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.preference.PreferenceManager
@@ -93,7 +94,13 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         val deleteIntent = Intent(this, KeyboardEntryNotificationService::class.java).apply {
             action = ACTION_CLEAN_KEYBOARD_ENTRY
         }
-        pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
 
         val builder = buildNewNotification()
                 .setSmallIcon(R.drawable.notification_ic_keyboard_key_24dp)

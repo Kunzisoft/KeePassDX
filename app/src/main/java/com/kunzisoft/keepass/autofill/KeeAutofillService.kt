@@ -262,9 +262,13 @@ class KeeAutofillService : AutofillService() {
                                 inlinePresentation = InlinePresentation(
                                         InlineSuggestionUi.newContentBuilder(
                                                 PendingIntent.getActivity(this,
-                                                        0,
-                                                        Intent(this, AutofillSettingsActivity::class.java),
-                                                        0)
+                                                    0,
+                                                    Intent(this, AutofillSettingsActivity::class.java),
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                        PendingIntent.FLAG_IMMUTABLE
+                                                    } else {
+                                                        0
+                                                    })
                                         ).apply {
                                             setContentDescription(getString(R.string.autofill_sign_in_prompt))
                                             setTitle(getString(R.string.autofill_sign_in_prompt))

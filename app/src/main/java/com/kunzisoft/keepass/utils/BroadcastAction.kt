@@ -60,11 +60,16 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
                     Intent.ACTION_SCREEN_OFF -> {
                         if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(context)) {
                             mLockPendingIntent = PendingIntent.getBroadcast(context,
-                                    4575,
-                                    Intent(intent).apply {
-                                        action = LOCK_ACTION
-                                    },
-                                    0)
+                                4575,
+                                Intent(intent).apply {
+                                    action = LOCK_ACTION
+                                },
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    PendingIntent.FLAG_IMMUTABLE
+                                } else {
+                                    0
+                                }
+                            )
                             // Launch the effective action after a small time
                             val first: Long = System.currentTimeMillis() + context.getString(R.string.timeout_screen_off).toLong()
                             val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager?

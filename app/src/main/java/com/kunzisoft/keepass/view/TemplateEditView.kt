@@ -64,6 +64,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             TextEditFieldView(it).apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
                 setProtection(field.protectedValue.isProtected)
+                default = templateAttribute.default
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
@@ -79,7 +80,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
-                default = field.protectedValue.stringValue
+                default = templateAttribute.default
                 setActionClick(templateAttribute, field, this)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
@@ -198,8 +199,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
-        super.populateEntryInfoWithViews(templateFieldNotEmpty)
+    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
+                                            retrieveDefaultValues: Boolean) {
+        super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel

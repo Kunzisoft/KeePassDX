@@ -24,6 +24,7 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import com.kunzisoft.keepass.R
@@ -188,20 +189,30 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private fun newNotification(attachmentNotification: AttachmentNotification) {
 
         val pendingContentIntent = PendingIntent.getActivity(this,
-                0,
-                Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    setDataAndType(attachmentNotification.uri,
-                            contentResolver.getType(attachmentNotification.uri))
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }, PendingIntent.FLAG_CANCEL_CURRENT)
+            0,
+            Intent().apply {
+                action = Intent.ACTION_VIEW
+                setDataAndType(attachmentNotification.uri,
+                        contentResolver.getType(attachmentNotification.uri))
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            } else {
+                PendingIntent.FLAG_CANCEL_CURRENT
+            }
+        )
 
         val pendingDeleteIntent =  PendingIntent.getService(this,
                 0,
                 Intent(this, AttachmentFileNotificationService::class.java).apply {
                     // No action to delete the service
                     putExtra(FILE_URI_KEY, attachmentNotification.uri)
-                }, PendingIntent.FLAG_CANCEL_CURRENT)
+                }, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            } else {
+                PendingIntent.FLAG_CANCEL_CURRENT
+            }
+        )
 
         val fileName = UriUtil.getFileData(this, attachmentNotification.uri)?.name
                 ?: attachmentNotification.uri.path

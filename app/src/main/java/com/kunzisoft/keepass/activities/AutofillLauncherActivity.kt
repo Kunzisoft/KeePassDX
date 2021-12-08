@@ -23,10 +23,10 @@ import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.os.Build
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -40,10 +40,14 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
+
+    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            AutofillHelper.buildActivityResultLauncher(this, true)
+        else null
 
     override fun applyCustomStyle(): Boolean {
         return false
@@ -119,6 +123,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
                             openedDatabase,
+                            mAutofillActivityResultLauncher,
                             autofillComponent,
                             searchInfo,
                             false)
@@ -126,6 +131,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     {
                         // If database not open
                         FileDatabaseSelectActivity.launchForAutofillResult(this,
+                                mAutofillActivityResultLauncher,
                                 autofillComponent,
                                 searchInfo)
                     }
@@ -186,17 +192,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         Toast.makeText(this.applicationContext, R.string.autofill_read_only_save, Toast.LENGTH_LONG).show()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-
-        if (PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
-            // Close the database
-            sendBroadcast(Intent(LOCK_ACTION))
-        }
-
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     companion object {
 
         private const val KEY_MANUAL_SELECTION = "KEY_MANUAL_SELECTION"
@@ -210,31 +205,41 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                                          searchInfo: SearchInfo? = null,
                                          inlineSuggestionsRequest: InlineSuggestionsRequest? = null): PendingIntent {
             return PendingIntent.getActivity(context, 0,
-                    // Doesn't work with Parcelable (don't know why?)
-                    Intent(context, AutofillLauncherActivity::class.java).apply {
-                        searchInfo?.let {
-                            putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
-                            putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
-                            putExtra(KEY_SEARCH_SCHEME, it.webScheme)
-                            putExtra(KEY_MANUAL_SELECTION, it.manualSelection)
+                // Doesn't work with Parcelable (don't know why?)
+                Intent(context, AutofillLauncherActivity::class.java).apply {
+                    searchInfo?.let {
+                        putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
+                        putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
+                        putExtra(KEY_SEARCH_SCHEME, it.webScheme)
+                        putExtra(KEY_MANUAL_SELECTION, it.manualSelection)
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        inlineSuggestionsRequest?.let {
+                            putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
                         }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            inlineSuggestionsRequest?.let {
-                                putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
-                            }
-                        }
-                    },
-                    PendingIntent.FLAG_CANCEL_CURRENT)
+                    }
+                },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // TODO Mutable
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                } else {
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                })
         }
 
         fun getPendingIntentForRegistration(context: Context,
                                             registerInfo: RegisterInfo): PendingIntent {
             return PendingIntent.getActivity(context, 0,
-                    Intent(context, AutofillLauncherActivity::class.java).apply {
-                        EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
-                        putExtra(KEY_REGISTER_INFO, registerInfo)
-                    },
-                    PendingIntent.FLAG_CANCEL_CURRENT)
+                Intent(context, AutofillLauncherActivity::class.java).apply {
+                    EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
+                    putExtra(KEY_REGISTER_INFO, registerInfo)
+                },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // TODO Mutable
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                } else {
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                })
         }
 
         fun launchForRegistration(context: Context,

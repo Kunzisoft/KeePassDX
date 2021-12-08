@@ -43,9 +43,14 @@ object TimeoutHelper {
 
     private fun getLockPendingIntent(context: Context): PendingIntent {
         return PendingIntent.getBroadcast(context.applicationContext,
-                REQUEST_ID,
-                Intent(LOCK_ACTION),
-                PendingIntent.FLAG_CANCEL_CURRENT)
+            REQUEST_ID,
+            Intent(LOCK_ACTION),
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            } else {
+                PendingIntent.FLAG_CANCEL_CURRENT
+            }
+        )
     }
 
     /**

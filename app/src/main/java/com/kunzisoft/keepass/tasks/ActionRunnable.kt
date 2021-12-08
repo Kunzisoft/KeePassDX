@@ -31,9 +31,13 @@ abstract class ActionRunnable: Runnable {
     var result: Result = Result()
 
     override fun run() {
-        onStartRun()
-        onActionRun()
-        onFinishRun()
+        try {
+            onStartRun()
+            onActionRun()
+            onFinishRun()
+        } catch (runException: Exception) {
+            setError(runException)
+        }
     }
 
     abstract fun onStartRun()

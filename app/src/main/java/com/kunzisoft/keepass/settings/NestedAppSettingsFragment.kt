@@ -40,7 +40,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.stylish.Stylish
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
@@ -157,7 +156,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
                             intent.data = Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
                             Log.d(javaClass.name, "Autofill enable service: intent=$intent")
-                            startActivityForResult(intent, REQUEST_CODE_AUTOFILL)
+                            startActivity(intent)
                         } else {
                             Log.d(javaClass.name, "Autofill service already enabled.")
                         }
@@ -366,26 +365,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 ) { _, _ ->
                     validate?.invoke()
                     deleteKeysAlertDialog?.setOnDismissListener(null)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        AdvancedUnlockManager.deleteEntryKeyInKeystoreForBiometric(
-                                activity,
-                                object : AdvancedUnlockManager.AdvancedUnlockErrorCallback {
-                                    fun showException(e: Exception) {
-                                        Toast.makeText(context,
-                                                getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
-                                                Toast.LENGTH_SHORT).show()
-                                    }
-
-                                    override fun onInvalidKeyException(e: Exception) {
-                                        showException(e)
-                                    }
-
-                                    override fun onGenericException(e: Exception) {
-                                        showException(e)
-                                    }
-                                })
-                    }
-                    CipherDatabaseAction.getInstance(activity.applicationContext).deleteAll()
+                    AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
                 }
                 .setNegativeButton(resources.getString(android.R.string.cancel)
                 ) { _, _ ->}
@@ -494,6 +474,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         if (dialogFragment != null) {
+            @Suppress("DEPRECATION")
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
         }
@@ -533,7 +514,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     }
 
     companion object {
-        private const val REQUEST_CODE_AUTOFILL = 5201
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
 
         var DATABASE_APPEARANCE_PREFERENCE_CHANGED = false

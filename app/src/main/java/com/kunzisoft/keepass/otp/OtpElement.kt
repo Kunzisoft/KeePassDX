@@ -234,7 +234,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
         fun replaceBase32Chars(parameter: String): String {
             // Add padding '=' at end if not Base32 length
-            var parameterNewSize = parameter.toUpperCase(Locale.ENGLISH).removeSpaceChars()
+            var parameterNewSize = parameter.uppercase(Locale.ENGLISH).removeSpaceChars()
             while (parameterNewSize.length % 8 != 0) {
                 parameterNewSize += '='
             }
@@ -264,7 +264,7 @@ enum class OtpTokenType {
 
     companion object {
         fun getFromString(tokenType: String): OtpTokenType {
-            return when (tokenType.toLowerCase(Locale.ENGLISH)) {
+            return when (tokenType.lowercase(Locale.ENGLISH)) {
                 "s", "steam" -> STEAM
                 "hotp" -> RFC4226
                 else -> RFC6238

@@ -27,7 +27,7 @@ object TemplateField {
     const val LABEL_DATE_OF_ISSUE = "Date of issue"
     const val LABEL_EMAIL = "Email"
     const val LABEL_EMAIL_ADDRESS = "Email address"
-    const val LABEL_WIRELESS = "Wifi"
+    const val LABEL_WIRELESS = "Wi-Fi"
     const val LABEL_SSID = "SSID"
     const val LABEL_TYPE = "Type"
     const val LABEL_CRYPTOCURRENCY = "Cryptocurrency wallet"

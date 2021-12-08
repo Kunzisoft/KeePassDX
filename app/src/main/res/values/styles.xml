@@ -304,6 +304,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.Warning.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.Title.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -339,7 +344,7 @@
     <style name="KeepassDXStyle.TextAppearance.Tiny" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.WarningTextStyle" parent="KeepassDXStyle.TextAppearance">
+	<style name="KeepassDXStyle.TextAppearance.Warning" parent="KeepassDXStyle.TextAppearance">
 		<item name="android:textColor">?attr/colorAccent</item>
 	</style>
 

@@ -208,16 +208,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 when (attribute.type) {
                     TemplateAttributeType.TEXT -> {
                         try {
-                            when (attribute.options.getNumberLines()) {
-                                1 -> {
-                                    // If one line, default attribute option is number of chars
-                                    attribute.options.setNumberChars(defaultOption.toInt())
-                                }
-                                else -> {
-                                    // else it's number of lines
-                                    attribute.options.setNumberLines(defaultOption.toInt())
-                                }
-                            }
+                            // It's always a number of lines...
+                            attribute.options.setNumberLines(defaultOption.toInt())
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to transform default text option", e)
                         }

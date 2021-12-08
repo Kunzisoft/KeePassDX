@@ -27,12 +27,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.IconEditDialogFragment
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
@@ -81,6 +85,9 @@ class IconPickerActivity : DatabaseLockActivity() {
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
 
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            addCustomIcon(uri)
+        }
 
         uploadButton = findViewById(R.id.icon_picker_upload)
 
@@ -138,6 +145,16 @@ class IconPickerActivity : DatabaseLockActivity() {
                 iconCustomRemoved.errorConsumed = true
             }
             uploadButton.isEnabled = true
+        }
+        iconPickerViewModel.customIconUpdated.observe(this) { iconCustomUpdated ->
+            if (iconCustomUpdated.error && !iconCustomUpdated.errorConsumed) {
+                Snackbar.make(coordinatorLayout, iconCustomUpdated.errorStringId, Snackbar.LENGTH_LONG).asError().show()
+                iconCustomUpdated.errorConsumed = true
+            }
+            iconCustomUpdated.iconCustom?.let {
+                mDatabase?.updateCustomIcon(it)
+            }
+            iconPickerViewModel.deselectAllCustomIcons()
         }
     }
 
@@ -197,6 +214,10 @@ class IconPickerActivity : DatabaseLockActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_edit)?.apply {
+            isEnabled = mIconsSelected.size == 1
+            isVisible = isEnabled
+        }
         menu?.findItem(R.id.menu_delete)?.apply {
             isEnabled = mCustomIconsSelectionMode
             isVisible = isEnabled
@@ -212,6 +233,9 @@ class IconPickerActivity : DatabaseLockActivity() {
                 } else {
                     onBackPressed()
                 }
+            }
+            R.id.menu_edit -> {
+                updateCustomIcon(mIconsSelected[0])
             }
             R.id.menu_delete -> {
                 mIconsSelected.forEach { iconToRemove ->
@@ -277,6 +301,11 @@ class IconPickerActivity : DatabaseLockActivity() {
         }
     }
 
+    private fun updateCustomIcon(iconImageCustom: IconImageCustom) {
+        IconEditDialogFragment.update(iconImageCustom)
+            .show(supportFragmentManager, IconEditDialogFragment.TAG_UPDATE_ICON)
+    }
+
     private fun removeCustomIcon(iconImageCustom: IconImageCustom) {
         uploadButton.isEnabled = false
         iconPickerViewModel.deselectAllCustomIcons()
@@ -284,14 +313,6 @@ class IconPickerActivity : DatabaseLockActivity() {
         iconPickerViewModel.removeCustomIcon(
                 IconPickerViewModel.IconCustomState(iconImageCustom, false, R.string.error_remove_file)
         )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        mExternalFileHelper?.onOpenDocumentResult(requestCode, resultCode, data) { uri ->
-            addCustomIcon(uri)
-        }
     }
 
     private fun setResult() {
@@ -308,30 +329,28 @@ class IconPickerActivity : DatabaseLockActivity() {
     companion object {
 
         private const val ICON_PICKER_FRAGMENT_TAG = "ICON_PICKER_FRAGMENT_TAG"
-
-        private const val ICON_SELECTED_REQUEST = 15861
         private const val EXTRA_ICON = "EXTRA_ICON"
-
         private const val MAX_ICON_SIZE = 5242880
 
-        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, listener: (icon: IconImage) -> Unit) {
-            if (requestCode == ICON_SELECTED_REQUEST) {
-                if (resultCode == Activity.RESULT_OK) {
-                    listener.invoke(data?.getParcelableExtra(EXTRA_ICON) ?: IconImage())
+        fun registerIconSelectionForResult(context: FragmentActivity,
+                                           listener: (icon: IconImage) -> Unit): ActivityResultLauncher<Intent> {
+            return context.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    listener.invoke(result.data?.getParcelableExtra(EXTRA_ICON) ?: IconImage())
                 }
             }
         }
 
-        fun launch(context: Activity,
-                   previousIcon: IconImage?) {
+        fun launch(context: FragmentActivity,
+                   previousIcon: IconImage?,
+                   resultLauncher: ActivityResultLauncher<Intent>) {
             // Create an instance to return the picker icon
-            context.startActivityForResult(
-                    Intent(context,
-                    IconPickerActivity::class.java).apply {
+            resultLauncher.launch(
+                Intent(context, IconPickerActivity::class.java).apply {
                         if (previousIcon != null)
                             putExtra(EXTRA_ICON, previousIcon)
-                    },
-                    ICON_SELECTED_REQUEST)
+                    }
+            )
         }
     }
 }

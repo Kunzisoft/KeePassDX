@@ -1,0 +1,7 @@
+ * Changement des paramètres Argon2 par défaut #1098
+ * Ajout & édition du nom d'icone customisé #976
+ * Correction des gabarits #1128 #1133 #1138
+ * Mise à jour de la liste de compatibilité pour le remplissage automatique #725 #1154
+ * Amélioration de l'usage de l'empreinte digitale #1137 #1145
+ * Changement de la configuration du backup #1144
+ * Ajout du bouton de verrouillage dans la notification de base de données

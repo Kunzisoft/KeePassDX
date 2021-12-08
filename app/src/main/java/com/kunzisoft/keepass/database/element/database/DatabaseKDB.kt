@@ -41,7 +41,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
     override val version: String
-        get() = "KeePass 1"
+        get() = "V1"
 
     init {
         kdfListV3.add(KdfFactory.aesKdf)
