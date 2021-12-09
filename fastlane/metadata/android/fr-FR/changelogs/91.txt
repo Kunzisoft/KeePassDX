@@ -1,0 +1,1 @@
+ * Résolution de bogues du remplissage automatique uniligne #1173 #1165
