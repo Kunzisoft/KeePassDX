@@ -132,6 +132,7 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_below="@+id/toolbar">
+
             <FrameLayout
                 android:id="@+id/nodes_list_fragment_container"
                 android:layout_width="match_parent"
@@ -168,8 +169,8 @@
 
     <include
         layout="@layout/view_button_lock"
-        android:layout_width="@dimen/lock_button_size"
-        android:layout_height="@dimen/lock_button_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

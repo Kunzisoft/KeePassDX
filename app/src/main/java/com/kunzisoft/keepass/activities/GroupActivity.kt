@@ -1016,7 +1016,7 @@ class GroupActivity : DatabaseLockActivity(),
 
                 if (!sortMenuEducationPerformed) {
                     // lockMenuEducationPerformed
-                    val lockButtonView = findViewById<View>(R.id.lock_button_icon)
+                    val lockButtonView = findViewById<View>(R.id.lock_button)
                     lockButtonView != null
                             && groupActivityEducation.checkAndPerformedLockMenuEducation(
                         lockButtonView,

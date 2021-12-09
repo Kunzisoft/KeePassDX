@@ -119,7 +119,7 @@ class GroupActivityEducation(activity: Activity)
                         .outerCircleColorInt(getCircleColor())
                         .outerCircleAlpha(getCircleAlpha())
                         .textColorInt(getTextColor())
-                        .tintTarget(true)
+                        .tintTarget(false)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
                     override fun onTargetClick(view: TapTargetView) {

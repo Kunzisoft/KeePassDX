@@ -1,5 +1,6 @@
 KeePassDX(3.0.4)
  * Fix autofill inline bugs #1173 #1165
+ * Small UI change
 
 KeePassDX(3.0.3)
  * Change default Argon2 parameters #1098
