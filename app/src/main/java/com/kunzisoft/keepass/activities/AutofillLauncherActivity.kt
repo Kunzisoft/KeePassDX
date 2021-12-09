@@ -25,7 +25,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
@@ -35,7 +34,6 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.CompatInlineSuggestionsRequest
 import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
@@ -69,12 +67,9 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 SpecialMode.SELECTION -> {
                     intent.getBundleExtra(KEY_SELECTION_BUNDLE)?.let { bundle ->
                         // To pass extra inline request
+                        var compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            bundle.getParcelable<CompatInlineSuggestionsRequest>(
-                                EXTRA_INLINE_SUGGESTIONS_REQUEST
-                            )?.let { inlineSuggestionRequest ->
-                                intent.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, inlineSuggestionRequest)
-                            }
+                            compatInlineSuggestionsRequest = bundle.getParcelable(KEY_INLINE_SUGGESTION)
                         }
                         // Build search param
                         bundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
@@ -83,9 +78,19 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                                 searchInfo.webDomain
                             ) { concreteWebDomain ->
                                 // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-                                val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
+                                val assistStructure = AutofillHelper
+                                    .retrieveAutofillComponent(intent)
+                                    ?.assistStructure
+                                val newAutofillComponent = if (assistStructure != null) {
+                                    AutofillComponent(
+                                        assistStructure,
+                                        compatInlineSuggestionsRequest
+                                    )
+                                } else {
+                                    null
+                                }
                                 searchInfo.webDomain = concreteWebDomain
-                                launchSelection(database, autofillComponent, searchInfo)
+                                launchSelection(database, newAutofillComponent, searchInfo)
                             }
                         }
                     }
@@ -210,6 +215,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
         private const val KEY_SELECTION_BUNDLE = "KEY_SELECTION_BUNDLE"
         private const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
+        private const val KEY_INLINE_SUGGESTION = "KEY_INLINE_SUGGESTION"
 
         private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
 
@@ -223,7 +229,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
                         putParcelable(KEY_SEARCH_INFO, searchInfo)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            putParcelable(EXTRA_INLINE_SUGGESTIONS_REQUEST, compatInlineSuggestionsRequest)
+                            putParcelable(KEY_INLINE_SUGGESTION, compatInlineSuggestionsRequest)
                         }
                     })
                 },
