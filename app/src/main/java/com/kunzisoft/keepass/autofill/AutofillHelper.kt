@@ -34,7 +34,6 @@ import android.service.autofill.InlinePresentation
 import android.util.Log
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
-import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import android.widget.Toast
 import android.widget.inline.InlinePresentationSpec
@@ -415,11 +414,11 @@ object AutofillHelper {
                 StructureParser(structure).parse()?.let { result ->
                     // New Response
                     val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val inlineSuggestionsRequest = activity.intent?.getParcelableExtra<InlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
-                        if (inlineSuggestionsRequest != null) {
+                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtra<CompatInlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                        if (compatInlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }
-                        buildResponse(activity, database, entriesInfo, result, CompatInlineSuggestionsRequest(inlineSuggestionsRequest))
+                        buildResponse(activity, database, entriesInfo, result, compatInlineSuggestionsRequest)
                     } else {
                         buildResponse(activity, database, entriesInfo, result, null)
                     }
@@ -472,7 +471,7 @@ object AutofillHelper {
         intent.putExtra(EXTRA_ASSIST_STRUCTURE, autofillComponent.assistStructure)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && PreferencesUtil.isAutofillInlineSuggestionsEnable(activity)) {
-            autofillComponent.inlineSuggestionsRequest?.let {
+            autofillComponent.compatInlineSuggestionsRequest?.let {
                 intent.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
             }
         }

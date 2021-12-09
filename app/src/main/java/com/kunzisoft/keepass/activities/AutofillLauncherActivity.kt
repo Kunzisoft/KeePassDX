@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
 import com.kunzisoft.keepass.autofill.CompatInlineSuggestionsRequest
@@ -67,25 +68,24 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             when (specialMode) {
                 SpecialMode.SELECTION -> {
                     intent.getBundleExtra(KEY_SELECTION_BUNDLE)?.let { bundle ->
+                        // To pass extra inline request
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            bundle.getParcelable<CompatInlineSuggestionsRequest>(
+                                EXTRA_INLINE_SUGGESTIONS_REQUEST
+                            )?.let { inlineSuggestionRequest ->
+                                intent.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, inlineSuggestionRequest)
+                            }
+                        }
                         // Build search param
                         bundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
                             SearchInfo.getConcreteWebDomain(
                                 this,
                                 searchInfo.webDomain
                             ) { concreteWebDomain ->
+                                // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
+                                val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
                                 searchInfo.webDomain = concreteWebDomain
-                                launchSelection(database, searchInfo)
-                            }
-                        }
-                        // To pass extra inline request
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            bundle.getParcelable<InlineSuggestionsRequest>(
-                                EXTRA_INLINE_SUGGESTIONS_REQUEST
-                            )?.let { inlineSuggestionRequest ->
-                                intent.putExtra(
-                                    EXTRA_INLINE_SUGGESTIONS_REQUEST,
-                                    inlineSuggestionRequest
-                                )
+                                launchSelection(database, autofillComponent, searchInfo)
                             }
                         }
                     }
@@ -111,10 +111,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
     }
 
     private fun launchSelection(database: Database?,
+                                autofillComponent: AutofillComponent?,
                                 searchInfo: SearchInfo) {
-        // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-        val autofillComponent = AutofillHelper.retrieveAutofillComponent(intent)
-
         if (autofillComponent == null) {
             setResult(Activity.RESULT_CANCELED)
             finish()
@@ -225,9 +223,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
                         putParcelable(KEY_SEARCH_INFO, searchInfo)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let {
-                                putParcelable(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
-                            }
+                            putParcelable(EXTRA_INLINE_SUGGESTIONS_REQUEST, compatInlineSuggestionsRequest)
                         }
                     })
                 },
