@@ -335,6 +335,29 @@ class GroupActivity : DatabaseLockActivity(),
         return rootContainerView
     }
 
+    private fun loadGroup(database: Database?) {
+        when {
+            Intent.ACTION_SEARCH == intent.action -> {
+                finishNodeAction()
+                val searchString =
+                    intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
+                mGroupViewModel.loadGroupFromSearch(
+                    database,
+                    searchString,
+                    PreferencesUtil.omitBackup(this)
+                )
+            }
+            mCurrentGroupState == null -> {
+                mRootGroup?.let { rootGroup ->
+                    mGroupViewModel.loadGroup(database, rootGroup, 0)
+                }
+            }
+            else -> {
+                mGroupViewModel.loadGroup(database, mCurrentGroupState)
+            }
+        }
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
@@ -344,13 +367,7 @@ class GroupActivity : DatabaseLockActivity(),
                 && database?.isRecycleBinEnabled == true
 
         mRootGroup = database?.rootGroup
-        if (mCurrentGroupState == null) {
-            mRootGroup?.let { rootGroup ->
-                mGroupViewModel.loadGroup(database, rootGroup, 0)
-            }
-        } else {
-            mGroupViewModel.loadGroup(database, mCurrentGroupState)
-        }
+        loadGroup(database)
 
         // Search suggestion
         database?.let {
@@ -463,16 +480,7 @@ class GroupActivity : DatabaseLockActivity(),
             }
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
             transformSearchInfoIntent(intent)
-            if (Intent.ACTION_SEARCH == intent.action) {
-                finishNodeAction()
-                val searchString =
-                    intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-                mGroupViewModel.loadGroupFromSearch(
-                    mDatabase,
-                    searchString,
-                    PreferencesUtil.omitBackup(this)
-                )
-            }
+            loadGroup(mDatabase)
         }
     }
 
@@ -1008,7 +1016,7 @@ class GroupActivity : DatabaseLockActivity(),
 
                 if (!sortMenuEducationPerformed) {
                     // lockMenuEducationPerformed
-                    val lockButtonView = findViewById<View>(R.id.lock_button_icon)
+                    val lockButtonView = findViewById<View>(R.id.lock_button)
                     lockButtonView != null
                             && groupActivityEducation.checkAndPerformedLockMenuEducation(
                         lockButtonView,
@@ -1079,22 +1087,6 @@ class GroupActivity : DatabaseLockActivity(),
         } else {
             super.startActivity(intent)
         }
-    }
-
-    @Suppress("DEPRECATION")
-    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
-        /*
-         * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
-         * another app such as Files or GoogleDrive and then Search for an entry. Here we remove the
-         * FLAG_ACTIVITY_NEW_TASK flag bit allowing search to open it's activity in the current task.
-         */
-        if (Intent.ACTION_SEARCH == intent.action) {
-            var flags = intent.flags
-            flags = flags and Intent.FLAG_ACTIVITY_NEW_TASK.inv()
-            intent.flags = flags
-        }
-
-        super.startActivityForResult(intent, requestCode, options)
     }
 
     private fun removeSearch() {

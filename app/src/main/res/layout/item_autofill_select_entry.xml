@@ -18,7 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground"
-    android:minHeight="36dp"
+    android:minHeight="48dp"
     android:orientation="horizontal">
     <ImageView
         android:layout_width="24dp"

@@ -1,0 +1,2 @@
+ * Résolution de bogues du remplissage automatique uniligne #1173 #1165
+ * Petit changement dans l'interface utilisateur
