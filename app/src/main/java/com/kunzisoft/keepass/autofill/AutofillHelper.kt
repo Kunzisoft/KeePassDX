@@ -112,7 +112,7 @@ object AutofillHelper {
                              database: Database,
                              entryInfo: EntryInfo,
                              struct: StructureParser.Result,
-                             inlinePresentation: InlinePresentation?): Dataset? {
+                             additionalBuild: ((build: Dataset.Builder) -> Unit)? = null): Dataset? {
         val title = makeEntryTitle(entryInfo)
         val views = newRemoteViews(context, database, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
@@ -201,11 +201,7 @@ object AutofillHelper {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            inlinePresentation?.let {
-                builder.setInlinePresentation(it)
-            }
-        }
+        additionalBuild?.invoke(builder)
 
         return try {
             builder.build()
@@ -236,44 +232,51 @@ object AutofillHelper {
     @SuppressLint("RestrictedApi")
     private fun buildInlinePresentationForEntry(context: Context,
                                                 database: Database,
-                                                inlineSuggestionsRequest: InlineSuggestionsRequest,
+                                                compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest,
                                                 positionItem: Int,
                                                 entryInfo: EntryInfo): InlinePresentation? {
-        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
-        val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
+        compatInlineSuggestionsRequest.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
+            val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
+            val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
 
-        if (positionItem <= maxSuggestion - 1
-                && inlinePresentationSpecs.size > positionItem) {
-            val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
+            if (positionItem <= maxSuggestion - 1
+                && inlinePresentationSpecs.size > positionItem
+            ) {
+                val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
 
-            // Make sure that the IME spec claims support for v1 UI template.
-            val imeStyle = inlinePresentationSpec.style
-            if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
-                return null
+                // Make sure that the IME spec claims support for v1 UI template.
+                val imeStyle = inlinePresentationSpec.style
+                if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
+                    return null
 
-            // Build the content for IME UI
-            val pendingIntent = PendingIntent.getActivity(context,
-                0,
-                Intent(context, AutofillSettingsActivity::class.java),
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PendingIntent.FLAG_IMMUTABLE
-                } else {
-                    0
-                })
-            return InlinePresentation(
+                // Build the content for IME UI
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    Intent(context, AutofillSettingsActivity::class.java),
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        PendingIntent.FLAG_IMMUTABLE
+                    } else {
+                        0
+                    }
+                )
+                return InlinePresentation(
                     InlineSuggestionUi.newContentBuilder(pendingIntent).apply {
                         setContentDescription(context.getString(R.string.autofill_sign_in_prompt))
                         setTitle(entryInfo.title)
                         setSubtitle(entryInfo.username)
-                        setStartIcon(Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
-                            setTintBlendMode(BlendMode.DST)
-                        })
+                        setStartIcon(
+                            Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
+                                setTintBlendMode(BlendMode.DST)
+                            })
                         buildIconFromEntry(context, database, entryInfo)?.let { icon ->
                             setEndIcon(icon.apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
                         }
-                    }.build().slice, inlinePresentationSpec, false)
+                    }.build().slice, inlinePresentationSpec, false
+                )
+            }
         }
         return null
     }
@@ -303,7 +306,7 @@ object AutofillHelper {
                       database: Database,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
-                      inlineSuggestionsRequest: InlineSuggestionsRequest?): FillResponse? {
+                      compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest?): FillResponse? {
         val responseBuilder = FillResponse.Builder()
         // Add Header
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -324,7 +327,7 @@ object AutofillHelper {
         // Add inline suggestion for new IME and dataset
         var numberInlineSuggestions = 0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            inlineSuggestionsRequest?.let {
+            compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
                 numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
                 if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
                     if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
@@ -336,14 +339,19 @@ object AutofillHelper {
         }
 
         entriesInfo.forEachIndexed { _, entry ->
-            val inlinePresentation = if (numberInlineSuggestions > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                inlineSuggestionsRequest?.let {
-                    buildInlinePresentationForEntry(context, database, inlineSuggestionsRequest, numberInlineSuggestions--, entry)
-                }
+            if (numberInlineSuggestions > 0
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && compatInlineSuggestionsRequest != null) {
+                responseBuilder.addDataset(buildDataset(context, database, entry, parseResult) { builder ->
+                    buildInlinePresentationForEntry(context, database,
+                        compatInlineSuggestionsRequest, numberInlineSuggestions--, entry
+                    )?.let { inlinePresentation ->
+                        builder.setInlinePresentation(inlinePresentation)
+                    }
+                })
             } else {
-                null
+                responseBuilder.addDataset(buildDataset(context, database, entry, parseResult))
             }
-            responseBuilder.addDataset(buildDataset(context, database, entry, parseResult, inlinePresentation))
         }
 
         if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
@@ -355,14 +363,14 @@ object AutofillHelper {
             }
             val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_select_entry)
             val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
-                    searchInfo, inlineSuggestionsRequest)
+                    searchInfo, compatInlineSuggestionsRequest)
 
             parseResult.allAutofillIds().let { autofillIds ->
                 autofillIds.forEach { id ->
                     val builder = Dataset.Builder(manualSelectionView)
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        inlineSuggestionsRequest?.let {
+                        compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
                             val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
                             val inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
                             inlinePresentation?.let {
@@ -411,7 +419,7 @@ object AutofillHelper {
                         if (inlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }
-                        buildResponse(activity, database, entriesInfo, result, inlineSuggestionsRequest)
+                        buildResponse(activity, database, entriesInfo, result, CompatInlineSuggestionsRequest(inlineSuggestionsRequest))
                     } else {
                         buildResponse(activity, database, entriesInfo, result, null)
                     }
