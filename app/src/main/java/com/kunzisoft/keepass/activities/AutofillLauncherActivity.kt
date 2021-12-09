@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.AutofillHelper.EXTRA_INLINE_SUGGESTIONS_REQUEST
+import com.kunzisoft.keepass.autofill.CompatInlineSuggestionsRequest
 import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -203,7 +204,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
         fun getPendingIntentForSelection(context: Context,
                                          searchInfo: SearchInfo? = null,
-                                         inlineSuggestionsRequest: InlineSuggestionsRequest? = null): PendingIntent {
+                                         inlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null): PendingIntent {
             return PendingIntent.getActivity(context, 0,
                 // Doesn't work with Parcelable (don't know why?)
                 Intent(context, AutofillLauncherActivity::class.java).apply {

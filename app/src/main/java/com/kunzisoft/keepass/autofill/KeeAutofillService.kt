@@ -109,7 +109,7 @@ class KeeAutofillService : AutofillService() {
                         searchInfo.webDomain = webDomainWithoutSubDomain
                         val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                                 && autofillInlineSuggestionsEnabled) {
-                            request.inlineSuggestionsRequest
+                            CompatInlineSuggestionsRequest(request)
                         } else {
                             null
                         }
@@ -127,7 +127,7 @@ class KeeAutofillService : AutofillService() {
     private fun launchSelection(database: Database?,
                                 searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
-                                inlineSuggestionsRequest: InlineSuggestionsRequest?,
+                                inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                 callback: FillCallback) {
         SearchHelper.checkAutoSearchInfo(this,
                 database,
@@ -155,7 +155,7 @@ class KeeAutofillService : AutofillService() {
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
                                         database: Database?,
                                         searchInfo: SearchInfo,
-                                        inlineSuggestionsRequest: InlineSuggestionsRequest?,
+                                        inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                         callback: FillCallback) {
         parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
@@ -249,7 +249,7 @@ class KeeAutofillService : AutofillService() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                         && autofillInlineSuggestionsEnabled) {
                     var inlinePresentation: InlinePresentation? = null
-                    inlineSuggestionsRequest?.let {
+                    inlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
                         val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
                         if (inlineSuggestionsRequest.maxSuggestionCount > 0
                                 && inlinePresentationSpecs.size > 0) {
@@ -281,8 +281,9 @@ class KeeAutofillService : AutofillService() {
                     }
                     // Build response
                     responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                } else {
+                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 }
-                responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 callback.onSuccess(responseBuilder.build())
             }
         }
