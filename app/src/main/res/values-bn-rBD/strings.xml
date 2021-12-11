@@ -29,4 +29,16 @@
     <string name="discard">বাতিল</string>
     <string name="validate">সত্যায়ন</string>
     <string name="content_description_background">পটভূমি</string>
+    <string name="entry_cancel">বাতিল</string>
+    <string name="entry_notes">দ্রষ্টব্য</string>
+    <string name="entry_created">তৈরিকৃত</string>
+    <string name="entry_expires">মেয়াদ</string>
+    <string name="entry_UUID">বিশেষ শনাক্তকরণ সংকেত(ইউইউআইডি)</string>
+    <string name="entry_history">ইতিহাস</string>
+    <string name="entry_attachments">সংযুক্তি</string>
+    <string name="entry_keyfile">চাবিনথি(কিফাইল)</string>
+    <string name="entry_modified">পরিবর্তিত</string>
+    <string name="clipboard_cleared">ক্লিপবোর্ড পরিষ্কার করা হয়েছে</string>
+    <string name="entry_accessed">শেষ ব্যবহার</string>
+    <string name="clipboard_error">কিছু ডিভাইস অ্যাপ্লিকেশনগুলোকে ক্লিপবোর্ড ব্যবহার করতে দেয় না।</string>
 </resources>
