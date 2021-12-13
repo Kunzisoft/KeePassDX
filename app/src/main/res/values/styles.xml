@@ -313,6 +313,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="KeepassDXStyle.TextAppearance.Meta.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:textSize">11sp</item>
     </style>

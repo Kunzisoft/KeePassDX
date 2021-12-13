@@ -41,12 +41,14 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -84,6 +86,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
+    private var breadcrumbToolbar: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
@@ -91,10 +94,13 @@ class GroupActivity : DatabaseLockActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
     private var groupMetaView: TextView? = null
+    private var breadcrumbListView: RecyclerView? = null
     private var loadingView: ProgressBar? = null
 
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
+
+    private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
 
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
@@ -138,9 +144,11 @@ class GroupActivity : DatabaseLockActivity(),
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
+        breadcrumbToolbar = findViewById(R.id.toolbar_breadcrumb)
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
         groupMetaView = findViewById(R.id.group_meta)
+        breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
@@ -151,6 +159,19 @@ class GroupActivity : DatabaseLockActivity(),
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
+
+        mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
+            // Open group on breadcrumb click
+            onItemClickListener = { node, _ ->
+                finishNodeAction()
+                mDatabase?.let { database ->
+                    onNodeClick(database, node)
+                }
+            }
+        }
+        breadcrumbListView?.apply {
+            adapter = mBreadcrumbAdapter
+        }
 
         // Retrieve the textColor to tint the icon
         val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
@@ -210,6 +231,12 @@ class GroupActivity : DatabaseLockActivity(),
 
                 // Update last access time.
                 currentGroup.touch(modified = false, touchParents = false)
+
+                // Add breadcrumb
+                mBreadcrumbAdapter?.apply {
+                    setNode(currentGroup)
+                    breadcrumbListView?.scrollToPosition(itemCount -1)
+                }
 
                 // Add listeners to the add buttons
                 addNodeButtonView?.setAddGroupClickListener {
@@ -528,6 +555,7 @@ class GroupActivity : DatabaseLockActivity(),
                 toolbar?.navigationIcon = null
             }
             iconView?.visibility = View.GONE
+            breadcrumbToolbar?.visibility = View.GONE
         } else {
             searchTitleView?.visibility = View.GONE
             // Assign the group icon depending of IconPack or custom icon
@@ -549,6 +577,7 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
             }
+            breadcrumbToolbar?.visibility = View.VISIBLE
         }
 
         // Assign number of children
