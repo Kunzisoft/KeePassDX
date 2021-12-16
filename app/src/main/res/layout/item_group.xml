@@ -25,10 +25,13 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:background="?android:attr/selectableItemBackground">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         android:gravity="center_vertical">
@@ -52,6 +55,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="start|center_vertical"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
         android:layout_weight="1">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/group_name"
