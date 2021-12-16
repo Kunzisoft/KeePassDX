@@ -31,13 +31,67 @@
         android:layout_height="wrap_content"
         android:theme="?attr/toolbarSpecialAppearance" />
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:title="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_below="@+id/special_mode_view"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/toolbarAppearance" >
+        <TextView
+            android:id="@+id/database_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Database"
+            style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
+        <RelativeLayout
+            android:id="@+id/search_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_results"
+                style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/search_numbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="3"
+                android:layout_margin="4dp"
+                android:layout_below="@+id/search_title"
+                style="@style/KeepassDXStyle.TextAppearance.Info" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/search_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/search_title"
+                android:layout_toRightOf="@+id/search_numbers"
+                android:layout_toEndOf="@+id/search_numbers"
+                style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/group_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/special_mode_view"
-        android:layout_above="@+id/toolbar_action"
-        tools:targetApi="lollipop">
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/toolbar_action">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -47,69 +101,12 @@
             android:fitsSystemWindows="true">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:title="@string/app_name"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="?attr/toolbarAppearance"
-                app:layout_scrollFlags="scroll|snap|enterAlways"
-                android:elevation="4dp"
-                tools:targetApi="lollipop" >
-                <TextView
-                    android:id="@+id/database_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Database"
-                    style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
-                <RelativeLayout
-                    android:id="@+id/search_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/search_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/search_results"
-                        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary" />
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/search_numbers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="3"
-                        android:layout_margin="4dp"
-                        android:layout_below="@+id/search_title"
-                        style="@style/KeepassDXStyle.TextAppearance.Info" />
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/search_string"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/search"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginRight="4dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_below="@+id/search_title"
-                        android:layout_toRightOf="@+id/search_numbers"
-                        android:layout_toEndOf="@+id/search_numbers"
-                        style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
-
-            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_breadcrumb"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 android:theme="?attr/toolbarAppearance"
-                android:elevation="4dp"
+                app:layout_scrollFlags="scroll|snap|enterAlways"
                 tools:targetApi="lollipop">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/breadcrumb_list"
