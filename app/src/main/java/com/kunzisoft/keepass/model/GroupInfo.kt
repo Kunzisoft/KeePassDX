@@ -25,7 +25,8 @@ class GroupInfo : NodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeParcelable(ParcelUuid(id), flags)
+        val uuid = if (id != null) ParcelUuid(id) else null
+        parcel.writeParcelable(uuid, flags)
         parcel.writeString(notes)
     }
 
