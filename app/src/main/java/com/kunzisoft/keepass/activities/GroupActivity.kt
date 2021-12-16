@@ -396,7 +396,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Search suggestion
         database?.let {
-            databaseNameView?.text = it.name
+            databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
             mOnSuggestionListener = object : SearchView.OnSuggestionListener {
