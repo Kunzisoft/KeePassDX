@@ -44,14 +44,16 @@ class BreadcrumbAdapter(val context: Context)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setNode(node: Node) {
+    fun setNode(node: Node?) {
         mNodeBreadcrumb.clear()
-        var currentNode = node
-        mNodeBreadcrumb.add(0, currentNode)
-        while (currentNode.containsParent()) {
-            currentNode.parent?.let { parent ->
-                currentNode = parent
-                mNodeBreadcrumb.add(0, currentNode)
+        node?.let {
+            var currentNode = it
+            mNodeBreadcrumb.add(0, currentNode)
+            while (currentNode.containsParent()) {
+                currentNode.parent?.let { parent ->
+                    currentNode = parent
+                    mNodeBreadcrumb.add(0, currentNode)
+                }
             }
         }
         notifyDataSetChanged()

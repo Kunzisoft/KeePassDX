@@ -474,7 +474,8 @@ class GroupActivity : DatabaseLockActivity(),
 
         finishNodeAction()
 
-        refreshNumberOfChildren(mCurrentGroup)
+        // Refresh breadcrumb
+        mBreadcrumbAdapter?.setNode(mCurrentGroup)
     }
 
     /**
@@ -546,7 +547,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         // Assign number of children
-        refreshNumberOfChildren(group)
+        mBreadcrumbAdapter?.setNode(group)
 
         // Hide button
         initAddButton(group)
@@ -569,10 +570,6 @@ class GroupActivity : DatabaseLockActivity(),
             else if (actionNodeMode == null)
                 showButton()
         }
-    }
-
-    private fun refreshNumberOfChildren(group: Group?) {
-        // TODO
     }
 
     override fun onScrolled(dy: Int) {
