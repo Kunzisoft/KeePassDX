@@ -69,7 +69,7 @@ class BreadcrumbAdapter(val context: Context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreadcrumbGroupViewHolder {
         return BreadcrumbGroupViewHolder(inflater.inflate(
             when (viewType) {
-                0 -> R.layout.item_breadcrumb_current
+                0 -> R.layout.item_group
                 else -> R.layout.item_breadcrumb
             }, parent, false)
         )

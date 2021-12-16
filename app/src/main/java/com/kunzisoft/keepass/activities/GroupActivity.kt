@@ -86,6 +86,9 @@ class GroupActivity : DatabaseLockActivity(),
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var databaseNameView: TextView? = null
+    private var searchContainer: ViewGroup? = null
+    private var searchNumbers: TextView? = null
+    private var searchString: TextView? = null
     private var toolbarBreadcrumb: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
@@ -139,6 +142,9 @@ class GroupActivity : DatabaseLockActivity(),
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
         databaseNameView = findViewById(R.id.database_name)
+        searchContainer = findViewById(R.id.search_container)
+        searchNumbers = findViewById(R.id.search_numbers)
+        searchString = findViewById(R.id.search_string)
         toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         searchTitleView = findViewById(R.id.search_title)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
@@ -524,13 +530,17 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun assignGroupViewElements(group: Group?) {
         // Assign title
-
         if (group?.isVirtual == true) {
-            searchTitleView?.visibility = View.VISIBLE
+            searchContainer?.visibility = View.VISIBLE
+            val title = group.title
+            searchString?.text = if (title.isNotEmpty()) title else ""
+            searchNumbers?.text = group.numberOfChildEntries.toString()
+            databaseNameView?.visibility = View.GONE
             toolbarBreadcrumb?.navigationIcon = null
             toolbarBreadcrumb?.visibility = View.GONE
         } else {
-            searchTitleView?.visibility = View.GONE
+            searchContainer?.visibility = View.GONE
+            databaseNameView?.visibility = View.VISIBLE
             // Assign the group icon depending of IconPack or custom icon
             group?.let {
                 if (group.containsParent())
@@ -539,11 +549,10 @@ class GroupActivity : DatabaseLockActivity(),
                     toolbarBreadcrumb?.navigationIcon = null
                 }
             }
+            // Assign number of children
+            mBreadcrumbAdapter?.setNode(group)
             toolbarBreadcrumb?.visibility = View.VISIBLE
         }
-
-        // Assign number of children
-        mBreadcrumbAdapter?.setNode(group)
 
         // Hide button
         initAddButton(group)
