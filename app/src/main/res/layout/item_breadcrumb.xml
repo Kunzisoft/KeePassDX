@@ -36,6 +36,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@string/hint_icon_name"
         android:scaleType="fitXY" />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/group_name"
@@ -50,14 +51,16 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"/>
-    <TextView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/group_separator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="/"
+        android:src="@drawable/ic_arrow_right_white_24dp"
+        android:tint="?attr/textColorInverse"
+        android:importantForAccessibility="no"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
         style="@style/KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary"
         android:textStyle="bold"
-        tools:ignore="HardcodedText" />
+        tools:targetApi="jelly_bean" />
 </LinearLayout>
