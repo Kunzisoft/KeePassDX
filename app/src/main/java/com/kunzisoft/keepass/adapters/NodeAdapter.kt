@@ -79,6 +79,8 @@ class NodeAdapter (private val context: Context,
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
+    private var mOldVirtualGroup = false
+    private var mVirtualGroup = false
 
     private var mActionNodesList = LinkedList<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
@@ -145,6 +147,8 @@ class NodeAdapter (private val context: Context,
      * Rebuild the list by clear and build children from the group
      */
     fun rebuildList(group: Group) {
+        mOldVirtualGroup = mVirtualGroup
+        mVirtualGroup = group.isVirtual
         assignPreferences()
         mNodeSortedList.replaceAll(group.getFilteredChildren(mEntryFilters))
     }
@@ -155,6 +159,8 @@ class NodeAdapter (private val context: Context,
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
+            if (mOldVirtualGroup != mVirtualGroup)
+                return false
             var typeContentTheSame = true
             if (oldItem is Entry && newItem is Entry) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
@@ -356,6 +362,15 @@ class NodeAdapter (private val context: Context,
                 visibility = View.GONE
             }
         }
+        // Add path to virtual group
+        if (mVirtualGroup) {
+            holder.path?.apply {
+                text = subNode.getPathString()
+                visibility = View.VISIBLE
+            }
+        } else {
+            holder.path?.visibility = View.GONE
+        }
 
         // Specific elements for entry
         if (subNode.type == Type.ENTRY) {
@@ -497,6 +512,7 @@ class NodeAdapter (private val context: Context,
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
+        var path: TextView? = itemView.findViewById(R.id.node_path)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
         var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
         var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)

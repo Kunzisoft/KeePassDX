@@ -1,0 +1,2 @@
+ * Ajout d'un fil d'ariane
+ * Ajout du chemin pour les résultats de recherche #1148

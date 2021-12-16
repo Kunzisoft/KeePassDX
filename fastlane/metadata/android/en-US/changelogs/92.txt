@@ -1,0 +1,2 @@
+ * Add breadcrumb
+ * Add path in search results #1148

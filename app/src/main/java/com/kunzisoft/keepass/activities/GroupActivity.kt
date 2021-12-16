@@ -25,7 +25,6 @@ import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.*
 import android.util.Log
 import android.view.Menu
@@ -41,12 +40,15 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -84,17 +86,22 @@ class GroupActivity : DatabaseLockActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
+    private var databaseNameView: TextView? = null
+    private var searchContainer: ViewGroup? = null
+    private var searchNumbers: TextView? = null
+    private var searchString: TextView? = null
+    private var toolbarBreadcrumb: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
-    private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
-    private var groupNameView: TextView? = null
-    private var groupMetaView: TextView? = null
+    private var breadcrumbListView: RecyclerView? = null
     private var loadingView: ProgressBar? = null
 
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
+
+    private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
 
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
@@ -123,8 +130,6 @@ class GroupActivity : DatabaseLockActivity(),
             AutofillHelper.buildActivityResultLauncher(this)
         else null
 
-    private var mIconColor: Int = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -134,13 +139,16 @@ class GroupActivity : DatabaseLockActivity(),
         // Initialize views
         rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
-        iconView = findViewById(R.id.group_icon)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
+        databaseNameView = findViewById(R.id.database_name)
+        searchContainer = findViewById(R.id.search_container)
+        searchNumbers = findViewById(R.id.search_numbers)
+        searchString = findViewById(R.id.search_string)
+        toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         searchTitleView = findViewById(R.id.search_title)
-        groupNameView = findViewById(R.id.group_name)
-        groupMetaView = findViewById(R.id.group_meta)
+        breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
@@ -152,10 +160,18 @@ class GroupActivity : DatabaseLockActivity(),
         toolbar?.title = ""
         setSupportActionBar(toolbar)
 
-        // Retrieve the textColor to tint the icon
-        val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        mIconColor = taTextColor.getColor(0, Color.WHITE)
-        taTextColor.recycle()
+        mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
+            // Open group on breadcrumb click
+            onItemClickListener = { node, _ ->
+                finishNodeAction()
+                mDatabase?.let { database ->
+                    onNodeClick(database, node)
+                }
+            }
+        }
+        breadcrumbListView?.apply {
+            adapter = mBreadcrumbAdapter
+        }
 
         // Retrieve group if defined at launch
         manageIntent(intent)
@@ -210,6 +226,12 @@ class GroupActivity : DatabaseLockActivity(),
 
                 // Update last access time.
                 currentGroup.touch(modified = false, touchParents = false)
+
+                // Add breadcrumb
+                mBreadcrumbAdapter?.apply {
+                    setNode(currentGroup)
+                    breadcrumbListView?.scrollToPosition(itemCount -1)
+                }
 
                 // Add listeners to the add buttons
                 addNodeButtonView?.setAddGroupClickListener {
@@ -371,7 +393,9 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Search suggestion
         database?.let {
+            databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
+            mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
             mOnSuggestionListener = object : SearchView.OnSuggestionListener {
                 override fun onSuggestionClick(position: Int): Boolean {
                     mSearchSuggestionAdapter?.let { searchAdapter ->
@@ -455,7 +479,8 @@ class GroupActivity : DatabaseLockActivity(),
 
         finishNodeAction()
 
-        refreshNumberOfChildren(mCurrentGroup)
+        // Refresh breadcrumb
+        mBreadcrumbAdapter?.setNode(mCurrentGroup)
     }
 
     /**
@@ -502,57 +527,27 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun assignGroupViewElements(group: Group?) {
         // Assign title
-        if (group != null) {
-            if (groupNameView != null) {
-                val title = group.title
-                groupNameView?.text = if (title.isNotEmpty()) title else getText(R.string.root)
-                groupNameView?.invalidate()
-            }
-            if (groupMetaView != null) {
-                val meta = group.nodeId.toString()
-                groupMetaView?.text = meta
-                if (meta.isNotEmpty()
-                    && !group.isVirtual
-                    && PreferencesUtil.showUUID(this)) {
-                    groupMetaView?.visibility = View.VISIBLE
-                } else {
-                    groupMetaView?.visibility = View.GONE
-                }
-                groupMetaView?.invalidate()
-            }
-        }
-
         if (group?.isVirtual == true) {
-            searchTitleView?.visibility = View.VISIBLE
-            if (toolbar != null) {
-                toolbar?.navigationIcon = null
-            }
-            iconView?.visibility = View.GONE
+            searchContainer?.visibility = View.VISIBLE
+            val title = group.title
+            searchString?.text = if (title.isNotEmpty()) title else ""
+            searchNumbers?.text = group.numberOfChildEntries.toString()
+            databaseNameView?.visibility = View.GONE
+            toolbarBreadcrumb?.navigationIcon = null
+            toolbarBreadcrumb?.collapse()
         } else {
-            searchTitleView?.visibility = View.GONE
-            // Assign the group icon depending of IconPack or custom icon
-            iconView?.visibility = View.VISIBLE
-            group?.let { currentGroup ->
-                iconView?.let { imageView ->
-                    mIconDrawableFactory?.assignDatabaseIcon(
-                        imageView,
-                        currentGroup.icon,
-                        mIconColor
-                    )
+            searchContainer?.visibility = View.GONE
+            databaseNameView?.visibility = View.VISIBLE
+            // Refresh breadcrumb
+            if (toolbarBreadcrumb?.isVisible != true) {
+                mBreadcrumbAdapter?.setNode(null)
+                toolbarBreadcrumb?.expand {
+                    mBreadcrumbAdapter?.setNode(group)
                 }
-
-                if (toolbar != null) {
-                    if (group.containsParent())
-                        toolbar?.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp)
-                    else {
-                        toolbar?.navigationIcon = null
-                    }
-                }
+            } else {
+                mBreadcrumbAdapter?.setNode(group)
             }
         }
-
-        // Assign number of children
-        refreshNumberOfChildren(group)
 
         // Hide button
         initAddButton(group)
@@ -574,18 +569,6 @@ class GroupActivity : DatabaseLockActivity(),
                 hideButton()
             else if (actionNodeMode == null)
                 showButton()
-        }
-    }
-
-    private fun refreshNumberOfChildren(group: Group?) {
-        numberChildrenView?.apply {
-            if (PreferencesUtil.showNumberEntries(context)) {
-                group?.refreshNumberOfChildEntries(Group.ChildFilter.getDefaults(context))
-                text = group?.numberOfChildEntries?.toString() ?: ""
-                visibility = View.VISIBLE
-            } else {
-                visibility = View.GONE
-            }
         }
     }
 
@@ -1034,7 +1017,7 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                // TODO change database
                 return true
             }
             R.id.menu_search ->
