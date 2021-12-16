@@ -86,10 +86,9 @@ class GroupActivity : DatabaseLockActivity(),
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var databaseNameView: TextView? = null
-    private var breadcrumbToolbar: Toolbar? = null
+    private var toolbarBreadcrumb: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
-    private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var breadcrumbListView: RecyclerView? = null
@@ -136,12 +135,11 @@ class GroupActivity : DatabaseLockActivity(),
         // Initialize views
         rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
-        iconView = findViewById(R.id.group_icon)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
         databaseNameView = findViewById(R.id.database_name)
-        breadcrumbToolbar = findViewById(R.id.toolbar_breadcrumb)
+        toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         searchTitleView = findViewById(R.id.search_title)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
@@ -154,6 +152,10 @@ class GroupActivity : DatabaseLockActivity(),
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
+
+        toolbarBreadcrumb?.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
         mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
             // Open group on breadcrumb click
@@ -525,25 +527,19 @@ class GroupActivity : DatabaseLockActivity(),
 
         if (group?.isVirtual == true) {
             searchTitleView?.visibility = View.VISIBLE
-            if (toolbar != null) {
-                toolbar?.navigationIcon = null
-            }
-            iconView?.visibility = View.GONE
-            breadcrumbToolbar?.visibility = View.GONE
+            toolbarBreadcrumb?.navigationIcon = null
+            toolbarBreadcrumb?.visibility = View.GONE
         } else {
             searchTitleView?.visibility = View.GONE
             // Assign the group icon depending of IconPack or custom icon
-            iconView?.visibility = View.VISIBLE
             group?.let {
-                if (toolbar != null) {
-                    if (group.containsParent())
-                        toolbar?.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp)
-                    else {
-                        toolbar?.navigationIcon = null
-                    }
+                if (group.containsParent())
+                    toolbarBreadcrumb?.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp)
+                else {
+                    toolbarBreadcrumb?.navigationIcon = null
                 }
             }
-            breadcrumbToolbar?.visibility = View.VISIBLE
+            toolbarBreadcrumb?.visibility = View.VISIBLE
         }
 
         // Assign number of children
@@ -1017,7 +1013,7 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                // TODO change database
                 return true
             }
             R.id.menu_search ->
