@@ -481,7 +481,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
+	<style name="KeepassDXStyle.TextAppearance.TextNode" parent="KeepassDXStyle.TextAppearance">
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:paddingLeft">8dp</item>

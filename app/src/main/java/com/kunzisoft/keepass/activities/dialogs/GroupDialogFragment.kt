@@ -23,6 +23,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +31,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
 class GroupDialogFragment : DatabaseDialogFragment() {
@@ -45,6 +47,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var expirationView: DateTimeFieldView
     private lateinit var creationView: TextView
     private lateinit var modificationView: TextView
+    private lateinit var uuidContainerView: ViewGroup
+    private lateinit var uuidReferenceView: TextView
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
@@ -64,6 +68,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             expirationView = root.findViewById(R.id.group_expiration)
             creationView = root.findViewById(R.id.group_created)
             modificationView = root.findViewById(R.id.group_modified)
+            uuidContainerView = root.findViewById(R.id.group_UUID_container)
+            uuidReferenceView = root.findViewById(R.id.group_UUID_reference)
 
             // Retrieve the textColor to tint the icon
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
@@ -96,6 +102,15 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             expirationView.dateTime = mGroupInfo.expiryTime
             creationView.text = mGroupInfo.creationTime.getDateTimeString(resources)
             modificationView.text = mGroupInfo.lastModificationTime.getDateTimeString(resources)
+            val uuid = mGroupInfo.id
+            if (uuid == null || uuid.isEmpty()) {
+                uuidContainerView.visibility = View.GONE
+            } else {
+                uuidReferenceView.text = uuid
+                uuidContainerView.apply {
+                    visibility = if (PreferencesUtil.showUUID(context)) View.VISIBLE else View.GONE
+                }
+            }
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)

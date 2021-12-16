@@ -7,6 +7,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.F
 
 class GroupInfo : NodeInfo {
 
+    var id: String? = null
     var notes: String? = null
 
     init {
@@ -16,11 +17,13 @@ class GroupInfo : NodeInfo {
     constructor(): super()
 
     constructor(parcel: Parcel): super(parcel) {
+        id = parcel.readString()
         notes = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
+        parcel.writeString(id)
         parcel.writeString(notes)
     }
 
@@ -29,6 +32,7 @@ class GroupInfo : NodeInfo {
         if (other !is GroupInfo) return false
         if (!super.equals(other)) return false
 
+        if (id != other.id) return false
         if (notes != other.notes) return false
 
         return true
@@ -36,6 +40,7 @@ class GroupInfo : NodeInfo {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
+        result = 31 * result + (id?.hashCode() ?: 0)
         result = 31 * result + (notes?.hashCode() ?: 0)
         return result
     }

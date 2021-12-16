@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -453,6 +454,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun getGroupInfo(): GroupInfo {
         val groupInfo = GroupInfo()
+        groupInfo.id = groupKDB?.nodeId ?.toString() ?: UuidUtil.toHexString(groupKDBX?.nodeId?.id)
         groupInfo.title = title
         groupInfo.icon = icon
         groupInfo.creationTime = creationTime

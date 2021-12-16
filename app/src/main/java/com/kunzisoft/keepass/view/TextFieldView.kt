@@ -73,7 +73,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
     }
     private val valueView = AppCompatTextView(context).apply {
         setTextAppearance(context,
-            R.style.KeepassDXStyle_TextAppearance_TextEntryItem)
+            R.style.KeepassDXStyle_TextAppearance_TextNode)
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT).also {
