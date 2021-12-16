@@ -32,6 +32,19 @@ interface Node: NodeVersionedInterface<Group> {
     fun removeParent() {
         parent = null
     }
+
+    fun getPathString(): String {
+        val pathNodes = mutableListOf<Node>()
+        var currentNode = this
+        pathNodes.add(0, currentNode)
+        while (currentNode.containsParent()) {
+            currentNode.parent?.let { parent ->
+                currentNode = parent
+                pathNodes.add(0, currentNode)
+            }
+        }
+        return pathNodes.joinToString("/") { it.title }
+    }
 }
 
 /**
