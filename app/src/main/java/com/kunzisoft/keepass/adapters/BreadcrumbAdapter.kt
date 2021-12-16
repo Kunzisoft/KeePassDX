@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ class BreadcrumbAdapter(val context: Context)
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var iconDrawableFactory: IconDrawableFactory? = null
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -41,6 +43,7 @@ class BreadcrumbAdapter(val context: Context)
         taTextColor.recycle()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setNode(node: Node) {
         mNodeBreadcrumb.clear()
         var currentNode = node
@@ -79,10 +82,11 @@ class BreadcrumbAdapter(val context: Context)
                 node.title.isEmpty() -> context.getString(R.string.root)
                 else -> node.title
             }
-            setOnClickListener {
-                node?.let {
-                    onItemClickListener?.invoke(it, position)
-                }
+        }
+
+        holder.itemView.setOnClickListener {
+            node?.let {
+                onItemClickListener?.invoke(it, position)
             }
         }
 

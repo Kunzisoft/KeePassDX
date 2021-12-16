@@ -25,7 +25,6 @@ import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.*
 import android.util.Log
 import android.view.Menu
@@ -86,7 +85,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
-    private var toolbarTitleView: TextView? = null
+    private var databaseNameView: TextView? = null
     private var breadcrumbToolbar: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
@@ -141,7 +140,7 @@ class GroupActivity : DatabaseLockActivity(),
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
-        toolbarTitleView = findViewById(R.id.toolbar_title)
+        databaseNameView = findViewById(R.id.database_name)
         breadcrumbToolbar = findViewById(R.id.toolbar_breadcrumb)
         searchTitleView = findViewById(R.id.search_title)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
@@ -389,7 +388,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Search suggestion
         database?.let {
-            toolbarTitleView?.text = it.name
+            databaseNameView?.text = it.name
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
             mOnSuggestionListener = object : SearchView.OnSuggestionListener {
