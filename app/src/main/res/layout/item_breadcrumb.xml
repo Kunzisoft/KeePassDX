@@ -17,46 +17,43 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/breadcrumb_group"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_item_selection">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginStart="4dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginRight="4dp"
+    android:baselineAligned="false">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/group_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitXY" />
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/breadcrumb_text"
+        android:id="@+id/group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:text="@string/root"
+        android:maxLines="2"
+        android:ellipsize="end"
         style="@style/KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        tools:text="Group 1"
-        android:maxLines="1"
-        android:paddingStart="4dp"
-        android:paddingLeft="4dp"
-        android:paddingEnd="4dp"
-        android:paddingRight="4dp" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/breadcrumb_group_separator"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+    <TextView
+        android:id="@+id/group_separator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary"
         android:text="/"
-        app:layout_constraintLeft_toRightOf="@+id/breadcrumb_text"
-        app:layout_constraintStart_toEndOf="@+id/breadcrumb_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingStart="4dp"
-        android:paddingLeft="4dp"
-        android:paddingEnd="4dp"
-        android:paddingRight="4dp"
+        style="@style/KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary"
         tools:ignore="HardcodedText" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -298,6 +298,8 @@
     </style>
     <style name="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" parent="android:style/TextAppearance">
         <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="drawableTint">?attr/textColorInverse</item>
+        <item name="android:drawablePadding">8dp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:textColor">?android:attr/textColorHintInverse</item>
@@ -310,7 +312,7 @@
         <item name="android:textStyle">italic</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Title.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
