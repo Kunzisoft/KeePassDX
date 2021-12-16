@@ -28,6 +28,7 @@ class BreadcrumbAdapter(val context: Context)
         }
     private var mNodeBreadcrumb: MutableList<Node?> = mutableListOf()
     var onItemClickListener: ((item: Node, position: Int)->Unit)? = null
+    var onLongItemClickListener: ((item: Node, position: Int)->Unit)? = null
 
     private var mShowNumberEntries = false
     private var mShowUUID = false
@@ -86,9 +87,17 @@ class BreadcrumbAdapter(val context: Context)
             }
         }
 
-        holder.itemView.setOnClickListener {
-            node?.let {
-                onItemClickListener?.invoke(it, position)
+        holder.itemView.apply {
+            setOnClickListener {
+                node?.let {
+                    onItemClickListener?.invoke(it, position)
+                }
+            }
+            setOnLongClickListener {
+                node?.let {
+                    onLongItemClickListener?.invoke(it, position)
+                }
+                true
             }
         }
 

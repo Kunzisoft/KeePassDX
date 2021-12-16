@@ -62,6 +62,7 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -167,12 +168,20 @@ class GroupActivity : DatabaseLockActivity(),
                 // If last item
                 val currentGroup = mCurrentGroup
                 if (currentGroup != null && node == currentGroup) {
-                    GroupDialogFragment.launch(currentGroup.getGroupInfo())
-                        .show(supportFragmentManager, "group_fragment")
+                    launchDialogToShowGroupInfo(currentGroup)
                 } else {
                     mDatabase?.let { database ->
                         onNodeClick(database, node)
                     }
+                }
+            }
+            onLongItemClickListener = { node, position ->
+                finishNodeAction()
+                val currentGroup = mCurrentGroup
+                if (currentGroup != null && node == currentGroup && currentGroup.containsParent()) {
+                    launchDialogForGroupUpdate(currentGroup)
+                } else {
+                    onItemClickListener?.invoke(node, position)
                 }
             }
         }
@@ -234,19 +243,9 @@ class GroupActivity : DatabaseLockActivity(),
                 // Update last access time.
                 currentGroup.touch(modified = false, touchParents = false)
 
-                // Add breadcrumb
-                mBreadcrumbAdapter?.apply {
-                    setNode(currentGroup)
-                    breadcrumbListView?.scrollToPosition(itemCount -1)
-                }
-
                 // Add listeners to the add buttons
                 addNodeButtonView?.setAddGroupClickListener {
-                    GroupEditDialogFragment.create(GroupInfo().apply {
-                        if (currentGroup.allowAddNoteInGroup) {
-                            notes = ""
-                        }
-                    }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
+                    launchDialogForGroupCreation(currentGroup)
                 }
                 addNodeButtonView?.setAddEntryClickListener {
                     mDatabase?.let { database ->
@@ -477,17 +476,27 @@ class GroupActivity : DatabaseLockActivity(),
                     )
                 }
             }
+            ACTION_DATABASE_UPDATE_GROUP_TASK -> {
+                if (result.isSuccess) {
+                    try {
+                        if (mCurrentGroup == newNodes[0] as Group)
+                            reloadCurrentGroup()
+                    } catch (e: Exception) {
+                        Log.e(
+                            TAG,
+                            "Unable to perform action after group update",
+                            e
+                        )
+                    }
+                }
+            }
         }
 
         coordinatorLayout?.showActionErrorIfNeeded(result)
         if (!result.isSuccess) {
             reloadCurrentGroup()
         }
-
         finishNodeAction()
-
-        // Refresh breadcrumb
-        mBreadcrumbAdapter?.setNode(mCurrentGroup)
     }
 
     /**
@@ -547,17 +556,24 @@ class GroupActivity : DatabaseLockActivity(),
             databaseNameView?.visibility = View.VISIBLE
             // Refresh breadcrumb
             if (toolbarBreadcrumb?.isVisible != true) {
-                mBreadcrumbAdapter?.setNode(null)
                 toolbarBreadcrumb?.expand {
-                    mBreadcrumbAdapter?.setNode(group)
+                    setBreadcrumbNode(group)
                 }
             } else {
-                mBreadcrumbAdapter?.setNode(group)
+                // Add breadcrumb
+                setBreadcrumbNode(group)
             }
         }
 
         // Hide button
         initAddButton(group)
+    }
+
+    private fun setBreadcrumbNode(group: Group?) {
+        mBreadcrumbAdapter?.apply {
+            setNode(group)
+            breadcrumbListView?.scrollToPosition(itemCount -1)
+        }
     }
 
     private fun initAddButton(group: Group?) {
@@ -805,12 +821,7 @@ class GroupActivity : DatabaseLockActivity(),
         finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
-                mOldGroupToUpdate = node as Group
-                GroupEditDialogFragment.update(mOldGroupToUpdate!!.getGroupInfo())
-                    .show(
-                        supportFragmentManager,
-                        GroupEditDialogFragment.TAG_CREATE_GROUP
-                    )
+                launchDialogForGroupUpdate(node as Group)
             }
             Type.ENTRY -> {
                 mNodesFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
@@ -825,6 +836,25 @@ class GroupActivity : DatabaseLockActivity(),
         }
         reloadGroupIfSearch()
         return true
+    }
+
+    private fun launchDialogToShowGroupInfo(group: Group) {
+        GroupDialogFragment.launch(group.getGroupInfo())
+            .show(supportFragmentManager, GroupDialogFragment.TAG_SHOW_GROUP)
+    }
+
+    private fun launchDialogForGroupCreation(group: Group) {
+        GroupEditDialogFragment.create(GroupInfo().apply {
+            if (group.allowAddNoteInGroup) {
+                notes = ""
+            }
+        }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
+    }
+
+    private fun launchDialogForGroupUpdate(group: Group) {
+        mOldGroupToUpdate = group
+        GroupEditDialogFragment.update(group.getGroupInfo())
+            .show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
     }
 
     override fun onCopyMenuClick(

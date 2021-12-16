@@ -115,7 +115,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     data class Error(val isError: Boolean, val messageId: Int?)
 
     companion object {
-        const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
+        const val TAG_SHOW_GROUP = "TAG_SHOW_GROUP"
+        private const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
 
         fun launch(groupInfo: GroupInfo): GroupDialogFragment {
             val bundle = Bundle()

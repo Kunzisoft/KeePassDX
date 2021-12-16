@@ -246,8 +246,8 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
     companion object {
 
         const val TAG_CREATE_GROUP = "TAG_CREATE_GROUP"
-        const val KEY_ACTION_ID = "KEY_ACTION_ID"
-        const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
+        private const val KEY_ACTION_ID = "KEY_ACTION_ID"
+        private const val KEY_GROUP_INFO = "KEY_GROUP_INFO"
 
         fun create(groupInfo: GroupInfo): GroupEditDialogFragment {
             val bundle = Bundle()
