@@ -55,9 +55,9 @@ import java.util.*
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-class NodeAdapter (private val context: Context,
-                   private val database: Database)
-    : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
+class NodesAdapter (private val context: Context,
+                    private val database: Database)
+    : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
     private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
     private val mNodeSortedListCallback: NodeSortedListCallback
@@ -169,6 +169,7 @@ class NodeAdapter (private val context: Context,
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
+                        && oldItem.notes == newItem.notes
             }
             return typeContentTheSame
                     && oldItem.nodeId == newItem.nodeId
@@ -522,6 +523,6 @@ class NodeAdapter (private val context: Context,
     }
 
     companion object {
-        private val TAG = NodeAdapter::class.java.name
+        private val TAG = NodesAdapter::class.java.name
     }
 }

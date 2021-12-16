@@ -1,2 +1,3 @@
  * Ajout d'un fil d'ariane
  * Ajout du chemin pour les résultats de recherche #1148
+ * Ajout d'un dialogue pour les informations de groupe #1177

@@ -17,10 +17,9 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.fragments
+package com.kunzisoft.keepass.activities.dialogs
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -31,29 +30,28 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.fragments.DatabaseFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.adapters.NodeAdapter
+import com.kunzisoft.keepass.adapters.NodesAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.*
 
-class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
+class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
 
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
-    private var mAdapter: NodeAdapter? = null
+    private var mAdapter: NodesAdapter? = null
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
 
@@ -107,7 +105,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(context.toString()
-                    + " must implement " + NodeAdapter.NodeClickCallback::class.java.name)
+                    + " must implement " + NodesAdapter.NodeClickCallback::class.java.name)
         }
 
         try {
@@ -115,7 +113,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         } catch (e: ClassCastException) {
             onScrollListener = null
             // Context menu can be omit
-            Log.w(TAG, context.toString()
+            Log.w(
+                TAG, context.toString()
                     + " must implement " + RecyclerView.OnScrollListener::class.java.name)
         }
     }
@@ -138,8 +137,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         contextThemed?.let { context ->
             database?.let { database ->
-                mAdapter = NodeAdapter(context, database).apply {
-                    setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
+                mAdapter = NodesAdapter(context, database).apply {
+                    setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                         override fun onNodeClick(database: Database, node: Node) {
                             if (nodeActionSelectionMode) {
                                 if (listActionNodes.contains(node)) {
@@ -195,7 +194,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onCreateView(inflater, container, savedInstanceState)
         // To apply theme
         return inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_group, container, false)
+                .inflate(R.layout.fragment_nodes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -448,6 +447,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     companion object {
-        private val TAG = GroupFragment::class.java.name
+        private val TAG = NodesFragment::class.java.name
     }
 }
