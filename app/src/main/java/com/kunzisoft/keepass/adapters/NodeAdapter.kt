@@ -79,6 +79,7 @@ class NodeAdapter (private val context: Context,
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
+    private var mOldVirtualGroup = false
     private var mVirtualGroup = false
 
     private var mActionNodesList = LinkedList<Node>()
@@ -146,6 +147,7 @@ class NodeAdapter (private val context: Context,
      * Rebuild the list by clear and build children from the group
      */
     fun rebuildList(group: Group) {
+        mOldVirtualGroup = mVirtualGroup
         mVirtualGroup = group.isVirtual
         assignPreferences()
         mNodeSortedList.replaceAll(group.getFilteredChildren(mEntryFilters))
@@ -157,6 +159,8 @@ class NodeAdapter (private val context: Context,
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
+            if (mOldVirtualGroup != mVirtualGroup)
+                return false
             var typeContentTheSame = true
             if (oldItem is Entry && newItem is Entry) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
