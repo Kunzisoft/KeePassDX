@@ -44,6 +44,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         get() = "V1"
 
     init {
+        // New manual root because KDB contains multiple root groups (here available with getRootGroups())
+        rootGroup = createGroup().apply {
+            icon.standard = getStandardIcon(IconImageStandard.FOLDER_ID)
+        }
         kdfListV3.add(KdfFactory.aesKdf)
     }
 

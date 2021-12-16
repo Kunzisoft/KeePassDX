@@ -153,10 +153,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                     )
             )
 
-            // New manual root because KDB contains multiple root groups (here available with getRootGroups())
-            val newRoot = mDatabase.createGroup()
-            mDatabase.rootGroup = newRoot
-
             // Import all nodes
             val groupLevelList = HashMap<GroupKDB, Int>()
             var newGroup: GroupKDB? = null

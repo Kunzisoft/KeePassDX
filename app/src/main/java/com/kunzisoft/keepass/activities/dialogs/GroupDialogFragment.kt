@@ -89,7 +89,13 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             }
 
             // populate info in views
-            nameTextView.text = mGroupInfo.title
+            val title = mGroupInfo.title
+            if (title.isEmpty()) {
+                nameTextView.visibility = View.GONE
+            } else {
+                nameTextView.text = title
+                nameTextView.visibility = View.VISIBLE
+            }
             val notes = mGroupInfo.notes
             if (notes == null || notes.isEmpty()) {
                 notesTextLabelView.visibility = View.GONE

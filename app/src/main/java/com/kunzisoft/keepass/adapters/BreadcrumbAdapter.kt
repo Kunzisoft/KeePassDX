@@ -79,13 +79,7 @@ class BreadcrumbAdapter(val context: Context)
     override fun onBindViewHolder(holder: BreadcrumbGroupViewHolder, position: Int) {
         val node = mNodeBreadcrumb[position]
 
-        holder.groupNameView.apply {
-            text = when {
-                node == null -> ""
-                node.title.isEmpty() -> context.getString(R.string.root)
-                else -> node.title
-            }
-        }
+        holder.groupNameView.text = node?.title ?: ""
 
         holder.itemView.apply {
             setOnClickListener {
