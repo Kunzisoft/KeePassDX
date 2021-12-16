@@ -40,6 +40,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -158,10 +159,6 @@ class GroupActivity : DatabaseLockActivity(),
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
-
-        toolbarBreadcrumb?.setNavigationOnClickListener {
-            onBackPressed()
-        }
 
         mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
             // Open group on breadcrumb click
@@ -537,21 +534,19 @@ class GroupActivity : DatabaseLockActivity(),
             searchNumbers?.text = group.numberOfChildEntries.toString()
             databaseNameView?.visibility = View.GONE
             toolbarBreadcrumb?.navigationIcon = null
-            toolbarBreadcrumb?.visibility = View.GONE
+            toolbarBreadcrumb?.collapse()
         } else {
             searchContainer?.visibility = View.GONE
             databaseNameView?.visibility = View.VISIBLE
-            // Assign the group icon depending of IconPack or custom icon
-            group?.let {
-                if (group.containsParent())
-                    toolbarBreadcrumb?.setNavigationIcon(R.drawable.ic_arrow_up_white_24dp)
-                else {
-                    toolbarBreadcrumb?.navigationIcon = null
+            // Refresh breadcrumb
+            if (toolbarBreadcrumb?.isVisible != true) {
+                mBreadcrumbAdapter?.setNode(null)
+                toolbarBreadcrumb?.expand {
+                    mBreadcrumbAdapter?.setNode(group)
                 }
+            } else {
+                mBreadcrumbAdapter?.setNode(group)
             }
-            // Assign number of children
-            mBreadcrumbAdapter?.setNode(group)
-            toolbarBreadcrumb?.visibility = View.VISIBLE
         }
 
         // Hide button
