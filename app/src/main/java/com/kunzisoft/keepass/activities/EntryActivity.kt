@@ -189,7 +189,7 @@ class EntryActivity : DatabaseLockActivity() {
                 }
                 // Assign title text
                 val entryTitle =
-                    if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
+                    if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 mUrl = entryInfo.url

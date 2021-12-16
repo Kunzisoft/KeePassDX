@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
 class GroupDialogFragment : DatabaseDialogFragment() {
@@ -102,7 +103,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             expirationView.dateTime = mGroupInfo.expiryTime
             creationView.text = mGroupInfo.creationTime.getDateTimeString(resources)
             modificationView.text = mGroupInfo.lastModificationTime.getDateTimeString(resources)
-            val uuid = mGroupInfo.id
+            val uuid = UuidUtil.toHexString(mGroupInfo.id)
             if (uuid == null || uuid.isEmpty()) {
                 uuidContainerView.visibility = View.GONE
             } else {

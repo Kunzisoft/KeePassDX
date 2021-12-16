@@ -123,12 +123,12 @@ class BreadcrumbAdapter(val context: Context)
                 }
 
                 holder.groupMetaView?.apply {
-                    val meta = group.nodeId.toString()
-                    text = meta
-                    visibility = if (meta.isNotEmpty()
+                    val meta = group.nodeId.toVisualString()
+                    visibility = if (meta != null
                         && !group.isVirtual
                         && mShowUUID
                     ) {
+                        text = meta
                         View.VISIBLE
                     } else {
                         View.GONE

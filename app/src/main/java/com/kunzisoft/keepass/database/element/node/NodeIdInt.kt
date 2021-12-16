@@ -63,6 +63,10 @@ class NodeIdInt : NodeId<Int> {
         return id.toString()
     }
 
+    override fun toVisualString(): String? {
+        return null
+    }
+
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<NodeIdInt> = object : Parcelable.Creator<NodeIdInt> {

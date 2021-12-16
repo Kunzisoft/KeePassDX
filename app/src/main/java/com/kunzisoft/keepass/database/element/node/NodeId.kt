@@ -44,4 +44,6 @@ abstract class NodeId<Id> : Parcelable {
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
     }
+
+    abstract fun toVisualString(): String?
 }

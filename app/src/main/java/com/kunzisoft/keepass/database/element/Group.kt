@@ -454,7 +454,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun getGroupInfo(): GroupInfo {
         val groupInfo = GroupInfo()
-        groupInfo.id = groupKDB?.nodeId ?.toString() ?: UuidUtil.toHexString(groupKDBX?.nodeId?.id)
+        groupInfo.id = groupKDBX?.nodeId?.id
         groupInfo.title = title
         groupInfo.icon = icon
         groupInfo.creationTime = creationTime

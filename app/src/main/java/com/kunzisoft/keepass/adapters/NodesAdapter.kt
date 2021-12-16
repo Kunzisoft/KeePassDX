@@ -39,9 +39,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
@@ -355,8 +353,9 @@ class NodesAdapter (private val context: Context,
         }
         // Add meta text to show UUID
         holder.meta.apply {
-            if (mShowUUID) {
-                text = subNode.nodeId.toString()
+            val nodeId = subNode.nodeId?.toVisualString()
+            if (mShowUUID && nodeId != null) {
+                text = nodeId
                 setTextSize(mTextSizeUnit, mMetaTextDefaultDimension, mPrefSizeMultiplier)
                 visibility = View.VISIBLE
             } else {

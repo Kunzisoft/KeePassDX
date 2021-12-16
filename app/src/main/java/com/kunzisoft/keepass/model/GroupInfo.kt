@@ -1,13 +1,15 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
+import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
+import java.util.*
 
 class GroupInfo : NodeInfo {
 
-    var id: String? = null
+    var id: UUID? = null
     var notes: String? = null
 
     init {
@@ -17,13 +19,13 @@ class GroupInfo : NodeInfo {
     constructor(): super()
 
     constructor(parcel: Parcel): super(parcel) {
-        id = parcel.readString()
+        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
         notes = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeString(id)
+        parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(notes)
     }
 
