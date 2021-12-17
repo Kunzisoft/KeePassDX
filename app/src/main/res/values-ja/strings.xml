@@ -600,4 +600,5 @@
     <string name="templates_group_uuid_title">テンプレート グループ</string>
     <string name="menu_external_icon">外部アイコン</string>
     <string name="template">テンプレート</string>
+    <string name="hint_icon_name">アイコン名</string>
 </resources>
