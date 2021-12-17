@@ -454,6 +454,7 @@ class NodesAdapter (private val context: Context,
                     progress = otpElement.secondsRemaining
                 }
             }
+            null -> {}
         }
         holder?.otpToken?.apply {
             text = otpElement?.token

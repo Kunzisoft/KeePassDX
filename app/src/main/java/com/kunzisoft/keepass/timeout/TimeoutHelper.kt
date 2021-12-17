@@ -66,9 +66,27 @@ object TimeoutHelper {
                     val triggerTime = System.currentTimeMillis() + timeout
                     Log.d(TAG, "TimeoutHelper start")
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        alarmManager.setExact(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                            && !alarmManager.canScheduleExactAlarms()) {
+                            alarmManager.set(
+                                AlarmManager.RTC,
+                                triggerTime,
+                                getLockPendingIntent(context)
+                            )
+                            // TODO explain why exact alarm is needed for timeout
+                        } else {
+                            alarmManager.setExact(
+                                AlarmManager.RTC,
+                                triggerTime,
+                                getLockPendingIntent(context)
+                            )
+                        }
                     } else {
-                        alarmManager.set(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                        alarmManager.set(
+                            AlarmManager.RTC,
+                            triggerTime,
+                            getLockPendingIntent(context)
+                        )
                     }
                 }
             }

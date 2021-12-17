@@ -204,9 +204,9 @@ class EntryActivity : DatabaseLockActivity() {
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
-            if (otpElement == null)
+            if (otpElement == null) {
                 entryProgress?.visibility = View.GONE
-            when (otpElement?.type) {
+            } else when (otpElement.type) {
                 // Only add token if HOTP
                 OtpType.HOTP -> {
                     entryProgress?.visibility = View.GONE

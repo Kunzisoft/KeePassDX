@@ -233,9 +233,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         }
                     })
                 },
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // TODO Mutable
-                    PendingIntent.FLAG_CANCEL_CURRENT
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
                 } else {
                     PendingIntent.FLAG_CANCEL_CURRENT
                 })
@@ -248,9 +247,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
                     putExtra(KEY_REGISTER_INFO, registerInfo)
                 },
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // TODO Mutable
-                    PendingIntent.FLAG_CANCEL_CURRENT
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
                 } else {
                     PendingIntent.FLAG_CANCEL_CURRENT
                 })
