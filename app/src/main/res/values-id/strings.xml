@@ -455,4 +455,16 @@
     <string name="public_key">Kunci publik</string>
     <string name="private_key">Kunci pribadi</string>
     <string name="membership">Keanggotaan</string>
+    <string name="hint_icon_name">Nama ikon</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="personal_identification_number">PIN</string>
+    <string name="id_card">Kartu ID</string>
+    <string name="email">Surel</string>
+    <string name="email_address">Alamat surel</string>
+    <string name="ssid">SSID</string>
+    <string name="token">Token</string>
+    <string name="seed">Bibit</string>
+    <string name="bank_identifier_code">SWIFT/BIC</string>
+    <string name="secure_note">Catatan Aman</string>
+    <string name="menu_external_icon">Ikon eksternal</string>
 </resources>
