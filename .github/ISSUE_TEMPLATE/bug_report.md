@@ -24,6 +24,7 @@ A clear and concise description of what you expected to happen.
  - Created with: [e.g Windows KeePass 2.42]
  - Version: [e.g. 2]
  - Location: [e.g. Remote file retrieved with GDrive app]
+ - File provider (`content://` URI): [e.g. `content://com.google.android.apps.docs.storage/5`]
  - Size: [e.g. 150Mo]
  - Contains attachment: [e.g. Yes]
 
