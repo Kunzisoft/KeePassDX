@@ -3,6 +3,7 @@ KeePassDX(3.1.0)
  * Add path in search results #1148
  * Add group info dialog #1177
  * Fix UI in Android 8 #509
+ * Upgrade to SDK 31
  * Stop asking WRITE_EXTERNAL_STORAGE permission
 
 KeePassDX(3.0.4)
