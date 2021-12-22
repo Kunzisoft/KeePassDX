@@ -165,9 +165,12 @@ class GroupActivity : DatabaseLockActivity(),
             // Open group on breadcrumb click
             onItemClickListener = { node, _ ->
                 finishNodeAction()
-                // If last item
+                // If last item & not a virtual root group
                 val currentGroup = mCurrentGroup
-                if (currentGroup != null && node == currentGroup) {
+                if (currentGroup != null && node == currentGroup
+                    && (currentGroup != mDatabase?.rootGroup
+                            || mDatabase?.rootGroupIsVirtual == false)
+                ) {
                     launchDialogToShowGroupInfo(currentGroup)
                 } else {
                     mDatabase?.let { database ->
@@ -178,7 +181,10 @@ class GroupActivity : DatabaseLockActivity(),
             onLongItemClickListener = { node, position ->
                 finishNodeAction()
                 val currentGroup = mCurrentGroup
-                if (currentGroup != null && node == currentGroup && currentGroup.containsParent()) {
+                if (currentGroup != null && node == currentGroup
+                    && (currentGroup != mDatabase?.rootGroup
+                            || mDatabase?.rootGroupIsVirtual == false)
+                ) {
                     launchDialogForGroupUpdate(currentGroup)
                 } else {
                     onItemClickListener?.invoke(node, position)

@@ -364,7 +364,7 @@ class Database {
             mDatabaseKDBX?.masterKey = masterKey
         }
 
-    val rootGroup: Group?
+    var rootGroup: Group?
         get() {
             mDatabaseKDB?.rootGroup?.let {
                 return Group(it)
@@ -373,6 +373,25 @@ class Database {
                 return Group(it)
             }
             return null
+        }
+        set(value) {
+            value?.groupKDB?.let { rootKDB ->
+                mDatabaseKDB?.rootGroup = rootKDB
+            }
+            value?.groupKDBX?.let { rootKDBX ->
+                mDatabaseKDBX?.rootGroup = rootKDBX
+            }
+        }
+
+    val rootGroupIsVirtual: Boolean
+        get() {
+            mDatabaseKDB?.let {
+                return true
+            }
+            mDatabaseKDBX?.let {
+                return false
+            }
+            return true
         }
 
     /**

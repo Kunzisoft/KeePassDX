@@ -42,6 +42,9 @@ class UpdateGroupRunnable constructor(
             // Update group with new values
             mNewGroup.touch(modified = true, touchParents = true)
 
+            if (database.rootGroup == mOldGroup) {
+                database.rootGroup = mNewGroup
+            }
             // Only change data in index
             database.updateGroup(mNewGroup)
         }
@@ -50,6 +53,9 @@ class UpdateGroupRunnable constructor(
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
+            if (database.rootGroup == mNewGroup) {
+                database.rootGroup = mOldGroup
+            }
             database.updateGroup(mOldGroup)
         }
 

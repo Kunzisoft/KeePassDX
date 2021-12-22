@@ -89,6 +89,7 @@ abstract class DatabaseVersioned<
         set(value) {
             field = value
             value?.let {
+                removeGroupIndex(it)
                 addGroupIndex(it)
             }
         }
