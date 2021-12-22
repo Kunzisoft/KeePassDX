@@ -19,7 +19,13 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import android.util.Log
 import android.view.View
 import android.widget.NumberPicker
 import com.kunzisoft.keepass.R
@@ -58,6 +64,30 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             val currentPreference = preference
             if (currentPreference is DurationDialogPreference) {
                 durationToDaysHoursMinutesSeconds(currentPreference.getDuration())
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        (context?.applicationContext?.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                && !alarmManager.canScheduleExactAlarms()) {
+                setExplanationText(R.string.warning_exact_alarm)
+                setExplanationButton(R.string.permission) {
+                    // Open the exact alarm permission screen
+                    try {
+                        startActivity(Intent().apply {
+                            action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                        })
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to open exact alarm permission screen", e)
+                    }
+                }
+            } else {
+                explanationText = ""
+                setExplanationButton("") {}
             }
         }
     }
@@ -164,6 +194,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
     }
 
     companion object {
+        private const val TAG = "DurationDialogFrgCmpt"
         private const val ENABLE_KEY = "ENABLE_KEY"
         private const val DAYS_KEY = "DAYS_KEY"
         private const val HOURS_KEY = "HOURS_KEY"

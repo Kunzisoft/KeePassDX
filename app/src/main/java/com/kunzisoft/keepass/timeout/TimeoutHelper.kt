@@ -73,7 +73,6 @@ object TimeoutHelper {
                                 triggerTime,
                                 getLockPendingIntent(context)
                             )
-                            // TODO explain why exact alarm is needed for timeout
                         } else {
                             alarmManager.setExact(
                                 AlarmManager.RTC,
