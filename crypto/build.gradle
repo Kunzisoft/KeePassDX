@@ -47,7 +47,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$android_appcompat_version"
     implementation "com.google.android.material:material:$android_material_version"
     // Crypto
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.65.01'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
     androidTestImplementation "androidx.test:runner:$android_test_version"
     androidTestImplementation "androidx.test:rules:$android_test_version"
