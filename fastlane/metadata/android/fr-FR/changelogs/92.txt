@@ -1,4 +1,5 @@
  * Ajout d'un fil d'ariane
  * Ajout du chemin pour les résultats de recherche #1148
  * Ajout d'un dialogue pour les informations de groupe #1177
- * Stop asking WRITE_EXTERNAL_STORAGE permission
+ * Correction de l'interface utilisateur dans Android 8 #509
+ * Ne demande plus la permission WRITE_EXTERNAL_STORAGE permission

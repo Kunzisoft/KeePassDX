@@ -1,4 +1,5 @@
  * Add breadcrumb
  * Add path in search results #1148
  * Add group info dialog #1177
+ * Fix UI in Android 8 #509
  * Stop asking WRITE_EXTERNAL_STORAGE permission
