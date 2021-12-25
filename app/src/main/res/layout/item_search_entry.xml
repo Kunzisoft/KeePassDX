@@ -17,58 +17,60 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/entry_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
+    android:background="?attr/colorPrimary"
+    android:minHeight="36dp"
     android:paddingTop="3dp"
-    android:paddingBottom="3dp"
-    android:minHeight="48dp"
-    android:background="?attr/colorPrimary" >
+    android:paddingBottom="3dp">
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/entry_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:scaleType="fitXY"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        app:layout_constraintBottom_toBottomOf="@id/entry_container"
+        app:layout_constraintLeft_toLeftOf="@id/entry_container"
+        app:layout_constraintTop_toTopOf="@id/entry_container"/>
+
     <TextView
         android:id="@+id/entry_text"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:layout_marginRight="6dp"
-        android:layout_marginEnd="6dp"
         style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/entry_icon"
-        android:layout_toEndOf="@+id/entry_icon"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        app:layout_constraintLeft_toRightOf="@id/barrier_text_left"
+        app:layout_constraintTop_toTopOf="@id/entry_container"
+        app:layout_constraintBottom_toTopOf="@id/entry_subtext"
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:text="Entry Title" />
+
     <TextView
         android:id="@+id/entry_subtext"
-        android:layout_height="wrap_content"
+        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:lines="1"
         android:singleLine="true"
-        android:layout_marginLeft="-6dp"
-        android:layout_marginStart="-6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginEnd="6dp"
-        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
-        android:layout_below="@+id/entry_text"
-        android:layout_toRightOf="@+id/entry_icon"
-        android:layout_toEndOf="@+id/entry_icon"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        app:layout_constraintLeft_toRightOf="@id/barrier_text_left"
+        app:layout_constraintBottom_toBottomOf="@id/entry_container"
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:text="Entry Subtext" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_text_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="entry_icon"
+        app:barrierMargin="8dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

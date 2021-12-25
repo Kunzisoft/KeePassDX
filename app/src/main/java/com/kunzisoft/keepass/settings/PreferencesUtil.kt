@@ -140,6 +140,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.show_uuid_default))
     }
 
+    fun showIcons(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_icons_key),
+                context.resources.getBoolean(R.bool.show_icons_default))
+    }
+
     fun getStyle(context: Context): String {
         val defaultStyleString = Stylish.defaultStyle(context)
         val styleString = PreferenceManager.getDefaultSharedPreferences(context)

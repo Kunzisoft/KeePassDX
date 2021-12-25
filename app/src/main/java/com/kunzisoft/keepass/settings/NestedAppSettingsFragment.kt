@@ -450,6 +450,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.hide_expired_entries_key),
             getString(R.string.show_otp_token_key),
             getString(R.string.show_uuid_key),
+            getString(R.string.show_icons_key),
             getString(R.string.enable_education_screens_key),
             getString(R.string.reset_education_screens_key) -> {
                 DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
