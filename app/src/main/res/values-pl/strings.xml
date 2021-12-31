@@ -603,4 +603,6 @@
     <string name="autofill_manual_selection_title">Wybór ręczny</string>
     <string name="autofill_select_entry">Wybierz wpis…</string>
     <string name="hint_icon_name">Nazwa ikony</string>
+    <string name="warning_exact_alarm">Nie zezwolono aplikacji na użycie dokładnego alarmu. W rezultacie funkcje wymagające czasomierza nie będą wykonywane z dokładnym czasem.</string>
+    <string name="permission">Uprawnienie</string>
 </resources>
