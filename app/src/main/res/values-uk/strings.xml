@@ -603,4 +603,6 @@
     <string name="autofill_manual_selection_title">Вибір вручну</string>
     <string name="autofill_select_entry">Вибрати запис…</string>
     <string name="hint_icon_name">Назва піктограми</string>
+    <string name="permission">Дозвіл</string>
+    <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
 </resources>
