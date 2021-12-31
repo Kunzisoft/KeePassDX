@@ -468,4 +468,24 @@
     <string name="secure_note">Catatan Aman</string>
     <string name="menu_external_icon">Ikon eksternal</string>
     <string name="holder">Penyangga</string>
+    <string name="autofill_select_entry">Pilih entri…</string>
+    <string name="biometric_auto_open_prompt_summary">Secara otomatis meminta buka kunci lanjutan jika basis data diatur menggunakan itu</string>
+    <string name="temp_advanced_unlock_enable_title">Buka kunci lanjutan sementara</string>
+    <string name="temp_advanced_unlock_enable_summary">Jangan simpan konten terenkripsi apa pun untuk menggunakan buka kunci lanjutan</string>
+    <string name="temp_advanced_unlock_timeout_summary">Durasi penggunaan buka kunci lanjutan sebelum menghapus konten tersebut</string>
+    <string name="advanced_unlock_timeout">Batas waktu membuka kunci lanjutan</string>
+    <string name="advanced_unlock_delete_all_key_warning">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci lanjutan\?</string>
+    <string name="templates_group_enable_title">Penggunaan templat</string>
+    <string name="biometric_delete_all_key_summary">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci lanjutan</string>
+    <string name="max_history_items_summary">Batasi jumlah item riwayat per entri</string>
+    <string name="template_group_name">Templat</string>
+    <string name="date_of_issue">Tanggal diterbitkan</string>
+    <string name="template">Templat</string>
+    <string name="place_of_issue">Tempat diterbitkan</string>
+    <string name="device_credential_unlock_enable_summary">Membiarkan Anda menggunakan kredensial perangkat Anda untuk membuka basis data</string>
+    <string name="unavailable_feature_text">Tidak bisa memulai fitur ini.</string>
+    <string name="templates_group_uuid_title">Grup templat</string>
+    <string name="max_history_size_summary">Batasi ukuran riwayat per entri</string>
+    <string name="max_history_size_title">Ukuran maksimum</string>
+    <string name="biometric_delete_all_key_title">Hapus kunci enkripsi</string>
 </resources>
