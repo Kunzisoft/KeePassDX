@@ -598,4 +598,6 @@
     <string name="autofill_manual_selection_title">Elle seçim</string>
     <string name="autofill_select_entry">Girdi seç…</string>
     <string name="hint_icon_name">Simge adı</string>
+    <string name="warning_exact_alarm">Uygulamanın tam bir alarm kullanmasına izin vermediniz. Sonuç olarak zamanlayıcı gerektiren özellikler kesin bir süre ile yapılmayacaktır.</string>
+    <string name="permission">İzinler</string>
 </resources>
