@@ -128,11 +128,11 @@
     <string name="extended_ASCII">ASCII拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
-    <string name="clipboard_error">某些设备不允许应用程序使用剪贴板。</string>
+    <string name="clipboard_error">某些设备不允许应用使用剪贴板。</string>
     <string name="clipboard_error_clear">无法清空剪切板</string>
     <string name="style_choose_title">主题</string>
     <string name="icon_pack_choose_title">图标包</string>
-    <string name="icon_pack_choose_summary">程序中使用的图标包</string>
+    <string name="icon_pack_choose_summary">应用中使用的图标包</string>
     <string name="edit_entry">编辑条目</string>
     <string name="key_derivation_function">密钥推导函数</string>
     <string name="entry_not_found">找不到条目数据。</string>
@@ -199,7 +199,7 @@
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
     <string name="contribute">贡献</string>
-    <string name="style_choose_summary">程序中使用的主题</string>
+    <string name="style_choose_summary">应用中使用的主题</string>
     <string name="error_string_key">每个字符串必须有字段名。</string>
     <string name="field_name">字段名</string>
     <string name="field_value">字段值</string>
@@ -236,7 +236,7 @@
     <string name="monospace_font_fields_enable_title">字段字型</string>
     <string name="monospace_font_fields_enable_summary">更改字段字体，可以使字符更清楚</string>
     <string name="allow_copy_password_summary">允许复制整段密码和受保护的字段至剪切板</string>
-    <string name="allow_copy_password_warning">警告：复制密码时密码在剪贴板中，而所有程序都可访问剪切板。因此复制密码时，设备上的其他程序也能看到密码。</string>
+    <string name="allow_copy_password_warning">警告：复制密码时密码在剪贴板中，而所有应用都可访问剪切板。因此复制密码时，设备上的其他应用也能看到密码。</string>
     <string name="magic_keyboard_explanation_summary">激活自定义键盘以填写密码和所有身份字段</string>
     <string name="allow_copy_password_title">信任剪贴板</string>
     <string name="keyboard_name">魔法键盘</string>
@@ -296,7 +296,7 @@
     <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款<strong>没有广告</strong>，<strong>基于 copylefted 版权协议的自由软件</strong>。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
     <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的&lt;strong&gt;捐赠。&lt;/strong&gt;</string>
@@ -306,12 +306,12 @@
     <string name="html_text_dev_feature_encourage">您的留言，是对开发人员添加&lt;strong&gt;新功能&lt;/strong&gt;及&lt;strong&gt;修复 bugs&lt;/strong&gt; 的鼓励。</string>
     <string name="html_text_dev_feature_thanks">非常感谢您的捐助和贡献。</string>
     <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
-    <string name="html_text_dev_feature_upgrade">别忘了通过安装新版本来保持你的应用程序是最新的。</string>
+    <string name="html_text_dev_feature_upgrade">别忘了通过安装新版本来保持你的应用是最新的。</string>
     <string name="selection_mode">选择模式</string>
-    <string name="do_not_kill_app">不要终止程序…</string>
+    <string name="do_not_kill_app">不要终止应用…</string>
     <string name="lock_database_back_root_title">按返回键以锁定</string>
     <string name="lock_database_back_root_summary">当用户单击根屏幕上的返回按钮时锁定数据库</string>
-    <string name="clear_clipboard_notification_title">关闭程序时清空剪贴板</string>
+    <string name="clear_clipboard_notification_title">关闭应用时清空剪贴板</string>
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
@@ -400,7 +400,7 @@
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
     <string name="enable_auto_save_database_summary">在每次执行重要操作后保存数据库（仅在编辑模式下有效）</string>
-    <string name="keystore_not_accessible">密钥库未正确地初始化</string>
+    <string name="keystore_not_accessible">密钥库未正确地初始化。</string>
     <string name="entry_attachments">附件</string>
     <string name="menu_restore_entry_history">恢复历史记录</string>
     <string name="menu_delete_entry_history">删除历史记录</string>
@@ -432,7 +432,7 @@
     <string name="entry_add_attachment">添加附件</string>
     <string name="discard_changes">放弃更改？</string>
     <string name="validate">验证</string>
-    <string name="autofill_auto_search_summary">自动建议匹配的网址域名或应用程序 ID 的搜索结果</string>
+    <string name="autofill_auto_search_summary">自动建议匹配的网址域名或应用 ID 的搜索结果</string>
     <string name="autofill_auto_search_title">自动搜索</string>
     <string name="lock_database_show_button_summary">在用户界面中显示锁定数据库按钮</string>
     <string name="lock_database_show_button_title">显示锁定数据库按钮</string>
@@ -441,11 +441,11 @@
     <string name="error_label_exists">该标签已经存在。</string>
     <string name="keyboard_search_share_summary">将 URL 共享给 KeePassDX 时，使用该 URL 域过滤条目</string>
     <string name="keyboard_search_share_title">搜索分享的信息</string>
-    <string name="autofill_block_restart">重新启动包含该表单的应用程序以激活拦截。</string>
+    <string name="autofill_block_restart">重新启动包含该表单的应用以激活拦截。</string>
     <string name="autofill_block">阻止自动填充</string>
     <string name="autofill_web_domain_blocklist_summary">禁止在下列域名中自动填充凭证</string>
     <string name="autofill_web_domain_blocklist_title">网址域名黑名单</string>
-    <string name="autofill_application_id_blocklist_summary">禁止应用程序自动填充的黑名单</string>
+    <string name="autofill_application_id_blocklist_summary">禁止应用自动填充的黑名单</string>
     <string name="autofill_application_id_blocklist_title">应用拦截列表</string>
     <string name="filter">过滤器</string>
     <string name="subdomain_search_summary">搜索带有子域约束的网址域名</string>
@@ -532,7 +532,7 @@
     <string name="autofill_inline_suggestions_title">内联建议</string>
     <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
     <string name="warning_database_info_changed_options">通过保存数据库或用最新的更改重新加载数据库来覆盖外部修改。</string>
-    <string name="warning_database_info_changed">数据库文件中包含的信息已在应用程序之外被修改。</string>
+    <string name="warning_database_info_changed">数据库文件中包含的信息已在应用之外被修改。</string>
     <string name="menu_reload_database">重新加载数据库</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">兆字节</string>
@@ -602,4 +602,5 @@
     <string name="autofill_manual_selection_summary">显示让用户选择数据库条目的选项</string>
     <string name="autofill_manual_selection_title">手动选择</string>
     <string name="autofill_select_entry">选择条目…</string>
+    <string name="hint_icon_name">图标名称</string>
 </resources>

@@ -604,4 +604,5 @@
     <string name="autofill_manual_selection_summary">Mostrar opción para permitir al usuario seleccionar la entrada de la base de datos</string>
     <string name="autofill_manual_selection_title">Selección manual</string>
     <string name="autofill_select_entry">Seleccionar entrada…</string>
+    <string name="hint_icon_name">Nombre del icono</string>
 </resources>

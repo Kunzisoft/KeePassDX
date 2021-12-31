@@ -160,7 +160,7 @@
     <string name="clipboard_notifications_title">Zwischenablage-Benachrichtigung</string>
     <string name="clipboard_notifications_summary">Benachrichtigungen zur Zwischenablage anzeigen, um beim Betrachten eines Eintrags Felder kopieren zu können</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
-    <string name="lock_database_screen_off_summary">Datenbank sperren, einige Sekunden nachdem der Bildschirm ausgeschaltet wird</string>
+    <string name="lock_database_screen_off_summary">Datenbank einige Sekunden, nachdem der Bildschirm ausgeschaltet ist, sperren</string>
     <string name="create_keepass_file">Neue Datenbank erstellen</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
@@ -253,7 +253,7 @@
     <string name="education_sort_title">Sortierung der Einträge</string>
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
-    <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
+    <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern sowie weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt; und unter einer &lt;strong&gt;Copyleft-Lizenz&lt;/strong&gt;. Es werden keine persönlichen Daten gesammelt, in welcher Form auch immer, unabhängig von der verwendeten Version (kostenlos oder Pro).</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhalten Sie Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützen insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
@@ -343,7 +343,7 @@
     <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in einer Gruppe anzeigen</string>
     <string name="content_description_add_node">Knoten hinzufügen</string>
     <string name="lock_database_back_root_title">„Zurück“ drücken, um zu sperren</string>
-    <string name="clear_clipboard_notification_summary">Die Datenbank sperren, wenn die Dauer der Zwischenablage abläuft oder die Benachrichtigung geschlossen wird, nachdem Sie sie zu benutzen begonnen haben</string>
+    <string name="clear_clipboard_notification_summary">Die Datenbank sperren, wenn die Dauer der Zwischenablage abläuft oder die Benachrichtigung geschlossen wird, nachdem Sie sie benutzt haben</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
     <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
@@ -450,7 +450,7 @@
     <string name="autofill_auto_search_summary">Suchergebnisse automatisch nach Web-Domain oder Anwendungs-ID vorschlagen</string>
     <string name="autofill_auto_search_title">Automatische Suche</string>
     <string name="autofill_manual_selection_title">Manuelle Auswahl</string>
-    <string name="autofill_manual_selection_summary">Manuelle Auswahl des Datenbank-Eintrags ermöglichen</string>
+    <string name="autofill_manual_selection_summary">Manuelle Auswahl des Datenbankeintrags ermöglichen</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
     <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
     <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
@@ -488,13 +488,13 @@
 \nMit diesem Upload könnte Ihre Datenbank sehr groß werden und an Geschwindigkeit verlieren.</string>
     <string name="upload_attachment">%1$s hochladen</string>
     <string name="education_add_attachment_title">Anhang hinzufügen</string>
-    <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge, die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
     <string name="warning_sure_add_file">Soll die Datei trotzdem hinzugefügt werden\?</string>
     <string name="show_uuid_summary">Zeigt die mit einem Eintrag oder einer Gruppe verknüpfte UUID an</string>
     <string name="show_uuid_title">UUID anzeigen</string>
     <string name="autofill_read_only_save">Das Speichern von Daten ist für eine als schreibgeschützt geöffnete Datenbank nicht zulässig.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
-    <string name="keyboard_previous_lock_summary">Automatisches Zurückschalten zur vorherigen Tastatur nach dem Sperren der Datenbank</string>
+    <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur zurückschalten</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrisches Sicherheitsupdate erforderlich.</string>
@@ -503,12 +503,12 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
-    <string name="autofill_save_search_info_summary">Suchdaten bei manueller Auswahl einer Eingabe wenn möglich speichern</string>
+    <string name="autofill_save_search_info_summary">Suchdaten bei manueller Auswahl einer Eingabe, wenn möglich, speichern</string>
     <string name="autofill_ask_to_save_data_summary">Nachfragen, ob die Daten gespeichert werden sollen, wenn ein Formular ausgefüllt ist</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Nachdem eine URL mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht sich diesen Eintrag für weitere Nutzungen zu merken</string>
+    <string name="keyboard_save_search_info_summary">Nachdem eine URL mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht, sich diesen Eintrag für die weitere Nutzung zu merken</string>
     <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
@@ -519,8 +519,8 @@
     <string name="advanced_unlock_prompt_store_credential_title">Moderne Entsperrerkennung</string>
     <string name="education_advanced_unlock_summary">Verknüpfen Sie Ihr Passwort mit Ihren gescannten Biometriedaten oder Daten zur Geräteanmeldung, um schnell Ihre Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Moderne Entsperrung der Datenbank</string>
-    <string name="advanced_unlock_timeout">Verfallzeit der modernen Entsperrung</string>
-    <string name="temp_advanced_unlock_timeout_summary">Laufzeit der modernen Entsperrung bevor ihr Inhalt gelöscht wird</string>
+    <string name="advanced_unlock_timeout">Verfallszeit der modernen Entsperrung</string>
+    <string name="temp_advanced_unlock_timeout_summary">Laufzeit der modernen Entsperrung, bevor ihr Inhalt gelöscht wird</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keine zur modernen Entsperrung verwendeten, verschlüsselten Inhalte speichern</string>
     <string name="temp_advanced_unlock_enable_title">Befristete moderne Entsperrung</string>
@@ -530,7 +530,7 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit moderner Entsperrerkennung öffnen</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
-    <string name="select_entry">Wähle Eintrag</string>
+    <string name="select_entry">Eintrag auswählen</string>
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
     <string name="custom_fields">Benutzerdefinierte Felder</string>
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel, die mit der modernen Entsperrerkennung zusammenhängen, löschen\?</string>
@@ -576,7 +576,7 @@
     <string name="unit_byte">B</string>
     <string name="download_canceled">Abgebrochen!</string>
     <string name="autofill_inline_suggestions_keyboard">Vorschläge für automatisches Ausfüllen hinzugefügt.</string>
-    <string name="autofill_inline_suggestions_summary">Wenn möglich unmittelbar Vorschläge zum automatischen Ausfüllen auf einer kompatiblen Tastatur anzeigen</string>
+    <string name="autofill_inline_suggestions_summary">Wenn möglich, Vorschläge zum automatischen Ausfüllen direkt auf einer kompatiblen Tastatur anzeigen</string>
     <string name="properties">Eigenschaften</string>
     <string name="description_app_properties">KeePassDX-Eigenschaften zur Verwaltung der App-Einstellungen</string>
     <string name="secure_note">Sicherer Hinweis</string>
@@ -613,4 +613,5 @@
     <string name="menu_external_icon">Externes Symbol</string>
     <string name="show_otp_token_summary">Zeigt OTP-Tokens in der Liste der Einträge an</string>
     <string name="show_otp_token_title">OTP-Token anzeigen</string>
+    <string name="hint_icon_name">Symbolname</string>
 </resources>
