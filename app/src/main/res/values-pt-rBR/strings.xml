@@ -174,7 +174,7 @@
     <string name="search_results">Resultados da busca</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
-    <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
+    <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>
     <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
     <string name="encrypted_value_stored">Senha cifrada armazenada</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
@@ -248,7 +248,7 @@
     <string name="education_generate_password_title">Criar uma senha forte</string>
     <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e lembre-se de torná-la segura.</string>
     <string name="education_entry_new_field_title">Adicione campos customizados</string>
-    <string name="education_entry_new_field_summary">Registrar um campo adicional, adicionar um valor e, opcionalmente, protegê-lo.</string>
+    <string name="education_entry_new_field_summary">Registre um campo adicional, adicione um valor e, opcionalmente, proteja-o.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
     <string name="education_read_only_title">Proteja seu banco de modificações</string>
     <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
@@ -426,7 +426,7 @@
     <string name="warning_database_read_only">Conceder acesso de gravação de arquivo para salvar alterações no banco de dados</string>
     <string name="hide_broken_locations_summary">Esconder links quebrados na lista de bancos de dados recentes</string>
     <string name="hide_broken_locations_title">Ocultar links quebrados do banco de dados</string>
-    <string name="remember_keyfile_locations_summary">Manter o local onde os arquivos-chave são armazenados</string>
+    <string name="remember_keyfile_locations_summary">Lembrar o local onde os arquivos-chave são guardados</string>
     <string name="remember_keyfile_locations_title">Lembrar a localização dos arquivos-chave</string>
     <string name="remember_database_locations_summary">Lembra o local onde os bancos de dados são guardados</string>
     <string name="remember_database_locations_title">Lembrar a localização dos bancos de dados</string>
@@ -601,4 +601,6 @@
     <string name="content">Conteúdo</string>
     <string name="autofill_select_entry">Selecione a entrada…</string>
     <string name="hint_icon_name">Nome do ícone</string>
+    <string name="permission">Permissão</string>
+    <string name="warning_exact_alarm">Você não permitiu que o aplicativo usasse um alarme exato. Como resultado, os recursos que requerem um cronômetro não serão executados com um tempo exato.</string>
 </resources>
