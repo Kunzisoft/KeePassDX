@@ -603,4 +603,6 @@
     <string name="autofill_manual_selection_title">手动选择</string>
     <string name="autofill_select_entry">选择条目…</string>
     <string name="hint_icon_name">图标名称</string>
+    <string name="warning_exact_alarm">你尚未允许该应用使用精确闹钟。 因此，需要计时器的功能不会在精确的时间完成。</string>
+    <string name="permission">权限</string>
 </resources>
