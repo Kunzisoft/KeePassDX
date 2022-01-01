@@ -603,4 +603,6 @@
     <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запить из базы</string>
     <string name="autofill_manual_selection_title">Ручной выбор</string>
     <string name="hint_icon_name">Название значка</string>
+    <string name="permission">Разрешение</string>
+    <string name="warning_exact_alarm">Вы не разрешили приложению использовать точный сигнал будильника. В результате требующие этого функции, не будут выполняться с точным временем.</string>
 </resources>
