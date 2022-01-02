@@ -614,4 +614,6 @@
     <string name="show_otp_token_summary">Zeigt OTP-Tokens in der Liste der Einträge an</string>
     <string name="show_otp_token_title">OTP-Token anzeigen</string>
     <string name="hint_icon_name">Symbolname</string>
+    <string name="permission">Erlaubnis</string>
+    <string name="warning_exact_alarm">Sie haben der App nicht erlaubt, einen genauen Alarm zu verwenden. Deshalb werden die Funktionen, die einen Timer erfordern, nicht zu einer genauen Zeit ausgeführt.</string>
 </resources>
