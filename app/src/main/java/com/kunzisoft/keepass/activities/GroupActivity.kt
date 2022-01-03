@@ -1070,6 +1070,10 @@ class GroupActivity : DatabaseLockActivity(),
                 saveDatabase()
                 return true
             }
+            R.id.menu_merge_database -> {
+                mergeDatabase()
+                return true
+            }
             R.id.menu_reload_database -> {
                 reloadDatabase()
                 return true

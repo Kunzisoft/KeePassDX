@@ -87,6 +87,10 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
+        mDatabaseViewModel.mergeDatabase.observe(this) { fixDuplicateUuid ->
+            mDatabaseTaskProvider?.startDatabaseMerge(fixDuplicateUuid)
+        }
+
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
             mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
         }
@@ -212,6 +216,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
+            DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK,
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
                 // Reload the current activity
                 if (result.isSuccess) {
@@ -252,6 +257,10 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     fun saveDatabase() {
         mDatabaseTaskProvider?.startDatabaseSave(true)
+    }
+
+    fun mergeDatabase() {
+        mDatabaseTaskProvider?.startDatabaseMerge(false)
     }
 
     fun reloadDatabase() {

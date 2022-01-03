@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
+import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
@@ -626,6 +627,52 @@ class Database {
     }
 
     @Throws(LoadDatabaseException::class)
+    fun mergeData(contentResolver: ContentResolver,
+                  cacheDirectory: File,
+                  isRAMSufficient: (memoryWanted: Long) -> Boolean,
+                  tempCipherKey: LoadedKey,
+                  progressTaskUpdater: ProgressTaskUpdater?) {
+
+        // New database instance to get new changes
+        val databaseToMerge = Database()
+        databaseToMerge.fileUri = this.fileUri
+        try {
+            databaseToMerge.fileUri?.let { databaseUri ->
+                databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
+                    { databaseInputStream ->
+                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
+                            .openDatabase(databaseInputStream,
+                                masterKey,
+                                tempCipherKey,
+                                progressTaskUpdater)
+                    },
+                    { databaseInputStream ->
+                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
+                            .openDatabase(databaseInputStream,
+                                masterKey,
+                                tempCipherKey,
+                                progressTaskUpdater)
+                    }
+                )
+            } ?: run {
+                Log.e(TAG, "Database URI is null, database cannot be reloaded")
+                throw IODatabaseException()
+            }
+
+            // TODO Merge KDB
+            mDatabaseKDBX?.let { databaseKDBX ->
+                databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
+                    DatabaseKDBXMerger(databaseKDBX).merge(databaseKDBXToMerge)
+                }
+            }
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
+        } finally {
+            databaseToMerge.clearAndClose()
+        }
+    }
+
+    @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
                    cacheDirectory: File,
                    isRAMSufficient: (memoryWanted: Long) -> Boolean,
@@ -636,20 +683,20 @@ class Database {
         try {
             fileUri?.let { oldDatabaseUri ->
                 readDatabaseStream(contentResolver, oldDatabaseUri,
-                        { databaseInputStream ->
-                            DatabaseInputKDB(cacheDirectory, isRAMSufficient)
-                                    .openDatabase(databaseInputStream,
-                                            masterKey,
-                                            tempCipherKey,
-                                            progressTaskUpdater)
-                        },
-                        { databaseInputStream ->
-                            DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
-                                    .openDatabase(databaseInputStream,
-                                            masterKey,
-                                            tempCipherKey,
-                                            progressTaskUpdater)
-                        }
+                    { databaseInputStream ->
+                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
+                            .openDatabase(databaseInputStream,
+                                masterKey,
+                                tempCipherKey,
+                                progressTaskUpdater)
+                    },
+                    { databaseInputStream ->
+                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
+                            .openDatabase(databaseInputStream,
+                                masterKey,
+                                tempCipherKey,
+                                progressTaskUpdater)
+                    }
                 )
             } ?: run {
                 Log.e(TAG, "Database URI is null, database cannot be reloaded")

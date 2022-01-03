@@ -115,6 +115,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         mDatabaseViewModel.saveDatabase(save)
     }
 
+    private fun mergeDatabase() {
+        mDatabaseViewModel.mergeDatabase(false)
+    }
+
     private fun reloadDatabase() {
         mDatabaseViewModel.reloadDatabase(false)
     }
@@ -664,6 +668,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
             R.id.menu_save_database -> {
                 saveDatabase(!mDatabaseReadOnly)
                 true
+            }
+            R.id.menu_merge_database -> {
+                mergeDatabase()
+                return true
             }
             R.id.menu_reload_database -> {
                 reloadDatabase()

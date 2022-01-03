@@ -415,6 +415,9 @@ class EntryActivity : DatabaseLockActivity() {
             R.id.menu_save_database -> {
                 saveDatabase()
             }
+            R.id.menu_merge_database -> {
+                mergeDatabase()
+            }
             R.id.menu_reload_database -> {
                 reloadDatabase()
             }
