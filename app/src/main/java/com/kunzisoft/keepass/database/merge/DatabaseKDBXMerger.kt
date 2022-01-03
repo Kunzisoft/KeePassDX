@@ -28,6 +28,9 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         }
 
+        // TODO Merge icons and attachments
+        // TODO Fix Recycle bin
+
         databaseToMerge.rootGroup?.doForEachChild(
             object : NodeHandler<EntryKDBX>() {
                 override fun operate(node: EntryKDBX): Boolean {
@@ -58,6 +61,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
 
         if (databaseEntry == null) {
+            // TODO if it's not a deleted object
             // If entry parent to add exists and in current database
             if (parentEntry != null) {
                 database.addEntryTo(databaseEntryToMerge, parentEntry)
@@ -85,6 +89,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
 
         if (databaseGroup == null) {
+            // TODO if it's not a deleted object
             // If group parent to add exists and in current database
             if (parentGroup != null) {
                 database.addGroupTo(databaseGroupToMerge, parentGroup)
