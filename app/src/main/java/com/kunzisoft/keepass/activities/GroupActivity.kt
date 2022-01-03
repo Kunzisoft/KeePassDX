@@ -164,27 +164,30 @@ class GroupActivity : DatabaseLockActivity(),
         mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
             // Open group on breadcrumb click
             onItemClickListener = { node, _ ->
-                finishNodeAction()
                 // If last item & not a virtual root group
                 val currentGroup = mCurrentGroup
                 if (currentGroup != null && node == currentGroup
                     && (currentGroup != mDatabase?.rootGroup
                             || mDatabase?.rootGroupIsVirtual == false)
                 ) {
+                    finishNodeAction()
                     launchDialogToShowGroupInfo(currentGroup)
                 } else {
+                    if (mNodesFragment?.nodeActionSelectionMode == true) {
+                        finishNodeAction()
+                    }
                     mDatabase?.let { database ->
                         onNodeClick(database, node)
                     }
                 }
             }
             onLongItemClickListener = { node, position ->
-                finishNodeAction()
                 val currentGroup = mCurrentGroup
                 if (currentGroup != null && node == currentGroup
                     && (currentGroup != mDatabase?.rootGroup
                             || mDatabase?.rootGroupIsVirtual == false)
                 ) {
+                    finishNodeAction()
                     launchDialogForGroupUpdate(currentGroup)
                 } else {
                     onItemClickListener?.invoke(node, position)
