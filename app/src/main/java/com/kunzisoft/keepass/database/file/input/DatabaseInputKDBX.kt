@@ -63,12 +63,10 @@ import javax.crypto.CipherInputStream
 import javax.crypto.Mac
 import kotlin.math.min
 
-class DatabaseInputKDBX(cacheDirectory: File,
-                        isRAMSufficient: (memoryWanted: Long) -> Boolean)
-    : DatabaseInput<DatabaseKDBX>(cacheDirectory, isRAMSufficient) {
+class DatabaseInputKDBX(database: DatabaseKDBX)
+    : DatabaseInput<DatabaseKDBX>(database) {
 
     private var randomStream: StreamCipher? = null
-    private lateinit var mDatabase: DatabaseKDBX
 
     private var hashOfHeader: ByteArray? = null
 
@@ -97,15 +95,18 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private var entryCustomDataKey: String? = null
     private var entryCustomDataValue: String? = null
 
+    private var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+
+    fun setMethodToCheckIfRAMIsSufficient(method: (memoryWanted: Long) -> Boolean) {
+        this.isRAMSufficient = method
+    }
+
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
@@ -113,11 +114,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.masterKey = masterKey
         }
     }
@@ -125,14 +123,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     private fun openDatabase(databaseInputStream: InputStream,
                              progressTaskUpdater: ProgressTaskUpdater?,
-                             fixDuplicateUUID: Boolean,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
             startKeyTimer(progressTaskUpdater)
-            mDatabase = DatabaseKDBX()
-            mDatabase.binaryCache.cacheDirectory = cacheDirectory
-
-            mDatabase.changeDuplicateId = fixDuplicateUUID
 
             val header = DatabaseHeaderKDBX(mDatabase)
 
@@ -704,7 +697,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.DeletedObject -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxDeletedObject?.uuid = readUuid(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemDeletionTime, ignoreCase = true)) {
-                ctxDeletedObject?.setDeletionTime(readDateInstant(xpp))
+                ctxDeletedObject?.deletionTime = readDateInstant(xpp)
             } else {
                 readUnknown(xpp)
             }

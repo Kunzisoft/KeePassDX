@@ -23,7 +23,6 @@ package com.kunzisoft.keepass.database.file.input
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -46,21 +45,15 @@ import kotlin.collections.HashMap
 /**
  * Load a KDB database file.
  */
-class DatabaseInputKDB(cacheDirectory: File,
-                       isRAMSufficient: (memoryWanted: Long) -> Boolean)
-    : DatabaseInput<DatabaseKDB>(cacheDirectory, isRAMSufficient) {
-
-    private lateinit var mDatabase: DatabaseKDB
+class DatabaseInputKDB(database: DatabaseKDB)
+    : DatabaseInput<DatabaseKDB>(database) {
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
@@ -68,11 +61,8 @@ class DatabaseInputKDB(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.masterKey = masterKey
         }
     }
@@ -80,7 +70,6 @@ class DatabaseInputKDB(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     private fun openDatabase(databaseInputStream: InputStream,
                              progressTaskUpdater: ProgressTaskUpdater?,
-                             fixDuplicateUUID: Boolean,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
 
         try {
@@ -107,10 +96,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                 throw VersionDatabaseException()
             }
 
-            mDatabase = DatabaseKDB()
-            mDatabase.binaryCache.cacheDirectory = cacheDirectory
-
-            mDatabase.changeDuplicateId = fixDuplicateUUID
             assignMasterKey?.invoke()
 
             // Select algorithm

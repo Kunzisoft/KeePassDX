@@ -28,29 +28,18 @@ import java.util.*
 class DeletedObject : Parcelable {
 
     var uuid: UUID = DatabaseVersioned.UUID_ZERO
-    private var mDeletionTime: DateInstant? = null
+    var deletionTime: DateInstant = DateInstant()
 
     constructor()
 
     constructor(uuid: UUID, deletionTime: DateInstant = DateInstant()) {
         this.uuid = uuid
-        this.mDeletionTime = deletionTime
+        this.deletionTime = deletionTime
     }
 
     constructor(parcel: Parcel) {
         uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
-        mDeletionTime = parcel.readParcelable(DateInstant::class.java.classLoader)
-    }
-
-    fun getDeletionTime(): DateInstant {
-        if (mDeletionTime == null) {
-            mDeletionTime = DateInstant(System.currentTimeMillis())
-        }
-        return mDeletionTime!!
-    }
-
-    fun setDeletionTime(deletionTime: DateInstant) {
-        this.mDeletionTime = deletionTime
+        deletionTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: deletionTime
     }
 
     override fun equals(other: Any?): Boolean {
@@ -69,7 +58,7 @@ class DeletedObject : Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(ParcelUuid(uuid), flags)
-        parcel.writeParcelable(mDeletionTime, flags)
+        parcel.writeParcelable(deletionTime, flags)
     }
 
     override fun describeContents(): Int {

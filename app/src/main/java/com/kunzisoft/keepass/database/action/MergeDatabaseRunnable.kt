@@ -35,21 +35,16 @@ class MergeDatabaseRunnable(private val context: Context,
                             private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
 
-    private var tempCipherKey: LoadedKey? = null
-
     override fun onStartRun() {
-        tempCipherKey = mDatabase.binaryCache.loadedCipherKey
         mDatabase.wasReloaded = true
     }
 
     override fun onActionRun() {
         try {
             mDatabase.mergeData(context.contentResolver,
-                    UriUtil.getBinaryDir(context),
                     { memoryWanted ->
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },
-                    tempCipherKey ?: LoadedKey.generateNewCipherKey(),
                     progressTaskUpdater)
         } catch (e: LoadDatabaseException) {
             setError(e)
@@ -59,7 +54,6 @@ class MergeDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            tempCipherKey = null
             mDatabase.clearAndClose(context)
         }
     }

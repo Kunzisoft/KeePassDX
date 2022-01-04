@@ -336,6 +336,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         iconsManager.addCustomIcon(customIconId, name, lastModificationTime, smallSize, result)
     }
 
+    fun removeCustomIcon(iconUuid: UUID) {
+        iconsManager.removeCustomIcon(iconUuid)
+    }
+
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
         return iconsManager.isCustomIconBinaryDuplicate(binary)
     }

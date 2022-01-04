@@ -592,7 +592,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemDeletedObject)
 
         writeUuid(DatabaseKDBXXML.ElemUuid, value.uuid)
-        writeDateInstant(DatabaseKDBXXML.ElemDeletionTime, value.getDeletionTime())
+        writeDateInstant(DatabaseKDBXXML.ElemDeletionTime, value.deletionTime)
 
         xml.endTag(null, DatabaseKDBXXML.ElemDeletedObject)
     }

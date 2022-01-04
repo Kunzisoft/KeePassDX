@@ -52,17 +52,22 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             val deletedObjectId = deletedObject.uuid
             val databaseEntry = database.getEntryById(deletedObjectId)
             val databaseGroup = database.getGroupById(deletedObjectId)
+            val databaseIconModificationTime = database.getCustomIcon(deletedObjectId).lastModificationTime
             if (databaseEntry != null
-                && deletedObject.getDeletionTime().date
+                && deletedObject.deletionTime.date
                     .after(databaseEntry.lastModificationTime.date)) {
                 database.removeEntryFrom(databaseEntry, databaseEntry.parent)
             }
             if (databaseGroup != null
-                && deletedObject.getDeletionTime().date
+                && deletedObject.deletionTime.date
                     .after(databaseGroup.lastModificationTime.date)) {
                 database.removeGroupFrom(databaseGroup, databaseGroup.parent)
             }
-            // TODO Remove icon
+            if (databaseIconModificationTime != null
+                && deletedObject.deletionTime.date
+                    .after(databaseIconModificationTime.date)) {
+                database.removeCustomIcon(deletedObjectId)
+            }
         }
     }
 
@@ -83,7 +88,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // If it's a deleted object, but another instance was updated
                 // If entry parent to add exists and in current database
                 if (deletedObject == null
-                    || deletedObject.getDeletionTime().date
+                    || deletedObject.deletionTime.date
                         .before(databaseEntryToMerge.lastModificationTime.date)
                     || parentEntry != null) {
                     database.addEntryTo(databaseEntryToMerge, parentEntry)
@@ -120,7 +125,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             if (databaseGroup == null) {
                 // If group parent to add exists and in current database
                 if (deletedObject == null
-                    || deletedObject.getDeletionTime().date
+                    || deletedObject.deletionTime.date
                         .before(databaseGroupToMerge.lastModificationTime.date)
                     || parentGroup != null) {
                     database.addGroupTo(databaseGroupToMerge, parentGroup)

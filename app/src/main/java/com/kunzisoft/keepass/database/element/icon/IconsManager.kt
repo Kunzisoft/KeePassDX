@@ -28,7 +28,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.K
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.util.*
 
-class IconsManager(binaryCache: BinaryCache) {
+class IconsManager(private var binaryCache: BinaryCache) {
 
     private val standardCache = List(NB_ICONS) {
         IconImageStandard(it)
@@ -72,7 +72,7 @@ class IconsManager(binaryCache: BinaryCache) {
         return customCache.isBinaryDuplicate(binaryData)
     }
 
-    fun removeCustomIcon(binaryCache: BinaryCache, iconUuid: UUID) {
+    fun removeCustomIcon(iconUuid: UUID) {
         val binary = customCache[iconUuid]
         customCache.remove(iconUuid)
         try {

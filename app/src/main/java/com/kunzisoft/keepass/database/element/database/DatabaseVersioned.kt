@@ -61,7 +61,7 @@ abstract class DatabaseVersioned<
      * Can be used to temporarily store database elements
      */
     var binaryCache = BinaryCache()
-    val iconsManager = IconsManager(binaryCache)
+    var iconsManager = IconsManager(binaryCache)
     var attachmentPool = AttachmentPool(binaryCache)
 
     var changeDuplicateId = false

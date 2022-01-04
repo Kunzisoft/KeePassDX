@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
@@ -143,7 +142,7 @@ class Database {
 
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
-        iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
+        iconsManager.removeCustomIcon(customIcon.uuid)
         mDatabaseKDBX?.addDeletedObject(customIcon.uuid)
     }
 
@@ -575,7 +574,6 @@ class Database {
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
                  isRAMSufficient: (memoryWanted: Long) -> Boolean,
-                 tempCipherKey: LoadedKey,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -596,22 +594,30 @@ class Database {
             // Read database stream for the first time
             readDatabaseStream(contentResolver, uri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
-                                .openDatabase(databaseInputStream,
-                                        mainCredential.masterPassword,
-                                        keyFileInputStream,
-                                        tempCipherKey,
-                                        progressTaskUpdater,
-                                        fixDuplicateUUID)
+                        val databaseKDB = DatabaseKDB().apply {
+                            binaryCache.cacheDirectory = cacheDirectory
+                            changeDuplicateId = fixDuplicateUUID
+                        }
+                        DatabaseInputKDB(databaseKDB)
+                            .openDatabase(databaseInputStream,
+                                mainCredential.masterPassword,
+                                keyFileInputStream,
+                                progressTaskUpdater)
+                        databaseKDB
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
-                                .openDatabase(databaseInputStream,
-                                        mainCredential.masterPassword,
-                                        keyFileInputStream,
-                                        tempCipherKey,
-                                        progressTaskUpdater,
-                                        fixDuplicateUUID)
+                        val databaseKDBX = DatabaseKDBX().apply {
+                            binaryCache.cacheDirectory = cacheDirectory
+                            changeDuplicateId = fixDuplicateUUID
+                        }
+                        DatabaseInputKDBX(databaseKDBX).apply {
+                            setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                            openDatabase(databaseInputStream,
+                                mainCredential.masterPassword,
+                                keyFileInputStream,
+                                progressTaskUpdater)
+                        }
+                        databaseKDBX
                     }
             )
         } catch (e: FileNotFoundException) {
@@ -628,42 +634,54 @@ class Database {
 
     @Throws(LoadDatabaseException::class)
     fun mergeData(contentResolver: ContentResolver,
-                  cacheDirectory: File,
                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
-                  tempCipherKey: LoadedKey,
                   progressTaskUpdater: ProgressTaskUpdater?) {
 
         // New database instance to get new changes
         val databaseToMerge = Database()
         databaseToMerge.fileUri = this.fileUri
+
         try {
             databaseToMerge.fileUri?.let { databaseUri ->
+
+                // TODO Merge KDB
+                var databaseMerger: DatabaseKDBXMerger? = null
+
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
+                        val databaseKDB = DatabaseKDB()
+                        this.mDatabaseKDB?.let {
+                            databaseKDB.binaryCache = it.binaryCache
+                        }
+                        DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
                                 masterKey,
-                                tempCipherKey,
                                 progressTaskUpdater)
+                        databaseKDB
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
-                            .openDatabase(databaseInputStream,
+                        val databaseKDBX = DatabaseKDBX()
+                        // Share cache
+                        this.mDatabaseKDBX?.let {
+                            databaseKDBX.binaryCache = it.binaryCache
+                        }
+                        databaseMerger = DatabaseKDBXMerger(databaseKDBX)
+                        DatabaseInputKDBX(databaseKDBX).apply {
+                            setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                            openDatabase(databaseInputStream,
                                 masterKey,
-                                tempCipherKey,
                                 progressTaskUpdater)
+                        }
+                        databaseKDBX
                     }
                 )
+
+                databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
+                    databaseMerger?.merge(databaseKDBXToMerge)
+                }
             } ?: run {
                 Log.e(TAG, "Database URI is null, database cannot be reloaded")
                 throw IODatabaseException()
-            }
-
-            // TODO Merge KDB
-            mDatabaseKDBX?.let { databaseKDBX ->
-                databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
-                    DatabaseKDBXMerger(databaseKDBX).merge(databaseKDBXToMerge)
-                }
             }
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
@@ -674,9 +692,7 @@ class Database {
 
     @Throws(LoadDatabaseException::class)
     fun reloadData(contentResolver: ContentResolver,
-                   cacheDirectory: File,
                    isRAMSufficient: (memoryWanted: Long) -> Boolean,
-                   tempCipherKey: LoadedKey,
                    progressTaskUpdater: ProgressTaskUpdater?) {
 
         // Retrieve the stream from the old database URI
@@ -684,18 +700,28 @@ class Database {
             fileUri?.let { oldDatabaseUri ->
                 readDatabaseStream(contentResolver, oldDatabaseUri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(cacheDirectory, isRAMSufficient)
+                        val databaseKDB = DatabaseKDB()
+                        mDatabaseKDB?.let {
+                            databaseKDB.binaryCache = it.binaryCache
+                        }
+                        DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
                                 masterKey,
-                                tempCipherKey,
                                 progressTaskUpdater)
+                        databaseKDB
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(cacheDirectory, isRAMSufficient)
-                            .openDatabase(databaseInputStream,
+                        val databaseKDBX = DatabaseKDBX()
+                        mDatabaseKDBX?.let {
+                            databaseKDBX.binaryCache = it.binaryCache
+                        }
+                        DatabaseInputKDBX(databaseKDBX).apply {
+                            setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                            openDatabase(databaseInputStream,
                                 masterKey,
-                                tempCipherKey,
                                 progressTaskUpdater)
+                        }
+                        databaseKDBX
                     }
                 )
             } ?: run {
