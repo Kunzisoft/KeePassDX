@@ -456,8 +456,9 @@ class Database {
         // Only the kdbx recycle bin can be changed
         if (group != null) {
             mDatabaseKDBX?.recycleBinUUID = group.nodeIdKDBX.id
+            mDatabaseKDBX?.recycleBinChanged = DateInstant()
         } else {
-            mDatabaseKDBX?.removeTemplatesGroup()
+            mDatabaseKDBX?.removeRecycleBin()
         }
     }
 
@@ -489,7 +490,7 @@ class Database {
         if (group != null) {
             mDatabaseKDBX?.entryTemplatesGroup = group.nodeIdKDBX.id
         } else {
-            mDatabaseKDBX?.entryTemplatesGroup
+            mDatabaseKDBX?.removeTemplatesGroup()
         }
     }
 
@@ -1050,24 +1051,6 @@ class Database {
                         return true
                     }
                 })
-    }
-
-    fun undoDeleteEntry(entry: Entry, parent: Group) {
-        entry.entryKDB?.let {
-            mDatabaseKDB?.undoDeleteEntryFrom(it, parent.groupKDB)
-        }
-        entry.entryKDBX?.let {
-            mDatabaseKDBX?.undoDeleteEntryFrom(it, parent.groupKDBX)
-        }
-    }
-
-    fun undoDeleteGroup(group: Group, parent: Group) {
-        group.groupKDB?.let {
-            mDatabaseKDB?.undoDeleteGroupFrom(it, parent.groupKDB)
-        }
-        group.groupKDBX?.let {
-            mDatabaseKDBX?.undoDeleteGroupFrom(it, parent.groupKDBX)
-        }
     }
 
     fun ensureRecycleBinExists(resources: Resources) {

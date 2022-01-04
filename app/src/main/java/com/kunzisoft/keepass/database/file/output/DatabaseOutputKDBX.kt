@@ -618,7 +618,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeDeletedObjects(value: List<DeletedObject>) {
+    private fun writeDeletedObjects(value: Collection<DeletedObject>) {
         xml.startTag(null, DatabaseKDBXXML.ElemDeletedObjects)
 
         for (pdo in value) {

@@ -66,6 +66,7 @@ import javax.crypto.Mac
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import kotlin.collections.HashSet
 import kotlin.math.min
 
 
@@ -115,7 +116,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastSelectedGroupUUID = UUID_ZERO
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
-    val deletedObjects = ArrayList<DeletedObject>()
+    val deletedObjects = HashSet<DeletedObject>()
     val customData = CustomData()
 
     var localizedAppName = "KeePassDX"
@@ -753,12 +754,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return false
     }
 
-    fun getDeletedObjects(): List<DeletedObject> {
-        return deletedObjects
+    fun getDeletedObject(id: UUID): DeletedObject? {
+        return deletedObjects.find { it.uuid == id }
     }
 
     fun addDeletedObject(deletedObject: DeletedObject) {
         this.deletedObjects.add(deletedObject)
+    }
+
+    override fun removeGroupFrom(groupToRemove: GroupKDBX, parent: GroupKDBX?) {
+        super.removeGroupFrom(groupToRemove, parent)
+        addDeletedObject(DeletedObject(groupToRemove.id))
     }
 
     override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
@@ -773,13 +779,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override fun removeEntryFrom(entryToRemove: EntryKDBX, parent: GroupKDBX?) {
         super.removeEntryFrom(entryToRemove, parent)
-        deletedObjects.add(DeletedObject(entryToRemove.id))
+        addDeletedObject(DeletedObject(entryToRemove.id))
         mFieldReferenceEngine.clear()
-    }
-
-    override fun undoDeleteEntryFrom(entry: EntryKDBX, origParent: GroupKDBX?) {
-        super.undoDeleteEntryFrom(entry, origParent)
-        deletedObjects.remove(DeletedObject(entry.id))
     }
 
     fun containsPublicCustomData(): Boolean {

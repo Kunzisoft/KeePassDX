@@ -327,7 +327,7 @@ abstract class DatabaseVersioned<
         }
     }
 
-    fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
+    open fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
         // Remove tree from parent tree
         parent?.removeChildGroup(groupToRemove)
         removeGroupIndex(groupToRemove)
@@ -352,15 +352,6 @@ abstract class DatabaseVersioned<
         // Remove entry from parent
         parent?.removeChildEntry(entryToRemove)
         removeEntryIndex(entryToRemove)
-    }
-
-    // TODO Delete group
-    fun undoDeleteGroupFrom(group: Group, origParent: Group?) {
-        addGroupTo(group, origParent)
-    }
-
-    open fun undoDeleteEntryFrom(entry: Entry, origParent: Group?) {
-        addEntryTo(entry, origParent)
     }
 
     abstract fun isInRecycleBin(group: Group): Boolean
