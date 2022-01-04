@@ -39,10 +39,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             },
             object : NodeHandler<GroupKDBX>() {
                 override fun operate(node: GroupKDBX): Boolean {
-                    val groupId = node.nodeId
-                    databaseToMerge.getGroupById(groupId)?.let {
-                        mergeGroup(node, databaseToMerge)
-                    }
+                    mergeGroup(node, databaseToMerge)
                     return true
                 }
             }

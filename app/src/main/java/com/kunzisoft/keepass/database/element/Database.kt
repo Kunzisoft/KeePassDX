@@ -644,14 +644,14 @@ class Database {
         try {
             databaseToMerge.fileUri?.let { databaseUri ->
 
-                // TODO Merge KDB
-                var databaseMerger: DatabaseKDBXMerger? = null
+                val databaseKDB = DatabaseKDB()
+                val databaseKDBX = DatabaseKDBX()
 
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
-                        val databaseKDB = DatabaseKDB()
-                        this.mDatabaseKDB?.let {
-                            databaseKDB.binaryCache = it.binaryCache
+                        this.mDatabaseKDB?.let { currentDatabaseKDB ->
+                            databaseKDB.binaryCache = currentDatabaseKDB.binaryCache
+                            databaseKDB.iconsManager = currentDatabaseKDB.iconsManager
                         }
                         DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
@@ -660,12 +660,11 @@ class Database {
                         databaseKDB
                     },
                     { databaseInputStream ->
-                        val databaseKDBX = DatabaseKDBX()
                         // Share cache
-                        this.mDatabaseKDBX?.let {
-                            databaseKDBX.binaryCache = it.binaryCache
+                        this.mDatabaseKDBX?.let { currentDatabaseKDBX ->
+                            databaseKDBX.binaryCache = currentDatabaseKDBX.binaryCache
+                            databaseKDBX.iconsManager = currentDatabaseKDBX.iconsManager
                         }
-                        databaseMerger = DatabaseKDBXMerger(databaseKDBX)
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream,
@@ -676,8 +675,11 @@ class Database {
                     }
                 )
 
-                databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
-                    databaseMerger?.merge(databaseKDBXToMerge)
+                // TODO Merge KDB
+                mDatabaseKDBX?.let { currentDatabaseKDBX ->
+                    databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
+                        DatabaseKDBXMerger(currentDatabaseKDBX).merge(databaseKDBXToMerge)
+                    }
                 }
             } ?: run {
                 Log.e(TAG, "Database URI is null, database cannot be reloaded")
@@ -686,6 +688,7 @@ class Database {
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
+            // Do not clear binaries because share with current database
             databaseToMerge.clearAndClose()
         }
     }
@@ -864,13 +867,16 @@ class Database {
         this.fileUri = uri
     }
 
-    fun clear(filesDirectory: File? = null) {
+    fun clearNodes() {
+        // Delete the cache of the database if present
+        this.mDatabaseKDB?.clearCache()
+        this.mDatabaseKDBX?.clearCache()
+    }
+
+    fun clearBinaries(filesDirectory: File? = null) {
         binaryCache.clear()
         iconsManager.clearCache()
         iconDrawableFactory.clearCache()
-        // Delete the cache of the database if present
-        mDatabaseKDB?.clearCache()
-        mDatabaseKDBX?.clearCache()
         // In all cases, delete all the files in the temp dir
         try {
             filesDirectory?.let { directory ->
@@ -882,7 +888,10 @@ class Database {
     }
 
     fun clearAndClose(context: Context? = null) {
-        clear(context?.let { UriUtil.getBinaryDir(context) })
+        clearNodes()
+        if (context != null) {
+            clearBinaries(context.let { UriUtil.getBinaryDir(context) })
+        }
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null
