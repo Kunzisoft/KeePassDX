@@ -219,28 +219,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return true
     }
 
-    fun recycle(group: GroupKDB) {
-        removeGroupFrom(group, group.parent)
-        addGroupTo(group, backupGroup)
-        group.afterAssignNewParent()
-    }
-
-    fun recycle(entry: EntryKDB) {
-        removeEntryFrom(entry, entry.parent)
-        addEntryTo(entry, backupGroup)
-        entry.afterAssignNewParent()
-    }
-
-    fun undoRecycle(group: GroupKDB, origParent: GroupKDB) {
-        removeGroupFrom(group, backupGroup)
-        addGroupTo(group, origParent)
-    }
-
-    fun undoRecycle(entry: EntryKDB, origParent: GroupKDB) {
-        removeEntryFrom(entry, backupGroup)
-        addEntryTo(entry, origParent)
-    }
-
     fun buildNewAttachment(): BinaryData {
         // Generate an unique new file
         return attachmentPool.put { uniqueBinaryId ->

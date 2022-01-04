@@ -305,7 +305,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     // Retrieve recycle bin in index
     val recycleBin: GroupKDBX?
-        get() = if (recycleBinUUID == UUID_ZERO) null else getGroupByUUID(recycleBinUUID)
+        get() = getGroupByUUID(recycleBinUUID)
 
     val lastSelectedGroup: GroupKDBX?
         get() = getGroupByUUID(lastSelectedGroupUUID)
@@ -751,30 +751,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         if (!node.isContainedIn(recycleBin!!))
             return true
         return false
-    }
-
-    fun recycle(group: GroupKDBX, resources: Resources) {
-        ensureRecycleBinExists(resources)
-        removeGroupFrom(group, group.parent)
-        addGroupTo(group, recycleBin)
-        group.afterAssignNewParent()
-    }
-
-    fun recycle(entry: EntryKDBX, resources: Resources) {
-        ensureRecycleBinExists(resources)
-        removeEntryFrom(entry, entry.parent)
-        addEntryTo(entry, recycleBin)
-        entry.afterAssignNewParent()
-    }
-
-    fun undoRecycle(group: GroupKDBX, origParent: GroupKDBX) {
-        removeGroupFrom(group, recycleBin)
-        addGroupTo(group, origParent)
-    }
-
-    fun undoRecycle(entry: EntryKDBX, origParent: GroupKDBX) {
-        removeEntryFrom(entry, recycleBin)
-        addEntryTo(entry, origParent)
     }
 
     fun getDeletedObjects(): List<DeletedObject> {

@@ -23,9 +23,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -446,10 +444,10 @@ class Database {
     val recycleBin: Group?
         get() {
             mDatabaseKDB?.backupGroup?.let {
-                return Group(it)
+                return getGroupById(it.nodeId) ?: Group(it)
             }
             mDatabaseKDBX?.recycleBin?.let {
-                return Group(it)
+                return getGroupById(it.nodeId) ?: Group(it)
             }
             return null
         }
@@ -1100,47 +1098,41 @@ class Database {
     }
 
     fun recycle(entry: Entry, resources: Resources) {
-        entry.entryKDB?.let {
-            mDatabaseKDB?.recycle(it)
+        ensureRecycleBinExists(resources)
+        entry.parent?.let { parent ->
+            removeEntryFrom(entry, parent)
         }
-        entry.entryKDBX?.let {
-            mDatabaseKDBX?.recycle(it, resources)
+        recycleBin?.let {
+            addEntryTo(entry, it)
         }
+        entry.afterAssignNewParent()
     }
 
     fun recycle(group: Group, resources: Resources) {
-        group.groupKDB?.let {
-            mDatabaseKDB?.recycle(it)
+        ensureRecycleBinExists(resources)
+        group.parent?.let { parent ->
+            removeGroupFrom(group, parent)
         }
-        group.groupKDBX?.let {
-            mDatabaseKDBX?.recycle(it, resources)
+        recycleBin?.let {
+            addGroupTo(group, it)
         }
+        group.afterAssignNewParent()
     }
 
     fun undoRecycle(entry: Entry, parent: Group) {
-        entry.entryKDB?.let { entryKDB ->
-            parent.groupKDB?.let { parentKDB ->
-                mDatabaseKDB?.undoRecycle(entryKDB, parentKDB)
-            }
+        recycleBin?.let { it ->
+            removeEntryFrom(entry, it)
         }
-        entry.entryKDBX?.let { entryKDBX ->
-            parent.groupKDBX?.let { parentKDBX ->
-                mDatabaseKDBX?.undoRecycle(entryKDBX, parentKDBX)
-            }
-        }
+        addEntryTo(entry, parent)
+        entry.afterAssignNewParent()
     }
 
     fun undoRecycle(group: Group, parent: Group) {
-        group.groupKDB?.let { groupKDB ->
-            parent.groupKDB?.let { parentKDB ->
-                mDatabaseKDB?.undoRecycle(groupKDB, parentKDB)
-            }
+        recycleBin?.let {
+            removeGroupFrom(group, it)
         }
-        group.groupKDBX?.let { entryKDBX ->
-            parent.groupKDBX?.let { parentKDBX ->
-                mDatabaseKDBX?.undoRecycle(entryKDBX, parentKDBX)
-            }
-        }
+        addGroupTo(group, parent)
+        group.afterAssignNewParent()
     }
 
     fun startManageEntry(entry: Entry?) {
