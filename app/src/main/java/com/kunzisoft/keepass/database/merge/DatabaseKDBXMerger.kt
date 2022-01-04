@@ -29,15 +29,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
 
         // TODO Merge icons and attachments
-        // TODO Fix Recycle bin
 
         databaseToMerge.rootGroup?.doForEachChild(
             object : NodeHandler<EntryKDBX>() {
                 override fun operate(node: EntryKDBX): Boolean {
-                    val entryId = node.nodeId
-                    databaseToMerge.getEntryById(entryId)?.let {
-                        mergeEntry(database.getEntryById(entryId), it)
-                    }
+                    mergeEntry(node, databaseToMerge)
                     return true
                 }
             },
@@ -45,61 +41,97 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 override fun operate(node: GroupKDBX): Boolean {
                     val groupId = node.nodeId
                     databaseToMerge.getGroupById(groupId)?.let {
-                        mergeGroup(database.getGroupById(groupId), it)
+                        mergeGroup(node, databaseToMerge)
                     }
                     return true
                 }
             }
         )
-    }
 
-    private fun mergeEntry(databaseEntry: EntryKDBX?, databaseEntryToMerge: EntryKDBX) {
-        // Retrieve parent in current database
-        var parentEntry: GroupKDBX? = null
-        databaseEntryToMerge.parent?.nodeId?.let {
-            parentEntry = database.getGroupById(it)
-        }
-
-        if (databaseEntry == null) {
-            // TODO if it's not a deleted object
-            // If entry parent to add exists and in current database
-            if (parentEntry != null) {
-                database.addEntryTo(databaseEntryToMerge, parentEntry)
+        databaseToMerge.deletedObjects.forEach { deletedObject ->
+            val deletedObjectId = deletedObject.uuid
+            val databaseEntry = database.getEntryById(deletedObjectId)
+            val databaseGroup = database.getGroupById(deletedObjectId)
+            if (databaseEntry != null
+                && deletedObject.getDeletionTime().date
+                    .after(databaseEntry.lastModificationTime.date)) {
+                database.removeEntryFrom(databaseEntry, databaseEntry.parent)
             }
-        } else if (databaseEntry.lastModificationTime.date
-                .before(databaseEntryToMerge.lastModificationTime.date)
-        ) {
-            // Update entry with databaseEntryToMerge and merge history
-            database.removeEntryFrom(databaseEntry, databaseEntry.parent)
-            val newDatabaseEntry = EntryKDBX().apply {
-                updateWith(databaseEntryToMerge)
-                // TODO history =
+            if (databaseGroup != null
+                && deletedObject.getDeletionTime().date
+                    .after(databaseGroup.lastModificationTime.date)) {
+                database.removeGroupFrom(databaseGroup, databaseGroup.parent)
             }
-            if (parentEntry != null) {
-                database.addEntryTo(newDatabaseEntry, parentEntry)
-            }
+            // TODO Remove icon
         }
     }
 
-    private fun mergeGroup(databaseGroup: GroupKDBX?, databaseGroupToMerge: GroupKDBX) {
-        // Retrieve parent in current database
-        var parentGroup: GroupKDBX? = null
-        databaseGroupToMerge.parent?.nodeId?.let {
-            parentGroup = database.getGroupById(it)
-        }
+    private fun mergeEntry(node: EntryKDBX, databaseToMerge: DatabaseKDBX) {
+        val entryId = node.nodeId
+        val databaseEntryToMerge = databaseToMerge.getEntryById(entryId)
+        val databaseEntry = database.getEntryById(entryId)
+        val deletedObject = database.getDeletedObject(entryId)
 
-        if (databaseGroup == null) {
-            // TODO if it's not a deleted object
-            // If group parent to add exists and in current database
-            if (parentGroup != null) {
-                database.addGroupTo(databaseGroupToMerge, parentGroup)
+        if (databaseEntryToMerge != null) {
+            // Retrieve parent in current database
+            var parentEntry: GroupKDBX? = null
+            databaseEntryToMerge.parent?.nodeId?.let {
+                parentEntry = database.getGroupById(it)
             }
-        } else if (databaseGroup.lastModificationTime.date
-                .before(databaseGroupToMerge.lastModificationTime.date)
-        ) {
-            database.removeGroupFrom(databaseGroup, databaseGroup.parent)
-            if (parentGroup != null) {
-                database.addGroupTo(databaseGroupToMerge, parentGroup)
+
+            if (databaseEntry == null) {
+                // If it's a deleted object, but another instance was updated
+                // If entry parent to add exists and in current database
+                if (deletedObject == null
+                    || deletedObject.getDeletionTime().date
+                        .before(databaseEntryToMerge.lastModificationTime.date)
+                    || parentEntry != null) {
+                    database.addEntryTo(databaseEntryToMerge, parentEntry)
+                }
+            } else if (databaseEntry.lastModificationTime.date
+                    .before(databaseEntryToMerge.lastModificationTime.date)
+            ) {
+                // Update entry with databaseEntryToMerge and merge history
+                database.removeEntryFrom(databaseEntry, databaseEntry.parent)
+                val newDatabaseEntry = EntryKDBX().apply {
+                    updateWith(databaseEntryToMerge)
+                    // TODO history =
+                }
+                if (parentEntry != null) {
+                    database.addEntryTo(newDatabaseEntry, parentEntry)
+                }
+            }
+        }
+    }
+
+    private fun mergeGroup(node: GroupKDBX, databaseToMerge: DatabaseKDBX) {
+        val groupId = node.nodeId
+        val databaseGroupToMerge = databaseToMerge.getGroupById(groupId)
+        val databaseGroup = database.getGroupById(groupId)
+        val deletedObject = database.getDeletedObject(groupId)
+
+        if (databaseGroupToMerge != null) {
+            // Retrieve parent in current database
+            var parentGroup: GroupKDBX? = null
+            databaseGroupToMerge.parent?.nodeId?.let {
+                parentGroup = database.getGroupById(it)
+            }
+
+            if (databaseGroup == null) {
+                // If group parent to add exists and in current database
+                if (deletedObject == null
+                    || deletedObject.getDeletionTime().date
+                        .before(databaseGroupToMerge.lastModificationTime.date)
+                    || parentGroup != null) {
+                    database.addGroupTo(databaseGroupToMerge, parentGroup)
+                }
+            } else if (databaseGroup.lastModificationTime.date
+                    .before(databaseGroupToMerge.lastModificationTime.date)
+            ) {
+                database.removeGroupFrom(databaseGroup, databaseGroup.parent)
+                if (parentGroup != null) {
+                    database.addGroupTo(databaseGroupToMerge, parentGroup)
+                }
             }
         }
     }

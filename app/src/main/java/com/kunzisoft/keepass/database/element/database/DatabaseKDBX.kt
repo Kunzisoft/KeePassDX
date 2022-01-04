@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.entry.FieldReferencesEngine
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
@@ -754,17 +755,16 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return false
     }
 
-    fun getDeletedObject(id: UUID): DeletedObject? {
-        return deletedObjects.find { it.uuid == id }
+    fun getDeletedObject(nodeId: NodeId<UUID>): DeletedObject? {
+        return deletedObjects.find { it.uuid == nodeId.id }
     }
 
     fun addDeletedObject(deletedObject: DeletedObject) {
         this.deletedObjects.add(deletedObject)
     }
 
-    override fun removeGroupFrom(groupToRemove: GroupKDBX, parent: GroupKDBX?) {
-        super.removeGroupFrom(groupToRemove, parent)
-        addDeletedObject(DeletedObject(groupToRemove.id))
+    fun addDeletedObject(objectId: UUID) {
+        addDeletedObject(DeletedObject(objectId))
     }
 
     override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
@@ -779,7 +779,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override fun removeEntryFrom(entryToRemove: EntryKDBX, parent: GroupKDBX?) {
         super.removeEntryFrom(entryToRemove, parent)
-        addDeletedObject(DeletedObject(entryToRemove.id))
         mFieldReferenceEngine.clear()
     }
 

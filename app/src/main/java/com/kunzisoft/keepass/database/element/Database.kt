@@ -144,6 +144,7 @@ class Database {
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
         iconsManager.removeCustomIcon(binaryCache, customIcon.uuid)
+        mDatabaseKDBX?.addDeletedObject(customIcon.uuid)
     }
 
     fun updateCustomIcon(customIcon: IconImageCustom) {
@@ -1030,6 +1031,9 @@ class Database {
     }
 
     fun deleteEntry(entry: Entry) {
+        entry.entryKDBX?.id?.let { entryId ->
+            mDatabaseKDBX?.addDeletedObject(entryId)
+        }
         entry.parent?.let {
             removeEntryFrom(entry, it)
         }
@@ -1045,6 +1049,9 @@ class Database {
                 },
                 object : NodeHandler<Group>() {
                     override fun operate(node: Group): Boolean {
+                        node.groupKDBX?.id?.let { groupId ->
+                            mDatabaseKDBX?.addDeletedObject(groupId)
+                        }
                         node.parent?.let {
                             removeGroupFrom(node, it)
                         }
