@@ -420,37 +420,37 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
-        return this.entryIndexes.values.find { entry ->
+        return findEntry { entry ->
             entry.decodeTitleKey(recursionLevel).equals(title, true)
         }
     }
 
     fun getEntryByUsername(username: String, recursionLevel: Int): EntryKDBX? {
-        return this.entryIndexes.values.find { entry ->
+        return findEntry { entry ->
             entry.decodeUsernameKey(recursionLevel).equals(username, true)
         }
     }
 
     fun getEntryByURL(url: String, recursionLevel: Int): EntryKDBX? {
-        return this.entryIndexes.values.find { entry ->
+        return findEntry { entry ->
             entry.decodeUrlKey(recursionLevel).equals(url, true)
         }
     }
 
     fun getEntryByPassword(password: String, recursionLevel: Int): EntryKDBX? {
-        return this.entryIndexes.values.find { entry ->
+        return findEntry { entry ->
             entry.decodePasswordKey(recursionLevel).equals(password, true)
         }
     }
 
     fun getEntryByNotes(notes: String, recursionLevel: Int): EntryKDBX? {
-        return this.entryIndexes.values.find { entry ->
+        return findEntry { entry ->
             entry.decodeNotesKey(recursionLevel).equals(notes, true)
         }
     }
 
     fun getEntryByCustomData(customDataValue: String): EntryKDBX? {
-        return entryIndexes.values.find { entry ->
+        return findEntry { entry ->
             entry.customData.containsItemWithValue(customDataValue)
         }
     }

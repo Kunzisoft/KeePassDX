@@ -44,7 +44,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
-import com.kunzisoft.keepass.activities.dialogs.NodesFragment
+import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -77,9 +77,10 @@ import org.joda.time.DateTime
 class GroupActivity : DatabaseLockActivity(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
-        NodesFragment.NodeClickListener,
-        NodesFragment.NodesActionMenuListener,
-        NodesFragment.OnScrollListener,
+        GroupFragment.NodeClickListener,
+        GroupFragment.NodesActionMenuListener,
+        GroupFragment.OnScrollListener,
+        GroupFragment.GroupRefreshedListener,
         SortDialogFragment.SortSelectionListener {
 
     // Views
@@ -104,7 +105,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
 
-    private var mNodesFragment: NodesFragment? = null
+    private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
     private var mRecyclingBinIsCurrentGroup = false
     private var mRequestStartupSearch = true
@@ -173,7 +174,7 @@ class GroupActivity : DatabaseLockActivity(),
                     finishNodeAction()
                     launchDialogToShowGroupInfo(currentGroup)
                 } else {
-                    if (mNodesFragment?.nodeActionSelectionMode == true) {
+                    if (mGroupFragment?.nodeActionSelectionMode == true) {
                         finishNodeAction()
                     }
                     mDatabase?.let { database ->
@@ -226,15 +227,15 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         // Initialize the fragment with the list
-        mNodesFragment =
-            supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as NodesFragment?
-        if (mNodesFragment == null)
-            mNodesFragment = NodesFragment()
+        mGroupFragment =
+            supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as GroupFragment?
+        if (mGroupFragment == null)
+            mGroupFragment = GroupFragment()
 
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
             R.id.nodes_list_fragment_container,
-            mNodesFragment!!,
+            mGroupFragment!!,
             GROUP_FRAGMENT_TAG
         ).commit()
 
@@ -260,13 +261,15 @@ class GroupActivity : DatabaseLockActivity(),
                     mDatabase?.let { database ->
                         EntrySelectionHelper.doSpecialAction(intent,
                             {
-                                mNodesFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                                    EntryEditActivity.launchToCreate(
-                                        this@GroupActivity,
-                                        database,
-                                        currentGroup.nodeId,
-                                        resultLauncher
-                                    )
+                                mCurrentGroup?.nodeId?.let { currentParentGroupId ->
+                                    mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                                        EntryEditActivity.launchToCreate(
+                                            this@GroupActivity,
+                                            database,
+                                            currentParentGroupId,
+                                            resultLauncher
+                                        )
+                                    }
                                 }
                             },
                             {
@@ -550,6 +553,12 @@ class GroupActivity : DatabaseLockActivity(),
         super.onSaveInstanceState(outState)
     }
 
+    override fun onGroupRefreshed() {
+        mCurrentGroup?.let { currentGroup ->
+            assignGroupViewElements(currentGroup)
+        }
+    }
+
     private fun assignGroupViewElements(group: Group?) {
         // Assign title
         if (group?.isVirtual == true) {
@@ -633,7 +642,7 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        mNodesFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                        mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
                             EntryActivity.launch(
                                 this@GroupActivity,
                                 database,
@@ -794,7 +803,7 @@ class GroupActivity : DatabaseLockActivity(),
     ): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
-                mNodesFragment?.actionNodesCallback(
+                mGroupFragment?.actionNodesCallback(
                     database,
                     nodes,
                     this
@@ -833,7 +842,7 @@ class GroupActivity : DatabaseLockActivity(),
                 launchDialogForGroupUpdate(node as Group)
             }
             Type.ENTRY -> {
-                mNodesFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
                     EntryEditActivity.launchToUpdate(
                         this@GroupActivity,
                         database,
@@ -888,17 +897,17 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onPasteMenuClick(
         database: Database,
-        pasteMode: NodesFragment.PasteMode?,
+        pasteMode: GroupFragment.PasteMode?,
         nodes: List<Node>
     ): Boolean {
         when (pasteMode) {
-            NodesFragment.PasteMode.PASTE_FROM_COPY -> {
+            GroupFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
                 mCurrentGroup?.let { newParent ->
                     copyNodes(nodes, newParent)
                 }
             }
-            NodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+            GroupFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
                 mCurrentGroup?.let { newParent ->
                     moveNodes(nodes, newParent)
@@ -1103,7 +1112,7 @@ class GroupActivity : DatabaseLockActivity(),
         sortNodeEnum: SortNodeEnum,
         sortNodeParameters: SortNodeEnum.SortNodeParameters
     ) {
-        mNodesFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
+        mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
     override fun startActivity(intent: Intent) {
@@ -1142,7 +1151,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onBackPressed() {
-        if (mNodesFragment?.nodeActionSelectionMode == true) {
+        if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {
             // Normal way when we are not in root

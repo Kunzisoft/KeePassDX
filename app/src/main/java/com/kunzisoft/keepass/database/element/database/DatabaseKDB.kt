@@ -51,12 +51,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         kdfListV3.add(KdfFactory.aesKdf)
     }
 
-    private fun getGroupById(groupId: Int): GroupKDB? {
-        if (groupId == -1)
-            return null
-        return getGroupById(NodeIdInt(groupId))
-    }
-
     val backupGroup: GroupKDB?
         get() {
             return retrieveBackup()
@@ -79,11 +73,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             list.add(EncryptionAlgorithm.AESRijndael)
             list.add(EncryptionAlgorithm.Twofish)
             return list
-        }
-
-    val rootGroups: List<GroupKDB>
-        get() {
-            return rootGroup?.getChildGroups() ?: ArrayList()
         }
 
     override val passwordEncoding: String
