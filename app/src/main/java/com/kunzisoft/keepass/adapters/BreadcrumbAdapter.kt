@@ -15,6 +15,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.view.strikeOut
 
 class BreadcrumbAdapter(val context: Context)
     : RecyclerView.Adapter<BreadcrumbAdapter.BreadcrumbGroupViewHolder>() {
@@ -79,7 +80,10 @@ class BreadcrumbAdapter(val context: Context)
     override fun onBindViewHolder(holder: BreadcrumbGroupViewHolder, position: Int) {
         val node = mNodeBreadcrumb[position]
 
-        holder.groupNameView.text = node?.title ?: ""
+        holder.groupNameView.apply {
+            text = node?.title ?: ""
+            strikeOut(node?.isCurrentlyExpires ?: false)
+        }
 
         holder.itemView.apply {
             setOnClickListener {
