@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.dialogs
+package com.kunzisoft.keepass.activities.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntryEditActivity
-import com.kunzisoft.keepass.activities.fragments.DatabaseFragment
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodesAdapter
@@ -44,10 +44,11 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.*
 
-class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
+class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
+    private var groupRefreshed: GroupRefreshedListener? = null
 
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
@@ -100,6 +101,8 @@ class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        // TODO Change to ViewModel
         try {
             nodeClickListener = context as NodeClickListener
         } catch (e: ClassCastException) {
@@ -117,11 +120,20 @@ class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 TAG, context.toString()
                     + " must implement " + RecyclerView.OnScrollListener::class.java.name)
         }
+
+        try {
+            groupRefreshed = context as GroupRefreshedListener
+        } catch (e: ClassCastException) {
+            // The activity doesn't implement the interface, throw exception
+            throw ClassCastException(context.toString()
+                    + " must implement " + GroupRefreshedListener::class.java.name)
+        }
     }
 
     override fun onDetach() {
         nodeClickListener = null
         onScrollListener = null
+        groupRefreshed = null
         super.onDetach()
     }
 
@@ -259,6 +271,8 @@ class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         } else {
             notFoundView?.visibility = View.GONE
         }
+
+        groupRefreshed?.onGroupRefreshed()
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum,
@@ -291,15 +305,17 @@ class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     val sortDialogFragment: SortDialogFragment =
                             if (mRecycleBinEnable) {
                                 SortDialogFragment.getInstance(
-                                        PreferencesUtil.getListSort(context),
-                                        PreferencesUtil.getAscendingSort(context),
-                                        PreferencesUtil.getGroupsBeforeSort(context),
-                                        PreferencesUtil.getRecycleBinBottomSort(context))
+                                    PreferencesUtil.getListSort(context),
+                                    PreferencesUtil.getAscendingSort(context),
+                                    PreferencesUtil.getGroupsBeforeSort(context),
+                                    PreferencesUtil.getRecycleBinBottomSort(context)
+                                )
                             } else {
                                 SortDialogFragment.getInstance(
-                                        PreferencesUtil.getListSort(context),
-                                        PreferencesUtil.getAscendingSort(context),
-                                        PreferencesUtil.getGroupsBeforeSort(context))
+                                    PreferencesUtil.getListSort(context),
+                                    PreferencesUtil.getAscendingSort(context),
+                                    PreferencesUtil.getGroupsBeforeSort(context)
+                                )
                             }
 
                     sortDialogFragment.show(childFragmentManager, "sortDialog")
@@ -446,7 +462,11 @@ class NodesFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         fun onScrolled(dy: Int)
     }
 
+    interface GroupRefreshedListener {
+        fun onGroupRefreshed()
+    }
+
     companion object {
-        private val TAG = NodesFragment::class.java.name
+        private val TAG = GroupFragment::class.java.name
     }
 }
