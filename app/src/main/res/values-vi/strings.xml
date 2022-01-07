@@ -51,7 +51,7 @@
     <string name="entry_add_field">Thêm trường</string>
     <string name="content_description_password_length">Độ dài mật khẩu</string>
     <string name="entry_password_generator">Trình tạo mật khẩu</string>
-    <string name="discard">Huỷ bỏ</string>
+    <string name="discard">Xoá</string>
     <string name="discard_changes">Huỷ thay đổi\?</string>
     <string name="validate">Xác nhận</string>
     <string name="content_description_entry_icon">Biểu tượng của mục</string>
@@ -150,4 +150,25 @@
     <string name="error_registration_read_only">Lưu một mục mới không được phép trong cơ sở dữ liệu chỉ đọc</string>
     <string name="error_field_name_already_exists">Tên trường đã tồn tại.</string>
     <string name="error_database_uri_null">Không thể truy xuất URI cơ sở dữ liệu.</string>
+    <string name="length">Độ dài</string>
+    <string name="list_entries_show_username_title">Hiển thị tên người dùng</string>
+    <string name="hint_length">Độ dài</string>
+    <string name="hint_pass">Mật khẩu</string>
+    <string name="password">Mật khẩu</string>
+    <string name="invalid_algorithm">Sai thuật toán.</string>
+    <string name="invalid_db_sig">Không đọc được định dạng cơ sở dữ liệu.</string>
+    <string name="no_url_handler">Hãy cài đặt trình duyệt web để mở đường dẫn này.</string>
+    <string name="select_database_file">Mở cơ sở dữ liệu có sẵn</string>
+    <string name="lowercase">Chữ thường</string>
+    <string name="hide_password_title">Ẩn mật khẩu</string>
+    <string name="error_upload_file">Có lỗi xảy ra khi tải dữ liệu từ tệp lên.</string>
+    <string name="error_duplicate_file">Dữ liệu trong tệp đã tồn tại.</string>
+    <string name="file_not_found_content">Không thể tìm thấy tệp. Hãy thử mở lại bằng trình duyệt tệp của bạn.</string>
+    <string name="generate_password">Tạo mật khẩu</string>
+    <string name="hint_conf_pass">Xác nhận mật khẩu</string>
+    <string name="error_file_to_big">Tệp bạn muốn tải lên quá lớn.</string>
+    <string name="hint_generated_password">Mật khẩu được tạo</string>
+    <string name="hint_group_name">Tên nhóm</string>
+    <string name="menu_open">Mở</string>
+    <string name="menu_open_file_read_and_write">Có thể sửa</string>
 </resources>
