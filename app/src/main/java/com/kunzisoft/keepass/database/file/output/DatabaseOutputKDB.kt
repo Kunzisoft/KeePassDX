@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.file.output
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
@@ -34,7 +35,6 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.security.*
-import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
 
@@ -43,6 +43,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     : DatabaseOutput<DatabaseHeaderKDB>(outputStream) {
 
     private var headerHashBlock: ByteArray? = null
+
+    private var mGroupList = mutableListOf<GroupKDB>()
+    private var mEntryList = mutableListOf<EntryKDB>()
 
     @Throws(DatabaseOutputException::class)
     fun getFinalKey(header: DatabaseHeader): ByteArray? {
@@ -61,7 +64,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
         // also remove the virtual root not present in kdb
         val rootGroup = mDatabaseKDB.rootGroup
-        sortGroupsForOutput()
+        sortNodesForOutput()
 
         val header = outputHeader(mOutputStream)
 
@@ -91,6 +94,8 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         } finally {
             // Add again the virtual root group for better management
             mDatabaseKDB.rootGroup = rootGroup
+            mGroupList.clear()
+            mEntryList.clear()
         }
     }
 
@@ -120,8 +125,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         }
 
         header.version = DatabaseHeaderKDB.DBVER_DW
-        header.numGroups = UnsignedInt(mDatabaseKDB.numberOfGroups())
-        header.numEntries = UnsignedInt(mDatabaseKDB.numberOfEntries())
+        // To remove root
+        header.numGroups = UnsignedInt(mGroupList.size)
+        header.numEntries = UnsignedInt(mEntryList.size)
         header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.numberKeyEncryptionRounds)
 
         setIVs(header)
@@ -194,31 +200,40 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         }
 
         // Groups
-        mDatabaseKDB.doForEachGroupInIndex { group ->
-            GroupOutputKDB(group, outputStream).output()
+        mGroupList.forEach { group ->
+            if (group != mDatabaseKDB.rootGroup) {
+                GroupOutputKDB(group, outputStream).output()
+            }
         }
         // Entries
-        mDatabaseKDB.doForEachEntryInIndex { entry ->
+        mEntryList.forEach { entry ->
             EntryOutputKDB(mDatabaseKDB, entry, outputStream).output()
         }
     }
 
-    private fun sortGroupsForOutput() {
-        val groupList = ArrayList<GroupKDB>()
+    private fun sortNodesForOutput() {
+        mGroupList.clear()
+        mEntryList.clear()
         // Rebuild list according to sorting order removing any orphaned groups
-        for (rootGroup in mDatabaseKDB.rootGroups) {
-            sortGroup(rootGroup, groupList)
+        // Do not keep root
+        mDatabaseKDB.rootGroup?.getChildGroups()?.let { rootSubGroups ->
+            for (rootGroup in rootSubGroups) {
+                sortGroup(rootGroup)
+            }
         }
-        mDatabaseKDB.setGroupIndexes(groupList)
     }
 
-    private fun sortGroup(group: GroupKDB, groupList: MutableList<GroupKDB>) {
+    private fun sortGroup(group: GroupKDB) {
         // Add current tree
-        groupList.add(group)
+        mGroupList.add(group)
+
+        for (childEntry in group.getChildEntries()) {
+            mEntryList.add(childEntry)
+        }
 
         // Recurse over children
         for (childGroup in group.getChildGroups()) {
-            sortGroup(childGroup, groupList)
+            sortGroup(childGroup)
         }
     }
 

@@ -67,7 +67,7 @@ abstract class DatabaseVersioned<
     var changeDuplicateId = false
 
     private var groupIndexes = LinkedHashMap<NodeId<GroupId>, Group>()
-    protected var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
+    private var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
 
     abstract val version: String
 
@@ -199,12 +199,6 @@ abstract class DatabaseVersioned<
      * -------------------------------------
      */
 
-    fun doForEachGroupInIndex(action: (Group) -> Unit) {
-        for (group in groupIndexes) {
-            action.invoke(group.value)
-        }
-    }
-
     /**
      * Determine if an id number is already in use
      *
@@ -220,14 +214,7 @@ abstract class DatabaseVersioned<
         return groupIndexes.values
     }
 
-    fun setGroupIndexes(groupList: List<Group>) {
-        this.groupIndexes.clear()
-        for (currentGroup in groupList) {
-            this.groupIndexes[currentGroup.nodeId] = currentGroup
-        }
-    }
-
-    fun getGroupById(id: NodeId<GroupId>): Group? {
+    open fun getGroupById(id: NodeId<GroupId>): Group? {
         return this.groupIndexes[id]
     }
 
@@ -251,16 +238,6 @@ abstract class DatabaseVersioned<
         this.groupIndexes.remove(group.nodeId)
     }
 
-    fun numberOfGroups(): Int {
-        return groupIndexes.size
-    }
-
-    fun doForEachEntryInIndex(action: (Entry) -> Unit) {
-        for (entry in entryIndexes) {
-            action.invoke(entry.value)
-        }
-    }
-
     fun isEntryIdUsed(id: NodeId<EntryId>): Boolean {
         return entryIndexes.containsKey(id)
     }
@@ -271,6 +248,10 @@ abstract class DatabaseVersioned<
 
     fun getEntryById(id: NodeId<EntryId>): Entry? {
         return this.entryIndexes[id]
+    }
+
+    fun findEntry(predicate: (Entry) -> Boolean): Entry? {
+        return this.entryIndexes.values.find(predicate)
     }
 
     fun addEntryIndex(entry: Entry) {
@@ -291,10 +272,6 @@ abstract class DatabaseVersioned<
 
     fun removeEntryIndex(entry: Entry) {
         this.entryIndexes.remove(entry.nodeId)
-    }
-
-    fun numberOfEntries(): Int {
-        return entryIndexes.size
     }
 
     open fun clearCache() {
