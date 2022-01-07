@@ -260,13 +260,15 @@ class GroupActivity : DatabaseLockActivity(),
                     mDatabase?.let { database ->
                         EntrySelectionHelper.doSpecialAction(intent,
                             {
-                                mNodesFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                                    EntryEditActivity.launchToCreate(
-                                        this@GroupActivity,
-                                        database,
-                                        currentGroup.nodeId,
-                                        resultLauncher
-                                    )
+                                mCurrentGroup?.nodeId?.let { currentParentGroupId ->
+                                    mNodesFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                                        EntryEditActivity.launchToCreate(
+                                            this@GroupActivity,
+                                            database,
+                                            currentParentGroupId,
+                                            resultLauncher
+                                        )
+                                    }
                                 }
                             },
                             {
