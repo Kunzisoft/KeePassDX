@@ -309,8 +309,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         val withoutMetaStream = filters.contains(ChildFilter.META_STREAM)
         val showExpiredEntries = !filters.contains(ChildFilter.EXPIRED)
 
+        // TODO Change KDB parser to remove meta entries
         return groupKDB?.getChildEntries()?.filter {
-            (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream))
+            (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream()))
                     && (!it.isCurrentlyExpires or showExpiredEntries)
         }?.map {
             Entry(it)

@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
@@ -300,6 +299,22 @@ class DatabaseInputKDB(cacheDirectory: File,
                         }
                         newEntry?.let { entry ->
                             mDatabase.addEntryIndex(entry)
+                            // Parse meta info
+                            if (entry.isMetaStreamDefaultUsername()) {
+                                var defaultUser = ""
+                                entry.getBinary(mDatabase.attachmentPool)
+                                    ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                        defaultUser = String(it.readBytes())
+                                    }
+                                mDatabase.defaultUserName = defaultUser
+                            } else if (entry.isMetaStreamDatabaseColor()) {
+                                var color: Int? = null
+                                entry.getBinary(mDatabase.attachmentPool)
+                                    ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                        color = it.read()
+                                    }
+                                mDatabase.color = color
+                            }
                             currentEntryNumber++
                             newEntry = null
                         }

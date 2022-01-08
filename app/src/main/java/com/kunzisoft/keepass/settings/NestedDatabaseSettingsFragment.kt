@@ -30,8 +30,8 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -165,28 +165,18 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Database default username
         dbDefaultUsernamePref = findPreference(getString(R.string.database_default_username_key))
-        if (database.allowDefaultUsername) {
-            dbDefaultUsernamePref?.summary = database.defaultUsername
-        } else {
-            dbDefaultUsernamePref?.isEnabled = false
-            // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
-        }
+        dbDefaultUsernamePref?.summary = database.defaultUsername
 
         // Database custom color
         dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
-        if (database.allowCustomColor) {
-            dbCustomColorPref?.apply {
-                try {
-                    color = Color.parseColor(database.customColor)
-                    summary = database.customColor
-                } catch (e: Exception) {
-                    color = DialogColorPreference.DISABLE_COLOR
-                    summary = ""
-                }
+        dbCustomColorPref?.apply {
+            try {
+                color = Color.parseColor(database.customColor)
+                summary = database.customColor
+            } catch (e: Exception) {
+                color = DialogColorPreference.DISABLE_COLOR
+                summary = ""
             }
-        } else {
-            dbCustomColorPref?.isEnabled = false
-            // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
         }
 
         // Version

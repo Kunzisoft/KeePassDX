@@ -61,6 +61,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             return listOf(BACKUP_FOLDER_TITLE)
         }
 
+    var defaultUserName: String = ""
+    var color: Int? = null
+
     override val kdfEngine: KdfEngine
         get() = kdfListV3[0]
 

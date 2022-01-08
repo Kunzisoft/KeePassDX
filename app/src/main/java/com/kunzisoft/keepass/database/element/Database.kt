@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.database.element
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -226,30 +226,31 @@ class Database {
             mDatabaseKDBX?.descriptionChanged = DateInstant()
         }
 
-    val allowDefaultUsername: Boolean
-        get() = mDatabaseKDBX != null
-        // TODO get() = mDatabaseKDB != null || mDatabaseKDBX != null
-
     var defaultUsername: String
         get() {
-            return mDatabaseKDBX?.defaultUserName ?: "" // TODO mDatabaseKDB default username
+            return mDatabaseKDB?.defaultUserName ?: mDatabaseKDBX?.defaultUserName ?: ""
         }
         set(username) {
+            mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
             mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
         }
 
-    val allowCustomColor: Boolean
-        get() = mDatabaseKDBX != null
-        // TODO get() = mDatabaseKDB != null || mDatabaseKDBX != null
-
     // with format "#000000"
     var customColor: String
         get() {
-            return mDatabaseKDBX?.color ?: "" // TODO mDatabaseKDB color
+            var colorString = ""
+            mDatabaseKDB?.color?.let {
+                colorString = ChromaUtil.getFormattedColorString(it, false)
+            }
+            return mDatabaseKDBX?.color ?: colorString
         }
         set(value) {
-            // TODO Check color string
+            mDatabaseKDB?.color = if (value == "") {
+                null
+            } else {
+                Color.parseColor(value)
+            }
             mDatabaseKDBX?.color = value
         }
 

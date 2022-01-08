@@ -47,6 +47,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     private var mGroupList = mutableListOf<GroupKDB>()
     private var mEntryList = mutableListOf<EntryKDB>()
 
+    private var mDefaultUsernameAdded = false
+    private var mDatabaseColorAdded = false
+
     @Throws(DatabaseOutputException::class)
     fun getFinalKey(header: DatabaseHeader): ByteArray? {
         try {
@@ -94,8 +97,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         } finally {
             // Add again the virtual root group for better management
             mDatabaseKDB.rootGroup = rootGroup
-            mGroupList.clear()
-            mEntryList.clear()
+            clearParser()
         }
     }
 
@@ -211,9 +213,14 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         }
     }
 
-    private fun sortNodesForOutput() {
+    private fun clearParser() {
         mGroupList.clear()
         mEntryList.clear()
+        mDefaultUsernameAdded = false
+    }
+
+    private fun sortNodesForOutput() {
+        clearParser()
         // Rebuild list according to sorting order removing any orphaned groups
         // Do not keep root
         mDatabaseKDB.rootGroup?.getChildGroups()?.let { rootSubGroups ->
@@ -228,12 +235,60 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         mGroupList.add(group)
 
         for (childEntry in group.getChildEntries()) {
-            mEntryList.add(childEntry)
+            if (childEntry.isMetaStreamDefaultUsername()
+                && mDatabaseKDB.defaultUserName.isNotEmpty()) {
+                setDefaultUsername(childEntry)
+                mEntryList.add(childEntry)
+                mDefaultUsernameAdded = true
+            } else if (childEntry.isMetaStreamDatabaseColor()
+                && mDatabaseKDB.color != null) {
+                setDatabaseColor(childEntry)
+                mEntryList.add(childEntry)
+                mDatabaseColorAdded = true
+            } else {
+                mEntryList.add(childEntry)
+            }
+        }
+
+        // Add MetaStream
+        if (!mDefaultUsernameAdded
+            && mDatabaseKDB.defaultUserName.isNotEmpty()) {
+            val metaEntry = EntryKDB().apply {
+                setMetaStreamDefaultUsername()
+                setDefaultUsername(this)
+            }
+            mDatabaseKDB.addEntryTo(metaEntry, group)
+            mEntryList.add(metaEntry)
+        }
+        if (!mDatabaseColorAdded
+            && mDatabaseKDB.color != null) {
+            val metaEntry = EntryKDB().apply {
+                setMetaStreamDatabaseColor()
+                setDatabaseColor(this)
+            }
+            mDatabaseKDB.addEntryTo(metaEntry, group)
+            mEntryList.add(metaEntry)
         }
 
         // Recurse over children
         for (childGroup in group.getChildGroups()) {
             sortGroup(childGroup)
+        }
+    }
+
+    private fun setDefaultUsername(entryKDB: EntryKDB) {
+        val binaryData = mDatabaseKDB.buildNewAttachment()
+        entryKDB.putBinary(binaryData, mDatabaseKDB.attachmentPool)
+        BufferedOutputStream(binaryData.getOutputDataStream(mDatabaseKDB.binaryCache)).use { outputStream ->
+            outputStream.write(mDatabaseKDB.defaultUserName.toByteArray())
+        }
+    }
+
+    private fun setDatabaseColor(entryKDB: EntryKDB) {
+        val binaryData = mDatabaseKDB.buildNewAttachment()
+        entryKDB.putBinary(binaryData, mDatabaseKDB.attachmentPool)
+        BufferedOutputStream(binaryData.getOutputDataStream(mDatabaseKDB.binaryCache)).use { outputStream ->
+            outputStream.write(mDatabaseKDB.color!!)
         }
     }
 
