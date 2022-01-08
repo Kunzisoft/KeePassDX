@@ -357,7 +357,7 @@
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/background_text_info</item>
+        <item name="android:background">@drawable/background_rounded_square</item>
         <item name="backgroundTint">?attr/colorAccent</item>
     </style>
 

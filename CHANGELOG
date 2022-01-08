@@ -2,9 +2,11 @@ KeePassDX(3.1.0)
  * Add breadcrumb
  * Add path in search results #1148
  * Add group info dialog #1177
+ * Add database color #913
  * Fix UI in Android 8 #509
  * Upgrade libs and SDK to 31 #833
  * Stop asking WRITE_EXTERNAL_STORAGE permission
+ * Fix parser of database v1
 
 KeePassDX(3.0.4)
  * Fix autofill inline bugs #1173 #1165
