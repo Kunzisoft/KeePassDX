@@ -20,6 +20,7 @@
 
 package com.kunzisoft.keepass.database.file.input
 
+import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -311,7 +312,13 @@ class DatabaseInputKDB(cacheDirectory: File,
                                 var color: Int? = null
                                 entry.getBinary(mDatabase.attachmentPool)
                                     ?.getInputDataStream(mDatabase.binaryCache)?.use {
-                                        color = it.read()
+                                        val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
+                                        color = Color.argb(
+                                            Color.alpha(255),
+                                            Color.blue(reverseColor),
+                                            Color.green(reverseColor),
+                                            Color.red(reverseColor)
+                                        )
                                     }
                                 mDatabase.color = color
                             }

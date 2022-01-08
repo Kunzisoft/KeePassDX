@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
@@ -46,9 +47,6 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
     private var mGroupList = mutableListOf<GroupKDB>()
     private var mEntryList = mutableListOf<EntryKDB>()
-
-    private var mDefaultUsernameAdded = false
-    private var mDatabaseColorAdded = false
 
     @Throws(DatabaseOutputException::class)
     fun getFinalKey(header: DatabaseHeader): ByteArray? {
@@ -216,7 +214,6 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     private fun clearParser() {
         mGroupList.clear()
         mEntryList.clear()
-        mDefaultUsernameAdded = false
     }
 
     private fun sortNodesForOutput() {
@@ -235,24 +232,14 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         mGroupList.add(group)
 
         for (childEntry in group.getChildEntries()) {
-            if (childEntry.isMetaStreamDefaultUsername()
-                && mDatabaseKDB.defaultUserName.isNotEmpty()) {
-                setDefaultUsername(childEntry)
-                mEntryList.add(childEntry)
-                mDefaultUsernameAdded = true
-            } else if (childEntry.isMetaStreamDatabaseColor()
-                && mDatabaseKDB.color != null) {
-                setDatabaseColor(childEntry)
-                mEntryList.add(childEntry)
-                mDatabaseColorAdded = true
-            } else {
+            if (!childEntry.isMetaStreamDefaultUsername()
+                && !childEntry.isMetaStreamDatabaseColor()) {
                 mEntryList.add(childEntry)
             }
         }
 
         // Add MetaStream
-        if (!mDefaultUsernameAdded
-            && mDatabaseKDB.defaultUserName.isNotEmpty()) {
+        if (mDatabaseKDB.defaultUserName.isNotEmpty()) {
             val metaEntry = EntryKDB().apply {
                 setMetaStreamDefaultUsername()
                 setDefaultUsername(this)
@@ -260,8 +247,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
             mDatabaseKDB.addEntryTo(metaEntry, group)
             mEntryList.add(metaEntry)
         }
-        if (!mDatabaseColorAdded
-            && mDatabaseKDB.color != null) {
+        if (mDatabaseKDB.color != null) {
             val metaEntry = EntryKDB().apply {
                 setMetaStreamDatabaseColor()
                 setDatabaseColor(this)
@@ -288,7 +274,16 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         val binaryData = mDatabaseKDB.buildNewAttachment()
         entryKDB.putBinary(binaryData, mDatabaseKDB.attachmentPool)
         BufferedOutputStream(binaryData.getOutputDataStream(mDatabaseKDB.binaryCache)).use { outputStream ->
-            outputStream.write(mDatabaseKDB.color!!)
+            var reversColor = Color.BLACK
+            mDatabaseKDB.color?.let {
+                reversColor = Color.argb(
+                    Color.alpha(255),
+                    Color.blue(it),
+                    Color.green(it),
+                    Color.red(it)
+                )
+            }
+            outputStream.write4BytesUInt(UnsignedInt(reversColor))
         }
     }
 
