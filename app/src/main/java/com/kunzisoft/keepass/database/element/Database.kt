@@ -236,22 +236,23 @@ class Database {
             mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
         }
 
-    // with format "#000000"
-    var customColor: String
+    var customColor: Int?
         get() {
-            var colorString = ""
-            mDatabaseKDB?.color?.let {
-                colorString = ChromaUtil.getFormattedColorString(it, false)
+            var colorInt: Int? = null
+            mDatabaseKDBX?.color?.let {
+                try {
+                    colorInt = Color.parseColor(it)
+                } catch (e: Exception) {}
             }
-            return mDatabaseKDBX?.color ?: colorString
+            return mDatabaseKDB?.color ?: colorInt
         }
         set(value) {
-            mDatabaseKDB?.color = if (value == "") {
-                null
+            mDatabaseKDB?.color = value
+            mDatabaseKDBX?.color = if (value == null) {
+                ""
             } else {
-                Color.parseColor(value)
+                ChromaUtil.getFormattedColorString(value, false)
             }
-            mDatabaseKDBX?.color = value
         }
 
     val allowOTP: Boolean

@@ -25,7 +25,6 @@ import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.*
 import android.util.Log
@@ -415,13 +414,14 @@ class GroupActivity : DatabaseLockActivity(),
         // Search suggestion
         database?.let {
             databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
-            try {
+            val customColor = it.customColor
+            if (customColor != null) {
                 databaseColorView?.visibility = View.VISIBLE
                 databaseColorView?.setColorFilter(
-                    Color.parseColor(it.customColor),
+                    customColor,
                     PorterDuff.Mode.SRC_IN
                 )
-            } catch (e: Exception) {
+            } else {
                 databaseColorView?.visibility = View.GONE
             }
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)

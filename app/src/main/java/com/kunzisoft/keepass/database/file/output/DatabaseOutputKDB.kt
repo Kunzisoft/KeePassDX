@@ -276,8 +276,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         BufferedOutputStream(binaryData.getOutputDataStream(mDatabaseKDB.binaryCache)).use { outputStream ->
             var reversColor = Color.BLACK
             mDatabaseKDB.color?.let {
-                reversColor = Color.argb(
-                    Color.alpha(255),
+                reversColor = Color.rgb(
                     Color.blue(it),
                     Color.green(it),
                     Color.red(it)

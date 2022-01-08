@@ -170,10 +170,11 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         // Database custom color
         dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
         dbCustomColorPref?.apply {
-            try {
-                color = Color.parseColor(database.customColor)
-                summary = database.customColor
-            } catch (e: Exception) {
+            val customColor = database.customColor
+            if (customColor != null) {
+                color = customColor
+                summary = ChromaUtil.getFormattedColorString(customColor, false)
+            } else{
                 color = DialogColorPreference.DISABLE_COLOR
                 summary = ""
             }
@@ -416,7 +417,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newColor
                                 } else {
-                                    mDatabase?.customColor = oldColor
+                                    mDatabase?.customColor = Color.parseColor(oldColor)
                                     oldColor
                                 }
                         dbCustomColorPref?.summary = defaultColorToShow

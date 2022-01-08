@@ -30,7 +30,6 @@ import android.view.Window
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.androidclearchroma.IndicatorMode
 import com.kunzisoft.androidclearchroma.colormode.ColorMode
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment
@@ -77,12 +76,12 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         super.onDatabaseRetrieved(database)
 
         database?.let {
-            val initColor = try {
+            var initColor = it.customColor
+            if (initColor != null) {
                 enableSwitchView.isChecked = true
-                Color.parseColor(it.customColor)
-            } catch (e: Exception) {
+            } else {
                 enableSwitchView.isChecked = false
-                DEFAULT_COLOR
+                initColor = DEFAULT_COLOR
             }
             arguments?.putInt(ARG_INITIAL_COLOR, initColor)
         }
@@ -107,9 +106,9 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                 onColorSelectedListener?.invoke(customColorEnable, currentColor)
                 database?.let {
                     val newColor = if (customColorEnable) {
-                        ChromaUtil.getFormattedColorString(currentColor, false)
+                        currentColor
                     } else {
-                        ""
+                        null
                     }
                     val oldColor = database.customColor
                     database.customColor = newColor

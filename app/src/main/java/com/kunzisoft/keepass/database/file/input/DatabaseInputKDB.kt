@@ -313,8 +313,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                                 entry.getBinary(mDatabase.attachmentPool)
                                     ?.getInputDataStream(mDatabase.binaryCache)?.use {
                                         val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
-                                        color = Color.argb(
-                                            Color.alpha(255),
+                                        color = Color.rgb(
                                             Color.blue(reverseColor),
                                             Color.green(reverseColor),
                                             Color.red(reverseColor)

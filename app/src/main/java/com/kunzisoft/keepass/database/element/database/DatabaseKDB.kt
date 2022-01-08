@@ -62,6 +62,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         }
 
     var defaultUserName: String = ""
+
     var color: Int? = null
 
     override val kdfEngine: KdfEngine
