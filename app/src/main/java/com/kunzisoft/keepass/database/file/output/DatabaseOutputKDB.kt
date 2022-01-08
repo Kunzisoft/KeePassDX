@@ -110,7 +110,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     override fun outputHeader(outputStream: OutputStream): DatabaseHeaderKDB {
         // Build header
         val header = DatabaseHeaderKDB()
-        header.signature1 = DatabaseHeader.PWM_DBSIG_1
+        header.signature1 = DatabaseHeaderKDB.DBSIG_1
         header.signature2 = DatabaseHeaderKDB.DBSIG_2
         header.flags = DatabaseHeaderKDB.FLAG_SHA2
 

@@ -68,7 +68,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
     @Throws(IOException::class)
     fun output() {
 
-        mos.write4BytesUInt(DatabaseHeader.PWM_DBSIG_1)
+        mos.write4BytesUInt(DatabaseHeaderKDBX.DBSIG_1)
         mos.write4BytesUInt(DatabaseHeaderKDBX.DBSIG_2)
         mos.write4BytesUInt(header.version)
 

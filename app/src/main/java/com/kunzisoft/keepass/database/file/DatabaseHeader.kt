@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.utils.UnsignedInt
-
 abstract class DatabaseHeader {
 
     /**
@@ -32,9 +30,5 @@ abstract class DatabaseHeader {
      * IV used for content encryption
      */
     var encryptionIV = ByteArray(16)
-
-    companion object {
-        val PWM_DBSIG_1 = UnsignedInt(-0x655d26fd)
-    }
 
 }

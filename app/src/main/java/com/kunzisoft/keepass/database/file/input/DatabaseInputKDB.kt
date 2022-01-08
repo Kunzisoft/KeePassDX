@@ -98,7 +98,7 @@ class DatabaseInputKDB(cacheDirectory: File,
             if (fileSize != (contentSize + DatabaseHeaderKDB.BUF_SIZE))
                 throw IOException("Header corrupted")
 
-            if (header.signature1 != DatabaseHeader.PWM_DBSIG_1
+            if (header.signature1 != DatabaseHeaderKDB.DBSIG_1
                     || header.signature2 != DatabaseHeaderKDB.DBSIG_2) {
                 throw SignatureDatabaseException()
             }

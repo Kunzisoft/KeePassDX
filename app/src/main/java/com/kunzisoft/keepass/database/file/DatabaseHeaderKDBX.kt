@@ -311,8 +311,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     companion object {
 
-        val DBSIG_PRE2 = UnsignedInt(-0x4ab4049a)
-        val DBSIG_2 = UnsignedInt(-0x4ab40499)
+        val DBSIG_1 = UnsignedInt(-0x655d26fd) // 0x9AA2D903
+        val DBSIG_PRE2 = UnsignedInt(-0x4ab4049a) // 0xB54BFB66
+        val DBSIG_2 = UnsignedInt(-0x4ab40499) // 0xB54BFB67
 
         private val FILE_VERSION_CRITICAL_MASK = UnsignedInt(-0x10000)
         val FILE_VERSION_31 = UnsignedInt(0x00030001)
@@ -335,7 +336,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         }
 
         fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
-            return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
+            return sig1 == DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
         }
     }
 }
