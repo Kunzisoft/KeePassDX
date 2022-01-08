@@ -452,7 +452,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.show_uuid_key),
             getString(R.string.enable_education_screens_key),
             getString(R.string.reset_education_screens_key) -> {
-                DATABASE_APPEARANCE_PREFERENCE_CHANGED = true
+                DATABASE_PREFERENCE_CHANGED = true
             }
         }
         return super.onPreferenceTreeClick(preference)
@@ -516,6 +516,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     companion object {
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
 
-        var DATABASE_APPEARANCE_PREFERENCE_CHANGED = false
+        var DATABASE_PREFERENCE_CHANGED = false
     }
 }

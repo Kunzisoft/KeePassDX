@@ -671,6 +671,27 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // To reload group when database settings are modified
+        when (preference?.key) {
+            getString(R.string.database_name_key),
+            getString(R.string.database_description_key),
+            getString(R.string.database_default_username_key),
+            getString(R.string.database_custom_color_key),
+            getString(R.string.database_data_compression_key),
+            getString(R.string.database_data_remove_unlinked_attachments_key),
+            getString(R.string.recycle_bin_enable_key),
+            getString(R.string.recycle_bin_group_key),
+            getString(R.string.templates_group_enable_key),
+            getString(R.string.templates_group_uuid_key),
+            getString(R.string.max_history_items_key),
+            getString(R.string.max_history_size_key) -> {
+                NestedAppSettingsFragment.DATABASE_PREFERENCE_CHANGED = true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
+    }
+
     companion object {
         private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
     }

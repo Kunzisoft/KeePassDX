@@ -418,7 +418,15 @@ class GroupActivity : DatabaseLockActivity(),
         // Search suggestion
         database?.let {
             databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
-            databaseColorView?.setColorFilter(Color.parseColor(it.customColor), PorterDuff.Mode.SRC_IN)
+            try {
+                databaseColorView?.visibility = View.VISIBLE
+                databaseColorView?.setColorFilter(
+                    Color.parseColor(it.customColor),
+                    PorterDuff.Mode.SRC_IN
+                )
+            } catch (e: Exception) {
+                databaseColorView?.visibility = View.GONE
+            }
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
             mOnSuggestionListener = object : SearchView.OnSuggestionListener {
