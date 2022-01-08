@@ -328,9 +328,6 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
 
-            assignGroupViewElements(currentGroup)
-            invalidateOptionsMenu()
-
             loadingView?.hideByFading()
         }
 
@@ -597,9 +594,8 @@ class GroupActivity : DatabaseLockActivity(),
                 setBreadcrumbNode(group)
             }
         }
-
-        // Hide button
         initAddButton(group)
+        invalidateOptionsMenu()
     }
 
     private fun setBreadcrumbNode(group: Group?) {
