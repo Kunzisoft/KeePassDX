@@ -162,8 +162,8 @@
     <string name="kdf_explanation">Aby wygenerować klucz dla algorytmu szyfrowania, klucz główny jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
     <string name="memory_usage">Użycie pamięci</string>
     <string name="memory_usage_explanation">Ilość pamięci do użycia przez funkcję wyprowadzania klucza.</string>
-    <string name="parallelism">Równoległy</string>
-    <string name="parallelism_explanation">Stopień równoległości (tj. Liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
+    <string name="parallelism">Równoległość</string>
+    <string name="parallelism_explanation">Stopień równoległości (tj. liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
     <string name="sort_menu">Sortuj</string>
     <string name="sort_ascending">Od najniższej ↓</string>
     <string name="sort_username">Nazwa Użytkownika</string>
