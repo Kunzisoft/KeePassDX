@@ -171,4 +171,5 @@
     <string name="hint_group_name">Tên nhóm</string>
     <string name="menu_open">Mở</string>
     <string name="menu_open_file_read_and_write">Có thể sửa</string>
+    <string name="hide_password_summary">Mặc định che mật khẩu (***)</string>
 </resources>
