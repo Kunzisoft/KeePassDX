@@ -17,9 +17,9 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	tools:targetApi="o"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -29,30 +29,56 @@
 		android:id="@+id/template_header_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle"
-		android:visibility="gone">
-		<LinearLayout
-			android:orientation="vertical"
+		style="?attr/cardViewStyle">
+		<FrameLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/card_view_padding">
+			android:layout_height="wrap_content">
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_margin="@dimen/card_view_padding">
 
-			<!-- Icon -->
-			<androidx.appcompat.widget.AppCompatImageButton
-				android:id="@+id/template_icon_button"
+				<!-- Icon -->
+				<androidx.appcompat.widget.AppCompatImageButton
+					android:id="@+id/template_icon_button"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dp"
+					android:src="@drawable/ic_blank_32dp"
+					android:contentDescription="@string/content_description_entry_icon"
+					android:layout_gravity="center"/>
+
+				<!-- Title -->
+				<FrameLayout
+					android:id="@+id/template_title_container"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content" />
+			</LinearLayout>
+			<LinearLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="4dp"
-				android:src="@drawable/ic_blank_32dp"
-				android:contentDescription="@string/content_description_entry_icon"
-				android:layout_gravity="center"/>
-
-			<!-- Title -->
-			<FrameLayout
-				android:id="@+id/template_title_container"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
-		</LinearLayout>
+				android:layout_gravity="end">
+				<ImageView
+					android:id="@+id/template_background_color_button"
+					android:layout_width="42dp"
+					android:layout_height="42dp"
+					android:padding="12dp"
+					android:src="@drawable/ic_color_background_white_24dp"
+					android:contentDescription="@string/content_description_entry_background_color"
+					style="@style/KeepassDXStyle.ImageButton.Simple" />
+				<ImageView
+					android:id="@+id/template_foreground_color_button"
+					android:layout_width="42dp"
+					android:layout_height="42dp"
+					android:padding="12dp"
+					android:src="@drawable/ic_color_foreground_white_24dp"
+					android:contentDescription="@string/content_description_entry_background_color"
+					style="@style/KeepassDXStyle.ImageButton.Simple" />
+			</LinearLayout>
+		</FrameLayout>
 	</androidx.cardview.widget.CardView>
 
 	<LinearLayout

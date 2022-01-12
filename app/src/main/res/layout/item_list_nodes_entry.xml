@@ -38,6 +38,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/selectableItemBackground" >
 
+        <ImageView
+            android:id="@+id/background_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/content_description_entry_background_color"
+            android:src="@drawable/background_rounded_square"
+            app:layout_constraintBottom_toBottomOf="@+id/node_icon"
+            app:layout_constraintEnd_toEndOf="@+id/node_icon"
+            app:layout_constraintStart_toStartOf="@+id/node_icon"
+            app:layout_constraintTop_toTopOf="@+id/node_icon"
+            app:tint="@color/white" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
             android:layout_width="32dp"
@@ -57,41 +71,18 @@
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <ImageView
-            android:id="@+id/background_color"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
-            android:src="@drawable/background_rounded_square"
-            app:tint="@color/blue"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
+            android:id="@+id/foreground_view"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginLeft="14dp"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center"
-            android:elevation="6dp"
-            tools:ignore="UnusedAttribute"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-        <ImageView
-            android:id="@+id/foreground_color"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:src="@drawable/background_rounded_square"
-            android:layout_marginLeft="18dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginRight="18dp"
-            android:layout_marginEnd="18dp"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center"
-            android:elevation="8dp"
-            tools:ignore="UnusedAttribute"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            android:contentDescription="@string/content_description_entry_foreground_color"
+            android:src="@drawable/background_rounded_square" />
 
         <LinearLayout
             android:id="@+id/node_container_info"

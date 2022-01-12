@@ -74,6 +74,7 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
 import java.util.*
@@ -102,6 +103,8 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mIsTemplate: Boolean = false
     private var mEntryLoaded: Boolean = false
     private var mTemplatesSelectorAdapter: TemplatesSelectorAdapter? = null
+
+    private val mColorPickerViewModel: ColorPickerViewModel by viewModels()
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -241,6 +244,14 @@ class EntryEditActivity : DatabaseLockActivity(),
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
             IconPickerActivity.launch(this@EntryEditActivity, iconImage, mIconSelectionActivityResultLauncher)
+        }
+
+        mEntryEditViewModel.requestColorSelection.observe(this) { color ->
+            ColorPickerDialogFragment().show(supportFragmentManager, "ColorPickerFragment")
+        }
+
+        mColorPickerViewModel.colorPicked.observe(this) { color ->
+            mEntryEditViewModel.selectColor(color)
         }
 
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->

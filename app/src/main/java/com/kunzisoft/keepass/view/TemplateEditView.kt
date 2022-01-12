@@ -54,6 +54,30 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         populateIconMethod?.invoke(entryIconView, iconImage)
     }
 
+    fun setOnBackgroundColorClickListener(onClickListener: OnClickListener) {
+        backgroundColorButton.setOnClickListener(onClickListener)
+    }
+
+    fun getBackgroundColor(): Int? {
+        return mEntryInfo?.backgroundColor
+    }
+
+    fun setBackgroundColor(color: Int?) {
+        mEntryInfo?.backgroundColor = color
+    }
+
+    fun setOnForegroundColorClickListener(onClickListener: OnClickListener) {
+        foregroundColorButton.setOnClickListener(onClickListener)
+    }
+
+    fun getForegroundColor(): Int? {
+        return mEntryInfo?.foregroundColor
+    }
+
+    fun setForegroundColor(color: Int?) {
+        mEntryInfo?.foregroundColor = color
+    }
+
     override fun preProcessTemplate() {
         headerContainerView.isVisible = true
     }

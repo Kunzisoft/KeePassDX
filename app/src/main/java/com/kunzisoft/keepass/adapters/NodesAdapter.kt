@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -39,7 +41,9 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.*
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
+import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
@@ -377,6 +381,25 @@ class NodesAdapter (private val context: Context,
             val entry = subNode as Entry
             database.startManageEntry(entry)
 
+            // Assign colors
+            val backgroundColor = entry.backgroundColor
+            if (backgroundColor != null) {
+                holder.backgroundView?.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP)
+                holder.backgroundView?.isVisible = true
+            } else {
+                holder.backgroundView?.isVisible = false
+            }
+            val foregroundColor = entry.foregroundColor
+            if (foregroundColor != null) {
+                holder.foregroundView?.setColorFilter(foregroundColor, PorterDuff.Mode.SRC_ATOP)
+                holder.icon.apply {
+                    database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, foregroundColor)
+                }
+                holder.foregroundView?.isVisible = true
+            } else {
+                holder.foregroundView?.isVisible = false
+            }
+
             holder.text.text = entry.getVisualTitle()
             // Add subText with username
             holder.subText?.apply {
@@ -510,6 +533,8 @@ class NodesAdapter (private val context: Context,
         var container: View = itemView.findViewById(R.id.node_container)
         var imageIdentifier: ImageView? = itemView.findViewById(R.id.node_image_identifier)
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
+        var backgroundView: ImageView? = itemView.findViewById(R.id.background_view)
+        var foregroundView: ImageView? = itemView.findViewById(R.id.foreground_view)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)

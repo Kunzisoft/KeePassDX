@@ -46,6 +46,8 @@ abstract class TemplateAbstractView<
 
     protected var headerContainerView: ViewGroup
     protected var entryIconView: ImageView
+    protected var backgroundColorButton: ImageView
+    protected var foregroundColorButton: ImageView
     private var titleContainerView: ViewGroup
     protected var templateContainerView: ViewGroup
     private var customFieldsContainerView: SectionView
@@ -57,6 +59,8 @@ abstract class TemplateAbstractView<
 
         headerContainerView = findViewById(R.id.template_header_container)
         entryIconView = findViewById(R.id.template_icon_button)
+        backgroundColorButton = findViewById(R.id.template_background_color_button)
+        foregroundColorButton = findViewById(R.id.template_foreground_color_button)
         titleContainerView = findViewById(R.id.template_title_container)
         templateContainerView = findViewById(R.id.template_fields_container)
         // To fix card view margin below Marshmallow
