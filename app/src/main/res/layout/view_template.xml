@@ -33,6 +33,26 @@
 		<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
+
+			<ImageView
+				android:id="@+id/template_foreground_color_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="12dp"
+				android:layout_gravity="top|start"
+				android:src="@drawable/ic_color_foreground_white_24dp"
+				android:contentDescription="@string/content_description_entry_background_color"
+				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
+			<ImageView
+				android:id="@+id/template_background_color_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="12dp"
+				android:layout_gravity="top|end"
+				android:src="@drawable/ic_color_background_white_24dp"
+				android:contentDescription="@string/content_description_entry_background_color"
+				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
+
 			<LinearLayout
 				android:orientation="vertical"
 				android:layout_width="match_parent"
@@ -45,38 +65,15 @@
 					android:id="@+id/template_icon_button"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_margin="4dp"
 					android:src="@drawable/ic_blank_32dp"
-					android:contentDescription="@string/content_description_entry_icon"
-					android:layout_gravity="center"/>
+					android:layout_gravity="center"
+					android:contentDescription="@string/content_description_entry_icon"/>
 
 				<!-- Title -->
 				<FrameLayout
 					android:id="@+id/template_title_container"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content" />
-			</LinearLayout>
-			<LinearLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_margin="4dp"
-				android:layout_gravity="end">
-				<ImageView
-					android:id="@+id/template_background_color_button"
-					android:layout_width="42dp"
-					android:layout_height="42dp"
-					android:padding="12dp"
-					android:src="@drawable/ic_color_background_white_24dp"
-					android:contentDescription="@string/content_description_entry_background_color"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
-				<ImageView
-					android:id="@+id/template_foreground_color_button"
-					android:layout_width="42dp"
-					android:layout_height="42dp"
-					android:padding="12dp"
-					android:src="@drawable/ic_color_foreground_white_24dp"
-					android:contentDescription="@string/content_description_entry_background_color"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
 			</LinearLayout>
 		</FrameLayout>
 	</androidx.cardview.widget.CardView>

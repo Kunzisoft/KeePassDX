@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -32,10 +31,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -91,9 +90,15 @@ class NodesAdapter (private val context: Context,
     @ColorInt
     private val mContentSelectionColor: Int
     @ColorInt
-    private val mIconGroupColor: Int
+    private val mTextColorPrimary: Int
     @ColorInt
-    private val mIconEntryColor: Int
+    private val mTextColor: Int
+    @ColorInt
+    private val mTextColorSecondary: Int
+    @ColorInt
+    private val mColorAccentLight: Int
+    @ColorInt
+    private val mTextColorInverse: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -114,12 +119,24 @@ class NodesAdapter (private val context: Context,
         this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        this.mIconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)
+        this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
         taTextColorPrimary.recycle()
-        // In two times to fix bug compilation
+        // To get text color
         val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        this.mIconEntryColor = taTextColor.getColor(0, Color.BLACK)
+        this.mTextColor = taTextColor.getColor(0, Color.BLACK)
         taTextColor.recycle()
+        // To get text color secondary
+        val taTextColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
+        this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
+        taTextColorSecondary.recycle()
+        // To get background color for selection
+        val taSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
+        this.mColorAccentLight = taSelectionColor.getColor(0, Color.GRAY)
+        taSelectionColor.recycle()
+        // To get text color for selection
+        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        this.mTextColorInverse = taSelectionTextColor.getColor(0, Color.WHITE)
+        taSelectionTextColor.recycle()
     }
 
     private fun assignPreferences() {
@@ -167,6 +184,8 @@ class NodesAdapter (private val context: Context,
             if (oldItem is Entry && newItem is Entry) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
                         && oldItem.username == newItem.username
+                        && oldItem.backgroundColor == newItem.backgroundColor
+                        && oldItem.foregroundColor == newItem.foregroundColor
                         && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
@@ -336,8 +355,8 @@ class NodesAdapter (private val context: Context,
         val iconColor = if (holder.container.isSelected)
             mContentSelectionColor
         else when (subNode.type) {
-            Type.GROUP -> mIconGroupColor
-            Type.ENTRY -> mIconEntryColor
+            Type.GROUP -> mTextColorPrimary
+            Type.ENTRY -> mTextColor
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
@@ -381,25 +400,6 @@ class NodesAdapter (private val context: Context,
             val entry = subNode as Entry
             database.startManageEntry(entry)
 
-            // Assign colors
-            val backgroundColor = entry.backgroundColor
-            if (backgroundColor != null) {
-                holder.backgroundView?.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP)
-                holder.backgroundView?.isVisible = true
-            } else {
-                holder.backgroundView?.isVisible = false
-            }
-            val foregroundColor = entry.foregroundColor
-            if (foregroundColor != null) {
-                holder.foregroundView?.setColorFilter(foregroundColor, PorterDuff.Mode.SRC_ATOP)
-                holder.icon.apply {
-                    database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, foregroundColor)
-                }
-                holder.foregroundView?.isVisible = true
-            } else {
-                holder.foregroundView?.isVisible = false
-            }
-
             holder.text.text = entry.getVisualTitle()
             // Add subText with username
             holder.subText?.apply {
@@ -436,6 +436,64 @@ class NodesAdapter (private val context: Context,
             holder.attachmentIcon?.visibility =
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
+            // Assign colors
+            val backgroundColor = entry.backgroundColor
+            if (!holder.container.isSelected) {
+                if (backgroundColor != null) {
+                    holder.container.setBackgroundColor(backgroundColor)
+                } else {
+                    holder.container.setBackgroundColor(Color.TRANSPARENT)
+                }
+            } else {
+                holder.container.setBackgroundColor(mColorAccentLight)
+            }
+            val foregroundColor = entry.foregroundColor
+            if (!holder.container.isSelected) {
+                if (foregroundColor != null) {
+                    holder.text.setTextColor(foregroundColor)
+                    holder.subText?.setTextColor(foregroundColor)
+                    holder.otpToken?.setTextColor(foregroundColor)
+                    holder.otpProgress?.setIndicatorColor(foregroundColor)
+                    holder.attachmentIcon?.setColorFilter(foregroundColor)
+                    holder.meta.setTextColor(foregroundColor)
+                    holder.icon.apply {
+                        database.iconDrawableFactory.assignDatabaseIcon(
+                            this,
+                            subNode.icon,
+                            foregroundColor
+                        )
+                    }
+                } else {
+                    holder.text.setTextColor(mTextColor)
+                    holder.subText?.setTextColor(mTextColorSecondary)
+                    holder.otpToken?.setTextColor(mTextColorSecondary)
+                    holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
+                    holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
+                    holder.meta.setTextColor(mTextColor)
+                    holder.icon.apply {
+                        database.iconDrawableFactory.assignDatabaseIcon(
+                            this,
+                            subNode.icon,
+                            mTextColor
+                        )
+                    }
+                }
+            } else {
+                holder.text.setTextColor(mTextColorInverse)
+                holder.subText?.setTextColor(mTextColorInverse)
+                holder.otpToken?.setTextColor(mTextColorInverse)
+                holder.otpProgress?.setIndicatorColor(mTextColorInverse)
+                holder.attachmentIcon?.setColorFilter(mTextColorInverse)
+                holder.meta.setTextColor(mTextColorInverse)
+                holder.icon.apply {
+                    database.iconDrawableFactory.assignDatabaseIcon(
+                        this,
+                        subNode.icon,
+                        mTextColorInverse
+                    )
+                }
+            }
+
             database.stopManageEntry(entry)
         }
 
@@ -468,13 +526,13 @@ class NodesAdapter (private val context: Context,
             OtpType.HOTP -> {
                 holder?.otpProgress?.apply {
                     max = 100
-                    progress = 100
+                    setProgressCompat(100, true)
                 }
             }
             OtpType.TOTP -> {
                 holder?.otpProgress?.apply {
                     max = otpElement.period
-                    progress = otpElement.secondsRemaining
+                    setProgressCompat(otpElement.secondsRemaining, true)
                 }
             }
             null -> {}
@@ -533,14 +591,12 @@ class NodesAdapter (private val context: Context,
         var container: View = itemView.findViewById(R.id.node_container)
         var imageIdentifier: ImageView? = itemView.findViewById(R.id.node_image_identifier)
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
-        var backgroundView: ImageView? = itemView.findViewById(R.id.background_view)
-        var foregroundView: ImageView? = itemView.findViewById(R.id.foreground_view)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var path: TextView? = itemView.findViewById(R.id.node_path)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
-        var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
+        var otpProgress: CircularProgressIndicator? = itemView.findViewById(R.id.node_otp_progress)
         var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)

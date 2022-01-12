@@ -1,6 +1,8 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
@@ -63,6 +65,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     fun setBackgroundColor(color: Int?) {
+        color?.let {
+            backgroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
+        }
         mEntryInfo?.backgroundColor = color
     }
 
@@ -75,6 +80,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     fun setForegroundColor(color: Int?) {
+        color?.let {
+            foregroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
+        }
         mEntryInfo?.foregroundColor = color
     }
 
@@ -220,6 +228,12 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
 
     override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField> {
         refreshIcon()
+        mEntryInfo?.backgroundColor?.let {
+            backgroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
+        }
+        mEntryInfo?.foregroundColor?.let {
+            foregroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
+        }
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
