@@ -247,7 +247,8 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         mEntryEditViewModel.requestColorSelection.observe(this) { color ->
-            ColorPickerDialogFragment().show(supportFragmentManager, "ColorPickerFragment")
+            ColorPickerDialogFragment.newInstance(color)
+                .show(supportFragmentManager, "ColorPickerFragment")
         }
 
         mColorPickerViewModel.colorPicked.observe(this) { color ->

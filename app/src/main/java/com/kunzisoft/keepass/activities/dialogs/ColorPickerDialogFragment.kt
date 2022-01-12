@@ -19,6 +19,7 @@ class ColorPickerDialogFragment : DatabaseDialogFragment() {
     private lateinit var chromaColorView: ChromaColorView
 
     private var mDefaultColor = Color.WHITE
+    private var mActivated = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -27,16 +28,25 @@ class ColorPickerDialogFragment : DatabaseDialogFragment() {
             enableSwitchView = root.findViewById(R.id.switch_element)
             chromaColorView = root.findViewById(R.id.chroma_color_view)
 
-            var activated = false
-            arguments?.apply {
-                if (containsKey(ARG_INITIAL_COLOR)) {
-                    mDefaultColor = getInt(ARG_INITIAL_COLOR)
+            if (savedInstanceState != null) {
+                if (savedInstanceState.containsKey(ARG_INITIAL_COLOR)) {
+                    mDefaultColor = savedInstanceState.getInt(ARG_INITIAL_COLOR)
                 }
-                if (containsKey(ARG_ACTIVATED)) {
-                    activated = getBoolean(ARG_ACTIVATED)
+                if (savedInstanceState.containsKey(ARG_ACTIVATED)) {
+                    mActivated = savedInstanceState.getBoolean(ARG_ACTIVATED)
+                }
+            } else {
+                arguments?.apply {
+                    if (containsKey(ARG_INITIAL_COLOR)) {
+                        mDefaultColor = getInt(ARG_INITIAL_COLOR)
+                    }
+                    if (containsKey(ARG_ACTIVATED)) {
+                        mActivated = getBoolean(ARG_ACTIVATED)
+                    }
                 }
             }
-            enableSwitchView.isChecked = activated
+            enableSwitchView.isChecked = mActivated
+            chromaColorView.currentColor = mDefaultColor
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
@@ -56,6 +66,12 @@ class ColorPickerDialogFragment : DatabaseDialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(ARG_INITIAL_COLOR, chromaColorView.currentColor)
+        outState.putBoolean(ARG_ACTIVATED, mActivated)
+    }
+
     companion object {
         private const val ARG_INITIAL_COLOR = "ARG_INITIAL_COLOR"
         private const val ARG_ACTIVATED = "ARG_ACTIVATED"
@@ -63,11 +79,12 @@ class ColorPickerDialogFragment : DatabaseDialogFragment() {
         fun newInstance(
             @ColorInt initialColor: Int?,
         ): ColorPickerDialogFragment {
-            val colorPickerDialogFragment = ColorPickerDialogFragment()
-            val args = Bundle()
-            args.putInt(ARG_INITIAL_COLOR, initialColor ?: Color.WHITE)
-            args.putBoolean(ARG_ACTIVATED, initialColor != null)
-            return colorPickerDialogFragment
+            return ColorPickerDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_INITIAL_COLOR, initialColor ?: Color.WHITE)
+                    putBoolean(ARG_ACTIVATED, initialColor != null)
+                }
+            }
         }
     }
 }
