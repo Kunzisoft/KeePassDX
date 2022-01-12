@@ -605,4 +605,6 @@
     <string name="autofill_manual_selection_title">Selección manual</string>
     <string name="autofill_select_entry">Seleccionar entrada…</string>
     <string name="hint_icon_name">Nombre del icono</string>
+    <string name="warning_exact_alarm">No ha permitido que la app use una alarma exacta. Como resultado, las funciones que requieren un temporizador no se harán con una hora exacta.</string>
+    <string name="permission">Permiso</string>
 </resources>
