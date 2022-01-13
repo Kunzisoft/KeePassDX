@@ -1,19 +1,21 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.*
+import com.kunzisoft.keepass.database.element.template.TemplateAttribute
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
@@ -53,7 +55,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
 
     fun setIcon(iconImage: IconImage) {
         mEntryInfo?.icon = iconImage
-        populateIconMethod?.invoke(entryIconView, iconImage)
+        refreshIcon()
     }
 
     fun setOnBackgroundColorClickListener(onClickListener: OnClickListener) {
@@ -65,10 +67,18 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     fun setBackgroundColor(color: Int?) {
-        color?.let {
-            backgroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-        }
+        applyBackgroundColor(color)
         mEntryInfo?.backgroundColor = color
+    }
+
+    private fun applyBackgroundColor(color: Int?) {
+        if (color != null) {
+            backgroundColorView.background.colorFilter = BlendModeColorFilterCompat
+                .createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+            backgroundColorView.visibility = View.VISIBLE
+        } else {
+            backgroundColorView.visibility = View.GONE
+        }
     }
 
     fun setOnForegroundColorClickListener(onClickListener: OnClickListener) {
@@ -80,10 +90,18 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     }
 
     fun setForegroundColor(color: Int?) {
-        color?.let {
-            foregroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-        }
+        applyForegroundColor(color)
         mEntryInfo?.foregroundColor = color
+    }
+
+    private fun applyForegroundColor(color: Int?) {
+        if (color != null) {
+            foregroundColorView.background.colorFilter = BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+            foregroundColorView.visibility = View.VISIBLE
+        } else {
+            foregroundColorView.visibility = View.GONE
+        }
     }
 
     override fun preProcessTemplate() {
@@ -228,12 +246,8 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
 
     override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField> {
         refreshIcon()
-        mEntryInfo?.backgroundColor?.let {
-            backgroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-        }
-        mEntryInfo?.foregroundColor?.let {
-            foregroundColorButton.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-        }
+        applyBackgroundColor(mEntryInfo?.backgroundColor)
+        applyForegroundColor(mEntryInfo?.foregroundColor)
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 

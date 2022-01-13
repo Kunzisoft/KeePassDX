@@ -30,26 +30,42 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		style="?attr/cardViewStyle">
+
 		<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<ImageView
-				android:id="@+id/template_foreground_color_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_margin="12dp"
-				android:layout_gravity="top|start"
-				android:src="@drawable/ic_color_foreground_white_24dp"
-				android:contentDescription="@string/content_description_entry_background_color"
-				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
+			<View
+				android:id="@+id/template_background_color"
+				android:layout_width="36dp"
+				android:layout_height="36dp"
+				android:layout_margin="9dp"
+				android:layout_gravity="top|end"
+				android:background="@drawable/background_rounded_square" />
+			<View
+				android:id="@+id/template_foreground_color"
+				android:layout_width="36dp"
+				android:layout_height="36dp"
+				android:layout_margin="32dp"
+				android:layout_gravity="top|end"
+				android:background="@drawable/background_rounded_square" />
+
 			<ImageView
 				android:id="@+id/template_background_color_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="12dp"
 				android:layout_gravity="top|end"
+				android:layout_margin="3dp"
 				android:src="@drawable/ic_color_background_white_24dp"
+				android:contentDescription="@string/content_description_entry_background_color"
+				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
+			<ImageView
+				android:id="@+id/template_foreground_color_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="top|end"
+				android:layout_margin="25dp"
+				android:src="@drawable/ic_color_foreground_white_24dp"
 				android:contentDescription="@string/content_description_entry_background_color"
 				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
 
@@ -65,8 +81,9 @@
 					android:id="@+id/template_icon_button"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:elevation="8dp"
+					android:layout_gravity="center_horizontal"
 					android:src="@drawable/ic_blank_32dp"
-					android:layout_gravity="center"
 					android:contentDescription="@string/content_description_entry_icon"/>
 
 				<!-- Title -->
