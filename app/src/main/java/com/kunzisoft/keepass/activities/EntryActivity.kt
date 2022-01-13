@@ -36,6 +36,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
@@ -58,7 +59,11 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.view.changeControlColor
+import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
@@ -68,6 +73,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
+    private var appBarLayout: AppBarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var entryProgress: ProgressBar? = null
@@ -94,6 +100,10 @@ class EntryActivity : DatabaseLockActivity() {
 
     private var mIcon: IconImage? = null
     private var mIconColor: Int = 0
+    private var mControlColor: Int = 0
+    private var molorPrimary: Int = 0
+    private var mBackgroundColor: Int? = null
+    private var mForegroundColor: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +118,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Get views
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
+        appBarLayout = findViewById(R.id.app_bar)
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
         entryProgress = findViewById(R.id.entry_progress)
@@ -122,6 +133,12 @@ class EntryActivity : DatabaseLockActivity() {
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
         mIconColor = taIconColor.getColor(0, Color.BLACK)
         taIconColor.recycle()
+        val taColorControl = theme.obtainStyledAttributes(intArrayOf(R.attr.colorControlNormal))
+        mControlColor = taColorControl.getColor(0, Color.BLACK)
+        taColorControl.recycle()
+        val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
+        molorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        taColorPrimary.recycle()
 
         // Get Entry from UUID
         try {
@@ -193,6 +210,9 @@ class EntryActivity : DatabaseLockActivity() {
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 mUrl = entryInfo.url
+                // Assign colors
+                mBackgroundColor = entryInfo.backgroundColor
+                mForegroundColor = entryInfo.foregroundColor
 
                 loadingView?.hideByFading()
                 mEntryLoaded = true
@@ -304,6 +324,13 @@ class EntryActivity : DatabaseLockActivity() {
         super.onPause()
     }
 
+    private fun applyToolbarColors() {
+        appBarLayout?.setBackgroundColor(mBackgroundColor ?: molorPrimary)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: molorPrimary)
+        toolbar?.changeControlColor(mForegroundColor ?: mControlColor)
+        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mControlColor)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         if (mEntryLoaded) {
@@ -340,6 +367,7 @@ class EntryActivity : DatabaseLockActivity() {
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
+        applyToolbarColors()
         return super.onPrepareOptionsMenu(menu)
     }
 
