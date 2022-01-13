@@ -48,6 +48,11 @@ class ColorPickerDialogFragment : DatabaseDialogFragment() {
             enableSwitchView.isChecked = mActivated
             chromaColorView.currentColor = mDefaultColor
 
+            chromaColorView.setOnColorChangedListener {
+                if (!enableSwitchView.isChecked)
+                    enableSwitchView.isChecked = true
+            }
+
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
