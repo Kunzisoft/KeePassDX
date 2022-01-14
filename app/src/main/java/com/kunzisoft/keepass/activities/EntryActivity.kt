@@ -323,7 +323,7 @@ class EntryActivity : DatabaseLockActivity() {
         appBarLayout?.setBackgroundColor(mBackgroundColor ?: mColorPrimary)
         collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorPrimary)
         val backgroundDarker = if (mBackgroundColor != null) {
-            ColorUtils.blendARGB(mBackgroundColor!!, Color.BLACK, 0.1f)
+            ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
         } else {
             mColorBackground
         }
