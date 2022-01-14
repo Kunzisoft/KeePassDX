@@ -339,12 +339,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private val colorSelectedListener: ((Boolean, Int)-> Unit) = { enable, color ->
-        dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
-        if (enable) {
+    private val colorSelectedListener: ((Int?)-> Unit) = { color ->
+        if (color != null) {
             dbCustomColorPref?.color = color
+            dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
         } else {
             dbCustomColorPref?.color = DialogColorPreference.DISABLE_COLOR
+            dbCustomColorPref?.summary = ""
         }
     }
 

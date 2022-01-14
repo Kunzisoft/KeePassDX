@@ -99,6 +99,12 @@ class EntryEditFragment: DatabaseFragment() {
             setOnIconClickListener {
                 mEntryEditViewModel.requestIconSelection(templateView.getIcon())
             }
+            setOnBackgroundColorClickListener {
+                mEntryEditViewModel.requestBackgroundColorSelection(templateView.getBackgroundColor())
+            }
+            setOnForegroundColorClickListener {
+                mEntryEditViewModel.requestForegroundColorSelection(templateView.getForegroundColor())
+            }
             setOnCustomEditionActionClickListener { field ->
                 mEntryEditViewModel.requestCustomFieldEdition(field)
             }
@@ -145,6 +151,14 @@ class EntryEditFragment: DatabaseFragment() {
 
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
             templateView.setIcon(iconImage)
+        }
+
+        mEntryEditViewModel.onBackgroundColorSelected.observe(this) { color ->
+            templateView.setBackgroundColor(color)
+        }
+
+        mEntryEditViewModel.onForegroundColorSelected.observe(this) { color ->
+            templateView.setForegroundColor(color)
         }
 
         mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->

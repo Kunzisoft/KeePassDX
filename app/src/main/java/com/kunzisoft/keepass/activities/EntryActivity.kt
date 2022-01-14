@@ -36,6 +36,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.ColorUtils
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
@@ -58,7 +62,11 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.view.changeControlColor
+import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
@@ -68,6 +76,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
+    private var appBarLayout: AppBarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var entryProgress: ProgressBar? = null
@@ -93,7 +102,12 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private var mIcon: IconImage? = null
-    private var mIconColor: Int = 0
+    private var mColorAccent: Int = 0
+    private var mControlColor: Int = 0
+    private var mColorPrimary: Int = 0
+    private var mColorBackground: Int = 0
+    private var mBackgroundColor: Int? = null
+    private var mForegroundColor: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +122,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Get views
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
+        appBarLayout = findViewById(R.id.app_bar)
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
         entryProgress = findViewById(R.id.entry_progress)
@@ -118,10 +133,19 @@ class EntryActivity : DatabaseLockActivity() {
         collapsingToolbarLayout?.title = " "
         toolbar?.title = " "
 
-        // Retrieve the textColor to tint the icon
-        val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        mIconColor = taIconColor.getColor(0, Color.BLACK)
-        taIconColor.recycle()
+        // Retrieve the textColor to tint the toolbar
+        val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+        val taControlColor = theme.obtainStyledAttributes(intArrayOf(R.attr.toolbarColorControl))
+        val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
+        val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+        mColorAccent = taColorAccent.getColor(0, Color.BLACK)
+        mControlColor = taControlColor.getColor(0, Color.BLACK)
+        mColorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        mColorBackground = taColorBackground.getColor(0, Color.BLACK)
+        taColorAccent.recycle()
+        taControlColor.recycle()
+        taColorPrimary.recycle()
+        taColorBackground.recycle()
 
         // Get Entry from UUID
         try {
@@ -166,10 +190,8 @@ class EntryActivity : DatabaseLockActivity() {
                 // Assign history dedicated view
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
                 if (entryIsHistory) {
-                    val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
                     collapsingToolbarLayout?.contentScrim =
-                        ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-                    taColorAccent.recycle()
+                        ColorDrawable(mColorAccent)
                 }
 
                 val entryInfo = entryInfoHistory.entryInfo
@@ -184,15 +206,15 @@ class EntryActivity : DatabaseLockActivity() {
                 }
                 // Assign title icon
                 mIcon = entryInfo.icon
-                titleIconView?.let { iconView ->
-                    mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
-                }
                 // Assign title text
                 val entryTitle =
                     if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 mUrl = entryInfo.url
+                // Assign colors
+                mBackgroundColor = entryInfo.backgroundColor
+                mForegroundColor = entryInfo.foregroundColor
 
                 loadingView?.hideByFading()
                 mEntryLoaded = true
@@ -252,13 +274,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onDatabaseRetrieved(database)
 
         mEntryViewModel.loadDatabase(database)
-
-        // Assign title icon
-        mIcon?.let { icon ->
-            titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(iconView, icon, mIconColor)
-            }
-        }
     }
 
     override fun onDatabaseActionFinished(
@@ -304,6 +319,29 @@ class EntryActivity : DatabaseLockActivity() {
         super.onPause()
     }
 
+    private fun applyToolbarColors() {
+        appBarLayout?.setBackgroundColor(mBackgroundColor ?: mColorPrimary)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorPrimary)
+        val backgroundDarker = if (mBackgroundColor != null) {
+            ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
+        } else {
+            mColorBackground
+        }
+        titleIconView?.background?.colorFilter = BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
+        mIcon?.let { icon ->
+            titleIconView?.let { iconView ->
+                mIconDrawableFactory?.assignDatabaseIcon(
+                    iconView,
+                    icon,
+                    mForegroundColor ?: mColorAccent
+                )
+            }
+        }
+        toolbar?.changeControlColor(mForegroundColor ?: mControlColor)
+        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mControlColor)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         if (mEntryLoaded) {
@@ -340,6 +378,7 @@ class EntryActivity : DatabaseLockActivity() {
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
+        applyToolbarColors()
         return super.onPrepareOptionsMenu(menu)
     }
 

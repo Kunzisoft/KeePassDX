@@ -14,6 +14,14 @@ abstract class NodeEditViewModel : ViewModel() {
     val onIconSelected : LiveData<IconImage> get() = _onIconSelected
     private val _onIconSelected = SingleLiveEvent<IconImage>()
 
+    private var mColorRequest: ColorRequest = ColorRequest.BACKGROUND
+    val requestColorSelection : LiveData<Int?> get() = _requestColorSelection
+    private val _requestColorSelection = SingleLiveEvent<Int?>()
+    val onBackgroundColorSelected : LiveData<Int?> get() = _onBackgroundColorSelected
+    private val _onBackgroundColorSelected = SingleLiveEvent<Int?>()
+    val onForegroundColorSelected : LiveData<Int?> get() = _onForegroundColorSelected
+    private val _onForegroundColorSelected = SingleLiveEvent<Int?>()
+
     val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
     private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
     val onDateSelected : LiveData<DataDate> get() = _onDateSelected
@@ -29,6 +37,23 @@ abstract class NodeEditViewModel : ViewModel() {
         _onIconSelected.value = iconImage
     }
 
+    fun requestBackgroundColorSelection(initialColor: Int?) {
+        mColorRequest = ColorRequest.BACKGROUND
+        _requestColorSelection.value = initialColor
+    }
+
+    fun requestForegroundColorSelection(initialColor: Int?) {
+        mColorRequest = ColorRequest.FOREGROUND
+        _requestColorSelection.value = initialColor
+    }
+
+    fun selectColor(color: Int?) {
+        when (mColorRequest) {
+            ColorRequest.BACKGROUND -> _onBackgroundColorSelected.value = color
+            ColorRequest.FOREGROUND -> _onForegroundColorSelected.value = color
+        }
+    }
+
     fun requestDateTimeSelection(dateInstant: DateInstant) {
         _requestDateTimeSelection.value = dateInstant
     }
@@ -39,5 +64,9 @@ abstract class NodeEditViewModel : ViewModel() {
 
     fun selectTime(hours: Int, minutes: Int) {
         _onTimeSelected.value = DataTime(hours, minutes)
+    }
+
+    private enum class ColorRequest {
+        BACKGROUND, FOREGROUND
     }
 }

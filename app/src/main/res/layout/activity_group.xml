@@ -51,7 +51,7 @@
                 android:src="@drawable/background_rounded_square"
                 android:layout_marginRight="6dp"
                 android:layout_marginEnd="6dp"
-                android:contentDescription="@string/database"/>
+                android:contentDescription="@string/content_description_database_color"/>
             <TextView
                 android:id="@+id/database_name"
                 android:layout_width="wrap_content"
