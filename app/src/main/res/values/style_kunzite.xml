@@ -101,6 +101,7 @@
         <item name="android:textColorPrimary">@color/purple_lighter</item>
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/black_purple_dark</item>
+        <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple.Dark</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple.Dark</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>

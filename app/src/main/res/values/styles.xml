@@ -78,6 +78,7 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
+        <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
@@ -141,6 +142,7 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
+        <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>

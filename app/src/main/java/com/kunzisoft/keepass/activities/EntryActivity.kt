@@ -36,6 +36,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.ColorUtils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
@@ -99,9 +102,10 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private var mIcon: IconImage? = null
-    private var mIconColor: Int = 0
+    private var mColorAccent: Int = 0
     private var mControlColor: Int = 0
-    private var molorPrimary: Int = 0
+    private var mColorPrimary: Int = 0
+    private var mColorBackground: Int = 0
     private var mBackgroundColor: Int? = null
     private var mForegroundColor: Int? = null
 
@@ -129,16 +133,19 @@ class EntryActivity : DatabaseLockActivity() {
         collapsingToolbarLayout?.title = " "
         toolbar?.title = " "
 
-        // Retrieve the textColor to tint the icon
-        val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        mIconColor = taIconColor.getColor(0, Color.BLACK)
-        taIconColor.recycle()
-        val taColorControl = theme.obtainStyledAttributes(intArrayOf(R.attr.colorControlNormal))
-        mControlColor = taColorControl.getColor(0, Color.BLACK)
-        taColorControl.recycle()
+        // Retrieve the textColor to tint the toolbar
+        val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+        val taControlColor = theme.obtainStyledAttributes(intArrayOf(R.attr.toolbarColorControl))
         val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
-        molorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+        mColorAccent = taColorAccent.getColor(0, Color.BLACK)
+        mControlColor = taControlColor.getColor(0, Color.BLACK)
+        mColorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        mColorBackground = taColorBackground.getColor(0, Color.BLACK)
+        taColorAccent.recycle()
+        taControlColor.recycle()
         taColorPrimary.recycle()
+        taColorBackground.recycle()
 
         // Get Entry from UUID
         try {
@@ -183,10 +190,8 @@ class EntryActivity : DatabaseLockActivity() {
                 // Assign history dedicated view
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
                 if (entryIsHistory) {
-                    val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
                     collapsingToolbarLayout?.contentScrim =
-                        ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-                    taColorAccent.recycle()
+                        ColorDrawable(mColorAccent)
                 }
 
                 val entryInfo = entryInfoHistory.entryInfo
@@ -201,9 +206,6 @@ class EntryActivity : DatabaseLockActivity() {
                 }
                 // Assign title icon
                 mIcon = entryInfo.icon
-                titleIconView?.let { iconView ->
-                    mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
-                }
                 // Assign title text
                 val entryTitle =
                     if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
@@ -272,13 +274,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onDatabaseRetrieved(database)
 
         mEntryViewModel.loadDatabase(database)
-
-        // Assign title icon
-        mIcon?.let { icon ->
-            titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(iconView, icon, mIconColor)
-            }
-        }
     }
 
     override fun onDatabaseActionFinished(
@@ -325,8 +320,24 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private fun applyToolbarColors() {
-        appBarLayout?.setBackgroundColor(mBackgroundColor ?: molorPrimary)
-        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: molorPrimary)
+        appBarLayout?.setBackgroundColor(mBackgroundColor ?: mColorPrimary)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorPrimary)
+        val backgroundDarker = if (mBackgroundColor != null) {
+            ColorUtils.blendARGB(mBackgroundColor!!, Color.BLACK, 0.1f)
+        } else {
+            mColorBackground
+        }
+        titleIconView?.background?.colorFilter = BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
+        mIcon?.let { icon ->
+            titleIconView?.let { iconView ->
+                mIconDrawableFactory?.assignDatabaseIcon(
+                    iconView,
+                    icon,
+                    mForegroundColor ?: mColorAccent
+                )
+            }
+        }
         toolbar?.changeControlColor(mForegroundColor ?: mControlColor)
         collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mControlColor)
     }
