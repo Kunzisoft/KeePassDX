@@ -101,15 +101,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
-        set(value) {
-            infoContainerView?.visibility = if (value) {
-                mReadOnly = true
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            field = value
-        }
 
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -204,10 +195,19 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
         // Observe database file change
         mDatabaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
+
             // Force read only if the file does not exists
-            mForceReadOnly = databaseFile?.let {
+            val databaseFileNotExists = databaseFile?.let {
                 !it.databaseFileExists
             } ?: true
+            infoContainerView?.visibility = if (databaseFileNotExists) {
+                mReadOnly = true
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            mForceReadOnly = databaseFileNotExists
+
             invalidateOptionsMenu()
 
             // Post init uri with KeyFile only if needed

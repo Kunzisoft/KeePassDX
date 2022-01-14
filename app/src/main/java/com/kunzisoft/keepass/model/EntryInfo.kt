@@ -40,6 +40,8 @@ class EntryInfo : NodeInfo {
     var password: String = ""
     var url: String = ""
     var notes: String = ""
+    var backgroundColor: Int? = null
+    var foregroundColor: Int? = null
     var customFields: MutableList<Field> = mutableListOf()
     var attachments: MutableList<Attachment> = mutableListOf()
     var otpModel: OtpModel? = null
@@ -53,6 +55,10 @@ class EntryInfo : NodeInfo {
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
+        val readBgColor = parcel.readInt()
+        backgroundColor = if (readBgColor == -1) null else readBgColor
+        val readFgColor = parcel.readInt()
+        foregroundColor = if (readFgColor == -1) null else readFgColor
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
@@ -70,6 +76,8 @@ class EntryInfo : NodeInfo {
         parcel.writeString(password)
         parcel.writeString(url)
         parcel.writeString(notes)
+        parcel.writeInt(backgroundColor ?: -1)
+        parcel.writeInt(foregroundColor ?: -1)
         parcel.writeList(customFields)
         parcel.writeList(attachments)
         parcel.writeParcelable(otpModel, flags)
@@ -196,6 +204,8 @@ class EntryInfo : NodeInfo {
         if (password != other.password) return false
         if (url != other.url) return false
         if (notes != other.notes) return false
+        if (backgroundColor != other.backgroundColor) return false
+        if (foregroundColor != other.foregroundColor) return false
         if (customFields != other.customFields) return false
         if (attachments != other.attachments) return false
         if (otpModel != other.otpModel) return false
@@ -211,6 +221,8 @@ class EntryInfo : NodeInfo {
         result = 31 * result + password.hashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + notes.hashCode()
+        result = 31 * result + backgroundColor.hashCode()
+        result = 31 * result + foregroundColor.hashCode()
         result = 31 * result + customFields.hashCode()
         result = 31 * result + attachments.hashCode()
         result = 31 * result + (otpModel?.hashCode() ?: 0)

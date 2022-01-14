@@ -25,6 +25,7 @@ import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.*
 import android.util.Log
 import android.view.Menu
@@ -88,6 +89,8 @@ class GroupActivity : DatabaseLockActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
+    private var databaseNameContainer: ViewGroup? = null
+    private var databaseColorView: ImageView? = null
     private var databaseNameView: TextView? = null
     private var searchContainer: ViewGroup? = null
     private var searchNumbers: TextView? = null
@@ -144,6 +147,8 @@ class GroupActivity : DatabaseLockActivity(),
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
+        databaseNameContainer = findViewById(R.id.database_name_container)
+        databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
         searchContainer = findViewById(R.id.search_container)
         searchNumbers = findViewById(R.id.search_numbers)
@@ -322,9 +327,6 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
 
-            assignGroupViewElements(currentGroup)
-            invalidateOptionsMenu()
-
             loadingView?.hideByFading()
         }
 
@@ -412,6 +414,16 @@ class GroupActivity : DatabaseLockActivity(),
         // Search suggestion
         database?.let {
             databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
+            val customColor = it.customColor
+            if (customColor != null) {
+                databaseColorView?.visibility = View.VISIBLE
+                databaseColorView?.setColorFilter(
+                    customColor,
+                    PorterDuff.Mode.SRC_IN
+                )
+            } else {
+                databaseColorView?.visibility = View.GONE
+            }
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
             mOnSuggestionListener = object : SearchView.OnSuggestionListener {
@@ -566,12 +578,12 @@ class GroupActivity : DatabaseLockActivity(),
             val title = group.title
             searchString?.text = if (title.isNotEmpty()) title else ""
             searchNumbers?.text = group.numberOfChildEntries.toString()
-            databaseNameView?.visibility = View.GONE
+            databaseNameContainer?.visibility = View.GONE
             toolbarBreadcrumb?.navigationIcon = null
             toolbarBreadcrumb?.collapse()
         } else {
             searchContainer?.visibility = View.GONE
-            databaseNameView?.visibility = View.VISIBLE
+            databaseNameContainer?.visibility = View.VISIBLE
             // Refresh breadcrumb
             if (toolbarBreadcrumb?.isVisible != true) {
                 toolbarBreadcrumb?.expand {
@@ -582,9 +594,8 @@ class GroupActivity : DatabaseLockActivity(),
                 setBreadcrumbNode(group)
             }
         }
-
-        // Hide button
         initAddButton(group)
+        invalidateOptionsMenu()
     }
 
     private fun setBreadcrumbNode(group: Group?) {

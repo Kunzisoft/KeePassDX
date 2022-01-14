@@ -41,7 +41,7 @@ class DialogColorPreference @JvmOverloads constructor(context: Context,
     }
 
     override fun getDialogLayoutResource(): Int {
-        return R.layout.pref_dialog_input_color
+        return R.layout.fragment_color_picker
     }
 
     companion object {

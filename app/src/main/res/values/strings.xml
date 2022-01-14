@@ -58,6 +58,9 @@
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
     <string name="content_description_entry_icon">Entry icon</string>
+    <string name="content_description_database_color">Database color</string>
+    <string name="content_description_entry_foreground_color">Entry foreground color</string>
+    <string name="content_description_entry_background_color">Entry background color</string>
     <string name="validate">Validate</string>
     <string name="discard_changes">Discard changes?</string>
     <string name="discard">Discard</string>
