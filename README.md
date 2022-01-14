@@ -72,7 +72,7 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
 
 ## License
 
-  Copyright © 2020 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+  Copyright © 2022 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
 
   This file is part of KeePassDX.
 
