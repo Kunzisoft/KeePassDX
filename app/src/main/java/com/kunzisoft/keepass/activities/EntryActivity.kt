@@ -41,6 +41,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -79,7 +80,7 @@ class EntryActivity : DatabaseLockActivity() {
     private var appBarLayout: AppBarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
-    private var entryProgress: ProgressBar? = null
+    private var entryProgress: LinearProgressIndicator? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
@@ -237,7 +238,7 @@ class EntryActivity : DatabaseLockActivity() {
                 OtpType.TOTP -> {
                     entryProgress?.apply {
                         max = otpElement.period
-                        progress = otpElement.secondsRemaining
+                        setProgressCompat(otpElement.secondsRemaining, true)
                         visibility = View.VISIBLE
                     }
                 }
