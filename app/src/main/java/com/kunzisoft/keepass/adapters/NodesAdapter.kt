@@ -470,13 +470,6 @@ class NodesAdapter (private val context: Context,
                     holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
-                    holder.icon.apply {
-                        database.iconDrawableFactory.assignDatabaseIcon(
-                            this,
-                            subNode.icon,
-                            mTextColor
-                        )
-                    }
                 }
             } else {
                 holder.text.setTextColor(mTextColorInverse)
@@ -485,13 +478,6 @@ class NodesAdapter (private val context: Context,
                 holder.otpProgress?.setIndicatorColor(mTextColorInverse)
                 holder.attachmentIcon?.setColorFilter(mTextColorInverse)
                 holder.meta.setTextColor(mTextColorInverse)
-                holder.icon.apply {
-                    database.iconDrawableFactory.assignDatabaseIcon(
-                        this,
-                        subNode.icon,
-                        mTextColorInverse
-                    )
-                }
             }
 
             database.stopManageEntry(entry)
