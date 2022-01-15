@@ -1,3 +1,22 @@
+/*
+ * Copyright 2022 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.database.merge
 
 import com.kunzisoft.keepass.database.action.node.NodeHandler
@@ -70,6 +89,40 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         )
 
+        // TODO Merge icons
+        databaseToMerge.iconsManager.doForEachCustomIcon { iconImageCustom, binaryData ->
+            val customIconUuid = iconImageCustom.uuid
+            // If custom icon not present, add it
+            if (!database.iconsManager.isCustomIconInCache(customIconUuid)) {
+                database.addCustomIcon(
+                    customIconUuid,
+                    iconImageCustom.name,
+                    iconImageCustom.lastModificationTime,
+                    false
+                ) { _, newBinaryData ->
+                    binaryData.getInputDataStream(databaseToMerge.binaryCache).use { inputStream ->
+                        newBinaryData?.getOutputDataStream(database.binaryCache)
+                            .use { outputStream ->
+                                inputStream.readAllBytes { buffer ->
+                                    outputStream?.write(buffer)
+                                }
+                            }
+                    }
+                }
+            } else {
+                val customIconModification =
+                    database.getCustomIcon(customIconUuid).lastModificationTime
+                val customIconModificationToMerge =
+                    databaseToMerge.getCustomIcon(customIconUuid).lastModificationTime
+                if (customIconModification != null && customIconModificationToMerge != null) {
+                    if (customIconModification.date.before(customIconModificationToMerge.date)) {
+                        // TODO Update custom icon
+                    }
+                }
+            }
+        }
+        // TODO merge custom data
+
         databaseToMerge.deletedObjects.forEach { deletedObject ->
             val deletedObjectId = deletedObject.uuid
             val databaseEntry = database.getEntryById(deletedObjectId)
@@ -141,6 +194,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             } else if (entry.lastModificationTime.date
                     .before(entryToMerge.lastModificationTime.date)
             ) {
+                // TODO custom Data
                 // Keep entry as history if already not present
                 entry.history.forEach { history ->
                     // If history not present
@@ -166,6 +220,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     }
                 }
             } else {
+                // TODO custom Data
                 entryToMerge.history.forEach { history ->
                     if (!entry.history.any {
                             it.lastModificationTime == history.lastModificationTime
@@ -207,6 +262,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             } else if (group.lastModificationTime.date
                     .before(groupToMerge.lastModificationTime.date)
             ) {
+                // TODO custom Data
                 if (parentGroupToMerge == group.parent) {
                     group.updateWith(groupToMerge)
                 } else {
@@ -215,6 +271,8 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                         database.addGroupTo(groupToMerge, parentGroupToMerge)
                     }
                 }
+            } else {
+                // TODO custom Data
             }
         }
     }
