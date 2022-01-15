@@ -141,16 +141,44 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             } else if (entry.lastModificationTime.date
                     .before(entryToMerge.lastModificationTime.date)
             ) {
+                // Keep entry as history if already not present
+                entry.history.forEach { history ->
+                    // If history not present
+                    if (!entryToMerge.history.any {
+                            it.lastModificationTime == history.lastModificationTime
+                    }) {
+                        entryToMerge.addEntryToHistory(history)
+                    }
+                }
+                // Last entry not present
+                val history = EntryKDBX().apply {
+                    updateWith(entry, false)
+                    parent = null
+                }
+                entryToMerge.addEntryToHistory(history)
                 if (parentEntryToMerge == entry.parent) {
                     entry.updateWith(entryToMerge)
                 } else {
                     // Update entry with databaseEntryToMerge and merge history
                     database.removeEntryFrom(entry, entry.parent)
-                    // TODO history =
                     if (parentEntryToMerge != null) {
                         database.addEntryTo(entryToMerge, parentEntryToMerge)
                     }
                 }
+            } else {
+                entryToMerge.history.forEach { history ->
+                    if (!entry.history.any {
+                            it.lastModificationTime == history.lastModificationTime
+                        }) {
+                        entry.addEntryToHistory(history)
+                    }
+                }
+                // Keep entry to merge as history
+                val history = EntryKDBX().apply {
+                    updateWith(entryToMerge, false)
+                    parent = null
+                }
+                entry.addEntryToHistory(history)
             }
         }
     }
