@@ -263,7 +263,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     private fun setDefaultUsername(entryKDB: EntryKDB) {
-        val binaryData = mDatabaseKDB.buildNewAttachment()
+        val binaryData = mDatabaseKDB.buildNewBinaryAttachment()
         entryKDB.putBinary(binaryData, mDatabaseKDB.attachmentPool)
         BufferedOutputStream(binaryData.getOutputDataStream(mDatabaseKDB.binaryCache)).use { outputStream ->
             outputStream.write(mDatabaseKDB.defaultUserName.toByteArray())
@@ -271,7 +271,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     private fun setDatabaseColor(entryKDB: EntryKDB) {
-        val binaryData = mDatabaseKDB.buildNewAttachment()
+        val binaryData = mDatabaseKDB.buildNewBinaryAttachment()
         entryKDB.putBinary(binaryData, mDatabaseKDB.attachmentPool)
         BufferedOutputStream(binaryData.getOutputDataStream(mDatabaseKDB.binaryCache)).use { outputStream ->
             var reversColor = Color.BLACK

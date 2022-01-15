@@ -1,14 +1,26 @@
 package com.kunzisoft.keepass.database.merge
 
 import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.utils.readAllBytes
 import java.io.IOException
 
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
+    var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+
     fun merge(databaseToMerge: DatabaseKDBX) {
+
+        // TODO database data
+        var nameChanged = DateInstant()
+        var settingsChanged = DateInstant()
+        var descriptionChanged = DateInstant()
+        var defaultUserNameChanged = DateInstant()
+        var keyLastChanged = DateInstant()
 
         val databaseRootGroupId = database.rootGroup?.nodeId
         val databaseRootGroupIdToMerge = databaseToMerge.rootGroup?.nodeId
@@ -20,7 +32,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         // UUID of the root group to merge is unknown
         if (database.getGroupById(databaseRootGroupIdToMerge) == null) {
             // Change it to copy children database root
-            // TODO Test
+            // TODO Test merge root
             databaseToMerge.rootGroup?.let { databaseRootGroupToMerge ->
                 databaseToMerge.removeGroupIndex(databaseRootGroupToMerge)
                 databaseRootGroupToMerge.nodeId = databaseRootGroupId
@@ -28,8 +40,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         }
 
-        // TODO Merge icons and attachments
-
+        // TODO fix concurrent modification exception
         databaseToMerge.rootGroup?.doForEachChild(
             object : NodeHandler<EntryKDBX>() {
                 override fun operate(node: EntryKDBX): Boolean {
@@ -65,20 +76,43 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     .after(databaseIconModificationTime.date)) {
                 database.removeCustomIcon(deletedObjectId)
             }
+            // Attachments are removed and optimized during the database save
         }
     }
 
-    private fun mergeEntry(node: EntryKDBX, databaseToMerge: DatabaseKDBX) {
-        val entryId = node.nodeId
+    private fun mergeEntry(entryToMerge: EntryKDBX, databaseToMerge: DatabaseKDBX) {
+        val entryId = entryToMerge.nodeId
         val databaseEntryToMerge = databaseToMerge.getEntryById(entryId)
         val databaseEntry = database.getEntryById(entryId)
         val deletedObject = database.getDeletedObject(entryId)
 
         if (databaseEntryToMerge != null) {
             // Retrieve parent in current database
-            var parentEntry: GroupKDBX? = null
+            var parentEntryToMerge: GroupKDBX? = null
             databaseEntryToMerge.parent?.nodeId?.let {
-                parentEntry = database.getGroupById(it)
+                parentEntryToMerge = database.getGroupById(it)
+            }
+            // Copy attachments in main pool
+            val newAttachments = mutableListOf<Attachment>()
+            databaseEntryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
+                val binarySize = attachment.binaryData.getSize()
+                val binaryData = database.buildNewBinaryAttachment(
+                    isRAMSufficient.invoke(binarySize),
+                    attachment.binaryData.isCompressed,
+                    attachment.binaryData.isProtected
+                )
+                attachment.binaryData.getInputDataStream(databaseToMerge.binaryCache).use { inputStream ->
+                    binaryData.getOutputDataStream(database.binaryCache).use { outputStream ->
+                        inputStream.readAllBytes { buffer ->
+                            outputStream.write(buffer)
+                        }
+                    }
+                }
+                newAttachments.add(Attachment(attachment.name, binaryData))
+            }
+            databaseEntryToMerge.removeAttachments()
+            newAttachments.forEach { newAttachment ->
+                databaseEntryToMerge.putAttachment(newAttachment, database.attachmentPool)
             }
 
             if (databaseEntry == null) {
@@ -87,20 +121,21 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 if (deletedObject == null
                     || deletedObject.deletionTime.date
                         .before(databaseEntryToMerge.lastModificationTime.date)
-                    || parentEntry != null) {
-                    database.addEntryTo(databaseEntryToMerge, parentEntry)
+                    || parentEntryToMerge != null) {
+                    database.addEntryTo(databaseEntryToMerge, parentEntryToMerge)
                 }
             } else if (databaseEntry.lastModificationTime.date
                     .before(databaseEntryToMerge.lastModificationTime.date)
             ) {
-                // Update entry with databaseEntryToMerge and merge history
-                database.removeEntryFrom(databaseEntry, databaseEntry.parent)
-                val newDatabaseEntry = EntryKDBX().apply {
-                    updateWith(databaseEntryToMerge)
+                if (parentEntryToMerge == databaseEntry.parent) {
+                    databaseEntry.updateWith(databaseEntryToMerge)
+                } else {
+                    // Update entry with databaseEntryToMerge and merge history
+                    database.removeEntryFrom(databaseEntry, databaseEntry.parent)
                     // TODO history =
-                }
-                if (parentEntry != null) {
-                    database.addEntryTo(newDatabaseEntry, parentEntry)
+                    if (parentEntryToMerge != null) {
+                        database.addEntryTo(databaseEntryToMerge, parentEntryToMerge)
+                    }
                 }
             }
         }

@@ -28,12 +28,12 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.K
 import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 import java.util.*
 
-class IconsManager(private var binaryCache: BinaryCache) {
+class IconsManager {
 
     private val standardCache = List(NB_ICONS) {
         IconImageStandard(it)
     }
-    private val customCache = CustomIconPool(binaryCache)
+    private val customCache = CustomIconPool()
 
     fun getIcon(iconId: Int): IconImageStandard {
         val searchIconId = if (IconImageStandard.isCorrectIconId(iconId)) iconId else KEY_ID
@@ -50,18 +50,12 @@ class IconsManager(private var binaryCache: BinaryCache) {
      *  Custom
      */
 
-    fun buildNewCustomIcon(key: UUID? = null,
-                           result: (IconImageCustom, BinaryData?) -> Unit) {
-        // Create a binary file for a brand new custom icon
-        addCustomIcon(key, "", null, false, result)
-    }
-
     fun addCustomIcon(key: UUID? = null,
                       name: String,
                       lastModificationTime: DateInstant?,
-                      smallSize: Boolean,
+                      builder: (uniqueBinaryId: String) -> BinaryData,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        customCache.put(key, name, lastModificationTime, smallSize, result)
+        customCache.put(key, name, lastModificationTime, builder, result)
     }
 
     fun getIcon(iconUuid: UUID): IconImageCustom {
@@ -72,7 +66,7 @@ class IconsManager(private var binaryCache: BinaryCache) {
         return customCache.isBinaryDuplicate(binaryData)
     }
 
-    fun removeCustomIcon(iconUuid: UUID) {
+    fun removeCustomIcon(iconUuid: UUID, binaryCache: BinaryCache) {
         val binary = customCache[iconUuid]
         customCache.remove(iconUuid)
         try {
@@ -99,12 +93,8 @@ class IconsManager(private var binaryCache: BinaryCache) {
     /**
      * Clear the cache of icons
      */
-    fun clearCache() {
-        try {
-            customCache.clear()
-        } catch(e: Exception) {
-            Log.e(TAG, "Unable to clear cache", e)
-        }
+    fun clear() {
+        customCache.clear()
     }
 
     companion object {

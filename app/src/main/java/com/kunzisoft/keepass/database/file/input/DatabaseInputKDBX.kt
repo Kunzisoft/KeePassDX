@@ -28,7 +28,6 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -50,7 +49,6 @@ import com.kunzisoft.keepass.utils.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
@@ -281,7 +279,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                     val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                     val byteLength = size - 1
                     // No compression at this level
-                    val protectedBinary = mDatabase.buildNewAttachment(
+                    val protectedBinary = mDatabase.buildNewBinaryAttachment(
                             isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
                     protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                         dataInputStream.readBytes(byteLength) { buffer ->
@@ -1002,7 +1000,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 var binaryRetrieve = mDatabase.attachmentPool[id]
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
-                    binaryRetrieve = mDatabase.buildNewAttachment(
+                    binaryRetrieve = mDatabase.buildNewBinaryAttachment(
                             smallSize = false,
                             compression = false,
                             protection = false,
@@ -1042,7 +1040,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewAttachment(
+        val binaryAttachment = mDatabase.buildNewBinaryAttachment(
                 isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
         try {
             binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->

@@ -212,7 +212,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return true
     }
 
-    fun buildNewAttachment(): BinaryData {
+    fun buildNewBinaryAttachment(): BinaryData {
         // Generate an unique new file
         return attachmentPool.put { uniqueBinaryId ->
             binaryCache.getBinaryData(uniqueBinaryId, false)

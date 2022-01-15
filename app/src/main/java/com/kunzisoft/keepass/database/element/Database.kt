@@ -112,7 +112,7 @@ class Database {
 
     private val iconsManager: IconsManager
         get() {
-            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager(binaryCache)
+            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
         }
 
     fun doForEachStandardIcons(action: (IconImageStandard) -> Unit) {
@@ -144,7 +144,7 @@ class Database {
 
     fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
-        iconsManager.removeCustomIcon(customIcon.uuid)
+        iconsManager.removeCustomIcon(customIcon.uuid, binaryCache)
         mDatabaseKDBX?.addDeletedObject(customIcon.uuid)
     }
 
@@ -653,10 +653,6 @@ class Database {
 
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
-                        this.mDatabaseKDB?.let { currentDatabaseKDB ->
-                            databaseKDB.binaryCache = currentDatabaseKDB.binaryCache
-                            databaseKDB.iconsManager = currentDatabaseKDB.iconsManager
-                        }
                         DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
                                 masterKey,
@@ -664,11 +660,6 @@ class Database {
                         databaseKDB
                     },
                     { databaseInputStream ->
-                        // Share cache
-                        this.mDatabaseKDBX?.let { currentDatabaseKDBX ->
-                            databaseKDBX.binaryCache = currentDatabaseKDBX.binaryCache
-                            databaseKDBX.iconsManager = currentDatabaseKDBX.iconsManager
-                        }
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream,
@@ -682,7 +673,9 @@ class Database {
                 // TODO Merge KDB
                 mDatabaseKDBX?.let { currentDatabaseKDBX ->
                     databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
-                        DatabaseKDBXMerger(currentDatabaseKDBX).merge(databaseKDBXToMerge)
+                        DatabaseKDBXMerger(currentDatabaseKDBX).apply {
+                            this.isRAMSufficient = isRAMSufficient
+                        }.merge(databaseKDBXToMerge)
                     }
                 }
             } ?: run {
@@ -692,7 +685,6 @@ class Database {
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
-            // Do not clear binaries because share with current database
             databaseToMerge.clearAndClose()
         }
     }
@@ -781,7 +773,7 @@ class Database {
 
     val attachmentPool: AttachmentPool
         get() {
-            return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool(binaryCache)
+            return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool()
         }
 
     val allowMultipleAttachments: Boolean
@@ -794,8 +786,8 @@ class Database {
         }
 
     fun buildNewBinaryAttachment(): BinaryData? {
-        return mDatabaseKDB?.buildNewAttachment()
-                ?: mDatabaseKDBX?.buildNewAttachment( false,
+        return mDatabaseKDB?.buildNewBinaryAttachment()
+                ?: mDatabaseKDBX?.buildNewBinaryAttachment( false,
                         compressionForNewEntry(),
                         false)
     }
@@ -871,17 +863,22 @@ class Database {
         this.fileUri = uri
     }
 
-    fun clearNodes() {
-        // Delete the cache of the database if present
-        this.mDatabaseKDB?.clearCache()
-        this.mDatabaseKDBX?.clearCache()
-    }
+    fun clearIndexesAndBinaries(filesDirectory: File? = null) {
+        this.mDatabaseKDB?.clearIndexes()
+        this.mDatabaseKDBX?.clearIndexes()
 
-    fun clearBinaries(filesDirectory: File? = null) {
-        binaryCache.clear()
-        iconsManager.clearCache()
+        this.mDatabaseKDB?.clearIconsCache()
+        this.mDatabaseKDBX?.clearIconsCache()
+
+        this.mDatabaseKDB?.clearAttachmentsCache()
+        this.mDatabaseKDBX?.clearAttachmentsCache()
+
+        this.mDatabaseKDB?.clearBinaries()
+        this.mDatabaseKDBX?.clearBinaries()
+
         iconDrawableFactory.clearCache()
-        // In all cases, delete all the files in the temp dir
+
+        // delete all the files in the temp dir if allowed
         try {
             filesDirectory?.let { directory ->
                 cleanDirectory(directory)
@@ -892,10 +889,7 @@ class Database {
     }
 
     fun clearAndClose(context: Context? = null) {
-        clearNodes()
-        if (context != null) {
-            clearBinaries(context.let { UriUtil.getBinaryDir(context) })
-        }
+        clearIndexesAndBinaries(context?.let { UriUtil.getBinaryDir(context) })
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null

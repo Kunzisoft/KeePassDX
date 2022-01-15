@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
@@ -61,8 +62,8 @@ abstract class DatabaseVersioned<
      * Can be used to temporarily store database elements
      */
     var binaryCache = BinaryCache()
-    var iconsManager = IconsManager(binaryCache)
-    var attachmentPool = AttachmentPool(binaryCache)
+    var iconsManager = IconsManager()
+    var attachmentPool = AttachmentPool()
 
     var changeDuplicateId = false
 
@@ -274,7 +275,7 @@ abstract class DatabaseVersioned<
         this.entryIndexes.remove(entry.nodeId)
     }
 
-    open fun clearCache() {
+    open fun clearIndexes() {
         this.groupIndexes.clear()
         this.entryIndexes.clear()
     }
@@ -339,6 +340,39 @@ abstract class DatabaseVersioned<
         if (omitBackup && isInRecycleBin(group))
             return false
         return true
+    }
+
+    fun clearIconsCache() {
+        iconsManager.doForEachCustomIcon { _, binary ->
+            try {
+                binary.clear(binaryCache)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to clear icon binary cache", e)
+            }
+        }
+        iconsManager.clear()
+    }
+
+    fun clearAttachmentsCache() {
+        attachmentPool.doForEachBinary { _, binary ->
+            try {
+                binary.clear(binaryCache)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to clear attachment binary cache", e)
+            }
+        }
+        attachmentPool.clear()
+    }
+
+    fun clearBinaries() {
+        binaryCache.clear()
+    }
+
+    fun clearAll() {
+        clearIndexes()
+        clearIconsCache()
+        clearAttachmentsCache()
+        clearBinaries()
     }
 
     companion object {

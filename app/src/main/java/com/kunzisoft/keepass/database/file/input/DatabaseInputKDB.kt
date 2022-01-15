@@ -266,7 +266,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryData = mDatabase.buildNewAttachment()
+                                val binaryData = mDatabase.buildNewBinaryAttachment()
                                 entry.putBinary(binaryData, mDatabase.attachmentPool)
                                 BufferedOutputStream(binaryData.getOutputDataStream(mDatabase.binaryCache)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize) { buffer ->
@@ -325,16 +325,16 @@ class DatabaseInputKDB(database: DatabaseKDB)
             stopContentTimer()
 
         } catch (e: LoadDatabaseException) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw e
         } catch (e: IOException) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw IODatabaseException(e)
         } catch (e: OutOfMemoryError) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw NoMemoryDatabaseException(e)
         } catch (e: Exception) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw LoadDatabaseException(e)
         }
 

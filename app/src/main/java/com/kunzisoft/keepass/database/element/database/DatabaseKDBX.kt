@@ -325,7 +325,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun buildNewCustomIcon(customIconId: UUID? = null,
                            result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.buildNewCustomIcon(customIconId, result)
+        // Create a binary file for a brand new custom icon
+        addCustomIcon(customIconId, "", null, false, result)
     }
 
     fun addCustomIcon(customIconId: UUID? = null,
@@ -333,11 +334,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                       lastModificationTime: DateInstant?,
                       smallSize: Boolean,
                       result: (IconImageCustom, BinaryData?) -> Unit) {
-        iconsManager.addCustomIcon(customIconId, name, lastModificationTime, smallSize, result)
+        iconsManager.addCustomIcon(customIconId, name, lastModificationTime, { uniqueBinaryId ->
+            // Create a byte array for better performance with small data
+            binaryCache.getBinaryData(uniqueBinaryId, smallSize)
+        }, result)
     }
 
     fun removeCustomIcon(iconUuid: UUID) {
-        iconsManager.removeCustomIcon(iconUuid)
+        iconsManager.removeCustomIcon(iconUuid, binaryCache)
     }
 
     fun isCustomIconBinaryDuplicate(binary: BinaryData): Boolean {
@@ -790,10 +794,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
-    fun buildNewAttachment(smallSize: Boolean,
-                           compression: Boolean,
-                           protection: Boolean,
-                           binaryPoolId: Int? = null): BinaryData {
+    fun buildNewBinaryAttachment(smallSize: Boolean,
+                                 compression: Boolean,
+                                 protection: Boolean,
+                                 binaryPoolId: Int? = null): BinaryData {
         return attachmentPool.put(binaryPoolId) { uniqueBinaryId ->
             binaryCache.getBinaryData(uniqueBinaryId, smallSize, compression, protection)
         }.binary
@@ -810,6 +814,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     private fun removeUnlinkedAttachments(binaries: List<BinaryData>, clear: Boolean) {
+        // TODO check in icon pool
         // Build binaries to remove with all binaries known
         val binariesToRemove = ArrayList<BinaryData>()
         if (binaries.isEmpty()) {
@@ -846,11 +851,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return super.validatePasswordEncoding(password, containsKeyFile)
     }
 
-    override fun clearCache() {
+    override fun clearIndexes() {
         try {
-            super.clearCache()
+            super.clearIndexes()
             mFieldReferenceEngine.clear()
-            attachmentPool.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear cache", e)
         }

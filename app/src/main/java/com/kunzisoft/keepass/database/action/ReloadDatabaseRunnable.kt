@@ -36,8 +36,7 @@ class ReloadDatabaseRunnable(private val context: Context,
 
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.clearNodes()
-        mDatabase.clearBinaries(UriUtil.getBinaryDir(context))
+        mDatabase.clearIndexesAndBinaries(UriUtil.getBinaryDir(context))
         mDatabase.wasReloaded = true
     }
 
