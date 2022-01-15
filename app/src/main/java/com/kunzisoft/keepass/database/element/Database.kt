@@ -916,9 +916,10 @@ class Database {
     }
 
     @Throws(IOException::class)
-    fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
+    fun assignMasterKey(key: String?, keyInputStream: InputStream?) {
         mDatabaseKDB?.retrieveMasterKey(key, keyInputStream)
         mDatabaseKDBX?.retrieveMasterKey(key, keyInputStream)
+        mDatabaseKDBX?.keyLastChanged = DateInstant()
     }
 
     fun rootCanContainsEntry(): Boolean {

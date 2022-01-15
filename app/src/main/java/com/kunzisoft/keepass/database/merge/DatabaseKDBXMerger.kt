@@ -2,7 +2,6 @@ package com.kunzisoft.keepass.database.merge
 
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -15,12 +14,28 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
     fun merge(databaseToMerge: DatabaseKDBX) {
 
-        // TODO database data
-        var nameChanged = DateInstant()
-        var settingsChanged = DateInstant()
-        var descriptionChanged = DateInstant()
-        var defaultUserNameChanged = DateInstant()
-        var keyLastChanged = DateInstant()
+        if (database.nameChanged.date.before(databaseToMerge.nameChanged.date)) {
+            database.name = databaseToMerge.name
+            database.nameChanged = databaseToMerge.nameChanged
+        }
+        if (database.descriptionChanged.date.before(databaseToMerge.descriptionChanged.date)) {
+            database.description = databaseToMerge.description
+            database.descriptionChanged = databaseToMerge.descriptionChanged
+        }
+        if (database.defaultUserNameChanged.date.before(databaseToMerge.defaultUserNameChanged.date)) {
+            database.defaultUserName = databaseToMerge.defaultUserName
+            database.defaultUserNameChanged = databaseToMerge.defaultUserNameChanged
+        }
+        if (database.keyLastChanged.date.before(databaseToMerge.keyLastChanged.date)) {
+            database.keyChangeRecDays = databaseToMerge.keyChangeRecDays
+            database.keyChangeForceDays = databaseToMerge.keyChangeForceDays
+            database.isKeyChangeForceOnce = databaseToMerge.isKeyChangeForceOnce
+            database.keyLastChanged = databaseToMerge.keyLastChanged
+        }
+        if (database.settingsChanged.date.before(databaseToMerge.settingsChanged.date)) {
+            // TODO settings
+            database.settingsChanged = databaseToMerge.settingsChanged
+        }
 
         val databaseRootGroupId = database.rootGroup?.nodeId
         val databaseRootGroupIdToMerge = databaseToMerge.rootGroup?.nodeId
@@ -40,7 +55,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         }
 
-        // TODO fix concurrent modification exception
         databaseToMerge.rootGroup?.doForEachChild(
             object : NodeHandler<EntryKDBX>() {
                 override fun operate(node: EntryKDBX): Boolean {
@@ -80,21 +94,21 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
     }
 
-    private fun mergeEntry(entryToMerge: EntryKDBX, databaseToMerge: DatabaseKDBX) {
-        val entryId = entryToMerge.nodeId
-        val databaseEntryToMerge = databaseToMerge.getEntryById(entryId)
-        val databaseEntry = database.getEntryById(entryId)
+    private fun mergeEntry(nodeToMerge: EntryKDBX, databaseToMerge: DatabaseKDBX) {
+        val entryId = nodeToMerge.nodeId
+        val entryToMerge = databaseToMerge.getEntryById(entryId)
+        val entry = database.getEntryById(entryId)
         val deletedObject = database.getDeletedObject(entryId)
 
-        if (databaseEntryToMerge != null) {
+        if (entryToMerge != null) {
             // Retrieve parent in current database
             var parentEntryToMerge: GroupKDBX? = null
-            databaseEntryToMerge.parent?.nodeId?.let {
+            entryToMerge.parent?.nodeId?.let {
                 parentEntryToMerge = database.getGroupById(it)
             }
             // Copy attachments in main pool
             val newAttachments = mutableListOf<Attachment>()
-            databaseEntryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
+            entryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
                 val binarySize = attachment.binaryData.getSize()
                 val binaryData = database.buildNewBinaryAttachment(
                     isRAMSufficient.invoke(binarySize),
@@ -110,64 +124,68 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 }
                 newAttachments.add(Attachment(attachment.name, binaryData))
             }
-            databaseEntryToMerge.removeAttachments()
+            entryToMerge.removeAttachments()
             newAttachments.forEach { newAttachment ->
-                databaseEntryToMerge.putAttachment(newAttachment, database.attachmentPool)
+                entryToMerge.putAttachment(newAttachment, database.attachmentPool)
             }
 
-            if (databaseEntry == null) {
+            if (entry == null) {
                 // If it's a deleted object, but another instance was updated
                 // If entry parent to add exists and in current database
                 if (deletedObject == null
                     || deletedObject.deletionTime.date
-                        .before(databaseEntryToMerge.lastModificationTime.date)
+                        .before(entryToMerge.lastModificationTime.date)
                     || parentEntryToMerge != null) {
-                    database.addEntryTo(databaseEntryToMerge, parentEntryToMerge)
+                    database.addEntryTo(entryToMerge, parentEntryToMerge)
                 }
-            } else if (databaseEntry.lastModificationTime.date
-                    .before(databaseEntryToMerge.lastModificationTime.date)
+            } else if (entry.lastModificationTime.date
+                    .before(entryToMerge.lastModificationTime.date)
             ) {
-                if (parentEntryToMerge == databaseEntry.parent) {
-                    databaseEntry.updateWith(databaseEntryToMerge)
+                if (parentEntryToMerge == entry.parent) {
+                    entry.updateWith(entryToMerge)
                 } else {
                     // Update entry with databaseEntryToMerge and merge history
-                    database.removeEntryFrom(databaseEntry, databaseEntry.parent)
+                    database.removeEntryFrom(entry, entry.parent)
                     // TODO history =
                     if (parentEntryToMerge != null) {
-                        database.addEntryTo(databaseEntryToMerge, parentEntryToMerge)
+                        database.addEntryTo(entryToMerge, parentEntryToMerge)
                     }
                 }
             }
         }
     }
 
-    private fun mergeGroup(node: GroupKDBX, databaseToMerge: DatabaseKDBX) {
-        val groupId = node.nodeId
-        val databaseGroupToMerge = databaseToMerge.getGroupById(groupId)
-        val databaseGroup = database.getGroupById(groupId)
+    private fun mergeGroup(nodeToMerge: GroupKDBX, databaseToMerge: DatabaseKDBX) {
+        val groupId = nodeToMerge.nodeId
+        val groupToMerge = databaseToMerge.getGroupById(groupId)
+        val group = database.getGroupById(groupId)
         val deletedObject = database.getDeletedObject(groupId)
 
-        if (databaseGroupToMerge != null) {
+        if (groupToMerge != null) {
             // Retrieve parent in current database
-            var parentGroup: GroupKDBX? = null
-            databaseGroupToMerge.parent?.nodeId?.let {
-                parentGroup = database.getGroupById(it)
+            var parentGroupToMerge: GroupKDBX? = null
+            groupToMerge.parent?.nodeId?.let {
+                parentGroupToMerge = database.getGroupById(it)
             }
 
-            if (databaseGroup == null) {
+            if (group == null) {
                 // If group parent to add exists and in current database
                 if (deletedObject == null
                     || deletedObject.deletionTime.date
-                        .before(databaseGroupToMerge.lastModificationTime.date)
-                    || parentGroup != null) {
-                    database.addGroupTo(databaseGroupToMerge, parentGroup)
+                        .before(groupToMerge.lastModificationTime.date)
+                    || parentGroupToMerge != null) {
+                    database.addGroupTo(groupToMerge, parentGroupToMerge)
                 }
-            } else if (databaseGroup.lastModificationTime.date
-                    .before(databaseGroupToMerge.lastModificationTime.date)
+            } else if (group.lastModificationTime.date
+                    .before(groupToMerge.lastModificationTime.date)
             ) {
-                database.removeGroupFrom(databaseGroup, databaseGroup.parent)
-                if (parentGroup != null) {
-                    database.addGroupTo(databaseGroupToMerge, parentGroup)
+                if (parentGroupToMerge == group.parent) {
+                    group.updateWith(groupToMerge)
+                } else {
+                    database.removeGroupFrom(group, group.parent)
+                    if (parentGroupToMerge != null) {
+                        database.addGroupTo(groupToMerge, parentGroupToMerge)
+                    }
                 }
             }
         }

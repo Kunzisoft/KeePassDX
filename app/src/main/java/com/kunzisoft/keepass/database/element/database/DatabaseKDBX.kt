@@ -88,14 +88,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var kdbxVersion = UnsignedInt(0)
     var name = ""
     var nameChanged = DateInstant()
-    // TODO change setting date
-    var settingsChanged = DateInstant()
     var description = ""
     var descriptionChanged = DateInstant()
     var defaultUserName = ""
     var defaultUserNameChanged = DateInstant()
+    // TODO change setting date
+    var settingsChanged = DateInstant()
 
-    // TODO last change date
     var keyLastChanged = DateInstant()
     var keyChangeRecDays: Long = -1
     var keyChangeForceDays: Long = 1
