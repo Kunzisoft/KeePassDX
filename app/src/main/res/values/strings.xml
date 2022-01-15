@@ -226,9 +226,9 @@
     <string name="menu_cancel">Cancel</string>
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
-    <string name="menu_save_database">Save database</string>
-    <string name="menu_merge_database">Merge database</string>
-    <string name="menu_reload_database">Reload database</string>
+    <string name="menu_save_database">Save data</string>
+    <string name="menu_merge_database">Merge data</string>
+    <string name="menu_reload_database">Reload data</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
