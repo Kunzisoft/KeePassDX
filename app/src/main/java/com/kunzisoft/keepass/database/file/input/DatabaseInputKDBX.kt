@@ -22,9 +22,7 @@ package com.kunzisoft.keepass.database.file.input
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.StreamCipher
-import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -140,13 +138,10 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             stopKeyTimer()
             startContentTimer(progressTaskUpdater)
 
-            val engine: CipherEngine
             val cipher: Cipher
             try {
-                engine = EncryptionAlgorithm.getFrom(mDatabase.cipherUuid).cipherEngine
+                val engine = mDatabase.encryptionAlgorithm.cipherEngine
                 engine.forcePaddingCompatibility = true
-                mDatabase.setDataEngine(engine)
-                mDatabase.encryptionAlgorithm = engine.getEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
                 engine.forcePaddingCompatibility = false
             } catch (e: Exception) {

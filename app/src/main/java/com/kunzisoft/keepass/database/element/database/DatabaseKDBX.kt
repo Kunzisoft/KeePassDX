@@ -25,8 +25,6 @@ import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.crypto.AesEngine
-import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -48,7 +46,6 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
-import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
@@ -75,17 +72,51 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     var hmacKey: ByteArray? = null
         private set
-    var cipherUuid = EncryptionAlgorithm.AESRijndael.uuid
-    private var dataEngine: CipherEngine = AesEngine()
-    var compressionAlgorithm = CompressionAlgorithm.GZip
+
+    override var encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
+
+    fun setEncryptionAlgorithmFromUUID(uuid: UUID) {
+        encryptionAlgorithm = EncryptionAlgorithm.getFrom(uuid)
+    }
+
+    override val availableEncryptionAlgorithms: List<EncryptionAlgorithm> = listOf(
+        EncryptionAlgorithm.AESRijndael,
+        EncryptionAlgorithm.Twofish,
+        EncryptionAlgorithm.ChaCha20
+    )
+
+    override val kdfEngine: KdfEngine?
+        get() {
+            val keyDerivationFunctionParameters = kdfParameters ?: return null
+            for (engine in kdfAvailableList) {
+                if (engine.uuid == keyDerivationFunctionParameters.uuid) {
+                    return engine
+                }
+            }
+            Log.i(TAG, "Unable to retrieve KDF engine")
+            return null
+        }
+
+    override val kdfAvailableList: List<KdfEngine> = listOf(
+        KdfFactory.aesKdf,
+        KdfFactory.argon2dKdf,
+        KdfFactory.argon2idKdf
+    )
+
     var kdfParameters: KdfParameters? = null
-    private var kdfList: MutableList<KdfEngine> = ArrayList()
     private var numKeyEncRounds: Long = 0
-    var publicCustomData = VariantDictionary()
+
+    fun randomize() {
+        kdfParameters?.let {
+            kdfEngine?.randomize(it)
+        }
+    }
+
+    var compressionAlgorithm = CompressionAlgorithm.GZip
+
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
     private val mTemplateEngine = TemplateEngineCompatible(this)
 
-    var kdbxVersion = UnsignedInt(0)
     var name = ""
     var nameChanged = DateInstant()
     var description = ""
@@ -115,15 +146,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = HashSet<DeletedObject>()
+
+    var publicCustomData = VariantDictionary()
     val customData = CustomData()
 
     var localizedAppName = "KeePassDX"
-
-    init {
-        kdfList.add(KdfFactory.aesKdf)
-        kdfList.add(KdfFactory.argon2dKdf)
-        kdfList.add(KdfFactory.argon2idKdf)
-    }
 
     constructor()
 
@@ -147,6 +174,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
+    var kdbxVersion = UnsignedInt(0)
+
     override val version: String
         get() {
             val kdbxStringVersion = when(kdbxVersion) {
@@ -158,38 +187,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             return "V2 - KDBX$kdbxStringVersion"
         }
 
-    override val kdfEngine: KdfEngine?
-        get() = try {
-            getEngineKDBX4(kdfParameters)
-        } catch (unknownKDF: UnknownKDF) {
-            Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF)
-            null
-        }
-
-    override val kdfAvailableList: List<KdfEngine>
-        get() = kdfList
-
-    @Throws(UnknownKDF::class)
-    fun getEngineKDBX4(kdfParameters: KdfParameters?): KdfEngine {
-        val unknownKDFException = UnknownKDF()
-        if (kdfParameters == null) {
-            throw unknownKDFException
-        }
-        for (engine in kdfList) {
-            if (engine.uuid == kdfParameters.uuid) {
-                return engine
-            }
-        }
-        throw unknownKDFException
-    }
-
-    val availableCompressionAlgorithms: List<CompressionAlgorithm>
-        get() {
-            val list = ArrayList<CompressionAlgorithm>()
-            list.add(CompressionAlgorithm.None)
-            list.add(CompressionAlgorithm.GZip)
-            return list
-        }
+    val availableCompressionAlgorithms: List<CompressionAlgorithm> = listOf(
+        CompressionAlgorithm.None,
+        CompressionAlgorithm.GZip
+    )
 
     fun changeBinaryCompression(oldCompression: CompressionAlgorithm,
                                 newCompression: CompressionAlgorithm) {
@@ -243,15 +244,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
         }
     }
-
-    override val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
-        get() {
-            val list = ArrayList<EncryptionAlgorithm>()
-            list.add(EncryptionAlgorithm.AESRijndael)
-            list.add(EncryptionAlgorithm.Twofish)
-            list.add(EncryptionAlgorithm.ChaCha20)
-            return list
-        }
 
     override var numberKeyEncryptionRounds: Long
         get() {
@@ -311,10 +303,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     val lastTopVisibleGroup: GroupKDBX?
         get() = getGroupByUUID(lastTopVisibleGroupUUID)
-
-    fun setDataEngine(dataEngine: CipherEngine) {
-        this.dataEngine = dataEngine
-    }
 
     override fun getStandardIcon(iconId: Int): IconImageStandard {
         return this.iconsManager.getIcon(iconId)
@@ -480,28 +468,30 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     @Throws(IOException::class)
     fun makeFinalKey(masterSeed: ByteArray) {
 
-        kdfParameters?.let { keyDerivationFunctionParameters ->
-            val kdfEngine = getEngineKDBX4(keyDerivationFunctionParameters)
+        kdfEngine?.let { keyDerivationFunctionEngine ->
+            kdfParameters?.let { keyDerivationFunctionParameters ->
 
-            var transformedMasterKey = kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
-            if (transformedMasterKey.size != 32) {
-                transformedMasterKey = HashManager.hashSha256(transformedMasterKey)
-            }
+                var transformedMasterKey =
+                    keyDerivationFunctionEngine.transform(masterKey, keyDerivationFunctionParameters)
+                if (transformedMasterKey.size != 32) {
+                    transformedMasterKey = HashManager.hashSha256(transformedMasterKey)
+                }
 
-            val cmpKey = ByteArray(65)
-            System.arraycopy(masterSeed, 0, cmpKey, 0, 32)
-            System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
-            finalKey = resizeKey(cmpKey, dataEngine.keyLength())
+                val cmpKey = ByteArray(65)
+                System.arraycopy(masterSeed, 0, cmpKey, 0, 32)
+                System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
+                finalKey = resizeKey(cmpKey, encryptionAlgorithm.cipherEngine.keyLength())
 
-            val messageDigest: MessageDigest
-            try {
-                messageDigest = MessageDigest.getInstance("SHA-512")
-                cmpKey[64] = 1
-                hmacKey = messageDigest.digest(cmpKey)
-            } catch (e: NoSuchAlgorithmException) {
-                throw IOException("No SHA-512 implementation")
-            } finally {
-                Arrays.fill(cmpKey, 0.toByte())
+                val messageDigest: MessageDigest
+                try {
+                    messageDigest = MessageDigest.getInstance("SHA-512")
+                    cmpKey[64] = 1
+                    hmacKey = messageDigest.digest(cmpKey)
+                } catch (e: NoSuchAlgorithmException) {
+                    throw IOException("No SHA-512 implementation")
+                } finally {
+                    Arrays.fill(cmpKey, 0.toByte())
+                }
             }
         }
     }

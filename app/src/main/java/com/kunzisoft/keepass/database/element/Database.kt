@@ -309,14 +309,12 @@ class Database {
     val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
         get() = mDatabaseKDB?.availableEncryptionAlgorithms ?: mDatabaseKDBX?.availableEncryptionAlgorithms ?: ArrayList()
 
-    var encryptionAlgorithm: EncryptionAlgorithm?
-        get() = mDatabaseKDB?.encryptionAlgorithm ?: mDatabaseKDBX?.encryptionAlgorithm
-        set(algorithm) {
-            algorithm?.let {
-                mDatabaseKDBX?.encryptionAlgorithm = algorithm
-                mDatabaseKDBX?.setDataEngine(algorithm.cipherEngine)
-                mDatabaseKDBX?.cipherUuid = algorithm.uuid
-            }
+    var encryptionAlgorithm: EncryptionAlgorithm
+        get() = mDatabaseKDB?.encryptionAlgorithm
+            ?: mDatabaseKDBX?.encryptionAlgorithm
+            ?: EncryptionAlgorithm.AESRijndael
+        set(value) {
+            mDatabaseKDBX?.encryptionAlgorithm = value
         }
 
     val availableKdfEngines: List<KdfEngine>

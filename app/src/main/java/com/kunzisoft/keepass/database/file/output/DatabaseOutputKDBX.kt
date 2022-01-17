@@ -26,7 +26,6 @@ import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -39,7 +38,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
@@ -76,7 +74,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         try {
             try {
-                engine = EncryptionAlgorithm.getFrom(mDatabaseKDBX.cipherUuid).cipherEngine
+                engine = mDatabaseKDBX.encryptionAlgorithm.cipherEngine
             } catch (e: NoSuchAlgorithmException) {
                 throw DatabaseOutputException("No such cipher", e)
             }
@@ -301,13 +299,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
         if (mDatabaseKDBX.kdfParameters == null) {
             mDatabaseKDBX.kdfParameters = KdfFactory.aesKdf.defaultParameters
-        }
-
-        try {
-            val kdf = mDatabaseKDBX.getEngineKDBX4(mDatabaseKDBX.kdfParameters)
-            kdf.randomize(mDatabaseKDBX.kdfParameters!!)
-        } catch (unknownKDF: UnknownKDF) {
-            Log.e(TAG, "Unable to retrieve header", unknownKDF)
+            mDatabaseKDBX.randomize()
         }
 
         if (header.version.isBefore(FILE_VERSION_40)) {
