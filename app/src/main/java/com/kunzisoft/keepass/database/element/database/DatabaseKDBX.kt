@@ -92,9 +92,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var descriptionChanged = DateInstant()
     var defaultUserName = ""
     var defaultUserNameChanged = DateInstant()
-    // TODO change setting date
     var settingsChanged = DateInstant()
-
     var keyLastChanged = DateInstant()
     var keyChangeRecDays: Long = -1
     var keyChangeForceDays: Long = 1
@@ -364,7 +362,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             val templatesGroup = firstGroupWithValidName
                 ?: mTemplateEngine.createNewTemplatesGroup(templatesGroupName)
             entryTemplatesGroup = templatesGroup.id
-            entryTemplatesGroupChanged = templatesGroup.lastModificationTime
         } else {
             removeTemplatesGroup()
         }
@@ -372,7 +369,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun removeTemplatesGroup() {
         entryTemplatesGroup = UUID_ZERO
-        entryTemplatesGroupChanged = DateInstant()
         mTemplateEngine.clearCache()
     }
 
@@ -733,14 +729,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 firstGroupWithValidName
             }
             recycleBinUUID = recycleBinGroup.id
-            recycleBinChanged = recycleBinGroup.lastModificationTime
+            recycleBinChanged = DateInstant()
         }
     }
 
     fun removeRecycleBin() {
         if (recycleBin != null) {
             recycleBinUUID = UUID_ZERO
-            recycleBinChanged = DateInstant()
         }
     }
 

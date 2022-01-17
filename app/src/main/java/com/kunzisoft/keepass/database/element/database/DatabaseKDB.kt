@@ -84,10 +84,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     override var numberKeyEncryptionRounds = 300L
 
-    init {
-        algorithm = EncryptionAlgorithm.AESRijndael
-    }
-
     /**
      * Generates an unused random tree id
      *

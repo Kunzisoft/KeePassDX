@@ -254,6 +254,7 @@ class Database {
             } else {
                 ChromaUtil.getFormattedColorString(value, false)
             }
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     val allowOTP: Boolean
@@ -277,6 +278,7 @@ class Database {
             value?.let {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -344,6 +346,7 @@ class Database {
         set(numberRounds) {
             mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var memoryUsage: Long
@@ -352,12 +355,14 @@ class Database {
         }
         set(memory) {
             mDatabaseKDBX?.memoryUsage = memory
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var parallelism: Long
         get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
             mDatabaseKDBX?.parallelism = parallelism
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var masterKey: ByteArray
@@ -365,6 +370,7 @@ class Database {
         set(masterKey) {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var rootGroup: Group?
@@ -415,6 +421,7 @@ class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var historyMaxSize: Long
@@ -423,6 +430,7 @@ class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
+            mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     /**
@@ -443,6 +451,7 @@ class Database {
         } else {
             mDatabaseKDBX?.removeRecycleBin()
         }
+        mDatabaseKDBX?.recycleBinChanged = DateInstant()
     }
 
     val recycleBin: Group?
@@ -460,10 +469,10 @@ class Database {
         // Only the kdbx recycle bin can be changed
         if (group != null) {
             mDatabaseKDBX?.recycleBinUUID = group.nodeIdKDBX.id
-            mDatabaseKDBX?.recycleBinChanged = DateInstant()
         } else {
             mDatabaseKDBX?.removeRecycleBin()
         }
+        mDatabaseKDBX?.recycleBinChanged = DateInstant()
     }
 
     /**
@@ -479,6 +488,7 @@ class Database {
 
     fun enableTemplates(enable: Boolean, templatesGroupName: String) {
         mDatabaseKDBX?.enableTemplatesGroup(enable, templatesGroupName)
+        mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
     }
 
     val templatesGroup: Group?
@@ -496,6 +506,7 @@ class Database {
         } else {
             mDatabaseKDBX?.removeTemplatesGroup()
         }
+        mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
     }
 
     val groupNamesNotAllowed: List<String>

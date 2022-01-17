@@ -240,6 +240,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
         }
 
+        writeDateInstant(DatabaseKDBXXML.ElemSettingsChanged, mDatabaseKDBX.settingsChanged)
         writeString(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbNameChanged, mDatabaseKDBX.nameChanged)
         writeString(DatabaseKDBXXML.ElemDbDesc, mDatabaseKDBX.description, true)

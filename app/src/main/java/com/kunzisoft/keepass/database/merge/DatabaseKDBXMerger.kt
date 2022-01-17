@@ -51,8 +51,25 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             database.isKeyChangeForceOnce = databaseToMerge.isKeyChangeForceOnce
             database.keyLastChanged = databaseToMerge.keyLastChanged
         }
+        if (database.recycleBinChanged.date.before(databaseToMerge.recycleBinChanged.date)) {
+            database.isRecycleBinEnabled = databaseToMerge.isRecycleBinEnabled
+            database.recycleBinUUID = databaseToMerge.recycleBinUUID
+            database.recycleBinChanged = databaseToMerge.recycleBinChanged
+        }
+        if (database.entryTemplatesGroupChanged.date.before(databaseToMerge.entryTemplatesGroupChanged.date)) {
+            database.entryTemplatesGroup = databaseToMerge.entryTemplatesGroup
+            database.entryTemplatesGroupChanged = databaseToMerge.entryTemplatesGroupChanged
+        }
         if (database.settingsChanged.date.before(databaseToMerge.settingsChanged.date)) {
-            // TODO settings
+            database.color = databaseToMerge.color
+            database.historyMaxItems = databaseToMerge.historyMaxItems
+            database.historyMaxSize = databaseToMerge.historyMaxSize
+            database.encryptionAlgorithm = databaseToMerge.encryptionAlgorithm
+            database.kdfParameters = databaseToMerge.kdfParameters
+            database.compressionAlgorithm = databaseToMerge.compressionAlgorithm
+            database.numberKeyEncryptionRounds = databaseToMerge.numberKeyEncryptionRounds
+            database.memoryUsage = databaseToMerge.memoryUsage
+            database.parallelism = databaseToMerge.parallelism
             database.settingsChanged = databaseToMerge.settingsChanged
         }
 

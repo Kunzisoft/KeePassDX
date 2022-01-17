@@ -45,16 +45,22 @@ abstract class DatabaseVersioned<
         Entry : EntryVersioned<GroupId, EntryId, Group, Entry>
         > {
 
+
     // Algorithm used to encrypt the database
-    protected var algorithm: EncryptionAlgorithm? = null
+    var encryptionAlgorithm: EncryptionAlgorithm = EncryptionAlgorithm.AESRijndael
+    abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
 
     abstract val kdfEngine: com.kunzisoft.keepass.database.crypto.kdf.KdfEngine?
-
     abstract val kdfAvailableList: List<com.kunzisoft.keepass.database.crypto.kdf.KdfEngine>
+    abstract var numberKeyEncryptionRounds: Long
+
+    protected abstract val passwordEncoding: String
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
+
+    abstract val version: String
 
     /**
      * To manage binaries in faster way
@@ -69,22 +75,6 @@ abstract class DatabaseVersioned<
 
     private var groupIndexes = LinkedHashMap<NodeId<GroupId>, Group>()
     private var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
-
-    abstract val version: String
-
-    protected abstract val passwordEncoding: String
-
-    abstract var numberKeyEncryptionRounds: Long
-
-    var encryptionAlgorithm: EncryptionAlgorithm
-        get() {
-            return algorithm ?: EncryptionAlgorithm.AESRijndael
-        }
-        set(algorithm) {
-            this.algorithm = algorithm
-        }
-
-    abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
 
     var rootGroup: Group? = null
         set(value) {
