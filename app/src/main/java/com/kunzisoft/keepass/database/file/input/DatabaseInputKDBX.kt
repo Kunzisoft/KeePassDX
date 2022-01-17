@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BA
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -515,7 +516,8 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
                 ctxGroup?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxGroup?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
+                val iconUUID = readUuid(xpp)
+                ctxGroup?.icon?.custom = mDatabase.getCustomIcon(iconUUID) ?: IconImageCustom(iconUUID)
             } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
                 ctxGroup?.tags = readTags(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemPreviousParentGroup, ignoreCase = true)) {
@@ -574,7 +576,8 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
                 ctxEntry?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxEntry?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
+                val iconUUID = readUuid(xpp)
+                ctxEntry?.icon?.custom = mDatabase.getCustomIcon(iconUUID) ?: IconImageCustom(iconUUID)
             } else if (name.equals(DatabaseKDBXXML.ElemFgColor, ignoreCase = true)) {
                 ctxEntry?.foregroundColor = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemBgColor, ignoreCase = true)) {

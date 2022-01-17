@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
@@ -112,7 +113,7 @@ class SearchEntryCursorAdapter(private val context: Context,
                             database.getStandardIcon(standardIconId)
                         },
                         { customIconId ->
-                            database.getCustomIcon(customIconId)
+                            database.getCustomIcon(customIconId) ?: IconImageCustom(customIconId)
                         }
                 )
             }
@@ -122,7 +123,7 @@ class SearchEntryCursorAdapter(private val context: Context,
                             database.getStandardIcon(standardIconId)
                         },
                         { customIconId ->
-                            database.getCustomIcon(customIconId)
+                            database.getCustomIcon(customIconId) ?: IconImageCustom(customIconId)
                         }
                 )
             }

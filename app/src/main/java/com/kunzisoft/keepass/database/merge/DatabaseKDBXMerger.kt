@@ -89,11 +89,13 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         )
 
-        // TODO Merge icons
+        // TODO merge custom data
+
         databaseToMerge.iconsManager.doForEachCustomIcon { iconImageCustom, binaryData ->
             val customIconUuid = iconImageCustom.uuid
             // If custom icon not present, add it
-            if (!database.iconsManager.isCustomIconInCache(customIconUuid)) {
+            val customIcon = database.iconsManager.getIcon(customIconUuid)
+            if (customIcon == null) {
                 database.addCustomIcon(
                     customIconUuid,
                     iconImageCustom.name,
@@ -101,33 +103,33 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     false
                 ) { _, newBinaryData ->
                     binaryData.getInputDataStream(databaseToMerge.binaryCache).use { inputStream ->
-                        newBinaryData?.getOutputDataStream(database.binaryCache)
-                            .use { outputStream ->
-                                inputStream.readAllBytes { buffer ->
-                                    outputStream?.write(buffer)
-                                }
+                        newBinaryData?.getOutputDataStream(database.binaryCache).use { outputStream ->
+                            inputStream.readAllBytes { buffer ->
+                                outputStream?.write(buffer)
                             }
+                        }
                     }
                 }
             } else {
-                val customIconModification =
-                    database.getCustomIcon(customIconUuid).lastModificationTime
-                val customIconModificationToMerge =
-                    databaseToMerge.getCustomIcon(customIconUuid).lastModificationTime
+                val customIconModification = customIcon.lastModificationTime
+                val customIconToMerge = databaseToMerge.iconsManager.getIcon(customIconUuid)
+                val customIconModificationToMerge = customIconToMerge?.lastModificationTime
                 if (customIconModification != null && customIconModificationToMerge != null) {
                     if (customIconModification.date.before(customIconModificationToMerge.date)) {
-                        // TODO Update custom icon
+                        customIcon.updateWith(customIconToMerge)
                     }
+                } else if (customIconModificationToMerge != null) {
+                    customIcon.updateWith(customIconToMerge)
                 }
             }
         }
-        // TODO merge custom data
 
         databaseToMerge.deletedObjects.forEach { deletedObject ->
             val deletedObjectId = deletedObject.uuid
             val databaseEntry = database.getEntryById(deletedObjectId)
             val databaseGroup = database.getGroupById(deletedObjectId)
-            val databaseIconModificationTime = database.getCustomIcon(deletedObjectId).lastModificationTime
+            val databaseIcon = database.iconsManager.getIcon(deletedObjectId)
+            val databaseIconModificationTime = databaseIcon?.lastModificationTime
             if (databaseEntry != null
                 && deletedObject.deletionTime.date
                     .after(databaseEntry.lastModificationTime.date)) {
@@ -138,9 +140,12 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     .after(databaseGroup.lastModificationTime.date)) {
                 database.removeGroupFrom(databaseGroup, databaseGroup.parent)
             }
-            if (databaseIconModificationTime != null
-                && deletedObject.deletionTime.date
-                    .after(databaseIconModificationTime.date)) {
+            if (databaseIcon != null
+                && (
+                    databaseIconModificationTime == null
+                    || (deletedObject.deletionTime.date.after(databaseIconModificationTime.date))
+                    )
+            ) {
                 database.removeCustomIcon(deletedObjectId)
             }
             // Attachments are removed and optimized during the database save

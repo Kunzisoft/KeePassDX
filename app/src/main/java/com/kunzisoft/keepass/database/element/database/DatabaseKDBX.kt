@@ -347,7 +347,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return iconsManager.isCustomIconBinaryDuplicate(binary)
     }
 
-    fun getCustomIcon(iconUuid: UUID): IconImageCustom {
+    fun getCustomIcon(iconUuid: UUID): IconImageCustom? {
         return this.iconsManager.getIcon(iconUuid)
     }
 

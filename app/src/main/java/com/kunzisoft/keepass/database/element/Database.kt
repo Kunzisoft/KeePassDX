@@ -130,7 +130,7 @@ class Database {
         return iconsManager.doForEachCustomIcon(action)
     }
 
-    fun getCustomIcon(iconId: UUID): IconImageCustom {
+    fun getCustomIcon(iconId: UUID): IconImageCustom? {
         return iconsManager.getIcon(iconId)
     }
 
@@ -149,7 +149,7 @@ class Database {
     }
 
     fun updateCustomIcon(customIcon: IconImageCustom) {
-        iconsManager.getIcon(customIcon.uuid).updateWith(customIcon)
+        iconsManager.getIcon(customIcon.uuid)?.updateWith(customIcon)
     }
 
     fun getTemplates(templateCreation: Boolean): List<Template> {
