@@ -53,8 +53,6 @@ class MergeDatabaseRunnable(private val context: Context,
         if (result.isSuccess) {
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
-        } else {
-            mDatabase.clearAndClose(context)
         }
     }
 
