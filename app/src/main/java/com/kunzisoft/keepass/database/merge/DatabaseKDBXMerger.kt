@@ -78,24 +78,26 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             database.settingsChanged = databaseToMerge.settingsChanged
         }
 
-        val databaseRootGroupId = database.rootGroup?.nodeId
-        val databaseRootGroupIdToMerge = databaseToMerge.rootGroup?.nodeId
+        val rootGroupId = database.rootGroup?.nodeId
+        val rootGroupToMerge = databaseToMerge.rootGroup
+        val rootGroupIdToMerge = rootGroupToMerge?.nodeId
 
-        if (databaseRootGroupId == null || databaseRootGroupIdToMerge == null) {
+        if (rootGroupId == null || rootGroupIdToMerge == null) {
             throw IOException("Database is not open")
         }
 
         // UUID of the root group to merge is unknown
-        if (database.getGroupById(databaseRootGroupIdToMerge) == null) {
+        if (database.getGroupById(rootGroupIdToMerge) == null) {
             // Change it to copy children database root
             // TODO Test merge root
-            databaseToMerge.rootGroup?.let { databaseRootGroupToMerge ->
-                databaseToMerge.removeGroupIndex(databaseRootGroupToMerge)
-                databaseRootGroupToMerge.nodeId = databaseRootGroupId
-                databaseToMerge.updateGroup(databaseRootGroupToMerge)
-            }
+            databaseToMerge.removeGroupIndex(rootGroupToMerge)
+            rootGroupToMerge.nodeId = rootGroupId
+            databaseToMerge.updateGroup(rootGroupToMerge)
         }
 
+        // Merge root group
+        mergeGroup(rootGroupToMerge, databaseToMerge)
+        // Merge children
         databaseToMerge.rootGroup?.doForEachChild(
             object : NodeHandler<EntryKDBX>() {
                 override fun operate(node: EntryKDBX): Boolean {
@@ -222,21 +224,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     .before(entryToMerge.lastModificationTime.date)
             ) {
                 // TODO custom Data
-                // Keep entry as history if already not present
-                entry.history.forEach { history ->
-                    // If history not present
-                    if (!entryToMerge.history.any {
-                            it.lastModificationTime == history.lastModificationTime
-                    }) {
-                        entryToMerge.addEntryToHistory(history)
-                    }
-                }
-                // Last entry not present
-                val history = EntryKDBX().apply {
-                    updateWith(entry, false)
-                    parent = null
-                }
-                entryToMerge.addEntryToHistory(history)
+                addHistory(entry, entryToMerge)
                 if (parentEntryToMerge == entry.parent) {
                     entry.updateWith(entryToMerge)
                 } else {
@@ -246,22 +234,33 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                         database.addEntryTo(entryToMerge, parentEntryToMerge)
                     }
                 }
-            } else {
+            } else if (entry.lastModificationTime.date
+                    .after(entryToMerge.lastModificationTime.date)) {
                 // TODO custom Data
-                entryToMerge.history.forEach { history ->
-                    if (!entry.history.any {
-                            it.lastModificationTime == history.lastModificationTime
-                        }) {
-                        entry.addEntryToHistory(history)
-                    }
-                }
-                // Keep entry to merge as history
-                val history = EntryKDBX().apply {
-                    updateWith(entryToMerge, false)
-                    parent = null
-                }
-                entry.addEntryToHistory(history)
+                addHistory(entryToMerge, entry)
             }
+        }
+    }
+
+    private fun addHistory(entryA: EntryKDBX, entryB: EntryKDBX) {
+        // Keep entry as history if already not present
+        entryA.history.forEach { history ->
+            // If history not present
+            if (!entryB.history.any {
+                    it.lastModificationTime == history.lastModificationTime
+                }) {
+                entryB.addEntryToHistory(history)
+            }
+        }
+        // Last entry not present
+        if (entryB.history.find {
+                it.lastModificationTime == entryA.lastModificationTime
+            } == null) {
+            val history = EntryKDBX().apply {
+                updateWith(entryA, false)
+                parent = null
+            }
+            entryB.addEntryToHistory(history)
         }
     }
 
