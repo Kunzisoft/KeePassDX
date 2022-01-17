@@ -634,8 +634,7 @@ class Database {
                     }
             )
         } catch (e: FileNotFoundException) {
-            Log.e(TAG, "Unable to load keyfile", e)
-            throw FileNotFoundDatabaseException()
+            throw FileNotFoundDatabaseException("Unable to load the keyfile")
         } catch (e: LoadDatabaseException) {
             throw e
         } catch (e: Exception) {
@@ -649,6 +648,10 @@ class Database {
     fun mergeData(contentResolver: ContentResolver,
                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
                   progressTaskUpdater: ProgressTaskUpdater?) {
+
+        mDatabaseKDB?.let {
+            throw IODatabaseException("Unable to merge from a database V1")
+        }
 
         // New database instance to get new changes
         val databaseToMerge = Database()
@@ -679,18 +682,24 @@ class Database {
                     }
                 )
 
-                // TODO Merge KDB
                 mDatabaseKDBX?.let { currentDatabaseKDBX ->
+                    val databaseMerger = DatabaseKDBXMerger(currentDatabaseKDBX).apply {
+                        this.isRAMSufficient = isRAMSufficient
+                    }
+                    databaseToMerge.mDatabaseKDB?.let { databaseKDBToMerge ->
+                        databaseMerger.merge(databaseKDBToMerge)
+                    }
                     databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
-                        DatabaseKDBXMerger(currentDatabaseKDBX).apply {
-                            this.isRAMSufficient = isRAMSufficient
-                        }.merge(databaseKDBXToMerge)
+                        databaseMerger.merge(databaseKDBXToMerge)
                     }
                 }
             } ?: run {
-                Log.e(TAG, "Database URI is null, database cannot be reloaded")
-                throw IODatabaseException()
+                throw IODatabaseException("Database URI is null, database cannot be reloaded")
             }
+        } catch (e: FileNotFoundException) {
+            throw FileNotFoundDatabaseException("Unable to load the keyfile")
+        } catch (e: LoadDatabaseException) {
+            throw e
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
@@ -733,12 +742,10 @@ class Database {
                     }
                 )
             } ?: run {
-                Log.e(TAG, "Database URI is null, database cannot be reloaded")
-                throw IODatabaseException()
+                throw IODatabaseException("Database URI is null, database cannot be reloaded")
             }
         } catch (e: FileNotFoundException) {
-            Log.e(TAG, "Unable to load keyfile", e)
-            throw FileNotFoundDatabaseException()
+            throw FileNotFoundDatabaseException("Unable to load the keyfile")
         } catch (e: LoadDatabaseException) {
             throw e
         } catch (e: Exception) {

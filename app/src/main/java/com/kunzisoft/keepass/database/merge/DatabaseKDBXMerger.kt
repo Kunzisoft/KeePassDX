@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.merge
 
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -30,6 +31,10 @@ import java.io.IOException
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
     var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+
+    fun merge(databaseToMerge: DatabaseKDB) {
+        // TODO merge KDB
+    }
 
     fun merge(databaseToMerge: DatabaseKDBX) {
 
