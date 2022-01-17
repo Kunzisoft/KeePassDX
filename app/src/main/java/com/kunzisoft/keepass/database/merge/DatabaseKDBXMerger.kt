@@ -62,11 +62,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
         if (database.settingsChanged.date.before(databaseToMerge.settingsChanged.date)) {
             database.color = databaseToMerge.color
+            database.compressionAlgorithm = databaseToMerge.compressionAlgorithm
             database.historyMaxItems = databaseToMerge.historyMaxItems
             database.historyMaxSize = databaseToMerge.historyMaxSize
             database.encryptionAlgorithm = databaseToMerge.encryptionAlgorithm
             database.kdfParameters = databaseToMerge.kdfParameters
-            database.compressionAlgorithm = databaseToMerge.compressionAlgorithm
             database.numberKeyEncryptionRounds = databaseToMerge.numberKeyEncryptionRounds
             database.memoryUsage = databaseToMerge.memoryUsage
             database.parallelism = databaseToMerge.parallelism
@@ -207,10 +207,10 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             if (entry == null) {
                 // If it's a deleted object, but another instance was updated
                 // If entry parent to add exists and in current database
-                if (deletedObject == null
+                if ((deletedObject == null
                     || deletedObject.deletionTime.date
-                        .before(entryToMerge.lastModificationTime.date)
-                    || parentEntryToMerge != null) {
+                        .before(entryToMerge.lastModificationTime.date))
+                    && parentEntryToMerge != null) {
                     database.addEntryTo(entryToMerge, parentEntryToMerge)
                 }
             } else if (entry.lastModificationTime.date
@@ -275,10 +275,10 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
             if (group == null) {
                 // If group parent to add exists and in current database
-                if (deletedObject == null
+                if ((deletedObject == null
                     || deletedObject.deletionTime.date
-                        .before(groupToMerge.lastModificationTime.date)
-                    || parentGroupToMerge != null) {
+                        .before(groupToMerge.lastModificationTime.date))
+                    && parentGroupToMerge != null) {
                     database.addGroupTo(groupToMerge, parentGroupToMerge)
                 }
             } else if (group.lastModificationTime.date
