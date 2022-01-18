@@ -1,3 +1,6 @@
+KeePassDX(3.2.0)
+ * Manage data merge #840 #977
+
 KeePassDX(3.1.0)
  * Add breadcrumb
  * Add path in search results #1148
