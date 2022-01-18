@@ -605,4 +605,7 @@
     <string name="hint_icon_name">图标名称</string>
     <string name="warning_exact_alarm">你尚未允许该应用使用精确闹钟。 因此，需要计时器的功能不会在精确的时间完成。</string>
     <string name="permission">权限</string>
+    <string name="content_description_database_color">数据库颜色</string>
+    <string name="content_description_entry_foreground_color">条目前景色</string>
+    <string name="content_description_entry_background_color">条目背景色</string>
 </resources>
