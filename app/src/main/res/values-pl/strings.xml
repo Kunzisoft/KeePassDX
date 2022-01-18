@@ -605,4 +605,7 @@
     <string name="hint_icon_name">Nazwa ikony</string>
     <string name="warning_exact_alarm">Nie zezwolono aplikacji na użycie dokładnego alarmu. W rezultacie funkcje wymagające czasomierza nie będą wykonywane z dokładnym czasem.</string>
     <string name="permission">Uprawnienie</string>
+    <string name="content_description_entry_background_color">Kolor tła wpisu</string>
+    <string name="content_description_entry_foreground_color">Kolor pierwszego planu wpisu</string>
+    <string name="content_description_database_color">Kolor bazy danych</string>
 </resources>
