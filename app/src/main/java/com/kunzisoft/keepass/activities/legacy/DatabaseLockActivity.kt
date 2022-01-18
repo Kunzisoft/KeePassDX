@@ -62,6 +62,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     private var mExitLock: Boolean = false
 
     protected var mDatabaseReadOnly: Boolean = true
+    protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
 
     protected var mIconDrawableFactory: IconDrawableFactory? = null
@@ -201,6 +202,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             }
 
             mDatabaseReadOnly = database.isReadOnly
+            mMergeDataAllowed = database.isMergeDataAllowed()
             mIconDrawableFactory = database.iconDrawableFactory
 
             checkRegister()

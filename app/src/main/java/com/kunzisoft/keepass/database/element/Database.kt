@@ -644,6 +644,10 @@ class Database {
         }
     }
 
+    fun isMergeDataAllowed(): Boolean {
+        return mDatabaseKDBX != null
+    }
+
     @Throws(LoadDatabaseException::class)
     fun mergeData(contentResolver: ContentResolver,
                   isRAMSufficient: (memoryWanted: Long) -> Boolean,

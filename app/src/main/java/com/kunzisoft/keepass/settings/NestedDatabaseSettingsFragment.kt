@@ -51,6 +51,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private var mDatabase: Database? = null
     private var mDatabaseReadOnly: Boolean = false
+    private var mMergeDataAllowed: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
 
     private var mScreen: Screen? = null
@@ -126,6 +127,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     override fun onDatabaseRetrieved(database: Database?) {
         mDatabase = database
         mDatabaseReadOnly = database?.isReadOnly == true
+        mMergeDataAllowed = database?.isMergeDataAllowed() == true
 
         mDatabase?.let {
             if (it.loaded) {
@@ -652,6 +654,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         inflater.inflate(R.menu.database, menu)
         if (mDatabaseReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
+        }
+        if (!mMergeDataAllowed) {
+            menu.findItem(R.id.menu_merge_database)?.isVisible = false
         }
     }
 
