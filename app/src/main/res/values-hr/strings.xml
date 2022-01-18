@@ -597,4 +597,5 @@
     <string name="autofill_select_entry">Odaberi unos …</string>
     <string name="menu_external_icon">Vanjska ikona</string>
     <string name="seed">Tajna fraza</string>
+    <string name="hint_icon_name">Ime ikone</string>
 </resources>

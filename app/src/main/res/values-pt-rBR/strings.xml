@@ -23,9 +23,9 @@
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
-    <string name="encryption_algorithm">Algoritmo de cifragem</string>
+    <string name="encryption_algorithm">Algoritmo de criptografia</string>
     <string name="app_timeout">Tempo de espera</string>
-    <string name="app_timeout_summary">Inatividade até que o aplicativo seja bloqueado</string>
+    <string name="app_timeout_summary">Inatividade até que o banco de dados seja bloqueado</string>
     <string name="application">Aplicativo</string>
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
@@ -77,7 +77,7 @@
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
     <string name="invalid_credentials">Não foi possível ler credenciais.</string>
-    <string name="invalid_db_sig">Não pôde reconhecer formato da base de dados.</string>
+    <string name="invalid_db_sig">Não foi possível reconhecer o formato do banco de dados.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
@@ -86,14 +86,14 @@
     <string name="hide_password_title">Esconder senhas</string>
     <string name="hide_password_summary">Mascarar senhas (***) por padrão</string>
     <string name="about">Sobre</string>
-    <string name="menu_change_key_settings">Modificar a chave mestra</string>
+    <string name="menu_change_key_settings">Modificar a chave-mestra</string>
     <string name="settings">Configurações</string>
     <string name="menu_database_settings">Configurações do banco de dados</string>
     <string name="menu_delete">Deletar</string>
     <string name="menu_donate">Doar</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Esconder senha</string>
-    <string name="menu_lock">Bloquear base de dados</string>
+    <string name="menu_lock">Bloquear banco de dados</string>
     <string name="menu_open">Abrir</string>
     <string name="menu_search">Buscar</string>
     <string name="menu_showpass">Mostrar senha</string>
@@ -109,7 +109,7 @@
     <string name="content_description_remove_from_list">Remover</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de transformação</string>
-    <string name="rounds_explanation">Rodadas adicionais de cifragem adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
+    <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Busca</string>
@@ -122,13 +122,13 @@
     <string name="version_label">Versão %1$s</string>
     <string name="education_unlock_summary">Entre com a senha e/ou com o caminho para o arquivo-chave do banco de dados.
 \n
-\nGuarde uma cópia do seu arquivo do banco em um lugar mais seguro depois de cada alteração.</string>
+\nFaça um backup do banco em um lugar mais seguro depois de cada alteração.</string>
     <string-array name="list_size_options">
         <item>Pequeno</item>
         <item>Médio</item>
         <item>Grande</item>
     </string-array>
-    <string name="encryption">Cifragem</string>
+    <string name="encryption">Criptografia</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
     <string name="extended_ASCII">ASCII estendido</string>
     <string name="allow">Permitir</string>
@@ -137,10 +137,10 @@
     <string name="clipboard_error_clear">Não foi possível limpar a área de transferência</string>
     <string name="entry_not_found">Não pôde encontrar dados de entrada.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
-    <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
+    <string name="error_autofill_enable_service">Não foi possível habilitar o serviço de preenchimento automático.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Não pôde encontrar o arquivo. Tente reabri-lo de seu explorador de arquivos.</string>
+    <string name="file_not_found_content">Não foi possível encontrar o arquivo. Tente reabri-lo de seu explorador de arquivos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -156,8 +156,8 @@
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
     <string name="show_recent_files_title">Exibir arquivos recentes</string>
     <string name="show_recent_files_summary">Exibir locais de bancos de dados recentes</string>
-    <string name="encryption_explanation">Algoritmo de cifragem usado para todos os dados.</string>
-    <string name="kdf_explanation">Para gerar uma chave para o algoritmo de cifragem, a chave mestra é transformada usando uma função de derivação de chave salgada aleatoriamente.</string>
+    <string name="encryption_explanation">Algoritmo de criptografia usado para todos os dados.</string>
+    <string name="kdf_explanation">Para gerar uma chave para o algoritmo de criptografia, a chave-mestra é transformada usando uma função de derivação de chave salgada aleatoriamente.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
@@ -174,8 +174,8 @@
     <string name="search_results">Resultados da busca</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
-    <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
-    <string name="warning_no_encryption_key">Continuar sem chave de cifragem\?</string>
+    <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>
+    <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
     <string name="encrypted_value_stored">Senha cifrada armazenada</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
     <string name="database_history">Histórico</string>
@@ -199,14 +199,14 @@
     <string name="advanced_unlock">Desbloqueio avançado</string>
     <string name="biometric_unlock_enable_title">Desbloqueio biométrico</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
-    <string name="biometric_delete_all_key_title">Apague chaves de cifragem</string>
-    <string name="biometric_delete_all_key_summary">Apagar todas as chaves de cifragem relacionadas ao reconhecimento de desbloqueio avançado</string>
+    <string name="biometric_delete_all_key_title">Apague chaves de criptografia</string>
+    <string name="biometric_delete_all_key_summary">Apagar todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio avançado</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">O dispositivo está utilizando Android %1$s, mas precisa %2$s ou posterior.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
     <string name="file_name">Nome do arquivo</string>
     <string name="path">Caminho</string>
-    <string name="assign_master_key">Defina uma chave mestra</string>
+    <string name="assign_master_key">Defina uma chave-mestra</string>
     <string name="create_keepass_file">Criar novo banco</string>
     <string name="recycle_bin_title">Usar lixeira</string>
     <string name="recycle_bin_summary">Mover grupos e entradas para o grupo \"Lixeira\" antes de apagar</string>
@@ -224,7 +224,7 @@
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
-    <string name="allow_no_password_title">Não permitir chave mestra</string>
+    <string name="allow_no_password_title">Não permitir chave-mestra</string>
     <string name="allow_no_password_summary">Permitir tocar no botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_read_only_title">Somente leitura</string>
     <string name="enable_read_only_summary">Por padrão, abrir seu banco de dados no modo somente leitura</string>
@@ -238,9 +238,9 @@
     <string name="education_select_database_title">Abra um banco de dados existente</string>
     <string name="education_select_database_summary">Abra seu arquivo de banco de dados existente a partir do navegador de arquivos.</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
-    <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais. 
-\n 
-\nGrupos (~pastas) organizam suas entradas e sua base de dados.</string>
+    <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais.
+\n
+\nGrupos (~pastas) organizam suas entradas e seu banco de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas senhas.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
@@ -248,7 +248,7 @@
     <string name="education_generate_password_title">Criar uma senha forte</string>
     <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e lembre-se de torná-la segura.</string>
     <string name="education_entry_new_field_title">Adicione campos customizados</string>
-    <string name="education_entry_new_field_summary">Registrar um campo adicional, adicionar um valor e, opcionalmente, protegê-lo.</string>
+    <string name="education_entry_new_field_summary">Registre um campo adicional, adicione um valor e, opcionalmente, proteja-o.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
     <string name="education_read_only_title">Proteja seu banco de modificações</string>
     <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
@@ -301,7 +301,7 @@
     <string name="keyboard_notification_entry_content_title">%1$s disponível no Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Limpar ao fechar</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Fecha a base de dados ao dispensar a notificação</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Fechar o banco de dados ao dispensar a notificação</string>
     <string name="keyboard_appearance_category">Aparência</string>
     <string name="keyboard_theme_title">Tema do teclado</string>
     <string name="keyboard_keys_category">Teclas</string>
@@ -347,7 +347,7 @@
     <string name="biometric_auto_open_prompt_summary">Solicitar desbloqueio avançado automaticamente se o banco de dados estiver configurado para usá-lo</string>
     <string name="enable">Habilitado</string>
     <string name="disable">Desabilitado</string>
-    <string name="master_key">Chave mestra</string>
+    <string name="master_key">Chave-mestra</string>
     <string name="security">Segurança</string>
     <string name="entry_history">Histórico</string>
     <string name="entry_setup_otp">Configure uma senha de uso único</string>
@@ -368,7 +368,7 @@
     <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
     <string name="creating_database">Criando banco de dados…</string>
     <string name="menu_security_settings">Configurações de segurança</string>
-    <string name="menu_master_key_settings">Configurações da chave mestra</string>
+    <string name="menu_master_key_settings">Configurações da chave-mestra</string>
     <string name="contains_duplicate_uuid">O banco de dados contém UUIDs duplicados.</string>
     <string name="contains_duplicate_uuid_procedure">Consertar o problema gerando nova UUIDs para duplicatas para continuar\?</string>
     <string name="database_opened">Banco de dados aberto</string>
@@ -381,11 +381,11 @@
     <string name="max_history_size_title">Tamanho máximo</string>
     <string name="max_history_size_summary">Limitar o tamanho do histórico por entrada</string>
     <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Recomende a mudança da chave mestra (em dias)</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Recomende a mudança da chave-mestra (em dias)</string>
     <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>
-    <string name="settings_database_force_changing_master_key_summary">Forçar mudança da chave mestra (em dias)</string>
+    <string name="settings_database_force_changing_master_key_summary">Forçar mudança da chave-mestra (em dias)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Forçar renovação na próxima vez</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Forçar mudança da chave mestra na próxima vez (uma vez)</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Forçar mudança da chave-mestra na próxima vez (uma vez)</string>
     <string name="database_default_username_title">Usuário padrão</string>
     <string name="database_custom_color_title">Cor personalizada do banco de dados</string>
     <string name="compression">Compressão</string>
@@ -399,8 +399,8 @@
     <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
     <string name="keystore_not_accessible">O armazenamento chaves não foi propriamente inicializado.</string>
     <string name="recycle_bin_group_title">Grupo de lixeira</string>
-    <string name="enable_auto_save_database_title">Salvar automaticamente a base de dados</string>
-    <string name="enable_auto_save_database_summary">Salvar automaticamente a base de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
+    <string name="enable_auto_save_database_title">Salvar automaticamente o banco de dados</string>
+    <string name="enable_auto_save_database_summary">Salvar automaticamente o banco de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
     <string name="discard">Descartar</string>
     <string name="contact">Contato</string>
     <string name="auto_focus_search_title">Busca rápida</string>
@@ -423,10 +423,10 @@
     <string name="lock_database_show_button_title">Mostrar botão de bloqueio</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>
     <string name="warning_database_link_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos</string>
-    <string name="warning_database_read_only">Conceder acesso de gravação de arquivo para salvar alterações na base de dados</string>
-    <string name="hide_broken_locations_summary">Esconder links quebrados na lista de bases de dados recentes</string>
+    <string name="warning_database_read_only">Conceder acesso de gravação de arquivo para salvar alterações no banco de dados</string>
+    <string name="hide_broken_locations_summary">Esconder links quebrados na lista de bancos de dados recentes</string>
     <string name="hide_broken_locations_title">Ocultar links quebrados do banco de dados</string>
-    <string name="remember_keyfile_locations_summary">Manter o local onde os arquivos-chave são armazenados</string>
+    <string name="remember_keyfile_locations_summary">Lembrar o local onde os arquivos-chave são guardados</string>
     <string name="remember_keyfile_locations_title">Lembrar a localização dos arquivos-chave</string>
     <string name="remember_database_locations_summary">Lembra o local onde os bancos de dados são guardados</string>
     <string name="remember_database_locations_title">Lembrar a localização dos bancos de dados</string>
@@ -589,7 +589,7 @@
     <string name="templates_group_uuid_title">Grupo de modelos</string>
     <string name="templates_group_enable_summary">Use modelos dinâmicos para preencher os campos de uma entrada</string>
     <string name="templates_group_enable_title">Uso de modelos</string>
-    <string name="advanced_unlock_delete_all_key_warning">Apagar todas as chaves de cifragem relacionadas ao reconhecimento de desbloqueio avançado\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio avançado\?</string>
     <string name="advanced_unlock_timeout">Tempo limite de desbloqueio avançado</string>
     <string name="temp_advanced_unlock_timeout_summary">Duração do uso de desbloqueio avançado antes de excluir seu conteúdo</string>
     <string name="temp_advanced_unlock_timeout_title">Expiração de desbloqueio avançado</string>
@@ -600,4 +600,7 @@
     <string name="advanced_unlock_tap_delete">Toque para excluir as chaves de desbloqueio avançado</string>
     <string name="content">Conteúdo</string>
     <string name="autofill_select_entry">Selecione a entrada…</string>
+    <string name="hint_icon_name">Nome do ícone</string>
+    <string name="permission">Permissão</string>
+    <string name="warning_exact_alarm">Você não permitiu que o aplicativo usasse um alarme exato. Como resultado, os recursos que requerem um cronômetro não serão executados com um tempo exato.</string>
 </resources>

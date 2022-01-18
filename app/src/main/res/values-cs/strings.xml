@@ -602,4 +602,7 @@
     <string name="autofill_select_entry">Vyberte položku…</string>
     <string name="autofill_manual_selection_summary">Zobrazit možnosti umožňující uživateli si vybrat položku z databáze</string>
     <string name="autofill_manual_selection_title">Ruční výběr</string>
+    <string name="hint_icon_name">Jméno symbolu</string>
+    <string name="warning_exact_alarm">Nepovolili jste aplikaci použít přesný alarm. Výsledkem je, že funkce požadující časovač nebudou provedeny v přesný okamžik.</string>
+    <string name="permission">Povolení</string>
 </resources>
