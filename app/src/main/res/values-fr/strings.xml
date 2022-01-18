@@ -610,4 +610,9 @@
     <string name="autofill_manual_selection_summary">Afficher l\'option permettant à l\'utilisateur de sélectionner l\'entrée de la base de données</string>
     <string name="autofill_manual_selection_title">Sélection manuelle</string>
     <string name="hint_icon_name">Nom de l\'icône</string>
+    <string name="content_description_database_color">Couleur de la base de données</string>
+    <string name="content_description_entry_foreground_color">Couleur de premier plan de l\'entrée</string>
+    <string name="permission">Permission</string>
+    <string name="warning_exact_alarm">Vous n\'avez pas autorisé l\'application à utiliser une alarme exacte. Par conséquent, les fonctions nécessitant une minuterie ne seront pas effectuées avec une heure exacte.</string>
+    <string name="content_description_entry_background_color">Couleur d\'arrière plan de l\'entrée</string>
 </resources>
