@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2021 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -17,8 +17,15 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<full-backup-content>
-    <include domain="sharedpref" path="."/>
-    <include domain="database" path="."/>
-    <exclude domain="database" path="com.kunzisoft.keepass.database"/>
-</full-backup-content>
+<data-extraction-rules>
+    <cloud-backup disableIfNoEncryptionCapabilities="true">
+        <include domain="sharedpref" path="."/>
+        <include domain="database" path="."/>
+        <exclude domain="database" path="com.kunzisoft.keepass.database"/>
+    </cloud-backup>
+    <device-transfer>
+        <include domain="sharedpref" path="."/>
+        <include domain="database" path="."/>
+        <exclude domain="database" path="com.kunzisoft.keepass.database"/>
+    </device-transfer>
+</data-extraction-rules>

@@ -80,7 +80,8 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
         mActionModeCallback = null
     }
 
-    fun invalidateMenu() {
+    override fun invalidateMenu() {
+        super.invalidateMenu()
         open()
         mActionModeCallback?.onPrepareActionMode(actionMode, menu)
     }

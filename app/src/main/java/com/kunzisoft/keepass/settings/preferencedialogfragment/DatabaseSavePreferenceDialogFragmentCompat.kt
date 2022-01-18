@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -76,9 +77,17 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         // To inherit to save element in database
     }
 
-    protected fun saveColor(oldColor: String,
-                            newColor: String) {
-        mDatabaseViewModel.saveColor(oldColor, newColor, mDatabaseAutoSaveEnable)
+    protected fun saveColor(oldColor: Int?,
+                            newColor: Int?) {
+        val oldColorString = if (oldColor != null)
+                ChromaUtil.getFormattedColorString(oldColor, false)
+            else
+                ""
+        val newColorString = if (newColor != null)
+            ChromaUtil.getFormattedColorString(newColor, false)
+        else
+            ""
+        mDatabaseViewModel.saveColor(oldColorString, newColorString, mDatabaseAutoSaveEnable)
     }
 
     protected fun saveCompression(oldCompression: CompressionAlgorithm,

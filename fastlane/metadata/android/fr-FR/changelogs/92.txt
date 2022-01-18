@@ -1,0 +1,8 @@
+ * Ajout d'un fil d'ariane
+ * Ajout du chemin pour les résultats de recherche #1148
+ * Ajout d'un dialogue pour les informations de groupe #1177
+ * Gestion des couleurs #64 #913
+ * Correction de l'interface utilisateur dans Android 8 #509
+ * Mise à jour des librairies et du SDK vers 31 #833
+ * Correction du parseur de la base de données v1 #1201
+ * Ne demande plus la permission WRITE_EXTERNAL_STORAGE permission

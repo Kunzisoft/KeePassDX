@@ -64,6 +64,10 @@ class NodeIdUUID : NodeId<UUID> {
         return UuidUtil.toHexString(id) ?: id.toString()
     }
 
+    override fun toVisualString(): String {
+        return toString()
+    }
+
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<NodeIdUUID> = object : Parcelable.Creator<NodeIdUUID> {

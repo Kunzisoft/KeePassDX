@@ -42,7 +42,6 @@ class EntryFragment: DatabaseFragment() {
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
     private lateinit var uuidContainerView: View
-    private lateinit var uuidView: TextView
     private lateinit var uuidReferenceView: TextView
 
     private var mClipboardHelper: ClipboardHelper? = null
@@ -88,7 +87,6 @@ class EntryFragment: DatabaseFragment() {
         uuidContainerView.apply {
             visibility = if (PreferencesUtil.showUUID(context)) View.VISIBLE else View.GONE
         }
-        uuidView = view.findViewById(R.id.entry_UUID)
         uuidReferenceView = view.findViewById(R.id.entry_UUID_reference)
 
         mEntryViewModel.entryInfoHistory.observe(viewLifecycleOwner) { entryInfoHistory ->
@@ -200,7 +198,6 @@ class EntryFragment: DatabaseFragment() {
     }
 
     private fun assignUUID(uuid: UUID?) {
-        uuidView.text = uuid?.toString()
         uuidReferenceView.text = UuidUtil.toHexString(uuid)
     }
 

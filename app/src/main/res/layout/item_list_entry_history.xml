@@ -29,7 +29,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_last_modified"
         tools:text = "Last Modified"
-        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+        style="@style/KeepassDXStyle.TextAppearance.TextNode"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_title"
         tools:text = "Title"
-        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+        style="@style/KeepassDXStyle.TextAppearance.TextNode"
         android:maxLines="6"
         android:ellipsize="end"
         android:gravity="center"
@@ -49,7 +49,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_username"
         tools:text = "Username"
-        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+        style="@style/KeepassDXStyle.TextAppearance.TextNode"
         android:maxLines="6"
         android:ellipsize="end"
         android:gravity="center"

@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -41,7 +40,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -101,18 +99,8 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     private var mRememberKeyFile: Boolean = false
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var mPermissionAsked = false
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
-        set(value) {
-            infoContainerView?.visibility = if (value) {
-                mReadOnly = true
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            field = value
-        }
 
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -139,7 +127,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         infoContainerView = findViewById(R.id.activity_password_info_container)
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
-        mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
             savedInstanceState.getBoolean(KEY_READ_ONLY)
         } else {
@@ -208,10 +195,19 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
         // Observe database file change
         mDatabaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
+
             // Force read only if the file does not exists
-            mForceReadOnly = databaseFile?.let {
+            val databaseFileNotExists = databaseFile?.let {
                 !it.databaseFileExists
             } ?: true
+            infoContainerView?.visibility = if (databaseFileNotExists) {
+                mReadOnly = true
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            mForceReadOnly = databaseFileNotExists
+
             invalidateOptionsMenu()
 
             // Post init uri with KeyFile only if needed
@@ -248,8 +244,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         mDatabaseFileUri?.let { databaseFileUri ->
             mDatabaseFileViewModel.loadDatabaseFile(databaseFileUri)
         }
-
-        checkPermission()
 
         mDatabase?.let { database ->
             launchGroupActivityIfLoaded(database)
@@ -510,7 +504,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
         mDatabaseKeyFileUri?.let {
             outState.putString(KEY_KEYFILE, it.toString())
         }
@@ -613,35 +606,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         return true
     }
 
-    // Check permission
-    private fun checkPermission() {
-        if (Build.VERSION.SDK_INT in 23..28
-                && !mReadOnly
-                && !mPermissionAsked) {
-            mPermissionAsked = true
-            // Check self permission to show or not the dialog
-            val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            val permissions = arrayOf(writePermission)
-            if (toolbar != null
-                    && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            WRITE_EXTERNAL_STORAGE_REQUEST -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
     // To fix multiple view education
     private var performedEductionInProgress = false
     private fun launchEducation(menu: Menu) {
@@ -729,8 +693,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         private const val KEY_READ_ONLY = "KEY_READ_ONLY"
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
-        private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
-        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {

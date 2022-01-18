@@ -35,6 +35,6 @@
 		android:layout_margin="@dimen/button_margin"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center_horizontal"
-		android:text="@string/file_browser" />
+		android:text="@string/file_browser"
+		style="@style/Widget.AppCompat.Button.Small"/>
 </LinearLayout>

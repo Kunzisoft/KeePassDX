@@ -20,6 +20,7 @@
 
 package com.kunzisoft.keepass.database.file.input
 
+import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -30,7 +31,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
@@ -98,7 +98,7 @@ class DatabaseInputKDB(cacheDirectory: File,
             if (fileSize != (contentSize + DatabaseHeaderKDB.BUF_SIZE))
                 throw IOException("Header corrupted")
 
-            if (header.signature1 != DatabaseHeader.PWM_DBSIG_1
+            if (header.signature1 != DatabaseHeaderKDB.DBSIG_1
                     || header.signature2 != DatabaseHeaderKDB.DBSIG_2) {
                 throw SignatureDatabaseException()
             }
@@ -152,10 +152,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                             messageDigest
                     )
             )
-
-            // New manual root because KDB contains multiple root groups (here available with getRootGroups())
-            val newRoot = mDatabase.createGroup()
-            mDatabase.rootGroup = newRoot
 
             // Import all nodes
             val groupLevelList = HashMap<GroupKDB, Int>()
@@ -303,7 +299,34 @@ class DatabaseInputKDB(cacheDirectory: File,
                             newGroup = null
                         }
                         newEntry?.let { entry ->
-                            mDatabase.addEntryIndex(entry)
+                            // Parse meta info
+                            when {
+                                entry.isMetaStreamDefaultUsername() -> {
+                                    var defaultUser = ""
+                                    entry.getBinary(mDatabase.attachmentPool)
+                                        ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                            defaultUser = String(it.readBytes())
+                                        }
+                                    mDatabase.defaultUserName = defaultUser
+                                }
+                                entry.isMetaStreamDatabaseColor() -> {
+                                    var color: Int? = null
+                                    entry.getBinary(mDatabase.attachmentPool)
+                                        ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                            val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
+                                            color = Color.rgb(
+                                                Color.blue(reverseColor),
+                                                Color.green(reverseColor),
+                                                Color.red(reverseColor)
+                                            )
+                                        }
+                                    mDatabase.color = color
+                                }
+                                // TODO manager other meta stream
+                                else -> {
+                                    mDatabase.addEntryIndex(entry)
+                                }
+                            }
                             currentEntryNumber++
                             newEntry = null
                         }

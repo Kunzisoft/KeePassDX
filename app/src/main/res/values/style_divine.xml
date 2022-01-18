@@ -33,6 +33,7 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="toolbarColorControl">@color/grey_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.White</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.White</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.White</item>

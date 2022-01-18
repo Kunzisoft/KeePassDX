@@ -30,8 +30,8 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -165,28 +165,19 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Database default username
         dbDefaultUsernamePref = findPreference(getString(R.string.database_default_username_key))
-        if (database.allowDefaultUsername) {
-            dbDefaultUsernamePref?.summary = database.defaultUsername
-        } else {
-            dbDefaultUsernamePref?.isEnabled = false
-            // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
-        }
+        dbDefaultUsernamePref?.summary = database.defaultUsername
 
         // Database custom color
         dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
-        if (database.allowCustomColor) {
-            dbCustomColorPref?.apply {
-                try {
-                    color = Color.parseColor(database.customColor)
-                    summary = database.customColor
-                } catch (e: Exception) {
-                    color = DialogColorPreference.DISABLE_COLOR
-                    summary = ""
-                }
+        dbCustomColorPref?.apply {
+            val customColor = database.customColor
+            if (customColor != null) {
+                color = customColor
+                summary = ChromaUtil.getFormattedColorString(customColor, false)
+            } else{
+                color = DialogColorPreference.DISABLE_COLOR
+                summary = ""
             }
-        } else {
-            dbCustomColorPref?.isEnabled = false
-            // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
         }
 
         // Version
@@ -348,12 +339,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private val colorSelectedListener: ((Boolean, Int)-> Unit) = { enable, color ->
-        dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
-        if (enable) {
+    private val colorSelectedListener: ((Int?)-> Unit) = { color ->
+        if (color != null) {
             dbCustomColorPref?.color = color
+            dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
         } else {
             dbCustomColorPref?.color = DialogColorPreference.DISABLE_COLOR
+            dbCustomColorPref?.summary = ""
         }
     }
 
@@ -426,7 +418,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newColor
                                 } else {
-                                    mDatabase?.customColor = oldColor
+                                    mDatabase?.customColor = Color.parseColor(oldColor)
                                     oldColor
                                 }
                         dbCustomColorPref?.summary = defaultColorToShow
@@ -679,6 +671,27 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                 super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        // To reload group when database settings are modified
+        when (preference?.key) {
+            getString(R.string.database_name_key),
+            getString(R.string.database_description_key),
+            getString(R.string.database_default_username_key),
+            getString(R.string.database_custom_color_key),
+            getString(R.string.database_data_compression_key),
+            getString(R.string.database_data_remove_unlinked_attachments_key),
+            getString(R.string.recycle_bin_enable_key),
+            getString(R.string.recycle_bin_group_key),
+            getString(R.string.templates_group_enable_key),
+            getString(R.string.templates_group_uuid_key),
+            getString(R.string.max_history_items_key),
+            getString(R.string.max_history_size_key) -> {
+                NestedAppSettingsFragment.DATABASE_PREFERENCE_CHANGED = true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 
     companion object {

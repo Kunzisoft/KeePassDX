@@ -494,7 +494,7 @@
     <string name="save_mode">Режим записи</string>
     <string name="search_mode">Режим поиска</string>
     <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения</string>
-    <string name="error_field_name_already_exists">Поле с таким именем уже существует.</string>
+    <string name="error_field_name_already_exists">Поле с таким названием уже существует.</string>
     <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
     <string name="device_credential">Учётные данные устройства</string>
@@ -602,4 +602,7 @@
     <string name="autofill_select_entry">Выбор записи…</string>
     <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запить из базы</string>
     <string name="autofill_manual_selection_title">Ручной выбор</string>
+    <string name="hint_icon_name">Название значка</string>
+    <string name="permission">Разрешение</string>
+    <string name="warning_exact_alarm">Вы не разрешили приложению использовать точный сигнал будильника. В результате требующие этого функции не будут выполняться с точным временем.</string>
 </resources>

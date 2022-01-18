@@ -19,8 +19,10 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
@@ -238,6 +240,42 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.notes = value
         }
 
+    var backgroundColor: Int?
+        get() {
+            var colorInt: Int? = null
+            entryKDBX?.backgroundColor?.let {
+                try {
+                    colorInt = Color.parseColor(it)
+                } catch (e: Exception) {}
+            }
+            return colorInt
+        }
+        set(value) {
+            entryKDBX?.backgroundColor = if (value == null) {
+                ""
+            } else {
+                ChromaUtil.getFormattedColorString(value, false)
+            }
+        }
+
+    var foregroundColor: Int?
+        get() {
+            var colorInt: Int? = null
+            entryKDBX?.foregroundColor?.let {
+                try {
+                    colorInt = Color.parseColor(it)
+                } catch (e: Exception) {}
+            }
+            return colorInt
+        }
+        set(value) {
+            entryKDBX?.foregroundColor = if (value == null) {
+                ""
+            } else {
+                ChromaUtil.getFormattedColorString(value, false)
+            }
+        }
+
     private fun isTan(): Boolean {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
@@ -419,6 +457,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.expiryTime = expiryTime
             entryInfo.url = url
             entryInfo.notes = notes
+            entryInfo.backgroundColor = backgroundColor
+            entryInfo.foregroundColor = foregroundColor
             entryInfo.customFields = getExtraFields().toMutableList()
             // Add otpElement to generate token
             entryInfo.otpModel = getOtpElement()?.otpModel
@@ -453,6 +493,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         expiryTime = newEntryInfo.expiryTime
         url = newEntryInfo.url
         notes = newEntryInfo.notes
+        backgroundColor = newEntryInfo.backgroundColor
+        foregroundColor = newEntryInfo.foregroundColor
         addExtraFields(newEntryInfo.customFields)
         database?.attachmentPool?.let { binaryPool ->
             newEntryInfo.attachments.forEach { attachment ->

@@ -20,7 +20,7 @@
             android:focusable="false"
             android:cursorVisible="false"
             android:focusableInTouchMode="false"
-            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+            style="@style/KeepassDXStyle.TextAppearance.TextNode"
             tools:text="2020-03-04 05:00" />
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.appcompat.widget.SwitchCompat

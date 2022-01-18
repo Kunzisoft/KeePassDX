@@ -78,6 +78,7 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
+        <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Light</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
@@ -141,6 +142,7 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
+        <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
@@ -298,6 +300,8 @@
     </style>
     <style name="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" parent="android:style/TextAppearance">
         <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="drawableTint">?attr/textColorInverse</item>
+        <item name="android:drawablePadding">8dp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:textColor">?android:attr/textColorHintInverse</item>
@@ -310,8 +314,12 @@
         <item name="android:textStyle">italic</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Title.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.SubTitle.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Meta.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:textSize">11sp</item>
@@ -351,7 +359,7 @@
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/background_text_info</item>
+        <item name="android:background">@drawable/background_rounded_square</item>
         <item name="backgroundTint">?attr/colorAccent</item>
     </style>
 
@@ -430,6 +438,13 @@
         <item name="android:colorForeground">@color/background_button_color_secondary</item>
         <item name="tint">@color/background_button_color_secondary</item>
     </style>
+    <style name="KeepassDXStyle.ImageButton.Simple.Mini" parent="KeepassDXStyle.ImageButton.Simple">
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:colorForeground">@color/background_button_color_secondary</item>
+        <item name="tint">?android:attr/textColor</item>
+    </style>
 
     <!-- Item Style -->
     <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
@@ -475,7 +490,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
+	<style name="KeepassDXStyle.TextAppearance.TextNode" parent="KeepassDXStyle.TextAppearance">
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:paddingLeft">8dp</item>
@@ -486,10 +501,6 @@
 	</style>
 
     <!-- Progress bar -->
-    <style name="KeepassDXStyle.ProgressBar.Circle.Secondary" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/foreground_progress_circle_secondary</item>
-        <item name="android:background">@null</item>
-    </style>
     <style name="KeepassDXStyle.ProgressBar.Circle" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
         <item name="android:background">@drawable/background_progress_circle</item>

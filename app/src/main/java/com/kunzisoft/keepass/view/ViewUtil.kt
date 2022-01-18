@@ -23,9 +23,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
@@ -37,6 +35,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -44,6 +43,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import androidx.appcompat.view.menu.ActionMenuItemView
+
+import android.widget.ImageView
+import androidx.appcompat.widget.ActionMenuView
+
+import androidx.core.graphics.drawable.DrawableCompat
+
+import android.graphics.drawable.Drawable
+import com.google.android.material.appbar.CollapsingToolbarLayout
+
 
 /**
  * Replace font by monospace, must be called after setText()
@@ -207,4 +216,50 @@ fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
             Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
         }
     }
+}
+
+fun Toolbar.changeControlColor(color: Int) {
+    val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    for (i in 0 until childCount) {
+        val view: View = getChildAt(i)
+        // Change the color of back button (or open drawer button).
+        if (view is ImageView) {
+            //Action Bar back button
+            view.drawable.colorFilter = colorFilter
+        }
+        if (view is ActionMenuView) {
+            view.post {
+                for (j in 0 until view.childCount) {
+                    // Change the color of any ActionMenuViews - icons that
+                    // are not back button, nor text, nor overflow menu icon.
+                    val innerView: View = view.getChildAt(j)
+                    if (innerView is ActionMenuItemView) {
+                        innerView.compoundDrawables.forEach { drawable ->
+                            //Important to set the color filter in separate thread,
+                            //by adding it to the message queue
+                            //Won't work otherwise.
+                            drawable?.colorFilter = colorFilter
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Change the color of title and subtitle.
+    setTitleTextColor(color)
+    setSubtitleTextColor(color)
+    // Change the color of the Overflow Menu icon.
+    var drawable: Drawable? = overflowIcon
+    if (drawable != null) {
+        drawable = DrawableCompat.wrap(drawable)
+        DrawableCompat.setTint(drawable.mutate(), color)
+        overflowIcon = drawable
+    }
+    invalidate()
+}
+
+fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
+    setCollapsedTitleTextColor(color)
+    setExpandedTitleColor(color)
+    invalidate()
 }

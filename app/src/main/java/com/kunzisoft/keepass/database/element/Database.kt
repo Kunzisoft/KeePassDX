@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.database.element
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -226,31 +226,33 @@ class Database {
             mDatabaseKDBX?.descriptionChanged = DateInstant()
         }
 
-    val allowDefaultUsername: Boolean
-        get() = mDatabaseKDBX != null
-        // TODO get() = mDatabaseKDB != null || mDatabaseKDBX != null
-
     var defaultUsername: String
         get() {
-            return mDatabaseKDBX?.defaultUserName ?: "" // TODO mDatabaseKDB default username
+            return mDatabaseKDB?.defaultUserName ?: mDatabaseKDBX?.defaultUserName ?: ""
         }
         set(username) {
+            mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
             mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
         }
 
-    val allowCustomColor: Boolean
-        get() = mDatabaseKDBX != null
-        // TODO get() = mDatabaseKDB != null || mDatabaseKDBX != null
-
-    // with format "#000000"
-    var customColor: String
+    var customColor: Int?
         get() {
-            return mDatabaseKDBX?.color ?: "" // TODO mDatabaseKDB color
+            var colorInt: Int? = null
+            mDatabaseKDBX?.color?.let {
+                try {
+                    colorInt = Color.parseColor(it)
+                } catch (e: Exception) {}
+            }
+            return mDatabaseKDB?.color ?: colorInt
         }
         set(value) {
-            // TODO Check color string
-            mDatabaseKDBX?.color = value
+            mDatabaseKDB?.color = value
+            mDatabaseKDBX?.color = if (value == null) {
+                ""
+            } else {
+                ChromaUtil.getFormattedColorString(value, false)
+            }
         }
 
     val allowOTP: Boolean
@@ -364,7 +366,7 @@ class Database {
             mDatabaseKDBX?.masterKey = masterKey
         }
 
-    val rootGroup: Group?
+    var rootGroup: Group?
         get() {
             mDatabaseKDB?.rootGroup?.let {
                 return Group(it)
@@ -373,6 +375,25 @@ class Database {
                 return Group(it)
             }
             return null
+        }
+        set(value) {
+            value?.groupKDB?.let { rootKDB ->
+                mDatabaseKDB?.rootGroup = rootKDB
+            }
+            value?.groupKDBX?.let { rootKDBX ->
+                mDatabaseKDBX?.rootGroup = rootKDBX
+            }
+        }
+
+    val rootGroupIsVirtual: Boolean
+        get() {
+            mDatabaseKDB?.let {
+                return true
+            }
+            mDatabaseKDBX?.let {
+                return false
+            }
+            return true
         }
 
     /**

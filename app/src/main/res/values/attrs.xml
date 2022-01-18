@@ -27,6 +27,7 @@
     <attr name="cardBackgroundTransparentColor" format="reference|color" />
     <attr name="iconPreferenceColor" format="reference|color" />
     <attr name="textColorInverse" format="reference|color" />
+    <attr name="toolbarColorControl" format="reference|color" />
 
     <attr name="educationCircleColor" format="reference|color" />
     <attr name="educationTextColor" format="reference|color" />

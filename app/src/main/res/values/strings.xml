@@ -58,6 +58,9 @@
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
     <string name="content_description_entry_icon">Entry icon</string>
+    <string name="content_description_database_color">Database color</string>
+    <string name="content_description_entry_foreground_color">Entry foreground color</string>
+    <string name="content_description_entry_background_color">Entry background color</string>
     <string name="validate">Validate</string>
     <string name="discard_changes">Discard changes?</string>
     <string name="discard">Discard</string>
@@ -325,6 +328,8 @@
     <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
     <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or reload it with the latest changes.</string>
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
+    <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
+    <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>

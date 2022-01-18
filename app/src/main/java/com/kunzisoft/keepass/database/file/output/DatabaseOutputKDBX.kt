@@ -48,7 +48,6 @@ import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.utils.*
-import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
 import java.io.OutputStream

@@ -81,6 +81,7 @@ class IconImageStandard : IconImageDraw {
         const val CREDIT_CARD_ID = 37
         const val TRASH_ID = 43
         const val FOLDER_ID = 48
+        const val DATABASE_ID = 50
         const val LIST_ID = 57
         const val BUILD_ID = 59
         const val STAR_ID = 61

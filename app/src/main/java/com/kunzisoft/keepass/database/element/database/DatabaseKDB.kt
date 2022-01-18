@@ -44,13 +44,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         get() = "V1"
 
     init {
+        // New manual root because KDB contains multiple root groups (here available with getRootGroups())
+        rootGroup = createGroup().apply {
+            icon.standard = getStandardIcon(IconImageStandard.DATABASE_ID)
+        }
         kdfListV3.add(KdfFactory.aesKdf)
-    }
-
-    private fun getGroupById(groupId: Int): GroupKDB? {
-        if (groupId == -1)
-            return null
-        return getGroupById(NodeIdInt(groupId))
     }
 
     val backupGroup: GroupKDB?
@@ -62,6 +60,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         get() {
             return listOf(BACKUP_FOLDER_TITLE)
         }
+
+    var defaultUserName: String = ""
+
+    var color: Int? = null
 
     override val kdfEngine: KdfEngine
         get() = kdfListV3[0]
@@ -75,11 +77,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
             list.add(EncryptionAlgorithm.AESRijndael)
             list.add(EncryptionAlgorithm.Twofish)
             return list
-        }
-
-    val rootGroups: List<GroupKDB>
-        get() {
-            return rootGroup?.getChildGroups() ?: ArrayList()
         }
 
     override val passwordEncoding: String
