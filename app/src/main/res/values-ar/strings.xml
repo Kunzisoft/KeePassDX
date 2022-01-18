@@ -88,7 +88,7 @@
     <string name="space">المساحة</string>
     <string name="search_label">البحث</string>
     <string name="sort_menu">الفرز</string>
-    <string name="sort_ascending">تصاعدياً</string>
+    <string name="sort_ascending">تصاعدي ↓</string>
     <string name="sort_title">العنوان</string>
     <string name="sort_username">اسم المستخدِم</string>
     <string name="sort_creation_time">تاريخ الإنشاء</string>
@@ -472,7 +472,7 @@
     <string name="error_import_app_properties">خطأ أثناء استيراد خصائص التطبيق</string>
     <string name="error_export_app_properties">خطأ أثناء تصدير خصائص التطبيق</string>
     <string name="warning_database_info_changed">غُيِّرت معلومات قاعدة البيانات من خارج هذا التطبيق.</string>
-    <string name="warning_database_info_changed_options">اكتب فوق التعديلات الخارجية عن طريق حفظ قاعدة البيانات أو أعد تحميلها لتضمين هذه التغييرات.</string>
+    <string name="warning_database_info_changed_options">اكتب فوق التعديلات الخارجية عن طريق حفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
     <string name="open_advanced_unlock_prompt_store_credential">افتح محث فك القفل المتقدم لتخزين بيانات الاعتماد</string>
     <string name="open_advanced_unlock_prompt_unlock_database">افتح محث فك القفل المتقدم لفتح قاعدة البيانات</string>
     <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
@@ -483,4 +483,10 @@
     <string name="keyboard_previous_fill_in_title">إجراء لمس تلقائي</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>
     <string name="education_advanced_unlock_title">فك القفل المتقدم لقاعدة البيانات</string>
+    <string name="hint_icon_name">اسم الأيقونة</string>
+    <string name="autofill_manual_selection_title">اختيار يدوي</string>
+    <string name="description_app_properties">خصائص KeePassDX لإدارة إعدادات التطبيقات</string>
+    <string name="warning_empty_recycle_bin">هل تريد حذف جميع العقد نهائيًا من سلة المهملات؟</string>
+    <string name="autofill_save_search_info_title">احفظ معلومات البحث</string>
+    <string name="autofill_ask_to_save_data_title">اسأل لحفظ البيانات</string>
 </resources>

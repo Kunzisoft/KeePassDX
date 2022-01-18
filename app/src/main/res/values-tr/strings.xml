@@ -300,7 +300,7 @@
     <string name="icon_pack_choose_title">Simge paketi</string>
     <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
     <string name="selection_mode">Seçim modu</string>
-    <string name="do_not_kill_app">Uygulamayı öldürmeyin…</string>
+    <string name="do_not_kill_app">Uygulamayı sonlandırmayın…</string>
     <string name="lock_database_back_root_summary">Kullanıcı kök ekranda geri düğmesine tıkladığında veri tabanını kilitle</string>
     <string name="clear_clipboard_notification_title">Kapanışta temizle</string>
     <string name="clear_clipboard_notification_summary">Panonun süresi dolduğunda veya kullanmaya başladıktan sonra bildirim kapatıldığında veri tabanını kilitle</string>
@@ -597,4 +597,7 @@
     <string name="autofill_manual_selection_summary">Kullanıcının veri tabanı girdisini seçmesine izin veren seçeneği göster</string>
     <string name="autofill_manual_selection_title">Elle seçim</string>
     <string name="autofill_select_entry">Girdi seç…</string>
+    <string name="hint_icon_name">Simge adı</string>
+    <string name="warning_exact_alarm">Uygulamanın tam bir alarm kullanmasına izin vermediniz. Sonuç olarak zamanlayıcı gerektiren özellikler kesin bir süre ile yapılmayacaktır.</string>
+    <string name="permission">İzinler</string>
 </resources>

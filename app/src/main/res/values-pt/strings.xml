@@ -578,4 +578,7 @@
     <string name="debit_credit_card">Cartão de crédito / débito</string>
     <string name="template_group_name">Modelos</string>
     <string name="content_description_otp_information">Informação de palavra-passe de uso único</string>
+    <string name="hint_icon_name">Nome do ícone</string>
+    <string name="permission">Permissão</string>
+    <string name="warning_exact_alarm">Não permitiu que a app usasse um alarme exato. Como resultado, as funcionalidades que requerem um temporizador não serão feitas com um tempo exato.</string>
 </resources>

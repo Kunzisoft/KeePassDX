@@ -569,9 +569,9 @@
     <string name="success_import_app_properties">Propriétés de l\'application importées</string>
     <string name="description_app_properties">Propriétés KeePassDX pour gérer les paramètres de l\'application</string>
     <string name="export_app_properties_summary">Créer un fichier pour exporter les propriétés de l\'application</string>
-    <string name="export_app_properties_title">Export des propriétés de l\'app</string>
+    <string name="export_app_properties_title">Exporter les propriétés de l\'application</string>
     <string name="import_app_properties_summary">Sélectionner un fichier pour importer les propriétés de l\'application</string>
-    <string name="import_app_properties_title">Importation des propriétés de l\'appli</string>
+    <string name="import_app_properties_title">Importer les propriétés de l\'application</string>
     <string name="error_start_database_action">Une erreur s\'est produite lors de l\'exécution d\'une action sur la base de données.</string>
     <string name="error_move_group_here">Vous ne pouvez pas déplacer un groupe ici.</string>
     <string name="error_word_reserved">Ce mot est réservé et ne peut pas être utilisé.</string>
@@ -609,4 +609,5 @@
     <string name="menu_external_icon">Icône externe</string>
     <string name="autofill_manual_selection_summary">Afficher l\'option permettant à l\'utilisateur de sélectionner l\'entrée de la base de données</string>
     <string name="autofill_manual_selection_title">Sélection manuelle</string>
+    <string name="hint_icon_name">Nom de l\'icône</string>
 </resources>

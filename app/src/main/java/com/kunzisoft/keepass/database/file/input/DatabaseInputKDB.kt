@@ -284,27 +284,33 @@ class DatabaseInputKDB(database: DatabaseKDB)
                             newGroup = null
                         }
                         newEntry?.let { entry ->
-                            mDatabase.addEntryIndex(entry)
                             // Parse meta info
-                            if (entry.isMetaStreamDefaultUsername()) {
-                                var defaultUser = ""
-                                entry.getBinary(mDatabase.attachmentPool)
-                                    ?.getInputDataStream(mDatabase.binaryCache)?.use {
-                                        defaultUser = String(it.readBytes())
-                                    }
-                                mDatabase.defaultUserName = defaultUser
-                            } else if (entry.isMetaStreamDatabaseColor()) {
-                                var color: Int? = null
-                                entry.getBinary(mDatabase.attachmentPool)
-                                    ?.getInputDataStream(mDatabase.binaryCache)?.use {
-                                        val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
-                                        color = Color.rgb(
-                                            Color.blue(reverseColor),
-                                            Color.green(reverseColor),
-                                            Color.red(reverseColor)
-                                        )
-                                    }
-                                mDatabase.color = color
+                            when {
+                                entry.isMetaStreamDefaultUsername() -> {
+                                    var defaultUser = ""
+                                    entry.getBinary(mDatabase.attachmentPool)
+                                        ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                            defaultUser = String(it.readBytes())
+                                        }
+                                    mDatabase.defaultUserName = defaultUser
+                                }
+                                entry.isMetaStreamDatabaseColor() -> {
+                                    var color: Int? = null
+                                    entry.getBinary(mDatabase.attachmentPool)
+                                        ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                            val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
+                                            color = Color.rgb(
+                                                Color.blue(reverseColor),
+                                                Color.green(reverseColor),
+                                                Color.red(reverseColor)
+                                            )
+                                        }
+                                    mDatabase.color = color
+                                }
+                                // TODO manager other meta stream
+                                else -> {
+                                    mDatabase.addEntryIndex(entry)
+                                }
                             }
                             currentEntryNumber++
                             newEntry = null

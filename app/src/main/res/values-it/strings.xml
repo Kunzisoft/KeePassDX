@@ -605,4 +605,5 @@
     <string name="autofill_manual_selection_summary">Mostra l\'opzione che permette all\'utente di scegliere la voce nel database</string>
     <string name="autofill_manual_selection_title">Selezione manuale</string>
     <string name="autofill_select_entry">Seleziona voce…</string>
+    <string name="hint_icon_name">Nome icona</string>
 </resources>

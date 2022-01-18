@@ -36,7 +36,11 @@ abstract class ActionNodeDatabaseRunnable(
     abstract fun nodeAction()
 
     override fun onStartRun() {
-        nodeAction()
+        try {
+            nodeAction()
+        } catch (e: Exception) {
+            setError(e)
+        }
         super.onStartRun()
     }
 

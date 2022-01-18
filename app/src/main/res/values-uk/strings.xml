@@ -134,7 +134,7 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="clear_clipboard_notification_summary">Блокувати базу даних після закінчення терміну дії буфера обміну, або закрито сповіщення після початку користування ним</string>
+    <string name="clear_clipboard_notification_summary">Блокувати базу даних після закриття сповіщення після використання або якщо вичерпано час очікування</string>
     <string name="content_description_add_group">Додати групу</string>
     <string name="content_description_update_from_list">Оновити</string>
     <string name="keyboard">Клавіатура</string>
@@ -159,7 +159,7 @@
     <string name="clipboard_error">Деякі пристрої не дозволяють застосункам користуватися буфером обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
     <string name="allow">Дозволити</string>
-    <string name="key_derivation_function">Функція створення ключа</string>
+    <string name="key_derivation_function">Функція генерування ключа</string>
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
     <string name="master_key">Головний ключ</string>
@@ -375,7 +375,7 @@
     <string name="file_name">Назва файлу</string>
     <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
-    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов\'язані з розпізнаванням розширеного розблокування</string>
+    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов’язані з розпізнаванням розширеного розблокування</string>
     <string name="biometric_delete_all_key_title">Видалити ключі шифрування</string>
     <string name="biometric_auto_open_prompt_summary">Автоматично запитувати розширене розблокування, якщо базу даних налаштовано для роботи з ним</string>
     <string name="biometric_auto_open_prompt_title">Автозапит ключа</string>
@@ -471,8 +471,8 @@
     <string name="warning_empty_keyfile">Не рекомендовано додавати порожній файл ключа.</string>
     <string name="warning_empty_keyfile_explanation">Вміст файлу ключів ніколи не слід змінювати, а в кращому випадку повинен містити випадково згенеровані дані.</string>
     <string name="data">Дані</string>
-    <string name="database_data_remove_unlinked_attachments_title">Вилучити незв\'язані дані</string>
-    <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані із записом</string>
+    <string name="database_data_remove_unlinked_attachments_title">Вилучити непов’язані дані</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані з записом</string>
     <string name="show_uuid_summary">Показ пов\'язаного з записом чи групою UUID</string>
     <string name="show_uuid_title">Показувати UUID</string>
     <string name="autofill_read_only_save">Збереження даних заборонено для бази даних, відкритої лише для читання.</string>
@@ -495,7 +495,7 @@
     <string name="search_mode">Режим пошуку</string>
     <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
     <string name="error_field_name_already_exists">Назва поля вже існує.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов\'язані з розширеним розпізнаванням розблокування\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розширеним розпізнаванням розблокування\?</string>
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
     <string name="device_credential_unlock_enable_title">Розблокування облікових даних пристрою</string>
     <string name="device_credential">Облікові дані пристрою</string>
@@ -521,7 +521,7 @@
     <string name="education_advanced_unlock_summary">Пов’яжіть свій пароль зі сканованими біометричними даними або даними пристрою, щоб швидко розблокувати базу даних.</string>
     <string name="education_advanced_unlock_title">Розширене розблокування бази даних</string>
     <string name="temp_advanced_unlock_timeout_summary">Тривалість використання розширеного розблокування перед видаленням його вмісту</string>
-    <string name="temp_advanced_unlock_enable_summary">Не зберігайте зашифрований вміст для використання розширеного розблокування</string>
+    <string name="temp_advanced_unlock_enable_summary">Не зберігати зашифрований вміст для використання розширеного розблокування</string>
     <string name="temp_advanced_unlock_enable_title">Тимчасове розширене розблокування</string>
     <string name="advanced_unlock_tap_delete">Торкнутися, щоб видалити клавіші розширеного розблокування</string>
     <string name="content">Вміст</string>
@@ -542,7 +542,7 @@
     <string name="download_canceled">Скасовано!</string>
     <string name="icon_section_custom">Власні</string>
     <string name="icon_section_standard">Стандартні</string>
-    <string name="style_brightness_summary">Вибрати світлі або темні теми</string>
+    <string name="style_brightness_summary">Вибрати світлу або темну теми</string>
     <string name="style_brightness_title">Яскравість теми</string>
     <string name="error_upload_file">Під час передавання даних файлу сталася помилка.</string>
     <string name="error_file_to_big">Файл, який ви намагаєтеся передати, завеликий.</string>
@@ -602,4 +602,7 @@
     <string name="autofill_manual_selection_summary">Параметр показу, який дає користувачеві змогу вибрати запис бази даних</string>
     <string name="autofill_manual_selection_title">Вибір вручну</string>
     <string name="autofill_select_entry">Вибрати запис…</string>
+    <string name="hint_icon_name">Назва піктограми</string>
+    <string name="permission">Дозвіл</string>
+    <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
 </resources>
