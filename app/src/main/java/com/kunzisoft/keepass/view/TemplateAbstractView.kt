@@ -404,37 +404,61 @@ abstract class TemplateAbstractView<
 
         // Icon already populate
 
-        val titleView: TEntryFieldView? = findViewWithTag(FIELD_TITLE_TAG)
-        titleView?.value?.let {
-            mEntryInfo?.title = it
+        try {
+            val titleView: TEntryFieldView? = findViewWithTag(FIELD_TITLE_TAG)
+            titleView?.value?.let {
+                mEntryInfo?.title = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate title view", e)
         }
 
-        val userNameView: TEntryFieldView? = findViewWithTag(FIELD_USERNAME_TAG)
-        userNameView?.value?.let {
-            mEntryInfo?.username = it
+        try {
+            val userNameView: TEntryFieldView? = findViewWithTag(FIELD_USERNAME_TAG)
+            userNameView?.value?.let {
+                mEntryInfo?.username = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate username view", e)
         }
 
-        val passwordView: TEntryFieldView? = findViewWithTag(FIELD_PASSWORD_TAG)
-        passwordView?.value?.let {
-            mEntryInfo?.password = it
+        try {
+            val passwordView: TEntryFieldView? = findViewWithTag(FIELD_PASSWORD_TAG)
+            passwordView?.value?.let {
+                mEntryInfo?.password = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate password view", e)
         }
 
-        val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
-        urlView?.value?.let {
-            mEntryInfo?.url = it
+        try {
+            val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
+            urlView?.value?.let {
+                mEntryInfo?.url = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate url view", e)
         }
 
-        val expirationView: TDateTimeView? = findViewWithTag(FIELD_EXPIRES_TAG)
-        expirationView?.activation?.let {
-            mEntryInfo?.expires = it
-        }
-        expirationView?.dateTime?.let {
-            mEntryInfo?.expiryTime = it
+        try {
+            val expirationView: TDateTimeView? = findViewWithTag(FIELD_EXPIRES_TAG)
+            expirationView?.activation?.let {
+                mEntryInfo?.expires = it
+            }
+            expirationView?.dateTime?.let {
+                mEntryInfo?.expiryTime = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate expiration view", e)
         }
 
-        val notesView: TEntryFieldView? = findViewWithTag(FIELD_NOTES_TAG)
-        notesView?.value?.let {
-            mEntryInfo?.notes = it
+        try {
+            val notesView: TEntryFieldView? = findViewWithTag(FIELD_NOTES_TAG)
+            notesView?.value?.let {
+                mEntryInfo?.notes = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate notes view", e)
         }
 
         retrieveCustomFieldsFromView(templateFieldNotEmpty, retrieveDefaultValues)
