@@ -376,7 +376,7 @@ class EntryActivity : DatabaseLockActivity() {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
             menu?.findItem(R.id.menu_edit)?.isVisible = false
         }
-        if (!mMergeDataAllowed) {
+        if (!mMergeDataAllowed || mDatabaseReadOnly) {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
         }
         if (mSpecialMode != SpecialMode.DEFAULT) {
