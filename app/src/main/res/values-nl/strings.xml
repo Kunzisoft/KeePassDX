@@ -604,4 +604,6 @@
     <string name="debit_credit_card">Betaalkaart</string>
     <string name="template_group_name">Sjablonen</string>
     <string name="hint_icon_name">Naam van het pictogram</string>
+    <string name="warning_exact_alarm">U heeft niet toegestaan dat de app een exact alarm gebruikt. Als gevolg hiervan worden de functies die een timer vereisen niet met een exacte tijd uitgevoerd.</string>
+    <string name="permission">Toestemming</string>
 </resources>
