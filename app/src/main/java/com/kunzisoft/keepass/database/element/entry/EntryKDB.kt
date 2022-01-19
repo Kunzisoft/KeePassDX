@@ -139,8 +139,9 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeInt(binaryDataId ?: -1)
     }
 
-    fun updateWith(source: EntryKDB) {
-        super.updateWith(source)
+    fun updateWith(source: EntryKDB,
+                   updateParents: Boolean = true) {
+        super.updateWith(source, updateParents)
         title = source.title
         username = source.username
         password = source.password

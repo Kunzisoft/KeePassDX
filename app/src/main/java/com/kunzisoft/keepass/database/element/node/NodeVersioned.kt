@@ -68,9 +68,12 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         return 0
     }
 
-    protected fun updateWith(source: NodeVersioned<IdType, Parent, Entry>) {
+    protected fun updateWith(source: NodeVersioned<IdType, Parent, Entry>,
+                             updateParents: Boolean = true) {
         this.nodeId = copyNodeId(source.nodeId)
-        this.parent = source.parent
+        if (updateParents) {
+            this.parent = source.parent
+        }
         this.icon = source.icon
         this.creationTime = DateInstant(source.creationTime)
         this.lastModificationTime = DateInstant(source.lastModificationTime)
