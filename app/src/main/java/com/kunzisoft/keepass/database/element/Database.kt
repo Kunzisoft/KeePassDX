@@ -94,6 +94,8 @@ class Database {
      */
     var wasReloaded = false
 
+    var dataModifiedSinceLastLoading = false
+
     var loadTimestamp: Long? = null
         private set
 
@@ -213,6 +215,7 @@ class Database {
         set(name) {
             mDatabaseKDBX?.name = name
             mDatabaseKDBX?.nameChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     val allowDescription: Boolean
@@ -225,6 +228,7 @@ class Database {
         set(description) {
             mDatabaseKDBX?.description = description
             mDatabaseKDBX?.descriptionChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var defaultUsername: String
@@ -235,6 +239,7 @@ class Database {
             mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
             mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var customColor: Int?
@@ -255,6 +260,7 @@ class Database {
                 ChromaUtil.getFormattedColorString(value, false)
             }
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     val allowOTP: Boolean
@@ -279,6 +285,7 @@ class Database {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -295,6 +302,7 @@ class Database {
     fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
                                     newCompression: CompressionAlgorithm) {
         mDatabaseKDBX?.changeBinaryCompression(oldCompression, newCompression)
+        dataModifiedSinceLastLoading = true
     }
 
     val allowNoMasterKey: Boolean
@@ -345,6 +353,7 @@ class Database {
             mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var memoryUsage: Long
@@ -354,6 +363,7 @@ class Database {
         set(memory) {
             mDatabaseKDBX?.memoryUsage = memory
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var parallelism: Long
@@ -361,6 +371,7 @@ class Database {
         set(parallelism) {
             mDatabaseKDBX?.parallelism = parallelism
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var masterKey: ByteArray
@@ -369,6 +380,7 @@ class Database {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var rootGroup: Group?
@@ -420,6 +432,7 @@ class Database {
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     var historyMaxSize: Long
@@ -429,6 +442,7 @@ class Database {
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
             mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     /**
@@ -450,6 +464,7 @@ class Database {
             mDatabaseKDBX?.removeRecycleBin()
         }
         mDatabaseKDBX?.recycleBinChanged = DateInstant()
+        dataModifiedSinceLastLoading = true
     }
 
     val recycleBin: Group?
@@ -471,6 +486,7 @@ class Database {
             mDatabaseKDBX?.removeRecycleBin()
         }
         mDatabaseKDBX?.recycleBinChanged = DateInstant()
+        dataModifiedSinceLastLoading = true
     }
 
     /**
@@ -487,6 +503,7 @@ class Database {
     fun enableTemplates(enable: Boolean, templatesGroupName: String) {
         mDatabaseKDBX?.enableTemplatesGroup(enable, templatesGroupName)
         mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
+        dataModifiedSinceLastLoading = true
     }
 
     val templatesGroup: Group?
@@ -505,6 +522,7 @@ class Database {
             mDatabaseKDBX?.removeTemplatesGroup()
         }
         mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
+        dataModifiedSinceLastLoading = true
     }
 
     val groupNamesNotAllowed: List<String>
@@ -531,6 +549,7 @@ class Database {
         this.fileUri = databaseUri
         // Set Database state
         this.loaded = true
+        this.dataModifiedSinceLastLoading = false
     }
 
     @Throws(LoadDatabaseException::class)
@@ -641,6 +660,7 @@ class Database {
             throw LoadDatabaseException(e)
         } finally {
             keyFileInputStream?.close()
+            dataModifiedSinceLastLoading = false
         }
     }
 
@@ -754,6 +774,8 @@ class Database {
             throw e
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
+        } finally {
+            dataModifiedSinceLastLoading = false
         }
     }
 
@@ -821,6 +843,7 @@ class Database {
     fun removeUnlinkedAttachments() {
         // No check in database KDB because unique attachment by entry
         mDatabaseKDBX?.removeUnlinkedAttachments(true)
+        dataModifiedSinceLastLoading = true
     }
 
     @Throws(DatabaseOutputException::class)
@@ -881,6 +904,7 @@ class Database {
             }
         }
         this.fileUri = uri
+        this.dataModifiedSinceLastLoading = false
     }
 
     fun clearIndexesAndBinaries(filesDirectory: File? = null) {
@@ -947,6 +971,7 @@ class Database {
     }
 
     fun createEntry(): Entry? {
+        dataModifiedSinceLastLoading = true
         mDatabaseKDB?.let { database ->
             return Entry(database.createEntry()).apply {
                 nodeId = database.newEntryId()
@@ -962,6 +987,7 @@ class Database {
     }
 
     fun createGroup(): Group? {
+        dataModifiedSinceLastLoading = true
         mDatabaseKDB?.let { database ->
             return Group(database.createGroup()).apply {
                 setNodeId(database.newGroupId())
@@ -999,6 +1025,7 @@ class Database {
     }
 
     fun addEntryTo(entry: Entry, parent: Group) {
+        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.addEntryTo(entryKDB, parent.groupKDB)
         }
@@ -1009,6 +1036,7 @@ class Database {
     }
 
     fun updateEntry(entry: Entry) {
+        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.updateEntry(entryKDB)
         }
@@ -1018,6 +1046,7 @@ class Database {
     }
 
     fun removeEntryFrom(entry: Entry, parent: Group) {
+        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.removeEntryFrom(entryKDB, parent.groupKDB)
         }
@@ -1028,6 +1057,7 @@ class Database {
     }
 
     fun addGroupTo(group: Group, parent: Group) {
+        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.addGroupTo(groupKDB, parent.groupKDB)
         }
@@ -1038,6 +1068,7 @@ class Database {
     }
 
     fun updateGroup(group: Group) {
+        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { entryKDB ->
             mDatabaseKDB?.updateGroup(entryKDB)
         }
@@ -1047,6 +1078,7 @@ class Database {
     }
 
     fun removeGroupFrom(group: Group, parent: Group) {
+        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.removeGroupFrom(groupKDB, parent.groupKDB)
         }
@@ -1085,6 +1117,7 @@ class Database {
     }
 
     fun deleteEntry(entry: Entry) {
+        dataModifiedSinceLastLoading = true
         entry.entryKDBX?.id?.let { entryId ->
             mDatabaseKDBX?.addDeletedObject(entryId)
         }
@@ -1094,6 +1127,7 @@ class Database {
     }
 
     fun deleteGroup(group: Group) {
+        dataModifiedSinceLastLoading = true
         group.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {

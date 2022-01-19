@@ -93,7 +93,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
 
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
-            mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+            mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
+                mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+            }
         }
 
         mDatabaseViewModel.saveName.observe(this) {
@@ -266,7 +268,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun reloadDatabase() {
-        mDatabaseTaskProvider?.startDatabaseReload(false)
+        mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
+            mDatabaseTaskProvider?.startDatabaseReload(false)
+        }
     }
 
     fun createEntry(newEntry: Entry,

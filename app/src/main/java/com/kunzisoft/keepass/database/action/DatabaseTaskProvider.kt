@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -367,6 +368,19 @@ class DatabaseTaskProvider {
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
                 , ACTION_DATABASE_RELOAD_TASK)
+    }
+
+    fun askToStartDatabaseReload(conditionToAsk: Boolean, approved: () -> Unit) {
+        if (conditionToAsk) {
+            AlertDialog.Builder(context)
+                .setMessage(R.string.warning_database_info_reloaded)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    approved.invoke()
+                }.create().show()
+        } else {
+            approved.invoke()
+        }
     }
 
     fun startDatabaseAssignPassword(databaseUri: Uri,
