@@ -226,8 +226,9 @@
     <string name="menu_cancel">Cancel</string>
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
-    <string name="menu_save_database">Save database</string>
-    <string name="menu_reload_database">Reload database</string>
+    <string name="menu_save_database">Save data</string>
+    <string name="menu_merge_database">Merge data</string>
+    <string name="menu_reload_database">Reload data</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
@@ -326,7 +327,8 @@
     <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
-    <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or reload it with the latest changes.</string>
+    <string name="warning_database_info_changed_options">Merge the data, overwrite the external modifications by saving the database or reload the database with the latest changes.</string>
+    <string name="warning_database_info_reloaded">Reloading the database will delete the locally modified data.</string>
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="permission">Permission</string>

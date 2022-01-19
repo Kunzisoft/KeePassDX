@@ -23,7 +23,7 @@ import android.util.Log
 import java.io.IOException
 import kotlin.math.abs
 
-abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
+abstract class BinaryPool<T> {
 
     protected val pool = LinkedHashMap<T, BinaryData>()
 
@@ -225,9 +225,6 @@ abstract class BinaryPool<T>(private val mBinaryCache: BinaryCache) {
 
     @Throws(IOException::class)
     fun clear() {
-        doForEachBinary { _, binary ->
-            binary.clear(mBinaryCache)
-        }
         pool.clear()
     }
 

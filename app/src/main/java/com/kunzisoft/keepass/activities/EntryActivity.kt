@@ -376,6 +376,9 @@ class EntryActivity : DatabaseLockActivity() {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
             menu?.findItem(R.id.menu_edit)?.isVisible = false
         }
+        if (!mMergeDataAllowed || mDatabaseReadOnly) {
+            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
+        }
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
@@ -454,6 +457,9 @@ class EntryActivity : DatabaseLockActivity() {
             }
             R.id.menu_save_database -> {
                 saveDatabase()
+            }
+            R.id.menu_merge_database -> {
+                mergeDatabase()
             }
             R.id.menu_reload_database -> {
                 reloadDatabase()

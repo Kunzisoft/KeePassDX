@@ -970,6 +970,9 @@ class GroupActivity : DatabaseLockActivity(),
         if (mDatabaseReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
         }
+        if (!mMergeDataAllowed || mDatabaseReadOnly) {
+            menu.findItem(R.id.menu_merge_database)?.isVisible = false
+        }
         if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(inflater, menu)
         } else {
@@ -1091,6 +1094,10 @@ class GroupActivity : DatabaseLockActivity(),
                 return true
             R.id.menu_save_database -> {
                 saveDatabase()
+                return true
+            }
+            R.id.menu_merge_database -> {
+                mergeDatabase()
                 return true
             }
             R.id.menu_reload_database -> {

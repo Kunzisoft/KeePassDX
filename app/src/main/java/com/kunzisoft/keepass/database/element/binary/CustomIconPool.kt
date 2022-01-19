@@ -4,19 +4,16 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import java.util.*
 
-class CustomIconPool(private val binaryCache: BinaryCache) : BinaryPool<UUID>(binaryCache) {
+class CustomIconPool : BinaryPool<UUID>() {
 
     private val customIcons = HashMap<UUID, IconImageCustom>()
 
     fun put(key: UUID? = null,
             name: String,
             lastModificationTime: DateInstant?,
-            smallSize: Boolean,
+            builder: (uniqueBinaryId: String) -> BinaryData,
             result: (IconImageCustom, BinaryData?) -> Unit) {
-        val keyBinary = super.put(key) { uniqueBinaryId ->
-            // Create a byte array for better performance with small data
-            binaryCache.getBinaryData(uniqueBinaryId, smallSize)
-        }
+        val keyBinary = super.put(key, builder)
         val uuid = keyBinary.keys.first()
         val customIcon = IconImageCustom(uuid, name, lastModificationTime)
         customIcons[uuid] = customIcon

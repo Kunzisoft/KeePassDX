@@ -226,6 +226,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
+            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
@@ -287,8 +288,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 // Save the database info before performing action
-                                if (intentAction == ACTION_DATABASE_LOAD_TASK) {
-                                    saveDatabaseInfo()
+                                when (intentAction) {
+                                    ACTION_DATABASE_LOAD_TASK,
+                                    ACTION_DATABASE_MERGE_TASK,
+                                    ACTION_DATABASE_RELOAD_TASK -> {
+                                        saveDatabaseInfo()
+                                    }
                                 }
                                 val save = !database.isReadOnly
                                         && (intentAction == ACTION_DATABASE_SAVE
@@ -331,6 +336,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         return when (intentAction) {
             ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_MERGE_TASK,
             ACTION_DATABASE_RELOAD_TASK,
             null -> {
                 START_STICKY
@@ -367,6 +373,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 when (intentAction) {
                     ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
                     ACTION_DATABASE_LOAD_TASK,
+                    ACTION_DATABASE_MERGE_TASK,
                     ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
                     ACTION_DATABASE_SAVE -> R.string.saving_database
                     else -> {
@@ -378,6 +385,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         mMessageId = when (intentAction) {
             ACTION_DATABASE_LOAD_TASK,
+            ACTION_DATABASE_MERGE_TASK,
             ACTION_DATABASE_RELOAD_TASK -> null
             else -> null
         }
@@ -385,6 +393,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mWarningId =
                 if (!saveAction
                         || intentAction == ACTION_DATABASE_LOAD_TASK
+                        || intentAction == ACTION_DATABASE_MERGE_TASK
                         || intentAction == ACTION_DATABASE_RELOAD_TASK)
                     null
                 else
@@ -594,6 +603,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         } else {
             return null
+        }
+    }
+
+    private fun buildDatabaseMergeActionTask(database: Database): ActionRunnable {
+        return MergeDatabaseRunnable(
+            this,
+            database,
+            this
+        ) { result ->
+            // No need to add each info to reload database
+            result.data = Bundle()
         }
     }
 
@@ -907,6 +927,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
+        const val ACTION_DATABASE_MERGE_TASK = "ACTION_DATABASE_MERGE_TASK"
         const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_PASSWORD_TASK = "ACTION_DATABASE_ASSIGN_PASSWORD_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"

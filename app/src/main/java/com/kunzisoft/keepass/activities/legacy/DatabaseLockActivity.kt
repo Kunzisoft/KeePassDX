@@ -62,6 +62,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     private var mExitLock: Boolean = false
 
     protected var mDatabaseReadOnly: Boolean = true
+    protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
 
     protected var mIconDrawableFactory: IconDrawableFactory? = null
@@ -87,8 +88,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
+        mDatabaseViewModel.mergeDatabase.observe(this) { fixDuplicateUuid ->
+            mDatabaseTaskProvider?.startDatabaseMerge(fixDuplicateUuid)
+        }
+
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
-            mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+            mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
+                mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+            }
         }
 
         mDatabaseViewModel.saveName.observe(this) {
@@ -197,6 +204,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             }
 
             mDatabaseReadOnly = database.isReadOnly
+            mMergeDataAllowed = database.isMergeDataAllowed()
             mIconDrawableFactory = database.iconDrawableFactory
 
             checkRegister()
@@ -212,6 +220,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
+            DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK,
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
                 // Reload the current activity
                 if (result.isSuccess) {
@@ -254,8 +263,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseSave(true)
     }
 
+    fun mergeDatabase() {
+        mDatabaseTaskProvider?.startDatabaseMerge(false)
+    }
+
     fun reloadDatabase() {
-        mDatabaseTaskProvider?.startDatabaseReload(false)
+        mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
+            mDatabaseTaskProvider?.startDatabaseReload(false)
+        }
     }
 
     fun createEntry(newEntry: Entry,

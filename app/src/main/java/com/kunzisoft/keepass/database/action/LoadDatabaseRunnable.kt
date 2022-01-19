@@ -60,7 +60,6 @@ class LoadDatabaseRunnable(private val context: Context,
                     { memoryWanted ->
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },
-                    LoadedKey.generateNewCipherKey(),
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }

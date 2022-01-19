@@ -63,13 +63,11 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
             database?.let {
-                if (algorithmSelected != null) {
-                    val newAlgorithm = algorithmSelected
-                    val oldAlgorithm = database.encryptionAlgorithm
+                val newAlgorithm = algorithmSelected
+                val oldAlgorithm = database.encryptionAlgorithm
+                if (newAlgorithm != null) {
                     database.encryptionAlgorithm = newAlgorithm
-
-                    if (oldAlgorithm != null && newAlgorithm != null)
-                        saveEncryption(oldAlgorithm, newAlgorithm)
+                    saveEncryption(oldAlgorithm, newAlgorithm)
                 }
             }
         }

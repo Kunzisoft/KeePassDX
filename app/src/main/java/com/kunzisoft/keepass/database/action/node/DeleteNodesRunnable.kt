@@ -40,7 +40,7 @@ class DeleteNodesRunnable(context: Context,
 
         foreachNode@ for(nodeToDelete in mNodesToDelete) {
             mOldParent = nodeToDelete.parent
-            mOldParent?.touch(modified = false, touchParents = true)
+            nodeToDelete.touch(modified = true, touchParents = true)
 
             when (nodeToDelete.type) {
                 Type.GROUP -> {
@@ -50,9 +50,9 @@ class DeleteNodesRunnable(context: Context,
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(groupToDelete)
                     if (mCanRecycle) {
-                        groupToDelete.touch(modified = false, touchParents = true)
                         database.recycle(groupToDelete, context.resources)
                         groupToDelete.setPreviousParentGroup(mOldParent)
+                        groupToDelete.touch(modified = true, touchParents = true)
                     } else {
                         database.deleteGroup(groupToDelete)
                     }
@@ -64,9 +64,9 @@ class DeleteNodesRunnable(context: Context,
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(entryToDelete)
                     if (mCanRecycle) {
-                        entryToDelete.touch(modified = false, touchParents = true)
                         database.recycle(entryToDelete, context.resources)
                         entryToDelete.setPreviousParentGroup(mOldParent)
+                        entryToDelete.touch(modified = true, touchParents = true)
                     } else {
                         database.deleteEntry(entryToDelete)
                     }
