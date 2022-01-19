@@ -606,4 +606,7 @@
     <string name="autofill_manual_selection_title">Selezione manuale</string>
     <string name="autofill_select_entry">Seleziona voce…</string>
     <string name="hint_icon_name">Nome icona</string>
+    <string name="content_description_entry_foreground_color">Colore in primo piano</string>
+    <string name="content_description_entry_background_color">Colore sfondo</string>
+    <string name="content_description_database_color">Colore database</string>
 </resources>
