@@ -288,8 +288,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 // Save the database info before performing action
-                                if (intentAction == ACTION_DATABASE_LOAD_TASK) {
-                                    saveDatabaseInfo()
+                                when (intentAction) {
+                                    ACTION_DATABASE_LOAD_TASK,
+                                    ACTION_DATABASE_MERGE_TASK,
+                                    ACTION_DATABASE_RELOAD_TASK -> {
+                                        saveDatabaseInfo()
+                                    }
                                 }
                                 val save = !database.isReadOnly
                                         && (intentAction == ACTION_DATABASE_SAVE
