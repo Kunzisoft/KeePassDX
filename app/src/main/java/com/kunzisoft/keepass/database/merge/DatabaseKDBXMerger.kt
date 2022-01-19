@@ -22,21 +22,137 @@ package com.kunzisoft.keepass.database.merge
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.readAllBytes
 import java.io.IOException
+import java.util.*
 
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
     var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
 
+    /**
+     * Merge a KDB database in a KDBX database, by default all data are copied from the KDB
+     */
     fun merge(databaseToMerge: DatabaseKDB) {
-        // TODO merge KDB
+        // TODO Test KDB merge
+        val rootGroup = database.rootGroup
+        val rootGroupId = rootGroup?.nodeId
+        val rootGroupToMerge = databaseToMerge.rootGroup
+        val rootGroupIdToMerge = rootGroupToMerge?.nodeId
+
+        if (rootGroupId == null || rootGroupIdToMerge == null) {
+            throw IOException("Database is not open")
+        }
+
+        // Merge children
+        rootGroupToMerge.doForEachChild(
+            object : NodeHandler<EntryKDB>() {
+                override fun operate(node: EntryKDB): Boolean {
+                    mergeEntry(rootGroup.nodeId, node, databaseToMerge)
+                    return true
+                }
+            },
+            object : NodeHandler<GroupKDB>() {
+                override fun operate(node: GroupKDB): Boolean {
+                    mergeGroup(rootGroup.nodeId, node, databaseToMerge)
+                    return true
+                }
+            }
+        )
     }
 
+    /**
+     * Utility method to transform KDB id nodes in KDBX id nodes
+     */
+    private fun getNodeIdUUIDFrom(seed: NodeId<UUID>, intId: NodeId<Int>): NodeId<UUID> {
+        val seedUUID = seed.id
+        val idInt = intId.id
+        return NodeIdUUID(UUID(seedUUID.mostSignificantBits, seedUUID.leastSignificantBits + idInt))
+    }
+
+    /**
+     * Utility method to merge a KDB entry
+     */
+    private fun mergeEntry(seed: NodeId<UUID>, nodeToMerge: EntryKDB, databaseToMerge: DatabaseKDB) {
+        val entryId: NodeId<UUID> = nodeToMerge.nodeId
+        val entry = database.getEntryById(entryId)
+
+        databaseToMerge.getEntryById(entryId)?.let { srcEntryToMerge ->
+            // Retrieve parent in current database
+            var parentEntryToMerge: GroupKDBX? = null
+            srcEntryToMerge.parent?.nodeId?.let {
+                val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
+                parentEntryToMerge = database.getGroupById(parentGroupIdToMerge)
+            }
+            val entryToMerge = EntryKDBX().apply {
+                this.nodeId = srcEntryToMerge.nodeId
+                this.icon = srcEntryToMerge.icon
+                this.creationTime = DateInstant(srcEntryToMerge.creationTime)
+                this.lastModificationTime = DateInstant(srcEntryToMerge.lastModificationTime)
+                this.lastAccessTime = DateInstant(srcEntryToMerge.lastAccessTime)
+                this.expiryTime = DateInstant(srcEntryToMerge.expiryTime)
+                this.expires = srcEntryToMerge.expires
+                this.title = srcEntryToMerge.title
+                this.username = srcEntryToMerge.username
+                this.password = srcEntryToMerge.password
+                this.url = srcEntryToMerge.url
+                this.notes = srcEntryToMerge.notes
+                // TODO attachment
+            }
+            if (entry != null) {
+                entry.updateWith(entryToMerge, false)
+            } else if (parentEntryToMerge != null) {
+                database.addEntryTo(entryToMerge, parentEntryToMerge)
+            }
+        }
+    }
+
+    /**
+     * Utility method to merge a KDB group
+     */
+    private fun mergeGroup(seed: NodeId<UUID>, nodeToMerge: GroupKDB, databaseToMerge: DatabaseKDB) {
+        val groupId: NodeId<Int> = nodeToMerge.nodeId
+        val group = database.getGroupById(getNodeIdUUIDFrom(seed, groupId))
+
+        databaseToMerge.getGroupById(groupId)?.let { srcGroupToMerge ->
+            // Retrieve parent in current database
+            var parentGroupToMerge: GroupKDBX? = null
+            srcGroupToMerge.parent?.nodeId?.let {
+                val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
+                parentGroupToMerge = database.getGroupById(parentGroupIdToMerge)
+            }
+            val groupToMerge = GroupKDBX().apply {
+                this.nodeId = getNodeIdUUIDFrom(seed, srcGroupToMerge.nodeId)
+                this.icon = srcGroupToMerge.icon
+                this.creationTime = DateInstant(srcGroupToMerge.creationTime)
+                this.lastModificationTime = DateInstant(srcGroupToMerge.lastModificationTime)
+                this.lastAccessTime = DateInstant(srcGroupToMerge.lastAccessTime)
+                this.expiryTime = DateInstant(srcGroupToMerge.expiryTime)
+                this.expires = srcGroupToMerge.expires
+                this.title = srcGroupToMerge.title
+            }
+            if (group != null) {
+                group.updateWith(groupToMerge, false)
+            } else if (parentGroupToMerge != null) {
+                database.addGroupTo(groupToMerge, parentGroupToMerge)
+            }
+        }
+    }
+
+    /**
+     * Merge a KDB> database in a KDBX database,
+     * Try to take into account the modification date of each element
+     * To make a merge as accurate as possible
+     */
     fun merge(databaseToMerge: DatabaseKDBX) {
 
         // Merge settings
@@ -207,6 +323,9 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
     }
 
+    /**
+     * Utility method to merge a KDBX entry
+     */
     private fun mergeEntry(nodeToMerge: EntryKDBX, databaseToMerge: DatabaseKDBX) {
         val entryId = nodeToMerge.nodeId
         val entry = database.getEntryById(entryId)
@@ -280,6 +399,10 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
     }
 
+    /**
+     * Utility method to merge an history from an [entryA] to an [entryB],
+     * [entryB] is modified
+     */
     private fun addHistory(entryA: EntryKDBX, entryB: EntryKDBX) {
         // Keep entry as history if already not present
         entryA.history.forEach { history ->
@@ -302,6 +425,9 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
     }
 
+    /**
+     * Utility method to merge a KDBX group
+     */
     private fun mergeGroup(nodeToMerge: GroupKDBX, databaseToMerge: DatabaseKDBX) {
         val groupId = nodeToMerge.nodeId
         val group = database.getGroupById(groupId)
