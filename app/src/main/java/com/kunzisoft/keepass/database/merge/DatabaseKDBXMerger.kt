@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.merge
 
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -38,6 +39,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
     fun merge(databaseToMerge: DatabaseKDBX) {
 
+        // Merge settings
         if (database.nameChanged.date.before(databaseToMerge.nameChanged.date)) {
             database.name = databaseToMerge.name
             database.nameChanged = databaseToMerge.nameChanged
@@ -113,8 +115,10 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         )
 
-        // TODO merge custom data
+        // Merge custom data in database header
+        mergeCustomData(database.customData, databaseToMerge.customData)
 
+        // Merge icons
         databaseToMerge.iconsManager.doForEachCustomIcon { iconImageCustom, binaryData ->
             val customIconUuid = iconImageCustom.uuid
             // If custom icon not present, add it
@@ -148,6 +152,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             }
         }
 
+        // Manage deleted objects
         databaseToMerge.deletedObjects.forEach { deletedObject ->
             val deletedObjectId = deletedObject.uuid
             val databaseEntry = database.getEntryById(deletedObjectId)
@@ -173,6 +178,29 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 database.removeCustomIcon(deletedObjectId)
             }
             // Attachments are removed and optimized during the database save
+        }
+    }
+
+    /**
+     * Merge [customDataToMerge] in [customData]
+     */
+    private fun mergeCustomData(customData: CustomData, customDataToMerge: CustomData) {
+        customDataToMerge.doForEachItems { customDataItemToMerge ->
+            val customDataItem = customData.get(customDataItemToMerge.key)
+            if (customDataItem == null) {
+                customData.put(customDataItemToMerge)
+            } else {
+                val customDataItemModification = customDataItem.lastModificationTime
+                val customDataItemToMergeModification = customDataItemToMerge.lastModificationTime
+                if (customDataItemModification != null && customDataItemToMergeModification != null) {
+                    if (customDataItemModification.date
+                            .before(customDataItemToMergeModification.date)) {
+                        customData.put(customDataItemToMerge)
+                    }
+                } else {
+                    customData.put(customDataItemToMerge)
+                }
+            }
         }
     }
 
@@ -220,24 +248,28 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     && parentEntryToMerge != null) {
                     database.addEntryTo(entryToMerge, parentEntryToMerge)
                 }
-            } else if (entry.lastModificationTime.date
-                    .before(entryToMerge.lastModificationTime.date)
-            ) {
-                // TODO custom Data
-                addHistory(entry, entryToMerge)
-                if (parentEntryToMerge == entry.parent) {
-                    entry.updateWith(entryToMerge)
-                } else {
-                    // Update entry with databaseEntryToMerge and merge history
-                    database.removeEntryFrom(entry, entry.parent)
-                    if (parentEntryToMerge != null) {
-                        database.addEntryTo(entryToMerge, parentEntryToMerge)
+            } else {
+                // Merge independently custom data
+                mergeCustomData(entry.customData, entryToMerge.customData)
+                // Merge by modification time
+                if (entry.lastModificationTime.date
+                        .before(entryToMerge.lastModificationTime.date)
+                ) {
+                    addHistory(entry, entryToMerge)
+                    if (parentEntryToMerge == entry.parent) {
+                        entry.updateWith(entryToMerge)
+                    } else {
+                        // Update entry with databaseEntryToMerge and merge history
+                        database.removeEntryFrom(entry, entry.parent)
+                        if (parentEntryToMerge != null) {
+                            database.addEntryTo(entryToMerge, parentEntryToMerge)
+                        }
                     }
+                } else if (entry.lastModificationTime.date
+                        .after(entryToMerge.lastModificationTime.date)
+                ) {
+                    addHistory(entryToMerge, entry)
                 }
-            } else if (entry.lastModificationTime.date
-                    .after(entryToMerge.lastModificationTime.date)) {
-                // TODO custom Data
-                addHistory(entryToMerge, entry)
             }
         }
     }
@@ -285,20 +317,22 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     && parentGroupToMerge != null) {
                     database.addGroupTo(groupToMerge, parentGroupToMerge)
                 }
-            } else if (group.lastModificationTime.date
-                    .before(groupToMerge.lastModificationTime.date)
-            ) {
-                // TODO custom Data
-                if (parentGroupToMerge == group.parent) {
-                    group.updateWith(groupToMerge)
-                } else {
-                    database.removeGroupFrom(group, group.parent)
-                    if (parentGroupToMerge != null) {
-                        database.addGroupTo(groupToMerge, parentGroupToMerge)
+            } else {
+                // Merge independently custom data
+                mergeCustomData(group.customData, groupToMerge.customData)
+                // Merge by modification time
+                if (group.lastModificationTime.date
+                        .before(groupToMerge.lastModificationTime.date)
+                ) {
+                    if (parentGroupToMerge == group.parent) {
+                        group.updateWith(groupToMerge)
+                    } else {
+                        database.removeGroupFrom(group, group.parent)
+                        if (parentGroupToMerge != null) {
+                            database.addGroupTo(groupToMerge, parentGroupToMerge)
+                        }
                     }
                 }
-            } else {
-                // TODO custom Data
             }
         }
     }
