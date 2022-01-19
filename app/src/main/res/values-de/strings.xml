@@ -616,4 +616,7 @@
     <string name="hint_icon_name">Symbolname</string>
     <string name="permission">Erlaubnis</string>
     <string name="warning_exact_alarm">Sie haben der App nicht erlaubt, einen genauen Alarm zu verwenden. Deshalb werden die Funktionen, die einen Timer erfordern, nicht zu einer genauen Zeit ausgeführt.</string>
+    <string name="content_description_database_color">Datenbankfarbe</string>
+    <string name="content_description_entry_foreground_color">Vordergrundfarbe des Eintrags</string>
+    <string name="content_description_entry_background_color">Hintergrundfarbe des Eintrags</string>
 </resources>
