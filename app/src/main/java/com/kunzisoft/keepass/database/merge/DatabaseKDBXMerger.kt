@@ -94,7 +94,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             // TODO Test merge root
             databaseToMerge.removeGroupIndex(rootGroupToMerge)
             rootGroupToMerge.nodeId = rootGroupId
-            databaseToMerge.updateGroup(rootGroupToMerge)
+            databaseToMerge.addGroupIndex(rootGroupToMerge)
         }
 
         // Merge root group
