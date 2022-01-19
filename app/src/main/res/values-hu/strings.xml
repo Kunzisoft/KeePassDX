@@ -517,4 +517,14 @@
     <string name="holder">Tulajdonos</string>
     <string name="template_group_name">Sablonok</string>
     <string name="content_description_otp_information">Egyszer használatos jelszó információ</string>
+    <string name="content_description_entry_background_color">Bejegyzés háttérszíne</string>
+    <string name="content_description_entry_foreground_color">Bejegyzés előtérszíne</string>
+    <string name="success_import_app_properties">Alkalmazástulajdonságok importálva</string>
+    <string name="error_export_app_properties">Hiba történt az alkalmazástulajdonságok exportálása során</string>
+    <string name="warning_database_info_changed">Az adatbázisfájlban lévő információkat az alkalmazáson kívülről megváltoztatták.</string>
+    <string name="description_app_properties">KeePassDX tulajdonságok az alkalmazásbeállítások kezeléséhez</string>
+    <string name="success_export_app_properties">Alkalmazástulajdonságok exportálva</string>
+    <string name="content_description_database_color">Adatbázis színe</string>
+    <string name="error_import_app_properties">Hiba történt az alkalmazástulajdonságok importálása során</string>
+    <string name="hint_icon_name">Ikon neve</string>
 </resources>
