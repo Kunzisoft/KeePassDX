@@ -609,4 +609,6 @@
     <string name="content_description_entry_foreground_color">Colore in primo piano</string>
     <string name="content_description_entry_background_color">Colore sfondo</string>
     <string name="content_description_database_color">Colore database</string>
+    <string name="warning_exact_alarm">Non hai consentito all\'app di utilizzare un allarme preciso. Di conseguenza, le funzionalità che richiedono un timer non verranno eseguite con un tempo preciso.</string>
+    <string name="permission">Autorizzazione</string>
 </resources>
