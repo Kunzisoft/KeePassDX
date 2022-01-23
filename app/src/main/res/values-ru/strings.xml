@@ -391,7 +391,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Настройки клавиатур устройства</string>
     <string name="error_save_database">Невозможно сохранить базу.</string>
-    <string name="menu_save_database">Сохранить базу</string>
+    <string name="menu_save_database">Сохранить данные</string>
     <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
     <string name="command_execution">Выполнение команды…</string>
     <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные элементы\?</string>
@@ -531,9 +531,9 @@
     <string name="autofill_inline_suggestions_summary">Показывать предложения автозаполнения непосредственно в совместимой клавиатуре</string>
     <string name="autofill_inline_suggestions_title">Встроенные предложения</string>
     <string name="warning_database_revoked">Доступ к файлу отозван файловым менеджером, закройте базу и снова откройте.</string>
-    <string name="warning_database_info_changed_options">Сохранить базу, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
+    <string name="warning_database_info_changed_options">Объединить данные, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
     <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
-    <string name="menu_reload_database">Перезагрузить базу</string>
+    <string name="menu_reload_database">Перезагрузить данные</string>
     <string name="error_otp_type">Существующий тип OTP не распознаётся данной формой, его проверка больше не может корректно генерировать токен.</string>
     <string name="unit_gibibyte">ГиБ</string>
     <string name="unit_mebibyte">МиБ</string>
@@ -608,4 +608,6 @@
     <string name="content_description_entry_background_color">Цвет фона записи</string>
     <string name="content_description_database_color">Цвет базы</string>
     <string name="content_description_entry_foreground_color">Цвет текста записи</string>
+    <string name="menu_merge_database">Объединить данные</string>
+    <string name="warning_database_info_reloaded">Перезагрузка базы удалит локально изменённые данные.</string>
 </resources>
