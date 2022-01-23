@@ -600,7 +600,7 @@
     <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
     <string name="menu_external_icon">Внешний значок</string>
     <string name="autofill_select_entry">Выбор записи…</string>
-    <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запить из базы</string>
+    <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запись из базы</string>
     <string name="autofill_manual_selection_title">Ручной выбор</string>
     <string name="hint_icon_name">Название значка</string>
     <string name="permission">Разрешение</string>
