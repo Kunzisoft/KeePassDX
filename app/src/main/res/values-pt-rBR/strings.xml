@@ -393,7 +393,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
     <string name="error_save_database">Não foi possível salvar no banco de dados.</string>
-    <string name="menu_save_database">Salvar banco de dados</string>
+    <string name="menu_save_database">Salvar dados</string>
     <string name="menu_empty_recycle_bin">Esvaziar lixeira</string>
     <string name="command_execution">Executando o comando…</string>
     <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
@@ -474,7 +474,7 @@
     <string name="content_description_add_item">Adicionar item</string>
     <string name="autofill_block_restart">Reinicie o aplicativo que contém o formulário para ativar o bloqueio.</string>
     <string name="menu_keystore_remove_key">Excluir chave de desbloqueio avançado</string>
-    <string name="menu_reload_database">Recarregar banco de dados</string>
+    <string name="menu_reload_database">Recarregar dados</string>
     <string name="error_start_database_action">Ocorreu um erro ao executar uma ação no banco de dados.</string>
     <string name="error_remove_file">Ocorreu um erro ao remover os dados do arquivo.</string>
     <string name="error_duplicate_file">Os dados do arquivo já existem.</string>
@@ -532,7 +532,7 @@
     <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
     <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
-    <string name="warning_database_info_changed_options">Substitua as modificações externas salvando o banco de dados ou recarregue-o com as alterações mais recentes.</string>
+    <string name="warning_database_info_changed_options">Mescle os dados, substitua as modificações externas salvando o banco de dados ou recarregue-o com as alterações mais recentes.</string>
     <string name="warning_database_info_changed">As informações contidas em seu arquivo de banco de dados foram modificadas fora do aplicativo.</string>
     <string name="warning_empty_recycle_bin">Deletar permanentemente todos os nós da lixeira\?</string>
     <string name="error_export_app_properties">Erro durante a exportação de propriedades do aplicativo</string>
@@ -603,4 +603,9 @@
     <string name="hint_icon_name">Nome do ícone</string>
     <string name="permission">Permissão</string>
     <string name="warning_exact_alarm">Você não permitiu que o aplicativo usasse um alarme exato. Como resultado, os recursos que requerem um cronômetro não serão executados com um tempo exato.</string>
+    <string name="content_description_database_color">Cor do banco de dados</string>
+    <string name="content_description_entry_foreground_color">Cor de primeiro plano da entrada</string>
+    <string name="content_description_entry_background_color">Cor de plano de fundo da entrada</string>
+    <string name="warning_database_info_reloaded">Recarregar o banco de dados excluirá os dados modificados localmente.</string>
+    <string name="menu_merge_database">Mesclar dados</string>
 </resources>
