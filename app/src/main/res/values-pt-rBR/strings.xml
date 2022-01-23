@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Comentários</string>
     <string name="homepage">Página inicial</string>
-    <string name="about_description">KeePassDX é uma implementação para Android do gerenciador de senhas KeePass</string>
+    <string name="about_description">Implementação para Android do gerenciador de senhas KeePass</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
@@ -38,7 +38,7 @@
     <string name="database">Banco de dados</string>
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
-    <string name="digits">Digitos</string>
+    <string name="digits">Dígitos</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;.
 \nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
