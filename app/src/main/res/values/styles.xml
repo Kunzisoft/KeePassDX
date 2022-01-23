@@ -69,6 +69,8 @@
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
+        <item name="colorOnAccentColor">@color/white</item>
+
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
@@ -132,6 +134,8 @@
         <item name="android:textColorHintInverse">@color/green_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
+
+        <item name="colorOnAccentColor">@color/white</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>

@@ -26,7 +26,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
@@ -98,7 +97,7 @@ class NodesAdapter (private val context: Context,
     @ColorInt
     private val mColorAccentLight: Int
     @ColorInt
-    private val mTextColorInverse: Int
+    private val mTextColorSelected: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -134,8 +133,8 @@ class NodesAdapter (private val context: Context,
         this.mColorAccentLight = taSelectionColor.getColor(0, Color.GRAY)
         taSelectionColor.recycle()
         // To get text color for selection
-        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        this.mTextColorInverse = taSelectionTextColor.getColor(0, Color.WHITE)
+        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
+        this.mTextColorSelected = taSelectionTextColor.getColor(0, Color.WHITE)
         taSelectionTextColor.recycle()
     }
 
@@ -472,12 +471,12 @@ class NodesAdapter (private val context: Context,
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mTextColorInverse)
-                holder.subText?.setTextColor(mTextColorInverse)
-                holder.otpToken?.setTextColor(mTextColorInverse)
-                holder.otpProgress?.setIndicatorColor(mTextColorInverse)
-                holder.attachmentIcon?.setColorFilter(mTextColorInverse)
-                holder.meta.setTextColor(mTextColorInverse)
+                holder.text.setTextColor(mTextColorSelected)
+                holder.subText?.setTextColor(mTextColorSelected)
+                holder.otpToken?.setTextColor(mTextColorSelected)
+                holder.otpProgress?.setIndicatorColor(mTextColorSelected)
+                holder.attachmentIcon?.setColorFilter(mTextColorSelected)
+                holder.meta.setTextColor(mTextColorSelected)
             }
 
             database.stopManageEntry(entry)
