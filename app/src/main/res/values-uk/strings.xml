@@ -605,4 +605,7 @@
     <string name="hint_icon_name">Назва піктограми</string>
     <string name="permission">Дозвіл</string>
     <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
+    <string name="content_description_database_color">Колір бази даних</string>
+    <string name="content_description_entry_background_color">Колір тла запису</string>
+    <string name="content_description_entry_foreground_color">Колір тексту запису</string>
 </resources>

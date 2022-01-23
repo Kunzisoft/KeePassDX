@@ -598,4 +598,6 @@
     <string name="menu_external_icon">Vanjska ikona</string>
     <string name="seed">Tajna fraza</string>
     <string name="hint_icon_name">Ime ikone</string>
+    <string name="warning_exact_alarm">Nisi dopustio/la programu da koristi točan alarm. Kao rezultat toga, značajke koje zahtijevaju tajmer neće biti obavljene s točnim vremenom.</string>
+    <string name="permission">Dozvola</string>
 </resources>

@@ -605,4 +605,7 @@
     <string name="hint_icon_name">Όνομα εικονιδίου</string>
     <string name="warning_exact_alarm">Δεν έχετε επιτρέψει στην εφαρμογή να χρησιμοποιεί ακριβή συναγερμό. Ως αποτέλεσμα, οι λειτουργίες που απαιτούν χρονόμετρο δεν θα γίνονται με ακριβή χρόνο.</string>
     <string name="permission">Άδεια</string>
+    <string name="content_description_database_color">Χρώμα βάσης δεδομένων</string>
+    <string name="content_description_entry_foreground_color">Χρώμα προσκηνίου καταχώρησης</string>
+    <string name="content_description_entry_background_color">Χρώμα φόντου καταχώρησης</string>
 </resources>

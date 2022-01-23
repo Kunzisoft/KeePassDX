@@ -600,4 +600,7 @@
     <string name="hint_icon_name">Simge adı</string>
     <string name="warning_exact_alarm">Uygulamanın tam bir alarm kullanmasına izin vermediniz. Sonuç olarak zamanlayıcı gerektiren özellikler kesin bir süre ile yapılmayacaktır.</string>
     <string name="permission">İzinler</string>
+    <string name="content_description_entry_foreground_color">Girdi ön plan rengi</string>
+    <string name="content_description_database_color">Veri tabanı rengi</string>
+    <string name="content_description_entry_background_color">Girdi arka plan rengi</string>
 </resources>
