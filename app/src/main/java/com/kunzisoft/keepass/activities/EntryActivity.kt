@@ -195,7 +195,6 @@ class EntryActivity : DatabaseLockActivity() {
                         ColorDrawable(mColorAccent)
                 }
 
-                val entryTemplate = entryInfoHistory.template
                 val entryInfo = entryInfoHistory.entryInfo
                 // Manage entry copy to start notification if allowed (at the first start)
                 if (savedInstanceState == null) {
@@ -215,8 +214,8 @@ class EntryActivity : DatabaseLockActivity() {
                 toolbar?.title = entryTitle
                 mUrl = entryInfo.url
                 // Assign colors
-                mBackgroundColor = entryInfo.backgroundColor ?: entryTemplate.backgroundColor
-                mForegroundColor = entryInfo.foregroundColor ?: entryTemplate.foregroundColor
+                mBackgroundColor = entryInfo.backgroundColor
+                mForegroundColor = entryInfo.foregroundColor
 
                 loadingView?.hideByFading()
                 mEntryLoaded = true

@@ -1,6 +1,6 @@
 KeePassDX(3.2.0)
  * Manage data merge #840 #977
- * Inherit color from template #1213
+ * Inherit colors and icon from template #1213 #1130
  * Add path in quick search
  * Small fixes
 
