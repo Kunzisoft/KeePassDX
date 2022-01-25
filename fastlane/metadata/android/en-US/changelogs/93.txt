@@ -1,1 +1,2 @@
  * Manage data merge #840 #977
+ * Add path in quick search

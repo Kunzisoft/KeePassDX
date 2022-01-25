@@ -1,1 +1,2 @@
  * Gestion de la fusion des données #840 #977
+ * Ajout du chemin dans la recherche rapide
