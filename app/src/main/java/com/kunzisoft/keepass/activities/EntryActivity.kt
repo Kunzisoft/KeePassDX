@@ -312,6 +312,11 @@ class EntryActivity : DatabaseLockActivity() {
                 }
             }
         }
+
+        // Keep the screen on
+        if (PreferencesUtil.isKeepScreenOnEnabled(this)) {
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
 
     override fun onPause() {

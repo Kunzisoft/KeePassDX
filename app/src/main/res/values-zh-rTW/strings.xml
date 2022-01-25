@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright 2020 Jeremy Jamet / Kunzisoft.
-
     This file is part of KeePassDX.
-
     KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
@@ -114,7 +110,7 @@
     <string name="contains_duplicate_uuid_procedure">通過驗證此對話方塊，KeePassDX 將修復問題（通過為重複項生成新的 UUID）並繼續。</string>
     <string name="content">內容</string>
     <string name="content_description_add_entry">添加項目</string>
-    <string name="content_description_add_group">添加群组</string>
+    <string name="content_description_add_group">添加群組</string>
     <string name="content_description_add_item">添加項目</string>
     <string name="content_description_add_node">添加節點</string>
     <string name="content_description_background">背景</string>
@@ -193,7 +189,7 @@
     <string name="education_field_copy_title">複製欄位</string>
     <string name="education_generate_password_summary">依據表單中的標準進行簡單的定義，隨機為該條目生成一個強密碼，不在擔心忘記安全密碼。</string>
     <string name="education_generate_password_title">建立一個強密碼</string>
-    <string name="education_lock_summary">可以设置在无操作和螢幕关闭的时候，锁定資料庫。</string>
+    <string name="education_lock_summary">可以設置在無操作和螢幕關閉的時候，鎖定資料庫。</string>
     <string name="education_lock_title">鎖定資料庫</string>
     <string name="education_new_node_summary">這些條目幫助管理數位化身份，還可以使用群組來管理資料庫中的條目。</string>
     <string name="education_new_node_title">向資料庫添加項目</string>
@@ -326,14 +322,14 @@
     <string name="html_text_dev_feature_encourage">你的留言，是對開發人員添加&lt;strong&gt;新功能&lt;/strong&gt;及&lt;strong&gt;修復 bugs&lt;/strong&gt; 的鼓勵。</string>
     <string name="html_text_dev_feature_thanks">非常感謝你的捐助與貢獻。</string>
     <string name="html_text_dev_feature_upgrade">記得安裝最新版本來確保應用程式是最新的。</string>
-    <string name="html_text_dev_feature_work_hard">我們正在努力的開發並盡快地發布新功能。</string>
+    <string name="html_text_dev_feature_work_hard">我們正在努力的開發並盡快地發佈新功能。</string>
     <string name="html_text_donation">為繼續建設此自由項目讓其保持活躍，我們需要你的&lt;strong&gt;捐贈。&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主題樣式&lt;/strong&gt;已可用，感謝你的慷慨相助。</string>
     <string name="icon_pack_choose_summary">應用程式使用的圖示包</string>
     <string name="icon_pack_choose_title">圖示包</string>
     <string name="icon_section_custom">自定義</string>
     <string name="icon_section_standard">標準</string>
-    <string name="id_card">身分證</string>
+    <string name="id_card">身份證</string>
     <string name="import_app_properties_summary">選擇一個配置檔案以導入應用</string>
     <string name="import_app_properties_title">導入配置</string>
     <string name="international_bank_account_number">IBAN</string>
@@ -409,7 +405,7 @@
     <string name="max_history_items_title">最大數量</string>
     <string name="max_history_size_summary">限制每個條目的歷史紀錄大小</string>
     <string name="max_history_size_title">最大大小</string>
-    <string name="membership">會員身分</string>
+    <string name="membership">會員身份</string>
     <string name="memory_usage">記憶體使用情況</string>
     <string name="memory_usage_explanation">密鑰推算函數使用的記憶體位元組量。</string>
     <string name="menu_advanced_unlock_settings">高級解鎖</string>
