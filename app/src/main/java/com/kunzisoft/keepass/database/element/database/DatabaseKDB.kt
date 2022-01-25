@@ -34,27 +34,11 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
-    override var encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
-
-    override val availableEncryptionAlgorithms: List<EncryptionAlgorithm> = listOf(
-        EncryptionAlgorithm.AESRijndael,
-        EncryptionAlgorithm.Twofish
-    )
-
-    override val kdfEngine: KdfEngine
-        get() = kdfAvailableList[0]
-
-    override val kdfAvailableList: List<KdfEngine> = listOf(
-        KdfFactory.aesKdf
-    )
-
-    override val passwordEncoding: String
-        get() = "ISO-8859-1"
-
-    override var numberKeyEncryptionRounds = 300L
+    private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
     override val version: String
         get() = "V1"
@@ -64,6 +48,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         rootGroup = createGroup().apply {
             icon.standard = getStandardIcon(IconImageStandard.DATABASE_ID)
         }
+        kdfListV3.add(KdfFactory.aesKdf)
     }
 
     val backupGroup: GroupKDB?
@@ -80,6 +65,24 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     var color: Int? = null
 
+    override val kdfEngine: KdfEngine
+        get() = kdfListV3[0]
+
+    override val kdfAvailableList: List<KdfEngine>
+        get() = kdfListV3
+
+    override val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
+        get() {
+            val list = ArrayList<EncryptionAlgorithm>()
+            list.add(EncryptionAlgorithm.AESRijndael)
+            list.add(EncryptionAlgorithm.Twofish)
+            return list
+        }
+
+    override val passwordEncoding: String
+        get() = "ISO-8859-1"
+
+    override var numberKeyEncryptionRounds = 300L
 
     /**
      * Generates an unused random tree id

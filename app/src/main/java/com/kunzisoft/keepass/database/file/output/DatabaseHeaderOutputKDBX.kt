@@ -71,7 +71,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         mos.write4BytesUInt(DatabaseHeaderKDBX.DBSIG_2)
         mos.write4BytesUInt(header.version)
 
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.encryptionAlgorithm.uuid))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.cipherUuid))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, uIntTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 

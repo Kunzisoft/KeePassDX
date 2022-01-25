@@ -195,7 +195,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         if (pbId == null || pbId.size != 16) {
             throw IOException("Invalid cipher ID.")
         }
-        databaseV4.setEncryptionAlgorithmFromUUID(bytes16ToUuid(pbId))
+
+        databaseV4.cipherUuid = bytes16ToUuid(pbId)
     }
 
     private fun setTransformRound(roundsByte: ByteArray) {
