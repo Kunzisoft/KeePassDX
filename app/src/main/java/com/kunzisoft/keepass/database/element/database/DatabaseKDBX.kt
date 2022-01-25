@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
+import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
@@ -42,6 +43,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
@@ -186,6 +188,67 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             return "V2 - KDBX$kdbxStringVersion"
         }
+
+    private open class NodeOperationHandler<T: NodeKDBXInterface> : NodeHandler<T>() {
+        var containsCustomData = false
+        override fun operate(node: T): Boolean {
+            if (node.customData.isNotEmpty()) {
+                containsCustomData = true
+            }
+            return true
+        }
+    }
+
+    private inner class EntryOperationHandler: NodeOperationHandler<EntryKDBX>() {
+        var passwordQualityEstimationDisabled = false
+        override fun operate(node: EntryKDBX): Boolean {
+            if (!node.qualityCheck) {
+                passwordQualityEstimationDisabled = true
+            }
+            return super.operate(node)
+        }
+    }
+
+    private inner class GroupOperationHandler: NodeOperationHandler<GroupKDBX>() {
+        var containsTags = false
+        override fun operate(node: GroupKDBX): Boolean {
+            if (!node.tags.isEmpty())
+                containsTags = true
+            return super.operate(node)
+        }
+    }
+
+    fun getMinKdbxVersion(): UnsignedInt {
+        val entryHandler = EntryOperationHandler()
+        val groupHandler = GroupOperationHandler()
+        rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
+
+        // https://keepass.info/help/kb/kdbx_4.1.html
+        val containsGroupWithTag = groupHandler.containsTags
+        val containsEntryWithPasswordQualityEstimationDisabled = entryHandler.passwordQualityEstimationDisabled
+        val containsCustomIconWithNameOrLastModificationTime = iconsManager.containsCustomIconWithNameOrLastModificationTime()
+        val containsHeaderCustomDataWithLastModificationTime = customData.containsItemWithLastModificationTime()
+
+        // https://keepass.info/help/kb/kdbx_4.html
+        // If AES is not use, it's at least 4.0
+        val kdfIsNotAes = kdfParameters?.uuid != AesKdf.CIPHER_UUID
+        val containsHeaderCustomData = customData.isNotEmpty()
+        val containsNodeCustomData = entryHandler.containsCustomData || groupHandler.containsCustomData
+
+        // Check each condition to determine version
+        return if (containsGroupWithTag
+            || containsEntryWithPasswordQualityEstimationDisabled
+            || containsCustomIconWithNameOrLastModificationTime
+            || containsHeaderCustomDataWithLastModificationTime) {
+            FILE_VERSION_41
+        } else if (kdfIsNotAes
+            || containsHeaderCustomData
+            || containsNodeCustomData) {
+            FILE_VERSION_40
+        } else {
+            FILE_VERSION_31
+        }
+    }
 
     val availableCompressionAlgorithms: List<CompressionAlgorithm> = listOf(
         CompressionAlgorithm.None,

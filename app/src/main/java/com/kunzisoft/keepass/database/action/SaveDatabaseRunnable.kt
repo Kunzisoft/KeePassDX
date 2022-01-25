@@ -34,6 +34,7 @@ open class SaveDatabaseRunnable(protected var context: Context,
     override fun onStartRun() {}
 
     override fun onActionRun() {
+        database.checkVersion()
         if (saveDatabase && result.isSuccess) {
             try {
                 database.saveData(context.contentResolver)

@@ -1,3 +1,4 @@
  * Manage data merge #840 #977
  * Inherit color from template #1213
  * Add path in quick search
+ * Small fixes

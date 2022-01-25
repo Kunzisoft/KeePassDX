@@ -269,6 +269,12 @@ class Database {
     val version: String
         get() = mDatabaseKDB?.version ?: mDatabaseKDBX?.version ?: "-"
 
+    fun checkVersion() {
+        mDatabaseKDBX?.getMinKdbxVersion()?.let {
+            mDatabaseKDBX?.kdbxVersion = it
+        }
+    }
+
     val type: Class<*>?
         get() = mDatabaseKDB?.javaClass ?: mDatabaseKDBX?.javaClass
 
