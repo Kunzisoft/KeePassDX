@@ -44,8 +44,13 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         EncryptionAlgorithm.Twofish
     )
 
-    override val kdfEngine: KdfEngine
+    override var kdfEngine: KdfEngine?
         get() = kdfAvailableList[0]
+        set(value) {
+            value?.let {
+                numberKeyEncryptionRounds = value.defaultKeyRounds
+            }
+        }
 
     override val kdfAvailableList: List<KdfEngine> = listOf(
         KdfFactory.aesKdf

@@ -73,6 +73,9 @@ import kotlin.math.min
 
 class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
+    var hmacKey: ByteArray? = null
+        private set
+
     override var encryptionAlgorithm: EncryptionAlgorithm = EncryptionAlgorithm.AESRijndael
 
     fun setEncryptionAlgorithmFromUUID(uuid: UUID) {
@@ -85,12 +88,23 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         EncryptionAlgorithm.ChaCha20
     )
 
-    override val kdfEngine: KdfEngine?
+    var kdfParameters: KdfParameters? = null
+
+    override var kdfEngine: KdfEngine?
         get() = try {
             getEngineKDBX4(kdfParameters)
         } catch (unknownKDF: UnknownKDF) {
             Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF)
             null
+        }
+        set(value) {
+            value?.let {
+                if (kdfParameters?.uuid != value.defaultParameters.uuid)
+                    kdfParameters = value.defaultParameters
+                numberKeyEncryptionRounds = value.defaultKeyRounds
+                memoryUsage = value.defaultMemoryUsage
+                parallelism = value.defaultParallelism
+            }
         }
 
     @Throws(UnknownKDF::class)
@@ -113,11 +127,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         KdfFactory.argon2idKdf
     )
 
-    var hmacKey: ByteArray? = null
-        private set
     var compressionAlgorithm = CompressionAlgorithm.GZip
-    var kdfParameters: KdfParameters? = null
-    private var numKeyEncRounds: Long = 0
+
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
     private val mTemplateEngine = TemplateEngineCompatible(this)
 
@@ -311,6 +322,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     override var numberKeyEncryptionRounds: Long
         get() {
             val kdfEngine = kdfEngine
+            var numKeyEncRounds: Long = 0
             if (kdfEngine != null && kdfParameters != null)
                 numKeyEncRounds = kdfEngine.getKeyRounds(kdfParameters!!)
             return numKeyEncRounds
@@ -319,7 +331,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             val kdfEngine = kdfEngine
             if (kdfEngine != null && kdfParameters != null)
                 kdfEngine.setKeyRounds(kdfParameters!!, rounds)
-            numKeyEncRounds = rounds
         }
 
     var memoryUsage: Long

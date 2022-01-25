@@ -340,13 +340,10 @@ class Database {
     var kdfEngine: KdfEngine?
         get() = mDatabaseKDB?.kdfEngine ?: mDatabaseKDBX?.kdfEngine
         set(kdfEngine) {
-            kdfEngine?.let {
-                if (mDatabaseKDBX?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
-                    mDatabaseKDBX?.kdfParameters = kdfEngine.defaultParameters
-                numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
-                memoryUsage = kdfEngine.defaultMemoryUsage
-                parallelism = kdfEngine.defaultParallelism
-            }
+            mDatabaseKDB?.kdfEngine = kdfEngine
+            mDatabaseKDBX?.kdfEngine = kdfEngine
+            mDatabaseKDBX?.settingsChanged = DateInstant()
+            dataModifiedSinceLastLoading = true
         }
 
     fun getKeyDerivationName(): String {

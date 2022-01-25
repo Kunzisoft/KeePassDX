@@ -51,7 +51,7 @@ abstract class DatabaseVersioned<
     abstract var encryptionAlgorithm: EncryptionAlgorithm
     abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
 
-    abstract val kdfEngine: KdfEngine?
+    abstract var kdfEngine: KdfEngine?
     abstract val kdfAvailableList: List<KdfEngine>
     abstract var numberKeyEncryptionRounds: Long
 
