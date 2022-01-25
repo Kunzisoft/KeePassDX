@@ -1,4 +1,4 @@
  * Gestion de la fusion des données #840 #977
  * Héritage des couleurs et icone du gabarit #1213
  * Ajout du chemin dans la recherche rapide
- * Petis correctifs
+ * Petits correctifs
