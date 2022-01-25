@@ -328,8 +328,6 @@ class Database {
         set(algorithm) {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
-                mDatabaseKDBX?.setDataEngine(algorithm.cipherEngine)
-                mDatabaseKDBX?.cipherUuid = algorithm.uuid
             }
         }
 

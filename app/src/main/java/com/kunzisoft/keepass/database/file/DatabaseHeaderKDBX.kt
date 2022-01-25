@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.file
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
@@ -28,9 +27,6 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.entry.EntryKDBX
-import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.utils.*
@@ -195,8 +191,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         if (pbId == null || pbId.size != 16) {
             throw IOException("Invalid cipher ID.")
         }
-
-        databaseV4.cipherUuid = bytes16ToUuid(pbId)
+        databaseV4.setEncryptionAlgorithmFromUUID(bytes16ToUuid(pbId))
     }
 
     private fun setTransformRound(roundsByte: ByteArray) {

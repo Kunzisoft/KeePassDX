@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element.database
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
@@ -47,11 +48,11 @@ abstract class DatabaseVersioned<
 
 
     // Algorithm used to encrypt the database
-    var encryptionAlgorithm: EncryptionAlgorithm = EncryptionAlgorithm.AESRijndael
+    abstract var encryptionAlgorithm: EncryptionAlgorithm
     abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
 
-    abstract val kdfEngine: com.kunzisoft.keepass.database.crypto.kdf.KdfEngine?
-    abstract val kdfAvailableList: List<com.kunzisoft.keepass.database.crypto.kdf.KdfEngine>
+    abstract val kdfEngine: KdfEngine?
+    abstract val kdfAvailableList: List<KdfEngine>
     abstract var numberKeyEncryptionRounds: Long
 
     protected abstract val passwordEncoding: String

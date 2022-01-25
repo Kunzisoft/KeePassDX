@@ -140,13 +140,10 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             stopKeyTimer()
             startContentTimer(progressTaskUpdater)
 
-            val engine: CipherEngine
             val cipher: Cipher
             try {
-                engine = EncryptionAlgorithm.getFrom(mDatabase.cipherUuid).cipherEngine
+                val engine: CipherEngine = mDatabase.encryptionAlgorithm.cipherEngine
                 engine.forcePaddingCompatibility = true
-                mDatabase.setDataEngine(engine)
-                mDatabase.encryptionAlgorithm = engine.getEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
                 engine.forcePaddingCompatibility = false
             } catch (e: Exception) {
