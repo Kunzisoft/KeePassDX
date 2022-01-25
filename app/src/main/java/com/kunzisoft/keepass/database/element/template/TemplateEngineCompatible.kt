@@ -275,6 +275,9 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 entryCopy.putField(field)
             }
         }
+        // Add colors
+        entryCopy.foregroundColor = templateEntry.foregroundColor
+        entryCopy.backgroundColor = templateEntry.backgroundColor
 
         return entryCopy
     }
@@ -377,6 +380,9 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 }
             }
         }
+        // Add colors
+        entryCopy.foregroundColor = templateEntry.foregroundColor
+        entryCopy.backgroundColor = templateEntry.backgroundColor
         return entryCopy
     }
 

@@ -185,6 +185,7 @@ class NodesAdapter (private val context: Context,
                         && oldItem.username == newItem.username
                         && oldItem.backgroundColor == newItem.backgroundColor
                         && oldItem.foregroundColor == newItem.foregroundColor
+                        && database.getTemplate(oldItem) == database.getTemplate(newItem)
                         && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
@@ -397,6 +398,8 @@ class NodesAdapter (private val context: Context,
         // Specific elements for entry
         if (subNode.type == Type.ENTRY) {
             val entry = subNode as Entry
+            val entryTemplate = database.getTemplate(entry)
+
             database.startManageEntry(entry)
 
             holder.text.text = entry.getVisualTitle()
@@ -436,7 +439,7 @@ class NodesAdapter (private val context: Context,
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            val backgroundColor = entry.backgroundColor
+            val backgroundColor = entry.backgroundColor ?: entryTemplate?.backgroundColor
             if (!holder.container.isSelected) {
                 if (backgroundColor != null) {
                     holder.container.setBackgroundColor(backgroundColor)
@@ -446,7 +449,7 @@ class NodesAdapter (private val context: Context,
             } else {
                 holder.container.setBackgroundColor(mColorAccentLight)
             }
-            val foregroundColor = entry.foregroundColor
+            val foregroundColor = entry.foregroundColor ?: entryTemplate?.foregroundColor
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
                     holder.text.setTextColor(foregroundColor)
