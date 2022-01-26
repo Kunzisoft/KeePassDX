@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:paddingTop="12dp"
                 android:paddingStart="5dp"
                 android:paddingLeft="5dp"
                 android:paddingEnd="5dp"
