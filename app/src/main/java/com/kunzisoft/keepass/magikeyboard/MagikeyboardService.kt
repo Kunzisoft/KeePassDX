@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.core.view.WindowCompat.setDecorFitsSystemWindows
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
@@ -96,7 +97,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             popupCustomKeys = PopupWindow(context).apply {
                 width = WindowManager.LayoutParams.WRAP_CONTENT
                 height = WindowManager.LayoutParams.WRAP_CONTENT
-                softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                 inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
                 contentView = popupFieldsView
             }
