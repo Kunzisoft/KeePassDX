@@ -36,4 +36,95 @@
     <declare-styleable name="explanationDialog">
         <attr name="explanations" format="string" />
     </declare-styleable>
+
+    <!-- Specific keyboard attributes -->
+    <declare-styleable name="KeyboardView">
+        <!-- Default KeyboardView style. -->
+        <attr name="keyboardViewStyle" format="reference" />
+        <!-- Image for the key. This image needs to be a StateListDrawable, with the following
+             possible states: normal, pressed, checkable, checkable+pressed, checkable+checked,
+             checkable+checked+pressed. -->
+        <attr name="keyBackground" format="reference" />
+        <!-- Size of the text for character keys. -->
+        <attr name="keyTextSize" format="dimension" />
+        <!-- Size of the text for custom keys with some text and no icon. -->
+        <attr name="labelTextSize" format="dimension" />
+        <!-- Color to use for the label in a key. -->
+        <attr name="keyTextColor" format="color" />
+        <!-- Layout resource for key press feedback. -->
+        <attr name="keyPreviewLayout" format="reference" />
+        <!-- Vertical offset of the key press feedback from the key. -->
+        <attr name="keyPreviewOffset" format="dimension" />
+        <!-- Height of the key press feedback popup. -->
+        <attr name="keyPreviewHeight" format="dimension" />
+        <!-- Amount to offset the touch Y coordinate by, for bias correction. -->
+        <attr name="verticalCorrection" format="dimension" />
+        <!-- Layout resource for popup keyboards. -->
+        <attr name="popupLayout" format="reference" />
+        <!-- Text shadow color -->
+        <attr name="shadowColor" format="color" />
+        <!-- Text shadow radius -->
+        <attr name="shadowRadius" format="float" />
+    </declare-styleable>
+    <declare-styleable name="KeyboardViewPreviewState">
+        <!-- State for {@link com.kunzisoft.keepass.magikeyboard.KeyboardView KeyboardView}
+                key preview background. -->
+        <attr name="state_long_pressable" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="Keyboard">
+        <!-- Default width of a key, in pixels or percentage of display width. -->
+        <attr name="keyWidth" format="dimension|fraction" />
+        <!-- Default height of a key, in pixels or percentage of display width. -->
+        <attr name="keyHeight" format="dimension|fraction" />
+        <!-- Default horizontal gap between keys. -->
+        <attr name="horizontalGap" format="dimension|fraction" />
+        <!-- Default vertical gap between rows of keys. -->
+        <attr name="verticalGap" format="dimension|fraction" />
+    </declare-styleable>
+    <declare-styleable name="Keyboard_Row">
+        <!-- Row edge flags. -->
+        <attr name="rowEdgeFlags">
+            <!-- Row is anchored to the top of the keyboard. -->
+            <flag name="top" value="4" />
+            <!-- Row is anchored to the bottom of the keyboard.-->
+            <flag name="bottom" value="8" />
+        </attr>
+        <!-- Mode of the keyboard. If the mode doesn't match the
+             requested keyboard mode, the row will be skipped. -->
+        <attr name="keyboardMode" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="Keyboard_Key">
+        <!-- The unicode value or comma-separated values that this key outputs. -->
+        <attr name="codes" format="integer|string" />
+        <!-- The XML keyboard layout of any popup keyboard -->
+        <attr name="popupKeyboard" format="reference" />
+        <!-- The characters to display in the popup keyboard -->
+        <attr name="popupCharacters" format="string" />
+        <!-- Key edge flags. -->
+        <attr name="keyEdgeFlags">
+            <!-- Key is anchored to the left of the keyboard.
+                 {@deprecated Copy this definition into your own application project.} -->
+            <flag name="left" value="1" />
+            <!-- Key is anchored to the right of the keyboard.
+                 {@deprecated Copy this definition into your own application project.} -->
+            <flag name="right" value="2" />
+        </attr>
+        <!-- Whether this is a modifier key such as Alt or Shift. -->
+        <attr name="isModifier" format="boolean" />
+        <!-- Whether this is a toggle key. -->
+        <attr name="isSticky" format="boolean" />
+        <!-- Whether long-pressing on this key will make it repeat. -->
+        <attr name="isRepeatable" format="boolean" />
+        <!-- The icon to show in the popup preview. -->
+        <attr name="iconPreview" format="reference" />
+        <!-- The string of characters to output when this key is pressed. -->
+        <attr name="keyOutputText" format="string" />
+        <!-- The label to display on the key. -->
+        <attr name="keyLabel" format="string" />
+        <!-- The icon to display on the key instead of the label. -->
+        <attr name="keyIcon" format="reference" />
+        <!-- Mode of the keyboard. If the mode doesn't match the
+             requested keyboard mode, the key will be skipped. -->
+        <attr name="keyboardMode" />
+    </declare-styleable>
 </resources>

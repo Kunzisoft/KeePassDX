@@ -17,15 +17,12 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-@file:Suppress("DEPRECATION")
 
 package com.kunzisoft.keepass.magikeyboard
 
 import android.content.Context
 import android.content.Intent
 import android.inputmethodservice.InputMethodService
-import android.inputmethodservice.Keyboard
-import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
 import android.os.Build
 import android.util.Log
@@ -130,8 +127,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 removeEntryInfo()
             }
             assignKeyboardView()
-            keyboardView?.setOnKeyboardActionListener(this)
-            keyboardView?.isPreviewEnabled = false
+            keyboardView?.onKeyboardActionListener = this
 
             return rootKeyboardView
         }
@@ -199,6 +195,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun switchToPreviousKeyboard() {
         var imeManager: InputMethodManager? = null
         try {
