@@ -654,8 +654,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         inflater.inflate(R.menu.database, menu)
         if (mDatabaseReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
+            menu.findItem(R.id.menu_merge_database)?.isVisible = false
         }
-        if (!mMergeDataAllowed || mDatabaseReadOnly) {
+        if (!mMergeDataAllowed) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
         }
     }

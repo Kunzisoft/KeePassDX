@@ -30,6 +30,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -52,7 +53,7 @@ open class SettingsActivity
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
-    private var lockView: View? = null
+    private var lockView: FloatingActionButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,11 +113,12 @@ open class SettingsActivity
         }
 
         if (savedInstanceState == null) {
+            lockView?.visibility = View.GONE
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())
                     .commit()
         } else {
-            lockView?.visibility = if (savedInstanceState.getBoolean(SHOW_LOCK)) View.VISIBLE else View.GONE
+            if (savedInstanceState.getBoolean(SHOW_LOCK)) lockView?.show() else lockView?.hide()
         }
 
         backupManager = BackupManager(this)
@@ -187,14 +189,14 @@ open class SettingsActivity
                 NestedSettingsFragment.Screen.DATABASE,
                 NestedSettingsFragment.Screen.DATABASE_MASTER_KEY,
                 NestedSettingsFragment.Screen.DATABASE_SECURITY -> {
-                    lockView?.visibility = View.VISIBLE
+                    lockView?.show()
                 }
                 else -> {
-                    lockView?.visibility = View.GONE
+                    lockView?.hide()
                 }
             }
         } else {
-            lockView?.visibility = View.GONE
+            lockView?.hide()
         }
     }
 
