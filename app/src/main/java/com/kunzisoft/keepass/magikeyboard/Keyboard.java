@@ -55,10 +55,10 @@ import java.util.StringTokenizer;
  * &lt;/Keyboard&gt;
  * </pre>
  *
- * @attr ref android.R.styleable#Keyboard_keyWidth
- * @attr ref android.R.styleable#Keyboard_keyHeight
- * @attr ref android.R.styleable#Keyboard_horizontalGap
- * @attr ref android.R.styleable#Keyboard_verticalGap
+ * ref android.R.styleable#Keyboard_keyWidth
+ * ref android.R.styleable#Keyboard_keyHeight
+ * ref android.R.styleable#Keyboard_horizontalGap
+ * ref android.R.styleable#Keyboard_verticalGap
  */
 public class Keyboard {
 
@@ -166,19 +166,19 @@ public class Keyboard {
      */
     private static float SEARCH_DISTANCE = 1.8f;
 
-    private ArrayList<Row> rows = new ArrayList<Row>();
+    private ArrayList<Row> rows = new ArrayList<>();
 
     /**
      * Container for keys in the keyboard. All keys in a row are at the same Y-coordinate.
      * Some of the key size defaults can be overridden per row from what the {@link Keyboard}
      * defines.
      *
-     * @attr ref android.R.styleable#Keyboard_keyWidth
-     * @attr ref android.R.styleable#Keyboard_keyHeight
-     * @attr ref android.R.styleable#Keyboard_horizontalGap
-     * @attr ref android.R.styleable#Keyboard_verticalGap
-     * @attr ref android.R.styleable#Keyboard_Row_rowEdgeFlags
-     * @attr ref android.R.styleable#Keyboard_Row_keyboardMode
+     * ref R.styleable#Keyboard_keyWidth
+     * ref R.styleable#Keyboard_keyHeight
+     * ref R.styleable#Keyboard_horizontalGap
+     * ref R.styleable#Keyboard_verticalGap
+     * ref R.styleable#Keyboard_Row_rowEdgeFlags
+     * ref R.styleable#Keyboard_Row_keyboardMode
      */
     public static class Row {
         /**
@@ -229,30 +229,30 @@ public class Keyboard {
                     parent.mDisplayWidth, parent.mDefaultHorizontalGap);
             verticalGap = getDimensionOrFraction(a, R.styleable.Keyboard_verticalGap,
                     parent.mDisplayHeight, parent.mDefaultVerticalGap);
-            a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser), R.styleable.Keyboard_Row);
             rowEdgeFlags = a.getInt(R.styleable.Keyboard_Row_rowEdgeFlags, 0);
             mode = a.getResourceId(R.styleable.Keyboard_Row_keyboardMode, 0);
+            a.recycle();
         }
     }
 
     /**
      * Class for describing the position and characteristics of a single key in the keyboard.
      *
-     * @attr ref R.styleable#Keyboard_keyWidth
-     * @attr ref R.styleable#Keyboard_keyHeight
-     * @attr ref R.styleable#Keyboard_horizontalGap
-     * @attr ref R.styleable#Keyboard_Key_codes
-     * @attr ref R.styleable#Keyboard_Key_keyIcon
-     * @attr ref R.styleable#Keyboard_Key_keyLabel
-     * @attr ref R.styleable#Keyboard_Key_iconPreview
-     * @attr ref R.styleable#Keyboard_Key_isSticky
-     * @attr ref R.styleable#Keyboard_Key_isRepeatable
-     * @attr ref R.styleable#Keyboard_Key_isModifier
-     * @attr ref R.styleable#Keyboard_Key_popupKeyboard
-     * @attr ref R.styleable#Keyboard_Key_popupCharacters
-     * @attr ref R.styleable#Keyboard_Key_keyOutputText
-     * @attr ref R.styleable#Keyboard_Key_keyEdgeFlags
+     * ref R.styleable#Keyboard_keyWidth
+     * ref R.styleable#Keyboard_keyHeight
+     * ref R.styleable#Keyboard_horizontalGap
+     * ref R.styleable#Keyboard_Key_codes
+     * ref R.styleable#Keyboard_Key_keyIcon
+     * ref R.styleable#Keyboard_Key_keyLabel
+     * ref R.styleable#Keyboard_Key_iconPreview
+     * ref R.styleable#Keyboard_Key_isSticky
+     * ref R.styleable#Keyboard_Key_isRepeatable
+     * ref R.styleable#Keyboard_Key_isModifier
+     * ref R.styleable#Keyboard_Key_popupKeyboard
+     * ref R.styleable#Keyboard_Key_popupCharacters
+     * ref R.styleable#Keyboard_Key_keyOutputText
+     * ref R.styleable#Keyboard_Key_keyEdgeFlags
      */
     public static class Key {
         /**
@@ -512,14 +512,10 @@ public class Keyboard {
             boolean rightEdge = (edgeFlags & EDGE_RIGHT) > 0;
             boolean topEdge = (edgeFlags & EDGE_TOP) > 0;
             boolean bottomEdge = (edgeFlags & EDGE_BOTTOM) > 0;
-            if ((x >= this.x || (leftEdge && x <= this.x + this.width))
+            return (x >= this.x || (leftEdge && x <= this.x + this.width))
                     && (x < this.x + this.width || (rightEdge && x >= this.x))
                     && (y >= this.y || (topEdge && y <= this.y + this.height))
-                    && (y < this.y + this.height || (bottomEdge && y >= this.y))) {
-                return true;
-            } else {
-                return false;
-            }
+                    && (y < this.y + this.height || (bottomEdge && y >= this.y));
         }
 
         /**

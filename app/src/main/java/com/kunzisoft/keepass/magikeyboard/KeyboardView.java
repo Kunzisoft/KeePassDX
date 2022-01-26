@@ -59,15 +59,15 @@ import java.util.Map;
  * A view that renders a virtual {@link Keyboard}. It handles rendering of keys and
  * detecting key presses and touch movements.
  *
- * @attr ref R.styleable#KeyboardView_keyBackground
- * @attr ref R.styleable#KeyboardView_keyPreviewLayout
- * @attr ref R.styleable#KeyboardView_keyPreviewOffset
- * @attr ref R.styleable#KeyboardView_keyPreviewHeight
- * @attr ref R.styleable#KeyboardView_labelTextSize
- * @attr ref R.styleable#KeyboardView_keyTextSize
- * @attr ref R.styleable#KeyboardView_keyTextColor
- * @attr ref R.styleable#KeyboardView_verticalCorrection
- * @attr ref R.styleable#KeyboardView_popupLayout
+ * ref R.styleable#KeyboardView_keyBackground
+ * ref R.styleable#KeyboardView_keyPreviewLayout
+ * ref R.styleable#KeyboardView_keyPreviewOffset
+ * ref R.styleable#KeyboardView_keyPreviewHeight
+ * ref R.styleable#KeyboardView_labelTextSize
+ * ref R.styleable#KeyboardView_keyTextSize
+ * ref R.styleable#KeyboardView_keyTextColor
+ * ref R.styleable#KeyboardView_verticalCorrection
+ * ref R.styleable#KeyboardView_popupLayout
  */
 public class KeyboardView extends View implements View.OnClickListener {
 
@@ -140,6 +140,7 @@ public class KeyboardView extends View implements View.OnClickListener {
     private static final int[] LONG_PRESSABLE_STATE_SET = {R.attr.state_long_pressable};
 
     private Keyboard mKeyboard;
+    private int mCurrentKeyIndex = NOT_A_KEY;
     private int mLabelTextSize;
     private int mKeyTextSize;
     private int mKeyTextColor;
@@ -183,6 +184,7 @@ public class KeyboardView extends View implements View.OnClickListener {
     private int mProximityThreshold;
 
     private boolean mPreviewCentered = false;
+    private boolean mShowPreview = true;
     private boolean mShowTouchPoints = true;
     private int mPopupPreviewX;
     private int mPopupPreviewY;
@@ -329,6 +331,8 @@ public class KeyboardView extends View implements View.OnClickListener {
             mPreviewTextSizeLarge = (int) mPreviewText.getTextSize();
             mPreviewPopup.setContentView(mPreviewText);
             mPreviewPopup.setBackgroundDrawable(null);
+        } else {
+            mShowPreview = false;
         }
 
         mPreviewPopup.setTouchable(false);
@@ -464,6 +468,9 @@ public class KeyboardView extends View implements View.OnClickListener {
      * @see #getKeyboard()
      */
     public void setKeyboard(Keyboard keyboard) {
+        if (mKeyboard != null) {
+            showPreview(NOT_A_KEY);
+        }
         // Remove any pending messages
         removeMessages();
         mKeyboard = keyboard;
@@ -520,6 +527,27 @@ public class KeyboardView extends View implements View.OnClickListener {
             return mKeyboard.isShifted();
         }
         return false;
+    }
+
+    /**
+     * Enables or disables the key feedback popup. This is a popup that shows a magnified
+     * version of the depressed key. By default the preview is enabled.
+     *
+     * @param previewEnabled whether or not to enable the key feedback popup
+     * @see #isPreviewEnabled()
+     */
+    public void setPreviewEnabled(boolean previewEnabled) {
+        mShowPreview = previewEnabled;
+    }
+
+    /**
+     * Returns the enabled state of the key feedback popup.
+     *
+     * @return whether or not the key feedback popup is enabled
+     * @see #setPreviewEnabled(boolean)
+     */
+    public boolean isPreviewEnabled() {
+        return mShowPreview;
     }
 
     public void setPopupParent(View v) {
@@ -838,6 +866,48 @@ public class KeyboardView extends View implements View.OnClickListener {
         }
     }
 
+    private void showPreview(int keyIndex) {
+        int oldKeyIndex = mCurrentKeyIndex;
+        final PopupWindow previewPopup = mPreviewPopup;
+
+        mCurrentKeyIndex = keyIndex;
+        // Release the old key and press the new key
+        final Key[] keys = mKeys;
+        if (oldKeyIndex != mCurrentKeyIndex) {
+            if (oldKeyIndex != NOT_A_KEY && keys.length > oldKeyIndex) {
+                Key oldKey = keys[oldKeyIndex];
+                oldKey.onReleased(mCurrentKeyIndex == NOT_A_KEY);
+                invalidateKey(oldKeyIndex);
+            }
+            if (mCurrentKeyIndex != NOT_A_KEY && keys.length > mCurrentKeyIndex) {
+                Key newKey = keys[mCurrentKeyIndex];
+                newKey.onPressed();
+                invalidateKey(mCurrentKeyIndex);
+            }
+        }
+        // If key changed and preview is on ...
+        if (oldKeyIndex != mCurrentKeyIndex && mShowPreview) {
+            mHandler.removeMessages(MSG_SHOW_PREVIEW);
+            if (previewPopup.isShowing()) {
+                if (keyIndex == NOT_A_KEY) {
+                    mHandler.sendMessageDelayed(mHandler
+                                    .obtainMessage(MSG_REMOVE_PREVIEW),
+                            DELAY_AFTER_PREVIEW);
+                }
+            }
+            if (keyIndex != NOT_A_KEY) {
+                if (previewPopup.isShowing() && mPreviewText.getVisibility() == VISIBLE) {
+                    // Show right away, if it's already visible and finger is moving around
+                    showKey(keyIndex);
+                } else {
+                    mHandler.sendMessageDelayed(
+                            mHandler.obtainMessage(MSG_SHOW_PREVIEW, keyIndex, 0),
+                            DELAY_BEFORE_PREVIEW);
+                }
+            }
+        }
+    }
+
     private void showKey(final int keyIndex) {
         final PopupWindow previewPopup = mPreviewPopup;
         final Key[] keys = mKeys;
@@ -872,7 +942,6 @@ public class KeyboardView extends View implements View.OnClickListener {
             mPopupPreviewX = key.x - mPreviewText.getPaddingLeft() + getPaddingLeft();
             mPopupPreviewY = key.y - popupHeight + mPreviewOffset;
         } else {
-            // TODO: Fix this if centering is brought back
             mPopupPreviewX = 160 - mPreviewText.getMeasuredWidth() / 2;
             mPopupPreviewY = -mPreviewText.getMeasuredHeight();
         }
@@ -961,6 +1030,7 @@ public class KeyboardView extends View implements View.OnClickListener {
         boolean result = onLongPress(popupKey);
         if (result) {
             mAbortKey = true;
+            showPreview(NOT_A_KEY);
         }
         return result;
     }
@@ -1120,6 +1190,7 @@ public class KeyboardView extends View implements View.OnClickListener {
         }
 
         if (mGestureDetector.onTouchEvent(me)) {
+            showPreview(NOT_A_KEY);
             mHandler.removeMessages(MSG_REPEAT);
             mHandler.removeMessages(MSG_LONGPRESS);
             return true;
@@ -1163,6 +1234,7 @@ public class KeyboardView extends View implements View.OnClickListener {
                     Message msg = mHandler.obtainMessage(MSG_LONGPRESS, me);
                     mHandler.sendMessageDelayed(msg, LONGPRESS_TIMEOUT);
                 }
+                showPreview(keyIndex);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -1196,6 +1268,7 @@ public class KeyboardView extends View implements View.OnClickListener {
                         mHandler.sendMessageDelayed(msg, LONGPRESS_TIMEOUT);
                     }
                 }
+                showPreview(mCurrentKey);
                 mLastMoveTime = eventTime;
                 break;
 
@@ -1216,6 +1289,7 @@ public class KeyboardView extends View implements View.OnClickListener {
                     touchX = mLastCodeX;
                     touchY = mLastCodeY;
                 }
+                showPreview(NOT_A_KEY);
                 Arrays.fill(mKeyIndices, NOT_A_KEY);
                 // If we're not on a repeating key (which sends on a DOWN event)
                 if (mRepeatKeyIndex == NOT_A_KEY && !mMiniKeyboardOnScreen && !mAbortKey) {
@@ -1228,6 +1302,7 @@ public class KeyboardView extends View implements View.OnClickListener {
                 removeMessages();
                 dismissPopupKeyboard();
                 mAbortKey = true;
+                showPreview(NOT_A_KEY);
                 invalidateKey(mCurrentKey);
                 break;
         }
