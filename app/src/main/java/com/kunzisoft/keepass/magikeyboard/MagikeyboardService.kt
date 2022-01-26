@@ -194,7 +194,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun switchToPreviousKeyboard() {
         var imeManager: InputMethodManager? = null
         try {
@@ -202,6 +201,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 switchToPreviousInputMethod()
             } else {
+                @Suppress("DEPRECATION")
                 window.window?.let { window ->
                     imeManager?.switchToLastInputMethod(window.attributes.token)
                 }
