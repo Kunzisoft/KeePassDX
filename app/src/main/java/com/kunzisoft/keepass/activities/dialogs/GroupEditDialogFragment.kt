@@ -31,12 +31,15 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.*
+import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.view.DateTimeEditFieldView
+import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
+import com.tokenautocomplete.FilteredArrayAdapter
 import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DatabaseDialogFragment() {
@@ -55,6 +58,8 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
     private lateinit var notesTextLayoutView: TextInputLayout
     private lateinit var notesTextView: TextView
     private lateinit var expirationView: DateTimeEditFieldView
+    private lateinit var tagsCompletionView: TagsCompletionView
+    private var tagsAdapter: FilteredArrayAdapter<String>? = null
 
     enum class EditGroupDialogAction {
         CREATION, UPDATE, NONE;
@@ -122,6 +127,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             notesTextLayoutView = root.findViewById(R.id.group_edit_note_container)
             notesTextView = root.findViewById(R.id.group_edit_note)
             expirationView = root.findViewById(R.id.group_edit_expiration)
+            tagsCompletionView = root.findViewById(R.id.group_tags_completion_view)
 
             // Retrieve the textColor to tint the icon
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -141,6 +147,13 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
                         mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
                     }
                 }
+            }
+
+            // TODO default tags in pool
+            tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf())
+            tagsCompletionView.apply {
+                threshold = 1
+                setAdapter(tagsAdapter)
             }
 
             // populate info in views
@@ -197,6 +210,14 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         }
         expirationView.activation = groupInfo.expires
         expirationView.dateTime = groupInfo.expiryTime
+
+        // Set Tags
+        groupInfo.tags.let { tags ->
+            tagsCompletionView.setText("")
+            for (i in 0 until tags.size()) {
+                tagsCompletionView.addObjectSync(tags.get(i))
+            }
+        }
     }
 
     private fun retrieveGroupInfoFromViews() {
@@ -208,6 +229,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         }
         mGroupInfo.expires = expirationView.activation
         mGroupInfo.expiryTime = expirationView.dateTime
+        mGroupInfo.tags = tagsCompletionView.getTags()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -27,7 +27,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.TagsAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
@@ -43,6 +46,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var iconView: ImageView
     private var mIconColor: Int = 0
     private lateinit var nameTextView: TextView
+    private lateinit var tagsListView: RecyclerView
+    private var tagsAdapter: TagsAdapter? = null
     private lateinit var notesTextLabelView: TextView
     private lateinit var notesTextView: TextView
     private lateinit var expirationView: DateTimeFieldView
@@ -64,6 +69,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             val root = activity.layoutInflater.inflate(R.layout.fragment_group, null)
             iconView = root.findViewById(R.id.group_icon)
             nameTextView = root.findViewById(R.id.group_name)
+            tagsListView = root.findViewById(R.id.group_tags_list_view)
             notesTextLabelView = root.findViewById(R.id.group_note_label)
             notesTextView = root.findViewById(R.id.group_note)
             expirationView = root.findViewById(R.id.group_expiration)
@@ -96,6 +102,14 @@ class GroupDialogFragment : DatabaseDialogFragment() {
                 nameTextView.text = title
                 nameTextView.visibility = View.VISIBLE
             }
+            tagsAdapter = TagsAdapter(activity)
+            tagsListView.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = tagsAdapter
+            }
+            val tags = mGroupInfo.tags
+            tagsListView.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+            tagsAdapter?.setTags(tags)
             val notes = mGroupInfo.notes
             if (notes == null || notes.isEmpty()) {
                 notesTextLabelView.visibility = View.GONE

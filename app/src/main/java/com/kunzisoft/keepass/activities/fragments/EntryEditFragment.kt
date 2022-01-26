@@ -99,7 +99,7 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         // TODO default tags in pool
-        tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf("test"))
+        tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf())
         tagsCompletionView.apply {
             threshold = 1
             setAdapter(tagsAdapter)
