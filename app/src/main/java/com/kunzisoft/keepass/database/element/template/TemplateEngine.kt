@@ -1,6 +1,24 @@
 package com.kunzisoft.keepass.database.element.template
-
+/*
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import android.content.res.Resources
+import android.graphics.Color
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
@@ -26,7 +44,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
             if (templateGroup != null) {
                 templates.add(Template.STANDARD)
                 templateGroup.getChildEntries().forEach { templateEntry ->
-                    getTemplateFromTemplateEntry(templateEntry)?.let {
+                    getTemplateFromTemplateEntry(templateEntry).let {
                         mCacheTemplates[templateEntry.id] = it
                         templates.add(it)
                     }
@@ -70,7 +88,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 return mCacheTemplates[uuid]
             else {
                 mDatabase.getEntryById(uuid)?.let { templateEntry ->
-                    getTemplateFromTemplateEntry(templateEntry)?.let { newTemplate ->
+                    getTemplateFromTemplateEntry(templateEntry).let { newTemplate ->
                         mCacheTemplates[uuid] = newTemplate
                         return newTemplate
                     }
@@ -134,7 +152,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         return TemplateSection(sectionAttributes)
     }
 
-    private fun getTemplateFromTemplateEntry(templateEntry: EntryKDBX): Template? {
+    private fun getTemplateFromTemplateEntry(templateEntry: EntryKDBX): Template {
 
         val templateEntryDecoded = decodeTemplateEntry(templateEntry)
         val templateSections = mutableListOf<TemplateSection>()
@@ -149,7 +167,28 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         }
         templateSections.add(buildTemplateSectionFromFields(sectionFields))
 
-        return Template(templateEntry.id, templateEntry.title, templateEntry.icon, templateSections, getVersion())
+        var backgroundColor: Int? = null
+        templateEntry.backgroundColor.let {
+            try {
+                backgroundColor = Color.parseColor(it)
+            } catch (e: Exception) {}
+        }
+        var foregroundColor: Int? = null
+        templateEntry.foregroundColor.let {
+            try {
+                foregroundColor = Color.parseColor(it)
+            } catch (e: Exception) {}
+        }
+
+        return Template(
+            templateEntry.id,
+            templateEntry.title,
+            templateEntry.icon,
+            backgroundColor,
+            foregroundColor,
+            templateSections,
+            getVersion()
+        )
     }
 
     companion object {

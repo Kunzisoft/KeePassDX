@@ -46,6 +46,7 @@ open class LoadDatabaseException : DatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_load_database
     constructor() : super()
+    constructor(string: String) : super(string)
     constructor(throwable: Throwable) : super(throwable)
 }
 
@@ -53,6 +54,7 @@ class FileNotFoundDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.file_not_found_content
     constructor() : super()
+    constructor(string: String) : super(string)
     constructor(exception: Throwable) : super(exception)
 }
 
@@ -76,6 +78,7 @@ class IODatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_load_database
     constructor() : super()
+    constructor(string: String) : super(string)
     constructor(exception: Throwable) : super(exception)
 }
 

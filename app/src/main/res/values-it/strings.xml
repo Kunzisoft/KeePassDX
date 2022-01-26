@@ -195,7 +195,7 @@
     <string name="clipboard_warning">Se l\'eliminazione automatica degli appunti fallisce, cancellali manualmente.</string>
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
-    <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
+    <string name="lock_database_screen_off_summary">Blocca il database dopo alcuni secondi quando lo schermo è spento</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
     <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
@@ -289,7 +289,7 @@
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
-    <string name="build_label">Costruzione %1$s</string>
+    <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magitastiera</string>
     <string name="keyboard_label">Magitastiera (KeePassDX)</string>
     <string name="keyboard_setting_label">Impostazioni Magitastiera</string>
@@ -346,7 +346,7 @@
     <string name="menu_advanced_unlock_settings">Sblocco avanzato</string>
     <string name="entry_history">Cronologia</string>
     <string name="entry_setup_otp">Imposta password usa e getta</string>
-    <string name="otp_type">Tipo di password OTP</string>
+    <string name="otp_type">Tipo di OTP</string>
     <string name="otp_secret">Segreto</string>
     <string name="otp_period">Periodo (secondi)</string>
     <string name="otp_counter">Contatore</string>
@@ -374,7 +374,7 @@
     <string name="auto_focus_search_title">Ricerca rapida</string>
     <string name="menu_delete_entry_history">Cancella cronologia</string>
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
-    <string name="html_about_contribution">Per poter &lt;strong&gt;mantenere la nostra libertà&lt;/strong&gt;, &lt;strong&gt;risolvere bug&lt;/strong&gt;, &lt;strong&gt;aggiungere funzionalità&lt;/strong&gt; ed &lt;strong&gt;essere sempre attivi&lt;/strong&gt;, facciamo affidamento sul tuo &lt;strong&gt;contributo&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Per poter <strong>mantenere la nostra libertà</strong>, <strong>correggere errori</strong>, <strong>aggiungere funzionalità</strong> ed <strong>essere sempre attivi</strong>, facciamo affidamento sul tuo <strong>contributo</strong>.</string>
     <string name="contact">Contatto</string>
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
@@ -476,7 +476,7 @@
 \n
 \nIl tuo database può diventare molto grande e ridurre le prestazioni con questo caricamento.</string>
     <string name="content_description_credentials_information">Info credenziali</string>
-    <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce</string>
+    <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce o a un gruppo</string>
     <string name="show_uuid_title">Mostra UUID</string>
     <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
     <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando un modulo viene convalidato</string>
@@ -586,7 +586,7 @@
     <string name="cryptocurrency">Portafoglio di criptovaluta</string>
     <string name="type">Tipo</string>
     <string name="ssid">SSID</string>
-    <string name="wireless">Wifi</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="email_address">Indirizzo email</string>
     <string name="email">Email</string>
     <string name="date_of_issue">Data di emissione</string>
@@ -599,4 +599,16 @@
     <string name="holder">Titolare</string>
     <string name="debit_credit_card">Carta di debito / credito</string>
     <string name="template_group_name">Modelli</string>
+    <string name="menu_external_icon">Icona esterna</string>
+    <string name="show_otp_token_summary">Mostra i token OTP nella lista delle voci</string>
+    <string name="show_otp_token_title">Mostra token OTP</string>
+    <string name="autofill_manual_selection_summary">Mostra l\'opzione che permette all\'utente di scegliere la voce nel database</string>
+    <string name="autofill_manual_selection_title">Selezione manuale</string>
+    <string name="autofill_select_entry">Seleziona voce…</string>
+    <string name="hint_icon_name">Nome icona</string>
+    <string name="content_description_entry_foreground_color">Colore in primo piano</string>
+    <string name="content_description_entry_background_color">Colore sfondo</string>
+    <string name="content_description_database_color">Colore database</string>
+    <string name="warning_exact_alarm">Non hai consentito all\'app di utilizzare un allarme preciso. Di conseguenza, le funzionalità che richiedono un timer non verranno eseguite con un tempo preciso.</string>
+    <string name="permission">Autorizzazione</string>
 </resources>

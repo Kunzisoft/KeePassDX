@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -34,12 +33,11 @@ import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.adapters.NodeAdapter
+import com.kunzisoft.keepass.adapters.NodesAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -50,10 +48,11 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
+    private var groupRefreshed: GroupRefreshedListener? = null
 
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
-    private var mAdapter: NodeAdapter? = null
+    private var mAdapter: NodesAdapter? = null
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
 
@@ -74,6 +73,19 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var mRecycleBinEnable: Boolean = false
     private var mRecycleBin: Group? = null
 
+    var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
+        entryId?.let {
+            // Simply refresh the list
+            rebuildList()
+            // Scroll to the new entry
+            mDatabase?.getEntryById(it)?.let { entry ->
+                mAdapter?.indexOf(entry)?.let { position ->
+                    mNodesRecyclerView?.scrollToPosition(position)
+                }
+            }
+        } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
+    }
+
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -89,12 +101,14 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        // TODO Change to ViewModel
         try {
             nodeClickListener = context as NodeClickListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(context.toString()
-                    + " must implement " + NodeAdapter.NodeClickCallback::class.java.name)
+                    + " must implement " + NodesAdapter.NodeClickCallback::class.java.name)
         }
 
         try {
@@ -102,14 +116,24 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         } catch (e: ClassCastException) {
             onScrollListener = null
             // Context menu can be omit
-            Log.w(TAG, context.toString()
+            Log.w(
+                TAG, context.toString()
                     + " must implement " + RecyclerView.OnScrollListener::class.java.name)
+        }
+
+        try {
+            groupRefreshed = context as GroupRefreshedListener
+        } catch (e: ClassCastException) {
+            // The activity doesn't implement the interface, throw exception
+            throw ClassCastException(context.toString()
+                    + " must implement " + GroupRefreshedListener::class.java.name)
         }
     }
 
     override fun onDetach() {
         nodeClickListener = null
         onScrollListener = null
+        groupRefreshed = null
         super.onDetach()
     }
 
@@ -125,8 +149,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         contextThemed?.let { context ->
             database?.let { database ->
-                mAdapter = NodeAdapter(context, database).apply {
-                    setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
+                mAdapter = NodesAdapter(context, database).apply {
+                    setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                         override fun onNodeClick(database: Database, node: Node) {
                             if (nodeActionSelectionMode) {
                                 if (listActionNodes.contains(node)) {
@@ -182,7 +206,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onCreateView(inflater, container, savedInstanceState)
         // To apply theme
         return inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_group, container, false)
+                .inflate(R.layout.fragment_nodes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -247,6 +271,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         } else {
             notFoundView?.visibility = View.GONE
         }
+
+        groupRefreshed?.onGroupRefreshed()
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum,
@@ -279,15 +305,17 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     val sortDialogFragment: SortDialogFragment =
                             if (mRecycleBinEnable) {
                                 SortDialogFragment.getInstance(
-                                        PreferencesUtil.getListSort(context),
-                                        PreferencesUtil.getAscendingSort(context),
-                                        PreferencesUtil.getGroupsBeforeSort(context),
-                                        PreferencesUtil.getRecycleBinBottomSort(context))
+                                    PreferencesUtil.getListSort(context),
+                                    PreferencesUtil.getAscendingSort(context),
+                                    PreferencesUtil.getGroupsBeforeSort(context),
+                                    PreferencesUtil.getRecycleBinBottomSort(context)
+                                )
                             } else {
                                 SortDialogFragment.getInstance(
-                                        PreferencesUtil.getListSort(context),
-                                        PreferencesUtil.getAscendingSort(context),
-                                        PreferencesUtil.getGroupsBeforeSort(context))
+                                    PreferencesUtil.getListSort(context),
+                                    PreferencesUtil.getAscendingSort(context),
+                                    PreferencesUtil.getGroupsBeforeSort(context)
+                                )
                             }
 
                     sortDialogFragment.show(childFragmentManager, "sortDialog")
@@ -399,27 +427,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
-                if (resultCode == EntryEditActivity.ADD_OR_UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<NodeId<UUID>>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let {
-                        // Simply refresh the list
-                        rebuildList()
-                        // Scroll to the new entry
-                        mDatabase?.getEntryById(it)?.let { entry ->
-                            mAdapter?.indexOf(entry)?.let { position ->
-                                mNodesRecyclerView?.scrollToPosition(position)
-                            }
-                        }
-                    } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
-                }
-            }
-        }
-    }
-
     /**
      * Callback listener to redefine to do an action when a node is click
      */
@@ -453,6 +460,10 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
          * @param dy The amount of vertical scroll.
          */
         fun onScrolled(dy: Int)
+    }
+
+    interface GroupRefreshedListener {
+        fun onGroupRefreshed()
     }
 
     companion object {

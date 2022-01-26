@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -60,18 +61,43 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     private var binaryDataId: Int? = null
 
     // Determine if this is a MetaStream entry
-    val isMetaStream: Boolean
-        get() {
-            if (notes.isEmpty()) return false
-            if (binaryDescription != PMS_ID_BINDESC) return false
-            if (title.isEmpty()) return false
-            if (title != PMS_ID_TITLE) return false
-            if (username.isEmpty()) return false
-            if (username != PMS_ID_USER) return false
-            if (url.isEmpty()) return false
-            if (url != PMS_ID_URL) return false
-            return icon.standard.id == KEY_ID
-        }
+    fun isMetaStream(): Boolean {
+        if (notes.isEmpty()) return false
+        if (binaryDescription != PMS_ID_BINDESC) return false
+        if (title.isEmpty()) return false
+        if (title != PMS_ID_TITLE) return false
+        if (username.isEmpty()) return false
+        if (username != PMS_ID_USER) return false
+        if (url.isEmpty()) return false
+        if (url != PMS_ID_URL) return false
+        return icon.standard.id == KEY_ID
+    }
+
+    fun isMetaStreamDefaultUsername(): Boolean {
+        return isMetaStream() && notes == PMS_STREAM_DEFAULTUSER
+    }
+
+    private fun setMetaStream() {
+        binaryDescription = PMS_ID_BINDESC
+        title = PMS_ID_TITLE
+        username = PMS_ID_USER
+        url = PMS_ID_URL
+        icon.standard = IconImageStandard(KEY_ID)
+    }
+
+    fun setMetaStreamDefaultUsername() {
+        notes = PMS_STREAM_DEFAULTUSER
+        setMetaStream()
+    }
+
+    fun isMetaStreamDatabaseColor(): Boolean {
+        return isMetaStream() && notes == PMS_STREAM_DBCOLOR
+    }
+
+    fun setMetaStreamDatabaseColor() {
+        notes = PMS_STREAM_DBCOLOR
+        setMetaStream()
+    }
 
     override fun initNodeId(): NodeId<UUID> {
         return NodeIdUUID()
@@ -113,8 +139,9 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeInt(binaryDataId ?: -1)
     }
 
-    fun updateWith(source: EntryKDB) {
-        super.updateWith(source)
+    fun updateWith(source: EntryKDB,
+                   updateParents: Boolean = true) {
+        super.updateWith(source, updateParents)
         title = source.title
         username = source.username
         password = source.password
@@ -183,6 +210,13 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         private const val PMS_ID_TITLE = "Meta-Info"
         private const val PMS_ID_USER = "SYSTEM"
         private const val PMS_ID_URL = "$"
+
+         const val PMS_STREAM_SIMPLESTATE = "Simple UI State"
+         const val PMS_STREAM_DEFAULTUSER = "Default User Name"
+         const val PMS_STREAM_SEARCHHISTORYITEM = "Search History Item"
+         const val PMS_STREAM_CUSTOMKVP = "Custom KVP"
+         const val PMS_STREAM_DBCOLOR = "Database Color"
+         const val PMS_STREAM_KPXICON2 = "KPX_CUSTOM_ICONS_2"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryKDB> = object : Parcelable.Creator<EntryKDB> {

@@ -19,8 +19,10 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
@@ -44,16 +46,22 @@ abstract class DatabaseVersioned<
         Entry : EntryVersioned<GroupId, EntryId, Group, Entry>
         > {
 
+
     // Algorithm used to encrypt the database
-    protected var algorithm: EncryptionAlgorithm? = null
+    abstract var encryptionAlgorithm: EncryptionAlgorithm
+    abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
 
-    abstract val kdfEngine: com.kunzisoft.keepass.database.crypto.kdf.KdfEngine?
+    abstract var kdfEngine: KdfEngine?
+    abstract val kdfAvailableList: List<KdfEngine>
+    abstract var numberKeyEncryptionRounds: Long
 
-    abstract val kdfAvailableList: List<com.kunzisoft.keepass.database.crypto.kdf.KdfEngine>
+    protected abstract val passwordEncoding: String
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
+
+    abstract val version: String
 
     /**
      * To manage binaries in faster way
@@ -61,34 +69,19 @@ abstract class DatabaseVersioned<
      * Can be used to temporarily store database elements
      */
     var binaryCache = BinaryCache()
-    val iconsManager = IconsManager(binaryCache)
-    var attachmentPool = AttachmentPool(binaryCache)
+    var iconsManager = IconsManager()
+    var attachmentPool = AttachmentPool()
 
     var changeDuplicateId = false
 
     private var groupIndexes = LinkedHashMap<NodeId<GroupId>, Group>()
-    protected var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
-
-    abstract val version: String
-
-    protected abstract val passwordEncoding: String
-
-    abstract var numberKeyEncryptionRounds: Long
-
-    var encryptionAlgorithm: EncryptionAlgorithm
-        get() {
-            return algorithm ?: EncryptionAlgorithm.AESRijndael
-        }
-        set(algorithm) {
-            this.algorithm = algorithm
-        }
-
-    abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
+    private var entryIndexes = LinkedHashMap<NodeId<EntryId>, Entry>()
 
     var rootGroup: Group? = null
         set(value) {
             field = value
             value?.let {
+                removeGroupIndex(it)
                 addGroupIndex(it)
             }
         }
@@ -124,25 +117,29 @@ abstract class DatabaseVersioned<
 
     @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
-        val keyData = keyInputStream.readBytes()
+        try {
+            val keyData = keyInputStream.readBytes()
 
-        // Check XML key file
-        val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
-        if (xmlKeyByteArray != null) {
-            return xmlKeyByteArray
-        }
-
-        // Check 32 bytes key file
-        when (keyData.size) {
-            32 -> return keyData
-            64 -> try {
-                return Hex.decodeHex(String(keyData).toCharArray())
-            } catch (ignoredException: Exception) {
-                // Key is not base 64, treat it as binary data
+            // Check XML key file
+            val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
+            if (xmlKeyByteArray != null) {
+                return xmlKeyByteArray
             }
+
+            // Check 32 bytes key file
+            when (keyData.size) {
+                32 -> return keyData
+                64 -> try {
+                    return Hex.decodeHex(String(keyData).toCharArray())
+                } catch (ignoredException: Exception) {
+                    // Key is not base 64, treat it as binary data
+                }
+            }
+            // Hash file as binary data
+            return HashManager.hashSha256(keyData)
+        } catch (outOfMemoryError: OutOfMemoryError) {
+            throw IOException("Keyfile data is too large", outOfMemoryError)
         }
-        // Hash file as binary data
-        return HashManager.hashSha256(keyData)
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
@@ -194,12 +191,6 @@ abstract class DatabaseVersioned<
      * -------------------------------------
      */
 
-    fun doForEachGroupInIndex(action: (Group) -> Unit) {
-        for (group in groupIndexes) {
-            action.invoke(group.value)
-        }
-    }
-
     /**
      * Determine if an id number is already in use
      *
@@ -215,14 +206,7 @@ abstract class DatabaseVersioned<
         return groupIndexes.values
     }
 
-    fun setGroupIndexes(groupList: List<Group>) {
-        this.groupIndexes.clear()
-        for (currentGroup in groupList) {
-            this.groupIndexes[currentGroup.nodeId] = currentGroup
-        }
-    }
-
-    fun getGroupById(id: NodeId<GroupId>): Group? {
+    open fun getGroupById(id: NodeId<GroupId>): Group? {
         return this.groupIndexes[id]
     }
 
@@ -246,16 +230,6 @@ abstract class DatabaseVersioned<
         this.groupIndexes.remove(group.nodeId)
     }
 
-    fun numberOfGroups(): Int {
-        return groupIndexes.size
-    }
-
-    fun doForEachEntryInIndex(action: (Entry) -> Unit) {
-        for (entry in entryIndexes) {
-            action.invoke(entry.value)
-        }
-    }
-
     fun isEntryIdUsed(id: NodeId<EntryId>): Boolean {
         return entryIndexes.containsKey(id)
     }
@@ -266,6 +240,10 @@ abstract class DatabaseVersioned<
 
     fun getEntryById(id: NodeId<EntryId>): Entry? {
         return this.entryIndexes[id]
+    }
+
+    fun findEntry(predicate: (Entry) -> Boolean): Entry? {
+        return this.entryIndexes.values.find(predicate)
     }
 
     fun addEntryIndex(entry: Entry) {
@@ -288,11 +266,7 @@ abstract class DatabaseVersioned<
         this.entryIndexes.remove(entry.nodeId)
     }
 
-    fun numberOfEntries(): Int {
-        return entryIndexes.size
-    }
-
-    open fun clearCache() {
+    open fun clearIndexes() {
         this.groupIndexes.clear()
         this.entryIndexes.clear()
     }
@@ -322,7 +296,7 @@ abstract class DatabaseVersioned<
         }
     }
 
-    fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
+    open fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
         // Remove tree from parent tree
         parent?.removeChildGroup(groupToRemove)
         removeGroupIndex(groupToRemove)
@@ -349,15 +323,6 @@ abstract class DatabaseVersioned<
         removeEntryIndex(entryToRemove)
     }
 
-    // TODO Delete group
-    fun undoDeleteGroupFrom(group: Group, origParent: Group?) {
-        addGroupTo(group, origParent)
-    }
-
-    open fun undoDeleteEntryFrom(entry: Entry, origParent: Group?) {
-        addEntryTo(entry, origParent)
-    }
-
     abstract fun isInRecycleBin(group: Group): Boolean
 
     fun isGroupSearchable(group: Group?, omitBackup: Boolean): Boolean {
@@ -366,6 +331,39 @@ abstract class DatabaseVersioned<
         if (omitBackup && isInRecycleBin(group))
             return false
         return true
+    }
+
+    fun clearIconsCache() {
+        iconsManager.doForEachCustomIcon { _, binary ->
+            try {
+                binary.clear(binaryCache)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to clear icon binary cache", e)
+            }
+        }
+        iconsManager.clear()
+    }
+
+    fun clearAttachmentsCache() {
+        attachmentPool.doForEachBinary { _, binary ->
+            try {
+                binary.clear(binaryCache)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to clear attachment binary cache", e)
+            }
+        }
+        attachmentPool.clear()
+    }
+
+    fun clearBinaries() {
+        binaryCache.clear()
+    }
+
+    fun clearAll() {
+        clearIndexes()
+        clearIconsCache()
+        clearAttachmentsCache()
+        clearBinaries()
     }
 
     companion object {

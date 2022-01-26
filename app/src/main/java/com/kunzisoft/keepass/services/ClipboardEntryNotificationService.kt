@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.services
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
@@ -112,7 +113,13 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             putParcelableArrayListExtra(EXTRA_CLIPBOARD_FIELDS, fieldsToAdd)
         }
         return PendingIntent.getService(
-                this, 0, copyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            this, 0, copyIntent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
     }
 
     private fun newNotification(title: String?, fieldsToAdd: ArrayList<ClipboardEntryNotificationField>) {
@@ -162,7 +169,13 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             val cleanIntent = Intent(this, ClipboardEntryNotificationService::class.java)
             cleanIntent.action = ACTION_CLEAN_CLIPBOARD
             val cleanPendingIntent = PendingIntent.getService(
-                    this, 0, cleanIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                this, 0, cleanIntent,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                } else {
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                }
+            )
             builder.setDeleteIntent(cleanPendingIntent)
 
             //Get settings

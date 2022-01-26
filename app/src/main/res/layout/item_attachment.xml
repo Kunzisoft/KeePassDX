@@ -54,7 +54,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_attachment_title"
-            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
+            style="@style/KeepassDXStyle.TextAppearance.TextNode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toStartOf="@+id/item_attachment_size_container"

@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -53,6 +54,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MERGE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RELOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK
@@ -354,11 +356,31 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
+    fun startDatabaseMerge(fixDuplicateUuid: Boolean) {
+        start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
+        }
+            , ACTION_DATABASE_MERGE_TASK)
+    }
+
     fun startDatabaseReload(fixDuplicateUuid: Boolean) {
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
                 , ACTION_DATABASE_RELOAD_TASK)
+    }
+
+    fun askToStartDatabaseReload(conditionToAsk: Boolean, approved: () -> Unit) {
+        if (conditionToAsk) {
+            AlertDialog.Builder(context)
+                .setMessage(R.string.warning_database_info_reloaded)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    approved.invoke()
+                }.create().show()
+        } else {
+            approved.invoke()
+        }
     }
 
     fun startDatabaseAssignPassword(databaseUri: Uri,

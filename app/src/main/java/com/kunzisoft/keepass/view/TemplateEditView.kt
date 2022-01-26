@@ -5,13 +5,17 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.*
+import com.kunzisoft.keepass.database.element.template.TemplateAttribute
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
@@ -51,7 +55,53 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
 
     fun setIcon(iconImage: IconImage) {
         mEntryInfo?.icon = iconImage
-        populateIconMethod?.invoke(entryIconView, iconImage)
+        refreshIcon()
+    }
+
+    fun setOnBackgroundColorClickListener(onClickListener: OnClickListener) {
+        backgroundColorButton.setOnClickListener(onClickListener)
+    }
+
+    fun getBackgroundColor(): Int? {
+        return mEntryInfo?.backgroundColor
+    }
+
+    fun setBackgroundColor(color: Int?) {
+        applyBackgroundColor(color)
+        mEntryInfo?.backgroundColor = color
+    }
+
+    private fun applyBackgroundColor(color: Int?) {
+        if (color != null) {
+            backgroundColorView.background.colorFilter = BlendModeColorFilterCompat
+                .createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+            backgroundColorView.visibility = View.VISIBLE
+        } else {
+            backgroundColorView.visibility = View.GONE
+        }
+    }
+
+    fun setOnForegroundColorClickListener(onClickListener: OnClickListener) {
+        foregroundColorButton.setOnClickListener(onClickListener)
+    }
+
+    fun getForegroundColor(): Int? {
+        return mEntryInfo?.foregroundColor
+    }
+
+    fun setForegroundColor(color: Int?) {
+        applyForegroundColor(color)
+        mEntryInfo?.foregroundColor = color
+    }
+
+    private fun applyForegroundColor(color: Int?) {
+        if (color != null) {
+            foregroundColorView.background.colorFilter = BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+            foregroundColorView.visibility = View.VISIBLE
+        } else {
+            foregroundColorView.visibility = View.GONE
+        }
     }
 
     override fun preProcessTemplate() {
@@ -64,6 +114,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             TextEditFieldView(it).apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
                 setProtection(field.protectedValue.isProtected)
+                default = templateAttribute.default
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
@@ -79,7 +130,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
-                default = field.protectedValue.stringValue
+                default = templateAttribute.default
                 setActionClick(templateAttribute, field, this)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
@@ -195,11 +246,14 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
 
     override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField> {
         refreshIcon()
+        applyBackgroundColor(mEntryInfo?.backgroundColor)
+        applyForegroundColor(mEntryInfo?.foregroundColor)
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
-        super.populateEntryInfoWithViews(templateFieldNotEmpty)
+    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
+                                            retrieveDefaultValues: Boolean) {
+        super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel

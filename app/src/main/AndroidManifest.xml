@@ -11,14 +11,11 @@
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission
         android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission
         android:name="android.permission.VIBRATE"/>
-    <!-- Write permission until Android 10 -->
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"
-        tools:ignore="ScopedStorage" />
     <!-- Open apps from links -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -30,12 +27,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:name="com.kunzisoft.keepass.app.App"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_rules"
+        android:fullBackupContent="@xml/old_backup_rules"
+        android:dataExtractionRules="@xml/backup_rules"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:theme="@style/KeepassDXStyle.Night"
-        tools:targetApi="n">
+        tools:targetApi="s">
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="${googleAndroidBackupAPIKey}" />
@@ -44,6 +42,7 @@
             android:theme="@style/KeepassDXStyle.SplashScreen"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:exported="true"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" >
             <intent-filter>
@@ -53,6 +52,7 @@
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.PasswordActivity"
+            android:exported="true"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustResize|stateUnchanged">
             <intent-filter>
@@ -111,6 +111,7 @@
         <!-- Main Activity -->
         <activity
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
+            android:exported="false"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustPan">
             <meta-data
@@ -154,7 +155,8 @@
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/Theme.Transparent"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -173,7 +175,8 @@
             android:theme="@style/Theme.Transparent" />
         <activity
             android:name="com.kunzisoft.keepass.settings.MagikeyboardSettingsActivity"
-            android:label="@string/keyboard_setting_label">
+            android:label="@string/keyboard_setting_label"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
@@ -199,6 +202,7 @@
         <service
             android:name="com.kunzisoft.keepass.autofill.KeeAutofillService"
             android:label="@string/autofill_service_name"
+            android:exported="true"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE">
             <meta-data
                 android:name="android.autofill"
@@ -210,6 +214,7 @@
         <service
             android:name="com.kunzisoft.keepass.magikeyboard.MagikeyboardService"
             android:label="@string/keyboard_label"
+            android:exported="true"
             android:permission="android.permission.BIND_INPUT_METHOD" >
             <meta-data android:name="android.view.im"
                 android:resource="@xml/keyboard_method"/>

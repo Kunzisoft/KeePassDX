@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
-
+     
  This file is part of KeePassDX.
 
   KeePassDX is free software: you can redistribute it and/or modify
@@ -17,38 +17,128 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/nodes_list"
-        android:contentDescription="@string/content_description_node_children"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="insideOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"
-        android:paddingBottom="?attr/actionBarSize"
-        android:clipToPadding="false" />
-    <LinearLayout
-        android:id="@+id/not_found_container"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/not_found_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/img_not_found"/>
-        <TextView
-            android:id="@+id/not_found_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_results"/>
-    </LinearLayout>
-</FrameLayout>
+<androidx.core.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:importantForAutofill="noExcludeDescendants">
+
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?attr/colorPrimary">
+			<LinearLayout
+				android:id="@+id/title_block"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:padding="@dimen/default_margin"
+				android:background="@drawable/background_repeat"
+				android:gravity="center"
+				style="@style/KeepassDXStyle.TextAppearance.Default">
+
+				<!-- Icon -->
+				<androidx.appcompat.widget.AppCompatImageView
+					android:id="@+id/group_icon"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:layout_margin="@dimen/default_margin"
+					android:src="@drawable/ic_blank_32dp"
+					style="@style/KeepassDXStyle.Icon"/>
+
+				<!-- Name -->
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/group_name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center"
+					style="@style/KeepassDXStyle.Expanded.Title" />
+			</LinearLayout>
+		</FrameLayout>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="@dimen/default_margin"
+			tools:targetApi="o">
+
+			<!-- Note -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_note_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_notes"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_note"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="textMultiLine"
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+
+			<!-- Expiration -->
+			<com.kunzisoft.keepass.view.DateTimeFieldView
+				android:id="@+id/group_expiration"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+
+			<!-- Created -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_created_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_created"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_created"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+
+			<!-- Modified -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_modified_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_modified"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_modified"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+
+			<!-- UUID -->
+			<LinearLayout
+				android:id="@+id/group_UUID_container"
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				android:orientation="vertical">
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/group_UUID_label"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/entry_UUID"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				<HorizontalScrollView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+					<androidx.appcompat.widget.AppCompatTextView
+						android:id="@+id/group_UUID_reference"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textIsSelectable="true"
+						style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+				</HorizontalScrollView>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</androidx.core.widget.NestedScrollView>

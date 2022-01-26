@@ -77,7 +77,7 @@
 				android:id="@+id/entry_created"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 
 			<!-- Modified -->
 			<androidx.appcompat.widget.AppCompatTextView
@@ -90,7 +90,7 @@
 				android:id="@+id/entry_modified"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 
 			<!-- Accessed -->
 			<androidx.appcompat.widget.AppCompatTextView
@@ -131,21 +131,11 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_UUID"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			</HorizontalScrollView>
-			<HorizontalScrollView
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/entry_UUID_reference"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+					style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 			</HorizontalScrollView>
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>

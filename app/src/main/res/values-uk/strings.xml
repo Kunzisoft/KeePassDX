@@ -25,7 +25,7 @@
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
     <string name="app_timeout">Час очікування</string>
-    <string name="app_timeout_summary">Час бездіяльности до блокування бази даних</string>
+    <string name="app_timeout_summary">Час бездіяльності до блокування бази даних</string>
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
@@ -66,7 +66,7 @@
     <string name="error_pass_gen_type">Необхідно вибрати принаймні один тип створення пароля.</string>
     <string name="error_pass_match">Паролі не збігаються.</string>
     <string name="error_rounds_too_large">Забагато циклів. Встановлено 2147483648.</string>
-    <string name="error_wrong_length">Введіть додатне ціле додатне число до поля \"Довжина\".</string>
+    <string name="error_wrong_length">Введіть додатне ціле додатне число до поля «Довжина».</string>
     <string name="file_browser">Файловий менеджер</string>
     <string name="generate_password">Згенерувати пароль</string>
     <string name="hint_conf_pass">Підтвердити пароль</string>
@@ -103,7 +103,7 @@
     <string name="no_results">Нічого не знайдено</string>
     <string name="no_url_handler">Щоб відкрити цю URL-адресу, встановіть переглядач Інтернету.</string>
     <string name="omit_backup_search_title">Не шукати у записах резервних копій</string>
-    <string name="omit_backup_search_summary">Виключити групи \"Резервна копія\" та \"Кошик\" з результатів пошуку</string>
+    <string name="omit_backup_search_summary">Не шукати у групах «Резервна копія» та «Кошик»</string>
     <string name="progress_create">Створення нової бази даних…</string>
     <string name="progress_title">Працює…</string>
     <string name="content_description_remove_from_list">Вилучити</string>
@@ -134,7 +134,7 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="clear_clipboard_notification_summary">Блокувати базу даних після закінчення терміну дії буфера обміну, або закрито сповіщення після початку користування ним</string>
+    <string name="clear_clipboard_notification_summary">Блокувати базу даних після закриття сповіщення після використання або якщо вичерпано час очікування</string>
     <string name="content_description_add_group">Додати групу</string>
     <string name="content_description_update_from_list">Оновити</string>
     <string name="keyboard">Клавіатура</string>
@@ -159,7 +159,7 @@
     <string name="clipboard_error">Деякі пристрої не дозволяють застосункам користуватися буфером обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
     <string name="allow">Дозволити</string>
-    <string name="key_derivation_function">Функція створення ключа</string>
+    <string name="key_derivation_function">Функція генерування ключа</string>
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
     <string name="master_key">Головний ключ</string>
@@ -287,9 +287,9 @@
     <string name="education_field_copy_title">Копіюйте поля</string>
     <string name="education_read_only_summary">Змініть режим сеансу.
 \n
-\n\"Захист від запису\" запобігає внесенню випадкових змін до бази даних.
-\n\"Дозволити зміни\" дозволяє додавати, видаляти чи змінювати будь-які елементи.</string>
-    <string name="enable_auto_save_database_summary">Зберігати базу даних після кожної важливої дії (у режимі \"Дозволити зміни\")</string>
+\n«Захист від запису» запобігає внесенню випадкових змін до бази даних.
+\n«Дозволити зміни» дозволяє додавати, видаляти чи змінювати будь-які елементи.</string>
+    <string name="enable_auto_save_database_summary">Зберігати базу даних після кожної важливої дії (у режимі «Дозволити зміни»)</string>
     <string name="education_read_only_title">Захистіть вашу базу даних від запису</string>
     <string name="education_unlock_title">Розблокуйте вашу базу даних</string>
     <string name="education_setup_OTP_summary">Налаштуйте керування одноразовими паролями (HOTP / TOTP) для генерування токенів, необхідних для двофакторної автентифікації (2FA).</string>
@@ -321,7 +321,7 @@
     <string name="enable_read_only_title">Захист від запису</string>
     <string name="delete_entered_password_summary">Видаляти пароль, введений після спроби з\'єднання з базою даних</string>
     <string name="delete_entered_password_title">Видаляти пароль</string>
-    <string name="allow_no_password_summary">Дозволяє натискання \"Відкрити\", якщо не вибрано головний пароль</string>
+    <string name="allow_no_password_summary">Дозволяє натискання «Відкрити», якщо не вибрано головний пароль</string>
     <string name="allow_no_password_title">Дозволити без головного ключа</string>
     <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ID застосунку</string>
     <string name="autofill_auto_search_title">Автоматичний пошук</string>
@@ -361,12 +361,12 @@
     <string name="settings_database_force_changing_master_key_title">Примусова зміна</string>
     <string name="settings_database_recommend_changing_master_key_summary">Радити змінити головний ключ (днів)</string>
     <string name="settings_database_recommend_changing_master_key_title">Радити змінити</string>
-    <string name="max_history_size_summary">Обмежити об\'єм історії кожного запису</string>
-    <string name="max_history_size_title">Максимальний об\'єм</string>
+    <string name="max_history_size_summary">Обмежити обсяг історії кожного запису</string>
+    <string name="max_history_size_title">Максимальний обсяг</string>
     <string name="max_history_items_summary">Обмежити кількість елементів історії кожного запису</string>
     <string name="max_history_items_title">Максимальна кількість</string>
     <string name="recycle_bin_group_title">Група кошик</string>
-    <string name="recycle_bin_summary">Переміщати групи та записи до групи \"Кошик\" перед видаленням</string>
+    <string name="recycle_bin_summary">Переміщувати групи та записи до групи «Кошик» перед видаленням</string>
     <string name="recycle_bin_title">Використання кошика</string>
     <string name="database_data_compression_summary">Стиснення даних зменшує розмір бази даних</string>
     <string name="database_data_compression_title">Стиснення даних</string>
@@ -375,7 +375,7 @@
     <string name="file_name">Назва файлу</string>
     <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
-    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов\'язані з розпізнаванням розширеного розблокування</string>
+    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов’язані з розпізнаванням розширеного розблокування</string>
     <string name="biometric_delete_all_key_title">Видалити ключі шифрування</string>
     <string name="biometric_auto_open_prompt_summary">Автоматично запитувати розширене розблокування, якщо базу даних налаштовано для роботи з ним</string>
     <string name="biometric_auto_open_prompt_title">Автозапит ключа</string>
@@ -387,7 +387,7 @@
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
     <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натисне кнопку назад на головному екрані</string>
     <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
-    <string name="lock_database_screen_off_summary">Блокувати базу даних, якщо екран вимкнено</string>
+    <string name="lock_database_screen_off_summary">Блокувати базу даних за кілька секунд після вимкнення екрана</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
     <string name="lock">Блокування</string>
     <string name="clipboard_warning">Якщо не вдалось очистити буфер обміну автоматично, видаліть його історію вручну.</string>
@@ -431,7 +431,7 @@
     <string name="sort_groups_before">Спочатку групи</string>
     <string name="sort_ascending">За зростанням ↓</string>
     <string name="sort_menu">Впорядкувати</string>
-    <string name="memory_usage_explanation">Об\'єм пам\'яті, необхідний для функції створення ключа.</string>
+    <string name="memory_usage_explanation">Обсяг пам\'яті, необхідний для функції створення ключа.</string>
     <string name="kdf_explanation">Для створення ключа алгоритму шифрування, головний ключ перетворюється за допомогою функції створення випадково приготованого ключа.</string>
     <string name="do_not_kill_app">Не закривайте застосунок…</string>
     <string name="command_execution">Виконання команди…</string>
@@ -471,9 +471,9 @@
     <string name="warning_empty_keyfile">Не рекомендовано додавати порожній файл ключа.</string>
     <string name="warning_empty_keyfile_explanation">Вміст файлу ключів ніколи не слід змінювати, а в кращому випадку повинен містити випадково згенеровані дані.</string>
     <string name="data">Дані</string>
-    <string name="database_data_remove_unlinked_attachments_title">Вилучити незв\'язані дані</string>
-    <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані із записом</string>
-    <string name="show_uuid_summary">Показ пов\'язаного з записом UUID</string>
+    <string name="database_data_remove_unlinked_attachments_title">Вилучити непов’язані дані</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані з записом</string>
+    <string name="show_uuid_summary">Показ пов\'язаного з записом чи групою UUID</string>
     <string name="show_uuid_title">Показувати UUID</string>
     <string name="autofill_read_only_save">Збереження даних заборонено для бази даних, відкритої лише для читання.</string>
     <string name="autofill_ask_to_save_data_summary">Запитувати зберігати дані після перевірки форми</string>
@@ -495,7 +495,7 @@
     <string name="search_mode">Режим пошуку</string>
     <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
     <string name="error_field_name_already_exists">Назва поля вже існує.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов\'язані з розширеним розпізнаванням розблокування\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розширеним розпізнаванням розблокування\?</string>
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
     <string name="device_credential_unlock_enable_title">Розблокування облікових даних пристрою</string>
     <string name="device_credential">Облікові дані пристрою</string>
@@ -521,7 +521,7 @@
     <string name="education_advanced_unlock_summary">Пов’яжіть свій пароль зі сканованими біометричними даними або даними пристрою, щоб швидко розблокувати базу даних.</string>
     <string name="education_advanced_unlock_title">Розширене розблокування бази даних</string>
     <string name="temp_advanced_unlock_timeout_summary">Тривалість використання розширеного розблокування перед видаленням його вмісту</string>
-    <string name="temp_advanced_unlock_enable_summary">Не зберігайте зашифрований вміст для використання розширеного розблокування</string>
+    <string name="temp_advanced_unlock_enable_summary">Не зберігати зашифрований вміст для використання розширеного розблокування</string>
     <string name="temp_advanced_unlock_enable_title">Тимчасове розширене розблокування</string>
     <string name="advanced_unlock_tap_delete">Торкнутися, щоб видалити клавіші розширеного розблокування</string>
     <string name="content">Вміст</string>
@@ -542,7 +542,7 @@
     <string name="download_canceled">Скасовано!</string>
     <string name="icon_section_custom">Власні</string>
     <string name="icon_section_standard">Стандартні</string>
-    <string name="style_brightness_summary">Вибрати світлі або темні теми</string>
+    <string name="style_brightness_summary">Вибрати світлу або темну теми</string>
     <string name="style_brightness_title">Яскравість теми</string>
     <string name="error_upload_file">Під час передавання даних файлу сталася помилка.</string>
     <string name="error_file_to_big">Файл, який ви намагаєтеся передати, завеликий.</string>
@@ -596,4 +596,16 @@
     <string name="holder">Власник</string>
     <string name="debit_credit_card">Дебетова / кредитна картка</string>
     <string name="template_group_name">Шаблони</string>
+    <string name="show_otp_token_summary">Показує токени OTP у списку записів</string>
+    <string name="show_otp_token_title">Показувати токен OTP</string>
+    <string name="menu_external_icon">Зовнішня піктограма</string>
+    <string name="autofill_manual_selection_summary">Параметр показу, який дає користувачеві змогу вибрати запис бази даних</string>
+    <string name="autofill_manual_selection_title">Вибір вручну</string>
+    <string name="autofill_select_entry">Вибрати запис…</string>
+    <string name="hint_icon_name">Назва піктограми</string>
+    <string name="permission">Дозвіл</string>
+    <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
+    <string name="content_description_database_color">Колір бази даних</string>
+    <string name="content_description_entry_background_color">Колір тла запису</string>
+    <string name="content_description_entry_foreground_color">Колір тексту запису</string>
 </resources>

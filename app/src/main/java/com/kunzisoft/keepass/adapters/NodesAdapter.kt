@@ -26,7 +26,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
@@ -34,6 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
@@ -55,9 +55,9 @@ import java.util.*
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-class NodeAdapter (private val context: Context,
-                   private val database: Database)
-    : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
+class NodesAdapter (private val context: Context,
+                    private val database: Database)
+    : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
     private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
     private val mNodeSortedListCallback: NodeSortedListCallback
@@ -79,6 +79,8 @@ class NodeAdapter (private val context: Context,
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mEntryFilters = arrayOf<Group.ChildFilter>()
+    private var mOldVirtualGroup = false
+    private var mVirtualGroup = false
 
     private var mActionNodesList = LinkedList<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
@@ -87,9 +89,15 @@ class NodeAdapter (private val context: Context,
     @ColorInt
     private val mContentSelectionColor: Int
     @ColorInt
-    private val mIconGroupColor: Int
+    private val mTextColorPrimary: Int
     @ColorInt
-    private val mIconEntryColor: Int
+    private val mTextColor: Int
+    @ColorInt
+    private val mTextColorSecondary: Int
+    @ColorInt
+    private val mColorAccentLight: Int
+    @ColorInt
+    private val mTextColorSelected: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -110,12 +118,24 @@ class NodeAdapter (private val context: Context,
         this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        this.mIconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)
+        this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
         taTextColorPrimary.recycle()
-        // In two times to fix bug compilation
+        // To get text color
         val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        this.mIconEntryColor = taTextColor.getColor(0, Color.BLACK)
+        this.mTextColor = taTextColor.getColor(0, Color.BLACK)
         taTextColor.recycle()
+        // To get text color secondary
+        val taTextColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
+        this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
+        taTextColorSecondary.recycle()
+        // To get background color for selection
+        val taSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
+        this.mColorAccentLight = taSelectionColor.getColor(0, Color.GRAY)
+        taSelectionColor.recycle()
+        // To get text color for selection
+        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
+        this.mTextColorSelected = taSelectionTextColor.getColor(0, Color.WHITE)
+        taSelectionTextColor.recycle()
     }
 
     private fun assignPreferences() {
@@ -145,6 +165,8 @@ class NodeAdapter (private val context: Context,
      * Rebuild the list by clear and build children from the group
      */
     fun rebuildList(group: Group) {
+        mOldVirtualGroup = mVirtualGroup
+        mVirtualGroup = group.isVirtual
         assignPreferences()
         mNodeSortedList.replaceAll(group.getFilteredChildren(mEntryFilters))
     }
@@ -155,14 +177,19 @@ class NodeAdapter (private val context: Context,
         }
 
         override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
+            if (mOldVirtualGroup != mVirtualGroup)
+                return false
             var typeContentTheSame = true
             if (oldItem is Entry && newItem is Entry) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
                         && oldItem.username == newItem.username
+                        && oldItem.backgroundColor == newItem.backgroundColor
+                        && oldItem.foregroundColor == newItem.foregroundColor
                         && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
+                        && oldItem.notes == newItem.notes
             }
             return typeContentTheSame
                     && oldItem.nodeId == newItem.nodeId
@@ -327,8 +354,8 @@ class NodeAdapter (private val context: Context,
         val iconColor = if (holder.container.isSelected)
             mContentSelectionColor
         else when (subNode.type) {
-            Type.GROUP -> mIconGroupColor
-            Type.ENTRY -> mIconEntryColor
+            Type.GROUP -> mTextColorPrimary
+            Type.ENTRY -> mTextColor
         }
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
@@ -348,13 +375,23 @@ class NodeAdapter (private val context: Context,
         }
         // Add meta text to show UUID
         holder.meta.apply {
-            if (mShowUUID) {
-                text = subNode.nodeId.toString()
+            val nodeId = subNode.nodeId?.toVisualString()
+            if (mShowUUID && nodeId != null) {
+                text = nodeId
                 setTextSize(mTextSizeUnit, mMetaTextDefaultDimension, mPrefSizeMultiplier)
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE
             }
+        }
+        // Add path to virtual group
+        if (mVirtualGroup) {
+            holder.path?.apply {
+                text = subNode.getPathString()
+                visibility = View.VISIBLE
+            }
+        } else {
+            holder.path?.visibility = View.GONE
         }
 
         // Specific elements for entry
@@ -398,6 +435,50 @@ class NodeAdapter (private val context: Context,
             holder.attachmentIcon?.visibility =
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
+            // Assign colors
+            val backgroundColor = entry.backgroundColor
+            if (!holder.container.isSelected) {
+                if (backgroundColor != null) {
+                    holder.container.setBackgroundColor(backgroundColor)
+                } else {
+                    holder.container.setBackgroundColor(Color.TRANSPARENT)
+                }
+            } else {
+                holder.container.setBackgroundColor(mColorAccentLight)
+            }
+            val foregroundColor = entry.foregroundColor
+            if (!holder.container.isSelected) {
+                if (foregroundColor != null) {
+                    holder.text.setTextColor(foregroundColor)
+                    holder.subText?.setTextColor(foregroundColor)
+                    holder.otpToken?.setTextColor(foregroundColor)
+                    holder.otpProgress?.setIndicatorColor(foregroundColor)
+                    holder.attachmentIcon?.setColorFilter(foregroundColor)
+                    holder.meta.setTextColor(foregroundColor)
+                    holder.icon.apply {
+                        database.iconDrawableFactory.assignDatabaseIcon(
+                            this,
+                            subNode.icon,
+                            foregroundColor
+                        )
+                    }
+                } else {
+                    holder.text.setTextColor(mTextColor)
+                    holder.subText?.setTextColor(mTextColorSecondary)
+                    holder.otpToken?.setTextColor(mTextColorSecondary)
+                    holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
+                    holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
+                    holder.meta.setTextColor(mTextColor)
+                }
+            } else {
+                holder.text.setTextColor(mTextColorSelected)
+                holder.subText?.setTextColor(mTextColorSelected)
+                holder.otpToken?.setTextColor(mTextColorSelected)
+                holder.otpProgress?.setIndicatorColor(mTextColorSelected)
+                holder.attachmentIcon?.setColorFilter(mTextColorSelected)
+                holder.meta.setTextColor(mTextColorSelected)
+            }
+
             database.stopManageEntry(entry)
         }
 
@@ -430,15 +511,16 @@ class NodeAdapter (private val context: Context,
             OtpType.HOTP -> {
                 holder?.otpProgress?.apply {
                     max = 100
-                    progress = 100
+                    setProgressCompat(100, true)
                 }
             }
             OtpType.TOTP -> {
                 holder?.otpProgress?.apply {
                     max = otpElement.period
-                    progress = otpElement.secondsRemaining
+                    setProgressCompat(otpElement.secondsRemaining, true)
                 }
             }
+            null -> {}
         }
         holder?.otpToken?.apply {
             text = otpElement?.token
@@ -497,8 +579,9 @@ class NodeAdapter (private val context: Context,
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
+        var path: TextView? = itemView.findViewById(R.id.node_path)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
-        var otpProgress: ProgressBar? = itemView.findViewById(R.id.node_otp_progress)
+        var otpProgress: CircularProgressIndicator? = itemView.findViewById(R.id.node_otp_progress)
         var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
@@ -506,6 +589,6 @@ class NodeAdapter (private val context: Context,
     }
 
     companion object {
-        private val TAG = NodeAdapter::class.java.name
+        private val TAG = NodesAdapter::class.java.name
     }
 }

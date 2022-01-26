@@ -26,6 +26,6 @@
             android:id="@+id/date_time_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+            style="@style/KeepassDXStyle.TextAppearance.TextNode" />
     </LinearLayout>
 </LinearLayout>

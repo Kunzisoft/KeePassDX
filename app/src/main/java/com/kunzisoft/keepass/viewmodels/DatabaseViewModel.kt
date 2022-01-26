@@ -21,6 +21,9 @@ class DatabaseViewModel: ViewModel() {
     val saveDatabase : LiveData<Boolean> get() = _saveDatabase
     private val _saveDatabase = SingleLiveEvent<Boolean>()
 
+    val mergeDatabase : LiveData<Boolean> get() = _mergeDatabase
+    private val _mergeDatabase = SingleLiveEvent<Boolean>()
+
     val reloadDatabase : LiveData<Boolean> get() = _reloadDatabase
     private val _reloadDatabase = SingleLiveEvent<Boolean>()
 
@@ -82,6 +85,10 @@ class DatabaseViewModel: ViewModel() {
 
     fun saveDatabase(save: Boolean) {
         _saveDatabase.value = save
+    }
+
+    fun mergeDatabase(fixDuplicateUuid: Boolean) {
+        _mergeDatabase.value = fixDuplicateUuid
     }
 
     fun reloadDatabase(fixDuplicateUuid: Boolean) {

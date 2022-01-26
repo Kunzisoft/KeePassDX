@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.net.Uri
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -9,6 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil
+import android.os.Parcel
+import android.os.Parcelable.Creator
+
 
 class KeyFileSelectionView @JvmOverloads constructor(context: Context,
                                                      attrs: AttributeSet? = null,
@@ -54,4 +58,45 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
                 UriUtil.getFileData(context, value)?.name ?: value.path
             } ?: ""
         }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        val saveState = SavedState(superState)
+        saveState.mUri = this.mUri
+        return saveState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+        super.onRestoreInstanceState(state.superState)
+        this.mUri = state.mUri
+    }
+
+    internal class SavedState : BaseSavedState {
+        var mUri: Uri? = null
+
+        constructor(superState: Parcelable?) : super(superState) {}
+
+        private constructor(parcel: Parcel) : super(parcel) {
+            mUri = parcel.readParcelable(Uri::class.java.classLoader)
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeParcelable(mUri, flags)
+        }
+
+        companion object CREATOR : Creator<SavedState> {
+            override fun createFromParcel(parcel: Parcel): SavedState {
+                return SavedState(parcel)
+            }
+
+            override fun newArray(size: Int): Array<SavedState?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 }

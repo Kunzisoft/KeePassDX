@@ -110,8 +110,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      * Update with deep copy of each entry element
      * @param source
      */
-    fun updateWith(source: EntryKDBX, copyHistory: Boolean = true) {
-        super.updateWith(source)
+    fun updateWith(source: EntryKDBX,
+                   copyHistory: Boolean = true,
+                   updateParents: Boolean = true) {
+        super.updateWith(source, updateParents)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
         customData = CustomData(source.customData)

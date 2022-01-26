@@ -32,12 +32,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.ColorUtils
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -60,22 +66,26 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.view.changeControlColor
+import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
-import kotlin.collections.HashMap
 
 class EntryActivity : DatabaseLockActivity() {
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
+    private var appBarLayout: AppBarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var tagsListView: RecyclerView? = null
     private var tagsAdapter: TagsAdapter? = null
-    private var entryProgress: ProgressBar? = null
+    private var entryProgress: LinearProgressIndicator? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
@@ -89,11 +99,21 @@ class EntryActivity : DatabaseLockActivity() {
     private var mEntryLoaded = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mAttachmentsToDownload: HashMap<Int, Attachment> = HashMap()
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mAttachmentSelected: Attachment? = null
+
+    private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) {
+        // Reload the current id from database
+        mEntryViewModel.loadDatabase(mDatabase)
+    }
 
     private var mIcon: IconImage? = null
-    private var mIconColor: Int = 0
+    private var mColorAccent: Int = 0
+    private var mControlColor: Int = 0
+    private var mColorPrimary: Int = 0
+    private var mColorBackground: Int = 0
+    private var mBackgroundColor: Int? = null
+    private var mForegroundColor: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +128,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Get views
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
+        appBarLayout = findViewById(R.id.app_bar)
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
         tagsListView = findViewById(R.id.entry_tags_list_view)
@@ -119,10 +140,19 @@ class EntryActivity : DatabaseLockActivity() {
         collapsingToolbarLayout?.title = " "
         toolbar?.title = " "
 
-        // Retrieve the textColor to tint the icon
-        val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        mIconColor = taIconColor.getColor(0, Color.BLACK)
-        taIconColor.recycle()
+        // Retrieve the textColor to tint the toolbar
+        val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+        val taControlColor = theme.obtainStyledAttributes(intArrayOf(R.attr.toolbarColorControl))
+        val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
+        val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+        mColorAccent = taColorAccent.getColor(0, Color.BLACK)
+        mControlColor = taControlColor.getColor(0, Color.BLACK)
+        mColorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        mColorBackground = taColorBackground.getColor(0, Color.BLACK)
+        taColorAccent.recycle()
+        taControlColor.recycle()
+        taColorPrimary.recycle()
+        taColorBackground.recycle()
 
         // Init Tags adapter
         tagsAdapter = TagsAdapter(this)
@@ -146,6 +176,15 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Init SAF manager
         mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildCreateDocument { createdFileUri ->
+            mAttachmentSelected?.let { attachment ->
+                if (createdFileUri != null) {
+                    mAttachmentFileBinderManager
+                        ?.startDownloadAttachment(createdFileUri, attachment)
+                }
+                mAttachmentSelected = null
+            }
+        }
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
@@ -165,10 +204,8 @@ class EntryActivity : DatabaseLockActivity() {
                 // Assign history dedicated view
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
                 if (entryIsHistory) {
-                    val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
                     collapsingToolbarLayout?.contentScrim =
-                        ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
-                    taColorAccent.recycle()
+                        ColorDrawable(mColorAccent)
                 }
 
                 val entryInfo = entryInfoHistory.entryInfo
@@ -183,12 +220,9 @@ class EntryActivity : DatabaseLockActivity() {
                 }
                 // Assign title icon
                 mIcon = entryInfo.icon
-                titleIconView?.let { iconView ->
-                    mIconDrawableFactory?.assignDatabaseIcon(iconView, entryInfo.icon, mIconColor)
-                }
                 // Assign title text
                 val entryTitle =
-                    if (entryInfo.title.isNotEmpty()) entryInfo.title else entryInfo.id.toString()
+                    if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 mUrl = entryInfo.url
@@ -196,6 +230,9 @@ class EntryActivity : DatabaseLockActivity() {
                 val tags = entryInfo.tags
                 tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
                 tagsAdapter?.setTags(tags)
+                // Assign colors
+                mBackgroundColor = entryInfo.backgroundColor
+                mForegroundColor = entryInfo.foregroundColor
 
                 loadingView?.hideByFading()
                 mEntryLoaded = true
@@ -207,9 +244,9 @@ class EntryActivity : DatabaseLockActivity() {
         }
 
         mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
-            if (otpElement == null)
+            if (otpElement == null) {
                 entryProgress?.visibility = View.GONE
-            when (otpElement?.type) {
+            } else when (otpElement.type) {
                 // Only add token if HOTP
                 OtpType.HOTP -> {
                     entryProgress?.visibility = View.GONE
@@ -218,7 +255,7 @@ class EntryActivity : DatabaseLockActivity() {
                 OtpType.TOTP -> {
                     entryProgress?.apply {
                         max = otpElement.period
-                        progress = otpElement.secondsRemaining
+                        setProgressCompat(otpElement.secondsRemaining, true)
                         visibility = View.VISIBLE
                     }
                 }
@@ -226,9 +263,8 @@ class EntryActivity : DatabaseLockActivity() {
         }
 
         mEntryViewModel.attachmentSelected.observe(this) { attachmentSelected ->
-            mExternalFileHelper?.createDocument(attachmentSelected.name)?.let { requestCode ->
-                mAttachmentsToDownload[requestCode] = attachmentSelected
-            }
+            mAttachmentSelected = attachmentSelected
+            mExternalFileHelper?.createDocument(attachmentSelected.name)
         }
 
         mEntryViewModel.historySelected.observe(this) { historySelected ->
@@ -237,7 +273,8 @@ class EntryActivity : DatabaseLockActivity() {
                     this,
                     database,
                     historySelected.nodeId,
-                    historySelected.historyPosition
+                    historySelected.historyPosition,
+                    mEntryActivityResultLauncher
                 )
             }
         }
@@ -255,13 +292,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onDatabaseRetrieved(database)
 
         mEntryViewModel.loadDatabase(database)
-
-        // Assign title icon
-        mIcon?.let { icon ->
-            titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(iconView, icon, mIconColor)
-            }
-        }
     }
 
     override fun onDatabaseActionFinished(
@@ -299,6 +329,11 @@ class EntryActivity : DatabaseLockActivity() {
                 }
             }
         }
+
+        // Keep the screen on
+        if (PreferencesUtil.isKeepScreenOnEnabled(this)) {
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
 
     override fun onPause() {
@@ -307,24 +342,27 @@ class EntryActivity : DatabaseLockActivity() {
         super.onPause()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
-                // Reload the current id from database
-                mEntryViewModel.loadDatabase(mDatabase)
+    private fun applyToolbarColors() {
+        appBarLayout?.setBackgroundColor(mBackgroundColor ?: mColorPrimary)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorPrimary)
+        val backgroundDarker = if (mBackgroundColor != null) {
+            ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
+        } else {
+            mColorBackground
+        }
+        titleIconView?.background?.colorFilter = BlendModeColorFilterCompat
+            .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
+        mIcon?.let { icon ->
+            titleIconView?.let { iconView ->
+                mIconDrawableFactory?.assignDatabaseIcon(
+                    iconView,
+                    icon,
+                    mForegroundColor ?: mColorAccent
+                )
             }
         }
-
-        mExternalFileHelper?.onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
-            if (createdFileUri != null) {
-                mAttachmentsToDownload[requestCode]?.let { attachmentToDownload ->
-                    mAttachmentFileBinderManager
-                            ?.startDownloadAttachment(createdFileUri, attachmentToDownload)
-                }
-            }
-        }
+        toolbar?.changeControlColor(mForegroundColor ?: mControlColor)
+        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mControlColor)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -358,11 +396,17 @@ class EntryActivity : DatabaseLockActivity() {
         }
         if (mEntryIsHistory || mDatabaseReadOnly) {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
+            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
             menu?.findItem(R.id.menu_edit)?.isVisible = false
         }
+        if (!mMergeDataAllowed) {
+            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
+        }
         if (mSpecialMode != SpecialMode.DEFAULT) {
+            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
+        applyToolbarColors()
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -408,7 +452,8 @@ class EntryActivity : DatabaseLockActivity() {
                         EntryEditActivity.launchToUpdate(
                             this,
                             database,
-                            entryId
+                            entryId,
+                            mEntryActivityResultLauncher
                         )
                     }
                 }
@@ -437,6 +482,9 @@ class EntryActivity : DatabaseLockActivity() {
             R.id.menu_save_database -> {
                 saveDatabase()
             }
+            R.id.menu_merge_database -> {
+                mergeDatabase()
+            }
             R.id.menu_reload_database -> {
                 reloadDatabase()
             }
@@ -449,7 +497,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Transit data in previous Activity after an update
         Intent().apply {
             putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mMainEntryId)
-            setResult(EntryEditActivity.ADD_OR_UPDATE_ENTRY_RESULT_CODE, this)
+            setResult(Activity.RESULT_OK, this)
         }
         super.finish()
     }
@@ -467,15 +515,13 @@ class EntryActivity : DatabaseLockActivity() {
          */
         fun launch(activity: Activity,
                    database: Database,
-                   entryId: NodeId<UUID>) {
+                   entryId: NodeId<UUID>,
+                   activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
-                    activity.startActivityForResult(
-                        intent,
-                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
-                    )
+                    activityResultLauncher.launch(intent)
                 }
             }
         }
@@ -486,16 +532,14 @@ class EntryActivity : DatabaseLockActivity() {
         fun launch(activity: Activity,
                    database: Database,
                    entryId: NodeId<UUID>,
-                   historyPosition: Int) {
+                   historyPosition: Int,
+                   activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
                     intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
-                    activity.startActivityForResult(
-                        intent,
-                        EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE
-                    )
+                    activityResultLauncher.launch(intent)
                 }
             }
         }

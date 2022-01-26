@@ -24,9 +24,7 @@ import android.util.Log
 import android.util.Xml
 import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -48,11 +46,9 @@ import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.utils.*
-import org.joda.time.DateTime
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
 import java.io.OutputStream
-import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
 import java.util.zip.GZIPOutputStream
@@ -70,18 +66,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private var header: DatabaseHeaderKDBX? = null
     private var hashOfHeader: ByteArray? = null
     private var headerHmac: ByteArray? = null
-    private var engine: CipherEngine? = null
 
     @Throws(DatabaseOutputException::class)
     override fun output() {
 
         try {
-            try {
-                engine = EncryptionAlgorithm.getFrom(mDatabaseKDBX.cipherUuid).cipherEngine
-            } catch (e: NoSuchAlgorithmException) {
-                throw DatabaseOutputException("No such cipher", e)
-            }
-
             header = outputHeader(mOutputStream)
 
             val osPlain: OutputStream = if (header!!.version.isBefore(FILE_VERSION_40)) {
@@ -241,6 +230,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
         }
 
+        writeDateInstant(DatabaseKDBXXML.ElemSettingsChanged, mDatabaseKDBX.settingsChanged)
         writeString(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbNameChanged, mDatabaseKDBX.nameChanged)
         writeString(DatabaseKDBXXML.ElemDbDesc, mDatabaseKDBX.description, true)
@@ -280,7 +270,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private fun attachStreamEncryptor(header: DatabaseHeaderKDBX, os: OutputStream): CipherOutputStream {
         val cipher: Cipher
         try {
-            cipher = engine!!.getCipher(Cipher.ENCRYPT_MODE, mDatabaseKDBX.finalKey!!, header.encryptionIV)
+            cipher = mDatabaseKDBX
+                .encryptionAlgorithm
+                .cipherEngine
+                .getCipher(Cipher.ENCRYPT_MODE, mDatabaseKDBX.finalKey!!, header.encryptionIV)
         } catch (e: Exception) {
             throw DatabaseOutputException("Invalid algorithm.", e)
         }
@@ -293,7 +286,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         val random = super.setIVs(header)
         random.nextBytes(header.masterSeed)
 
-        val ivLength = engine!!.ivLength()
+        val ivLength = mDatabaseKDBX.encryptionAlgorithm.cipherEngine.ivLength()
         if (ivLength != header.encryptionIV.size) {
             header.encryptionIV = ByteArray(ivLength)
         }
@@ -592,7 +585,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemDeletedObject)
 
         writeUuid(DatabaseKDBXXML.ElemUuid, value.uuid)
-        writeDateInstant(DatabaseKDBXXML.ElemDeletionTime, value.getDeletionTime())
+        writeDateInstant(DatabaseKDBXXML.ElemDeletionTime, value.deletionTime)
 
         xml.endTag(null, DatabaseKDBXXML.ElemDeletedObject)
     }
@@ -618,7 +611,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeDeletedObjects(value: List<DeletedObject>) {
+    private fun writeDeletedObjects(value: Collection<DeletedObject>) {
         xml.startTag(null, DatabaseKDBXXML.ElemDeletedObjects)
 
         for (pdo in value) {
@@ -765,7 +758,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         var character: Char
         for (element in text) {
             character = element
-            val hexChar = character.toInt()
+            val hexChar = character.code
             if (
                     hexChar in 0x20..0xD7FF ||
                     hexChar == 0x9 ||

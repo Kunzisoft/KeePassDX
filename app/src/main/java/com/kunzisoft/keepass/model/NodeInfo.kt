@@ -4,6 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.utils.UuidUtil
+import java.util.*
 
 open class NodeInfo() : Parcelable {
 

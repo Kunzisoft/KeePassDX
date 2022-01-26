@@ -18,6 +18,7 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/entry_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,7 +26,7 @@
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
     android:minHeight="48dp"
-    android:background="?attr/colorPrimary" >
+    android:background="?attr/colorPrimary">
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/entry_icon"
         android:layout_width="wrap_content"
@@ -49,6 +50,7 @@
         android:layout_marginRight="6dp"
         android:layout_marginEnd="6dp"
         style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+        tools:text="Entry"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/entry_icon"
@@ -66,7 +68,25 @@
         android:layout_marginRight="6dp"
         android:layout_marginEnd="6dp"
         style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
+        tools:text="Username"
         android:layout_below="@+id/entry_text"
+        android:layout_toRightOf="@+id/entry_icon"
+        android:layout_toEndOf="@+id/entry_icon"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/entry_path"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:lines="1"
+        android:singleLine="true"
+        android:layout_marginLeft="-6dp"
+        android:layout_marginStart="-6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
+        style="@style/KeepassDXStyle.TextAppearance.Meta.TextOnPrimary"
+        tools:text="Username"
+        android:layout_below="@+id/entry_subtext"
         android:layout_toRightOf="@+id/entry_icon"
         android:layout_toEndOf="@+id/entry_icon"
         android:layout_alignParentRight="true"

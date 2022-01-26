@@ -20,17 +20,16 @@
 
 package com.kunzisoft.keepass.database.file.input
 
+import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
@@ -46,21 +45,15 @@ import kotlin.collections.HashMap
 /**
  * Load a KDB database file.
  */
-class DatabaseInputKDB(cacheDirectory: File,
-                       isRAMSufficient: (memoryWanted: Long) -> Boolean)
-    : DatabaseInput<DatabaseKDB>(cacheDirectory, isRAMSufficient) {
-
-    private lateinit var mDatabase: DatabaseKDB
+class DatabaseInputKDB(database: DatabaseKDB)
+    : DatabaseInput<DatabaseKDB>(database) {
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
@@ -68,11 +61,8 @@ class DatabaseInputKDB(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.masterKey = masterKey
         }
     }
@@ -80,7 +70,6 @@ class DatabaseInputKDB(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     private fun openDatabase(databaseInputStream: InputStream,
                              progressTaskUpdater: ProgressTaskUpdater?,
-                             fixDuplicateUUID: Boolean,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
 
         try {
@@ -98,7 +87,7 @@ class DatabaseInputKDB(cacheDirectory: File,
             if (fileSize != (contentSize + DatabaseHeaderKDB.BUF_SIZE))
                 throw IOException("Header corrupted")
 
-            if (header.signature1 != DatabaseHeader.PWM_DBSIG_1
+            if (header.signature1 != DatabaseHeaderKDB.DBSIG_1
                     || header.signature2 != DatabaseHeaderKDB.DBSIG_2) {
                 throw SignatureDatabaseException()
             }
@@ -107,10 +96,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                 throw VersionDatabaseException()
             }
 
-            mDatabase = DatabaseKDB()
-            mDatabase.binaryCache.cacheDirectory = cacheDirectory
-
-            mDatabase.changeDuplicateId = fixDuplicateUUID
             assignMasterKey?.invoke()
 
             // Select algorithm
@@ -152,10 +137,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                             messageDigest
                     )
             )
-
-            // New manual root because KDB contains multiple root groups (here available with getRootGroups())
-            val newRoot = mDatabase.createGroup()
-            mDatabase.rootGroup = newRoot
 
             // Import all nodes
             val groupLevelList = HashMap<GroupKDB, Int>()
@@ -285,7 +266,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                val binaryData = mDatabase.buildNewAttachment()
+                                val binaryData = mDatabase.buildNewBinaryAttachment()
                                 entry.putBinary(binaryData, mDatabase.attachmentPool)
                                 BufferedOutputStream(binaryData.getOutputDataStream(mDatabase.binaryCache)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize) { buffer ->
@@ -303,7 +284,34 @@ class DatabaseInputKDB(cacheDirectory: File,
                             newGroup = null
                         }
                         newEntry?.let { entry ->
-                            mDatabase.addEntryIndex(entry)
+                            // Parse meta info
+                            when {
+                                entry.isMetaStreamDefaultUsername() -> {
+                                    var defaultUser = ""
+                                    entry.getBinary(mDatabase.attachmentPool)
+                                        ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                            defaultUser = String(it.readBytes())
+                                        }
+                                    mDatabase.defaultUserName = defaultUser
+                                }
+                                entry.isMetaStreamDatabaseColor() -> {
+                                    var color: Int? = null
+                                    entry.getBinary(mDatabase.attachmentPool)
+                                        ?.getInputDataStream(mDatabase.binaryCache)?.use {
+                                            val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
+                                            color = Color.rgb(
+                                                Color.blue(reverseColor),
+                                                Color.green(reverseColor),
+                                                Color.red(reverseColor)
+                                            )
+                                        }
+                                    mDatabase.color = color
+                                }
+                                // TODO manager other meta stream
+                                else -> {
+                                    mDatabase.addEntryIndex(entry)
+                                }
+                            }
                             currentEntryNumber++
                             newEntry = null
                         }
@@ -323,16 +331,16 @@ class DatabaseInputKDB(cacheDirectory: File,
             stopContentTimer()
 
         } catch (e: LoadDatabaseException) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw e
         } catch (e: IOException) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw IODatabaseException(e)
         } catch (e: OutOfMemoryError) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw NoMemoryDatabaseException(e)
         } catch (e: Exception) {
-            mDatabase.clearCache()
+            mDatabase.clearAll()
             throw LoadDatabaseException(e)
         }
 

@@ -1,7 +1,33 @@
+KeePassDX(3.2.0)
+ * Manage data merge #840 #977
+ * Manage Tags #633
+ * Inherit colors and icon from template #1213 #1130
+ * Setting to keep the screen on when watching the entry #1119
+ * Add path in quick search
+ * Small fixes
+
 KeePassDX(3.1.0)
+ * Add breadcrumb
+ * Add path in search results #1148
+ * Add group info dialog #1177
+ * Manage colors #64 #913
+ * Fix UI in Android 8 #509
+ * Upgrade libs and SDK to 31 #833
+ * Fix parser of database v1 #1201
+ * Stop asking WRITE_EXTERNAL_STORAGE permission
+
+KeePassDX(3.0.4)
+ * Fix autofill inline bugs #1173 #1165
+ * Small UI change
+
+KeePassDX(3.0.3)
  * Change default Argon2 parameters #1098
  * Add & edit custom icon name #976
- * Manage Tags #633
+ * Fix templates #1128 #1133 #1138
+ * Update Autofill compatibility list #725 #1154
+ * Improve fingerprint usage #1137 #1145
+ * Change backup configuration #1144
+ * Add lock button in database notification
 
 KeePassDX(3.0.2)
  * Samsung DeX mode #1114 #245 (Thx @chenxiaolong)

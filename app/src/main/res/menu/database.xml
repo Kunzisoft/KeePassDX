@@ -25,10 +25,16 @@
         android:orderInCategory="95"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_merge_database"
+        android:icon="@drawable/ic_merge_white_24dp"
+        android:title="@string/menu_merge_database"
+        android:orderInCategory="96"
+        app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_reload_database"
         android:icon="@drawable/ic_downloading_white_24dp"
         android:title="@string/menu_reload_database"
-        android:orderInCategory="96"
+        android:orderInCategory="97"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

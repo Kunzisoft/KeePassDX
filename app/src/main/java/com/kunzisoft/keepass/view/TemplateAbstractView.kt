@@ -46,6 +46,10 @@ abstract class TemplateAbstractView<
 
     protected var headerContainerView: ViewGroup
     protected var entryIconView: ImageView
+    protected var backgroundColorView: View
+    protected var foregroundColorView: View
+    protected var backgroundColorButton: ImageView
+    protected var foregroundColorButton: ImageView
     private var titleContainerView: ViewGroup
     protected var templateContainerView: ViewGroup
     private var customFieldsContainerView: SectionView
@@ -57,6 +61,10 @@ abstract class TemplateAbstractView<
 
         headerContainerView = findViewById(R.id.template_header_container)
         entryIconView = findViewById(R.id.template_icon_button)
+        backgroundColorView = findViewById(R.id.template_background_color)
+        foregroundColorView = findViewById(R.id.template_foreground_color)
+        backgroundColorButton = findViewById(R.id.template_background_color_button)
+        foregroundColorButton = findViewById(R.id.template_foreground_color_button)
         titleContainerView = findViewById(R.id.template_title_container)
         templateContainerView = findViewById(R.id.template_fields_container)
         // To fix card view margin below Marshmallow
@@ -85,14 +93,26 @@ abstract class TemplateAbstractView<
     fun setTemplate(template: Template?) {
         if (mTemplate != template) {
             mTemplate = template
+            applyTemplateParametersToEntry()
             if (mEntryInfo != null) {
-                populateEntryInfoWithViews(true)
+                populateEntryInfoWithViews(templateFieldNotEmpty = true,
+                                           retrieveDefaultValues = false)
             }
             buildTemplateAndPopulateInfo()
             clearFocus()
             (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager?)
                 ?.hideSoftInputFromWindow(windowToken, 0)
         }
+    }
+
+    private fun applyTemplateParametersToEntry() {
+        // Change the entry icon by the template icon
+        mTemplate?.icon?.let { templateIcon ->
+            mEntryInfo?.icon = templateIcon
+        }
+        // Change the entry color by the template color
+        mEntryInfo?.backgroundColor = mTemplate?.backgroundColor
+        mEntryInfo?.foregroundColor = mTemplate?.foregroundColor
     }
 
     private fun buildTemplate() {
@@ -203,9 +223,7 @@ abstract class TemplateAbstractView<
                 setNumberLines(20)
             },
             TemplateAttributeAction.CUSTOM_EDITION
-        ).apply {
-                default = field.protectedValue.stringValue
-        }
+        )
         return buildViewForTemplateField(customFieldTemplateAttribute, field, FIELD_CUSTOM_TAG)
     }
 
@@ -390,50 +408,74 @@ abstract class TemplateAbstractView<
         return emptyList()
     }
 
-    protected open fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean) {
+    protected open fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
+                                                  retrieveDefaultValues: Boolean) {
         if (mEntryInfo == null)
             mEntryInfo = EntryInfo()
 
-        // Icon already populate
-
-        val titleView: TEntryFieldView? = findViewWithTag(FIELD_TITLE_TAG)
-        titleView?.value?.let {
-            mEntryInfo?.title = it
+        try {
+            val titleView: TEntryFieldView? = findViewWithTag(FIELD_TITLE_TAG)
+            titleView?.value?.let {
+                mEntryInfo?.title = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate title view", e)
         }
 
-        val userNameView: TEntryFieldView? = findViewWithTag(FIELD_USERNAME_TAG)
-        userNameView?.value?.let {
-            mEntryInfo?.username = it
+        try {
+            val userNameView: TEntryFieldView? = findViewWithTag(FIELD_USERNAME_TAG)
+            userNameView?.value?.let {
+                mEntryInfo?.username = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate username view", e)
         }
 
-        val passwordView: TEntryFieldView? = findViewWithTag(FIELD_PASSWORD_TAG)
-        passwordView?.value?.let {
-            mEntryInfo?.password = it
+        try {
+            val passwordView: TEntryFieldView? = findViewWithTag(FIELD_PASSWORD_TAG)
+            passwordView?.value?.let {
+                mEntryInfo?.password = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate password view", e)
         }
 
-        val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
-        urlView?.value?.let {
-            mEntryInfo?.url = it
+        try {
+            val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
+            urlView?.value?.let {
+                mEntryInfo?.url = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate url view", e)
         }
 
-        val expirationView: TDateTimeView? = findViewWithTag(FIELD_EXPIRES_TAG)
-        expirationView?.activation?.let {
-            mEntryInfo?.expires = it
-        }
-        expirationView?.dateTime?.let {
-            mEntryInfo?.expiryTime = it
+        try {
+            val expirationView: TDateTimeView? = findViewWithTag(FIELD_EXPIRES_TAG)
+            expirationView?.activation?.let {
+                mEntryInfo?.expires = it
+            }
+            expirationView?.dateTime?.let {
+                mEntryInfo?.expiryTime = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate expiration view", e)
         }
 
-        val notesView: TEntryFieldView? = findViewWithTag(FIELD_NOTES_TAG)
-        notesView?.value?.let {
-            mEntryInfo?.notes = it
+        try {
+            val notesView: TEntryFieldView? = findViewWithTag(FIELD_NOTES_TAG)
+            notesView?.value?.let {
+                mEntryInfo?.notes = it
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate notes view", e)
         }
 
-        retrieveCustomFieldsFromView(templateFieldNotEmpty)
+        retrieveCustomFieldsFromView(templateFieldNotEmpty, retrieveDefaultValues)
     }
 
     fun getEntryInfo(): EntryInfo {
-        populateEntryInfoWithViews(true)
+        populateEntryInfoWithViews(templateFieldNotEmpty = true,
+                                   retrieveDefaultValues = true)
         return mEntryInfo ?: EntryInfo()
     }
 
@@ -479,23 +521,31 @@ abstract class TemplateAbstractView<
         return mViewFields.indexOfFirst { it.field.name.equals(name, true) }
     }
 
-    private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false) {
+    private fun retrieveCustomFieldsFromView(templateFieldNotEmpty: Boolean = false,
+                                             retrieveDefaultValues: Boolean = false) {
         mEntryInfo?.customFields = mViewFields.mapNotNull {
-            getCustomField(it.field.name, templateFieldNotEmpty)
+            getCustomField(it.field.name, templateFieldNotEmpty, retrieveDefaultValues)
         }.toMutableList()
     }
 
     protected fun getCustomField(fieldName: String): Field {
-        return getCustomField(fieldName, false)
-            ?: Field(fieldName, ProtectedString(false))
+        return getCustomField(fieldName,
+            templateFieldNotEmpty = false,
+            retrieveDefaultValues = false
+        ) ?: Field(fieldName, ProtectedString(false))
     }
 
-    private fun getCustomField(fieldName: String, templateFieldNotEmpty: Boolean): Field? {
+    private fun getCustomField(fieldName: String,
+                               templateFieldNotEmpty: Boolean,
+                               retrieveDefaultValues: Boolean): Field? {
         getViewFieldByName(fieldName)?.let { fieldId ->
-            val editView: View? = fieldId.view
+            val editView: View = fieldId.view
             if (editView is GenericFieldView) {
                 // Do not return field with a default value
-                val defaultViewValue = if (editView.value == editView.default) "" else editView.value
+                val defaultViewValue =
+                    if (retrieveDefaultValues || editView.value != editView.default) {
+                        editView.value
+                    } else ""
                 if (!templateFieldNotEmpty
                     || (editView.tag == FIELD_CUSTOM_TAG && defaultViewValue.isNotEmpty())) {
                     return Field(
@@ -641,7 +691,8 @@ abstract class TemplateAbstractView<
     override fun onSaveInstanceState(): Parcelable {
         val superSave = super.onSaveInstanceState()
         val saveState = SavedState(superSave)
-        populateEntryInfoWithViews(false)
+        populateEntryInfoWithViews(templateFieldNotEmpty = false,
+                                   retrieveDefaultValues = false)
         saveState.template = this.mTemplate
         saveState.entryInfo = this.mEntryInfo
         onSaveEntryInstanceState(saveState)

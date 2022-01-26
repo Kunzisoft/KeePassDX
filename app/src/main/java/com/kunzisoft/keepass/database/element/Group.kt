@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -308,8 +309,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         val withoutMetaStream = filters.contains(ChildFilter.META_STREAM)
         val showExpiredEntries = !filters.contains(ChildFilter.EXPIRED)
 
+        // TODO Change KDB parser to remove meta entries
         return groupKDB?.getChildEntries()?.filter {
-            (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream))
+            (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream()))
                     && (!it.isCurrentlyExpires or showExpiredEntries)
         }?.map {
             Entry(it)
@@ -453,6 +455,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun getGroupInfo(): GroupInfo {
         val groupInfo = GroupInfo()
+        groupInfo.id = groupKDBX?.nodeId?.id
         groupInfo.title = title
         groupInfo.icon = icon
         groupInfo.creationTime = creationTime

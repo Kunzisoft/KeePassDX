@@ -21,16 +21,12 @@ package com.kunzisoft.keepass.database.file.input
 
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import java.io.File
 import java.io.InputStream
 
-abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>>
-    (protected val cacheDirectory: File,
-     protected val isRAMSufficient: (memoryWanted: Long) -> Boolean) {
+abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>> (protected var mDatabase: D) {
 
     private var startTimeKey = System.currentTimeMillis()
     private var startTimeContent = System.currentTimeMillis()
@@ -49,17 +45,13 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>>
     abstract fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean = false): D
+                              progressTaskUpdater: ProgressTaskUpdater?): D
 
 
     @Throws(LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean = false): D
+                              progressTaskUpdater: ProgressTaskUpdater?): D
 
     protected fun startKeyTimer(progressTaskUpdater: ProgressTaskUpdater?) {
         progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)

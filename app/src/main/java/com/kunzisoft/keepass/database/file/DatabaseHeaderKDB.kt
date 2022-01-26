@@ -34,7 +34,7 @@ class DatabaseHeaderKDB : DatabaseHeader() {
      */
     var transformSeed = ByteArray(32)
 
-    var signature1 = UnsignedInt(0)                  // = PWM_DBSIG_1
+    var signature1 = UnsignedInt(0)                  // = DBSIG_1
     var signature2 = UnsignedInt(0)                  // = DBSIG_2
     var flags= UnsignedInt(0)
     var version= UnsignedInt(0)
@@ -84,9 +84,9 @@ class DatabaseHeaderKDB : DatabaseHeader() {
     companion object {
 
         // DB sig from KeePass 1.03
-        val DBSIG_2 = UnsignedInt(-0x4ab4049b)
-        // DB sig from KeePass 1.03
-        val DBVER_DW = UnsignedInt(0x00030003)
+        val DBSIG_1 = UnsignedInt(-0x655d26fd) // 0x9AA2D903
+        val DBSIG_2 = UnsignedInt(-0x4ab4049b) // 0xB54BFB65
+        val DBVER_DW = UnsignedInt(0x00030004)
 
         val FLAG_SHA2 = UnsignedInt(1)
         val FLAG_RIJNDAEL = UnsignedInt(2)
@@ -97,7 +97,7 @@ class DatabaseHeaderKDB : DatabaseHeader() {
         const val BUF_SIZE = 124
 
         fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
-            return sig1.toKotlinInt() == PWM_DBSIG_1.toKotlinInt() && sig2.toKotlinInt() == DBSIG_2.toKotlinInt()
+            return sig1.toKotlinInt() == DBSIG_1.toKotlinInt() && sig2.toKotlinInt() == DBSIG_2.toKotlinInt()
         }
 
         fun compatibleHeaders(one: UnsignedInt, two: UnsignedInt): Boolean {

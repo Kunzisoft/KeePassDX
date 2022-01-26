@@ -57,6 +57,7 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         }
 
         if (dialogFragment != null) {
+            @Suppress("DEPRECATION")
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, TAG_AUTOFILL_PREF_FRAGMENT)
         }

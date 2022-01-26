@@ -1,0 +1,2 @@
+ * Fix autofill inline bugs #1173 #1165
+ * Small UI change

@@ -23,10 +23,8 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
 
 class Template : Parcelable {
 
@@ -34,6 +32,8 @@ class Template : Parcelable {
     var uuid: UUID = DatabaseVersioned.UUID_ZERO
     var title = ""
     var icon = IconImage()
+    var backgroundColor: Int? = null
+    var foregroundColor: Int? = null
     var sections: MutableList<TemplateSection> = ArrayList()
         private set
 
@@ -41,7 +41,8 @@ class Template : Parcelable {
                 title: String,
                 icon: IconImage,
                 section: TemplateSection,
-                version: Int = 1): this(uuid, title, icon, ArrayList<TemplateSection>().apply {
+                version: Int = 1)
+            : this(uuid, title, icon, ArrayList<TemplateSection>().apply {
         add(section)
     }, version)
 
@@ -49,11 +50,22 @@ class Template : Parcelable {
                 title: String,
                 icon: IconImage,
                 sections: List<TemplateSection>,
+                version: Int = 1)
+            : this(uuid, title, icon, null, null, sections, version)
+
+    constructor(uuid: UUID,
+                title: String,
+                icon: IconImage,
+                backgroundColor: Int?,
+                foregroundColor: Int?,
+                sections: List<TemplateSection>,
                 version: Int = 1) {
         this.version = version
         this.uuid = uuid
         this.title = title
         this.icon = icon
+        this.backgroundColor = backgroundColor
+        this.foregroundColor = foregroundColor
         this.sections.clear()
         this.sections.addAll(sections)
     }
@@ -63,6 +75,8 @@ class Template : Parcelable {
         this.uuid = template.uuid
         this.title = template.title
         this.icon = template.icon
+        this.backgroundColor = template.backgroundColor
+        this.foregroundColor = template.foregroundColor
         this.sections.clear()
         this.sections.addAll(template.sections)
     }
@@ -72,6 +86,8 @@ class Template : Parcelable {
         uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: uuid
         title = parcel.readString() ?: title
         icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
+        backgroundColor = parcel.readInt()
+        foregroundColor = parcel.readInt()
         parcel.readList(sections, TemplateSection::class.java.classLoader)
     }
 
@@ -80,6 +96,8 @@ class Template : Parcelable {
         parcel.writeParcelable(ParcelUuid(uuid), flags)
         parcel.writeString(title)
         parcel.writeParcelable(icon, flags)
+        parcel.writeInt(backgroundColor ?: -1)
+        parcel.writeInt(foregroundColor ?: -1)
         parcel.writeList(sections)
     }
 

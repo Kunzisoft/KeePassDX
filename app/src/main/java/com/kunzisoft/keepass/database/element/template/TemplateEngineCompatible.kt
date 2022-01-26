@@ -1,3 +1,21 @@
+/*
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.kunzisoft.keepass.database.element.template
 
 import android.util.Log
@@ -208,16 +226,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 when (attribute.type) {
                     TemplateAttributeType.TEXT -> {
                         try {
-                            when (attribute.options.getNumberLines()) {
-                                1 -> {
-                                    // If one line, default attribute option is number of chars
-                                    attribute.options.setNumberChars(defaultOption.toInt())
-                                }
-                                else -> {
-                                    // else it's number of lines
-                                    attribute.options.setNumberLines(defaultOption.toInt())
-                                }
-                            }
+                            // It's always a number of lines...
+                            attribute.options.setNumberLines(defaultOption.toInt())
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to transform default text option", e)
                         }
@@ -265,6 +275,9 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 entryCopy.putField(field)
             }
         }
+        // Add colors
+        entryCopy.foregroundColor = templateEntry.foregroundColor
+        entryCopy.backgroundColor = templateEntry.backgroundColor
 
         return entryCopy
     }
@@ -367,6 +380,9 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 }
             }
         }
+        // Add colors
+        entryCopy.foregroundColor = templateEntry.foregroundColor
+        entryCopy.backgroundColor = templateEntry.backgroundColor
         return entryCopy
     }
 

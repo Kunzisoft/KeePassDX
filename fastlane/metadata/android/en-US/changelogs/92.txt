@@ -1,0 +1,8 @@
+ * Add breadcrumb
+ * Add path in search results #1148
+ * Add group info dialog #1177
+ * Manage colors #64 #913
+ * Fix UI in Android 8 #509
+ * Upgrade libs and SDK to 31 #833
+ * Fix parser of database v1 #1201
+ * Stop asking WRITE_EXTERNAL_STORAGE permission

@@ -29,6 +29,7 @@
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/white_dark</item>
+        <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>

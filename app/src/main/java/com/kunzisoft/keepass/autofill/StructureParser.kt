@@ -272,12 +272,12 @@ class StructureParser(private val structure: AssistStructure) {
     private fun parseNodeByHtmlAttributes(node: AssistStructure.ViewNode): Boolean {
         val autofillId = node.autofillId
         val nodHtml = node.htmlInfo
-        when (nodHtml?.tag?.toLowerCase(Locale.ENGLISH)) {
+        when (nodHtml?.tag?.lowercase(Locale.ENGLISH)) {
             "input" -> {
                 nodHtml.attributes?.forEach { pairAttribute ->
-                    when (pairAttribute.first.toLowerCase(Locale.ENGLISH)) {
+                    when (pairAttribute.first.lowercase(Locale.ENGLISH)) {
                         "type" -> {
-                            when (pairAttribute.second.toLowerCase(Locale.ENGLISH)) {
+                            when (pairAttribute.second.lowercase(Locale.ENGLISH)) {
                                 "tel", "email" -> {
                                     result?.usernameId = autofillId
                                     result?.usernameValue = node.autofillValue

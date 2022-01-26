@@ -25,7 +25,6 @@ import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.stream.MacOutputStream
@@ -68,11 +67,11 @@ constructor(private val databaseKDBX: DatabaseKDBX,
     @Throws(IOException::class)
     fun output() {
 
-        mos.write4BytesUInt(DatabaseHeader.PWM_DBSIG_1)
+        mos.write4BytesUInt(DatabaseHeaderKDBX.DBSIG_1)
         mos.write4BytesUInt(DatabaseHeaderKDBX.DBSIG_2)
         mos.write4BytesUInt(header.version)
 
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.cipherUuid))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.encryptionAlgorithm.uuid))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, uIntTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
@@ -130,6 +129,6 @@ constructor(private val databaseKDBX: DatabaseKDBX,
     }
 
     companion object {
-        private val EndHeaderValue = byteArrayOf('\r'.toByte(), '\n'.toByte(), '\r'.toByte(), '\n'.toByte())
+        private val EndHeaderValue = byteArrayOf('\r'.code.toByte(), '\n'.code.toByte(), '\r'.code.toByte(), '\n'.code.toByte())
     }
 }

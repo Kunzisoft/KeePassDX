@@ -1,4 +1,4 @@
-<b>Multi-format KeePass password manager</b>, the app allows saving and using passwords, keys and digital identities in a secure way, by integrating the Android design standards.
+KeePassDX is <b>open source</b>, <b>ad-free</b>. <b>Multi-format KeePass password manager</b>, the app allows saving and using passwords, keys and digital identities in a secure way, by integrating the Android design standards and <b>requires no internet connection</b>.
 
 <b>Features</b>
  - Create database files / entries and groups.
@@ -10,11 +10,10 @@
  - Material design with themes.
  - Auto-Fill and integration.
  - Field filling keyboard.
+ - Dynamic templates.
  - History of each entry.
  - Precise management of settings.
  - Code written in native languages (Kotlin / Java / JNI / C).
-
-KeePassDX is <b>open source</b> and <b>ad-free</b>.
 
 You can donate or buy the pro version for better service and a quick development of features you want: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 

@@ -449,7 +449,7 @@
     <string name="autofill_application_id_blocklist_summary">Blokeringsliste der forhindrer automatisk udfyldning af programmer</string>
     <string name="autofill_application_id_blocklist_title">Blokeringsliste for program</string>
     <string name="keyboard_previous_fill_in_summary">Skift automatisk tilbage til det forrige tastatur efter udførelse af \"Automatisk tastehandling\"</string>
-    <string name="keyboard_previous_fill_in_title">Auto nøglehandling</string>
+    <string name="keyboard_previous_fill_in_title">Automatisk tastehandling</string>
     <string name="keyboard_previous_database_credentials_summary">Skift automatisk tilbage til det forrige tastatur på databasens legitimationsskærm</string>
     <string name="keyboard_previous_database_credentials_title">Skærmbilledet til databaselegitimationsoplysninger</string>
     <string name="keyboard_change">Skifte tastatur</string>

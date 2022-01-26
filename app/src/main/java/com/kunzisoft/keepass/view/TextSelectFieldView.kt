@@ -194,6 +194,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
         get() = valueSpinnerAdapter.getItem(mDefaultPosition)
         set(value) {
             mDefaultPosition = valueSpinnerAdapter.getPosition(value)
+            valueSpinnerAdapter.notifyDataSetChanged()
         }
 
     override fun setOnActionClickListener(onActionClickListener: OnClickListener?,

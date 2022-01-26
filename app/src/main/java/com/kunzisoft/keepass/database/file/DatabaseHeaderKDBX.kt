@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.file
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
@@ -28,9 +27,6 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.entry.EntryKDBX
-import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.utils.*
@@ -87,69 +83,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     inner class HeaderAndHash(var header: ByteArray, var hash: ByteArray)
 
     init {
-        this.version = getMinKdbxVersion(databaseV4) // Only for writing
+        this.version = databaseV4.getMinKdbxVersion()
         this.masterSeed = ByteArray(32)
-    }
-
-    private open class NodeOperationHandler<T: NodeKDBXInterface> : NodeHandler<T>() {
-        var containsCustomData = false
-        override fun operate(node: T): Boolean {
-            if (node.customData.isNotEmpty()) {
-                containsCustomData = true
-            }
-            return true
-        }
-    }
-
-    private inner class EntryOperationHandler: NodeOperationHandler<EntryKDBX>() {
-        var passwordQualityEstimationDisabled = false
-        override fun operate(node: EntryKDBX): Boolean {
-            if (!node.qualityCheck) {
-                passwordQualityEstimationDisabled = true
-            }
-            return super.operate(node)
-        }
-    }
-
-    private inner class GroupOperationHandler: NodeOperationHandler<GroupKDBX>() {
-        var containsTags = false
-        override fun operate(node: GroupKDBX): Boolean {
-            if (!node.tags.isEmpty())
-                containsTags = true
-            return super.operate(node)
-        }
-    }
-
-    private fun getMinKdbxVersion(databaseKDBX: DatabaseKDBX): UnsignedInt {
-        val entryHandler = EntryOperationHandler()
-        val groupHandler = GroupOperationHandler()
-        databaseKDBX.rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
-
-        // https://keepass.info/help/kb/kdbx_4.1.html
-        val containsGroupWithTag = groupHandler.containsTags
-        val containsEntryWithPasswordQualityEstimationDisabled = entryHandler.passwordQualityEstimationDisabled
-        val containsCustomIconWithNameOrLastModificationTime = databaseKDBX.iconsManager.containsCustomIconWithNameOrLastModificationTime()
-        val containsHeaderCustomDataWithLastModificationTime = databaseKDBX.customData.containsItemWithLastModificationTime()
-
-        // https://keepass.info/help/kb/kdbx_4.html
-        // If AES is not use, it's at least 4.0
-        val kdfIsNotAes = databaseKDBX.kdfParameters?.uuid != AesKdf.CIPHER_UUID
-        val containsHeaderCustomData = databaseKDBX.customData.isNotEmpty()
-        val containsNodeCustomData = entryHandler.containsCustomData || groupHandler.containsCustomData
-
-        // Check each condition to determine version
-        return if (containsGroupWithTag
-                || containsEntryWithPasswordQualityEstimationDisabled
-                || containsCustomIconWithNameOrLastModificationTime
-                || containsHeaderCustomDataWithLastModificationTime) {
-            FILE_VERSION_41
-        } else if (kdfIsNotAes
-                || containsHeaderCustomData
-                || containsNodeCustomData) {
-            FILE_VERSION_40
-        } else {
-            FILE_VERSION_31
-        }
     }
 
     /** Assumes the input stream is at the beginning of the .kdbx file
@@ -256,8 +191,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         if (pbId == null || pbId.size != 16) {
             throw IOException("Invalid cipher ID.")
         }
-
-        databaseV4.cipherUuid = bytes16ToUuid(pbId)
+        databaseV4.setEncryptionAlgorithmFromUUID(bytes16ToUuid(pbId))
     }
 
     private fun setTransformRound(roundsByte: ByteArray) {
@@ -311,8 +245,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     companion object {
 
-        val DBSIG_PRE2 = UnsignedInt(-0x4ab4049a)
-        val DBSIG_2 = UnsignedInt(-0x4ab40499)
+        val DBSIG_1 = UnsignedInt(-0x655d26fd) // 0x9AA2D903
+        val DBSIG_PRE2 = UnsignedInt(-0x4ab4049a) // 0xB54BFB66
+        val DBSIG_2 = UnsignedInt(-0x4ab40499) // 0xB54BFB67
 
         private val FILE_VERSION_CRITICAL_MASK = UnsignedInt(-0x10000)
         val FILE_VERSION_31 = UnsignedInt(0x00030001)
@@ -335,7 +270,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         }
 
         fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
-            return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
+            return sig1 == DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
         }
     }
 }

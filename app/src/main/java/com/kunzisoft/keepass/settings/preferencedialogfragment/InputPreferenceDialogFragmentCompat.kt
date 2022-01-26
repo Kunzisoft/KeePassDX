@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
@@ -35,6 +36,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
     private var inputTextView: EditText? = null
     private var textUnitView: TextView? = null
     private var textExplanationView: TextView? = null
+    private var explanationButton: Button? = null
     private var switchElementView: CompoundButton? = null
 
     private var mOnInputTextEditorActionListener: TextView.OnEditorActionListener? = null
@@ -100,6 +102,27 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         explanationText = getString(explanationTextId)
     }
 
+    val explanationButtonText: String?
+        get() = explanationButton?.text?.toString() ?: ""
+
+    fun setExplanationButton(explanationButtonText: String?, clickListener: View.OnClickListener) {
+        explanationButton?.apply {
+            if (explanationButtonText != null && explanationButtonText.isNotEmpty()) {
+                text = explanationButtonText
+                visibility = View.VISIBLE
+                setOnClickListener(clickListener)
+            } else {
+                text = ""
+                visibility = View.GONE
+                setOnClickListener(null)
+            }
+        }
+    }
+
+    fun setExplanationButton(@StringRes explanationButtonTextId: Int, clickListener: View.OnClickListener) {
+        setExplanationButton(getString(explanationButtonTextId), clickListener)
+    }
+
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
@@ -128,6 +151,8 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         textUnitView?.visibility = View.GONE
         textExplanationView = view.findViewById(R.id.explanation_text)
         textExplanationView?.visibility = View.GONE
+        explanationButton = view.findViewById(R.id.explanation_button)
+        explanationButton?.visibility = View.GONE
         switchElementView = view.findViewById(R.id.switch_element)
         switchElementView?.visibility = View.GONE
     }

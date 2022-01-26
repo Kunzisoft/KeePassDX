@@ -62,6 +62,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     private var mExitLock: Boolean = false
 
     protected var mDatabaseReadOnly: Boolean = true
+    protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
 
     protected var mIconDrawableFactory: IconDrawableFactory? = null
@@ -87,8 +88,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
+        mDatabaseViewModel.mergeDatabase.observe(this) { fixDuplicateUuid ->
+            mDatabaseTaskProvider?.startDatabaseMerge(fixDuplicateUuid)
+        }
+
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
-            mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+            mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
+                mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
+            }
         }
 
         mDatabaseViewModel.saveName.observe(this) {
@@ -100,7 +107,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
 
         mDatabaseViewModel.saveDefaultUsername.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
+            mDatabaseTaskProvider?.startDatabaseSaveDefaultUsername(it.oldValue, it.newValue, it.save)
         }
 
         mDatabaseViewModel.saveColor.observe(this) {
@@ -180,8 +187,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                         closeDatabase(database)
                         if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
                             LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
-                        // Add onActivityForResult response
-                        setResult(RESULT_EXIT_LOCK)
+                        mExitLock = true
                         closeOptionsMenu()
                         finish()
                     }
@@ -198,6 +204,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             }
 
             mDatabaseReadOnly = database.isReadOnly
+            mMergeDataAllowed = database.isMergeDataAllowed()
             mIconDrawableFactory = database.iconDrawableFactory
 
             checkRegister()
@@ -213,6 +220,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
+            DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK,
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
                 // Reload the current activity
                 if (result.isSuccess) {
@@ -255,8 +263,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseSave(true)
     }
 
+    fun mergeDatabase() {
+        mDatabaseTaskProvider?.startDatabaseMerge(false)
+    }
+
     fun reloadDatabase() {
-        mDatabaseTaskProvider?.startDatabaseReload(false)
+        mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
+            mDatabaseTaskProvider?.startDatabaseReload(false)
+        }
     }
 
     fun createEntry(newEntry: Entry,
@@ -353,14 +367,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_EXIT_LOCK) {
-            mExitLock = true
-            lockAndExit()
-        }
-    }
-
     private fun checkRegister() {
         // If in ave or registration mode, don't allow read only
         if ((mSpecialMode == SpecialMode.SAVE
@@ -439,8 +445,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     companion object {
 
         const val TAG = "LockingActivity"
-
-        const val RESULT_EXIT_LOCK = 1450
 
         const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
         const val TIMEOUT_ENABLE_KEY_DEFAULT = true

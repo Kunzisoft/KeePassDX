@@ -9,23 +9,23 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 
 
-class TemplatesSelectorAdapter(private val context: Context,
-                               private val iconDrawableFactory: IconDrawableFactory?,
-                               private var templates: List<Template>): BaseAdapter() {
+class TemplatesSelectorAdapter(
+    context: Context,
+    private var templates: List<Template>): BaseAdapter() {
 
+    var iconDrawableFactory: IconDrawableFactory? = null
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var mIconColor = Color.BLACK
+    private var mTextColor = Color.BLACK
 
     init {
-        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        mIconColor = taIconColor.getColor(0, Color.BLACK)
-        taIconColor.recycle()
+        val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        mTextColor = taTextColor.getColor(0, Color.BLACK)
+        taTextColor.recycle()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -36,6 +36,7 @@ class TemplatesSelectorAdapter(private val context: Context,
         if (templateView == null) {
             holder = TemplateSelectorViewHolder()
             templateView = inflater.inflate(R.layout.item_template, parent, false)
+            holder.background = templateView?.findViewById(R.id.template_background)
             holder.icon = templateView?.findViewById(R.id.template_image)
             holder.name = templateView?.findViewById(R.id.template_name)
             templateView?.tag = holder
@@ -43,10 +44,15 @@ class TemplatesSelectorAdapter(private val context: Context,
             holder = templateView.tag as TemplateSelectorViewHolder
         }
 
+        holder.background?.setBackgroundColor(template.backgroundColor ?: Color.TRANSPARENT)
+        val textColor = template.foregroundColor ?: mTextColor
         holder.icon?.let { icon ->
-            iconDrawableFactory?.assignDatabaseIcon(icon, template.icon, mIconColor)
+            iconDrawableFactory?.assignDatabaseIcon(icon, template.icon, textColor)
         }
-        holder.name?.text = TemplateField.getLocalizedName(context, template.title)
+        holder.name?.apply {
+            setTextColor(textColor)
+            text = TemplateField.getLocalizedName(context, template.title)
+        }
 
         return templateView!!
     }
@@ -64,6 +70,7 @@ class TemplatesSelectorAdapter(private val context: Context,
     }
 
     inner class TemplateSelectorViewHolder {
+        var background: View? = null
         var icon: ImageView? = null
         var name: TextView? = null
     }

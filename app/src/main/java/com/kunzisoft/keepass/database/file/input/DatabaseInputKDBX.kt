@@ -28,13 +28,13 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.utils.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
@@ -63,12 +62,10 @@ import javax.crypto.CipherInputStream
 import javax.crypto.Mac
 import kotlin.math.min
 
-class DatabaseInputKDBX(cacheDirectory: File,
-                        isRAMSufficient: (memoryWanted: Long) -> Boolean)
-    : DatabaseInput<DatabaseKDBX>(cacheDirectory, isRAMSufficient) {
+class DatabaseInputKDBX(database: DatabaseKDBX)
+    : DatabaseInput<DatabaseKDBX>(database) {
 
     private var randomStream: StreamCipher? = null
-    private lateinit var mDatabase: DatabaseKDBX
 
     private var hashOfHeader: ByteArray? = null
 
@@ -97,15 +94,18 @@ class DatabaseInputKDBX(cacheDirectory: File,
     private var entryCustomDataKey: String? = null
     private var entryCustomDataValue: String? = null
 
+    private var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+
+    fun setMethodToCheckIfRAMIsSufficient(method: (memoryWanted: Long) -> Boolean) {
+        this.isRAMSufficient = method
+    }
+
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyfileInputStream: InputStream?,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.retrieveMasterKey(password, keyfileInputStream)
         }
     }
@@ -113,11 +113,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               masterKey: ByteArray,
-                              loadedCipherKey: LoadedKey,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              fixDuplicateUUID: Boolean): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater, fixDuplicateUUID) {
-            mDatabase.binaryCache.loadedCipherKey = loadedCipherKey
+                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
+        return openDatabase(databaseInputStream, progressTaskUpdater) {
             mDatabase.masterKey = masterKey
         }
     }
@@ -125,14 +122,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
     @Throws(LoadDatabaseException::class)
     private fun openDatabase(databaseInputStream: InputStream,
                              progressTaskUpdater: ProgressTaskUpdater?,
-                             fixDuplicateUUID: Boolean,
                              assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
         try {
             startKeyTimer(progressTaskUpdater)
-            mDatabase = DatabaseKDBX()
-            mDatabase.binaryCache.cacheDirectory = cacheDirectory
-
-            mDatabase.changeDuplicateId = fixDuplicateUUID
 
             val header = DatabaseHeaderKDBX(mDatabase)
 
@@ -148,13 +140,10 @@ class DatabaseInputKDBX(cacheDirectory: File,
             stopKeyTimer()
             startContentTimer(progressTaskUpdater)
 
-            val engine: CipherEngine
             val cipher: Cipher
             try {
-                engine = EncryptionAlgorithm.getFrom(mDatabase.cipherUuid).cipherEngine
+                val engine: CipherEngine = mDatabase.encryptionAlgorithm.cipherEngine
                 engine.forcePaddingCompatibility = true
-                mDatabase.setDataEngine(engine)
-                mDatabase.encryptionAlgorithm = engine.getEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
                 engine.forcePaddingCompatibility = false
             } catch (e: Exception) {
@@ -288,7 +277,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     val protectedFlag = dataInputStream.read().toByte() == DatabaseHeaderKDBX.KdbxBinaryFlags.Protected
                     val byteLength = size - 1
                     // No compression at this level
-                    val protectedBinary = mDatabase.buildNewAttachment(
+                    val protectedBinary = mDatabase.buildNewBinaryAttachment(
                             isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
                     protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                         dataInputStream.readBytes(byteLength) { buffer ->
@@ -524,7 +513,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
                 ctxGroup?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxGroup?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
+                val iconUUID = readUuid(xpp)
+                ctxGroup?.icon?.custom = mDatabase.getCustomIcon(iconUUID) ?: IconImageCustom(iconUUID)
             } else if (name.equals(DatabaseKDBXXML.ElemTags, ignoreCase = true)) {
                 ctxGroup?.tags = readTags(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemPreviousParentGroup, ignoreCase = true)) {
@@ -583,7 +573,8 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
                 ctxEntry?.icon?.standard = mDatabase.getStandardIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
-                ctxEntry?.icon?.custom = mDatabase.getCustomIcon(readUuid(xpp))
+                val iconUUID = readUuid(xpp)
+                ctxEntry?.icon?.custom = mDatabase.getCustomIcon(iconUUID) ?: IconImageCustom(iconUUID)
             } else if (name.equals(DatabaseKDBXXML.ElemFgColor, ignoreCase = true)) {
                 ctxEntry?.foregroundColor = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemBgColor, ignoreCase = true)) {
@@ -704,7 +695,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.DeletedObject -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxDeletedObject?.uuid = readUuid(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemDeletionTime, ignoreCase = true)) {
-                ctxDeletedObject?.setDeletionTime(readDateInstant(xpp))
+                ctxDeletedObject?.deletionTime = readDateInstant(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -1009,7 +1000,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 var binaryRetrieve = mDatabase.attachmentPool[id]
                 // Create empty binary if not retrieved in pool
                 if (binaryRetrieve == null) {
-                    binaryRetrieve = mDatabase.buildNewAttachment(
+                    binaryRetrieve = mDatabase.buildNewBinaryAttachment(
                             smallSize = false,
                             compression = false,
                             protection = false,
@@ -1049,7 +1040,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return null
 
         // Build the new binary and compress
-        val binaryAttachment = mDatabase.buildNewAttachment(
+        val binaryAttachment = mDatabase.buildNewBinaryAttachment(
                 isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
         try {
             binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
