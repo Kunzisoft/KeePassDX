@@ -379,12 +379,14 @@ class EntryActivity : DatabaseLockActivity() {
         }
         if (mEntryIsHistory || mDatabaseReadOnly) {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
+            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
             menu?.findItem(R.id.menu_edit)?.isVisible = false
         }
-        if (!mMergeDataAllowed || mDatabaseReadOnly) {
+        if (!mMergeDataAllowed) {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
         }
         if (mSpecialMode != SpecialMode.DEFAULT) {
+            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
         applyToolbarColors()
