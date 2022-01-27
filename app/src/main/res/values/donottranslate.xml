@@ -187,15 +187,15 @@
     <bool name="list_entries_show_username_default" translatable="false">true</bool>
     <string name="list_groups_show_number_entries_key" translatable="false">list_groups_show_number_entries_key</string>
     <bool name="list_groups_show_number_entries_default" translatable="false">true</bool>
+    <string name="show_otp_token_key" translatable="false">show_otp_token_key</string>
+    <bool name="show_otp_token_default" translatable="false">true</bool>
+    <string name="show_uuid_key" translatable="false">show_uuid_key</string>
+    <bool name="show_uuid_default" translatable="false">false</bool>
     <string name="list_size_key" translatable="false">list_size_key</string>
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
     <bool name="hide_expired_entries_default" translatable="false">false</bool>
-    <string name="show_otp_token_key" translatable="false">show_otp_token_key</string>
-    <bool name="show_otp_token_default" translatable="false">true</bool>
-    <string name="show_uuid_key" translatable="false">show_uuid_key</string>
-    <bool name="show_uuid_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>

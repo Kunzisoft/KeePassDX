@@ -122,22 +122,22 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.list_groups_show_number_entries_default))
     }
 
-    fun showExpiredEntries(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
-                context.resources.getBoolean(R.bool.hide_expired_entries_default))
-    }
-
     fun showOTPToken(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_otp_token_key),
-                context.resources.getBoolean(R.bool.show_otp_token_default))
+            context.resources.getBoolean(R.bool.show_otp_token_default))
     }
 
     fun showUUID(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_uuid_key),
-                context.resources.getBoolean(R.bool.show_uuid_default))
+            context.resources.getBoolean(R.bool.show_uuid_default))
+    }
+
+    fun showExpiredEntries(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
+                context.resources.getBoolean(R.bool.hide_expired_entries_default))
     }
 
     fun getStyle(context: Context): String {
@@ -654,11 +654,11 @@ object PreferencesUtil {
                 context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
                 context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 
                 context.getString(R.string.sort_node_key) -> editor.putString(name, value)

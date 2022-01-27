@@ -56,6 +56,16 @@
             android:title="@string/list_groups_show_number_entries_title"
             android:summary="@string/list_groups_show_number_entries_summary"
             android:defaultValue="@bool/list_groups_show_number_entries_default"/>
+        <SwitchPreference
+            android:key="@string/show_otp_token_key"
+            android:title="@string/show_otp_token_title"
+            android:summary="@string/show_otp_token_summary"
+            android:defaultValue="@bool/show_otp_token_default"/>
+        <SwitchPreference
+            android:key="@string/show_uuid_key"
+            android:title="@string/show_uuid_title"
+            android:summary="@string/show_uuid_summary"
+            android:defaultValue="@bool/show_uuid_default"/>
         <ListPreference
             android:key="@string/list_size_key"
             android:title="@string/list_size_title"
@@ -80,16 +90,6 @@
             android:title="@string/hide_expired_entries_title"
             android:summary="@string/hide_expired_entries_summary"
             android:defaultValue="@bool/hide_expired_entries_default"/>
-        <SwitchPreference
-            android:key="@string/show_otp_token_key"
-            android:title="@string/show_otp_token_title"
-            android:summary="@string/show_otp_token_summary"
-            android:defaultValue="@bool/show_otp_token_default"/>
-        <SwitchPreference
-            android:key="@string/show_uuid_key"
-            android:title="@string/show_uuid_title"
-            android:summary="@string/show_uuid_summary"
-            android:defaultValue="@bool/show_uuid_default"/>
         <SwitchPreference
             android:key="@string/enable_education_screens_key"
             android:title="@string/enable_education_screens_title"
