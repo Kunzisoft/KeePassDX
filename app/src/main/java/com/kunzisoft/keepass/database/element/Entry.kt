@@ -457,6 +457,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.expiryTime = expiryTime
             entryInfo.url = url
             entryInfo.notes = notes
+            entryInfo.tags = tags
             entryInfo.backgroundColor = backgroundColor
             entryInfo.foregroundColor = foregroundColor
             entryInfo.customFields = getExtraFields().toMutableList()
@@ -493,6 +494,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         expiryTime = newEntryInfo.expiryTime
         url = newEntryInfo.url
         notes = newEntryInfo.notes
+        tags = newEntryInfo.tags
         backgroundColor = newEntryInfo.backgroundColor
         foregroundColor = newEntryInfo.foregroundColor
         addExtraFields(newEntryInfo.customFields)

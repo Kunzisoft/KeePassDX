@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
 import java.util.*
@@ -11,6 +12,7 @@ class GroupInfo : NodeInfo {
 
     var id: UUID? = null
     var notes: String? = null
+    var tags: Tags = Tags()
 
     init {
         icon.standard = IconImageStandard(FOLDER_ID)
@@ -21,6 +23,7 @@ class GroupInfo : NodeInfo {
     constructor(parcel: Parcel): super(parcel) {
         id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
         notes = parcel.readString()
+        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -28,6 +31,7 @@ class GroupInfo : NodeInfo {
         val uuid = if (id != null) ParcelUuid(id) else null
         parcel.writeParcelable(uuid, flags)
         parcel.writeString(notes)
+        parcel.writeParcelable(tags, flags)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -37,6 +41,7 @@ class GroupInfo : NodeInfo {
 
         if (id != other.id) return false
         if (notes != other.notes) return false
+        if (tags != other.tags) return false
 
         return true
     }
@@ -45,6 +50,7 @@ class GroupInfo : NodeInfo {
         var result = super.hashCode()
         result = 31 * result + (id?.hashCode() ?: 0)
         result = 31 * result + (notes?.hashCode() ?: 0)
+        result = 31 * result + tags.hashCode()
         return result
     }
 

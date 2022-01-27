@@ -24,7 +24,6 @@ import android.util.Log
 import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -876,7 +875,9 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readTags(xpp: XmlPullParser): Tags {
-        return Tags(readString(xpp))
+        val tags = Tags(readString(xpp))
+        mDatabase.tagPool.put(tags)
+        return tags
     }
 
     @Throws(XmlPullParserException::class, IOException::class)

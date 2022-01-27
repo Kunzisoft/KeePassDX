@@ -36,6 +36,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
@@ -47,6 +49,7 @@ import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.adapters.TagsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -80,6 +83,8 @@ class EntryActivity : DatabaseLockActivity() {
     private var appBarLayout: AppBarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
+    private var tagsListView: RecyclerView? = null
+    private var tagsAdapter: TagsAdapter? = null
     private var entryProgress: LinearProgressIndicator? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
@@ -126,6 +131,7 @@ class EntryActivity : DatabaseLockActivity() {
         appBarLayout = findViewById(R.id.app_bar)
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
+        tagsListView = findViewById(R.id.entry_tags_list_view)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
@@ -147,6 +153,13 @@ class EntryActivity : DatabaseLockActivity() {
         taControlColor.recycle()
         taColorPrimary.recycle()
         taColorBackground.recycle()
+
+        // Init Tags adapter
+        tagsAdapter = TagsAdapter(this)
+        tagsListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = tagsAdapter
+        }
 
         // Get Entry from UUID
         try {
@@ -213,6 +226,10 @@ class EntryActivity : DatabaseLockActivity() {
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 mUrl = entryInfo.url
+                // Assign tags
+                val tags = entryInfo.tags
+                tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+                tagsAdapter?.setTags(tags)
                 // Assign colors
                 mBackgroundColor = entryInfo.backgroundColor
                 mForegroundColor = entryInfo.foregroundColor

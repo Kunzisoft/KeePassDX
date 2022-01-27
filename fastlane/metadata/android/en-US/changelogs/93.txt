@@ -1,4 +1,5 @@
  * Manage data merge #840 #977
+ * Manage Tags #633
  * Inherit colors and icon from template #1213 #1130
  * Setting to keep the screen on when watching the entry #1119
  * Add path in quick search

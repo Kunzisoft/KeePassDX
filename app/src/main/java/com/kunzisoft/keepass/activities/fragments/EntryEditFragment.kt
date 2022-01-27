@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
+import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
@@ -40,11 +41,10 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.view.TemplateEditView
-import com.kunzisoft.keepass.view.collapse
-import com.kunzisoft.keepass.view.expand
-import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import com.tokenautocomplete.FilteredArrayAdapter
+
 
 class EntryEditFragment: DatabaseFragment() {
 
@@ -55,6 +55,8 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
+    private lateinit var tagsCompletionView: TagsCompletionView
+    private var tagsAdapter: FilteredArrayAdapter<String>? = null
 
     private var mTemplate: Template? = null
     private var mAllowMultipleAttachments: Boolean = false
@@ -87,6 +89,7 @@ class EntryEditFragment: DatabaseFragment() {
         templateView = view.findViewById(R.id.template_view)
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+        tagsCompletionView = view.findViewById(R.id.entry_tags_completion_view)
 
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
         attachmentsListView.apply {
@@ -146,7 +149,8 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
-            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, retrieveEntryInfo())
+            val entryInfo = retrieveEntryInfo()
+            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, entryInfo)
         }
 
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
@@ -277,11 +281,25 @@ class EntryEditFragment: DatabaseFragment() {
                 attachmentsContainerView.expand(true)
             }
         }
+
+        tagsAdapter = TagsProposalAdapter(requireContext(), database?.tagPool)
+        tagsCompletionView.apply {
+            threshold = 1
+            setAdapter(tagsAdapter)
+        }
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {
         // Populate entry views
         templateView.setEntryInfo(entryInfo)
+
+        // Set Tags
+        entryInfo?.tags?.let { tags ->
+            tagsCompletionView.setText("")
+            for (i in 0 until tags.size()) {
+                tagsCompletionView.addObjectSync(tags.get(i))
+            }
+        }
 
         // Manage attachments
         setAttachments(entryInfo?.attachments ?: listOf())
@@ -289,6 +307,7 @@ class EntryEditFragment: DatabaseFragment() {
 
     private fun retrieveEntryInfo(): EntryInfo {
         val entryInfo = templateView.getEntryInfo()
+        entryInfo.tags = tagsCompletionView.getTags()
         entryInfo.attachments = getAttachments().toMutableList()
         return entryInfo
     }

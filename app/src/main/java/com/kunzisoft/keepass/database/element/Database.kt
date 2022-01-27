@@ -816,6 +816,11 @@ class Database {
                 }, omitBackup, max)
     }
 
+    val tagPool: Tags
+        get() {
+            return mDatabaseKDBX?.tagPool ?: Tags()
+        }
+
     val attachmentPool: AttachmentPool
         get() {
             return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool()

@@ -1,7 +1,5 @@
 package com.kunzisoft.keepass.utils
 
-import java.text.Normalizer
-
 object StringUtil {
 
     fun String.removeLineChars(): String {
