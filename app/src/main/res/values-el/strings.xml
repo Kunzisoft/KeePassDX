@@ -391,7 +391,7 @@
     <string name="magic_keyboard_explanation_summary">Ενεργοποιώντας ένα προσαρμοσμένο πληκτρολόγιο συγκεντρώνει τους κωδικούς πρόσβασής σας και όλα τα πεδία ταυτότητας</string>
     <string name="device_keyboard_setting_title">Ρυθμίσεις πληκτρολογίου συσκευής</string>
     <string name="error_save_database">Δεν ήταν δυνατή η αποθήκευση της βάσης δεδομένων.</string>
-    <string name="menu_save_database">Αποθήκευση βάσης δεδομένων</string>
+    <string name="menu_save_database">Αποθήκευση δεδομένων</string>
     <string name="menu_empty_recycle_bin">Αδειάστε τον κάδο ανακύκλωσης</string>
     <string name="command_execution">Εκτέλεση της εντολής…</string>
     <string name="warning_permanently_delete_nodes">Οριστική διαγραφή επιλεγμένων κόμβων;</string>
@@ -531,9 +531,9 @@
     <string name="autofill_inline_suggestions_summary">Απόπειρα εμφάνισης προτάσεων αυτόματης συμπλήρωσης απευθείας από ένα συμβατό πληκτρολόγιο</string>
     <string name="autofill_inline_suggestions_title">Προτάσεις στην ίδια γραμμή</string>
     <string name="warning_database_revoked">Πρόσβαση στο αρχείο που ανακλήθηκε από το διαχειριστή αρχείων, κλείστε τη βάση δεδομένων και ανοίξτε το ξανά από τη θέση του.</string>
-    <string name="warning_database_info_changed_options">Αντικαταστήστε τις εξωτερικές τροποποιήσεις αποθηκεύοντας τη βάση δεδομένων ή φορτώστε την ξανά με τις πιο πρόσφατες αλλαγές.</string>
+    <string name="warning_database_info_changed_options">Συγχωνεύστε τα δεδομένα, αντικαταστήστε τις εξωτερικές τροποποιήσεις αποθηκεύοντας τη βάση δεδομένων ή φορτώστε ξανά τη βάση δεδομένων με τις πιο πρόσφατες αλλαγές.</string>
     <string name="warning_database_info_changed">Οι πληροφορίες που περιέχονται στο αρχείο της βάσης δεδομένων σας έχουν τροποποιηθεί εκτός της εφαρμογής.</string>
-    <string name="menu_reload_database">Επαναφόρτωση βάσης δεδομένων</string>
+    <string name="menu_reload_database">Επαναφόρτωση δεδομένων</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
@@ -608,4 +608,12 @@
     <string name="content_description_database_color">Χρώμα βάσης δεδομένων</string>
     <string name="content_description_entry_foreground_color">Χρώμα προσκηνίου καταχώρησης</string>
     <string name="content_description_entry_background_color">Χρώμα φόντου καταχώρησης</string>
+    <string name="warning_database_info_reloaded">Η επαναφόρτωση της βάσης δεδομένων θα διαγράψει τα τοπικά τροποποιημένα δεδομένα.</string>
+    <string name="menu_merge_database">Συγχώνευση δεδομένων</string>
+    <string name="tags">Ετικέτες</string>
+    <string name="warning_keyfile_integrity">Ο κατακερματισμός του αρχείου δεν είναι εγγυημένος επειδή το Android μπορεί να αλλάξει τα δεδομένα του αμέσως. Αλλάξτε την επέκταση αρχείου σε .bin για σωστή ακεραιότητα.</string>
+    <string name="enable_keep_screen_on_summary">Κρατήστε την οθόνη ενεργή όταν παρακολουθείτε την καταχώρηση</string>
+    <string name="enable_keep_screen_on_title">Διατηρήστε την οθόνη ενεργή</string>
+    <string name="show_entry_colors_title">Χρώματα καταχώρησης</string>
+    <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου σε μια καταχώρηση</string>
 </resources>

@@ -427,7 +427,7 @@
     <string name="menu_delete_entry_history">Geschiedenis wissen</string>
     <string name="menu_restore_entry_history">Geschiedenis herstellen</string>
     <string name="menu_empty_recycle_bin">Prullenbak legen</string>
-    <string name="menu_save_database">Database opslaan</string>
+    <string name="menu_save_database">Gegevens opslaan</string>
     <string name="error_save_database">Kan database niet opslaan.</string>
     <string name="error_create_database">Databasebestand is niet aangemaakt.</string>
     <string name="error_label_exists">Dit label bestaat al.</string>
@@ -536,9 +536,9 @@
     <string name="autofill_inline_suggestions_summary">Probeer suggesties voor automatisch aanvullen rechtstreeks vanaf een compatibel toetsenbord weer te geven</string>
     <string name="autofill_inline_suggestions_title">Inline suggesties</string>
     <string name="warning_database_revoked">Toegang tot het bestand is ingetrokken door de bestandsbeheerder, sluit de database en open deze opnieuw vanaf de locatie.</string>
-    <string name="warning_database_info_changed_options">De externe wijzigingen overschrijven door de database op te slaan of herlaad deze met de laatste wijzigingen.</string>
+    <string name="warning_database_info_changed_options">Voeg de gegevens samen, overschrijf de externe aanpassingen door de database op te slaan of laad de database met de jongste wijzigingen opnieuw.</string>
     <string name="warning_database_info_changed">De informatie in het databasebestand is buiten de app gewijzigd.</string>
-    <string name="menu_reload_database">Database opnieuw laden</string>
+    <string name="menu_reload_database">Gegevens opnieuw laden</string>
     <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
     <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
@@ -606,4 +606,9 @@
     <string name="hint_icon_name">Naam van het pictogram</string>
     <string name="warning_exact_alarm">U heeft niet toegestaan dat de app een exact alarm gebruikt. Als gevolg hiervan worden de functies die een timer vereisen niet met een exacte tijd uitgevoerd.</string>
     <string name="permission">Toestemming</string>
+    <string name="content_description_database_color">Kleur van de database</string>
+    <string name="warning_database_info_reloaded">Door de database opnieuw te laden, worden de lokaal gewijzigde gegevens gewist.</string>
+    <string name="content_description_entry_foreground_color">Voorgrondkleur invoer</string>
+    <string name="menu_merge_database">Gegevens samenvoegen</string>
+    <string name="content_description_entry_background_color">Achtergrondkleur invoer</string>
 </resources>

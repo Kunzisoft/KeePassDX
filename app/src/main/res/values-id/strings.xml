@@ -532,4 +532,6 @@
     <string name="settings_database_force_changing_master_key_title">Pembaruan paksa</string>
     <string name="html_text_dev_feature_encourage">Anda menyemangati pengembang untuk membuat <strong>fitur baru</strong> dan untuk <strong>memperbaiki kutu</strong> sesuai dengan komentar Anda.</string>
     <string name="html_text_dev_feature_buy_pro">Dengan membeli versi <strong>pro</strong>,</string>
+    <string name="content_description_database_color">Warna basis data</string>
+    <string name="menu_merge_database">Gabung data</string>
 </resources>
