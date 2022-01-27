@@ -350,7 +350,7 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extract database credential with advanced unlock data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="advanced_unlock_invalid_key">Can not read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
+    <string name="advanced_unlock_invalid_key">Cannot read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="advanced_unlock_not_recognized">Could not recognize advanced unlock print</string>
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
