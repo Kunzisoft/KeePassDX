@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -116,7 +117,8 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.4.0'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
-    implementation "com.splitwise:tokenautocomplete:4.0.0-beta04"
+    // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed
+    // implementation "com.splitwise:tokenautocomplete:4.0.0-beta04"
     // Database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
