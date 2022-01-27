@@ -2,7 +2,10 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
+import android.os.Parcel
 import android.os.Parcelable
+import android.os.Parcelable.Creator
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -10,8 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil
-import android.os.Parcel
-import android.os.Parcelable.Creator
 
 
 class KeyFileSelectionView @JvmOverloads constructor(context: Context,
@@ -54,6 +55,16 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             mUri = value
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                value?.let { keyFileUri ->
+                    val mimeType = context?.contentResolver?.getType(keyFileUri)
+                    error = if (mimeType?.contains("image") == true) {
+                        context.getString(R.string.warning_keyfile_integrity)
+                    } else {
+                        null
+                    }
+                }
+            }
             keyFileNameView.text = value?.let {
                 UriUtil.getFileData(context, value)?.name ?: value.path
             } ?: ""
