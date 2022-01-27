@@ -74,6 +74,7 @@ class NodesAdapter (private val context: Context,
     private var mNumberChildrenTextDefaultDimension: Float = 0F
     private var mIconDefaultDimension: Float = 0F
 
+    private var mShowEntryColors: Boolean = true
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
     private var mShowOTP: Boolean = false
@@ -150,6 +151,7 @@ class NodesAdapter (private val context: Context,
                         )
                 )
 
+        this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
@@ -436,7 +438,7 @@ class NodesAdapter (private val context: Context,
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            val backgroundColor = entry.backgroundColor
+            val backgroundColor = if (mShowEntryColors) entry.backgroundColor else null
             if (!holder.container.isSelected) {
                 if (backgroundColor != null) {
                     holder.container.setBackgroundColor(backgroundColor)
@@ -446,7 +448,7 @@ class NodesAdapter (private val context: Context,
             } else {
                 holder.container.setBackgroundColor(mColorAccentLight)
             }
-            val foregroundColor = entry.foregroundColor
+            val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
                     holder.text.setTextColor(foregroundColor)

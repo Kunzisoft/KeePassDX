@@ -40,6 +40,11 @@
             android:key="@string/setting_icon_pack_choose_key"
             android:title="@string/icon_pack_choose_title"
             android:summary="@string/icon_pack_choose_summary" />
+        <SwitchPreference
+            android:key="@string/show_entry_colors_key"
+            android:title="@string/show_entry_colors_title"
+            android:summary="@string/show_entry_colors_summary"
+            android:defaultValue="@bool/show_entry_colors_default"/>
 
     </PreferenceCategory>
 

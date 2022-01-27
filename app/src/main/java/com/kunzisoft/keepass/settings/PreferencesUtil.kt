@@ -110,6 +110,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.subdomain_search_default))
     }
 
+    fun showEntryColors(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_entry_colors_key),
+            context.resources.getBoolean(R.bool.show_entry_colors_default))
+    }
+
     fun showUsernamesListEntries(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.list_entries_show_username_key),
@@ -652,6 +658,7 @@ object PreferencesUtil {
                 context.getString(R.string.setting_style_key) -> setStyle(context, value)
                 context.getString(R.string.setting_style_brightness_key) -> editor.putString(name, value)
                 context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
+                context.getString(R.string.show_entry_colors_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())

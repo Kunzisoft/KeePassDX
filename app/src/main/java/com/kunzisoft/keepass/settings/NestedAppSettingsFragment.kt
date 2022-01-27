@@ -443,6 +443,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.setting_style_key),
             getString(R.string.setting_style_brightness_key),
             getString(R.string.setting_icon_pack_choose_key),
+            getString(R.string.show_entry_colors_key),
             getString(R.string.list_entries_show_username_key),
             getString(R.string.list_groups_show_number_entries_key),
             getString(R.string.show_otp_token_key),

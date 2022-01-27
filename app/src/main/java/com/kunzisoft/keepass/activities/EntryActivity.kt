@@ -231,8 +231,9 @@ class EntryActivity : DatabaseLockActivity() {
                 tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
                 tagsAdapter?.setTags(tags)
                 // Assign colors
-                mBackgroundColor = entryInfo.backgroundColor
-                mForegroundColor = entryInfo.foregroundColor
+                val showEntryColors = PreferencesUtil.showEntryColors(this)
+                mBackgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
+                mForegroundColor = if (showEntryColors) entryInfo.foregroundColor else null
 
                 loadingView?.hideByFading()
                 mEntryLoaded = true
