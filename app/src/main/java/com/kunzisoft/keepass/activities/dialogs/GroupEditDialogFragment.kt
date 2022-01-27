@@ -112,10 +112,17 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
+
         mPopulateIconMethod = { imageView, icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
+
+        tagsAdapter = TagsProposalAdapter(requireContext(), database?.tagPool)
+        tagsCompletionView.apply {
+            threshold = 1
+            setAdapter(tagsAdapter)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -147,13 +154,6 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
                         mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
                     }
                 }
-            }
-
-            // TODO default tags in pool
-            tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf())
-            tagsCompletionView.apply {
-                threshold = 1
-                setAdapter(tagsAdapter)
             }
 
             // populate info in views

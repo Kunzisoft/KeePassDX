@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -164,6 +165,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     val deletedObjects = HashSet<DeletedObject>()
     var publicCustomData = VariantDictionary()
     val customData = CustomData()
+
+    val tagPool = Tags()
 
     var localizedAppName = "KeePassDX"
 
@@ -833,16 +836,19 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
         super.addEntryTo(newEntry, parent)
+        tagPool.put(newEntry.tags)
         mFieldReferenceEngine.clear()
     }
 
     override fun updateEntry(entry: EntryKDBX) {
         super.updateEntry(entry)
+        tagPool.put(entry.tags)
         mFieldReferenceEngine.clear()
     }
 
     override fun removeEntryFrom(entryToRemove: EntryKDBX, parent: GroupKDBX?) {
         super.removeEntryFrom(entryToRemove, parent)
+        // Do not remove tags from pool, it's only in temp memory
         mFieldReferenceEngine.clear()
     }
 

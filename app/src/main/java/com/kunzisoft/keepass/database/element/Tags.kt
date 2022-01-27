@@ -6,7 +6,7 @@ import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 
 class Tags: Parcelable {
 
-    private val mTags = ArrayList<String>()
+    private val mTags = mutableListOf<String>()
 
     constructor()
 
@@ -40,6 +40,12 @@ class Tags: Parcelable {
             mTags.add(tag)
     }
 
+    fun put(tags: Tags) {
+        tags.mTags.forEach {
+            put(it)
+        }
+    }
+
     fun isEmpty(): Boolean {
         return mTags.isEmpty()
     }
@@ -50,6 +56,10 @@ class Tags: Parcelable {
 
     fun clear() {
         mTags.clear()
+    }
+
+    fun toList(): List<String> {
+        return mTags
     }
 
     override fun toString(): String {

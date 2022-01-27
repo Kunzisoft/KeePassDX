@@ -98,13 +98,6 @@ class EntryEditFragment: DatabaseFragment() {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 
-        // TODO default tags in pool
-        tagsAdapter = TagsProposalAdapter(requireContext(), arrayOf())
-        tagsCompletionView.apply {
-            threshold = 1
-            setAdapter(tagsAdapter)
-        }
-
         templateView.apply {
             setOnIconClickListener {
                 mEntryEditViewModel.requestIconSelection(templateView.getIcon())
@@ -287,6 +280,12 @@ class EntryEditFragment: DatabaseFragment() {
             } else if (previousSize == 0 && newSize == 1) {
                 attachmentsContainerView.expand(true)
             }
+        }
+
+        tagsAdapter = TagsProposalAdapter(requireContext(), database?.tagPool)
+        tagsCompletionView.apply {
+            threshold = 1
+            setAdapter(tagsAdapter)
         }
     }
 
