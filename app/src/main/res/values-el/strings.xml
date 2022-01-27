@@ -610,4 +610,10 @@
     <string name="content_description_entry_background_color">Χρώμα φόντου καταχώρησης</string>
     <string name="warning_database_info_reloaded">Η επαναφόρτωση της βάσης δεδομένων θα διαγράψει τα τοπικά τροποποιημένα δεδομένα.</string>
     <string name="menu_merge_database">Συγχώνευση δεδομένων</string>
+    <string name="tags">Ετικέτες</string>
+    <string name="warning_keyfile_integrity">Ο κατακερματισμός του αρχείου δεν είναι εγγυημένος επειδή το Android μπορεί να αλλάξει τα δεδομένα του αμέσως. Αλλάξτε την επέκταση αρχείου σε .bin για σωστή ακεραιότητα.</string>
+    <string name="enable_keep_screen_on_summary">Κρατήστε την οθόνη ενεργή όταν παρακολουθείτε την καταχώρηση</string>
+    <string name="enable_keep_screen_on_title">Διατηρήστε την οθόνη ενεργή</string>
+    <string name="show_entry_colors_title">Χρώματα καταχώρησης</string>
+    <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου σε μια καταχώρηση</string>
 </resources>
