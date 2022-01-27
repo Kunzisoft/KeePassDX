@@ -11,7 +11,10 @@ class Tags: Parcelable {
     constructor()
 
     constructor(values: String): this() {
-        mTags.addAll(values.removeSpaceChars().split(DELIMITER, DELIMITER1))
+        mTags.addAll(values
+            .split(DELIMITER, DELIMITER1)
+            .filter { it.removeSpaceChars().isNotEmpty() }
+        )
     }
 
     constructor(parcel: Parcel) : this() {
@@ -36,7 +39,7 @@ class Tags: Parcelable {
     }
 
     fun put(tag: String) {
-        if (tag.isNotEmpty() && !mTags.contains(tag))
+        if (tag.removeSpaceChars().isNotEmpty() && !mTags.contains(tag))
             mTags.add(tag)
     }
 
