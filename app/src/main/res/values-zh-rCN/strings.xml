@@ -333,7 +333,7 @@
     <string name="entry_add_field">添加字段</string>
     <string name="content_description_remove_field">删除字段</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">无法移动条目到此处。</string>
+    <string name="error_move_entry_here">你不能将条目移到此处。</string>
     <string name="error_copy_entry_here">您不能在此处复制条目。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
     <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
@@ -610,4 +610,10 @@
     <string name="content_description_entry_background_color">条目背景色</string>
     <string name="menu_merge_database">合并数据</string>
     <string name="warning_database_info_reloaded">重新加载数据库将删除本地修改的数据。</string>
+    <string name="warning_keyfile_integrity">文件的哈希值不能保证，因为 Android 可以在运行中更改数据。将文件扩展名更改为 .bin 以确保完整性。</string>
+    <string name="enable_keep_screen_on_title">保持屏幕亮起</string>
+    <string name="enable_keep_screen_on_summary">查看条目时保持屏幕亮起</string>
+    <string name="show_entry_colors_title">条目颜色</string>
+    <string name="show_entry_colors_summary">显示条目的前景色和背景色</string>
+    <string name="tags">标签</string>
 </resources>
