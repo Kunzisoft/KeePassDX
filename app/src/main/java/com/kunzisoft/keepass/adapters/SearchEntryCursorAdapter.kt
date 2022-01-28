@@ -114,7 +114,7 @@ class SearchEntryCursorAdapter(private val context: Context,
     private fun getEntryFrom(cursor: Cursor?): Entry? {
         val entryCursor = cursor as? EntryCursor?
         entryCursor?.getNodeId()?.let {
-            return database?.getEntryById(it)
+            return database.getEntryById(it)
         }
         return null
     }
