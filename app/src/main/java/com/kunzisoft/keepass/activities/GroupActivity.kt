@@ -1091,9 +1091,10 @@ class GroupActivity : DatabaseLockActivity(),
                 // TODO change database
                 return true
             }
-            R.id.menu_search ->
-                //onSearchRequested();
+            R.id.menu_search -> {
+                onSearchRequested()
                 return true
+            }
             R.id.menu_save_database -> {
                 saveDatabase()
                 return true
