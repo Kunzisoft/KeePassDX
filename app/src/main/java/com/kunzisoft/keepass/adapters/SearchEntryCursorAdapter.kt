@@ -78,7 +78,7 @@ class SearchEntryCursorAdapter(private val context: Context,
         return view
     }
 
-    override fun bindView(view: View, context: Context, cursor: Cursor) {
+    override fun bindView(view: View, context: Context, cursor: Cursor?) {
         getEntryFrom(cursor)?.let { currentEntry ->
             val viewHolder = view.tag as ViewHolder
 
@@ -111,16 +111,19 @@ class SearchEntryCursorAdapter(private val context: Context,
         }
     }
 
-    private fun getEntryFrom(cursor: Cursor): Entry? {
-        val entryCursor = cursor as EntryCursor
-        return database.getEntryById(entryCursor.getNodeId())
+    private fun getEntryFrom(cursor: Cursor?): Entry? {
+        val entryCursor = cursor as? EntryCursor?
+        entryCursor?.getNodeId()?.let {
+            return database?.getEntryById(it)
+        }
+        return null
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
         return searchEntries(context, constraint.toString())
     }
 
-    private fun searchEntries(context: Context, query: String): Cursor? {
+    private fun searchEntries(context: Context, query: String): Cursor {
         val cursor = EntryCursor()
         val searchGroup = database.createVirtualGroupFromSearch(query,
                 mOmitBackup,

@@ -1092,7 +1092,7 @@ class GroupActivity : DatabaseLockActivity(),
                 return true
             }
             R.id.menu_search -> {
-                onSearchRequested()
+                //onSearchRequested()
                 return true
             }
             R.id.menu_save_database -> {

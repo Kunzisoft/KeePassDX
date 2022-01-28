@@ -94,7 +94,6 @@
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
-        <item name="autoCompleteTextViewStyle">@style/KeepassDXStyle.TextInputLayout.ExposedMenu</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.MaterialComponents.Bridge">
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
@@ -161,7 +160,6 @@
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
-        <item name="autoCompleteTextViewStyle">@style/KeepassDXStyle.TextInputLayout.ExposedMenu</item>
     </style>
 
     <!-- Light Style -->
