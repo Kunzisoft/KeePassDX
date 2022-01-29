@@ -621,4 +621,10 @@
     <string name="content_description_entry_background_color">Hintergrundfarbe des Eintrags</string>
     <string name="menu_merge_database">Daten zusammenführen</string>
     <string name="warning_database_info_reloaded">Erneutes Laden der Datenbank wird die lokal durchgeführten Datenänderungen löschen.</string>
+    <string name="tags">Schlagwörter</string>
+    <string name="show_entry_colors_title">Farbe des Eintrags</string>
+    <string name="enable_keep_screen_on_title">Bildschirm eingeschaltet lassen</string>
+    <string name="warning_keyfile_integrity">Der Hash der Datei ist nicht garantiert, da Android die Daten im laufenden Betrieb ändern kann. Ändern Sie die Dateierweiterung in .bin, um die Integrität zu gewährleisten.</string>
+    <string name="enable_keep_screen_on_summary">Den Bildschirm beim Ansehen des Eintrags eingeschaltet lassen</string>
+    <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe in einem Eintrag anzeigen</string>
 </resources>
