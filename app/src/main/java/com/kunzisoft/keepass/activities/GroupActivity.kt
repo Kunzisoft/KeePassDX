@@ -123,16 +123,16 @@ class GroupActivity : DatabaseLockActivity(),
 
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-            toolbarBreadcrumb?.visibility = View.GONE
+            toolbarBreadcrumb?.hideByFading()
             searchAdvanceFiltersContainer?.visibility = View.GONE
-            searchContainer?.visibility = View.VISIBLE
+            searchContainer?.showByFading()
             return true
         }
 
         override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
-            searchContainer?.visibility = View.GONE
+            searchContainer?.hideByFading()
             searchAdvanceFiltersContainer?.visibility = View.GONE
-            toolbarBreadcrumb?.visibility = View.VISIBLE
+            toolbarBreadcrumb?.showByFading()
             mSearchGroup = null
             loadGroup(mDatabase)
             return true

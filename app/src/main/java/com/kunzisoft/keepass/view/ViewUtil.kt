@@ -173,7 +173,14 @@ fun View.hideByFading() {
     animate()
             .alpha(0f)
             .setDuration(140)
-            .setListener(null)
+            .setListener(object: Animator.AnimatorListener {
+                override fun onAnimationStart(p0: Animator?) {}
+                override fun onAnimationEnd(p0: Animator?) {
+                    isVisible = false
+                }
+                override fun onAnimationCancel(p0: Animator?) {}
+                override fun onAnimationRepeat(p0: Animator?) {}
+            })
 }
 
 fun View.showByFading() {
