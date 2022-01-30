@@ -230,7 +230,9 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
         }
 
-        writeDateInstant(DatabaseKDBXXML.ElemSettingsChanged, mDatabaseKDBX.settingsChanged)
+        if (!header!!.version.isBefore(FILE_VERSION_40)) {
+            writeDateInstant(DatabaseKDBXXML.ElemSettingsChanged, mDatabaseKDBX.settingsChanged)
+        }
         writeString(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbNameChanged, mDatabaseKDBX.nameChanged)
         writeString(DatabaseKDBXXML.ElemDbDesc, mDatabaseKDBX.description, true)
@@ -296,12 +298,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             mDatabaseKDBX.kdfParameters = KdfFactory.aesKdf.defaultParameters
         }
 
-        try {
-            val kdf = mDatabaseKDBX.getEngineKDBX4(mDatabaseKDBX.kdfParameters)
-            kdf.randomize(mDatabaseKDBX.kdfParameters!!)
-        } catch (unknownKDF: UnknownKDF) {
-            Log.e(TAG, "Unable to retrieve header", unknownKDF)
-        }
+        mDatabaseKDBX.randomizeKdfParameters()
 
         if (header.version.isBefore(FILE_VERSION_40)) {
             header.innerRandomStream = CrsAlgorithm.Salsa20
