@@ -96,16 +96,16 @@
                 </androidx.appcompat.widget.Toolbar>
 
                 <LinearLayout
-                    android:id="@+id/search_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/search_container"
                         android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize">
+                        android:background="?attr/colorPrimary"
+                        android:layout_height="?attr/actionBarSize"
+                        android:visibility="gone">
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/search_numbers"
                             style="@style/KeepassDXStyle.TextAppearance.Info"
@@ -121,7 +121,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             tools:text="3" />
-
                         <com.google.android.material.chip.ChipGroup
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -161,6 +160,7 @@
                         android:id="@+id/search_advance_filters"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/advanced_search_height"
+                        android:background="?attr/colorPrimary"
                         android:visibility="gone">
                         <com.google.android.material.chip.ChipGroup
                             android:layout_width="match_parent"

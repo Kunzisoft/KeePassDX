@@ -131,7 +131,10 @@ class GroupActivity : DatabaseLockActivity(),
 
         override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
             searchContainer?.hideByFading()
-            searchAdvanceFiltersContainer?.visibility = View.GONE
+            if (searchAdvanceFiltersContainer?.visibility == View.VISIBLE) {
+                searchAdvanceFiltersContainer?.visibility = View.INVISIBLE
+                searchAdvanceFiltersContainer?.collapse()
+            }
             toolbarBreadcrumb?.showByFading()
             mSearchGroup = null
             loadGroup(mDatabase)
