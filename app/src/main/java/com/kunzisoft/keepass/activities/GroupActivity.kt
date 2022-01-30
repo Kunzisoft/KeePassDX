@@ -90,6 +90,8 @@ class GroupActivity : DatabaseLockActivity(),
     private var databaseColorView: ImageView? = null
     private var databaseNameView: TextView? = null
     private var searchContainer: ViewGroup? = null
+    private var searchAdvanceFiltersContainer: ViewGroup? = null
+    private var searchExpandButton: ImageView? = null
     private var searchNumbers: TextView? = null
     private var searchView: SearchView? = null
     private var toolbarBreadcrumb: Toolbar? = null
@@ -121,12 +123,16 @@ class GroupActivity : DatabaseLockActivity(),
 
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+            toolbarBreadcrumb?.visibility = View.GONE
+            searchAdvanceFiltersContainer?.visibility = View.GONE
             searchContainer?.visibility = View.VISIBLE
             return true
         }
 
         override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
             searchContainer?.visibility = View.GONE
+            searchAdvanceFiltersContainer?.visibility = View.GONE
+            toolbarBreadcrumb?.visibility = View.VISIBLE
             mSearchGroup = null
             loadGroup(mDatabase)
             return true
@@ -170,6 +176,8 @@ class GroupActivity : DatabaseLockActivity(),
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
         searchContainer = findViewById(R.id.search_container)
+        searchAdvanceFiltersContainer = findViewById(R.id.search_advance_filters)
+        searchExpandButton = findViewById(R.id.search_expand)
         searchNumbers = findViewById(R.id.search_numbers)
         toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
@@ -246,6 +254,20 @@ class GroupActivity : DatabaseLockActivity(),
                 Log.e(TAG, "Unable to retrieve previous groups", e)
             }
             savedInstanceState.remove(PREVIOUS_GROUPS_IDS_KEY)
+        }
+
+        // Expand menu with button
+        searchExpandButton?.setOnClickListener {
+            searchAdvanceFiltersContainer?.let { advanceSearch ->
+                val isVisible = advanceSearch.visibility == View.VISIBLE
+                if (isVisible)
+                    advanceSearch.collapse()
+                else {
+                    advanceSearch.expand(true,
+                        resources.getDimension(R.dimen.advanced_search_height).toInt()
+                    )
+                }
+            }
         }
 
         // Initialize the fragment with the list
@@ -582,10 +604,8 @@ class GroupActivity : DatabaseLockActivity(),
         // Assign title
         if (group?.isVirtual == true) {
             searchNumbers?.text = group.numberOfChildEntries.toString()
-            databaseNameContainer?.visibility = View.GONE
             toolbarBreadcrumb?.navigationIcon = null
         } else {
-            databaseNameContainer?.visibility = View.VISIBLE
             // Add breadcrumb
             setBreadcrumbNode(group)
             invalidateOptionsMenu()
