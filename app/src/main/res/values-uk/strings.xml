@@ -421,7 +421,6 @@
     <string name="warning_database_read_only">Надайте дозвіл змінювати файл для збереження змін у базі даних</string>
     <string name="warning_password_encoding">У паролі, уникайте символів поза форматом кодування тексту у файлі бази даних (нерозпізнані символи будуть перетворені на ту ж літеру).</string>
     <string name="warning">Попередження</string>
-    <string name="search_results">Результати пошуку</string>
     <string name="sort_last_access_time">Доступ</string>
     <string name="sort_last_modify_time">Востаннє змінено</string>
     <string name="sort_creation_time">Дата створення</string>

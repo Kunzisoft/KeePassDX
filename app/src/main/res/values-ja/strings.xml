@@ -246,7 +246,6 @@
     <string name="sort_last_access_time">最終アクセス</string>
     <string name="special">特殊文字</string>
     <string name="search">検索</string>
-    <string name="search_results">検索結果</string>
     <string name="underline">アンダースコア</string>
     <string name="unsupported_db_version">対応していないバージョンのデータベースです。</string>
     <string name="uppercase">大文字</string>

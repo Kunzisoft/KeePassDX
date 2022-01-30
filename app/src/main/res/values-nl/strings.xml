@@ -178,7 +178,6 @@
     <string name="sort_creation_time">Gecreëerd op</string>
     <string name="sort_last_modify_time">Aangepast om</string>
     <string name="sort_last_access_time">Geopend om</string>
-    <string name="search_results">Zoekresultaten</string>
     <string name="warning">Waarschuwing</string>
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>

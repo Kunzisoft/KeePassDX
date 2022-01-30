@@ -29,6 +29,7 @@
     <attr name="textColorInverse" format="reference|color" />
     <attr name="colorOnAccentColor" format="reference|color" />
     <attr name="toolbarColorControl" format="reference|color" />
+    <attr name="chipFilterBackgroundColor" format="reference|color" />
 
     <attr name="educationCircleColor" format="reference|color" />
     <attr name="educationTextColor" format="reference|color" />

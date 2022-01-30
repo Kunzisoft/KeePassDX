@@ -87,6 +87,7 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+        <item name="chipFilterBackgroundColor">@color/green_light</item>
 
         <!-- Education Hint -->
         <item name="educationCircleColor">@color/green_light</item>
@@ -153,6 +154,7 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+        <item name="chipFilterBackgroundColor">@color/green_light</item>
 
         <!-- Education Hint -->
         <item name="educationCircleColor">@color/green_light</item>
@@ -266,6 +268,15 @@
         <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
         <item name="hintTextColor">?attr/colorAccent</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.CompleteTextView</item>
+    </style>
+
+    <!-- Chip -->
+    <style name="KeepassDXStyle.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipBackgroundColor">?attr/chipFilterBackgroundColor</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
+        <item name="ensureMinTouchTargetSize">false</item>
     </style>
 
     <!-- Dialog -->

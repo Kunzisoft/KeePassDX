@@ -222,7 +222,6 @@
     <string name="warning_sure_remove_data">Hapus data ini\?</string>
     <string name="warning">Peringatan</string>
     <string name="unsupported_db_version">Versi database tidak di dukung.</string>
-    <string name="search_results">Hasil pencarian</string>
     <string name="search">Cari</string>
     <string name="sort_last_access_time">Akses</string>
     <string name="sort_last_modify_time">Modifikasi</string>

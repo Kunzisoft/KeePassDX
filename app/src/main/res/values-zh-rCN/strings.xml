@@ -171,7 +171,6 @@
     <string name="sort_creation_time">新建时间</string>
     <string name="sort_last_modify_time">修改时间</string>
     <string name="sort_last_access_time">访问时间</string>
-    <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
     <string name="database_history">历史</string>

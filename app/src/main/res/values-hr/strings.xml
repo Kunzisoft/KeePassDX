@@ -167,7 +167,6 @@
     <string name="sort_creation_time">Vremenu kreiranja</string>
     <string name="sort_last_modify_time">Zadnja promjena</string>
     <string name="search">Pretraga</string>
-    <string name="search_results">Rezultati pretrage</string>
     <string name="unsupported_db_version">Nepodržana verzija baze podataka.</string>
     <string name="warning">Upozorenje</string>
     <string name="warning_empty_password">Nastaviti bez zaštitite otključavanja lozinkom\?</string>

@@ -227,7 +227,6 @@
     <string name="error_autofill_enable_service">Autofill service could not be activated.</string>
     <string name="clipboard_timeout">ക്ലിപ്പ്ബോർഡ് ടൈംഔട്ട്</string>
     <string name="app_timeout">ആപ്പ് ടൈംഔട്ട്</string>
-    <string name="search_results">തിരയൽ ഫലങ്ങൾ</string>
     <string name="menu_restore_entry_history">ഹിസ്റ്ററി വീണ്ടെടുക്കുക</string>
     <string name="entry_expires">കാലഹരണപ്പെടുന്നു</string>
     <string name="keyboard_key_vibrate_title">വൈബ്രേറ്ററി കീപ്രസ്സ്</string>

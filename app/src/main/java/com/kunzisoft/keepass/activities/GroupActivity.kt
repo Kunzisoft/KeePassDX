@@ -22,7 +22,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.SearchManager
 import android.app.TimePickerDialog
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -41,7 +40,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -50,7 +48,6 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
-import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
@@ -94,9 +91,8 @@ class GroupActivity : DatabaseLockActivity(),
     private var databaseNameView: TextView? = null
     private var searchContainer: ViewGroup? = null
     private var searchNumbers: TextView? = null
-    private var searchString: TextView? = null
+    private var searchView: SearchView? = null
     private var toolbarBreadcrumb: Toolbar? = null
-    private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
@@ -119,11 +115,34 @@ class GroupActivity : DatabaseLockActivity(),
     private var mCurrentGroupState: GroupState? = null
     private var mRootGroup: Group? = null
     private var mCurrentGroup: Group? = null
+    private var mSearchGroup: Group? = null
     private var mPreviousGroupsIds = mutableListOf<GroupState>()
     private var mOldGroupToUpdate: Group? = null
 
-    private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
-    private var mOnSuggestionListener: SearchView.OnSuggestionListener? = null
+    private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+            searchContainer?.visibility = View.VISIBLE
+            return true
+        }
+
+        override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+            searchContainer?.visibility = View.GONE
+            mSearchGroup = null
+            loadGroup(mDatabase)
+            return true
+        }
+    }
+    private val mOnSearchQueryTextListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            loadSearchGroup(query)
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            loadSearchGroup(newText)
+            return true
+        }
+    }
 
     private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
         // To create tree dialog for icon
@@ -152,9 +171,7 @@ class GroupActivity : DatabaseLockActivity(),
         databaseNameView = findViewById(R.id.database_name)
         searchContainer = findViewById(R.id.search_container)
         searchNumbers = findViewById(R.id.search_numbers)
-        searchString = findViewById(R.id.search_string)
         toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
-        searchTitleView = findViewById(R.id.search_title)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
@@ -247,11 +264,11 @@ class GroupActivity : DatabaseLockActivity(),
         // Observe group
         mGroupViewModel.group.observe(this) {
             val currentGroup = it.group
-
-            mCurrentGroup = currentGroup
-            mRecyclingBinIsCurrentGroup = it.isRecycleBin
-
             if (!currentGroup.isVirtual) {
+
+                mCurrentGroup = currentGroup
+                mRecyclingBinIsCurrentGroup = it.isRecycleBin
+
                 // Save group id if real group
                 mCurrentGroupState = GroupState(currentGroup.nodeId, it.showFromPosition)
 
@@ -325,6 +342,8 @@ class GroupActivity : DatabaseLockActivity(),
                         )
                     }
                 }
+            } else {
+                mSearchGroup = currentGroup
             }
 
             loadingView?.hideByFading()
@@ -424,22 +443,7 @@ class GroupActivity : DatabaseLockActivity(),
             } else {
                 databaseColorView?.visibility = View.GONE
             }
-            mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, it)
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
-            mOnSuggestionListener = object : SearchView.OnSuggestionListener {
-                override fun onSuggestionClick(position: Int): Boolean {
-                    mSearchSuggestionAdapter?.let { searchAdapter ->
-                        searchAdapter.getEntryFromPosition(position)?.let { entry ->
-                            onNodeClick(database, entry)
-                        }
-                    }
-                    return true
-                }
-
-                override fun onSuggestionSelect(position: Int): Boolean {
-                    return true
-                }
-            }
         }
 
         invalidateOptionsMenu()
@@ -566,36 +570,27 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onGroupRefreshed() {
-        mCurrentGroup?.let { currentGroup ->
-            assignGroupViewElements(currentGroup)
+        if (mSearchGroup != null) {
+            assignGroupViewElements(mSearchGroup)
+        } else {
+            assignGroupViewElements(mCurrentGroup)
         }
     }
 
     private fun assignGroupViewElements(group: Group?) {
+        // TODO in real time
         // Assign title
         if (group?.isVirtual == true) {
-            searchContainer?.visibility = View.VISIBLE
-            val title = group.title
-            searchString?.text = if (title.isNotEmpty()) title else ""
             searchNumbers?.text = group.numberOfChildEntries.toString()
             databaseNameContainer?.visibility = View.GONE
             toolbarBreadcrumb?.navigationIcon = null
-            toolbarBreadcrumb?.collapse()
         } else {
-            searchContainer?.visibility = View.GONE
             databaseNameContainer?.visibility = View.VISIBLE
-            // Refresh breadcrumb
-            if (toolbarBreadcrumb?.isVisible != true) {
-                toolbarBreadcrumb?.expand {
-                    setBreadcrumbNode(group)
-                }
-            } else {
-                // Add breadcrumb
-                setBreadcrumbNode(group)
-            }
+            // Add breadcrumb
+            setBreadcrumbNode(group)
+            invalidateOptionsMenu()
         }
         initAddButton(group)
-        invalidateOptionsMenu()
     }
 
     private fun setBreadcrumbNode(group: Group?) {
@@ -950,8 +945,6 @@ class GroupActivity : DatabaseLockActivity(),
         } else {
             View.GONE
         }
-        // Refresh suggestions to change preferences
-        mSearchSuggestionAdapter?.reInit(this)
         // Padding if lock button visible
         toolbarAction?.updateLockPaddingLeft()
     }
@@ -987,19 +980,21 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         // Get the SearchView and set the searchable configuration
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
-
         menu.findItem(R.id.menu_search)?.let {
-            val searchView = it.actionView as SearchView?
+            it.setOnActionExpandListener(mOnSearchActionExpandListener)
+            searchView = it.actionView as SearchView?
             searchView?.apply {
+                /*
+                val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
                 (searchManager?.getSearchableInfo(
                     ComponentName(this@GroupActivity, GroupActivity::class.java)
                 ))?.let { searchableInfo ->
                     setSearchableInfo(searchableInfo)
                 }
-                setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
-                suggestionsAdapter = mSearchSuggestionAdapter
-                setOnSuggestionListener(mOnSuggestionListener)
+
+                 */
+                isIconified = false
+                setOnQueryTextListener(mOnSearchQueryTextListener)
             }
             // Expand the search view if defined in settings
             if (mRequestStartupSearch
@@ -1022,6 +1017,16 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         return true
+    }
+
+    private fun loadSearchGroup(query: String?) {
+        if (query != null && query.isNotEmpty()) {
+            mGroupViewModel.loadGroupFromSearch(
+                mDatabase,
+                query,
+                PreferencesUtil.omitBackup(this)
+            )
+        }
     }
 
     private fun performedNextEducation(
@@ -1092,7 +1097,6 @@ class GroupActivity : DatabaseLockActivity(),
                 return true
             }
             R.id.menu_search -> {
-                //onSearchRequested()
                 return true
             }
             R.id.menu_save_database -> {

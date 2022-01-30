@@ -171,7 +171,6 @@
     <string name="sort_creation_time">Data de criação</string>
     <string name="sort_last_modify_time">Última modificação</string>
     <string name="sort_last_access_time">Último acesso</string>
-    <string name="search_results">Resultados da busca</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>

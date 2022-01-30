@@ -125,7 +125,6 @@
     <string name="sort_db">Naturlig ordning</string>
     <string name="special">Specialtecken</string>
     <string name="search">Postens titel/beskrivning</string>
-    <string name="search_results">Sökresultat</string>
     <string name="underline">Understreck</string>
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>

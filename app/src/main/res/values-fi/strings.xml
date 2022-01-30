@@ -126,7 +126,6 @@
     <string name="sort_db">Luonnollinen järjestys</string>
     <string name="special">Erityistä</string>
     <string name="search">Tietueen otsikko/kuvaus</string>
-    <string name="search_results">Hakutulokset</string>
     <string name="underline">Alleviivattu</string>
     <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
     <string name="uppercase">Isot kirjaimet</string>

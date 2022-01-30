@@ -124,7 +124,6 @@
     <string name="sort_db">Naturlig rækkefølge</string>
     <string name="special">Speciel</string>
     <string name="search">Søg</string>
-    <string name="search_results">Søgeresultater</string>
     <string name="underline">Understregning</string>
     <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>

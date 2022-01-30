@@ -89,7 +89,7 @@ class SearchHelper {
     }
 
     companion object {
-        const val MAX_SEARCH_ENTRY = 10
+        const val MAX_SEARCH_ENTRY = 100
 
         /**
          * Utility method to perform actions if item is found or not after an auto search in [database]

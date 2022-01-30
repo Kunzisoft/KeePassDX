@@ -34,6 +34,7 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Blue</item>
+        <item name="chipFilterBackgroundColor">@color/blue_light</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="educationCircleColor">@color/blue_dark</item>
@@ -94,6 +95,7 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue.Night</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Blue.Night</item>
+        <item name="chipFilterBackgroundColor">@color/blue_dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
         <item name="educationCircleColor">@color/blue_dark</item>

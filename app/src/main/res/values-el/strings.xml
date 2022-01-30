@@ -127,7 +127,6 @@
     <string name="sort_db">Κανονική ταξινόμηση</string>
     <string name="special">Ειδικοί</string>
     <string name="search">Αναζήτηση</string>
-    <string name="search_results">Αποτελέσματα αναζήτησης</string>
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>

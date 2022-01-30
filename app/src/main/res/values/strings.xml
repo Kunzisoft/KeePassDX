@@ -104,6 +104,7 @@
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
+    <string name="case_sensitive">Case sensitive</string>
     <string name="debit_credit_card">Debit / Credit Card</string>
     <string name="holder">Holder</string>
     <string name="number">Number</string>
@@ -312,7 +313,6 @@
     <string name="sort_last_access_time">Access</string>
     <string name="special">Special</string>
     <string name="search">Search</string>
-    <string name="search_results">Search results</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
