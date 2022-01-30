@@ -122,6 +122,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         throw unknownKDFException
     }
 
+    fun randomizeKdfParameters() {
+        kdfParameters?.let {
+            kdfEngine?.randomize(it)
+        }
+    }
+
     override val kdfAvailableList: List<KdfEngine> = listOf(
         KdfFactory.aesKdf,
         KdfFactory.argon2dKdf,
@@ -245,7 +251,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
         // https://keepass.info/help/kb/kdbx_4.html
         // If AES is not use, it's at least 4.0
-        val kdfIsNotAes = kdfParameters?.uuid != AesKdf.CIPHER_UUID
+        val keyDerivationFunction = kdfEngine
+        val kdfIsNotAes = keyDerivationFunction != null && keyDerivationFunction.uuid != AesKdf.CIPHER_UUID
         val containsHeaderCustomData = customData.isNotEmpty()
         val containsNodeCustomData = entryHandler.containsCustomData || groupHandler.containsCustomData
 
