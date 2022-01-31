@@ -788,13 +788,11 @@ class Database {
         false
     }
 
-    fun createVirtualGroupFromSearch(searchQuery: String,
+    fun createVirtualGroupFromSearch(searchParameters: SearchParameters,
                                      omitBackup: Boolean,
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-                SearchParameters().apply {
-                    this.searchQuery = searchQuery
-                }, omitBackup, max)
+            searchParameters,omitBackup, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
@@ -804,7 +802,7 @@ class Database {
                 SearchParameters().apply {
                     searchQuery = searchInfoString
                     searchInTitles = true
-                    searchInUserNames = false
+                    searchInUsernames = false
                     searchInPasswords = false
                     searchInUrls = true
                     searchInNotes = true

@@ -40,6 +40,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -55,6 +56,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -89,11 +91,8 @@ class GroupActivity : DatabaseLockActivity(),
     private var databaseNameContainer: ViewGroup? = null
     private var databaseColorView: ImageView? = null
     private var databaseNameView: TextView? = null
-    private var searchContainer: ViewGroup? = null
-    private var searchAdvanceFiltersContainer: ViewGroup? = null
-    private var searchExpandButton: ImageView? = null
-    private var searchNumbers: TextView? = null
     private var searchView: SearchView? = null
+    private var searchFiltersView: SearchFiltersView? = null
     private var toolbarBreadcrumb: Toolbar? = null
     private var toolbarAction: ToolbarAction? = null
     private var numberChildrenView: TextView? = null
@@ -121,34 +120,47 @@ class GroupActivity : DatabaseLockActivity(),
     private var mPreviousGroupsIds = mutableListOf<GroupState>()
     private var mOldGroupToUpdate: Group? = null
 
-    private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
-        override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-            toolbarBreadcrumb?.hideByFading()
-            searchAdvanceFiltersContainer?.visibility = View.GONE
-            searchContainer?.showByFading()
-            return true
-        }
-
-        override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
-            searchContainer?.hideByFading()
-            if (searchAdvanceFiltersContainer?.visibility == View.VISIBLE) {
-                searchAdvanceFiltersContainer?.visibility = View.INVISIBLE
-                searchAdvanceFiltersContainer?.collapse()
-            }
-            toolbarBreadcrumb?.showByFading()
-            mSearchGroup = null
-            loadGroup(mDatabase)
-            return true
-        }
-    }
     private val mOnSearchQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
-            loadSearchGroup(query)
+            if (query != null) {
+                searchFiltersView?.setQuery(query)
+            }
             return true
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            loadSearchGroup(newText)
+            if (newText != null) {
+                searchFiltersView?.setQuery(newText)
+            }
+            return true
+        }
+    }
+    private val mOnSearchFiltersChangeListener = object : ((SearchParameters) -> Unit) {
+        override fun invoke(searchParameters: SearchParameters) {
+            mGroupViewModel.loadGroupFromSearch(
+                mDatabase,
+                searchParameters,
+                PreferencesUtil.omitBackup(this@GroupActivity)
+            )
+        }
+    }
+    private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+            toolbarBreadcrumb?.hideByFading()
+            searchFiltersView?.isVisible = true
+            searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
+            searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
+                return true
+        }
+
+        override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+            searchFiltersView?.onParametersChangeListener = null
+            searchView?.setOnQueryTextListener(null)
+            searchFiltersView?.isVisible = false
+            toolbarBreadcrumb?.showByFading()
+
+            removeSearch()
+            loadGroup(mDatabase)
             return true
         }
     }
@@ -178,10 +190,7 @@ class GroupActivity : DatabaseLockActivity(),
         databaseNameContainer = findViewById(R.id.database_name_container)
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
-        searchContainer = findViewById(R.id.search_container)
-        searchAdvanceFiltersContainer = findViewById(R.id.search_advance_filters)
-        searchExpandButton = findViewById(R.id.search_expand)
-        searchNumbers = findViewById(R.id.search_numbers)
+        searchFiltersView = findViewById(R.id.search_filters)
         toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
@@ -257,20 +266,6 @@ class GroupActivity : DatabaseLockActivity(),
                 Log.e(TAG, "Unable to retrieve previous groups", e)
             }
             savedInstanceState.remove(PREVIOUS_GROUPS_IDS_KEY)
-        }
-
-        // Expand menu with button
-        searchExpandButton?.setOnClickListener {
-            searchAdvanceFiltersContainer?.let { advanceSearch ->
-                val isVisible = advanceSearch.visibility == View.VISIBLE
-                if (isVisible)
-                    advanceSearch.collapse()
-                else {
-                    advanceSearch.expand(true,
-                        resources.getDimension(R.dimen.advanced_search_height).toInt()
-                    )
-                }
-            }
         }
 
         // Initialize the fragment with the list
@@ -422,15 +417,12 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun loadGroup(database: Database?) {
+        loadingView?.showByFading()
         when {
             Intent.ACTION_SEARCH == intent.action -> {
                 finishNodeAction()
-                val searchString =
+                searchFiltersView?.setQuery(
                     intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-                mGroupViewModel.loadGroupFromSearch(
-                    database,
-                    searchString,
-                    PreferencesUtil.omitBackup(this)
                 )
             }
             mCurrentGroupState == null -> {
@@ -606,7 +598,7 @@ class GroupActivity : DatabaseLockActivity(),
         // TODO in real time
         // Assign title
         if (group?.isVirtual == true) {
-            searchNumbers?.text = SearchHelper.showNumberOfSearchResults(group.numberOfChildEntries)
+            searchFiltersView?.setNumbers(SearchHelper.showNumberOfSearchResults(group.numberOfChildEntries))
             toolbarBreadcrumb?.navigationIcon = null
         } else {
             // Add breadcrumb
@@ -1017,7 +1009,6 @@ class GroupActivity : DatabaseLockActivity(),
 
                  */
                 isIconified = false
-                setOnQueryTextListener(mOnSearchQueryTextListener)
             }
             // Expand the search view if defined in settings
             if (mRequestStartupSearch
@@ -1040,16 +1031,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         return true
-    }
-
-    private fun loadSearchGroup(query: String?) {
-        if (query != null) {
-            mGroupViewModel.loadGroupFromSearch(
-                mDatabase,
-                query,
-                PreferencesUtil.omitBackup(this)
-            )
-        }
     }
 
     private fun performedNextEducation(
@@ -1176,6 +1157,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun removeSearch() {
+        mSearchGroup = null
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT

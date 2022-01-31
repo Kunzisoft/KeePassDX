@@ -144,16 +144,23 @@ class SearchHelper {
         fun searchInEntry(entry: Entry,
                           searchParameters: SearchParameters): Boolean {
             val searchQuery = searchParameters.searchQuery
-            // Entry contains string if the search string is empty
+
+            // Not found if the search string is empty
             if (searchQuery.isEmpty())
-                return true
+                return false
+
+            // Exclude entry expired
+            if (searchParameters.excludeExpired) {
+                if (entry.isCurrentlyExpires)
+                    return false
+            }
 
             // Search all strings in the KDBX entry
             if (searchParameters.searchInTitles) {
                 if (checkSearchQuery(entry.title, searchParameters))
                     return true
             }
-            if (searchParameters.searchInUserNames) {
+            if (searchParameters.searchInUsernames) {
                 if (checkSearchQuery(entry.username, searchParameters))
                     return true
             }
@@ -171,7 +178,9 @@ class SearchHelper {
             }
             if (searchParameters.searchInUUIDs) {
                 val hexString = UuidUtil.toHexString(entry.nodeId.id)
-                if (hexString != null && hexString.contains(searchQuery, true))
+                if (hexString != null
+                    && hexString.contains(searchQuery, true)
+                )
                     return true
             }
             if (searchParameters.searchInOther) {
@@ -183,6 +192,10 @@ class SearchHelper {
                     }
                 }
             }
+            if (searchParameters.searchInTags) {
+                if (checkSearchQuery(entry.tags.toString(), searchParameters))
+                    return true
+            }
             return false
         }
 
@@ -190,14 +203,12 @@ class SearchHelper {
             /*
             // TODO Search settings
             var regularExpression = false
-            var ignoreCase = true
             var removeAccents = true <- Too much time, to study
-            var excludeExpired = false
             var searchOnlyInCurrentGroup = false
             */
             return stringToCheck.isNotEmpty()
                     && stringToCheck.contains(
-                        searchParameters.searchQuery, true)
+                        searchParameters.searchQuery, !searchParameters.caseSensitive)
         }
     }
 }

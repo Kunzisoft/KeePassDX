@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.search.SearchParameters
 
 
 class GroupViewModel: ViewModel() {
@@ -71,12 +72,12 @@ class GroupViewModel: ViewModel() {
     }
 
     fun loadGroupFromSearch(database: Database?,
-                            searchQuery: String,
+                            searchParameters: SearchParameters,
                             omitBackup: Boolean) {
         IOActionTask(
             {
                 database?.createVirtualGroupFromSearch(
-                    searchQuery,
+                    searchParameters,
                     omitBackup,
                     SearchHelper.MAX_SEARCH_ENTRY
                 )

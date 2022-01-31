@@ -25,15 +25,18 @@ package com.kunzisoft.keepass.database.search
 class SearchParameters {
     var searchQuery: String = ""
 
+    var caseSensitive = false
+    var excludeExpired = false
+
     var searchInTitles = true
-    var searchInUserNames = true
+    var searchInUsernames = true
     var searchInPasswords = false
     var searchInUrls = true
     var searchInNotes = true
     var searchInOTP = false
     var searchInOther = true
     var searchInUUIDs = false
-    var searchInTags = true
+    var searchInTags = false
 
     var searchInTemplates = false
 }
